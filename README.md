@@ -13,7 +13,15 @@ The choosen implementation use the non linear solver of Ceres Solver: http://cer
 
 
 Reproducting result of figure 8 (a) page 14 :
-./testKamiya --x0 100 --y0 100 --x1 70 --y1 40 --x2 100 --y2 20 -s figure8_a.svg
+./testKamiya --x0 100 --y0 100 --x1 70 --y1 20 --x2 130 --y2 20 -s figure8_a.svg
+
+Reproducting result of figure 8 (b) page 14 :
+./testKamiya --x0 100 --y0 100 --x1 70 --y1 40 --x2 100 --y2 20 -s figure8_b.svg
+
+
+
+Reproducting result of figure 8 (b) page 14 :
+./testKamiya --x0 100 --y0 100 --x1 70 --y1 40 --x2 100 --y2 20 -s figure8_b.svg
 
 
 
