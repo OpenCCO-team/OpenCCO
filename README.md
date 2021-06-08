@@ -12,6 +12,12 @@ Implementation of the CCO algorithm based on [[Schreiner etal. 93](https://githu
 The choosen implementation use the non linear solver of Ceres Solver: http://ceres-solver.org/installation.html#
 
 
+Reproducting result of figure 8 (a) page 14 :
+./testKamiya --x0 100 --y0 100 --x1 70 --y1 40 --x2 100 --y2 20 -s figure8_a.svg
+
+
+
+
 
 
 

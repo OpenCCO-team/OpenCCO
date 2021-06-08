@@ -106,8 +106,9 @@ int main(int argc, char** argv) {
   double gamma {3.0};
   double k {8*3.6/M_PI};
   double r_ori {1.0};
-  std::string file_plot {"res.gnuplot"};
-  
+  std::string file_eps {"resultFig.eps"};
+  std::string file_svg {"resultFig.svg"};
+
   app.description("Test the Kamiya algorithm\n");
   app.add_option("--x0", x0, "x0", true );
   app.add_option("--y0", y0, "y0", true );
@@ -122,8 +123,9 @@ int main(int argc, char** argv) {
   app.add_option("-r", r_ori, "r_ori", true );
   app.add_option("-g", gamma, "gamma", true );
   
-  app.add_option("--genGnuPlot", file_plot, "generate a gnuplot to display the result.", true );
-  
+  app.add_option("--genEpsDisplay,-e", file_eps, "generate an eps display of the result.", true );
+  app.add_option("--genSvgDisplay,-s", file_svg, "generate an svg display of the result.", true );
+
   
   
   app.get_formatter()->column_width(40);
@@ -224,12 +226,9 @@ int main(int argc, char** argv) {
   board.drawLine(p1[0], p1[1], pb[0], pb[1],2);
   board.setLineWidth(57.5*sqrt(rr2  ));
   board.drawLine(p2[0], p2[1], pb[0], pb[1],2);
-
   
-  
-  board.saveEPS("logoDGtal.eps");
-  board.saveSVG("logoDGtal.svg");
-
+  board.saveEPS(file_eps.c_str());
+  board.saveSVG(file_svg.c_str());
   
   return 0;
 }
