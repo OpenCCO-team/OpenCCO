@@ -41,7 +41,6 @@ struct CostFunctor {
 struct F28a {
   double deltap1;
   double deltap2;
-  double  k;
   double f0;
   double f1;
   double f2;
@@ -51,9 +50,9 @@ struct F28a {
   
   template <typename T>
   bool operator()(const T* const x1, const T* const x2, T* residual) const {
-    residual[0] =  (deltap1/k)*x1[0]*x1[0]*pow((f0*(((x1[0]*x1[0]*x1[0])/f1)+(x2[0]*x2[0]*x2[0])/f2)), 2.0/3.0)
+    residual[0] =  deltap1*x1[0]*x1[0]*pow((f0*(((x1[0]*x1[0]*x1[0])/f1)+(x2[0]*x2[0]*x2[0])/f2)), 2.0/3.0)
     - (f0*l0*x1[0]*x1[0]) - f1 * l1 * pow(f0*((x1[0]*x1[0]*x1[0]/f1)+(x2[0]*x2[0]*x2[0])/f2), 2.0/3.0);
-    residual[1] =  (deltap2/k)*x2[0]*x2[0]*pow((f0*(((x1[0]*x1[0]*x1[0])/f1)+(x2[0]*x2[0]*x2[0])/f2)), 2.0/3.0)
+    residual[1] =  deltap2*x2[0]*x2[0]*pow((f0*(((x1[0]*x1[0]*x1[0])/f1)+(x2[0]*x2[0]*x2[0])/f2)), 2.0/3.0)
     - (f0*l0*x2[0]*x2[0]) - f2 * l2 * pow(f0*((x1[0]*x1[0]*x1[0]/f1)+(x2[0]*x2[0]*x2[0])/f2), 2.0/3.0);
     
     return true;
@@ -62,11 +61,10 @@ struct F28a {
 
 
 
-static void kamiyaOpt(double deltaP1, double deltaP2, double f0, double f1, double f2, double k, double l0, double l1, double l2, double &xx1, double &xx2) {
+static void kamiyaOpt(double deltaP1, double deltaP2, double f0, double f1, double f2, double l0, double l1, double l2, double &xx1, double &xx2) {
   F28a *f = new F28a();
   f->deltap1 = deltaP1;
   f->deltap2 = deltaP2;
-  f->k = k;
   f->f0 = f0;
   f->f1 = f1;
   f->f2 = f2;
@@ -104,7 +102,6 @@ int main(int argc, char** argv) {
   double y2 {0};
   
   double gamma {3.0};
-  double k {8*3.6/M_PI};
   double r_ori {1.0};
   
   double ratioQ {0.5};
@@ -124,7 +121,6 @@ int main(int argc, char** argv) {
   app.add_option("--x2", x2, "x2", true );
   app.add_option("--y2", y2, "y2", true );
   
-  app.add_option("-k", k, "k ", true );
   app.add_option("-r", r_ori, "r_ori", true );
   app.add_option("-g", gamma, "gamma", true );
   app.add_option("-R", ratioQ, "ratio", true );
@@ -151,7 +147,7 @@ int main(int argc, char** argv) {
   double r1 = r_ori;
   double r2 = r_ori;
   
-  double f0 = k * r0*r0*r0;
+  double f0 =  r0*r0*r0;
   double f1 = ratioQ*f0;//k * r1*r1*r1;
   double f2 = (1.0-ratioQ)*f0;//k * r2*r2*r2;
   // Starting position from Equation (21) for initialisation as mentionned page 11 [Clara Jaquet et HT]
@@ -162,8 +158,8 @@ int main(int argc, char** argv) {
   double l1 = (p1 - pb).norm();
   double l2 = (p2 - pb).norm();
   std::cout<<"l0="<<l0<<", l1="<<l1<<", l2="<<l2<<std::endl;
-  double deltaP1 = k*((f0*l0)/(r0*r0)+(f1*l1)/(r1*r1));
-  double deltaP2 = k*((f0*l0)/(r0*r0)+(f2*l2)/(r2*r2));
+  double deltaP1 = (f0*l0)/(r0*r0)+(f1*l1)/(r1*r1);
+  double deltaP2 = (f0*l0)/(r0*r0)+(f2*l2)/(r2*r2);
   
   double rr1 = r_ori;
   double rr2 = r_ori;
@@ -178,7 +174,7 @@ int main(int argc, char** argv) {
     l1 = (p1 - pb).norm();
     l2 = (p2 - pb).norm();
     
-    kamiyaOpt(deltaP1, deltaP2, f0, f1, f2, k, l0, l1, l2, rr1, rr2);
+    kamiyaOpt(deltaP1, deltaP2, f0, f1, f2, l0, l1, l2, rr1, rr2);
     ///f1 = k * rr1*rr1*rr1;
     ///f2 = k * rr2*rr2*rr2;
     //r0 = pow((pow(rr1, gamma) + pow(rr2, gamma)), 1.0/gamma);
@@ -191,18 +187,18 @@ int main(int argc, char** argv) {
     ///pb[1] = (y0*r0*r0/l0 + y1*r1*r1/l1 + y2*r2*r2/l2)/(r0*r0/l0+r1*r1/l1+r2*r2/l2);
     pb[0] = (x0*r0/l0 + x1*r1/l1 + x2*r2/l2)/(r0/l0+r1/l1+r2/l2);
     pb[1] = (y0*r0/l0 + y1*r1/l1 + y2*r2/l2)/(r0/l0+r1/l1+r2/l2);
-    deltaP1 = k*((f0*l0)/(r0*r0)+(f1*l1)/(r1*r1));
-    deltaP2 = k*((f0*l0)/(r0*r0)+(f2*l2)/(r2*r2));
+    deltaP1 = (f0*l0)/(r0*r0)+(f1*l1)/(r1*r1);
+    deltaP2 = (f0*l0)/(r0*r0)+(f2*l2)/(r2*r2);
     std::cout << "xx1 : " << rr1 << " and xx2 " << rr2 << " r0 " << r0 << "\n";
     std::cout << "pbNew[0]  : " << pb[0] << " and pbNew[1] " << pb[1] << "\n";
   }
   
-  f1 = k * rr1*rr1*rr1;
-  f2 = k * rr2*rr2*rr2;
+  f1 = rr1*rr1*rr1;
+  f2 = rr2*rr2*rr2;
   r0 = pow(f0*(pow(rr1, gamma)/f1 + pow(rr2, gamma)/f2), 1.0/gamma);
 
 //  r0 = pow(pow(rr1, gamma) + pow(rr2, gamma), 1.0/gamma);
-  f0 = k * r0*r0*r0;
+  f0 = r0*r0*r0;
   
   // DGtal::Z2i::RealPoint pbNew ((f0*x0+f1*x1+f2*x2)/(2.0*f0), (f0*y0+f1*y1+f2*y2)/(2.0*f0));
   

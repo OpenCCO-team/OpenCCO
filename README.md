@@ -20,8 +20,13 @@ Reproducting result of figure 8 (b) page 14 :
 
 
 
-Reproducting result of figure 8 (b) page 14 :
+Reproducting result of figure 8 (c) page 14 :
 ./testKamiya --x0 100 --y0 100 --x1 70 --y1 40 --x2 100 --y2 20 -s figure8_b.svg
+
+
+Reproducting result of figure 8 (d) page 14 :
+ ./testKamiya --x0 100 --y0 100 --x1 70 --y1 40 --x2 100 --y2 20 -s figure8_d.svg -R 0.25
+
 
 
 
