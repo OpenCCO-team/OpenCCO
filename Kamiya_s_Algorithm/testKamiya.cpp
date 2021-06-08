@@ -97,7 +97,7 @@ int main(int argc, char** argv) {
   double y2 {0};
 
   double gamma {3.0};
-  double k {3.0};
+  double k {8*3.6/M_PI};
   double r_ori {1.0};
   
   
@@ -145,9 +145,9 @@ int main(int argc, char** argv) {
   double l0 = (p0 - pb).norm();
   double l1 = (p1 - pb).norm();
   double l2 = (p2 - pb).norm();
-  
-  double deltaP1 = k*((f0*l0)/(r0*r0*r0*r0)+(f1*l1)/(r1*r1*r1*r1));
-  double deltaP2 = k*((f0*l0)/(r0*r0*r0*r0)+(f2*l2)/(r2*r2*r2*r2));
+    std::cout<<"l0="<<l0<<", l1="<<l1<<", l2="<<l2<<std::endl;
+  double deltaP1 = k*((f0*l0)/(r0*r0)+(f1*l1)/(r1*r1));
+  double deltaP2 = k*((f0*l0)/(r0*r0)+(f2*l2)/(r2*r2));
 
   double rr1 = r_ori;
   double rr2 = r_ori;
@@ -163,16 +163,20 @@ int main(int argc, char** argv) {
     l2 = (p2 - pb).norm();
     
     kamiyaOpt(deltaP1, deltaP2, f0, f1, f2, k, l0, l1, l2, rr1, rr2);
-    f1 = k * rr1*rr1*rr1;
-    f2 = k * rr2*rr2*rr2;
-    r0 = pow((pow(rr1, gamma) + pow(rr2, gamma)), 1.0/gamma);
-    f0 = k * r0*r0*r0;
+    ///f1 = k * rr1*rr1*rr1;
+    ///f2 = k * rr2*rr2*rr2;
+    //r0 = pow((pow(rr1, gamma) + pow(rr2, gamma)), 1.0/gamma);
+      //Equation 27
+      r0 = pow(f0*(pow(rr1, gamma)/f1 + pow(rr2, gamma)/f2), 1.0/gamma);
+    ///f0 = k * r0*r0*r0;
     // Equation (26) page 13
     //DGtal::Z2i::RealPoint pbNew ((f0*x0+f1*x1+f2*x2)/(2.0*f0), (f0*y0+f1*y1+f2*y2)/(2.0*f0));
-    pb[0] = (x0*r0*r0/l0 + x1*r1*r1/l1 + x2*r2*r2/l2)/(r0*r0/l0+r1*r1/l1+r2*r2/l2);
-    pb[1] = (y0*r0*r0/l0 + y1*r1*r1/l1 + y2*r2*r2/l2)/(r0*r0/l0+r1*r1/l1+r2*r2/l2);
-    deltaP1 = k*((f0*l0)/(r0*r0*r0*r0)+(f1*l1)/(r1*r1*r1*r1));
-    deltaP2 = k*((f0*l0)/(r0*r0*r0*r0)+(f2*l2)/(r2*r2*r2*r2));
+    ///pb[0] = (x0*r0*r0/l0 + x1*r1*r1/l1 + x2*r2*r2/l2)/(r0*r0/l0+r1*r1/l1+r2*r2/l2);
+    ///pb[1] = (y0*r0*r0/l0 + y1*r1*r1/l1 + y2*r2*r2/l2)/(r0*r0/l0+r1*r1/l1+r2*r2/l2);
+      pb[0] = (x0*r0/l0 + x1*r1/l1 + x2*r2/l2)/(r0/l0+r1/l1+r2/l2);
+      pb[1] = (y0*r0/l0 + y1*r1/l1 + y2*r2/l2)/(r0/l0+r1/l1+r2/l2);
+    deltaP1 = k*((f0*l0)/(r0*r0)+(f1*l1)/(r1*r1));
+    deltaP2 = k*((f0*l0)/(r0*r0)+(f2*l2)/(r2*r2));
     std::cout << "xx1 : " << rr1 << " and xx2 " << rr2 << " r0 " << r0 << "\n";
     std::cout << "pbNew[0]  : " << pb[0] << " and pbNew[1] " << pb[1] << "\n";
   }
