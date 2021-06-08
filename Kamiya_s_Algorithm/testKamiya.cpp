@@ -55,6 +55,35 @@ struct F28a {
 
 
 
+static void kamiyaOpt(double deltaP1, double deltaP2, double f0, double f1, double f2, double k, double l0, double l1, double l2, double &xx1, double &xx2) {
+  F28a *f = new F28a();
+  f->deltap1 = deltaP1;
+  f->deltap2 = deltaP2;
+  f->k = k;
+  f->f0 = f0;
+  f->f1 = f1;
+  f->f2 = f2;
+  f->l0 = l0;
+  f->l1 = l1;
+  f->l2 = l2;
+  
+  
+  // const double initial_x = x;
+  // Build the problem.
+  Problem problem;
+  // Set up the only cost function (also known as residual). This uses
+  // auto-differentiation to obtain the derivative (jacobian).
+  CostFunction* cost_function =
+  new AutoDiffCostFunction<F28a, 2, 1, 1>(f);
+  problem.AddResidualBlock(cost_function, nullptr, &xx1, &xx2);
+  // Run the solver!
+  Solver::Options options;
+  options.minimizer_progress_to_stdout = false;
+  Solver::Summary summary;
+  Solve(options, &problem, &summary);
+  //std::cout << summary.BriefReport() << "\n";
+}
+
 int main(int argc, char** argv) {
   // parse command line CLI ----------------------------------------------
    CLI::App app;
@@ -67,9 +96,8 @@ int main(int argc, char** argv) {
   double x2 {0};
   double y2 {0};
 
-  double xb {0};
-  double yb {0};
-  double k {3};
+  double gamma {3.0};
+  double k {3.0};
   double r_ori {1.0};
   
   
@@ -88,6 +116,7 @@ int main(int argc, char** argv) {
   
   app.add_option("-k", k, "k ", true );
   app.add_option("-r", r_ori, "r_ori", true );
+  app.add_option("-g", gamma, "gamma", true );
 
   
 
@@ -109,7 +138,7 @@ int main(int argc, char** argv) {
   double f0 = k * r0*r0*r0;
   double f1 = k * r1*r1*r1;
   double f2 = k * r2*r2*r2;
-
+  // Starting position from Equation (21) for initialisation as mentionned page 11 [Clara Jaquet et HT]
   DGtal::Z2i::RealPoint pb ((f0*x0+f1*x1+f2*x2)/(2.0*f0), (f0*y0+f1*y1+f2*y2)/(2.0*f0));
   double l0 = (p0 - pb).norm();
   double l1 = (p1 - pb).norm();
@@ -118,47 +147,42 @@ int main(int argc, char** argv) {
   double deltaP1 = k*((f0*l0)/(r0*r0*r0*r0)+(f1*l1)/(r1*r1*r1*r1));
   double deltaP2 = k*((f0*l0)/(r0*r0*r0*r0)+(f2*l2)/(r2*r2*r2*r2));
 
-  F28a *f = new F28a();
-  f->deltap1 = deltaP1;
-  f->deltap2 = deltaP2;
-  f->k = k;
-  f->f0 = f0;
-  f->f1 = f1;
-  f->f2 = f2;
-  f->l0 = l0;
-  f->l1 = l1;
-  f->l2 = l2;
-
-  
+  double rr1 = r_ori;
+  double rr2 = r_ori;
   // The variable to solve for with its initial value. It will be
   // mutated in place by the solver.
+  DGtal::Z2i::RealPoint pbInit ((f0*x0+f1*x1+f2*x2)/(2.0*f0), (f0*y0+f1*y1+f2*y2)/(2.0*f0));
+  DGtal::trace.info() << pbInit << std::endl;
   
-  double xx1 = 40;
-  double xx2 = 40;
-
- // const double initial_x = x;
-  // Build the problem.
-  Problem problem;
-  // Set up the only cost function (also known as residual). This uses
-  // auto-differentiation to obtain the derivative (jacobian).
-  CostFunction* cost_function =
-      new AutoDiffCostFunction<F28a, 2, 1, 1>(f);
-  problem.AddResidualBlock(cost_function, nullptr, &xx1, &xx2);
-  // Run the solver!
-  Solver::Options options;
-  options.minimizer_progress_to_stdout = true;
-  Solver::Summary summary;
-  Solve(options, &problem, &summary);
-  std::cout << summary.BriefReport() << "\n";
+  for (int i = 0; i< 100; i++){
+    DGtal::trace.progressBar(i, 100);
+    l0 = (p0 - pb).norm();
+    l1 = (p1 - pb).norm();
+    l2 = (p2 - pb).norm();
+    
+    kamiyaOpt(deltaP1, deltaP2, f0, f1, f2, k, l0, l1, l2, rr1, rr2);
+    f1 = k * rr1*rr1*rr1;
+    f2 = k * rr2*rr2*rr2;
+    r0 = pow((pow(rr1, gamma) + pow(rr2, gamma)), 1.0/gamma);
+    f0 = k * r0*r0*r0;
+    // Equation (26) page 13
+    //DGtal::Z2i::RealPoint pbNew ((f0*x0+f1*x1+f2*x2)/(2.0*f0), (f0*y0+f1*y1+f2*y2)/(2.0*f0));
+    pb[0] = (x0*r0*r0/l0 + x1*r1*r1/l1 + x2*r2*r2/l2)/(r0*r0/l0+r1*r1/l1+r2*r2/l2);
+    pb[1] = (y0*r0*r0/l0 + y1*r1*r1/l1 + y2*r2*r2/l2)/(r0*r0/l0+r1*r1/l1+r2*r2/l2);
+    deltaP1 = k*((f0*l0)/(r0*r0*r0*r0)+(f1*l1)/(r1*r1*r1*r1));
+    deltaP2 = k*((f0*l0)/(r0*r0*r0*r0)+(f2*l2)/(r2*r2*r2*r2));
+    std::cout << "xx1 : " << rr1 << " and xx2 " << rr2 << " r0 " << r0 << "\n";
+    std::cout << "pbNew[0]  : " << pb[0] << " and pbNew[1] " << pb[1] << "\n";
+  }
   
-  f1 = k * xx1*xx1*xx1;
-  f2 = k * xx2*xx2*xx2;
-  r0 = pow((xx1*xx1*xx1 + xx2*xx2*xx2), 1.0/3.0);
+  f1 = k * rr1*rr1*rr1;
+  f2 = k * rr2*rr2*rr2;
+  r0 = pow(pow(rr1, gamma) + pow(rr2, gamma), 1.0/gamma);
   f0 = k * r0*r0*r0;
   
-  DGtal::Z2i::RealPoint pbNew ((f0*x0+f1*x1+f2*x2)/(2.0*f0), (f0*y0+f1*y1+f2*y2)/(2.0*f0));
+ // DGtal::Z2i::RealPoint pbNew ((f0*x0+f1*x1+f2*x2)/(2.0*f0), (f0*y0+f1*y1+f2*y2)/(2.0*f0));
 
-  std::cout << "xx1 : " << xx1 << " and xx2 " << xx2 << " r0 " << r0 << "\n";
-  std::cout << "pbNew[0]  : " << pbNew[0] << " and pbNew[1] " << pbNew[1] << "\n";
+  std::cout << "xx1 : " << rr1 << " and xx2 " << rr2 << " r0 " << r0 << "\n";
+  std::cout << "pbNew[0]  : " << pb[0] << " and pbNew[1] " << pb[1] << "\n";
   return 0;
 }
