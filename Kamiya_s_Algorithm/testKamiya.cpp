@@ -136,10 +136,12 @@ int main(int argc, char** argv) {
   double r2 = r_ori;
 
   double f0 = k * r0*r0*r0;
-  double f1 = k * r1*r1*r1;
-  double f2 = k * r2*r2*r2;
+    double f1 = 0.5*f0;//k * r1*r1*r1;
+    double f2 = 0.5*f0;//k * r2*r2*r2;
   // Starting position from Equation (21) for initialisation as mentionned page 11 [Clara Jaquet et HT]
-  DGtal::Z2i::RealPoint pb ((f0*x0+f1*x1+f2*x2)/(2.0*f0), (f0*y0+f1*y1+f2*y2)/(2.0*f0));
+  //DGtal::Z2i::RealPoint pb ((f0*x0+f1*x1+f2*x2)/(f0+f1+f2), (f0*y0+f1*y1+f2*y2)/(f0+f1+f2));
+    DGtal::Z2i::RealPoint pb ((f0*x0+f1*x1+f2*x2)/(2.0*f0), (f0*y0+f1*y1+f2*y2)/(2.0*f0));
+    std::cout<<"Init:"<<pb<<std::endl;
   double l0 = (p0 - pb).norm();
   double l1 = (p1 - pb).norm();
   double l2 = (p2 - pb).norm();
