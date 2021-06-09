@@ -5,6 +5,7 @@ set (CMAKE_CXX_STANDARD 11)
 
 SET(SOURCE_HEADER_FILES
   ${PROJECT_SOURCE_DIR}/src/CoronaryArteryTree.h
+    ${PROJECT_SOURCE_DIR}/../helpers/geomhelpers.h
 )
 
 
@@ -18,7 +19,7 @@ LINK_DIRECTORIES(${DGTAL_LIBRARY_DIRS})
 
 
 # Schreiner_s_Algorithm
-add_executable(testSchreiner testSchreiner.cpp src/CoronaryArteryTree.cpp src/CoronaryArteryTree.h)
+add_executable(testSchreiner testSchreiner.cpp src/CoronaryArteryTree.cpp src/CoronaryArteryTree.h ../helpers/geomhelpers.h)
 target_link_libraries(testSchreiner  ${DGTAL_LIBRARIES})
 
 

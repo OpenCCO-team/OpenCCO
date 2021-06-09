@@ -3,6 +3,30 @@
 #include "DGtal/images/ImageContainerBySTLVector.h"
 
 
+#pragma once
+ 
+#if defined(GEOMHELPERS_RECURSES)
+#error Recursive header files inclusion detected in Geomhelpers.h
+#else // defined(GEOMHELPERS_RECURSES)
+/** Prevents recursive inclusion of headers. */
+#define GEOMHELPERS_RECURSES
+
+#if !defined GEOMHELPERS_h
+/** Prevents repeated inclusion of headers. */
+#define GEOMHELPERS_h
+
+
+template<typename TPoint>
+inline
+TPoint
+generateRandomPtOnDisk(const TPoint &ptCenter, double r)
+{
+  srand (time(NULL));
+  double a = (rand()%360)/(2.0*M_PI);
+  double rR = ((double)rand() / RAND_MAX)*r;
+  return TPoint(ptCenter[0]+rR*cos(a), ptCenter[1]+rR*sin(a));
+}
+
 
 /**
  * Dertermines if a point is on the right of a line represented by two points [ptA, ptB]
@@ -135,3 +159,7 @@ hasIntersection(const TPoint &seg1ptA, const TPoint &seg1ptB,
 
 
 
+#endif // !defined GEOMHELPERS_h
+
+#undef GEOMHELPERS_RECURSES
+#endif // else defined(GEOMHELPERS_RECURSES)

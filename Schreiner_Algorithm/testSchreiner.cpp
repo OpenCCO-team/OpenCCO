@@ -24,16 +24,16 @@ int main(int argc, char *const *argv)
   c.exportDisplay("testBase0.eps");
   DGtal::trace.endBlock();
 
-//   DGtal::trace.beginBlock("Testing class CoronaryArteryTree: construction base (1)");
-//   c.addFirstSegment(DGtal::Z2i::RealPoint(10, 10));
-//   DGtal::Z2i::RealPoint p = c.getSegmentCenter(1);
-//   DGtal::trace.info() <<"Center point of first segment: " <<  p << "(should be (5, 17)" << std::endl;
-//   ok = ok && p == DGtal::Z2i::RealPoint(5, 17);
-//   if (ok)
-//     DGtal::trace.info() << "TEST PASSED" << std::endl;
-//   else
-//     DGtal::trace.info() << "TEST ERRORS..." << std::endl;
-//   DGtal::trace.endBlock();
+   DGtal::trace.beginBlock("Testing class CoronaryArteryTree: construction base (1)");
+   c.addFirstSegment(DGtal::Z2i::RealPoint(10, 10));
+   DGtal::Z2i::RealPoint p = c.getSegmentCenter(1);
+   DGtal::trace.info() <<"Center point of first segment: " <<  p << "(should be (5, 17)" << std::endl;
+   ok = ok && p == DGtal::Z2i::RealPoint(5, 17);
+   if (ok)
+     DGtal::trace.info() << "TEST PASSED" << std::endl;
+   else
+     DGtal::trace.info() << "TEST ERRORS..." << std::endl;
+   DGtal::trace.endBlock();
 
   
   

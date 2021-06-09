@@ -26,7 +26,7 @@ CoronaryArteryTree::addFirstSegment(const Point2D &p)
   s.myIndex = myVectSegments.size();
   myVectSegments.push_back(s);
   myVectParent.push_back(0);
-  myVectDaughters.push_back(SegmentChildren(0,0));
+  myVectChildren.push_back(SegmentChildren(0,0));
     return true;
 }
 
@@ -55,7 +55,7 @@ CoronaryArteryTree::addSegmentFromPoint(const Point2D &p, unsigned int nearIndex
     myVectSegments[nearIndex] = sMiddle;
     
   
-    myVectDaughters.push_back(SegmentChildren(sNew2.myIndex,  sNew2.myIndex)); // modifié
+    myVectChildren.push_back(SegmentChildren(sNew2.myIndex,  sNew2.myIndex)); // modifié
 
   // to process (b): new point to s middle
   Segment<Point2D> sNew;
@@ -68,8 +68,8 @@ CoronaryArteryTree::addSegmentFromPoint(const Point2D &p, unsigned int nearIndex
   // update parent with new (a).
  //  myVectParent[nearIndex] = sMiddle.index; modifié
     //We define the Daughter of a Terminal segment as himself
-    myVectDaughters.push_back(SegmentChildren(sNew.myIndex, sNew.myIndex));
-    myVectDaughters[nearIndex] = SegmentChildren( sNew2.myIndex, sNew.myIndex);
+    myVectChildren.push_back(SegmentChildren(sNew.myIndex, sNew.myIndex));
+    myVectChildren[nearIndex] = SegmentChildren( sNew2.myIndex, sNew.myIndex);
   // NearIndex est un fils, sNew est un fils, et sMiddle est le pere des deux.
     updateGeneration();
     updateRadius2(sNew.myIndex);
@@ -87,18 +87,18 @@ CoronaryArteryTree::exportDisplay(const std::string &fileName)
     std::cout <<"My rsupp is " << myRsupp<<std::endl;
   board.setPenColor(DGtal::Color::Blue);
   board.drawCircle(myTreeCenter[0], myTreeCenter[1], myRsupp);
-  board.setPenColor(DGtal::Color::Red);
   
 
   // draw root: (first segment is special reduced to one point and no parent).
   Point2D p0 = myVectSegments[0].myCoordinate;
-  board.setPenColor(DGtal::Color::Black);
-//  board.setFillColor(DGtal::Color::Red);
-  board.fillCircle(p0[0], p0[1], 0.5);
-  
+  board.setPenColor(DGtal::Color(180, 0, 0, 180));
+  board.setLineWidth(1.0);
+  board.fillCircle(p0[0], p0[1], myVectSegments[0].myRadius);
+
   Point2D p1 = myVectSegments[1].myCoordinate;
-  board.setLineWidth(myVectSegments[0].myRadius*3.0);
-//  board.setPenColor(DGtal::Color::Red);
+  // 57.5 from Board change scale
+  board.setLineWidth(myVectSegments[0].myRadius*57.5);
+  board.setPenColor(DGtal::Color(150, 0, 0, 150));
   board.drawLine(p0[0], p0[1], p1[0], p1[1]);
   
   for (auto s : myVectSegments)
@@ -183,12 +183,12 @@ CoronaryArteryTree::getParentSegment(const Segment<Point2D> &s){
 
 unsigned int
 CoronaryArteryTree::getDaughterLeft(const Segment<Point2D> &s){
-  return myVectDaughters[s.myIndex].first;
+  return myVectChildren[s.myIndex].first;
 }
 
 unsigned int
 CoronaryArteryTree::getDaughterRigth(const Segment<Point2D> &s){
-  return myVectDaughters[s.myIndex].second;
+  return myVectChildren[s.myIndex].second;
 }
 
 double
@@ -245,16 +245,16 @@ CoronaryArteryTree::addSegmentFromPointWithBarycenter(const Point2D &p, unsigned
     
     Segment<Point2D> sMiddle;
     sMiddle.myCoordinate = barycenter;
-    sMiddle.myRadius = sqrt(my_qTerm/(pi*GetLength(nearIndex)));
+    sMiddle.myRadius = sqrt(my_qTerm/(M_PI*GetLength(nearIndex)));
     sMiddle.myIndex = myVectSegments.size();
     myVectSegments.push_back(sMiddle);
     myVectParent.push_back(myVectParent[nearIndex]);
-    myVectDaughters.push_back(SegmentChildren(nearIndex,  myVectSegments.size()));
+    myVectChildren.push_back(SegmentChildren(nearIndex,  myVectSegments.size()));
 
     // to process (b): new point to s middle
     Segment<Point2D> sNew;
     sNew.myCoordinate = p;
-    sNew.myRadius = sqrt(my_qTerm/(pi*GetLength(nearIndex)));
+    sNew.myRadius = sqrt(my_qTerm/(M_PI*GetLength(nearIndex)));
     sNew.myIndex = myVectSegments.size();
     myVectSegments.push_back(sNew);
     myVectParent.push_back(sMiddle.myIndex);
@@ -262,7 +262,7 @@ CoronaryArteryTree::addSegmentFromPointWithBarycenter(const Point2D &p, unsigned
     myVectParent[nearIndex] = sMiddle.myIndex;
     
     // NearIndex est un fils, sNew est un fils, et sMiddle est le pere des deux.
-    myVectDaughters[sMiddle.myIndex] = SegmentChildren(nearIndex, sNew.myIndex);
+    myVectChildren[sMiddle.myIndex] = SegmentChildren(nearIndex, sNew.myIndex);
     
     updateGeneration();
     
@@ -309,7 +309,7 @@ CoronaryArteryTree::dCritCalculation(const Point2D &p,unsigned int Index )
 bool
 CoronaryArteryTree::updateRsupp()
 {
-    myRsupp=sqrt(myKTerm*(my_aPerf/my_NTerm)/pi);
+    myRsupp=sqrt(myKTerm*(my_aPerf/my_NTerm)/M_PI);
 //    cout << "My new Rsupp is = " << myRsupp << endl;
     return true;
 }
@@ -317,7 +317,7 @@ CoronaryArteryTree::updateRsupp()
 bool
 CoronaryArteryTree::updateTreshold()
 {
-    myDThresold=sqrt(pi*myRsupp*myRsupp/myKTerm);
+    myDThresold=sqrt(M_PI*myRsupp*myRsupp/myKTerm);
     return true;
 }
 bool
@@ -326,7 +326,7 @@ CoronaryArteryTree::updateRadius()
     for (auto s : myVectSegments)
     {
         
-        myVectSegments[s.myIndex].myRadius=sqrt((1+1-1)*my_qTerm/(pi*GetLength(s.myIndex)));
+        myVectSegments[s.myIndex].myRadius=sqrt((1+1-1)*my_qTerm/(M_PI*GetLength(s.myIndex)));
     }
 //    cout << "max gene = " << MaxGene<<endl;
     return TRUE;
@@ -341,13 +341,13 @@ CoronaryArteryTree::updateRadius2(unsigned int index )
     parent = myVectSegments[myVectParent[index]];
 
 
-        myVectSegments[getDaughterLeft(parent)].myRadius = sqrt(1*my_qTerm/(pi*GetLength(getDaughterLeft(parent))));
+        myVectSegments[getDaughterLeft(parent)].myRadius = sqrt(1*my_qTerm/(M_PI*GetLength(getDaughterLeft(parent))));
     
-    myVectSegments[getDaughterRigth(parent)].myRadius = sqrt((1+1-1)*my_qTerm/(pi*GetLength(getDaughterRigth(parent))));
+    myVectSegments[getDaughterRigth(parent)].myRadius = sqrt((1+1-1)*my_qTerm/(M_PI*GetLength(getDaughterRigth(parent))));
     // Now, we need to change the parents according to the Bifurcation rule;
     
    
-    myVectSegments[parent.myIndex].myRadius =sqrt((myKTerm)*my_qTerm/(pi*GetLength(parent.myIndex)));
+    myVectSegments[parent.myIndex].myRadius =sqrt((myKTerm)*my_qTerm/(M_PI*GetLength(parent.myIndex)));
     
     return TRUE;
 
@@ -426,22 +426,22 @@ CoronaryArteryTree::FindOptimalPosition(unsigned int Index,const Point2D &p)
     H2= sqrt(pow((second_point[0]-OptimalPosition[0]),2) + pow(second_point[1]-OptimalPosition[1],2));
     H3= sqrt(pow((third_point[0]-OptimalPosition[0]),2) + pow(third_point[1]-OptimalPosition[1],2));
     
-//    totalVolume = pi*myVectSegments[Index].radius*myVectSegments[Index].radius*H +
-//    pi*myVectSegments[myVectParent[nearIndex]].radius*myVectSegments[myVectParent[nearIndex]].radius*H
-//    +pi*myVectSegments[Index].radius*myVectSegments[Index].radius*H
-    totalVolume = pi*H1 + pi*H2+pi*H3;
+//    totalVolume = M_PI*myVectSegments[Index].radius*myVectSegments[Index].radius*H +
+//    M_PI*myVectSegments[myVectParent[nearIndex]].radius*myVectSegments[myVectParent[nearIndex]].radius*H
+//    +M_PI*myVectSegments[Index].radius*myVectSegments[Index].radius*H
+    totalVolume = M_PI*H1 + M_PI*H2+M_PI*H3;
     //
     double xnew;
     double ynew;
     xnew=OptimalPosition[0];
     ynew=OptimalPosition[1];
-    double VolumeXDerivative=pi*(2*(xnew - first_point[0])* (1/(2*(sqrt(pow((first_point[0]-xnew),2) +pow(first_point[1]-ynew,2))))))
-    + pi*(2*(xnew - second_point[0])* (1/(2*(sqrt(pow((second_point[0]-xnew),2) + pow(second_point[1]-ynew,2))))))
-    + pi*(2*(xnew - third_point[0])* (1/(2*(sqrt(pow((third_point[0]-xnew),2) + pow(third_point[1]-ynew,2))))));
+    double VolumeXDerivative=M_PI*(2*(xnew - first_point[0])* (1/(2*(sqrt(pow((first_point[0]-xnew),2) +pow(first_point[1]-ynew,2))))))
+    + M_PI*(2*(xnew - second_point[0])* (1/(2*(sqrt(pow((second_point[0]-xnew),2) + pow(second_point[1]-ynew,2))))))
+    + M_PI*(2*(xnew - third_point[0])* (1/(2*(sqrt(pow((third_point[0]-xnew),2) + pow(third_point[1]-ynew,2))))));
     
-    double VolumeYDerivative=pi*(2*(ynew - first_point[1])* (1/(2*(sqrt(pow((first_point[0]-xnew),2) +pow(first_point[1]-ynew,2))))))
-    + pi*(2*(ynew - second_point[1])* (1/(2*(sqrt(pow((second_point[0]-xnew),2) + pow(second_point[1]-ynew,2))))))
-    + pi*(2*(ynew - third_point[1])* (1/(2*(sqrt(pow((third_point[0]-xnew),2) + pow(third_point[1]-ynew,2))))));
+    double VolumeYDerivative=M_PI*(2*(ynew - first_point[1])* (1/(2*(sqrt(pow((first_point[0]-xnew),2) +pow(first_point[1]-ynew,2))))))
+    + M_PI*(2*(ynew - second_point[1])* (1/(2*(sqrt(pow((second_point[0]-xnew),2) + pow(second_point[1]-ynew,2))))))
+    + M_PI*(2*(ynew - third_point[1])* (1/(2*(sqrt(pow((third_point[0]-xnew),2) + pow(third_point[1]-ynew,2))))));
 
     
     // We have the value of the derivative in X and Y
@@ -465,7 +465,7 @@ CoronaryArteryTree::FindOptimalPosition(unsigned int Index,const Point2D &p)
     ynew= ynew - alpha*VolumeYDerivative;
     
 
-    totalVolume = pi*H1 + pi*H2+pi*H3;
+    totalVolume = M_PI*H1 + M_PI*H2+M_PI*H3;
     grad2=abs(pow(pow(VolumeYDerivative,2)+pow(VolumeXDerivative,2),0.5));
         
 }
@@ -483,7 +483,7 @@ CoronaryArteryTree::GetTotalVolume(const Point2D &p1,const Point2D &p2,const Poi
     H2 = sqrt(pow(p2[0]-pOpti[0],2)+pow(p2[1]-pOpti[1],2));
     H3 = sqrt(pow(p3[0]-pOpti[0],2)+pow(p3[1]-pOpti[1],2));
     
-    return pi*H1+pi*H2+pi*H3;
+    return M_PI*H1+M_PI*H2+M_PI*H3;
     
 }
 
@@ -502,7 +502,7 @@ CoronaryArteryTree::addSegment(const Point2D &NewPoint,const Point2D &OptimizePo
   sMiddle.myIndex = myVectSegments.size();
   myVectSegments.push_back(sMiddle);
   myVectParent.push_back(myVectParent[nearIndex]);
-  myVectDaughters.push_back(SegmentChildren(nearIndex,  myVectSegments.size()));
+  myVectChildren.push_back(SegmentChildren(nearIndex,  myVectSegments.size()));
 
   // to process (b): new point to Optimal position
   Segment<Point2D> sNew;
@@ -574,7 +574,7 @@ CoronaryArteryTree::AddFirstSegmentonImage()
     s.myIndex = myVectSegments.size();
     myVectSegments.push_back(s);
     myVectParent.push_back(0);
-    myVectDaughters.push_back(SegmentChildren(0,0));
+    myVectChildren.push_back(SegmentChildren(0,0));
       return true;
 }
 
@@ -618,7 +618,7 @@ CoronaryArteryTree::FindYmax(int xDim, int yDim)
 //}
 //
 
-// The following function converts a pixelfrom the image into a point in the supporting circle
+// The following function converts a M_PIxelfrom the image into a point in the supporting circle
 CoronaryArteryTree::Point2D
 CoronaryArteryTree::fromImageToCircle(int ximage,int yimage,int xdim,int ydim)
 {
@@ -638,7 +638,7 @@ CoronaryArteryTree::fromImageToCircle(int ximage,int yimage,int xdim,int ydim)
 
 
 
-// The following function converts a random generated point into a couple (x,y) in the picture
+// The following function converts a random generated point into a couple (x,y) in the M_PIcture
 CoronaryArteryTree::Point2D
 CoronaryArteryTree::fromCircleToImage(string fileName, double x, double y, int xdim,int ydim )
 {

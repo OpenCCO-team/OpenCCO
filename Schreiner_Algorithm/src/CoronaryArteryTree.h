@@ -14,8 +14,7 @@
 #include <math.h>
 
 #include "DGtal/helpers/StdDefs.h"
-
-const double pi =   std::atan(1)*4;
+#include "geomhelpers.h"
 
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -51,8 +50,8 @@ public:
     double myLength = 0.0;
   };
   
-  // to recover the Daugher left (first) and right (second) on an indexed segment.
-  std::vector< SegmentChildren >  myVectDaughters;
+  // to recover the Children left (first) and right (second) on an indexed segment.
+  std::vector< SegmentChildren >  myVectChildren;
   
   // to recover the parent of an indexed segement
   std::vector<unsigned int >  myVectParent;
@@ -117,22 +116,42 @@ public:
 public: 
   
   /**
-   * Default constructor
+   * Default constructor.
+   * It generates the first root segment by randomly choose the first terminal point.
+   * @param ptRoot: coordinates of the root special segment (who have no parent)
+   * @param aPerf: surface of the perfusion.
+   * @param nTerm: number of terminal segments.
    **/
   
-  CoronaryArteryTree(const Point2D &ptRef, double aPref, unsigned int nTerm){
-    myRsupp = sqrt((aPref/nTerm)/pi);
-    my_aPerf = aPref;
-    nTerm=nTerm;
-    myDThresold=sqrt(pi*myRsupp*myRsupp/myKTerm);
-    
+  CoronaryArteryTree(const Point2D &ptRoot, double aPerf, unsigned int nTerm,
+                     double aRadius = 1.0 ){
     myTreeCenter = Point2D(0,0);
+    myRsupp = sqrt((aPerf/nTerm)/M_PI);
+    my_aPerf = aPerf;
+    my_NTerm = nTerm;
+    myDThresold = sqrt(M_PI*myRsupp*myRsupp/myKTerm);
+    // Generate the first random terminal point
+    Point2D pTerm = generateRandomPtOnDisk(myTreeCenter, myRsupp);
+    
+    // Construction of the special root segment
     Segment<Point2D> s;
-    s.myRadius=15.0; s.myCoordinate = ptRef; s.myLength=5.0;
+    s.myRadius = aRadius;
+    s.myCoordinate = ptRoot;
+    s.myLength = 0;
     s.myIndex = 0;
     myVectSegments.push_back(s);
     myVectParent.push_back(0); //if parent index is itsef it is the root (special segment of length 0).
-    myVectDaughters.push_back(std::pair<unsigned int, unsigned int>(0,0)); // if daugthers index is itself, it is an end segment.
+    myVectChildren.push_back(std::pair<unsigned int, unsigned int>(0,0)); // if children index is itself, it is an end segment.
+    
+    // Construction of the first segment after the root
+    Segment<Point2D> s1;
+    s1.myRadius = aRadius;
+    s1.myCoordinate = pTerm;
+    s1.myLength = (ptRoot-pTerm).norm();
+    s1.myIndex = 1;
+    myVectSegments.push_back(s1);
+    myVectParent.push_back(0); //if parent index is the root
+    myVectChildren.push_back(std::pair<unsigned int, unsigned int>(0,0)); // if children index is itself, it is an end segment.
     DGtal::trace.info() << "Construction initialized..." << std::endl;
   };
   
