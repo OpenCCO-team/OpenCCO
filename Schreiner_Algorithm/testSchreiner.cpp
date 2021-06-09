@@ -59,7 +59,7 @@ int main(int argc, char *const *argv)
   ok2 = ok2 &&  c.myVectSegments[indexLeft].myCoordinate == pRan;
   
   DGtal::trace.info() <<"Second Children of parent of new segment " <<  c.myVectSegments[indexRight].myCoordinate  << " (should be (15, 20)" << std::endl;
-     ok2 = ok2 &&  c.myVectSegments[indexRight].myCoordinate == DGtal::Z2i::RealPoint(15, 20);
+  ok2 = ok2 &&  c.myVectSegments[indexRight].myCoordinate == DGtal::Z2i::RealPoint(15, 20);
   
   
   if (ok2)
@@ -82,23 +82,23 @@ int main(int argc, char *const *argv)
   c.exportDisplay("testBase4.eps");
   DGtal::trace.endBlock();
   
-  //   DGtal::trace.beginBlock("Testing class CoronaryArteryTree: test random adds");
-  //   srand (time(NULL));
-  //   CoronaryArteryTree cRand (DGtal::Z2i::RealPoint(0, 25), 2000, 1);
   
-  //   cRand.addFirstSegment(DGtal::Z2i::RealPoint(0, 0));
   
-  //   for (unsigned int i = 0; i < 100; i++){
-  //     double x = rand() % ((int)(c.myRsupp*200.0));
-  //     double y = rand() % ((int)(c.myRsupp*200.0));
-  //     x = (x/100.0 - c.myRsupp);
-  //     y = (y/100.0 - c.myRsupp);
-  //     if (isInsideCircle(DGtal::Z2i::RealPoint(0, 0), DGtal::Z2i::RealPoint(x, y),  c.myRsupp)){
+  DGtal::trace.beginBlock("Testing class CoronaryArteryTree: test random adds");
+  srand (time(NULL));
+  CoronaryArteryTree cRand (DGtal::Z2i::RealPoint(0, 250), 2000, 1);
+    
   
-  //       cRand.addSegmentFromPointWithBarycenter(DGtal::Z2i::RealPoint(x, y));
-  //     }
-  //   }
+  for (unsigned int i = 0; i < 10000; i++){
+    CoronaryArteryTree::Point2D pt = generateRandomPtOnDisk(cRand.myTreeCenter, cRand.my_rPerf);
+   
+    nearest = cRand.getNearestSegment(pt);
+    cRand.addSegmentFromPoint(pt, nearest, 1.0, 1.0);
+    }
   
+  cRand.exportDisplay("testRandomAdd.svg");
+  cRand.exportDisplay("testRandomAdd.eps");
+   DGtal::trace.endBlock();
   
   // //    cout << " le point aleatoire est simule. Ses coordonnées sont: x = " << x << " et y = " << y <<endl;
   

@@ -9,6 +9,9 @@
 #include "DGtal/base/Common.h"
 #include "DGtal/helpers/StdDefs.h"
 
+#include "DGtal/io/colormaps/GradientColorMap.h"
+
+
 using namespace std;
 bool
 CoronaryArteryTree::addSegmentFromPoint(const Point2D &p)
@@ -119,7 +122,8 @@ CoronaryArteryTree::exportDisplay(const std::string &fileName)
   DGtal::Board2D board;
   std::cout <<"My rsupp is " << myRsupp<<std::endl;
   board.setPenColor(DGtal::Color::Blue);
-  board.drawCircle(myTreeCenter[0], myTreeCenter[1], myRsupp, 1);
+  board.setLineWidth(myVectSegments[0].myRadius*57.5);
+  board.drawCircle(myTreeCenter[0], myTreeCenter[1], my_rPerf, 1);
   
   
   // draw root: (first segment is special reduced to one point and no parent).
@@ -139,7 +143,12 @@ CoronaryArteryTree::exportDisplay(const std::string &fileName)
   board.setLineWidth(myVectSegments[0].myRadius*57.5);
   board.setPenColor(DGtal::Color(150, 0, 0, 150));
   board.drawLine(p0[0], p0[1], p1[0], p1[1], 2);
-  
+
+  DGtal::GradientColorMap<int> cmap_grad( 0, myVectSegments.size()+1 );
+  cmap_grad.addColor( DGtal::Color( 50, 50, 255 ) );
+  cmap_grad.addColor( DGtal::Color( 255, 0, 0 ) );
+  cmap_grad.addColor( DGtal::Color( 255, 255, 10 ) );
+  unsigned int i = 0;
   for (auto s : myVectSegments)
   {
     // test if the segment is the root or its parent we do not display (already done).
@@ -151,13 +160,13 @@ CoronaryArteryTree::exportDisplay(const std::string &fileName)
     Point2D distal = s.myCoordinate;
     Point2D proxital = myVectSegments[myVectParent[s.myIndex]].myCoordinate;
     board.setLineWidth(myVectSegments[s.myIndex].myRadius*57.5);
-    board.setPenColor(DGtal::Color(150, 0, 0, 150));
+    board.setPenColor(cmap_grad(i));
     board.drawLine(distal[0], distal[1], proxital[0], proxital[1],2);
     //      std::cout << " myRsupp Value = "<< myRsupp<<std::endl;
     board.setLineWidth(1.0);
     board.setPenColor(DGtal::Color(180, 0, 0, 180));
     board.fillCircle(distal[0], distal[1], myVectSegments[s.myIndex].myRadius, 1 );
-    
+    i++;
     
   }
   

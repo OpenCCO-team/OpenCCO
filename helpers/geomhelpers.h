@@ -21,7 +21,6 @@ inline
 TPoint
 generateRandomPtOnDisk(const TPoint &ptCenter, double r)
 {
-  srand (time(NULL));
   double a = (rand()%360)/(2.0*M_PI);
   double rR = ((double)rand() / RAND_MAX)*r;
   return TPoint(ptCenter[0]+rR*cos(a), ptCenter[1]+rR*sin(a));

@@ -66,7 +66,7 @@ public:
   unsigned int my_NTerm = 1;
   
   // my_rPref radius of circular area (m)
-  double my_rPref = 0.05;
+  double my_rPerf = 1.0;
   
   // my_qPerf LAD flow in vasodilated
   double my_qPerf = 0.00000833;
@@ -125,6 +125,7 @@ public:
   
   CoronaryArteryTree(const Point2D &ptRoot, double aPerf, unsigned int nTerm,
                      double aRadius = 1.0 ){
+     
     myTreeCenter = Point2D(0,0);
     myRsupp = sqrt((aPerf/nTerm)/M_PI);
     my_aPerf = aPerf;
@@ -142,7 +143,7 @@ public:
     myVectSegments.push_back(s);
     myVectParent.push_back(0); //if parent index is itsef it is the root (special segment of length 0).
     myVectChildren.push_back(std::pair<unsigned int, unsigned int>(0,0)); // if children index is itself, it is an end segment.
-    
+    my_rPerf = (ptRoot-myTreeCenter).norm();
     // Construction of the first segment after the root
     Segment<Point2D> s1;
     s1.myRadius = aRadius;
