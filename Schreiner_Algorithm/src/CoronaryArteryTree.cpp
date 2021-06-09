@@ -22,12 +22,11 @@ CoronaryArteryTree::addFirstSegment(const Point2D &p)
 {
   Segment<Point2D> s;
   s.myCoordinate = p;
-  s.radius = 0.1;
-  s.index = myVectSegments.size();
-  s.Generation=0;
+  s.myRadius = 0.1;
+  s.myIndex = myVectSegments.size();
   myVectSegments.push_back(s);
   myVectParent.push_back(0);
-  myVectDaughters.push_back(SegmentDaugther(0,0));
+  myVectDaughters.push_back(SegmentChildren(0,0));
     return true;
 }
 
@@ -42,38 +41,38 @@ CoronaryArteryTree::addSegmentFromPoint(const Point2D &p, unsigned int nearIndex
   // to process (a): s middle
   Segment<Point2D> sMiddle;
   sMiddle.myCoordinate = FindBarycenter(p, nearIndex);
-  sMiddle.radius = 0.1;
+  sMiddle.myRadius = 0.1;
 //  sMiddle.index = myVectSegments.size(); modifié
 //  myVectSegments.push_back(sMiddle); modifié
 //  myVectParent.push_back(myVectParent[nearIndex]); modifié
     
     Segment<Point2D> sNew2;
-    sMiddle.index = nearIndex;
+    sMiddle.myIndex = nearIndex;
     sNew2 = myVectSegments[nearIndex];
-    sNew2.index = myVectSegments.size();
+    sNew2.myIndex = myVectSegments.size();
     myVectSegments.push_back(sNew2);
     myVectParent.push_back(nearIndex);
     myVectSegments[nearIndex] = sMiddle;
     
   
-    myVectDaughters.push_back(SegmentDaugther(sNew2.index,  sNew2.index)); // modifié
+    myVectDaughters.push_back(SegmentChildren(sNew2.myIndex,  sNew2.myIndex)); // modifié
 
   // to process (b): new point to s middle
   Segment<Point2D> sNew;
   sNew.myCoordinate = p;
-  sNew.radius = 0.1;
-  sNew.index = myVectSegments.size();
+  sNew.myRadius = 0.1;
+  sNew.myIndex = myVectSegments.size();
   myVectSegments.push_back(sNew);
-  myVectParent.push_back(sMiddle.index);// Modifié
+  myVectParent.push_back(sMiddle.myIndex);// Modifié
     
   // update parent with new (a).
  //  myVectParent[nearIndex] = sMiddle.index; modifié
     //We define the Daughter of a Terminal segment as himself
-    myVectDaughters.push_back(SegmentDaugther(sNew.index, sNew.index));
-    myVectDaughters[nearIndex] = SegmentDaugther( sNew2.index, sNew.index);
+    myVectDaughters.push_back(SegmentChildren(sNew.myIndex, sNew.myIndex));
+    myVectDaughters[nearIndex] = SegmentChildren( sNew2.myIndex, sNew.myIndex);
   // NearIndex est un fils, sNew est un fils, et sMiddle est le pere des deux.
     updateGeneration();
-    updateRadius2(sNew.index);
+    updateRadius2(sNew.myIndex);
   
   return true;
 }
@@ -98,24 +97,24 @@ CoronaryArteryTree::exportDisplay(const std::string &fileName)
   board.fillCircle(p0[0], p0[1], 0.5);
   
   Point2D p1 = myVectSegments[1].myCoordinate;
-  board.setLineWidth(myVectSegments[0].radius*3.0);
+  board.setLineWidth(myVectSegments[0].myRadius*3.0);
 //  board.setPenColor(DGtal::Color::Red);
   board.drawLine(p0[0], p0[1], p1[0], p1[1]);
   
   for (auto s : myVectSegments)
   {
     // test if the segment is the root or its parent we do not display (already done).
-    if (s.index == 0 || s.index == 1)
+    if (s.myIndex == 0 || s.myIndex == 1)
     {
       continue;
     }
     // distal node:
     Point2D distal = s.myCoordinate;
-    Point2D proxital = myVectSegments[myVectParent[s.index]].myCoordinate;
+    Point2D proxital = myVectSegments[myVectParent[s.myIndex]].myCoordinate;
     board.setPenColor(DGtal::Color::Black);
     //board.setFillColor(DGtal::Color::Red);
     //board.fillCircle(distal[0], distal[1], 0.5);
-      board.setLineWidth(sqrt(s.radius*50));
+      board.setLineWidth(sqrt(s.myRadius*50));
     board.setPenColor(DGtal::Color::Gray);
     board.drawLine(distal[0], distal[1], proxital[0], proxital[1]);
 //      std::cout << " myRsupp Value = "<< myRsupp<<std::endl;
@@ -148,9 +147,9 @@ CoronaryArteryTree::getSegmentCenter(const Segment<Point2D> &s)
   Point2D res;
   res=s.myCoordinate;
   // Test if the segment is not a the special root segment (reducted to one point)
-  if (s.index != 0)
+  if (s.myIndex != 0)
   {
-    unsigned int p = myVectParent.at(s.index);
+    unsigned int p = myVectParent.at(s.myIndex);
     res += myVectSegments.at(p).myCoordinate;
     res[0] /= 2.0;
     res[1] /= 2.0;
@@ -169,7 +168,7 @@ CoronaryArteryTree::getNearestSegment(const Point2D &pt)
     auto distMin = (getSegmentCenter(myVectSegments[sNear])-pt).norm();
     if ((getSegmentCenter(s)-pt).norm() < distMin)
     {
-      sNear = s.index;
+      sNear = s.myIndex;
     }
   }
   return sNear;
@@ -179,17 +178,17 @@ CoronaryArteryTree::getNearestSegment(const Point2D &pt)
 
 unsigned int
 CoronaryArteryTree::getParentSegment(const Segment<Point2D> &s){
-  return myVectParent[s.index];
+  return myVectParent[s.myIndex];
 }
 
 unsigned int
 CoronaryArteryTree::getDaughterLeft(const Segment<Point2D> &s){
-  return myVectDaughters[s.index].first;
+  return myVectDaughters[s.myIndex].first;
 }
 
 unsigned int
 CoronaryArteryTree::getDaughterRigth(const Segment<Point2D> &s){
-  return myVectDaughters[s.index].second;
+  return myVectDaughters[s.myIndex].second;
 }
 
 double
@@ -246,24 +245,24 @@ CoronaryArteryTree::addSegmentFromPointWithBarycenter(const Point2D &p, unsigned
     
     Segment<Point2D> sMiddle;
     sMiddle.myCoordinate = barycenter;
-    sMiddle.radius = sqrt(qTerm/(pi*GetLength(nearIndex)));
-    sMiddle.index = myVectSegments.size();
+    sMiddle.myRadius = sqrt(my_qTerm/(pi*GetLength(nearIndex)));
+    sMiddle.myIndex = myVectSegments.size();
     myVectSegments.push_back(sMiddle);
     myVectParent.push_back(myVectParent[nearIndex]);
-    myVectDaughters.push_back(SegmentDaugther(nearIndex,  myVectSegments.size()));
+    myVectDaughters.push_back(SegmentChildren(nearIndex,  myVectSegments.size()));
 
     // to process (b): new point to s middle
     Segment<Point2D> sNew;
     sNew.myCoordinate = p;
-    sNew.radius = sqrt(qTerm/(pi*GetLength(nearIndex)));
-    sNew.index = myVectSegments.size();
+    sNew.myRadius = sqrt(my_qTerm/(pi*GetLength(nearIndex)));
+    sNew.myIndex = myVectSegments.size();
     myVectSegments.push_back(sNew);
-    myVectParent.push_back(sMiddle.index);
+    myVectParent.push_back(sMiddle.myIndex);
     // update parent with new (a).
-    myVectParent[nearIndex] = sMiddle.index;
+    myVectParent[nearIndex] = sMiddle.myIndex;
     
     // NearIndex est un fils, sNew est un fils, et sMiddle est le pere des deux.
-    myVectDaughters[sMiddle.index] = SegmentDaugther(nearIndex, sNew.index);
+    myVectDaughters[sMiddle.myIndex] = SegmentChildren(nearIndex, sNew.myIndex);
     
     updateGeneration();
     
@@ -310,7 +309,7 @@ CoronaryArteryTree::dCritCalculation(const Point2D &p,unsigned int Index )
 bool
 CoronaryArteryTree::updateRsupp()
 {
-    myRsupp=sqrt(myKTerm*(aPerf/Nterm)/pi);
+    myRsupp=sqrt(myKTerm*(my_aPerf/my_NTerm)/pi);
 //    cout << "My new Rsupp is = " << myRsupp << endl;
     return true;
 }
@@ -327,7 +326,7 @@ CoronaryArteryTree::updateRadius()
     for (auto s : myVectSegments)
     {
         
-        myVectSegments[s.index].radius=sqrt((1+MaxGene-s.Generation)*qTerm/(pi*GetLength(s.index)));
+        myVectSegments[s.myIndex].myRadius=sqrt((1+1-1)*my_qTerm/(pi*GetLength(s.myIndex)));
     }
 //    cout << "max gene = " << MaxGene<<endl;
     return TRUE;
@@ -342,19 +341,13 @@ CoronaryArteryTree::updateRadius2(unsigned int index )
     parent = myVectSegments[myVectParent[index]];
 
 
-        myVectSegments[getDaughterLeft(parent)].radius = sqrt((1+MaxGene- myVectSegments[getDaughterLeft(parent)].Generation)*qTerm/(pi*GetLength(getDaughterLeft(parent))));
+        myVectSegments[getDaughterLeft(parent)].myRadius = sqrt(1*my_qTerm/(pi*GetLength(getDaughterLeft(parent))));
     
-    myVectSegments[getDaughterRigth(parent)].radius = sqrt((1+MaxGene-myVectSegments[getDaughterRigth(parent)].Generation)*qTerm/(pi*GetLength(getDaughterRigth(parent))));
+    myVectSegments[getDaughterRigth(parent)].myRadius = sqrt((1+1-1)*my_qTerm/(pi*GetLength(getDaughterRigth(parent))));
     // Now, we need to change the parents according to the Bifurcation rule;
     
-    while(parent.Generation != 0)
-    {
-    myVectSegments[parent.index].radius = pow(pow(myVectSegments[getDaughterRigth(parent)].radius,gamma) + pow(myVectSegments[getDaughterLeft(parent)].radius,gamma),1/gamma);
-        
-        parent=myVectSegments[myVectParent[parent.index]];
-
-    }
-    myVectSegments[parent.index].radius =sqrt((myKTerm)*qTerm/(pi*GetLength(parent.index)));
+   
+    myVectSegments[parent.myIndex].myRadius =sqrt((myKTerm)*my_qTerm/(pi*GetLength(parent.myIndex)));
     
     return TRUE;
 
@@ -386,20 +379,18 @@ CoronaryArteryTree::updateGeneration()
     Segment<Point2D> parent;
     for (auto s : myVectSegments)
     {
-        if(s.index != 0){
+        if(s.myIndex != 0){
             
         
-        parent = myVectSegments[myVectParent[s.index]];
+        parent = myVectSegments[myVectParent[s.myIndex]];
         int Gene=1;
         
-        while(GetLength(parent.index)!=0 )
+        while(GetLength(parent.myIndex)!=0 )
         {
-            parent = myVectSegments[myVectParent[parent.index]];
+            parent = myVectSegments[myVectParent[parent.myIndex]];
             Gene+=1;
         }
-        myVectSegments[s.index].Generation = Gene;
-        if(Gene>MaxGene){MaxGene=Gene;}
-//        s.Generation = Gene;
+        
         
     }
     }
@@ -507,21 +498,21 @@ CoronaryArteryTree::addSegment(const Point2D &NewPoint,const Point2D &OptimizePo
   // to process (a): s middle
   Segment<Point2D> sMiddle;
   sMiddle.myCoordinate = OptimizePoint;
-  sMiddle.radius = 0.1;
-  sMiddle.index = myVectSegments.size();
+  sMiddle.myRadius = 0.1;
+  sMiddle.myIndex = myVectSegments.size();
   myVectSegments.push_back(sMiddle);
   myVectParent.push_back(myVectParent[nearIndex]);
-  myVectDaughters.push_back(SegmentDaugther(nearIndex,  myVectSegments.size()));
+  myVectDaughters.push_back(SegmentChildren(nearIndex,  myVectSegments.size()));
 
   // to process (b): new point to Optimal position
   Segment<Point2D> sNew;
   sNew.myCoordinate = NewPoint;
-  sNew.radius = 0.1;
-  sNew.index = myVectSegments.size();
+  sNew.myRadius = 0.1;
+  sNew.myIndex = myVectSegments.size();
   myVectSegments.push_back(sNew);
-  myVectParent.push_back(sMiddle.index);
+  myVectParent.push_back(sMiddle.myIndex);
   // update parent with new (a).
-  myVectParent[nearIndex] = sMiddle.index;
+  myVectParent[nearIndex] = sMiddle.myIndex;
 
 
   return true;
@@ -548,16 +539,16 @@ CoronaryArteryTree::FindOptimalSegment(const Point2D &p)
     for (auto s : myVectSegments)
     {
         DGtal::Z2i::RealPoint OptimalPosition;
-        OptimalPosition = FindBarycenter(p,s.index);
+        OptimalPosition = FindBarycenter(p,s.myIndex);
         
-        if(compDistCriteria(p, s.index) > myDThresold){
+        if(compDistCriteria(p, s.myIndex) > myDThresold){
             
         
-        if(Volume_min>GetTotalVolume( s.myCoordinate, myVectSegments[myVectParent[s.index]].myCoordinate, p,OptimalPosition )&& s.index >0 )
+        if(Volume_min>GetTotalVolume( s.myCoordinate, myVectSegments[myVectParent[s.myIndex]].myCoordinate, p,OptimalPosition )&& s.myIndex >0 )
         {
             
-            Volume_min =GetTotalVolume(s.myCoordinate, myVectSegments[myVectParent[s.index]].myCoordinate, p,OptimalPosition );
-            Index_Opti= s.index;
+            Volume_min =GetTotalVolume(s.myCoordinate, myVectSegments[myVectParent[s.myIndex]].myCoordinate, p,OptimalPosition );
+            Index_Opti= s.myIndex;
             
         
         }
@@ -579,12 +570,11 @@ CoronaryArteryTree::AddFirstSegmentonImage()
 
     Segment<Point2D> s;
     s.myCoordinate = p;
-    s.radius = 0.1;
-    s.index = myVectSegments.size();
-    s.Generation=1;
+    s.myRadius = 0.1;
+    s.myIndex = myVectSegments.size();
     myVectSegments.push_back(s);
     myVectParent.push_back(0);
-    myVectDaughters.push_back(SegmentDaugther(0,0));
+    myVectDaughters.push_back(SegmentChildren(0,0));
       return true;
 }
 
@@ -675,7 +665,7 @@ CoronaryArteryTree::fromCircleToImage(string fileName, double x, double y, int x
 bool
 CoronaryArteryTree::hasIntersections(Segment<Point2D> S1, Point2D newPoint)
 {
-   DGtal::Z2i::RealPoint Barycenter = FindBarycenter(newPoint, S1.index);
+   DGtal::Z2i::RealPoint Barycenter = FindBarycenter(newPoint, S1.myIndex);
    
    Segment<Point2D> newSegment;
    newSegment.myCoordinate = newPoint;
@@ -690,7 +680,7 @@ CoronaryArteryTree::hasIntersections(Segment<Point2D> S1, Point2D newPoint)
        {
            
        
-           if(hasIntersection(newPoint ,Barycenter,s.myCoordinate,myVectSegments[myVectParent[s.index]].myCoordinate) || hasIntersection(s.myCoordinate,myVectSegments[myVectParent[s.index]].myCoordinate,Barycenter,S1.myCoordinate) || hasIntersection(s.myCoordinate,myVectSegments[myVectParent[s.index]].myCoordinate,Barycenter,myVectSegments[myVectParent[S1.index]].myCoordinate) )
+           if(hasIntersection(newPoint ,Barycenter,s.myCoordinate,myVectSegments[myVectParent[s.myIndex]].myCoordinate) || hasIntersection(s.myCoordinate,myVectSegments[myVectParent[s.myIndex]].myCoordinate,Barycenter,S1.myCoordinate) || hasIntersection(s.myCoordinate,myVectSegments[myVectParent[s.myIndex]].myCoordinate,Barycenter,myVectSegments[myVectParent[S1.myIndex]].myCoordinate) )
            {
                return true;
            }
