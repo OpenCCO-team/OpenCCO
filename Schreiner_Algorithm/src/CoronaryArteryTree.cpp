@@ -72,44 +72,6 @@ CoronaryArteryTree::addSegmentFromPoint(const Point2D &p,
 
   
   
-  // Upate
-  
-//  // to process (a): s middle
-//  Segment<Point2D> sMiddle;
-//  sMiddle.myCoordinate = FindBarycenter(p, nearIndex);
-//  sMiddle.myRadius = r;
-//  //  sMiddle.index = myVectSegments.size(); modifié
-//  //  myVectSegments.push_back(sMiddle); modifié
-//  //  myVectParent.push_back(myVectParent[nearIndex]); modifié
-//
-//  Segment<Point2D> sNew2;
-//  sMiddle.myIndex = nearIndex;
-//  sNew2 = myVectSegments[nearIndex];
-//  sNew2.myIndex = myVectSegments.size();
-//  myVectSegments.push_back(sNew2);
-//  myVectParent.push_back(nearIndex);
-//  myVectSegments[nearIndex] = sMiddle;
-//
-//
-//  myVectChildren.push_back(SegmentChildren(sNew2.myIndex,  sNew2.myIndex)); // modifié
-//
-//  // to process (b): new point to s middle
-//  Segment<Point2D> sNew;
-//  sNew.myCoordinate = p;
-//  sNew.myRadius = r;
-//  sNew.myIndex = myVectSegments.size();
-//  myVectSegments.push_back(sNew);
-//  myVectParent.push_back(sMiddle.myIndex);// Modifié
-//
-//  // update parent with new (a).
-//  //  myVectParent[nearIndex] = sMiddle.index; modifié
-//  //We define the Daughter of a Terminal segment as himself
-//  myVectChildren.push_back(SegmentChildren(sNew.myIndex, sNew.myIndex));
-//  myVectChildren[nearIndex] = SegmentChildren( sNew2.myIndex, sNew.myIndex);
-//  // NearIndex est un fils, sNew est un fils, et sMiddle est le pere des deux.
-//  updateGeneration();
-//  updateRadius2(sNew.myIndex);
-  
   return true;
 }
 
@@ -593,7 +555,6 @@ CoronaryArteryTree::FindOptimalSegment(const Point2D &p)
     OptimalPosition = FindBarycenter(p,s.myIndex);
     
     if(compDistCriteria(p, s.myIndex) > myDThresold){
-      
       
       if(Volume_min>GetTotalVolume( s.myCoordinate, myVectSegments[myVectParent[s.myIndex]].myCoordinate, p,OptimalPosition )&& s.myIndex >0 )
       {
