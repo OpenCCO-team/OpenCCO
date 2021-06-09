@@ -26,7 +26,7 @@ int main(int argc, char *const *argv)
   
   
   
-  DGtal::trace.beginBlock("Testing class CoronaryArteryTree: construction base (1)");
+  DGtal::trace.beginBlock("Testing class CoronaryArteryTree: construction base (1)!!!");
   bool ok = true;
   auto nearest = c.getNearestSegment(DGtal::Z2i::RealPoint(15,15));
   DGtal::trace.info() <<"Nearest Segment of (15, 15): " <<  c.myVectSegments[nearest].myCoordinate << " (should be " <<  c.myVectSegments[1].myCoordinate  << std::endl;
@@ -42,7 +42,7 @@ int main(int argc, char *const *argv)
   DGtal::trace.beginBlock("Testing class CoronaryArteryTree: construction base (2)");
   bool ok2 = false;
   auto pRan = c.myVectSegments[1].myCoordinate;
-  c.addSegmentFromPoint(DGtal::Z2i::RealPoint(15, 20));
+  c.addSegmentFromPoint(DGtal::Z2i::RealPoint(15, 20), c.myVectSegments[1].myRadius);
   c.exportDisplay("testBase2.svg");
   c.exportDisplay("testBase2.eps");
   
@@ -72,10 +72,14 @@ int main(int argc, char *const *argv)
   
   
   DGtal::trace.beginBlock("Testing class CoronaryArteryTree: display constructions steps (3)");
-  c.addSegmentFromPoint(DGtal::Z2i::RealPoint(5, 3));
-  c.addSegmentFromPoint(DGtal::Z2i::RealPoint(9, -2));
+  nearest = c.getNearestSegment(DGtal::Z2i::RealPoint(-2,6));
+  c.addSegmentFromPoint(DGtal::Z2i::RealPoint(-2, 6), nearest, 1.0, 1.0);
   c.exportDisplay("testBase3.svg");
   c.exportDisplay("testBase3.eps");
+  nearest = c.getNearestSegment(DGtal::Z2i::RealPoint(15,-5));
+  c.addSegmentFromPoint(DGtal::Z2i::RealPoint(15, -5), nearest, 0.5, 0.3);
+  c.exportDisplay("testBase4.svg");
+  c.exportDisplay("testBase4.eps");
   DGtal::trace.endBlock();
   
   //   DGtal::trace.beginBlock("Testing class CoronaryArteryTree: test random adds");

@@ -170,7 +170,8 @@ public:
    * (for instance if an intersection to previous point was present)
    **/
   
-  bool addSegmentFromPoint(const Point2D &p,  unsigned int nearIndex);
+  bool addSegmentFromPoint(const Point2D &p,  unsigned int nearIndex,
+                           double rLeft = 1.0, double rRight = 1.0);
   
   
   /**
