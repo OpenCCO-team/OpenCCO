@@ -68,14 +68,15 @@ int main(int argc, char *const *argv)
     DGtal::trace.info() << "TEST ERRORS..." << std::endl;
   DGtal::trace.endBlock();
   
-  //   c.addSegmentFromPoint(DGtal::Z2i::RealPoint(5, 3));
-  //   c.addSegmentFromPoint(DGtal::Z2i::RealPoint(9, -2));
   
   
-  //   DGtal::trace.beginBlock("Testing class CoronaryArteryTree: display constructions steps");
-  //   c.exportDisplay("testStep1.svg");
-  //   c.exportDisplay("testStep1.eps");
-  //   DGtal::trace.endBlock();
+  
+  DGtal::trace.beginBlock("Testing class CoronaryArteryTree: display constructions steps (3)");
+  c.addSegmentFromPoint(DGtal::Z2i::RealPoint(5, 3));
+  c.addSegmentFromPoint(DGtal::Z2i::RealPoint(9, -2));
+  c.exportDisplay("testBase3.svg");
+  c.exportDisplay("testBase3.eps");
+  DGtal::trace.endBlock();
   
   //   DGtal::trace.beginBlock("Testing class CoronaryArteryTree: test random adds");
   //   srand (time(NULL));
