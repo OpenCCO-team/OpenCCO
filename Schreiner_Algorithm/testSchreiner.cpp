@@ -83,13 +83,11 @@ int main(int argc, char *const *argv)
   DGtal::trace.endBlock();
   
   
-  
   DGtal::trace.beginBlock("Testing class CoronaryArteryTree: test random adds");
   srand (time(NULL));
   CoronaryArteryTree cRand (DGtal::Z2i::RealPoint(0, 250), 2000, 1);
     
-  
-  for (unsigned int i = 0; i < 10000; i++){
+  for (unsigned int i = 0; i < 1000; i++){
     CoronaryArteryTree::Point2D pt = generateRandomPtOnDisk(cRand.myTreeCenter, cRand.my_rPerf);
    
     nearest = cRand.getNearestSegment(pt);
@@ -100,12 +98,6 @@ int main(int argc, char *const *argv)
   cRand.exportDisplay("testRandomAdd.eps");
    DGtal::trace.endBlock();
   
-  // //    cout << " le point aleatoire est simule. Ses coordonnées sont: x = " << x << " et y = " << y <<endl;
-  
-  
-  //   cRand.exportDisplay("testRandomAdd.svg");
-  //   cRand.exportDisplay("testRandomAdd.eps");
-  //   DGtal::trace.endBlock();
   
   
   return EXIT_SUCCESS;
