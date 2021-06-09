@@ -17,18 +17,6 @@ CoronaryArteryTree::addSegmentFromPoint(const Point2D &p)
   return addSegmentFromPoint(p, nearIndex);
 }
 
-bool
-CoronaryArteryTree::addFirstSegment(const Point2D &p)
-{
-  Segment<Point2D> s;
-  s.myCoordinate = p;
-  s.myRadius = 0.1;
-  s.myIndex = myVectSegments.size();
-  myVectSegments.push_back(s);
-  myVectParent.push_back(0);
-  myVectChildren.push_back(SegmentChildren(0,0));
-    return true;
-}
 
 bool
 CoronaryArteryTree::addSegmentFromPoint(const Point2D &p, unsigned int nearIndex)
@@ -161,13 +149,17 @@ CoronaryArteryTree::getSegmentCenter(const Segment<Point2D> &s)
 unsigned int
 CoronaryArteryTree::getNearestSegment(const Point2D &pt)
 {
-  unsigned int sNear=0;
+  unsigned int sNear=1;
+  double distMin = (getSegmentCenter(myVectSegments[1])-pt).norm();
   for (const auto &s: myVectSegments)
   {
-    auto c = getSegmentCenter(s);
-    auto distMin = (getSegmentCenter(myVectSegments[sNear])-pt).norm();
-    if ((getSegmentCenter(s)-pt).norm() < distMin)
+    if (s.myIndex==0)
+      continue;
+    Point2D c = getSegmentCenter(s);
+    double d = (getSegmentCenter(s)-pt).norm();
+    if (d < distMin)
     {
+      distMin = d;
       sNear = s.myIndex;
     }
   }
