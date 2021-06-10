@@ -99,15 +99,17 @@ public:
   unsigned int myKTerm = 1;
   
   //myDThresold: threshold on the distance criterion of adding a segment
-  double myDThresold = 0;
+  double myDThresold = 0.0;
   
   //myRsupp: average radius of blackboxes
-  double myRsupp = 0;
+  double myRsupp = 0.0;
   
   // myTreeCenter: coordinate of the tree center used to define the main domain.
   Point2D myTreeCenter;
   
   
+  // myCurrAPerf : represents the current perfusion surface
+  double myCurrAPerf = 1.0;
   
   // End: Internal algorithm parameter
   //-----------------------------
@@ -216,19 +218,15 @@ public:
   double dProjCalculation(const Point2D &p,unsigned int Index );
   double dCritCalculation(const Point2D &p,unsigned int Index );
   Point2D FindBarycenter(const Point2D &p, unsigned int index);
-  bool updateRsupp();
   bool updateTreshold();
   double GetLength(unsigned int Index);
   bool updateRadius();
   bool updateRadius2(unsigned int index );
   Point2D FindOptimalPosition(unsigned int Index,const Point2D &p);
-  bool updateScale( double resize_factor);
-  bool updateGeneration();
   int FindOptimalSegment(const Point2D &p);
   double FindXmax(int xDim, int yDim);
   double FindYmax(int xDim, int yDim);
   int AddFirstSegmentonImage();
-  //    double FindEdge(int xDim, int yDim);
   Point2D fromCircleToImage(std::string fileName, double x, double y, int xdim,int ydim );
   Point2D fromImageToCircle(int ximage,int yimage,int xdim,int ydim);
   

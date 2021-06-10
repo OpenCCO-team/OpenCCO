@@ -296,7 +296,6 @@ CoronaryArteryTree::addSegmentFromPointWithBarycenter(const Point2D &p, unsigned
   // NearIndex est un fils, sNew est un fils, et sMiddle est le pere des deux.
   myVectChildren[sMiddle.myIndex] = SegmentChildren(nearIndex, sNew.myIndex);
   
-  updateGeneration();
   
   updateRadius();
   
@@ -336,14 +335,6 @@ CoronaryArteryTree::dCritCalculation(const Point2D &p,unsigned int Index )
   }
   return dCrit;
   
-}
-
-bool
-CoronaryArteryTree::updateRsupp()
-{
-  myRsupp=sqrt(myKTerm*(my_aPerf/my_NTerm)/M_PI);
-  //    cout << "My new Rsupp is = " << myRsupp << endl;
-  return true;
 }
 
 bool
@@ -388,46 +379,8 @@ CoronaryArteryTree::updateRadius2(unsigned int index )
 
 
 
-bool
-CoronaryArteryTree::updateScale( double rescale_factor)
-{
-  updateRsupp();
-  
-  updateTreshold();
-  for (auto s : myVectSegments)
-  {
-    s.myCoordinate*=(myRsupp/rescale_factor);
-    
-  }
-  
-  return true;
-}
 
-bool
-CoronaryArteryTree::updateGeneration()
 
-{
-  int Gene=1;
-  Segment<Point2D> parent;
-  for (auto s : myVectSegments)
-  {
-    if(s.myIndex != 0){
-      
-      
-      parent = myVectSegments[myVectParent[s.myIndex]];
-      int Gene=1;
-      
-      while(GetLength(parent.myIndex)!=0 )
-      {
-        parent = myVectSegments[myVectParent[parent.myIndex]];
-        Gene+=1;
-      }
-      
-      
-    }
-  }
-  return TRUE;
-}
 
 double
 CoronaryArteryTree::GetLength(unsigned int Index)
