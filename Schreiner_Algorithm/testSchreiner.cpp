@@ -137,7 +137,7 @@ int main(int argc, char *const *argv)
   cRand2.exportBoardDisplay("testRandomAdd2.eps", true);
   
   DGtal::trace.endBlock();
-  CoronaryArteryTree::Point2D pC(0,0);
+  CoronaryArteryTree::Point2D pC = cRand2.myVectSegments.back().myCoordinate;
   DGtal::trace.beginBlock("Testing class CoronaryArteryTree: test get nearest neighbordhood");
   std::vector<unsigned int > nNearest = cRand2.getN_NearestSegments(pC, 15);
   DGtal::trace.info() << "Nearest size() :" << nNearest.size() << std::endl;
@@ -160,6 +160,34 @@ int main(int argc, char *const *argv)
   cRand2.exportBoardDisplay("testRandomAdd3.eps", false);
   DGtal::trace.endBlock();
 
+  
+  DGtal::trace.beginBlock("Testing class CoronaryArteryTree: test last leaf to root display path");
+  CoronaryArteryTree cRand3 (DGtal::Z2i::RealPoint(0, 250), 20000000, 100);
+  
+  for (unsigned int i = 0; i < 1000; i++){
+    DGtal::trace.progressBar(i, 1000);
+    CoronaryArteryTree::Point2D pt = cRand3.generateNewLocation(100);
+    nearest = cRand3.getNearestSegment(pt);
+    cRand3.addSegmentFromPoint(pt, nearest, 1.0, 1.0);
+    cRand3.udpatePerfusionArea();
+    cRand3.updateTreshold();
+  }
+  cRand3.boardDisplay();
+  v = cRand3.getPathToRoot(cRand3.myVectSegments[cRand3.myVectSegments.size()-1]);
+  cRand3.myBoard.setLineWidth(20.0);
+  cRand3.myBoard.setPenColor(DGtal::Color::Yellow);
+  cRand3.myBoard.setFillColor(DGtal::Color::Yellow);
+
+  for (unsigned int u : v){
+    auto seg = cRand3.myVectSegments[u];
+    auto seg2 = cRand3.myVectSegments[cRand3.myVectParent[seg.myIndex]];
+    cRand3.myBoard.drawLine(seg.myCoordinate[0], seg.myCoordinate[1],
+                       seg2.myCoordinate[0], seg2.myCoordinate[1], 0);
+  }
+  cRand3.exportBoardDisplay("testRandomAdd3.svg", false);
+  cRand3.exportBoardDisplay("testRandomAdd3.eps", false);
+  
+  DGtal::trace.endBlock();
   
   return EXIT_SUCCESS;
 }
