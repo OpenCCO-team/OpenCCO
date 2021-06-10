@@ -139,7 +139,7 @@ int main(int argc, char *const *argv)
   DGtal::trace.endBlock();
   CoronaryArteryTree::Point2D pC(0,0);
   DGtal::trace.beginBlock("Testing class CoronaryArteryTree: test get nearest neighbordhood");
-  std::vector<unsigned int > nNearest = cRand2.getN_NearestSegments(pC, 5);
+  std::vector<unsigned int > nNearest = cRand2.getN_NearestSegments(pC, 15);
   DGtal::trace.info() << "Nearest size() :" << nNearest.size() << std::endl;
   for (unsigned int i = 0; i < nNearest.size(); i++) {
     DGtal::trace.info() << "Nearest elem :" << nNearest[i] << " "
@@ -148,6 +148,7 @@ int main(int argc, char *const *argv)
   }
   cRand2.myBoard.setFillColor(DGtal::Color::Cyan);
   cRand2.myBoard.drawCircle(pC[0], pC[1], 1, 0);
+  cRand2.myBoard.setLineWidth(50);
 
   
   for (auto i : nNearest){
