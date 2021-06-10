@@ -12,6 +12,7 @@
 
 #include <iostream>
 #include <math.h>
+#include "DGtal/io/boards/Board2D.h"
 
 #include "DGtal/helpers/StdDefs.h"
 #include "geomhelpers.h"
@@ -111,7 +112,9 @@ public:
   // End: Internal algorithm parameter
   //-----------------------------
   
-  
+  // To handle display
+  DGtal::Board2D myBoard;
+
   
 public: 
   
@@ -190,7 +193,10 @@ public:
    * Export the current display of the tree.
    */
   
-  void exportDisplay(const std::string &fileName = "result.eps");
+  void boardDisplay(bool clearDisplay = true);
+  void exportBoardDisplay(const std::string &fileName = "result.eps",
+                          bool updateDisplay = true );
+  
   
   Point2D getSegmentCenter(const Segment<Point2D> &s);
   

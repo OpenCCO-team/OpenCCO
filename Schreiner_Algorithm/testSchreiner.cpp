@@ -19,8 +19,8 @@ int main(int argc, char *const *argv)
   DGtal::trace.beginBlock("esting base constructor with initial segment (should give a first random segment).");
   CoronaryArteryTree c (DGtal::Z2i::RealPoint(0, 25), 2000, 1);
   DGtal::trace.info() << c;
-  c.exportDisplay("testBase0.svg");
-  c.exportDisplay("testBase0.eps");
+  c.exportBoardDisplay("testBase0.svg", true);
+  c.exportBoardDisplay("testBase0.eps", true);
   DGtal::trace.endBlock();
   
   
@@ -43,8 +43,8 @@ int main(int argc, char *const *argv)
   bool ok2 = false;
   auto pRan = c.myVectSegments[1].myCoordinate;
   c.addSegmentFromPoint(DGtal::Z2i::RealPoint(15, 20), c.myVectSegments[1].myRadius);
-  c.exportDisplay("testBase2.svg");
-  c.exportDisplay("testBase2.eps");
+  c.exportBoardDisplay("testBase2.svg", true);
+  c.exportBoardDisplay("testBase2.eps", true);
   
   unsigned int addIndex = c.myVectSegments.size()-1;
   DGtal::trace.info() <<"Parent of new segment "
@@ -74,29 +74,32 @@ int main(int argc, char *const *argv)
   DGtal::trace.beginBlock("Testing class CoronaryArteryTree: display constructions steps (3)");
   nearest = c.getNearestSegment(DGtal::Z2i::RealPoint(-2,6));
   c.addSegmentFromPoint(DGtal::Z2i::RealPoint(-2, 6), nearest, 1.0, 1.0);
-  c.exportDisplay("testBase3.svg");
-  c.exportDisplay("testBase3.eps");
+  c.exportBoardDisplay("testBase3.svg", true);
+  c.exportBoardDisplay("testBase3.eps", true);
   nearest = c.getNearestSegment(DGtal::Z2i::RealPoint(15,-5));
   c.addSegmentFromPoint(DGtal::Z2i::RealPoint(15, -5), nearest, 0.5, 0.3);
-  c.exportDisplay("testBase4.svg");
-  c.exportDisplay("testBase4.eps");
+  c.exportBoardDisplay("testBase4.svg", true);
+  c.exportBoardDisplay("testBase4.eps", true);
   DGtal::trace.endBlock();
   
   
   DGtal::trace.beginBlock("Testing class CoronaryArteryTree: test random adds");
   srand (time(NULL));
   CoronaryArteryTree cRand (DGtal::Z2i::RealPoint(0, 250), 2000, 1);
-    
-  for (unsigned int i = 0; i < 1000; i++){
+  
+  for (unsigned int i = 0; i < 5000; i++){
     CoronaryArteryTree::Point2D pt = generateRandomPtOnDisk(cRand.myTreeCenter, cRand.my_rPerf);
-   
+    
     nearest = cRand.getNearestSegment(pt);
     cRand.addSegmentFromPoint(pt, nearest, 1.0, 1.0);
-    }
+  }
   
-  cRand.exportDisplay("testRandomAdd.svg");
-  cRand.exportDisplay("testRandomAdd.eps");
-   DGtal::trace.endBlock();
+  cRand.exportBoardDisplay("testRandomAdd.svg", true);
+  cRand.exportBoardDisplay("testRandomAdd.eps", true);
+  
+  cRand.boardDisplay();
+  cRand.exportBoardDisplay("toto.eps", false);
+  DGtal::trace.endBlock();
   
   
   

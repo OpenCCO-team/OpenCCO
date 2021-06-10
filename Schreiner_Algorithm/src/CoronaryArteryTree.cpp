@@ -78,33 +78,33 @@ CoronaryArteryTree::addSegmentFromPoint(const Point2D &p,
 
 
 void
-CoronaryArteryTree::exportDisplay(const std::string &fileName)
+CoronaryArteryTree::boardDisplay(bool clearDisplay)
 {
+  if (clearDisplay){
+    myBoard.clear();
+  }
   // drawing base circle
-  DGtal::Board2D board;
   std::cout <<"My rsupp is " << myRsupp<<std::endl;
-  board.setPenColor(DGtal::Color::Blue);
-  board.setLineWidth(myVectSegments[0].myRadius*57.5);
-  board.drawCircle(myTreeCenter[0], myTreeCenter[1], my_rPerf, 1);
+  myBoard.setPenColor(DGtal::Color::Blue);
+  myBoard.setLineWidth(myVectSegments[0].myRadius*57.5);
+  myBoard.drawCircle(myTreeCenter[0], myTreeCenter[1], my_rPerf, 1);
   
   
   // draw root: (first segment is special reduced to one point and no parent).
   Point2D p0 = myVectSegments[0].myCoordinate;
-  board.setPenColor(DGtal::Color(10, 100, 0, 180));
-  board.setLineWidth(1.0);
-  board.fillCircle(p0[0], p0[1], myVectSegments[0].myRadius, 1);
-
-  
+  myBoard.setPenColor(DGtal::Color(10, 100, 0, 180));
+  myBoard.setLineWidth(1.0);
+  myBoard.fillCircle(p0[0], p0[1], myVectSegments[0].myRadius, 1);
   
   Point2D p1 = myVectSegments[1].myCoordinate;
-  // 57.5 from Board change scale
-  board.setPenColor(DGtal::Color(180, 0, 0, 180));
-  board.setLineWidth(1.0);
-  board.fillCircle(p1[0], p1[1], myVectSegments[1].myRadius, 1);
+  // 57.5 from myBoard change scale
+  myBoard.setPenColor(DGtal::Color(180, 0, 0, 180));
+  myBoard.setLineWidth(1.0);
+  myBoard.fillCircle(p1[0], p1[1], myVectSegments[1].myRadius, 1);
 
-  board.setLineWidth(myVectSegments[0].myRadius*57.5);
-  board.setPenColor(DGtal::Color(150, 0, 0, 150));
-  board.drawLine(p0[0], p0[1], p1[0], p1[1], 2);
+  myBoard.setLineWidth(myVectSegments[0].myRadius*57.5);
+  myBoard.setPenColor(DGtal::Color(150, 0, 0, 150));
+  myBoard.drawLine(p0[0], p0[1], p1[0], p1[1], 2);
 
   DGtal::GradientColorMap<int> cmap_grad( 0, myVectSegments.size()+1 );
   cmap_grad.addColor( DGtal::Color( 50, 50, 255 ) );
@@ -121,24 +121,32 @@ CoronaryArteryTree::exportDisplay(const std::string &fileName)
     // distal node:
     Point2D distal = s.myCoordinate;
     Point2D proxital = myVectSegments[myVectParent[s.myIndex]].myCoordinate;
-    board.setLineWidth(myVectSegments[s.myIndex].myRadius*57.5);
-    board.setPenColor(cmap_grad(i));
-    board.drawLine(distal[0], distal[1], proxital[0], proxital[1],2);
+    myBoard.setLineWidth(myVectSegments[s.myIndex].myRadius*57.5);
+    myBoard.setPenColor(cmap_grad(i));
+    myBoard.drawLine(distal[0], distal[1], proxital[0], proxital[1],2);
     //      std::cout << " myRsupp Value = "<< myRsupp<<std::endl;
-    board.setLineWidth(1.0);
-    board.setPenColor(DGtal::Color(180, 0, 0, 180));
-    board.fillCircle(distal[0], distal[1], myVectSegments[s.myIndex].myRadius, 1 );
+    myBoard.setLineWidth(1.0);
+    myBoard.setPenColor(DGtal::Color(180, 0, 0, 180));
+    myBoard.fillCircle(distal[0], distal[1], myVectSegments[s.myIndex].myRadius, 1 );
     i++;
     
   }
-  
+}
+
+
+void
+CoronaryArteryTree::exportBoardDisplay(const std::string &fileName,
+                                       bool updateDisplay ){
+  if (updateDisplay){
+    boardDisplay();
+  }
   std::string ext = fileName.substr(fileName.find_last_of(".") + 1);
   if (ext == "svg")
   {
-    board.saveSVG(fileName.c_str());
+    myBoard.saveSVG(fileName.c_str());
   }
   else if (ext == "eps") {
-    board.saveEPS(fileName.c_str());
+    myBoard.saveEPS(fileName.c_str());
   }
 }
 
