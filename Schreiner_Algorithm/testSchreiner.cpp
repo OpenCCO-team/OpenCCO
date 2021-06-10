@@ -121,8 +121,8 @@ int main(int argc, char *const *argv)
   srand (time(NULL));
   CoronaryArteryTree cRand2 (DGtal::Z2i::RealPoint(0, 250), 20000000, 100);
   
-  for (unsigned int i = 0; i < 5000; i++){
-    DGtal::trace.progressBar(i, 5000);
+  for (unsigned int i = 0; i < 50; i++){
+    DGtal::trace.progressBar(i, 50);
     CoronaryArteryTree::Point2D pt = cRand2.generateNewLocation(100);
     //std::cout <<"myCurrAPerf: " <<  cRand2.myCurrAPerf << std::endl;
     //std::cout <<"myDThresold: " <<  cRand2.myDThresold << std::endl;
@@ -137,17 +137,26 @@ int main(int argc, char *const *argv)
   cRand2.exportBoardDisplay("testRandomAdd2.eps", true);
   
   DGtal::trace.endBlock();
-  
+  CoronaryArteryTree::Point2D pC(0,0);
   DGtal::trace.beginBlock("Testing class CoronaryArteryTree: test get nearest neighbordhood");
-  std::vector<unsigned int > nNearest = cRand2.getN_NearestSegments(CoronaryArteryTree::Point2D(0,0),
-                                                                    5);
+  std::vector<unsigned int > nNearest = cRand2.getN_NearestSegments(pC, 5);
   DGtal::trace.info() << "Nearest size() :" << nNearest.size() << std::endl;
   for (unsigned int i = 0; i < nNearest.size(); i++) {
     DGtal::trace.info() << "Nearest elem :" << nNearest[i] << " "
                  << cRand2.myVectSegments[nNearest[i]].myCoordinate << " "
                  <<"distance: " << (cRand2.myVectSegments[nNearest[i]].myCoordinate - CoronaryArteryTree::Point2D(0,0)).norm()<<   std::endl;
   }
+  cRand2.myBoard.setFillColor(DGtal::Color::Cyan);
+  cRand2.myBoard.drawCircle(pC[0], pC[1], 1, 0);
 
+  
+  for (auto i : nNearest){
+    cRand2.myBoard.drawLine(cRand2.myVectSegments[i].myCoordinate[0],
+                            cRand2.myVectSegments[i].myCoordinate[1],
+                            pC[0], pC[1]);
+  }
+  cRand2.exportBoardDisplay("testRandomAdd3.svg", false);
+  cRand2.exportBoardDisplay("testRandomAdd3.eps", false);
   DGtal::trace.endBlock();
 
   

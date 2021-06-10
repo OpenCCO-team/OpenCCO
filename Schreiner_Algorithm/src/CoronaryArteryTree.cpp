@@ -293,22 +293,35 @@ CoronaryArteryTree::getDistance(unsigned int index,
 std::vector<unsigned int>
 CoronaryArteryTree::getN_NearestSegments(const Point2D &p, unsigned int n) const {
   std::vector<unsigned int> res;
+  std::vector<double> dis;
+  
   res.push_back(1);
+  dis.push_back(getDistance(1, p));
   for (unsigned int i=2; i < myVectSegments.size(); i++){
     double d = getDistance(i, p);
     std::vector<unsigned int>::iterator it = res.end();
+    std::vector<double>::iterator itD = dis.end();
+
     int k = (int)(res.size())-1;
-    while (getDistance(res[k], p)>=d && k < (int)(res.size())-1){
+    while ( k >= 0 && getDistance(res[k], p)>=d ){
       k--;
       it--;
+      itD--;
     }
-    if (k != (int)(res.size())-1 || res.size() < n){
-      res.insert(it, i);
-      if (res.size() > n){
-        res.pop_back();
-      }
+    res.insert(it, i);
+    dis.insert(itD, d);
+    if (res.size() > n){
+      res.pop_back();
+      dis.pop_back();
     }
+    for(auto i: dis){
+      DGtal::trace.info() << "dist:" << i << std::endl;
+    }
+    DGtal::trace.info() << "----------"<< std::endl;
+
   }
+  
+
   return res;
 }
 
