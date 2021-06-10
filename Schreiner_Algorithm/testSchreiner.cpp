@@ -97,8 +97,6 @@ int main(int argc, char *const *argv)
   cRand.exportBoardDisplay("testRandomAdd.svg", true);
   cRand.exportBoardDisplay("testRandomAdd.eps", true);
   
-  cRand.boardDisplay();
-  cRand.exportBoardDisplay("toto.eps", false);
   DGtal::trace.endBlock();
   
   DGtal::trace.beginBlock("Testing class CoronaryArteryTree: test random adds");
@@ -119,6 +117,25 @@ int main(int argc, char *const *argv)
   DGtal::trace.endBlock();
 
   
+  DGtal::trace.beginBlock("Testing class CoronaryArteryTree: test random adds with distance constraint");
+  srand (time(NULL));
+  CoronaryArteryTree cRand2 (DGtal::Z2i::RealPoint(0, 250), 20000000, 100);
   
+  for (unsigned int i = 0; i < 5000; i++){
+    DGtal::trace.progressBar(i, 5000);
+    CoronaryArteryTree::Point2D pt = cRand2.generateNewLocation(100);
+    //std::cout <<"myCurrAPerf: " <<  cRand2.myCurrAPerf << std::endl;
+    //std::cout <<"myDThresold: " <<  cRand2.myDThresold << std::endl;
+
+    nearest = cRand2.getNearestSegment(pt);
+    cRand2.addSegmentFromPoint(pt, nearest, 1.0, 1.0);
+    cRand2.udpatePerfusionArea();
+    cRand2.updateTreshold();
+  }
+  
+  cRand2.exportBoardDisplay("testRandomAdd2.svg", true);
+  cRand2.exportBoardDisplay("testRandomAdd2.eps", true);
+  
+  DGtal::trace.endBlock();
   return EXIT_SUCCESS;
 }

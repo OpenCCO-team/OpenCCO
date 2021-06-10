@@ -62,7 +62,7 @@ CoronaryArteryTree::addSegmentFromPoint(const Point2D &p,
   myVectSegments.push_back(sNewRight);
   myVectChildren.push_back(std::pair<unsigned int, unsigned int>(0,0));
   myVectParent.push_back(nearIndex);
-  
+  myVectTerminals.push_back(sNewRight.myIndex);
   // Update center segment
   myVectSegments[nearIndex].myCoordinate = newCenter;
   myVectSegments[nearIndex].myLength = (newCenter - myVectSegments[myVectParent[nearIndex]].myCoordinate).norm();
@@ -70,7 +70,7 @@ CoronaryArteryTree::addSegmentFromPoint(const Point2D &p,
   myVectChildren[nearIndex].first = sNewLeft.myIndex;
   myVectChildren[nearIndex].second = sNewRight.myIndex;
 
-  
+  myKTerm++;
   
   return true;
 }
@@ -241,6 +241,50 @@ CoronaryArteryTree::getPathToRoot(const Segment<Point2D> &s)
 
 
 void
+CoronaryArteryTree::udpatePerfusionArea(){
+  myCurrAPerf = (myKTerm+1.0)*M_PI*myRsupp*myRsupp;
+  
+}
+
+CoronaryArteryTree::Point2D
+CoronaryArteryTree::generateNewLocation(unsigned int nbTrials){
+  Point2D res;
+  bool found = false;
+  unsigned int n = nbTrials;
+  while(!found && n >= 0) {
+    n--;
+    auto p = generateALocation();
+    found = p.second;
+    if (found) {
+      res = p.first;
+    }
+    if (n==0) {
+      n = nbTrials;
+      myDThresold *= 0.9;
+    }
+  }
+  
+  return res;
+}
+
+std::pair<CoronaryArteryTree::Point2D, bool>
+CoronaryArteryTree::generateALocation() {
+  Point2D res;
+  res = generateRandomPtOnDisk(myTreeCenter, myRsupp);
+  bool isComp = true;
+  unsigned int id = 1;
+  while ( isComp && id < myVectTerminals.size() ) {
+    
+    isComp = (myVectSegments[myVectTerminals[id]].myCoordinate - res).norm() > myDThresold;
+    id++;
+  }
+  return  std::pair<Point2D, bool> {res, isComp};
+}
+
+
+
+
+void
 CoronaryArteryTree::selfDisplay( std::ostream & out ) const {
   out << std::endl << "----" << std::endl;
   out << "CoronaryArteryTree: " << std::endl;
@@ -337,11 +381,10 @@ CoronaryArteryTree::dCritCalculation(const Point2D &p,unsigned int Index )
   
 }
 
-bool
+void
 CoronaryArteryTree::updateTreshold()
 {
   myDThresold=sqrt(M_PI*myRsupp*myRsupp/myKTerm);
-  return true;
 }
 bool
 CoronaryArteryTree::updateRadius()
@@ -577,30 +620,6 @@ CoronaryArteryTree::FindYmax(int xDim, int yDim)
   
 }
 
-//
-//double
-//CoronaryArteryTree::FindEdge(int xDim, int yDim)
-//{
-//
-//    typedef DGtal::ImageSelector < DGtal::Z2i::Domain, unsigned int>::Type Image;
-//    Image image = DGtal::PGMReader<Image>::importPGM( "./Shape.pgm" );
-//
-//    for(auto const &point: image.domain())
-//    {
-//        if(point == 0)
-//        {
-//
-//            int ximage;
-//            int yimage;
-//            ximage = -(x-xmax)*(image.domain().upperBound()[0]/2)/xmax;
-//            yimage = -(y-ymax)*(image.domain().upperBound()[1]/2)/ymax;
-//            return
-//        }
-//    }
-//    return myRsupp*sin(atan(xDim/yDim));
-//
-//}
-//
 
 // The following function converts a M_PIxelfrom the image into a point in the supporting circle
 CoronaryArteryTree::Point2D

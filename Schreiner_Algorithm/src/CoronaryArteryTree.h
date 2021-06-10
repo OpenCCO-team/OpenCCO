@@ -111,6 +111,9 @@ public:
   // myCurrAPerf : represents the current perfusion surface
   double myCurrAPerf = 1.0;
   
+  // myVectTerminals : store the index of the terminal segments
+  std::vector<unsigned int> myVectTerminals;
+  
   // End: Internal algorithm parameter
   //-----------------------------
   
@@ -142,13 +145,13 @@ public:
     // Construction of the special root segment
     Segment<Point2D> s;
     s.myRadius = aRadius;
-    s.myCoordinate = ptRoot;
+    s.myCoordinate = Point2D(0,myRsupp);//ptRoot;
     s.myLength = 0;
     s.myIndex = 0;
     myVectSegments.push_back(s);
     myVectParent.push_back(0); //if parent index is itsef it is the root (special segment of length 0).
     myVectChildren.push_back(std::pair<unsigned int, unsigned int>(0,0)); // if children index is itself, it is an end segment.
-    my_rPerf = (ptRoot-myTreeCenter).norm();
+    my_rPerf = myRsupp;//(ptRoot-myTreeCenter).norm();
     // Construction of the first segment after the root
     Segment<Point2D> s1;
     s1.myRadius = aRadius;
@@ -156,6 +159,7 @@ public:
     s1.myLength = (ptRoot-pTerm).norm();
     s1.myIndex = 1;
     myVectSegments.push_back(s1);
+    myVectTerminals.push_back(1);
     myVectParent.push_back(0); //if parent index is the root
     myVectChildren.push_back(std::pair<unsigned int, unsigned int>(0,0)); // if children index is itself, it is an end segment.
     DGtal::trace.info() << "Construction initialized..." << std::endl;
@@ -218,7 +222,7 @@ public:
   double dProjCalculation(const Point2D &p,unsigned int Index );
   double dCritCalculation(const Point2D &p,unsigned int Index );
   Point2D FindBarycenter(const Point2D &p, unsigned int index);
-  bool updateTreshold();
+  void updateTreshold();
   double GetLength(unsigned int Index);
   bool updateRadius();
   bool updateRadius2(unsigned int index );
@@ -230,13 +234,23 @@ public:
   Point2D fromCircleToImage(std::string fileName, double x, double y, int xdim,int ydim );
   Point2D fromImageToCircle(int ximage,int yimage,int xdim,int ydim);
   
-  
+  /// New from updating code... (BK+PN)
   /**
    * From a segment returns a vector of segment index representing the path to the root.
    */
   std::vector<unsigned int> getPathToRoot(const Segment<Point2D> &s);
   
+  void udpatePerfusionArea();
   
+  /**
+   * Generate a new location with distance constraints.
+   * @param nbTrials: number of trials before reducing the distance constaint value
+   *
+   **/
+  Point2D generateNewLocation(unsigned int nbTrials = 1000);
+
+  std::pair<Point2D, bool> generateALocation();
+
   
   bool hasIntersections(Segment<CoronaryArteryTree::Point2D> S1, Point2D newPoint);
   /**
