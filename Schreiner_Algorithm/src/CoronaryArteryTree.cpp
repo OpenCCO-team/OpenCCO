@@ -203,12 +203,12 @@ CoronaryArteryTree::getParentSegment(const Segment<Point2D> &s){
 }
 
 unsigned int
-CoronaryArteryTree::getDaughterLeft(const Segment<Point2D> &s){
+CoronaryArteryTree::getLeftChild(const Segment<Point2D> &s){
   return myVectChildren[s.myIndex].first;
 }
 
 unsigned int
-CoronaryArteryTree::getDaughterRigth(const Segment<Point2D> &s){
+CoronaryArteryTree::getRightChild(const Segment<Point2D> &s){
   return myVectChildren[s.myIndex].second;
 }
 
@@ -226,7 +226,18 @@ CoronaryArteryTree::compDistCriteria(const Point2D &p, unsigned int indexNode)
   return std::min((p-pDist).norm(), (p-pProxi).norm());
 }
 
-
+std::vector<unsigned int>
+CoronaryArteryTree::getPathToRoot(const Segment<Point2D> &s)
+{
+  std::vector<unsigned int> res;
+  Segment<Point2D> sC = s;
+  while (sC.myIndex != 0){
+    res.push_back(sC.myIndex);
+    sC = myVectSegments[ myVectParent[sC.myIndex]];
+  }
+  return res;
+  
+}
 
 
 void
@@ -362,9 +373,9 @@ CoronaryArteryTree::updateRadius2(unsigned int index )
   parent = myVectSegments[myVectParent[index]];
   
   
-  myVectSegments[getDaughterLeft(parent)].myRadius = sqrt(1*my_qTerm/(M_PI*GetLength(getDaughterLeft(parent))));
+  myVectSegments[getLeftChild(parent)].myRadius = sqrt(1*my_qTerm/(M_PI*GetLength(getLeftChild(parent))));
   
-  myVectSegments[getDaughterRigth(parent)].myRadius = sqrt((1+1-1)*my_qTerm/(M_PI*GetLength(getDaughterRigth(parent))));
+  myVectSegments[getRightChild(parent)].myRadius = sqrt((1+1-1)*my_qTerm/(M_PI*GetLength(getRightChild(parent))));
   // Now, we need to change the parents according to the Bifurcation rule;
   
   

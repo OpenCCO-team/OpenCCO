@@ -205,8 +205,8 @@ public:
   unsigned int getNearestSegment(const Point2D &pt);
   
   unsigned int getParentSegment(const Segment<Point2D> &s);
-  unsigned int getDaughterLeft(const Segment<Point2D> &s);
-  unsigned int getDaughterRigth(const Segment<Point2D> &s);
+  unsigned int getLeftChild(const Segment<Point2D> &s);
+  unsigned int getRightChild(const Segment<Point2D> &s);
   bool addSegment(const Point2D &NewPoint,const Point2D &OptimizePoint, unsigned int nearIndex);
   /**
    * Computes the distance criteria (d_crit) computed from the orthogonal projection or distance to end point.
@@ -231,6 +231,14 @@ public:
   //    double FindEdge(int xDim, int yDim);
   Point2D fromCircleToImage(std::string fileName, double x, double y, int xdim,int ydim );
   Point2D fromImageToCircle(int ximage,int yimage,int xdim,int ydim);
+  
+  
+  /**
+   * From a segment returns a vector of segment index representing the path to the root.
+   */
+  std::vector<unsigned int> getPathToRoot(const Segment<Point2D> &s);
+  
+  
   
   bool hasIntersections(Segment<CoronaryArteryTree::Point2D> S1, Point2D newPoint);
   /**

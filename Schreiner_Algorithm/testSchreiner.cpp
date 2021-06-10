@@ -87,7 +87,7 @@ int main(int argc, char *const *argv)
   srand (time(NULL));
   CoronaryArteryTree cRand (DGtal::Z2i::RealPoint(0, 250), 2000, 1);
   
-  for (unsigned int i = 0; i < 5000; i++){
+  for (unsigned int i = 0; i < 1000; i++){
     CoronaryArteryTree::Point2D pt = generateRandomPtOnDisk(cRand.myTreeCenter, cRand.my_rPerf);
     
     nearest = cRand.getNearestSegment(pt);
@@ -101,6 +101,23 @@ int main(int argc, char *const *argv)
   cRand.exportBoardDisplay("toto.eps", false);
   DGtal::trace.endBlock();
   
+  DGtal::trace.beginBlock("Testing class CoronaryArteryTree: test random adds");
+  std::vector<unsigned int> v = c.getPathToRoot(c.myVectSegments[c.myVectSegments.size()-2]);
+  c.myBoard.setLineWidth(20.0);
+  c.myBoard.setPenColor(DGtal::Color::Yellow);
+  c.myBoard.setFillColor(DGtal::Color::Yellow);
+
+  for (unsigned int u : v){
+    auto seg = c.myVectSegments[u];
+    auto seg2 = c.myVectSegments[c.myVectParent[seg.myIndex]];
+    c.myBoard.drawLine(seg.myCoordinate[0], seg.myCoordinate[1],
+                       seg2.myCoordinate[0], seg2.myCoordinate[1], 0);
+  }
+  c.exportBoardDisplay("testBase5.svg", false);
+  c.exportBoardDisplay("testBase5.eps", false);
+
+  DGtal::trace.endBlock();
+
   
   
   return EXIT_SUCCESS;
