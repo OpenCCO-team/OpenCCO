@@ -16,14 +16,30 @@
 #define GEOMHELPERS_h
 
 
+//template<typename TPoint>
+//inline
+//TPoint
+//generateRandomPtOnDisk(const TPoint &ptCenter, double r)
+//{
+//  double a = (rand()%360)/(2.0*M_PI);
+//  double rR = ((double)rand() / RAND_MAX)*r;
+//  return TPoint(ptCenter[0]+rR*cos(a), ptCenter[1]+rR*sin(a));
+//}
 template<typename TPoint>
 inline
 TPoint
 generateRandomPtOnDisk(const TPoint &ptCenter, double r)
 {
-  double a = (rand()%360)/(2.0*M_PI);
-  double rR = ((double)rand() / RAND_MAX)*r;
-  return TPoint(ptCenter[0]+rR*cos(a), ptCenter[1]+rR*sin(a));
+  bool found = false;
+  double x = 0.0;
+  double y = 0.0;
+
+  while(!found){
+    x =  ((double)rand() / RAND_MAX)*2.0*r - r;
+    y =  ((double)rand() / RAND_MAX)*2.0*r - r;
+    found = x*x + y*y < r*r;
+  }
+  return TPoint(x+ptCenter[0], y+ptCenter[1]);
 }
 
 

@@ -122,7 +122,8 @@ CoronaryArteryTree::boardDisplay(bool clearDisplay)
     Point2D distal = s.myCoordinate;
     Point2D proxital = myVectSegments[myVectParent[s.myIndex]].myCoordinate;
     myBoard.setLineWidth(myVectSegments[s.myIndex].myRadius*57.5);
-    myBoard.setPenColor(cmap_grad(i));
+ //   myBoard.setPenColor(cmap_grad(i));
+    myBoard.setPenColor(DGtal::Color::Gray);
     myBoard.drawLine(distal[0], distal[1], proxital[0], proxital[1],2);
     //      std::cout << " myRsupp Value = "<< myRsupp<<std::endl;
     myBoard.setLineWidth(1.0);
@@ -267,6 +268,7 @@ CoronaryArteryTree::generateNewLocation(unsigned int nbTrials){
   return res;
 }
 
+
 std::pair<CoronaryArteryTree::Point2D, bool>
 CoronaryArteryTree::generateALocation() {
   Point2D res;
@@ -281,6 +283,34 @@ CoronaryArteryTree::generateALocation() {
   return  std::pair<Point2D, bool> {res, isComp};
 }
 
+double
+CoronaryArteryTree::getDistance(unsigned int index,
+                                const Point2D &p ) const {
+  return (myVectSegments[index].myCoordinate-p).norm();
+}
+
+
+std::vector<unsigned int>
+CoronaryArteryTree::getN_NearestSegments(const Point2D &p, unsigned int n) const {
+  std::vector<unsigned int> res;
+  res.push_back(1);
+  for (unsigned int i=2; i < myVectSegments.size(); i++){
+    double d = getDistance(i, p);
+    std::vector<unsigned int>::iterator it = res.end();
+    int k = (int)(res.size())-1;
+    while (getDistance(res[k], p)>=d && k < (int)(res.size())-1){
+      k--;
+      it--;
+    }
+    if (k != (int)(res.size())-1 || res.size() < n){
+      res.insert(it, i);
+      if (res.size() > n){
+        res.pop_back();
+      }
+    }
+  }
+  return res;
+}
 
 
 

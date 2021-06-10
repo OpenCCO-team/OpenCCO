@@ -246,11 +246,27 @@ public:
    * Generate a new location with distance constraints.
    * @param nbTrials: number of trials before reducing the distance constaint value
    *
-   **/
+   */
   Point2D generateNewLocation(unsigned int nbTrials = 1000);
 
   std::pair<Point2D, bool> generateALocation();
 
+  /**
+   * Computes the n nearest index of neighborhood segments  of a given point
+   * @param p : the point considered to get the nearest point
+   * @param n : the number of nearest point to be recovered
+   */
+  
+  std::vector<unsigned int> getN_NearestSegments(const Point2D &p,
+                                                 unsigned int n) const;
+  /**
+   * Computes the distance from and the segment represented with the index  and the point given as argument.
+   * @param index : the index of the segement used for the comparison
+
+   */
+ 
+  double getDistance(unsigned int index, const Point2D &p ) const;
+  
   
   bool hasIntersections(Segment<CoronaryArteryTree::Point2D> S1, Point2D newPoint);
   /**

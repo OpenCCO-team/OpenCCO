@@ -137,5 +137,19 @@ int main(int argc, char *const *argv)
   cRand2.exportBoardDisplay("testRandomAdd2.eps", true);
   
   DGtal::trace.endBlock();
+  
+  DGtal::trace.beginBlock("Testing class CoronaryArteryTree: test get nearest neighbordhood");
+  std::vector<unsigned int > nNearest = cRand2.getN_NearestSegments(CoronaryArteryTree::Point2D(0,0),
+                                                                    5);
+  DGtal::trace.info() << "Nearest size() :" << nNearest.size() << std::endl;
+  for (unsigned int i = 0; i < nNearest.size(); i++) {
+    DGtal::trace.info() << "Nearest elem :" << nNearest[i] << " "
+                 << cRand2.myVectSegments[nNearest[i]].myCoordinate << " "
+                 <<"distance: " << (cRand2.myVectSegments[nNearest[i]].myCoordinate - CoronaryArteryTree::Point2D(0,0)).norm()<<   std::endl;
+  }
+
+  DGtal::trace.endBlock();
+
+  
   return EXIT_SUCCESS;
 }
