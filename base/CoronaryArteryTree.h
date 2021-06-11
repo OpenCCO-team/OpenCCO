@@ -18,6 +18,14 @@
 #include "geomhelpers.h"
 
 
+#include "ceres/ceres.h"
+using ceres::AutoDiffCostFunction;
+using ceres::CostFunction;
+using ceres::Problem;
+using ceres::Solve;
+using ceres::Solver;
+
+
 ///////////////////////////////////////////////////////////////////////////////
 // class CoronaryArteryTree
 /**
@@ -226,8 +234,6 @@ public:
   double GetLength(unsigned int Index);
   bool updateRadius();
   bool updateRadius2(unsigned int index );
-  Point2D FindOptimalPosition(unsigned int Index,const Point2D &p);
-  int FindOptimalSegment(const Point2D &p);
   double FindXmax(int xDim, int yDim);
   double FindYmax(int xDim, int yDim);
   int AddFirstSegmentonImage();
@@ -274,6 +280,13 @@ public:
    * @param out  the object of class 'GeodesicGraphComputer' to write.
    */
   void selfDisplay( std::ostream & out ) const;
+  
+  
+  /**
+   * @param index: the segment index
+   */
+  void kamyiaOptimization(unsigned int index);
+  
   
 };
 

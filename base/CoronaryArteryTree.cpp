@@ -293,36 +293,30 @@ CoronaryArteryTree::getDistance(unsigned int index,
 std::vector<unsigned int>
 CoronaryArteryTree::getN_NearestSegments(const Point2D &p, unsigned int n) const {
   std::vector<unsigned int> res;
-  std::vector<double> dis;
-  
   res.push_back(1);
-  dis.push_back(getDistance(1, p));
   for (unsigned int i=2; i < myVectSegments.size(); i++){
     double d = getDistance(i, p);
     std::vector<unsigned int>::iterator it = res.end();
-    std::vector<double>::iterator itD = dis.end();
-
     int k = (int)(res.size())-1;
     while ( k >= 0 && getDistance(res[k], p)>=d ){
       k--;
       it--;
-      itD--;
     }
     res.insert(it, i);
-    dis.insert(itD, d);
     if (res.size() > n){
       res.pop_back();
-      dis.pop_back();
     }
-    for(auto i: dis){
-      DGtal::trace.info() << "dist:" << i << std::endl;
-    }
-    DGtal::trace.info() << "----------"<< std::endl;
-
   }
-  
-
   return res;
+}
+
+
+
+void
+CoronaryArteryTree::kamyiaOptimization(unsigned int index){
+  
+  
+  
 }
 
 
@@ -478,72 +472,6 @@ CoronaryArteryTree::GetLength(unsigned int Index)
 }
 
 
-CoronaryArteryTree::Point2D
-CoronaryArteryTree::FindOptimalPosition(unsigned int Index,const Point2D &p)
-{
-  // We have to find the best postion, without drawing any new segment.
-  
-  //First, we have 3 points: p, the end of the Index segment, and the end of his father
-  
-  double totalVolume;
-  Point2D first_point=p; // This is the point to add
-  Point2D second_point=myVectSegments[Index].myCoordinate; // This is the future parent of the new point
-  Point2D third_point=myVectSegments[myVectParent[Index]].myCoordinate;// This is the parent of the segment on which we want to connect the point
-  
-  Point2D OptimalPosition= getSegmentCenter(Index); // We initialiaze the gradient descent with this point, it's the segment center.
-  
-  double H1,H2,H3;
-  H1= sqrt(pow((first_point[0]-OptimalPosition[0]),2) + pow(first_point[1]-OptimalPosition[1],2));
-  H2= sqrt(pow((second_point[0]-OptimalPosition[0]),2) + pow(second_point[1]-OptimalPosition[1],2));
-  H3= sqrt(pow((third_point[0]-OptimalPosition[0]),2) + pow(third_point[1]-OptimalPosition[1],2));
-  
-  //    totalVolume = M_PI*myVectSegments[Index].radius*myVectSegments[Index].radius*H +
-  //    M_PI*myVectSegments[myVectParent[nearIndex]].radius*myVectSegments[myVectParent[nearIndex]].radius*H
-  //    +M_PI*myVectSegments[Index].radius*myVectSegments[Index].radius*H
-  totalVolume = M_PI*H1 + M_PI*H2+M_PI*H3;
-  //
-  double xnew;
-  double ynew;
-  xnew=OptimalPosition[0];
-  ynew=OptimalPosition[1];
-  double VolumeXDerivative=M_PI*(2*(xnew - first_point[0])* (1/(2*(sqrt(pow((first_point[0]-xnew),2) +pow(first_point[1]-ynew,2))))))
-  + M_PI*(2*(xnew - second_point[0])* (1/(2*(sqrt(pow((second_point[0]-xnew),2) + pow(second_point[1]-ynew,2))))))
-  + M_PI*(2*(xnew - third_point[0])* (1/(2*(sqrt(pow((third_point[0]-xnew),2) + pow(third_point[1]-ynew,2))))));
-  
-  double VolumeYDerivative=M_PI*(2*(ynew - first_point[1])* (1/(2*(sqrt(pow((first_point[0]-xnew),2) +pow(first_point[1]-ynew,2))))))
-  + M_PI*(2*(ynew - second_point[1])* (1/(2*(sqrt(pow((second_point[0]-xnew),2) + pow(second_point[1]-ynew,2))))))
-  + M_PI*(2*(ynew - third_point[1])* (1/(2*(sqrt(pow((third_point[0]-xnew),2) + pow(third_point[1]-ynew,2))))));
-  
-  
-  // We have the value of the derivative in X and Y
-  double alpha=0.0001;
-  int nb_itarations=0;
-  double grad = 1000;
-  double grad2 = 1000;
-  
-  //&& nb_itarations<1000
-  //    std::cout << "bool value is " <<(abs(grad-abs(pow(pow(VolumeYDerivative,2)+pow(VolumeXDerivative,2),0.5)) )<0.001) <<std::endl;
-  while(abs(pow(pow(VolumeYDerivative,2)+pow(VolumeXDerivative,2),0.5)) > 0.5 && abs(grad -abs(pow(pow(VolumeYDerivative,2)+pow(VolumeXDerivative,2),0.5)))>0.0001 ){
-    nb_itarations++;
-    double dxH1,dxH2,dxH3,dyH1,dyH2,dyH3;
-    H1= sqrt(pow((first_point[0]-xnew),2) + pow(first_point[1]-ynew,2));
-    H2= sqrt(pow((second_point[0]-xnew),2) + pow(second_point[1]-ynew,2));
-    H3= sqrt(pow((third_point[0]-xnew),2) + pow(third_point[1]-ynew,2));
-    
-    
-    
-    xnew= xnew -  alpha*VolumeXDerivative;
-    ynew= ynew - alpha*VolumeYDerivative;
-    
-    
-    totalVolume = M_PI*H1 + M_PI*H2+M_PI*H3;
-    grad2=abs(pow(pow(VolumeYDerivative,2)+pow(VolumeXDerivative,2),0.5));
-    
-  }
-  Point2D newpoint(xnew,ynew);
-  std::cout << " il y a eu " << nb_itarations << " iterations "<<std::endl;
-  return newpoint;
-}
 
 double
 CoronaryArteryTree::GetTotalVolume(const Point2D &p1,const Point2D &p2,const Point2D &p3,const Point2D &pOpti)
@@ -599,39 +527,6 @@ CoronaryArteryTree::FindBarycenter(const Point2D &p, unsigned int index)
   return barycenter;
 }
 
-
-int
-CoronaryArteryTree::FindOptimalSegment(const Point2D &p)
-{
-  double Volume_min=1000000;
-  int Index_Opti;
-  DGtal::Z2i::RealPoint FinalPosition;
-  
-  for (auto s : myVectSegments)
-  {
-    DGtal::Z2i::RealPoint OptimalPosition;
-    OptimalPosition = FindBarycenter(p,s.myIndex);
-    
-    if(compDistCriteria(p, s.myIndex) > myDThresold){
-      
-      if(Volume_min>GetTotalVolume( s.myCoordinate, myVectSegments[myVectParent[s.myIndex]].myCoordinate, p,OptimalPosition )&& s.myIndex >0 )
-      {
-        
-        Volume_min =GetTotalVolume(s.myCoordinate, myVectSegments[myVectParent[s.myIndex]].myCoordinate, p,OptimalPosition );
-        Index_Opti= s.myIndex;
-        
-        
-      }
-    }
-    else
-    {
-      return -1;
-    }
-    
-  }
-  //    cout << " we return " << Index_Opti<<endl;
-  return Index_Opti;
-}
 
 int
 CoronaryArteryTree::AddFirstSegmentonImage()

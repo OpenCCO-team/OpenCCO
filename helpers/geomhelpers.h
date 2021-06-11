@@ -3,6 +3,15 @@
 #include "DGtal/images/ImageContainerBySTLVector.h"
 
 
+#include "ceres/ceres.h"
+using ceres::AutoDiffCostFunction;
+using ceres::CostFunction;
+using ceres::Problem;
+using ceres::Solve;
+using ceres::Solver;
+
+
+
 #pragma once
  
 #if defined(GEOMHELPERS_RECURSES)
@@ -168,6 +177,59 @@ hasIntersection(const TPoint &seg1ptA, const TPoint &seg1ptB,
    // Get the intersection point.
    //intersection.x_ = begin_.x_ + ua*(end_.x_ - begin_.x_);
    //intersection.y_ = begin_.y_ + ua*(end_.y_ - begin_.y_);     
+}
+
+
+
+struct CostOptPos {
+  double deltap1;
+  double deltap2;
+  double f0;
+  double f1;
+  double f2;
+  double l0;
+  double l1;
+  double l2;
+  
+  template <typename T>
+  bool operator()(const T* const x1, const T* const x2, T* residual) const {
+    residual[0] =  deltap1*x1[0]*x1[0]*pow((f0*(((x1[0]*x1[0]*x1[0])/f1)+(x2[0]*x2[0]*x2[0])/f2)), 2.0/3.0)
+    - (f0*l0*x1[0]*x1[0]) - f1 * l1 * pow(f0*((x1[0]*x1[0]*x1[0]/f1)+(x2[0]*x2[0]*x2[0])/f2), 2.0/3.0);
+    residual[1] =  deltap2*x2[0]*x2[0]*pow((f0*(((x1[0]*x1[0]*x1[0])/f1)+(x2[0]*x2[0]*x2[0])/f2)), 2.0/3.0)
+    - (f0*l0*x2[0]*x2[0]) - f2 * l2 * pow(f0*((x1[0]*x1[0]*x1[0]/f1)+(x2[0]*x2[0]*x2[0])/f2), 2.0/3.0);
+    
+    return true;
+  }
+};
+
+
+
+static void kamiyaOpt(double deltaP1, double deltaP2, double f0, double f1, double f2, double l0, double l1, double l2, double &xx1, double &xx2) {
+  CostOptPos *f = new CostOptPos();
+  f->deltap1 = deltaP1;
+  f->deltap2 = deltaP2;
+  f->f0 = f0;
+  f->f1 = f1;
+  f->f2 = f2;
+  f->l0 = l0;
+  f->l1 = l1;
+  f->l2 = l2;
+  
+  
+  // const double initial_x = x;
+  // Build the problem.
+  Problem problem;
+  // Set up the only cost function (also known as residual). This uses
+  // auto-differentiation to obtain the derivative (jacobian).
+  CostFunction* cost_function =
+  new AutoDiffCostFunction<CostOptPos, 2, 1, 1>(f);
+  problem.AddResidualBlock(cost_function, nullptr, &xx1, &xx2);
+  // Run the solver!
+  Solver::Options options;
+  options.minimizer_progress_to_stdout = false;
+  Solver::Summary summary;
+  Solve(options, &problem, &summary);
+  //std::cout << summary.BriefReport() << "\n";
 }
 
 
