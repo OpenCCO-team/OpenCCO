@@ -370,8 +370,10 @@ CoronaryArteryTree::kamyiaOptimization(unsigned int index,
   }
   
 
-  myVectSegments[myVectParent[index]].myCoordinate[0] = pb[0];
-  myVectSegments[myVectParent[index]].myCoordinate[1] = pb[1];
+  //myVectSegments[myVectParent[index]].myCoordinate[0] = pb[0];
+  //myVectSegments[myVectParent[index]].myCoordinate[1] = pb[1];
+  myVectSegments[index].myCoordinate[0] = pb[0];
+  myVectSegments[index].myCoordinate[1] = pb[1];
 
 }
 
