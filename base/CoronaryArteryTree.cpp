@@ -313,10 +313,66 @@ CoronaryArteryTree::getN_NearestSegments(const Point2D &p, unsigned int n) const
 
 
 void
-CoronaryArteryTree::kamyiaOptimization(unsigned int index){
+CoronaryArteryTree::kamyiaOptimization(unsigned int index,
+                                       unsigned int nbIter){
+  
+  // Prepare
+  Segment<Point2D> sParent = myVectSegments[myVectParent[index]];
+  Segment<Point2D> sL = myVectSegments[myVectChildren[index].first];
+  Segment<Point2D> sR = myVectSegments[myVectChildren[index].second];
+  
+  DGtal::Z2i::RealPoint pParent = sParent.myCoordinate;
+  DGtal::Z2i::RealPoint pL = sL.myCoordinate;
+  DGtal::Z2i::RealPoint pR = sR.myCoordinate;
   
   
+  double r0 = sParent.myRadius;
+  double r1 = sParent.myRadius;
+  double r2 = sParent.myRadius;
   
+  double f0 =  r0*r0*r0;
+  double f1 = 0.5*f0;//k * r1*r1*r1;
+  double f2 = (1.0-0.5)*f0;//k * r2*r2*r2;
+  // Starting position from Equation (21) for initialisation as mentionned page 11 [Clara Jaquet et HT]
+  //DGtal::Z2i::RealPoint pb ((f0*pParent[0]+f1*pL[0]+f2*pR[0])/(f0+f1+f2), (f0*pParent[1]+f1*pL[1]+f2*pR[1])/(f0+f1+f2));
+  DGtal::Z2i::RealPoint pb ((f0*pParent[0]+f1*pL[0]+f2*pR[0])/(2.0*f0), (f0*pParent[1]+f1*pL[1]+f2*pR[1])/(2.0*f0));
+  std::cout<<"Init:"<<pb<<std::endl;
+  double l0 = (pParent - pb).norm();
+  double l1 = (pL - pb).norm();
+  double l2 = (pR - pb).norm();
+  std::cout<<"l0="<<l0<<", l1="<<l1<<", l2="<<l2<<std::endl;
+  double deltaP1 = (f0*l0)/(r0*r0)+(f1*l1)/(r1*r1);
+  double deltaP2 = (f0*l0)/(r0*r0)+(f2*l2)/(r2*r2);
+  
+  double rr1 = sParent.myRadius;
+  double rr2 = sParent.myRadius;
+  // The variable to solve for with its initial value. It will be
+  // mutated in place by the solver.
+  DGtal::Z2i::RealPoint pbInit ((f0*pParent[0]+f1*pL[0]+f2*pR[0])/(2.0*f0), (f0*pParent[1]+f1*pL[1]+f2*pR[1])/(2.0*f0));
+  DGtal::trace.info() << pbInit << std::endl;
+  
+  for (int i = 0; i< nbIter; i++){
+    DGtal::trace.progressBar(i, nbIter);
+    l0 = (pParent - pb).norm();
+    l1 = (pL - pb).norm();
+    l2 = (pR - pb).norm();
+    
+    kamiyaOpt(deltaP1, deltaP2, f0, f1, f2, l0, l1, l2, rr1, rr2);
+    //Equation 27
+    r0 = pow(f0*(pow(rr1, my_gamma)/f1 + pow(rr2, my_gamma)/f2), 1.0/my_gamma);
+    // Equation (26) page 13
+    pb[0] = (pParent[0]*r0/l0 + pL[0]*r1/l1 + pR[0]*r2/l2)/(r0/l0+r1/l1+r2/l2);
+    pb[1] = (pParent[1]*r0/l0 + pL[1]*r1/l1 + pR[1]*r2/l2)/(r0/l0+r1/l1+r2/l2);
+    deltaP1 = (f0*l0)/(r0*r0)+(f1*l1)/(r1*r1);
+    deltaP2 = (f0*l0)/(r0*r0)+(f2*l2)/(r2*r2);
+    std::cout << "xpL[0] : " << rr1 << " and xpR[0] " << rr2 << " r0 " << r0 << "\n";
+    std::cout << "pbNew[0]  : " << pb[0] << " and pbNew[1] " << pb[1] << "\n";
+  }
+  
+
+  myVectSegments[myVectParent[index]].myCoordinate[0] = pb[0];
+  myVectSegments[myVectParent[index]].myCoordinate[1] = pb[1];
+
 }
 
 

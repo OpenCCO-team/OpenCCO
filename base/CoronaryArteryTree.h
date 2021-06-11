@@ -90,7 +90,7 @@ public:
   double my_qTerm = 1000;
   
   // my_gamma: bifurcation exponent (2.10-3.0)
-  double my_gamma = 2.10;
+  double my_gamma = 3.0;
   
   // my_aPerf: Perfusion area
   double my_aPerf =10000;
@@ -285,7 +285,7 @@ public:
   /**
    * @param index: the segment index
    */
-  void kamyiaOptimization(unsigned int index);
+  void kamyiaOptimization(unsigned int index, unsigned int nbIter = 100);
   
   
 };
