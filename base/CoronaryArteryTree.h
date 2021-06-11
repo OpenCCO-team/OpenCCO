@@ -57,6 +57,18 @@ public:
     double myRadius = 1.0;
     // length of the tubular section.
     double myLength = 0.0;
+    
+    // number of terminal segments at the segment
+    unsigned int myKTerm = 0;
+    // hydrodynamc registance (R star)
+    double myHydroResistance = 0.00;
+    // flow (Qi)
+    double myFlow = 0.00;
+    // radius ratio of the segment and his brother (ri/rj)
+    double myRaidusRatio = 1.0;
+    // radius ratio of the segment and its parent
+    double beta = 1.0;
+    
   };
   
   // to recover the Children left (first) and right (second) on an indexed segment.
@@ -91,6 +103,9 @@ public:
   
   // my_gamma: bifurcation exponent (2.10-3.0)
   double my_gamma = 3.0;
+  
+  // my_mu: viscosity of blood
+  double my_mu = 3.6;
   
   // my_aPerf: Perfusion area
   double my_aPerf =10000;
@@ -144,6 +159,7 @@ public:
      
     myTreeCenter = Point2D(0,0);
     myRsupp = sqrt((aPerf/nTerm)/M_PI);
+    my_rPerf = myRsupp;
     my_aPerf = aPerf;
     my_NTerm = nTerm;
     myDThresold = sqrt(M_PI*myRsupp*myRsupp/myKTerm);
@@ -156,16 +172,23 @@ public:
     s.myCoordinate = Point2D(0,myRsupp);//ptRoot;
     s.myLength = 0;
     s.myIndex = 0;
+    s.myKTerm = 0;
     myVectSegments.push_back(s);
     myVectParent.push_back(0); //if parent index is itsef it is the root (special segment of length 0).
     myVectChildren.push_back(std::pair<unsigned int, unsigned int>(0,0)); // if children index is itself, it is an end segment.
-    my_rPerf = myRsupp;//(ptRoot-myTreeCenter).norm();
+    
     // Construction of the first segment after the root
     Segment<Point2D> s1;
     s1.myRadius = aRadius;
     s1.myCoordinate = pTerm;
     s1.myLength = (ptRoot-pTerm).norm();
     s1.myIndex = 1;
+    s1.myKTerm = 1; //it contains terminal itself
+    s1.myHydroResistance = 8.0*my_mu*s1.myLength/M_PI;
+    s1.myFlow = my_qTerm;
+    s1.myRaidusRatio = 0.0;
+    s1.beta = 1.0;
+    
     myVectSegments.push_back(s1);
     myVectTerminals.push_back(1);
     myVectParent.push_back(0); //if parent index is the root
