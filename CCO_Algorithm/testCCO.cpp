@@ -18,11 +18,9 @@ int main(int argc, char *const *argv)
 
   DGtal::trace.beginBlock("Testing class CoronaryArteryTree: test random adds with distance constraint");
   srand (time(NULL));
-  CoronaryArteryTree cTree (DGtal::Z2i::RealPoint(0, 250), 200000, 100);
-  cTree.exportBoardDisplay("testCCO0.eps", true);
-  cTree.myBoard.clear();
+  CoronaryArteryTree cTree (DGtal::Z2i::RealPoint(0, 250), 2000000, 100);
   
-  unsigned int nbSeed = 20;
+  unsigned int nbSeed = 100;
   for (unsigned int i = 0; i < nbSeed; i++){
     DGtal::trace.progressBar(i, nbSeed);
     CoronaryArteryTree::Point2D pt = cTree.generateNewLocation(100);
@@ -35,7 +33,7 @@ int main(int argc, char *const *argv)
   cTree.exportBoardDisplay("testCCO1.eps", true);
   cTree.myBoard.clear();
   
-  unsigned int idSeg = 2;
+  unsigned int idSeg = nbSeed - 1;
   unsigned int idTarget = cTree.myVectParent[idSeg];
   
   cTree.myBoard.setPenColor(DGtal::Color::Green);

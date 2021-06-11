@@ -69,12 +69,13 @@ CoronaryArteryTree::addSegmentFromPoint(const Point2D &p,
   //update childrens of center segment
   myVectChildren[nearIndex].first = sNewLeft.myIndex;
   myVectChildren[nearIndex].second = sNewRight.myIndex;
-  /*
-  // Update physiloigique paramaters
+  
+  // Update physilogique paramaters
   // For the new right child segment
   // Update resistance at right segment
   sNewRight.myHydroResistance = 8.0*my_mu*sNewRight.myLength/M_PI;
   // Update radius ration of the right segment (a terminal segment)
+  sNewLeft.myFlow = myVectSegments[nearIndex].myFlow; // assume the flow of the left seg = center flow ?!
   sNewRight.myRaidusRatio = pow((sNewRight.myFlow*sNewRight.myHydroResistance)/(sNewLeft.myFlow*sNewLeft.myHydroResistance),0.25);
   // Update beta coefficent of right segment
   sNewRight.beta = pow(1.0 + 1.0/pow(sNewRight.myRaidusRatio,3),-1.0/3.0);
@@ -99,20 +100,17 @@ CoronaryArteryTree::addSegmentFromPoint(const Point2D &p,
   // Update resistance at center segment
   double r1 = (sNewLeft.myRadius/myVectSegments[nearIndex].myRadius);
   double r2 = (sNewRight.myRadius/myVectSegments[nearIndex].myRadius);
-  sNewLeft.myHydroResistance += 1.0/((r1*r1*r1*r1)/sNewLeft.myHydroResistance + (r2*r2*r2*r2)/sNewRight.myHydroResistance) ;
-  // Update flow at the center segment
-  sNewLeft.myFlow = myVectSegments[nearIndex].myFlow;
-  myVectSegments.push_back(sNewLeft);
-  myVectChildren.push_back(std::pair<unsigned int, unsigned int>(0,0));
-  myVectParent.push_back(nearIndex);
-  // Increse the number k term of the center segment
+  myVectSegments[nearIndex].myHydroResistance = 8.0*my_mu*myVectSegments[nearIndex].myLength/M_PI;
+  myVectSegments[nearIndex].myHydroResistance += 1.0/((r1*r1*r1*r1)/sNewLeft.myHydroResistance + (r2*r2*r2*r2)/sNewRight.myHydroResistance) ;
+  
+  // Increase the number k term of the center segment
   myVectSegments[nearIndex].myKTerm++;
   
   //TODO: path to root and update hydro resitance + myRaidusRatio + beta for all parent segment along the path (similar as center segment) except the root segment
   //TODO: then opt with volume of the
   
   //TODO: Center segment
-  */
+  
   myKTerm++;
   
   return true;
