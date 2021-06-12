@@ -18,9 +18,10 @@ int main(int argc, char *const *argv)
 
   DGtal::trace.beginBlock("Testing class CoronaryArteryTree: test random adds with distance constraint");
   srand (time(NULL));
-  CoronaryArteryTree cTree (DGtal::Z2i::RealPoint(0, 250), 2000000, 100);
+  DGtal::Z2i::RealPoint pRoot;
+  CoronaryArteryTree cTree (pRoot, 2000000, 100);
   
-  unsigned int nbSeed = 100;
+  unsigned int nbSeed = 50;
   for (unsigned int i = 0; i < nbSeed; i++){
     DGtal::trace.progressBar(i, nbSeed);
     CoronaryArteryTree::Point2D pt = cTree.generateNewLocation(100);

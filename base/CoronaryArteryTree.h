@@ -154,7 +154,7 @@ public:
    * @param nTerm: number of terminal segments.
    **/
   
-  CoronaryArteryTree(const Point2D &ptRoot, double aPerf, unsigned int nTerm,
+  CoronaryArteryTree(Point2D &ptRoot, double aPerf, unsigned int nTerm,
                      double aRadius = 1.0 ){
      
     myTreeCenter = Point2D(0,0);
@@ -167,9 +167,10 @@ public:
     Point2D pTerm = generateRandomPtOnDisk(myTreeCenter, myRsupp);
     
     // Construction of the special root segment
+    ptRoot = Point2D(0,myRsupp);
     Segment<Point2D> s;
     s.myRadius = aRadius;
-    s.myCoordinate = Point2D(0,myRsupp);//ptRoot;
+    s.myCoordinate = ptRoot;
     s.myLength = 0;
     s.myIndex = 0;
     s.myKTerm = 0;
@@ -180,8 +181,8 @@ public:
     // Construction of the first segment after the root
     Segment<Point2D> s1;
     s1.myRadius = aRadius;
-    s1.myCoordinate = pTerm;
-    s1.myLength = (ptRoot-pTerm).norm();
+    s1.myCoordinate = pTerm; //myTreeCenter
+    s1.myLength = (ptRoot-pTerm).norm(); //(ptRoot-myTreeCenter).norm();
     s1.myIndex = 1;
     s1.myKTerm = 1; //it contains terminal itself
     s1.myHydroResistance = 8.0*my_mu*s1.myLength/M_PI;

@@ -387,10 +387,10 @@ CoronaryArteryTree::kamyiaOptimization(unsigned int index,
   DGtal::Z2i::RealPoint pL = sL.myCoordinate;
   DGtal::Z2i::RealPoint pR = sR.myCoordinate;
   
-  std::cout<<"sParent.myFlow="<<sParent.myFlow<<" and my_qTerm="<<my_qTerm<<std::endl;
-  std::cout<<"sParent.myRaidusRatio="<<sParent.myRaidusRatio<<std::endl;
-  double ratioQ = 0.5;//sParent.myFlow/my_qTerm;// sParent.myRaidusRatio
-  double r0 = sParent.myRadius;
+  std::cout<<"myFlow="<< myVectSegments[index].myFlow<<" and sL.myFlow="<<sL.myFlow<<" and sR.myFlow="<<sR.myFlow<<std::endl;
+  std::cout<<"ratioQ="<< sL.myFlow/myVectSegments[index].myFlow<<std::endl;
+  double ratioQ = sL.myFlow/myVectSegments[index].myFlow;//0.5;
+  double r0 = myVectSegments[index].myRadius;
   double R0 = r0*r0; //R0 = r0*r0
   double R1 = r0*r0; //R1 = r1*r1
   double R2 = r0*r0; //R2 = r2*r2
