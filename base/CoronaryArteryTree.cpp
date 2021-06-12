@@ -89,8 +89,24 @@ CoronaryArteryTree::updateFlowParametersToRoot(unsigned int segIndex)
   // Get the path to root and update hydro resitance + myRaidusRatio + beta
   // for all parent segment along the path (except the root segment)
   std::vector<unsigned int> v = getPathToRoot(myVectSegments[segIndex]);
-  for(auto index : v)
-    updateFlowParameters(index);
+  for(size_t index=1; index<v.size(); index++) {
+    //updateFlowParameters(index);
+    Segment<Point2D> sLeft = myVectSegments[myVectChildren[index].first];
+    Segment<Point2D> sRight = myVectSegments[myVectChildren[index].second];
+    
+    // Update resistance of the segment
+    double r1 = (sLeft.myRadius/myVectSegments[index].myRadius);
+    double r2 = (sRight.myRadius/myVectSegments[index].myRadius);
+    myVectSegments[index].myHydroResistance = 8.0*my_mu*myVectSegments[index].myLength/M_PI;
+    myVectSegments[index].myHydroResistance += 1.0/((r1*r1*r1*r1)/sLeft.myHydroResistance + (r2*r2*r2*r2)/sRight.myHydroResistance) ;
+    // Update beta coefficent of the segment
+    myVectSegments[index].beta = pow(1.0 + 1.0/pow(myVectSegments[index].myRaidusRatio,3),-1.0/3.0);
+    // Increase the number k term of the segment
+    myVectSegments[index].myKTerm++;
+    // Update the flows according the increasing of k term
+    myVectSegments[index].myFlow += my_qTerm;
+  }
+    
 }
 
 bool
@@ -145,7 +161,8 @@ CoronaryArteryTree::addSegmentFromPoint(const Point2D &p,
   
   // Update physilogique paramaters
   updateFlowParameters(nearIndex);
-  //updateFlowParametersToRoot(nearIndex);
+  
+  updateFlowParametersToRoot(nearIndex);
 
   //TODO: then opt with volume of the
   
