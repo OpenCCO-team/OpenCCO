@@ -203,8 +203,10 @@ struct CostOptPos {
 };
 
 
-
-static void kamiyaOpt(double deltaP1, double deltaP2, double f0, double f1, double f2, double l0, double l1, double l2, double &xx1, double &xx2) {
+/**
+ * @return true if a solution exists
+ */
+static bool kamiyaOpt(double deltaP1, double deltaP2, double f0, double f1, double f2, double l0, double l1, double l2, double &xx1, double &xx2) {
   CostOptPos *f = new CostOptPos();
   f->deltap1 = deltaP1;
   f->deltap2 = deltaP2;
@@ -230,6 +232,8 @@ static void kamiyaOpt(double deltaP1, double deltaP2, double f0, double f1, doub
   Solver::Summary summary;
   Solve(options, &problem, &summary);
   //std::cout << summary.BriefReport() << "\n";
+  
+  return summary.IsSolutionUsable();
 }
 
 

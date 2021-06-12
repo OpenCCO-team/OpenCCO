@@ -58,8 +58,8 @@ public:
     // length of the tubular section.
     double myLength = 0.0;
     
-    // number of terminal segments at the segment
-    unsigned int myKTerm = 0;
+    // number of terminal segments in its children segment
+    unsigned int myKTerm = 1;
     // hydrodynamc registance (R star)
     double myHydroResistance = 0.00;
     // flow (Qi)
@@ -118,7 +118,7 @@ public:
   //-----------------------------
   // Internal algorithm parameter
 
-  //myKTerm: current number of terminal segments
+  //myKTerm: current number of terminal segments of the tree
   unsigned int myKTerm = 1;
   
   //myDThresold: threshold on the distance criterion of adding a segment
