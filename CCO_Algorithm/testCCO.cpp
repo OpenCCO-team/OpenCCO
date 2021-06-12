@@ -21,7 +21,7 @@ int main(int argc, char *const *argv)
   DGtal::Z2i::RealPoint pRoot;
   CoronaryArteryTree cTree (pRoot, 2000000, 100);
   
-  unsigned int nbSeed = 50;
+  unsigned int nbSeed = 10;
   for (unsigned int i = 0; i < nbSeed; i++){
     DGtal::trace.progressBar(i, nbSeed);
     CoronaryArteryTree::Point2D pt = cTree.generateNewLocation(100);

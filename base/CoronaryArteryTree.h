@@ -207,13 +207,27 @@ public:
   /**
    * Tries to add a new segment from a given point and it parent index.
    * @param p the extremity of the nex segment to be created
-   * @param indexParent the index of the parent.
+   * @param nearIndex the index of the near segement to p.
    * @return true of the new segment is created, false in the other case.
    * (for instance if an intersection to previous point was present)
    **/
   
   bool addSegmentFromPoint(const Point2D &p,  unsigned int nearIndex,
                            double rLeft = 1.0, double rRight = 1.0);
+  
+  
+  /**
+   * Update the distribution of segmental flows after adding a new segment (new bifurcation)
+   * @param segIndex index of the parent segment to be updated
+   */
+  void updateFlowParameters(unsigned int segIndex);
+  
+  /**
+   * Update the distribution of segmental flows after adding a new segment (new bifurcation)
+   * to reestablish the correct terminal flows and the hydrodynamic resistance of the tree (from the new segment to root)
+   * @param segIndex index of the parent segment to be updated
+   */
+  void updateFlowParametersToRoot(unsigned int segIndex);
   
   
   /**

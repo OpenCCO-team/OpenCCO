@@ -20,6 +20,78 @@ CoronaryArteryTree::addSegmentFromPoint(const Point2D &p)
   return addSegmentFromPoint(p, nearIndex);
 }
 
+void
+CoronaryArteryTree::updateFlowParameters(unsigned int segIndex)
+{
+  Segment<Point2D> sLeft = myVectSegments[myVectChildren[segIndex].first];
+  Segment<Point2D> sRight = myVectSegments[myVectChildren[segIndex].second];
+  
+  // For the new right child segment
+  // Update resistance at right segment
+  //sNewRight.myHydroResistance = 8.0*my_mu*sNewRight.myLength/M_PI;
+  myVectSegments[sRight.myIndex].myHydroResistance = 8.0*my_mu*sRight.myLength/M_PI;
+  // Update the flows
+  //sNewRight.myFlow = my_qTerm;
+  myVectSegments[sRight.myIndex].myFlow = my_qTerm;
+  // Update radius ration of the right segment (a terminal segment)
+  //sNewLeft.myFlow = myVectSegments[nearIndex].myFlow; // assume that the flow of the left seg = center flow
+  myVectSegments[sLeft.myIndex].myFlow = myVectSegments[segIndex].myFlow;
+  //sNewLeft.myHydroResistance = myVectSegments[nearIndex].myHydroResistance; // idem for the HydroResistance
+  myVectSegments[sLeft.myIndex].myHydroResistance = myVectSegments[segIndex].myHydroResistance;
+  //sNewRight.myRaidusRatio = pow((sNewRight.myFlow*sNewRight.myHydroResistance)/(sNewLeft.myFlow*sNewLeft.myHydroResistance),0.25);
+  myVectSegments[sRight.myIndex].myRaidusRatio = pow((myVectSegments[sRight.myIndex].myFlow*myVectSegments[sRight.myIndex].myHydroResistance)/(myVectSegments[sLeft.myIndex].myFlow*myVectSegments[sLeft.myIndex].myHydroResistance),0.25);
+  
+  // Update beta coefficent of right segment
+  //sNewRight.beta = pow(1.0 + 1.0/pow(sNewRight.myRaidusRatio,3),-1.0/3.0);
+  myVectSegments[sRight.myIndex].beta = pow(1.0 + 1.0/pow(sRight.myRaidusRatio,3),-1.0/3.0);
+  //sNewRight.myKTerm = 1;
+  myVectSegments[sRight.myIndex].myKTerm = 1;
+  
+  // For the new left child segment
+  // Get left and right children of the new left segment
+  Segment<Point2D> sNewLeftChild =  myVectSegments[myVectChildren[sLeft.myIndex].first];
+  Segment<Point2D> sNewRightChild =  myVectSegments[myVectChildren[sLeft.myIndex].second];
+  // Update resistance at left segment
+  //sNewLeft.myHydroResistance = 8.0*my_mu*sNewLeft.myLength/M_PI;
+  myVectSegments[sLeft.myIndex].myHydroResistance = 8.0*my_mu*sLeft.myLength/M_PI;
+  if(myVectChildren[segIndex].first!=0 && myVectChildren[segIndex].second!=0) {
+    double r1 = (sNewLeftChild.myRadius/myVectSegments[segIndex].myRadius);
+    double r2 = (sNewRightChild.myRadius/myVectSegments[segIndex].myRadius);
+    //sNewLeft.myHydroResistance += 1.0/((r1*r1*r1*r1)/sNewLeftChild.myHydroResistance + (r2*r2*r2*r2)/sNewRightChild.myHydroResistance) ;
+    myVectSegments[sLeft.myIndex].myHydroResistance += 1.0/((r1*r1*r1*r1)/sNewLeftChild.myHydroResistance + (r2*r2*r2*r2)/sNewRightChild.myHydroResistance) ;
+  }
+  // Update radius ratio of the left segment (= invers of the radius ratio of the right segment)
+  //sNewLeft.myRaidusRatio = 1.0/ sNewRight.myRaidusRatio;
+  myVectSegments[sLeft.myIndex].myRaidusRatio = 1.0/ sRight.myRaidusRatio;
+  // Update beta coefficent of left segment
+  //sNewLeft.beta = pow(1.0 + 1.0/pow(sNewLeft.myRaidusRatio,3),-1.0/3.0);
+  myVectSegments[sLeft.myIndex].beta = pow(1.0 + 1.0/pow(sLeft.myRaidusRatio,3),-1.0/3.0);
+  //sNewLeft.myKTerm = myVectSegments[nearIndex].myKTerm;
+  myVectSegments[sLeft.myIndex].myKTerm = myVectSegments[segIndex].myKTerm;
+  
+  // For the center segment
+  // Update resistance at center segment
+  double r1 = (sLeft.myRadius/myVectSegments[segIndex].myRadius);
+  double r2 = (sRight.myRadius/myVectSegments[segIndex].myRadius);
+  myVectSegments[segIndex].myHydroResistance = 8.0*my_mu*myVectSegments[segIndex].myLength/M_PI;
+  myVectSegments[segIndex].myHydroResistance += 1.0/((r1*r1*r1*r1)/sLeft.myHydroResistance + (r2*r2*r2*r2)/sRight.myHydroResistance) ;
+  // Update beta coefficent of center segment
+  myVectSegments[segIndex].beta = pow(1.0 + 1.0/pow(myVectSegments[segIndex].myRaidusRatio,3),-1.0/3.0);
+  // Increase the number k term of the center segment
+  myVectSegments[segIndex].myKTerm++;
+  // Update the flows according the increasing of k term
+  myVectSegments[segIndex].myFlow += my_qTerm;
+}
+
+void
+CoronaryArteryTree::updateFlowParametersToRoot(unsigned int segIndex)
+{
+  // Get the path to root and update hydro resitance + myRaidusRatio + beta
+  // for all parent segment along the path (except the root segment)
+  std::vector<unsigned int> v = getPathToRoot(myVectSegments[segIndex]);
+  for(auto index : v)
+    updateFlowParameters(index);
+}
 
 bool
 CoronaryArteryTree::addSegmentFromPoint(const Point2D &p,
@@ -72,65 +144,10 @@ CoronaryArteryTree::addSegmentFromPoint(const Point2D &p,
   myVectChildren[nearIndex].second = sNewRight.myIndex;
   
   // Update physilogique paramaters
-  // For the new right child segment
-  // Update resistance at right segment
-  //sNewRight.myHydroResistance = 8.0*my_mu*sNewRight.myLength/M_PI;
-  myVectSegments[sNewRight.myIndex].myHydroResistance = 8.0*my_mu*sNewRight.myLength/M_PI;
-  // Update the flows
-  //sNewRight.myFlow = my_qTerm;
-  myVectSegments[sNewRight.myIndex].myFlow = my_qTerm;
-  // Update radius ration of the right segment (a terminal segment)
-  //sNewLeft.myFlow = myVectSegments[nearIndex].myFlow; // assume that the flow of the left seg = center flow
-  myVectSegments[sNewLeft.myIndex].myFlow = myVectSegments[nearIndex].myFlow;
-  //sNewLeft.myHydroResistance = myVectSegments[nearIndex].myHydroResistance; // idem for the HydroResistance
-  myVectSegments[sNewLeft.myIndex].myHydroResistance = myVectSegments[nearIndex].myHydroResistance;
-  //sNewRight.myRaidusRatio = pow((sNewRight.myFlow*sNewRight.myHydroResistance)/(sNewLeft.myFlow*sNewLeft.myHydroResistance),0.25);
-  myVectSegments[sNewRight.myIndex].myRaidusRatio = pow((myVectSegments[sNewRight.myIndex].myFlow*myVectSegments[sNewRight.myIndex].myHydroResistance)/(myVectSegments[sNewLeft.myIndex].myFlow*myVectSegments[sNewLeft.myIndex].myHydroResistance),0.25);
-  
-  // Update beta coefficent of right segment
-  //sNewRight.beta = pow(1.0 + 1.0/pow(sNewRight.myRaidusRatio,3),-1.0/3.0);
-  myVectSegments[sNewRight.myIndex].beta = pow(1.0 + 1.0/pow(sNewRight.myRaidusRatio,3),-1.0/3.0);
-  //sNewRight.myKTerm = 1;
-  myVectSegments[sNewRight.myIndex].myKTerm = 1;
-  
-  // For the new left child segment
-  // Get left and right children of the new left segment
-  Segment<Point2D> sNewLeftChild =  myVectSegments[myVectChildren[sNewLeft.myIndex].first];
-  Segment<Point2D> sNewRightChild =  myVectSegments[myVectChildren[sNewLeft.myIndex].second];
-  // Update resistance at left segment
-  //sNewLeft.myHydroResistance = 8.0*my_mu*sNewLeft.myLength/M_PI;
-  myVectSegments[sNewLeft.myIndex].myHydroResistance = 8.0*my_mu*sNewLeft.myLength/M_PI;
-  if(myVectChildren[nearIndex].first!=0 && myVectChildren[nearIndex].second!=0) {
-    double r1 = (sNewLeftChild.myRadius/myVectSegments[nearIndex].myRadius);
-    double r2 = (sNewRightChild.myRadius/myVectSegments[nearIndex].myRadius);
-    //sNewLeft.myHydroResistance += 1.0/((r1*r1*r1*r1)/sNewLeftChild.myHydroResistance + (r2*r2*r2*r2)/sNewRightChild.myHydroResistance) ;
-    myVectSegments[sNewLeft.myIndex].myHydroResistance += 1.0/((r1*r1*r1*r1)/sNewLeftChild.myHydroResistance + (r2*r2*r2*r2)/sNewRightChild.myHydroResistance) ;
-  }
-  // Update radius ratio of the left segment (= invers of the radius ratio of the right segment)
-  //sNewLeft.myRaidusRatio = 1.0/ sNewRight.myRaidusRatio;
-  myVectSegments[sNewLeft.myIndex].myRaidusRatio = 1.0/ sNewRight.myRaidusRatio;
-  // Update beta coefficent of left segment
-  //sNewLeft.beta = pow(1.0 + 1.0/pow(sNewLeft.myRaidusRatio,3),-1.0/3.0);
-  myVectSegments[sNewLeft.myIndex].beta = pow(1.0 + 1.0/pow(sNewLeft.myRaidusRatio,3),-1.0/3.0);
-  //sNewLeft.myKTerm = myVectSegments[nearIndex].myKTerm;
-  myVectSegments[sNewLeft.myIndex].myKTerm = myVectSegments[nearIndex].myKTerm;
-  
-  // For the center segment
-  // Update resistance at center segment
-  double r1 = (sNewLeft.myRadius/myVectSegments[nearIndex].myRadius);
-  double r2 = (sNewRight.myRadius/myVectSegments[nearIndex].myRadius);
-  myVectSegments[nearIndex].myHydroResistance = 8.0*my_mu*myVectSegments[nearIndex].myLength/M_PI;
-  myVectSegments[nearIndex].myHydroResistance += 1.0/((r1*r1*r1*r1)/sNewLeft.myHydroResistance + (r2*r2*r2*r2)/sNewRight.myHydroResistance) ;
-  // Increase the number k term of the center segment
-  myVectSegments[nearIndex].myKTerm++;
-  // Update the flows according the increasing of k term
-  myVectSegments[nearIndex].myFlow += my_qTerm;
-  
-  
-  //TODO: path to root and update hydro resitance + myRaidusRatio + beta for all parent segment along the path (similar as center segment) except the root segment
+  updateFlowParameters(nearIndex);
+  //updateFlowParametersToRoot(nearIndex);
+
   //TODO: then opt with volume of the
-  
-  //TODO: Center segment
   
   myKTerm++;
   
