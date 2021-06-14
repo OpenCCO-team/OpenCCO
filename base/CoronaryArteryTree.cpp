@@ -109,6 +109,25 @@ CoronaryArteryTree::updateFlowParametersToRoot(unsigned int segIndex)
     
 }
 
+void
+CoronaryArteryTree::updateRootRadius()
+{
+  unsigned int idRoot = 1;
+  /*
+  myVectSegments[idRoot].myHydroResistance = 8.0*my_mu*myVectSegments[idRoot].myLength/M_PI;
+  if(myVectChildren[idRoot].first!=0 && myVectChildren[idRoot].second!=0) {
+    Segment<Point2D> sLeft = myVectSegments[myVectChildren[idRoot].first];
+    Segment<Point2D> sRight = myVectSegments[myVectChildren[idRoot].second];
+    double r1 = (sLeft.myRadius/myVectSegments[idRoot].myRadius);
+    double r2 = (sRight.myRadius/myVectSegments[idRoot].myRadius);
+    myVectSegments[idRoot].myHydroResistance += 1.0/((r1*r1*r1*r1)/sLeft.myHydroResistance + (r2*r2*r2*r2)/sRight.myHydroResistance) ;
+  }
+  */
+  double Qpk = myVectSegments[idRoot].myKTerm*my_qTerm;
+  double rRoot = pow((myVectSegments[idRoot].myHydroResistance*Qpk)/(my_pPerf-my_pTerm),0.25);
+  myVectSegments[idRoot].myRadius = rRoot;
+}
+
 bool
 CoronaryArteryTree::addSegmentFromPoint(const Point2D &p,
                                         unsigned int nearIndex,
@@ -164,6 +183,8 @@ CoronaryArteryTree::addSegmentFromPoint(const Point2D &p,
   
   updateFlowParametersToRoot(nearIndex);
 
+  //updateRootRadius();
+  
   //TODO: then opt with volume of the
   
   myKTerm++;
@@ -198,7 +219,7 @@ CoronaryArteryTree::boardDisplay(bool clearDisplay)
   myBoard.setLineWidth(1.0);
   myBoard.fillCircle(p1[0], p1[1], myVectSegments[1].myRadius, 1);
   
-  myBoard.setLineWidth(myVectSegments[0].myRadius*57.5);
+  myBoard.setLineWidth(myVectSegments[1].myRadius*57.5);
   myBoard.setPenColor(DGtal::Color(150, 0, 0, 150));
   myBoard.drawLine(p0[0], p0[1], p1[0], p1[1], 2);
   

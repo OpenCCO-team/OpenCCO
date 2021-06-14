@@ -229,6 +229,10 @@ public:
    */
   void updateFlowParametersToRoot(unsigned int segIndex);
   
+  /**
+   * Update the root radius after updating flow parameters
+   */
+  void updateRootRadius();
   
   /**
    * Tries to add a new segment from a given point.
