@@ -106,7 +106,6 @@ CoronaryArteryTree::updateFlowParametersToRoot(unsigned int segIndex)
     // Update the flows according the increasing of k term
     myVectSegments[index].myFlow += my_qTerm;
   }
-    
 }
 
 void
@@ -126,6 +125,29 @@ CoronaryArteryTree::updateRootRadius()
   double Qpk = myVectSegments[idRoot].myKTerm*my_qTerm;
   double rRoot = pow((myVectSegments[idRoot].myHydroResistance*Qpk)/(my_pPerf-my_pTerm),0.25);
   myVectSegments[idRoot].myRadius = rRoot;
+}
+
+void
+CoronaryArteryTree::updateSegmentRadiusToRoot(unsigned int segIndex)
+{
+  unsigned int idRoot = 1;
+  double rRoot= myVectSegments[idRoot].myRadius;
+  std::vector<unsigned int> v = getPathToRoot(myVectSegments[segIndex]);
+  double radius = 1;
+  for(size_t id=v.size()-1; id>=2; id--) {
+    radius *= rRoot*myVectSegments[v[id]].beta;
+    myVectSegments[v[id]].myRadius = radius;
+  }
+}
+
+double
+CoronaryArteryTree::computeTreeVolume(double mu, double lambda)
+{
+  double volume = 0;
+  for(size_t idSeg = 1; idSeg<myVectSegments.size(); idSeg++) {
+    volume += pow(myVectSegments[idSeg].myLength,mu)*pow(myVectSegments[idSeg].myRadius,lambda);
+  }
+  return volume;
 }
 
 bool
@@ -183,7 +205,7 @@ CoronaryArteryTree::addSegmentFromPoint(const Point2D &p,
   
   updateFlowParametersToRoot(nearIndex);
 
-  //updateRootRadius();
+  updateRootRadius();
   
   //TODO: then opt with volume of the
   

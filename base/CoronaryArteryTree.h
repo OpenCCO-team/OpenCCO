@@ -230,9 +230,19 @@ public:
   void updateFlowParametersToRoot(unsigned int segIndex);
   
   /**
-   * Update the root radius after updating flow parameters
+   * Update the root radius after updating flow parameters (as given in Eq. 18)
    */
   void updateRootRadius();
+  
+  /**
+   * Update the segment radius after updating flow parameters (as given in Eq. 19)
+   */
+  void updateSegmentRadiusToRoot(unsigned int segIndex);
+  
+  /**
+   * Compute the total tree volume (as given in Eq. 20)
+   */
+  double computeTreeVolume(double mu, double lambda);
   
   /**
    * Tries to add a new segment from a given point.
