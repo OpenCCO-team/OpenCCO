@@ -121,7 +121,7 @@ int main(int argc, char *const *argv)
   srand (time(NULL));
   CoronaryArteryTree cRand2 (DGtal::Z2i::RealPoint(0, 250), 20000000, 100);
   
-  for (unsigned int i = 0; i < 50; i++){
+  for (unsigned int i = 0; i < 250; i++){
     DGtal::trace.progressBar(i, 50);
     CoronaryArteryTree::Point2D pt = cRand2.generateNewLocation(100);
     //std::cout <<"myCurrAPerf: " <<  cRand2.myCurrAPerf << std::endl;

@@ -32,7 +32,12 @@ CoronaryArteryTree::addSegmentFromPoint(const Point2D &p,
   // (b) Second point added: the new point with its new segment.
   // to process (a): s
   Point2D newCenter = FindBarycenter(p, nearIndex);
-
+  //bool inter = hasNearestIntersections(p, newCenter, 10);
+  bool inter = hasNearestIntersections(myVectParent[nearIndex], nearIndex, p, newCenter,  10);
+  if (inter){
+    DGtal::trace.warning() << "detection intersection" << std::endl;
+    return false;
+  }
   // Creation of the left child
   Segment<Point2D> sNewLeft;
   sNewLeft.myCoordinate = myVectSegments[nearIndex].myCoordinate;
@@ -324,6 +329,35 @@ CoronaryArteryTree::hasNearestIntersections(const Point2D &p0,
     }
   }
   return false;
+}
+bool
+CoronaryArteryTree::hasNearestIntersections(unsigned int indexPFather,
+                                            unsigned int indexPChild,
+                                            const Point2D &pAdded,
+                                            const Point2D &pBifurcation, unsigned int n) const{
+  std::vector<unsigned int> near = getN_NearestSegments(pAdded, n);
+  Point2D p0  = myVectSegments[indexPFather].myCoordinate;
+  Point2D p1  = myVectSegments[indexPChild].myCoordinate;
+  
+  for (const auto &s : near){
+    // ignoring self initial segment.
+    if (myVectParent[s] == indexPFather && s == indexPChild){
+      continue;
+    }
+    bool inter1 = hasIntersection(p0, pBifurcation, myVectSegments[s].myCoordinate,
+                                  myVectSegments[myVectParent[s]].myCoordinate  );
+    bool inter2 = hasIntersection(p1, pBifurcation, myVectSegments[s].myCoordinate,
+                                  myVectSegments[myVectParent[s]].myCoordinate  );
+    bool inter3 = hasIntersection(pAdded, pBifurcation, myVectSegments[s].myCoordinate,
+                                  myVectSegments[myVectParent[s]].myCoordinate  );
+
+    if (inter1 || inter2 || inter3)
+    {
+      return  true;
+    }
+  }
+  return false;
+  
 }
 
 

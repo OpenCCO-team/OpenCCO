@@ -285,6 +285,22 @@ public:
                                const Point2D &p1, unsigned int n) const;
   
   
+  /**
+   * Computes if an bifurcation has intersections on the n nearest segments.
+   * It uses the middle point
+   * @param indexPFather index extremity of initial segment (father).
+   * @param indexPChild index  extremity  of initial segment (child).
+   * @param pAdded point added at the origin of the creation of bifurcation.
+   * @param pBifurcation the central point of the bifurcation.
+   * @param n : the number of nearest point to be considered
+   */
+  
+  bool hasNearestIntersections(unsigned int indexPFather,
+                               unsigned int indexPChild,
+                               const Point2D &pAdded,
+                               const Point2D &pBifurcation, unsigned int n) const;
+  
+  
   
   
   /// Fin New from updating code... (BK+PN)

@@ -36,18 +36,44 @@ int main(int argc, char *const *argv)
   CoronaryArteryTree c (DGtal::Z2i::RealPoint(0, 0), 2000, 1);
   c.addSegmentFromPoint(DGtal::Z2i::RealPoint(-10, 10), 1);
   c.addSegmentFromPoint(DGtal::Z2i::RealPoint(12, 8), 1);
-  c.exportBoardDisplay("testIntersection1.svg", true);
-  c.exportBoardDisplay("testIntersection1.eps", true);
+  c.boardDisplay();
+  c.myBoard.setFillColor(DGtal::Color::Cyan);
+  c.myBoard.drawCircle(-10, 5, 1, 1);
+  c.myBoard.setFillColor(DGtal::Color::Yellow);
+  c.myBoard.drawCircle(-7, 6, 1, 1);
+  c.exportBoardDisplay("testIntersection1.svg", false);
+  c.exportBoardDisplay("testIntersection1.eps", false);
   DGtal::trace.info() << "Test intersection segments ";
   bool intersec4 = c.hasNearestIntersections(DGtal::Z2i::RealPoint(-10, -5),
                             DGtal::Z2i::RealPoint(10, -5), 10);
-  DGtal::trace.info() << "Test intersection 1 no intersection " << (!intersec4 ? "OK" : "KO") << std::endl;
+  DGtal::trace.info() << "Test intersection 1: no intersection " << (!intersec4 ? "OK" : "KO") << std::endl;
   bool intersec5 = c.hasNearestIntersections(DGtal::Z2i::RealPoint(-5, 5),
                             DGtal::Z2i::RealPoint(5, 5), 10);
-  DGtal::trace.info() << "Test intersection intersection " << (intersec5 ? "OK" : "KO") << std::endl;
+  DGtal::trace.info() << "Test intersection 2: intersection " << (intersec5 ? "OK" : "KO") << std::endl;
+  DGtal::trace.info() << "Test intersection segments ";
+  bool intersec6 = c.hasNearestIntersections(c.myVectParent[2], 2,
+                            DGtal::Z2i::RealPoint(-10, 6),DGtal::Z2i::RealPoint(-7, 10),  10);
+  DGtal::trace.info() << "Test intersection 3:  intersection " << (!intersec6 ? "OK" : "KO") << std::endl;
   DGtal::trace.endBlock();
 
   
+  
+  
+  
+  DGtal::trace.beginBlock("Testing class CoronaryArteryTree: test random adds with distance constraint");
+  srand (time(NULL));
+  CoronaryArteryTree cIntersec (DGtal::Z2i::RealPoint(0, 250), 20000000, 100);
+  
+  for (unsigned int i = 0; i < 500; i++){
+    DGtal::trace.progressBar(i, 500);
+    CoronaryArteryTree::Point2D pt = cIntersec.generateNewLocation(100);
+    auto nearest = cIntersec.getNearestSegment(pt);
+    cIntersec.addSegmentFromPoint(pt, nearest, 1.0, 1.0);
+    cIntersec.udpatePerfusionArea();
+    cIntersec.updateTreshold();
+  }
+  cIntersec.exportBoardDisplay("testNoIntersect.svg", true);
+  cIntersec.exportBoardDisplay("testNoIntersect.eps", true);
   
   
   
