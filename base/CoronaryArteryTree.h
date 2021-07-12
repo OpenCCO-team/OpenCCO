@@ -204,6 +204,8 @@ public:
   
   bool addFirstSegment(const Point2D &p);
   
+  bool isAddable(const Point2D &p, unsigned int segIndex, unsigned int nbIter);
+  
   /**
    * Tries to add a new segment from a given point and it parent index.
    * @param p the extremity of the nex segment to be created
@@ -215,19 +217,20 @@ public:
   bool addSegmentFromPoint(const Point2D &p,  unsigned int nearIndex,
                            double rLeft = 1.0, double rRight = 1.0);
   
+ 
   
   /**
    * Update the distribution of segmental flows after adding a new segment (new bifurcation)
    * @param segIndex index of the parent segment to be updated
    */
+  void updateFlowTerminal(unsigned int segIndex);
   void updateFlowParameters(unsigned int segIndex);
   
   /**
-   * Update the distribution of segmental flows after adding a new segment (new bifurcation)
-   * to reestablish the correct terminal flows and the hydrodynamic resistance of the tree (from the new segment to root)
+   * Update ...
    * @param segIndex index of the parent segment to be updated
    */
-  void updateFlowParametersToRoot(unsigned int segIndex);
+  void updateRadius(unsigned int segIndex);
   
   /**
    * Update the root radius after updating flow parameters (as given in Eq. 18)
@@ -337,8 +340,9 @@ public:
   /**
    * @param index: the segment index
    */
-  void kamyiaOptimization(unsigned int index, unsigned int nbIter = 100);
+  bool kamyiaOptimization(unsigned int index, unsigned int nbIter = 100);
   
+  bool kamyiaOptimization(const DGtal::Z2i::RealPoint& pParent, const Segment<Point2D>& sCurrent, const Segment<Point2D>& sL, const Segment<Point2D>& sR, unsigned int nbIter, DGtal::Z2i::RealPoint& pOpt, double& r0, double& r1, double& r2);
   
 };
 
