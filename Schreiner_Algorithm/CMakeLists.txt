@@ -24,3 +24,8 @@ add_executable(testSchreiner testSchreiner.cpp ../base/CoronaryArteryTree.cpp ${
 target_link_libraries(testSchreiner Ceres::ceres  ${DGTAL_LIBRARIES})
 
 
+# Test base Geom
+add_executable(testGeom testGeom.cpp ../base/CoronaryArteryTree.cpp ${SOURCE_HEADER_FILES} )
+target_link_libraries(testGeom Ceres::ceres  ${DGTAL_LIBRARIES})
+
+

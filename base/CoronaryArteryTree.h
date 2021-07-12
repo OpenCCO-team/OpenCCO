@@ -274,7 +274,7 @@ public:
   double getDistance(unsigned int index, const Point2D &p ) const;
   
   
-  bool hasIntersections(Segment<CoronaryArteryTree::Point2D> S1, Point2D newPoint);
+  bool hasIntersections(Segment<Point2D> S1, Point2D newPoint);
   /**
    * Use to display object.
    * @param out  the object of class 'GeodesicGraphComputer' to write.
