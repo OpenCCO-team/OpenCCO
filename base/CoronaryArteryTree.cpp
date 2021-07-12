@@ -294,6 +294,13 @@ CoronaryArteryTree::getDistance(unsigned int index,
   return (myVectSegments[index].myCoordinate-p).norm();
 }
 
+double
+CoronaryArteryTree::getProjDistance(unsigned int index, const Point2D &p ) const {
+    
+    
+}
+
+
 
 std::vector<unsigned int>
 CoronaryArteryTree::getN_NearestSegments(const Point2D &p, unsigned int n) const {

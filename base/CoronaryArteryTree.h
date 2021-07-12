@@ -258,21 +258,30 @@ public:
   std::pair<Point2D, bool> generateALocation();
 
   /**
+   * Computes the distance from a segment represented with the index  and the point given as argument.
+   * @param index : the index of the segement used for the comparison
+   * @param p : a point
+   */
+  double getDistance(unsigned int index, const Point2D &p ) const;
+  
+  
+  
+  /**
+   * Computes the projected distance from a segment represented with the index  and the point given as argument.
+   * @param index : the index of the segement used for the comparison
+   * @param p : a point
+   */
+  double getProjDistance(unsigned int index, const Point2D &p) const;
+  
+  
+  
+  /**
    * Computes the n nearest index of neighborhood segments  of a given point
    * @param p : the point considered to get the nearest point
    * @param n : the number of nearest point to be recovered
    */
-  
   std::vector<unsigned int> getN_NearestSegments(const Point2D &p,
                                                  unsigned int n) const;
-  /**
-   * Computes the distance from and the segment represented with the index  and the point given as argument.
-   * @param index : the index of the segement used for the comparison
-
-   */
- 
-  double getDistance(unsigned int index, const Point2D &p ) const;
-  
   
   /**
    * Compute if a segment has intersection on the n nearest segments.
@@ -283,6 +292,7 @@ public:
   
   bool hasNearestIntersections(const Point2D &p0,
                                const Point2D &p1, unsigned int n) const;
+  
   
   
   /**

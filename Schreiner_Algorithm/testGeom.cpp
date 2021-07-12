@@ -13,7 +13,8 @@
  */
 int main(int argc, char *const *argv)
 {
-  
+  ///-----------------------------------------------------------------------------------------------
+  /// Test intesection on segments
   DGtal::trace.beginBlock("Testing basic intersections on two segments");
   DGtal::trace.info() << "Test intersection segments [(10, 10) (20,10)] and [(15, 20) (15,0)]";
   bool intersec1 = hasIntersection(DGtal::Z2i::RealPoint(10, 10), DGtal::Z2i::RealPoint(20, 10),
@@ -32,6 +33,7 @@ int main(int argc, char *const *argv)
   DGtal::trace.endBlock();
   
   
+  ///-----------------------------------------------------------------------------------------------
   DGtal::trace.beginBlock("Testing basic intersections on Tree");
   CoronaryArteryTree c (DGtal::Z2i::RealPoint(0, 0), 2000, 1);
   c.addSegmentFromPoint(DGtal::Z2i::RealPoint(-10, 10), 1);
@@ -55,11 +57,12 @@ int main(int argc, char *const *argv)
                             DGtal::Z2i::RealPoint(-10, 6),DGtal::Z2i::RealPoint(-7, 10),  10);
   DGtal::trace.info() << "Test intersection 3:  intersection " << (!intersec6 ? "OK" : "KO") << std::endl;
   DGtal::trace.endBlock();
+  ///-----------------------------------------------------------------------------------------------
 
   
   
   
-  
+  ///-----------------------------------------------------------------------------------------------
   DGtal::trace.beginBlock("Testing class CoronaryArteryTree: test random adds with distance constraint");
   srand (time(NULL));
   CoronaryArteryTree cIntersec (DGtal::Z2i::RealPoint(0, 250), 20000000, 100);
@@ -74,6 +77,36 @@ int main(int argc, char *const *argv)
   }
   cIntersec.exportBoardDisplay("testNoIntersect.svg", true);
   cIntersec.exportBoardDisplay("testNoIntersect.eps", true);
+  DGtal::trace.endBlock();
+
+  ///-----------------------------------------------------------------------------------------------
+  /// Test projection distances
+  DGtal::trace.beginBlock("Testing projection on straight line");
+  DGtal::Z2i::RealPoint p0 (0,  0);
+  DGtal::Z2i::RealPoint p1 (10, 0);
+  DGtal::Z2i::RealPoint p2 (5.3, 15.3);
+  DGtal::Z2i::RealPoint pProj (0, 0);
+  bool in = projectOnStraightLine(p0, p1, p2, pProj);
+  DGtal::trace.info() << "Test intersecting segments pProj " << pProj
+  << " should be (5.3, 0) " << (pProj ==  DGtal::Z2i::RealPoint(5.3, 0) && in ? "OK": "KO")  << std::endl;
+  DGtal::Z2i::RealPoint pp0 (0,  0);
+  DGtal::Z2i::RealPoint pp1 (3, 3);
+  DGtal::Z2i::RealPoint pp2 (0, 2);
+  DGtal::Z2i::RealPoint ppProj (0, 0);
+  in = projectOnStraightLine(pp0, pp1, pp2, ppProj);
+  DGtal::trace.info() << "Test intersecting segments ppProj " << ppProj
+  << " should be (1, 1) " << (((ppProj - DGtal::Z2i::RealPoint(1.0, 1.0)).norm() < 0.000001) && in ? "OK": "KO")  << std::endl;
+  DGtal::Z2i::RealPoint ppp0 (0,  0);
+  DGtal::Z2i::RealPoint ppp1 (3, 3);
+  DGtal::Z2i::RealPoint ppp2 (4, 4);
+  DGtal::Z2i::RealPoint pppProj (0, 0);
+  in = projectOnStraightLine(ppp0, ppp1, ppp2, pppProj);
+  DGtal::trace.info() << "Test intersecting segments pppProj no inside " << pppProj
+  << " should be in pppProj " << (((pppProj - DGtal::Z2i::RealPoint(4.0, 4.0)).norm() < 0.000001) && !in ? "OK": "KO")  << std::endl;
+  DGtal::trace.endBlock();
+
+    
+  
   
   
   

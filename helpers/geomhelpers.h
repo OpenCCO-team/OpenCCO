@@ -114,7 +114,10 @@ projectOnStraightLine(const TPoint & ptA,
 
   TPointD vAB (ptB[0]- ptA[0], ptB[1]- ptA[1]);
   TPointD vABn ((double)vAB[0], (double)vAB[1]);
-  vABn = vABn/vABn.norm();
+  double norm = vABn.norm();
+  vABn[0] /= norm;
+  vABn[1] /= norm;
+
   TPointD vAC (ptC[0]-ptA[0], ptC[1]-ptA[1]);
   double distPtA_Proj = vAC.dot(vABn);
 
