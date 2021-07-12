@@ -29,9 +29,27 @@ int main(int argc, char *const *argv)
   bool intersec3 = hasIntersection(DGtal::Z2i::RealPoint(12.0, 11.0), DGtal::Z2i::RealPoint(19,9.4),
                                    DGtal::Z2i::RealPoint(12.0, 10.0), DGtal::Z2i::RealPoint(19, 9,4));
   DGtal::trace.info() << "Test intersection " << (!intersec3 ? "OK" : "KO") << std::endl;
+  DGtal::trace.endBlock();
+  
+  
+  DGtal::trace.beginBlock("Testing basic intersections on Tree");
+  CoronaryArteryTree c (DGtal::Z2i::RealPoint(0, 0), 2000, 1);
+  c.addSegmentFromPoint(DGtal::Z2i::RealPoint(-10, 10), 1);
+  c.addSegmentFromPoint(DGtal::Z2i::RealPoint(12, 8), 1);
+  c.exportBoardDisplay("testIntersection1.svg", true);
+  c.exportBoardDisplay("testIntersection1.eps", true);
+  DGtal::trace.info() << "Test intersection segments ";
+  bool intersec4 = c.hasNearestIntersections(DGtal::Z2i::RealPoint(-10, -5),
+                            DGtal::Z2i::RealPoint(10, -5), 10);
+  DGtal::trace.info() << "Test intersection 1 no intersection " << (!intersec4 ? "OK" : "KO") << std::endl;
+  bool intersec5 = c.hasNearestIntersections(DGtal::Z2i::RealPoint(-5, 5),
+                            DGtal::Z2i::RealPoint(5, 5), 10);
+  DGtal::trace.info() << "Test intersection intersection " << (intersec5 ? "OK" : "KO") << std::endl;
+  DGtal::trace.endBlock();
 
   
-  DGtal::trace.endBlock();
+  
+  
   
   return EXIT_SUCCESS;
 }

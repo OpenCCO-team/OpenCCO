@@ -148,7 +148,7 @@ public:
     my_NTerm = nTerm;
     myDThresold = sqrt(M_PI*myRsupp*myRsupp/myKTerm);
     // Generate the first random terminal point
-    Point2D pTerm = generateRandomPtOnDisk(myTreeCenter, myRsupp);
+    Point2D pTerm = ptRoot; //generateRandomPtOnDisk(myTreeCenter, myRsupp);
     
     // Construction of the special root segment
     Segment<Point2D> s;
@@ -281,7 +281,7 @@ public:
    * @param n : the number of nearest point to be considered
    */
   
-  "bool hasNearestIntersections(const Point2D &p0,
+  bool hasNearestIntersections(const Point2D &p0,
                                const Point2D &p1, unsigned int n) const;
   
   
