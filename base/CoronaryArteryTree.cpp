@@ -311,6 +311,22 @@ CoronaryArteryTree::getN_NearestSegments(const Point2D &p, unsigned int n) const
 }
 
 
+bool
+CoronaryArteryTree::hasNearestIntersections(const Point2D &p0,
+                                            const Point2D &p1, unsigned int n) const {
+  Point2D b = (p1+p0)/2;
+  std::vector<unsigned int> near = getN_NearestSegments(b, n);
+  for (const auto &s : near){
+    if (hasIntersection(p0, p1, myVectSegments[s].myCoordinate,
+                        myVectSegments[myVectParent[s]].myCoordinate ))
+    {
+      return  true;
+    }
+  }
+  return false;
+}
+
+
 
 void
 CoronaryArteryTree::kamyiaOptimization(unsigned int index,
@@ -677,7 +693,6 @@ CoronaryArteryTree::hasIntersections(Segment<Point2D> S1, Point2D newPoint)
   {
     if(s!=newSegment && s!=rootSegment && s!= newOldSegment)
     {
-      
       
       if(hasIntersection(newPoint ,Barycenter,s.myCoordinate,myVectSegments[myVectParent[s.myIndex]].myCoordinate) || hasIntersection(s.myCoordinate,myVectSegments[myVectParent[s.myIndex]].myCoordinate,Barycenter,S1.myCoordinate) || hasIntersection(s.myCoordinate,myVectSegments[myVectParent[s.myIndex]].myCoordinate,Barycenter,myVectSegments[myVectParent[S1.myIndex]].myCoordinate) )
       {

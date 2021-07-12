@@ -274,6 +274,24 @@ public:
   double getDistance(unsigned int index, const Point2D &p ) const;
   
   
+  /**
+   * Compute if a segment has intersection on the n nearest segments.
+   * @param p0 one extremity of one segment
+   * @param p1 another extremity of one segment
+   * @param n : the number of nearest point to be considered
+   */
+  
+  "bool hasNearestIntersections(const Point2D &p0,
+                               const Point2D &p1, unsigned int n) const;
+  
+  
+  
+  
+  /// Fin New from updating code... (BK+PN)
+  
+  
+  
+  
   bool hasIntersections(Segment<Point2D> S1, Point2D newPoint);
   /**
    * Use to display object.
