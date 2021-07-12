@@ -8,6 +8,7 @@ SET(SOURCE_HEADER_FILES
     ${PROJECT_SOURCE_DIR}/../helpers/geomhelpers.h
 )
 
+find_package(Ceres REQUIRED)
 
 
 # CLI11
@@ -20,6 +21,6 @@ LINK_DIRECTORIES(${DGTAL_LIBRARY_DIRS})
 
 # Schreiner_s_Algorithm
 add_executable(testSchreiner testSchreiner.cpp ../base/CoronaryArteryTree.cpp ${SOURCE_HEADER_FILES} )
-target_link_libraries(testSchreiner  ${DGTAL_LIBRARIES})
+target_link_libraries(testSchreiner Ceres::ceres  ${DGTAL_LIBRARIES})
 
 
