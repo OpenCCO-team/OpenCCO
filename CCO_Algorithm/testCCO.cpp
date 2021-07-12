@@ -22,7 +22,7 @@ int main(int argc, char *const *argv)
   CoronaryArteryTree cTree (pRoot, 2000000, 100);
   
   std::string filename;
-  unsigned int nbSeed = 100;
+  unsigned int nbSeed = cTree.my_NTerm;
   bool isOK;
   for (unsigned int i = 0; i < nbSeed; i++){
     DGtal::trace.progressBar(i, nbSeed);
@@ -60,46 +60,8 @@ int main(int argc, char *const *argv)
     */
   }
   
-  
   cTree.exportBoardDisplay("testCCO1.eps", true);
   cTree.myBoard.clear();
-  
-  unsigned int idSeg = nbSeed;//nbSeed - 1;
-  unsigned int idTarget = idSeg;//cTree.myVectParent[idSeg];
-  
-  cTree.myBoard.setPenColor(DGtal::Color::Green);
-  //cTree.myBoard.setFillColor(DGtal::Color::Yellow);
-  cTree.myBoard.setLineWidth(1);
-  
-  cTree.myBoard.drawCircle(cTree.myVectSegments[idTarget].myCoordinate[0],
-                           cTree.myVectSegments[idTarget].myCoordinate[1], 1, 0);
-  //cTree.myBoard.setLineWidth(20);
-
-  cTree.myBoard.drawLine(cTree.myVectSegments[idTarget].myCoordinate[0],
-                           cTree.myVectSegments[idTarget].myCoordinate[1],
-                         cTree.myVectSegments[cTree.myVectParent[idTarget]].myCoordinate[0],
-                          cTree.myVectSegments[cTree.myVectParent[idTarget]].myCoordinate[1],
-                         0);
-  
-  cTree.myBoard.drawLine(cTree.myVectSegments[idTarget].myCoordinate[0],
-                           cTree.myVectSegments[idTarget].myCoordinate[1],
-                         cTree.myVectSegments[cTree.myVectChildren[idTarget].first].myCoordinate[0],
-                          cTree.myVectSegments[cTree.myVectChildren[idTarget].first].myCoordinate[1],
-                         0);
-  cTree.myBoard.drawLine(cTree.myVectSegments[idTarget].myCoordinate[0],
-                           cTree.myVectSegments[idTarget].myCoordinate[1],
-                         cTree.myVectSegments[cTree.myVectChildren[idTarget].second].myCoordinate[0],
-                          cTree.myVectSegments[cTree.myVectChildren[idTarget].second].myCoordinate[1],
-                         0);
-  cTree.myBoard.setLineWidth(1);
-
-  cTree.kamyiaOptimization(idTarget);
-  
-  //cTree.exportBoardDisplay("testCCO2.svg", true);
-  cTree.exportBoardDisplay("testCCO2.eps", true);
-
-  DGtal::trace.endBlock();
- 
   
   return EXIT_SUCCESS;
 }
