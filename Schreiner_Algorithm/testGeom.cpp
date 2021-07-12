@@ -80,7 +80,7 @@ int main(int argc, char *const *argv)
   DGtal::trace.endBlock();
 
   ///-----------------------------------------------------------------------------------------------
-  /// Test projection distances
+  /// Test projection on straight line
   DGtal::trace.beginBlock("Testing projection on straight line");
   DGtal::Z2i::RealPoint p0 (0,  0);
   DGtal::Z2i::RealPoint p1 (10, 0);
@@ -104,11 +104,23 @@ int main(int argc, char *const *argv)
   DGtal::trace.info() << "Test intersecting segments pppProj no inside " << pppProj
   << " should be in pppProj " << (((pppProj - DGtal::Z2i::RealPoint(4.0, 4.0)).norm() < 0.000001) && !in ? "OK": "KO")  << std::endl;
   DGtal::trace.endBlock();
-
+  
     
+  ///-----------------------------------------------------------------------------------------------
+  /// Test projection distances
+  DGtal::trace.beginBlock("Testing projection distances");
+  CoronaryArteryTree ci (DGtal::Z2i::RealPoint(0, 0), 2000, 1);
   
-  
-  
+  DGtal::Z2i::RealPoint pDirect (2,  5);
+  double dist = ci.getProjDistance(1, pDirect);
+  DGtal::trace.info() << "Test projection on initial segment: " << pDirect
+  << " distance (should be 2) :" <<dist <<  ( dist == 2.0 ? " OK": " KO")  << std::endl;
+  DGtal::Z2i::RealPoint pDirect2 (-1,  -1);
+  double dist2 = ci.getProjDistance(1, pDirect2);
+  DGtal::trace.info() << "Test projection on initial segment: " << pDirect
+  << " distance (should be sqrt(2)) :" <<dist2 <<  ( dist2*dist2 - 2.0 < 0.0000001? " OK": " KO")  << std::endl;
+  DGtal::trace.endBlock();
+
   
   return EXIT_SUCCESS;
 }

@@ -296,8 +296,21 @@ CoronaryArteryTree::getDistance(unsigned int index,
 
 double
 CoronaryArteryTree::getProjDistance(unsigned int index, const Point2D &p ) const {
-    
-    
+  double result = 0.0;
+  Point2D p0 = myVectSegments[index].myCoordinate;
+  Point2D p1 = myVectSegments[myVectParent[index]].myCoordinate;
+  Point2D pProj(0,0);
+  bool isInside = projectOnStraightLine(p0, p1, p, pProj);
+  if (isInside)
+  {
+    result = (pProj-p).norm();
+  }
+  else
+  {
+    result = std::min((p0-p).norm(), (p1-p).norm());
+  }
+  
+  return result;
 }
 
 
