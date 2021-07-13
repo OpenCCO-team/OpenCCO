@@ -311,11 +311,11 @@ CoronaryArteryTree::addSegmentFromPoint(const Point2D &p,
 }
 
 bool
-CoronaryArteryTree::isIntersecting(const Point2D &p,  unsigned int nearIndex, double minDistance)
+CoronaryArteryTree::isIntersecting(const Point2D &p,  unsigned int nearIndex, unsigned int nbNeibour, double minDistance)
 {
   Point2D newCenter = FindBarycenter(p, nearIndex);
   //bool inter = hasNearestIntersections(p, newCenter, 10);
-  bool inter = hasNearestIntersections(myVectParent[nearIndex], nearIndex, p, newCenter,  10);
+  bool inter = hasNearestIntersections(myVectParent[nearIndex], nearIndex, p, newCenter,  nbNeibour);
   if (inter){
     //DGtal::trace.warning() << "detection intersection" << std::endl;
     return true;

@@ -37,7 +37,7 @@ int main(int argc, char *const *argv)
       CoronaryArteryTree::Point2D pt = cTree.generateNewLocation(100);
       std::vector<unsigned int> vecN = cTree.getN_NearestSegments(pt,n);
       for(size_t it=0; it<vecN.size(); it++) {
-        if(!cTree.isIntersecting(pt,vecN.at(it))) {
+        if(!cTree.isIntersecting(pt,vecN.at(it),n)) {
           CoronaryArteryTree cTree1 = cTree;
           isOK = cTree1.isAddable(pt,vecN.at(it), 100);
           if(isOK) {
