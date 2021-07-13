@@ -1,4 +1,0 @@
-/Users/kerautre/EnCours/LiverCCO/Schreiner_Algorithm/buildXcode/CMakeFiles/testGeom.dir
-/Users/kerautre/EnCours/LiverCCO/Schreiner_Algorithm/buildXcode/CMakeFiles/testSchreiner.dir
-/Users/kerautre/EnCours/LiverCCO/Schreiner_Algorithm/buildXcode/CMakeFiles/ALL_BUILD.dir
-/Users/kerautre/EnCours/LiverCCO/Schreiner_Algorithm/buildXcode/CMakeFiles/ZERO_CHECK.dir

@@ -1,4 +1,0 @@
-/Users/kerautre/EnCours/LiverCCO/Schreiner_Algorithm/build/CMakeFiles/rebuild_cache.dir
-/Users/kerautre/EnCours/LiverCCO/Schreiner_Algorithm/build/CMakeFiles/edit_cache.dir
-/Users/kerautre/EnCours/LiverCCO/Schreiner_Algorithm/build/CMakeFiles/testGeom.dir
-/Users/kerautre/EnCours/LiverCCO/Schreiner_Algorithm/build/CMakeFiles/testSchreiner.dir
