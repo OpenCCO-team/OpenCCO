@@ -122,7 +122,8 @@ CoronaryArteryTree::updateScale(double scale)
   for(size_t it=0; it<this->myVectSegments.size(); it++) {
     this->myVectSegments[it].myCoordinate[0] *= scale;
     this->myVectSegments[it].myCoordinate[1] *= scale;
-    this->myVectSegments[it].myRadius *= scale;
+    if(it!=0) //except root radius
+      this->myVectSegments[it].myRadius *= scale;
     this->myVectSegments[it].myLength *= scale;
   }
   this->myRsupp *= scale;
@@ -464,17 +465,17 @@ CoronaryArteryTree::addSegmentFromPointBK(const Point2D &p,
 
 
 void
-CoronaryArteryTree::boardDisplay(bool clearDisplay)
+CoronaryArteryTree::boardDisplay(double thickness, bool clearDisplay)
 {
   if (clearDisplay){
     myBoard.clear();
   }
   // 57.5 from myBoard change scale
-  double scale = 57.5;
+  double scaleBoard = 57.5;
   // drawing base circle
   //std::cout <<"My rsupp is " << myRsupp<<std::endl;
   myBoard.setPenColor(DGtal::Color::Blue);
-  myBoard.setLineWidth(myVectSegments[0].myRadius*scale);
+  myBoard.setLineWidth(myVectSegments[0].myRadius*scaleBoard*thickness);
   myBoard.drawCircle(myTreeCenter[0], myTreeCenter[1], my_rPerf, 1);
   
   
@@ -482,15 +483,15 @@ CoronaryArteryTree::boardDisplay(bool clearDisplay)
   Point2D p0 = myVectSegments[0].myCoordinate;
   myBoard.setPenColor(DGtal::Color(10, 100, 0, 180));
   myBoard.setLineWidth(1.0);
-  myBoard.fillCircle(p0[0], p0[1], myVectSegments[0].myRadius, 1);
+  myBoard.fillCircle(p0[0], p0[1], myVectSegments[0].myRadius*thickness, 1);
   
   Point2D p1 = myVectSegments[1].myCoordinate;
   
   myBoard.setPenColor(DGtal::Color(180, 0, 0, 180));
   myBoard.setLineWidth(1.0);
-  myBoard.fillCircle(p1[0], p1[1], myVectSegments[1].myRadius, 1);
+  myBoard.fillCircle(p1[0], p1[1], myVectSegments[1].myRadius*thickness, 1);
   
-  myBoard.setLineWidth(myVectSegments[1].myRadius*scale);
+  myBoard.setLineWidth(myVectSegments[1].myRadius*scaleBoard*thickness);
   myBoard.setPenColor(DGtal::Color(150, 0, 0, 150));
   myBoard.drawLine(p0[0], p0[1], p1[0], p1[1], 2);
   
@@ -509,14 +510,14 @@ CoronaryArteryTree::boardDisplay(bool clearDisplay)
     // distal node:
     Point2D distal = s.myCoordinate;
     Point2D proxital = myVectSegments[myVectParent[s.myIndex]].myCoordinate;
-    myBoard.setLineWidth(myVectSegments[s.myIndex].myRadius*scale);
+    myBoard.setLineWidth(myVectSegments[s.myIndex].myRadius*scaleBoard*thickness);
     //   myBoard.setPenColor(cmap_grad(i));
     myBoard.setPenColor(DGtal::Color::Gray);
     myBoard.drawLine(distal[0], distal[1], proxital[0], proxital[1],2);
     //      std::cout << " myRsupp Value = "<< myRsupp<<std::endl;
     myBoard.setLineWidth(1.0);
     myBoard.setPenColor(DGtal::Color(180, 0, 0, 180));
-    myBoard.fillCircle(distal[0], distal[1], myVectSegments[s.myIndex].myRadius, 1 );
+    myBoard.fillCircle(distal[0], distal[1], myVectSegments[s.myIndex].myRadius*thickness, 1 );
     i++;
     
   }
@@ -525,9 +526,10 @@ CoronaryArteryTree::boardDisplay(bool clearDisplay)
 
 void
 CoronaryArteryTree::exportBoardDisplay(const std::string &fileName,
+                                       double thickness,
                                        bool updateDisplay ){
   if (updateDisplay){
-    boardDisplay();
+    boardDisplay(thickness);
   }
   std::string ext = fileName.substr(fileName.find_last_of(".") + 1);
   if (ext == "svg")

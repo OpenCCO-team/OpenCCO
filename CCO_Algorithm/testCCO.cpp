@@ -65,7 +65,7 @@ int main(int argc, char *const *argv)
     cTreeOpt.myBoard.clear();
     */
     cTree = cTreeOpt;
-    //cTree.updateScale(sqrt(1.0+(1.0/(i+1.0)))); 
+    //cTree.updateScale(sqrt(1.0+(1.0/(i+1.0))));
     std::cout<<"it="<<i<<"=> Aperf="<<cTree.myRsupp*cTree.myRsupp*M_PI<<std::endl;
     /*
     filename = "testCCO_V_B"+std::to_string(i)+".eps";
@@ -76,7 +76,9 @@ int main(int argc, char *const *argv)
   }
   std::cout<<"====> Aperf="<<cTree.myRsupp*cTree.myRsupp*M_PI<<" == "<<aPerf<<std::endl;
 
-  cTree.exportBoardDisplay("testCCO1.eps", true);
+  filename = "testCCO_"+std::to_string(nbTerm)+".svg";
+  //cTree.exportBoardDisplay(filename.c_str(), nbTerm/10.0, true);
+  cTree.exportBoardDisplay(filename.c_str());
   cTree.myBoard.clear();
   
   return EXIT_SUCCESS;

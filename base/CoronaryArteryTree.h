@@ -270,8 +270,10 @@ public:
    * Export the current display of the tree.
    */
   
-  void boardDisplay(bool clearDisplay = true);
+  void boardDisplay(double thickness = 1,
+                    bool clearDisplay = true);
   void exportBoardDisplay(const std::string &fileName = "result.eps",
+                          double thickness = 1,
                           bool updateDisplay = true );
   
   
