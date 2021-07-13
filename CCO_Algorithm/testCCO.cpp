@@ -76,7 +76,7 @@ int main(int argc, char *const *argv)
   }
   std::cout<<"====> Aperf="<<cTree.myRsupp*cTree.myRsupp*M_PI<<" == "<<aPerf<<std::endl;
 
-  filename = "testCCO_"+std::to_string(nbTerm)+".svg";
+  filename = "testCCO_"+std::to_string(nbTerm)+".eps";
   //cTree.exportBoardDisplay(filename.c_str(), nbTerm/10.0, true);
   cTree.exportBoardDisplay(filename.c_str());
   cTree.myBoard.clear();
