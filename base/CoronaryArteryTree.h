@@ -209,6 +209,7 @@ public:
   
   bool isAddable(const Point2D &p, unsigned int segIndex, unsigned int nbIter);
   
+  bool isIntersecting(const Point2D &p,  unsigned int nearIndex, double minDistance = 5.0);
   /**
    * Tries to add a new segment from a given point and it parent index.
    * @param p the extremity of the nex segment to be created

@@ -18,83 +18,66 @@ int main(int argc, char *const *argv)
   DGtal::trace.beginBlock("Testing class CoronaryArteryTree: test random adds with distance constraint");
   srand (time(NULL));
   DGtal::Z2i::RealPoint pRoot;
-  CoronaryArteryTree cTree (pRoot, 2000000, 10);
+  double aPerf = 2000000;
+  int nbTerm = 100;
+  double rRoot = 1.0;//1.0/nbTerm;
   
+  CoronaryArteryTree cTree (pRoot, aPerf, nbTerm, rRoot);
+  
+  unsigned int n = 10;
+  bool isOK = false;
   std::string filename;
-  unsigned int nbSeed = cTree.my_NTerm;
-  bool isOK;
+  unsigned int nbSeed = cTree.my_NTerm - 1;
   for (unsigned int i = 0; i < nbSeed; i++) {
     //DGtal::trace.progressBar(i, nbSeed);
-    isOK = false;
-    while (!isOK) {
-      CoronaryArteryTree::Point2D pt = cTree.generateNewLocation(100);
-      auto nearest = cTree.getNearestSegment(pt);
-      /*
-      filename = "testCCO_"+std::to_string(nearest)+"A.eps";
-      cTree.exportBoardDisplay(filename.c_str(), true);
-      cTree.myBoard.clear();
-      */
-      isOK = cTree.isAddable(pt,nearest, 100);
-      /*
-      std::cout<<"isOK="<<isOK<<std::endl;
-      if(isOK) {
-        filename = "testCCO_"+std::to_string(nearest)+"D.eps";
-        cTree.exportBoardDisplay(filename.c_str(), true);
-        cTree.myBoard.clear();
-      }
-      */
-      //std::cout<<"isOK="<<isOK<<std::endl;
-      if(isOK) {
-        filename = "testCCO_"+std::to_string(i)+".eps";
-        cTree.exportBoardDisplay(filename.c_str(), true);
-        cTree.myBoard.clear();
-      }
-    }
-    //std::cout<<i<<" => Total volume="<<cTree.computeTotalVolume(1)<<std::endl;
-  }
-    
-  unsigned int n = 5, nbSol = 0, itOpt = 0;
-  CoronaryArteryTree cTreeOpt = cTree;
-  double volOpt = -1.0, vol = 0.0;
-  for (unsigned int i = 0; i < 1; i++){
-    //DGtal::trace.progressBar(i, nbSeed);
+    int nbSol = 0, itOpt = 0;
+    CoronaryArteryTree cTreeOpt = cTree;
+    double volOpt = -1.0, vol = 0.0;
     while (nbSol==0) {
       CoronaryArteryTree::Point2D pt = cTree.generateNewLocation(100);
       std::vector<unsigned int> vecN = cTree.getN_NearestSegments(pt,n);
       for(size_t it=0; it<vecN.size(); it++) {
-        CoronaryArteryTree cTree1 = cTree;
-        isOK = cTree1.isAddable(pt,vecN.at(it), 100);
-        if(isOK) {
-          vol = cTree1.computeTotalVolume(1);
-          std::cout<<" => Test Total volume ("<<i<<"-"<<it<<")="<<vol<<std::endl;
-          if(volOpt<0.0) {
-            volOpt = vol;
-            cTreeOpt = cTree1;
-            itOpt = it;
-          }
-          else {
-            if(volOpt>vol) {
+        if(!cTree.isIntersecting(pt,vecN.at(it))) {
+          CoronaryArteryTree cTree1 = cTree;
+          isOK = cTree1.isAddable(pt,vecN.at(it), 100);
+          if(isOK) {
+            vol = cTree1.computeTotalVolume(1);
+            if(volOpt<0.0) {
               volOpt = vol;
               cTreeOpt = cTree1;
               itOpt = it;
             }
+            else {
+              if(volOpt>vol) {
+                volOpt = vol;
+                cTreeOpt = cTree1;
+                itOpt = it;
+              }
+            }
+            nbSol++;
           }
-          filename = "testCCO_V"+std::to_string(i)+"_"+std::to_string(it)+".eps";
-          cTree1.exportBoardDisplay(filename.c_str(), true);
-          cTree1.myBoard.clear();
-          nbSol++;
         }
       }
     }
+    /*
+    filename = "testCCO_V_A"+std::to_string(i)+".eps";
+    cTreeOpt.exportBoardDisplay(filename.c_str(), true);
+    cTreeOpt.myBoard.clear();
+    */
+    cTree = cTreeOpt;
+    //cTree.updateScale(sqrt(1.0+(1.0/(i+1.0))));
+    std::cout<<"it="<<i<<"=> Aperf="<<cTree.myRsupp*cTree.myRsupp*M_PI<<std::endl;
+    /*
+    filename = "testCCO_V_B"+std::to_string(i)+".eps";
+    cTreeOpt.exportBoardDisplay(filename.c_str(), true);
+    cTreeOpt.myBoard.clear();
+    */
+    
   }
-  
-  std::cout<<"itOpt="<<itOpt<<std::endl;
-  
+  std::cout<<"====> Aperf="<<cTree.myRsupp*cTree.myRsupp*M_PI<<" == "<<aPerf<<std::endl;
+
   cTree.exportBoardDisplay("testCCO1.eps", true);
   cTree.myBoard.clear();
-  
-  cTreeOpt.exportBoardDisplay("testCCO2.eps", true);
-  cTreeOpt.myBoard.clear();
   
   return EXIT_SUCCESS;
 }

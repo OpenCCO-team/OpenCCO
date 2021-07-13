@@ -307,13 +307,55 @@ CoronaryArteryTree::addSegmentFromPoint(const Point2D &p,
   
   //TODO: then opt with volume of the
   
-  
-  
   return true;
 }
 
+bool
+CoronaryArteryTree::isIntersecting(const Point2D &p,  unsigned int nearIndex, double minDistance)
+{
+  Point2D newCenter = FindBarycenter(p, nearIndex);
+  //bool inter = hasNearestIntersections(p, newCenter, 10);
+  bool inter = hasNearestIntersections(myVectParent[nearIndex], nearIndex, p, newCenter,  10);
+  if (inter){
+    //DGtal::trace.warning() << "detection intersection" << std::endl;
+    return true;
+  }
+  // Check barycenter is not too close considered segment
+  if ((newCenter-myVectSegments[nearIndex].myCoordinate).norm() < minDistance ||
+      (newCenter-myVectSegments[myVectParent[nearIndex]].myCoordinate).norm() < minDistance ||
+      (newCenter - p).norm() < minDistance){
+    //DGtal::trace.warning() << "new barycenter too close!!!!!!!!" << std::endl;
+    return true;
+  }
+  // Check new point with new segment of barycenter:
+  // - newPt and new segment [Barycenter-OriginNewSeg]
+  // - newPt and new segment [Barycenter-FatherNewSeg]
+  if ((newCenter-myVectSegments[nearIndex].myCoordinate).norm() < minDistance ||
+      (newCenter-myVectSegments[myVectParent[nearIndex]].myCoordinate).norm() < minDistance) {
+    //DGtal::trace.warning() << "initial too close to new!!!!!!!!" << std::endl;
+    return true;
+  }
+  if (getProjDistance(nearIndex, p) < minDistance) {
+    //DGtal::trace.warning() << "initial too close!!!!!!!!" << std::endl;
+    return true;
+
+  }
+  if (isToCloseFromNearest(p, minDistance)){
+    //DGtal::trace.warning() << "detection near too close " << std::endl;
+    return true;
+  }
+  if (getProjDistance(nearIndex, p) < minDistance||
+      getProjDistance(myVectParent[nearIndex], p) < minDistance||
+      getProjDistance(myVectChildren[nearIndex].first, p) < minDistance||
+      getProjDistance(myVectChildren[nearIndex].second, p) < minDistance){
+    //DGtal::trace.warning() << "detection too close existing" << std::endl;
+    return true;
+  }
+  return false;
+}
 
 // Test Version to debug...
+
 bool
 CoronaryArteryTree::addSegmentFromPointBK(const Point2D &p,
                                         unsigned int nearIndex,
