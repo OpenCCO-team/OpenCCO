@@ -57,6 +57,18 @@ public:
     double myRadius = 1.0;
     // length of the tubular section.
     double myLength = 0.0;
+    
+    // number of terminal segments in its children segment
+    unsigned int myKTerm = 1;
+    // hydrodynamc registance (R star)
+    double myHydroResistance = 0.00;
+    // flow (Qi)
+    double myFlow = 0.00;
+    // radius ratio of the segment and his brother (ri/rj)
+    double myRaidusRatio = 1.0;
+    // radius ratio of the segment and its parent
+    double beta = 1.0;
+    
   };
   
   // to recover the Children left (first) and right (second) on an indexed segment.
@@ -92,6 +104,9 @@ public:
   // my_gamma: bifurcation exponent (2.10-3.0)
   double my_gamma = 3.0;
   
+  // my_mu: viscosity of blood
+  double my_mu = 3.6;
+  
   // my_aPerf: Perfusion area
   double my_aPerf =10000;
   
@@ -103,7 +118,7 @@ public:
   //-----------------------------
   // Internal algorithm parameter
 
-  //myKTerm: current number of terminal segments
+  //myKTerm: current number of terminal segments of the tree
   unsigned int myKTerm = 1;
   
   //myDThresold: threshold on the distance criterion of adding a segment
@@ -139,11 +154,12 @@ public:
    * @param nTerm: number of terminal segments.
    **/
   
-  CoronaryArteryTree(const Point2D &ptRoot, double aPerf, unsigned int nTerm,
+  CoronaryArteryTree(Point2D &ptRoot, double aPerf, unsigned int nTerm,
                      double aRadius = 1.0 ){
      
     myTreeCenter = Point2D(0,0);
     myRsupp = sqrt((aPerf/nTerm)/M_PI);
+    my_rPerf = myRsupp;
     my_aPerf = aPerf;
     my_NTerm = nTerm;
     myDThresold = sqrt(M_PI*myRsupp*myRsupp/myKTerm);
@@ -151,21 +167,29 @@ public:
     Point2D pTerm = ptRoot; //generateRandomPtOnDisk(myTreeCenter, myRsupp);
     
     // Construction of the special root segment
+    ptRoot = Point2D(0,myRsupp);
     Segment<Point2D> s;
     s.myRadius = aRadius;
-    s.myCoordinate = Point2D(0,myRsupp);//ptRoot;
+    s.myCoordinate = ptRoot;
     s.myLength = 0;
     s.myIndex = 0;
+    s.myKTerm = 0;
     myVectSegments.push_back(s);
     myVectParent.push_back(0); //if parent index is itsef it is the root (special segment of length 0).
     myVectChildren.push_back(std::pair<unsigned int, unsigned int>(0,0)); // if children index is itself, it is an end segment.
-    my_rPerf = myRsupp;//(ptRoot-myTreeCenter).norm();
+    
     // Construction of the first segment after the root
     Segment<Point2D> s1;
     s1.myRadius = aRadius;
-    s1.myCoordinate = pTerm;
-    s1.myLength = (ptRoot-pTerm).norm();
+    s1.myCoordinate = pTerm; //myTreeCenter
+    s1.myLength = (ptRoot-pTerm).norm(); //(ptRoot-myTreeCenter).norm();
     s1.myIndex = 1;
+    s1.myKTerm = 1; //it contains terminal itself
+    s1.myHydroResistance = 8.0*my_mu*s1.myLength/M_PI;
+    s1.myFlow = my_qTerm;
+    s1.myRaidusRatio = 0.0;
+    s1.beta = 1.0;
+    
     myVectSegments.push_back(s1);
     myVectTerminals.push_back(1);
     myVectParent.push_back(0); //if parent index is the root
@@ -180,10 +204,14 @@ public:
   
   bool addFirstSegment(const Point2D &p);
   
+  double computeTotalVolume(unsigned int segIndex);
+  
+  bool isAddable(const Point2D &p, unsigned int segIndex, unsigned int nbIter);
+  
   /**
    * Tries to add a new segment from a given point and it parent index.
    * @param p the extremity of the nex segment to be created
-   * @param indexParent the index of the parent.
+   * @param nearIndex the index of the near segement to p.
    * @return true of the new segment is created, false in the other case.
    * (for instance if an intersection to previous point was present)
    **/
@@ -191,6 +219,35 @@ public:
   bool addSegmentFromPoint(const Point2D &p,  unsigned int nearIndex,
                            double rLeft = 1.0, double rRight = 1.0);
   
+ 
+  
+  /**
+   * Update the distribution of segmental flows after adding a new segment (new bifurcation)
+   * @param segIndex index of the parent segment to be updated
+   */
+  void updateFlowTerminal(unsigned int segIndex);
+  void updateFlowParameters(unsigned int segIndex);
+  
+  /**
+   * Update ...
+   * @param segIndex index of the parent segment to be updated
+   */
+  void updateRadius(unsigned int segIndex);
+  
+  /**
+   * Update the root radius after updating flow parameters (as given in Eq. 18)
+   */
+  void updateRootRadius();
+  
+  /**
+   * Update the segment radius after updating flow parameters (as given in Eq. 19)
+   */
+  void updateSegmentRadiusToRoot(unsigned int segIndex);
+  
+  /**
+   * Compute the total tree volume (as given in Eq. 20)
+   */
+  double computeTreeVolume(double mu, double lambda);
   
   /**
    * Tries to add a new segment from a given point.
@@ -344,8 +401,9 @@ public:
   /**
    * @param index: the segment index
    */
-  void kamyiaOptimization(unsigned int index, unsigned int nbIter = 100);
+  bool kamyiaOptimization(unsigned int index, unsigned int nbIter = 100);
   
+  bool kamyiaOptimization(const DGtal::Z2i::RealPoint& pParent, const Segment<Point2D>& sCurrent, const Segment<Point2D>& sL, const Segment<Point2D>& sR, unsigned int nbIter, DGtal::Z2i::RealPoint& pOpt, double& r0, double& r1, double& r2);
   
 };
 

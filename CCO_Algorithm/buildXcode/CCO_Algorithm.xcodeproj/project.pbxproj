@@ -1,0 +1,732 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXAggregateTarget section */
+		4030A31CCC8A41928D26D11D /* ALL_BUILD */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = 320B6A468D3041C3B55FF426 /* Build configuration list for PBXAggregateTarget "ALL_BUILD" */;
+			buildPhases = (
+				5CB6863F064E848C33A2DDD5 /* Generate CMakeFiles/ALL_BUILD */,
+			);
+			dependencies = (
+				2BE35E24616E44D5A78239B6 /* PBXTargetDependency */,
+				2D335288207C4480B3A18735 /* PBXTargetDependency */,
+			);
+			name = ALL_BUILD;
+			productName = ALL_BUILD;
+		};
+		747C4E56AC16452DBDF60A61 /* ZERO_CHECK */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = B4667788898C4DDF8B857387 /* Build configuration list for PBXAggregateTarget "ZERO_CHECK" */;
+			buildPhases = (
+				D0EDBA289B2A5FF2F00B7C1E /* Generate CMakeFiles/ZERO_CHECK */,
+			);
+			dependencies = (
+			);
+			name = ZERO_CHECK;
+			productName = ZERO_CHECK;
+		};
+/* End PBXAggregateTarget section */
+
+/* Begin PBXBuildFile section */
+		1C7187A715004268906CE427 /* /Users/kerautre/EnCours/LiverCCO/helpers/geomhelpers.h */ = {isa = PBXBuildFile; fileRef = D23C8293E22546DE9F89303C /* /Users/kerautre/EnCours/LiverCCO/helpers/geomhelpers.h */; };
+		98BD03E95B88422AA51A3AA2 /* /Users/kerautre/EnCours/LiverCCO/CCO_Algorithm/CMakeLists.txt */ = {isa = PBXBuildFile; fileRef = 93997F8BAB3F4F08A9AA5ADE /* /Users/kerautre/EnCours/LiverCCO/CCO_Algorithm/CMakeLists.txt */; };
+		B69212AB82524FEC8926EDE7 /* /Users/kerautre/EnCours/LiverCCO/base/CoronaryArteryTree.cpp */ = {isa = PBXBuildFile; fileRef = 42760B871D5042C8A7489227 /* /Users/kerautre/EnCours/LiverCCO/base/CoronaryArteryTree.cpp */; };
+		D1B50D854ADF47ADA94EB5DE /* /Users/kerautre/EnCours/LiverCCO/CCO_Algorithm/testCCO.cpp */ = {isa = PBXBuildFile; fileRef = 68F2203B06FC4005BB177636 /* /Users/kerautre/EnCours/LiverCCO/CCO_Algorithm/testCCO.cpp */; };
+		E31D4D6E3E964A3F9EC2D0BE /* /Users/kerautre/EnCours/LiverCCO/base/CoronaryArteryTree.h */ = {isa = PBXBuildFile; fileRef = 7D3A1FA148F24FC39040377C /* /Users/kerautre/EnCours/LiverCCO/base/CoronaryArteryTree.h */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXBuildStyle section */
+		1246C1E6957A4FADB2FB2A64 /* Debug */ = {
+			isa = PBXBuildStyle;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+			};
+			name = Debug;
+		};
+		442D187545854355AD7355D2 /* RelWithDebInfo */ = {
+			isa = PBXBuildStyle;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+			};
+			name = RelWithDebInfo;
+		};
+		62F4215279724C98A737850C /* MinSizeRel */ = {
+			isa = PBXBuildStyle;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+			};
+			name = MinSizeRel;
+		};
+		F0578EB788E544A0AAB5F450 /* Release */ = {
+			isa = PBXBuildStyle;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+			};
+			name = Release;
+		};
+/* End PBXBuildStyle section */
+
+/* Begin PBXContainerItemProxy section */
+		13245D0CE64D4EB4B6C1AF01 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 9C44C957FF574950B963107B /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = B1BEC8ED1701448CAD4E3303;
+			remoteInfo = testCCO;
+		};
+		3058B13CD3284EF7A6EBC173 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 9C44C957FF574950B963107B /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 747C4E56AC16452DBDF60A61;
+			remoteInfo = ZERO_CHECK;
+		};
+		8852350911044054928150FA /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 9C44C957FF574950B963107B /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 747C4E56AC16452DBDF60A61;
+			remoteInfo = ZERO_CHECK;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		42760B871D5042C8A7489227 /* /Users/kerautre/EnCours/LiverCCO/base/CoronaryArteryTree.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 4; name = CoronaryArteryTree.cpp; path = ../base/CoronaryArteryTree.cpp; sourceTree = SOURCE_ROOT; };
+		68F2203B06FC4005BB177636 /* /Users/kerautre/EnCours/LiverCCO/CCO_Algorithm/testCCO.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 4; name = testCCO.cpp; path = testCCO.cpp; sourceTree = SOURCE_ROOT; };
+		7D3A1FA148F24FC39040377C /* /Users/kerautre/EnCours/LiverCCO/base/CoronaryArteryTree.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 4; name = CoronaryArteryTree.h; path = ../base/CoronaryArteryTree.h; sourceTree = SOURCE_ROOT; };
+		9150E2D9C5F64547B107D9B1 /* /Users/kerautre/EnCours/LiverCCO/CCO_Algorithm/CMakeLists.txt */ = {isa = PBXFileReference; explicitFileType = sourcecode.text; fileEncoding = 4; name = CMakeLists.txt; path = CMakeLists.txt; sourceTree = SOURCE_ROOT; };
+		91CDDB9E80DF42988EFB9426 /* testCCO */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; path = testCCO; sourceTree = BUILT_PRODUCTS_DIR; };
+		93997F8BAB3F4F08A9AA5ADE /* /Users/kerautre/EnCours/LiverCCO/CCO_Algorithm/CMakeLists.txt */ = {isa = PBXFileReference; explicitFileType = sourcecode.text; fileEncoding = 4; name = CMakeLists.txt; path = CMakeLists.txt; sourceTree = SOURCE_ROOT; };
+		D23C8293E22546DE9F89303C /* /Users/kerautre/EnCours/LiverCCO/helpers/geomhelpers.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 4; name = geomhelpers.h; path = ../helpers/geomhelpers.h; sourceTree = SOURCE_ROOT; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		55C04B8AABF2415DBE14B44C /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		19771BE501004C81BBF71D19 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				91CDDB9E80DF42988EFB9426 /* testCCO */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		3650BFE9266B4518B5324225 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		9E910886C7CB4F52A9F2DE38 /* testCCO */ = {
+			isa = PBXGroup;
+			children = (
+				B1DD1DA3333C4120B395177B /* Source Files */,
+				BD5E2D3FAB2A4404B578CE71 /* Header Files */,
+				93997F8BAB3F4F08A9AA5ADE /* /Users/kerautre/EnCours/LiverCCO/CCO_Algorithm/CMakeLists.txt */,
+			);
+			name = testCCO;
+			sourceTree = "<group>";
+		};
+		A71A386E1F244A7E8B690DC9 /* CMake Rules */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = "CMake Rules";
+			sourceTree = "<group>";
+		};
+		B1DD1DA3333C4120B395177B /* Source Files */ = {
+			isa = PBXGroup;
+			children = (
+				68F2203B06FC4005BB177636 /* /Users/kerautre/EnCours/LiverCCO/CCO_Algorithm/testCCO.cpp */,
+				42760B871D5042C8A7489227 /* /Users/kerautre/EnCours/LiverCCO/base/CoronaryArteryTree.cpp */,
+			);
+			name = "Source Files";
+			sourceTree = "<group>";
+		};
+		BD5E2D3FAB2A4404B578CE71 /* Header Files */ = {
+			isa = PBXGroup;
+			children = (
+				7D3A1FA148F24FC39040377C /* /Users/kerautre/EnCours/LiverCCO/base/CoronaryArteryTree.h */,
+				D23C8293E22546DE9F89303C /* /Users/kerautre/EnCours/LiverCCO/helpers/geomhelpers.h */,
+			);
+			name = "Header Files";
+			sourceTree = "<group>";
+		};
+		C0BBDC81BD74468B9793B2C8 = {
+			isa = PBXGroup;
+			children = (
+				9E910886C7CB4F52A9F2DE38 /* testCCO */,
+				E6D7A548161F4888B027B42A /* ALL_BUILD */,
+				19771BE501004C81BBF71D19 /* Products */,
+				3650BFE9266B4518B5324225 /* Frameworks */,
+			);
+			sourceTree = "<group>";
+		};
+		E6D7A548161F4888B027B42A /* ALL_BUILD */ = {
+			isa = PBXGroup;
+			children = (
+				A71A386E1F244A7E8B690DC9 /* CMake Rules */,
+				9150E2D9C5F64547B107D9B1 /* /Users/kerautre/EnCours/LiverCCO/CCO_Algorithm/CMakeLists.txt */,
+			);
+			name = ALL_BUILD;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		B1BEC8ED1701448CAD4E3303 /* testCCO */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D15F138E0B624B658C35B0B8 /* Build configuration list for PBXNativeTarget "testCCO" */;
+			buildPhases = (
+				067FE5F4CAD2493182AFFBE7 /* Sources */,
+				55C04B8AABF2415DBE14B44C /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				B826C75BEC2E412083996AD1 /* PBXTargetDependency */,
+			);
+			name = testCCO;
+			productName = testCCO;
+			productReference = 91CDDB9E80DF42988EFB9426 /* testCCO */;
+			productType = "com.apple.product-type.tool";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		9C44C957FF574950B963107B /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = YES;
+				LastUpgradeCheck = 1250;
+			};
+			buildConfigurationList = 3CD501A833B943E5A3F290BF /* Build configuration list for PBXProject "CCO_Algorithm" */;
+			buildSettings = {
+			};
+			buildStyles = (
+				1246C1E6957A4FADB2FB2A64 /* Debug */,
+				F0578EB788E544A0AAB5F450 /* Release */,
+				62F4215279724C98A737850C /* MinSizeRel */,
+				442D187545854355AD7355D2 /* RelWithDebInfo */,
+			);
+			compatibilityVersion = "Xcode 3.2";
+			hasScannedForEncodings = 0;
+			mainGroup = C0BBDC81BD74468B9793B2C8;
+			projectDirPath = ../;
+			projectRoot = "";
+			targets = (
+				4030A31CCC8A41928D26D11D /* ALL_BUILD */,
+				747C4E56AC16452DBDF60A61 /* ZERO_CHECK */,
+				B1BEC8ED1701448CAD4E3303 /* testCCO */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		3C0110FC8322DE7E50886E21 = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# shell script goes here
+exit 0";
+			showEnvVarsInLog = 0;
+		};
+		5CB6863F064E848C33A2DDD5 /* Generate CMakeFiles/ALL_BUILD */ = {
+			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Generate CMakeFiles/ALL_BUILD";
+			outputPaths = (
+/Users/kerautre/EnCours/LiverCCO/CCO_Algorithm/buildXcode/CMakeFiles/ALL_BUILD			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "set -e
+if test \"$CONFIGURATION\" = \"Debug\"; then :
+  cd /Users/kerautre/EnCours/LiverCCO/CCO_Algorithm/buildXcode
+  echo Build\\ all\\ projects
+fi
+if test \"$CONFIGURATION\" = \"Release\"; then :
+  cd /Users/kerautre/EnCours/LiverCCO/CCO_Algorithm/buildXcode
+  echo Build\\ all\\ projects
+fi
+if test \"$CONFIGURATION\" = \"MinSizeRel\"; then :
+  cd /Users/kerautre/EnCours/LiverCCO/CCO_Algorithm/buildXcode
+  echo Build\\ all\\ projects
+fi
+if test \"$CONFIGURATION\" = \"RelWithDebInfo\"; then :
+  cd /Users/kerautre/EnCours/LiverCCO/CCO_Algorithm/buildXcode
+  echo Build\\ all\\ projects
+fi
+";
+			showEnvVarsInLog = 0;
+		};
+		9B50530E35CC49C82C2FACCF = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# shell script goes here
+exit 0";
+			showEnvVarsInLog = 0;
+		};
+		D0EDBA289B2A5FF2F00B7C1E /* Generate CMakeFiles/ZERO_CHECK */ = {
+			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Generate CMakeFiles/ZERO_CHECK";
+			outputPaths = (
+/Users/kerautre/EnCours/LiverCCO/CCO_Algorithm/buildXcode/CMakeFiles/ZERO_CHECK			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "set -e
+if test \"$CONFIGURATION\" = \"Debug\"; then :
+  cd /Users/kerautre/EnCours/LiverCCO/CCO_Algorithm/buildXcode
+  make -f /Users/kerautre/EnCours/LiverCCO/CCO_Algorithm/buildXcode/CMakeScripts/ReRunCMake.make
+fi
+if test \"$CONFIGURATION\" = \"Release\"; then :
+  cd /Users/kerautre/EnCours/LiverCCO/CCO_Algorithm/buildXcode
+  make -f /Users/kerautre/EnCours/LiverCCO/CCO_Algorithm/buildXcode/CMakeScripts/ReRunCMake.make
+fi
+if test \"$CONFIGURATION\" = \"MinSizeRel\"; then :
+  cd /Users/kerautre/EnCours/LiverCCO/CCO_Algorithm/buildXcode
+  make -f /Users/kerautre/EnCours/LiverCCO/CCO_Algorithm/buildXcode/CMakeScripts/ReRunCMake.make
+fi
+if test \"$CONFIGURATION\" = \"RelWithDebInfo\"; then :
+  cd /Users/kerautre/EnCours/LiverCCO/CCO_Algorithm/buildXcode
+  make -f /Users/kerautre/EnCours/LiverCCO/CCO_Algorithm/buildXcode/CMakeScripts/ReRunCMake.make
+fi
+";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		067FE5F4CAD2493182AFFBE7 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D1B50D854ADF47ADA94EB5DE /* /Users/kerautre/EnCours/LiverCCO/CCO_Algorithm/testCCO.cpp */,
+				B69212AB82524FEC8926EDE7 /* /Users/kerautre/EnCours/LiverCCO/base/CoronaryArteryTree.cpp */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		2BE35E24616E44D5A78239B6 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 747C4E56AC16452DBDF60A61 /* ZERO_CHECK */;
+			targetProxy = 8852350911044054928150FA /* PBXContainerItemProxy */;
+		};
+		2D335288207C4480B3A18735 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = B1BEC8ED1701448CAD4E3303 /* testCCO */;
+			targetProxy = 13245D0CE64D4EB4B6C1AF01 /* PBXContainerItemProxy */;
+		};
+		B826C75BEC2E412083996AD1 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 747C4E56AC16452DBDF60A61 /* ZERO_CHECK */;
+			targetProxy = 3058B13CD3284EF7A6EBC173 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		05DEA60096064C5AA8BBB20E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(NATIVE_ARCH_ACTUAL)";
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX11.3.sdk;
+				SYMROOT = /Users/kerautre/EnCours/LiverCCO/CCO_Algorithm/buildXcode/build;
+			};
+			name = Debug;
+		};
+		05E1E65D657147D3906A9009 /* RelWithDebInfo */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'");
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				INSTALL_PATH = "";
+				OTHER_LDFLAGS = ("");
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = ZERO_CHECK;
+				SECTORDER_FLAGS = "";
+				SYMROOT = /Users/kerautre/EnCours/LiverCCO/CCO_Algorithm/buildXcode;
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("$(inherited)");
+			};
+			name = RelWithDebInfo;
+		};
+		0760063B6FB04325A2FDB429 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(NATIVE_ARCH_ACTUAL)";
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX11.3.sdk;
+				SYMROOT = /Users/kerautre/EnCours/LiverCCO/CCO_Algorithm/buildXcode/build;
+			};
+			name = Release;
+		};
+		136ABF9AFFFF43A694A7EEEF /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'");
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				INSTALL_PATH = "";
+				OTHER_LDFLAGS = ("");
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = ZERO_CHECK;
+				SECTORDER_FLAGS = "";
+				SYMROOT = /Users/kerautre/EnCours/LiverCCO/CCO_Algorithm/buildXcode;
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("$(inherited)");
+			};
+			name = Debug;
+		};
+		1938AC5A63864539AB3F4170 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				EXECUTABLE_PREFIX = "";
+				EXECUTABLE_SUFFIX = "";
+				FRAMEWORK_SEARCH_PATHS = ("$(inherited)");
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 3;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'","'GFLAGS_IS_A_DLL=0'",UNIX,APPLE,BOOST_ALL_NO_LIB);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				HEADER_SEARCH_PATHS = (/Users/kerautre/EnCours/LiverCCO/CCO_Algorithm/../ext,/Users/kerautre/EnCours/LiverCCO/CCO_Algorithm/../helpers,/Users/kerautre/EnCours/LiverCCO/CCO_Algorithm/../base);
+				INSTALL_PATH = "";
+				LD_RUNPATH_SEARCH_PATHS = "/usr/local/lib /Users/kerautre/EnCours/DGtal/build";
+				LIBRARY_SEARCH_PATHS = ("$(inherited)");
+				OTHER_CPLUSPLUSFLAGS = "    -DNDEBUG '-std=gnu++14' ";
+				OTHER_LDFLAGS = (" -Wl,-search_paths_first -Wl,-headerpad_max_install_names",/usr/local/lib/libceres.2.0.0.dylib,/Users/kerautre/EnCours/DGtal/build/libDGtal.dylib,/usr/local/lib/libglog.0.5.0.dylib,/usr/local/lib/libgflags.2.2.2.dylib,/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX11.3.sdk/usr/lib/libz.tbd);
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = testCCO;
+				SECTORDER_FLAGS = "";
+				SYMROOT = /Users/kerautre/EnCours/LiverCCO/CCO_Algorithm/buildXcode;
+				SYSTEM_HEADER_SEARCH_PATHS = (/Users/kerautre/EnCours/DGtal/src,/Users/kerautre/EnCours/DGtal/build/src,/usr/local/include,/usr/local/include/eigen3);
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("$(inherited)");
+			};
+			name = Release;
+		};
+		38AC10B01BB24077A5FF487E /* RelWithDebInfo */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'");
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				INSTALL_PATH = "";
+				OTHER_LDFLAGS = ("");
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = ALL_BUILD;
+				SECTORDER_FLAGS = "";
+				SYMROOT = /Users/kerautre/EnCours/LiverCCO/CCO_Algorithm/buildXcode;
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("$(inherited)");
+			};
+			name = RelWithDebInfo;
+		};
+		39C7A5EEAD6B49E5BDF56B8F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'");
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				INSTALL_PATH = "";
+				OTHER_LDFLAGS = ("");
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = ALL_BUILD;
+				SECTORDER_FLAGS = "";
+				SYMROOT = /Users/kerautre/EnCours/LiverCCO/CCO_Algorithm/buildXcode;
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("$(inherited)");
+			};
+			name = Release;
+		};
+		52FFFE5CA3CA47838F5E1061 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'");
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				INSTALL_PATH = "";
+				OTHER_LDFLAGS = ("");
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = ALL_BUILD;
+				SECTORDER_FLAGS = "";
+				SYMROOT = /Users/kerautre/EnCours/LiverCCO/CCO_Algorithm/buildXcode;
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("$(inherited)");
+			};
+			name = Debug;
+		};
+		5AF6FB7DC5454900AF6B09DC /* RelWithDebInfo */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				EXECUTABLE_PREFIX = "";
+				EXECUTABLE_SUFFIX = "";
+				FRAMEWORK_SEARCH_PATHS = ("$(inherited)");
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 2;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'","'GFLAGS_IS_A_DLL=0'",UNIX,APPLE,BOOST_ALL_NO_LIB);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				HEADER_SEARCH_PATHS = (/Users/kerautre/EnCours/LiverCCO/CCO_Algorithm/../ext,/Users/kerautre/EnCours/LiverCCO/CCO_Algorithm/../helpers,/Users/kerautre/EnCours/LiverCCO/CCO_Algorithm/../base);
+				INSTALL_PATH = "";
+				LD_RUNPATH_SEARCH_PATHS = "/usr/local/lib /Users/kerautre/EnCours/DGtal/build";
+				LIBRARY_SEARCH_PATHS = ("$(inherited)");
+				OTHER_CPLUSPLUSFLAGS = "       -DNDEBUG '-std=gnu++14' ";
+				OTHER_LDFLAGS = (" -Wl,-search_paths_first -Wl,-headerpad_max_install_names",/usr/local/lib/libceres.2.0.0.dylib,/Users/kerautre/EnCours/DGtal/build/libDGtal.dylib,/usr/local/lib/libglog.0.5.0.dylib,/usr/local/lib/libgflags.2.2.2.dylib,/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX11.3.sdk/usr/lib/libz.tbd);
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = testCCO;
+				SECTORDER_FLAGS = "";
+				SYMROOT = /Users/kerautre/EnCours/LiverCCO/CCO_Algorithm/buildXcode;
+				SYSTEM_HEADER_SEARCH_PATHS = (/Users/kerautre/EnCours/DGtal/src,/Users/kerautre/EnCours/DGtal/build/src,/usr/local/include,/usr/local/include/eigen3);
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("$(inherited)");
+			};
+			name = RelWithDebInfo;
+		};
+		876E64766A7146FA98F31633 /* MinSizeRel */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'");
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				INSTALL_PATH = "";
+				OTHER_LDFLAGS = ("");
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = ALL_BUILD;
+				SECTORDER_FLAGS = "";
+				SYMROOT = /Users/kerautre/EnCours/LiverCCO/CCO_Algorithm/buildXcode;
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("$(inherited)");
+			};
+			name = MinSizeRel;
+		};
+		93656A4E655A428F97A2A251 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				EXECUTABLE_PREFIX = "";
+				EXECUTABLE_SUFFIX = "";
+				FRAMEWORK_SEARCH_PATHS = ("$(inherited)");
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'","'GFLAGS_IS_A_DLL=0'",UNIX,APPLE,BOOST_ALL_NO_LIB);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				HEADER_SEARCH_PATHS = (/Users/kerautre/EnCours/LiverCCO/CCO_Algorithm/../ext,/Users/kerautre/EnCours/LiverCCO/CCO_Algorithm/../helpers,/Users/kerautre/EnCours/LiverCCO/CCO_Algorithm/../base);
+				INSTALL_PATH = "";
+				LD_RUNPATH_SEARCH_PATHS = "/usr/local/lib /Users/kerautre/EnCours/DGtal/build";
+				LIBRARY_SEARCH_PATHS = ("$(inherited)");
+				OTHER_CPLUSPLUSFLAGS = "   '-std=gnu++14' ";
+				OTHER_LDFLAGS = (" -Wl,-search_paths_first -Wl,-headerpad_max_install_names",/usr/local/lib/libceres.2.0.0.dylib,/Users/kerautre/EnCours/DGtal/build/libDGtal.dylib,/usr/local/lib/libglog.0.5.0.dylib,/usr/local/lib/libgflags.2.2.2.dylib,/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX11.3.sdk/usr/lib/libz.tbd);
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = testCCO;
+				SECTORDER_FLAGS = "";
+				SYMROOT = /Users/kerautre/EnCours/LiverCCO/CCO_Algorithm/buildXcode;
+				SYSTEM_HEADER_SEARCH_PATHS = (/Users/kerautre/EnCours/DGtal/src,/Users/kerautre/EnCours/DGtal/build/src,/usr/local/include,/usr/local/include/eigen3);
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("$(inherited)");
+			};
+			name = Debug;
+		};
+		9820C3884291442583F64139 /* RelWithDebInfo */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(NATIVE_ARCH_ACTUAL)";
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX11.3.sdk;
+				SYMROOT = /Users/kerautre/EnCours/LiverCCO/CCO_Algorithm/buildXcode/build;
+			};
+			name = RelWithDebInfo;
+		};
+		C3FB2588CC54413F965D1DCC /* MinSizeRel */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'");
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				INSTALL_PATH = "";
+				OTHER_LDFLAGS = ("");
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = ZERO_CHECK;
+				SECTORDER_FLAGS = "";
+				SYMROOT = /Users/kerautre/EnCours/LiverCCO/CCO_Algorithm/buildXcode;
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("$(inherited)");
+			};
+			name = MinSizeRel;
+		};
+		E3A235DFC8384492B6A4A407 /* MinSizeRel */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(NATIVE_ARCH_ACTUAL)";
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX11.3.sdk;
+				SYMROOT = /Users/kerautre/EnCours/LiverCCO/CCO_Algorithm/buildXcode/build;
+			};
+			name = MinSizeRel;
+		};
+		E5F8D63D5B8B4F79BCC406C1 /* MinSizeRel */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				EXECUTABLE_PREFIX = "";
+				EXECUTABLE_SUFFIX = "";
+				FRAMEWORK_SEARCH_PATHS = ("$(inherited)");
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = s;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'","'GFLAGS_IS_A_DLL=0'",UNIX,APPLE,BOOST_ALL_NO_LIB);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				HEADER_SEARCH_PATHS = (/Users/kerautre/EnCours/LiverCCO/CCO_Algorithm/../ext,/Users/kerautre/EnCours/LiverCCO/CCO_Algorithm/../helpers,/Users/kerautre/EnCours/LiverCCO/CCO_Algorithm/../base);
+				INSTALL_PATH = "";
+				LD_RUNPATH_SEARCH_PATHS = "/usr/local/lib /Users/kerautre/EnCours/DGtal/build";
+				LIBRARY_SEARCH_PATHS = ("$(inherited)");
+				OTHER_CPLUSPLUSFLAGS = "    -DNDEBUG '-std=gnu++14' ";
+				OTHER_LDFLAGS = (" -Wl,-search_paths_first -Wl,-headerpad_max_install_names",/usr/local/lib/libceres.2.0.0.dylib,/Users/kerautre/EnCours/DGtal/build/libDGtal.dylib,/usr/local/lib/libglog.0.5.0.dylib,/usr/local/lib/libgflags.2.2.2.dylib,/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX11.3.sdk/usr/lib/libz.tbd);
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = testCCO;
+				SECTORDER_FLAGS = "";
+				SYMROOT = /Users/kerautre/EnCours/LiverCCO/CCO_Algorithm/buildXcode;
+				SYSTEM_HEADER_SEARCH_PATHS = (/Users/kerautre/EnCours/DGtal/src,/Users/kerautre/EnCours/DGtal/build/src,/usr/local/include,/usr/local/include/eigen3);
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("$(inherited)");
+			};
+			name = MinSizeRel;
+		};
+		EB77A770C79E4A88AA6C4EDE /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'");
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				INSTALL_PATH = "";
+				OTHER_LDFLAGS = ("");
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = ZERO_CHECK;
+				SECTORDER_FLAGS = "";
+				SYMROOT = /Users/kerautre/EnCours/LiverCCO/CCO_Algorithm/buildXcode;
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("$(inherited)");
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		320B6A468D3041C3B55FF426 /* Build configuration list for PBXAggregateTarget "ALL_BUILD" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				52FFFE5CA3CA47838F5E1061 /* Debug */,
+				39C7A5EEAD6B49E5BDF56B8F /* Release */,
+				876E64766A7146FA98F31633 /* MinSizeRel */,
+				38AC10B01BB24077A5FF487E /* RelWithDebInfo */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		3CD501A833B943E5A3F290BF /* Build configuration list for PBXProject "CCO_Algorithm" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				05DEA60096064C5AA8BBB20E /* Debug */,
+				0760063B6FB04325A2FDB429 /* Release */,
+				E3A235DFC8384492B6A4A407 /* MinSizeRel */,
+				9820C3884291442583F64139 /* RelWithDebInfo */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		B4667788898C4DDF8B857387 /* Build configuration list for PBXAggregateTarget "ZERO_CHECK" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				136ABF9AFFFF43A694A7EEEF /* Debug */,
+				EB77A770C79E4A88AA6C4EDE /* Release */,
+				C3FB2588CC54413F965D1DCC /* MinSizeRel */,
+				05E1E65D657147D3906A9009 /* RelWithDebInfo */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		D15F138E0B624B658C35B0B8 /* Build configuration list for PBXNativeTarget "testCCO" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				93656A4E655A428F97A2A251 /* Debug */,
+				1938AC5A63864539AB3F4170 /* Release */,
+				E5F8D63D5B8B4F79BCC406C1 /* MinSizeRel */,
+				5AF6FB7DC5454900AF6B09DC /* RelWithDebInfo */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 9C44C957FF574950B963107B /* Project object */;
+}

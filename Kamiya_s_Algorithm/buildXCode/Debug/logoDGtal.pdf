@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="ISO-8859-1" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg width="310mm" height="810mm" 
+     viewBox="0 0 878.74 2296.06" 
+     xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" >
+<desc>output.svg, created with the Board library (Copyleft) 2007 Sebastien Fourey</desc>
+<rect x="850.39" y="0" width="28.35" height="28.35" fill="rgb(180,180,180)" stroke="rgb(0,0,0)" stroke-width="0.882mm" style="stroke-linecap:round;stroke-linejoin:round" />
+<rect x="0" y="1700.79" width="28.35" height="28.35" fill="rgb(180,180,180)" stroke="rgb(0,0,0)" stroke-width="0.882mm" style="stroke-linecap:round;stroke-linejoin:round" />
+<rect x="850.39" y="2267.72" width="28.35" height="28.35" fill="rgb(180,180,180)" stroke="rgb(0,0,0)" stroke-width="0.882mm" style="stroke-linecap:round;stroke-linejoin:round" />
+<rect x="477.42" y="1341.14" width="28.35" height="28.35" fill="rgb(180,180,180)" stroke="rgb(0,0,0)" stroke-width="0.882mm" style="stroke-linecap:round;stroke-linejoin:round" />
+</svg>

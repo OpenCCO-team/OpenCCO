@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="ISO-8859-1" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg width="504.627mm" height="514.627mm" 
+     viewBox="0 0 1430.44 1458.78" 
+     xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" >
+<desc>output.svg, created with the Board library (Copyleft) 2007 Sebastien Fourey</desc>
+<line x1="715.22" y1="28.35" x2="797.11" y2="318.6" fill="none" stroke="rgb(150,0,0)" stroke-width="20.285mm" style="stroke-linecap:butt;stroke-linejoin:miter"  stroke-opacity="0.588235" />
+<line x1="715.22" y1="743.57" x2="620.73" y2="410.67" fill="none" stroke="rgb(128,128,128)" stroke-width="20.285mm" style="stroke-linecap:butt;stroke-linejoin:miter" />
+<line x1="431.75" y1="460.1" x2="620.73" y2="410.67" fill="none" stroke="rgb(128,128,128)" stroke-width="20.285mm" style="stroke-linecap:butt;stroke-linejoin:miter" />
+<line x1="620.73" y1="410.67" x2="797.11" y2="318.6" fill="none" stroke="rgb(128,128,128)" stroke-width="20.285mm" style="stroke-linecap:butt;stroke-linejoin:miter" />
+<line x1="1055.38" y1="516.79" x2="797.11" y2="318.6" fill="none" stroke="rgb(128,128,128)" stroke-width="20.285mm" style="stroke-linecap:butt;stroke-linejoin:miter" />
+<circle cx="715.22" cy="743.57" r="715.22" fill="none" stroke="rgb(0,0,255)" stroke-width="20.285mm" style="stroke-linecap:butt;stroke-linejoin:miter" />
+<circle cx="715.22" cy="28.35" r="28.35" fill="rgb(10,100,0)" stroke="none" stroke-width="0" style="stroke-linecap:round;stroke-linejoin:round;"  fill-opacity="0.705882"  stroke-opacity="0.705882" />
+<circle cx="797.11" cy="318.6" r="28.35" fill="rgb(180,0,0)" stroke="none" stroke-width="0" style="stroke-linecap:round;stroke-linejoin:round;"  fill-opacity="0.705882"  stroke-opacity="0.705882" />
+<circle cx="715.22" cy="743.57" r="28.35" fill="rgb(180,0,0)" stroke="none" stroke-width="0" style="stroke-linecap:round;stroke-linejoin:round;"  fill-opacity="0.705882"  stroke-opacity="0.705882" />
+<circle cx="431.75" cy="460.1" r="28.35" fill="rgb(180,0,0)" stroke="none" stroke-width="0" style="stroke-linecap:round;stroke-linejoin:round;"  fill-opacity="0.705882"  stroke-opacity="0.705882" />
+<circle cx="620.73" cy="410.67" r="28.35" fill="rgb(180,0,0)" stroke="none" stroke-width="0" style="stroke-linecap:round;stroke-linejoin:round;"  fill-opacity="0.705882"  stroke-opacity="0.705882" />
+<circle cx="1055.38" cy="516.79" r="28.35" fill="rgb(180,0,0)" stroke="none" stroke-width="0" style="stroke-linecap:round;stroke-linejoin:round;"  fill-opacity="0.705882"  stroke-opacity="0.705882" />
+<circle cx="431.75" cy="601.83" r="28.35" fill="rgb(0,255,255)" stroke="rgb(180,0,0)" stroke-width="0.353mm" style="stroke-linecap:butt;stroke-linejoin:miter"  stroke-opacity="0.705882" />
+<circle cx="516.79" cy="573.49" r="28.35" fill="rgb(255,255,0)" stroke="rgb(180,0,0)" stroke-width="0.353mm" style="stroke-linecap:butt;stroke-linejoin:miter"  stroke-opacity="0.705882" />
+</svg>

@@ -1,0 +1,4 @@
+Target dependency graph (2 targets)
+ZERO_CHECK in Schreiner_s_Algorithm
+testSchreiner in Schreiner_s_Algorithm, depends on:
+ZERO_CHECK in Schreiner_s_Algorithm (explicit)

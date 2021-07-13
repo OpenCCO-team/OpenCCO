@@ -20,6 +20,216 @@ CoronaryArteryTree::addSegmentFromPoint(const Point2D &p)
   return addSegmentFromPoint(p, nearIndex);
 }
 
+void
+CoronaryArteryTree::updateFlowTerminal(unsigned int segIndex)
+{
+  //Update HydroResistance
+  myVectSegments[segIndex].myHydroResistance = 8.0*my_mu*myVectSegments[segIndex].myLength/M_PI;
+  assert(myVectSegments[segIndex].myHydroResistance != 0);
+  //std::cout<<"myHydroResistance="<<myVectSegments[segIndex].myHydroResistance<<std::endl;
+}
+
+void
+CoronaryArteryTree::updateFlowParameters(unsigned int segIndex)
+{
+  if(myVectSegments[segIndex].myIndex != 0) {
+    //Update HydroResistance
+    myVectSegments[segIndex].myHydroResistance = 8.0*my_mu*myVectSegments[segIndex].myLength/M_PI;
+    if(myVectChildren[segIndex].first!=0 && myVectChildren[segIndex].second!=0) {
+      // Get left and right children of the segment
+      Segment<Point2D> sLeft = myVectSegments[myVectChildren[segIndex].first];
+      Segment<Point2D> sRight = myVectSegments[myVectChildren[segIndex].second];
+      double r1 = (sLeft.myRadius/myVectSegments[segIndex].myRadius);
+      double r2 = (sRight.myRadius/myVectSegments[segIndex].myRadius);
+      myVectSegments[segIndex].myHydroResistance += 1.0/((r1*r1*r1*r1)/sLeft.myHydroResistance + (r2*r2*r2*r2)/sRight.myHydroResistance) ;
+    }
+    assert(myVectSegments[segIndex].myHydroResistance != 0);
+    //std::cout<<"myHydroResistance="<<myVectSegments[segIndex].myHydroResistance<<std::endl;
+    //Update beta
+    if(myVectSegments[myVectParent[segIndex]].myIndex!=0) { //it's not the first segment
+      std::pair<int, int> children = myVectChildren[myVectParent[segIndex]];
+      int brotherIndex;
+      if(children.first != segIndex)
+        brotherIndex = children.first;
+      else
+        brotherIndex = children.second;
+      double segFlow = myVectSegments[segIndex].myFlow;
+      double brotherFlow = myVectSegments[brotherIndex].myFlow;
+      double segHydro = myVectSegments[segIndex].myHydroResistance;
+      double brotherHydro = myVectSegments[brotherIndex].myHydroResistance;
+      double ratioR = pow((segFlow*segHydro) / (brotherFlow*brotherHydro), 0.25); //ratio of radii of two brother segments
+      //ratio of radii of current segment wrt the parent segment
+      myVectSegments[segIndex].beta = pow(1.0/(1+pow(ratioR,-my_gamma)),1.0/my_gamma);
+      myVectSegments[brotherIndex].beta = pow(1.0/(1+pow(1.0/ratioR,-my_gamma)),1.0/my_gamma);
+    }
+    updateFlowParameters(myVectSegments[myVectParent[segIndex]].myIndex);
+  }
+}
+
+void
+CoronaryArteryTree::updateRadius(unsigned int segIndex)
+{
+  if(myVectChildren[segIndex].first!=0 && myVectChildren[segIndex].second!=0) {
+    //update radii left and right children
+    Segment<Point2D> sLeft = myVectSegments[myVectChildren[segIndex].first];
+    Segment<Point2D> sRight = myVectSegments[myVectChildren[segIndex].second];
+    double rL = myVectSegments[segIndex].myRadius * sLeft.beta;
+    myVectSegments[myVectChildren[segIndex].first].myRadius = rL;
+    double rR = myVectSegments[segIndex].myRadius * sRight.beta;
+    myVectSegments[myVectChildren[segIndex].second].myRadius = rR;
+    updateRadius(sLeft.myIndex);
+    updateRadius(sRight.myIndex);
+  }
+}
+
+
+void
+CoronaryArteryTree::updateRootRadius()
+{
+  unsigned int idRoot = 1;
+  double Qpk = myVectSegments[idRoot].myKTerm*my_qTerm;
+  double rRoot = pow((myVectSegments[idRoot].myHydroResistance*Qpk)/(my_pPerf-my_pTerm),0.25);
+  myVectSegments[idRoot].myRadius = rRoot;
+  updateRadius(idRoot);
+}
+
+void
+CoronaryArteryTree::updateSegmentRadiusToRoot(unsigned int segIndex)
+{
+  unsigned int idRoot = 1;
+  double rRoot= myVectSegments[idRoot].myRadius;
+  std::vector<unsigned int> v = getPathToRoot(myVectSegments[segIndex]);
+  double radius = 1;
+  for(size_t id=v.size()-1; id>=2; id--) {
+    radius *= rRoot*myVectSegments[v[id]].beta;
+    myVectSegments[v[id]].myRadius = radius;
+  }
+}
+
+double
+CoronaryArteryTree::computeTreeVolume(double mu, double lambda)
+{
+  double volume = 0;
+  for(size_t idSeg = 1; idSeg<myVectSegments.size(); idSeg++) {
+    volume += pow(myVectSegments[idSeg].myLength,mu)*pow(myVectSegments[idSeg].myRadius,lambda);
+  }
+  return volume;
+}
+
+double
+CoronaryArteryTree::computeTotalVolume(unsigned int segIndex)
+{
+  //Volumn of current segment
+  double v = myVectSegments[segIndex].myRadius*myVectSegments[segIndex].myLength;
+  if(myVectChildren[segIndex].first!=0 && myVectChildren[segIndex].second!=0) {
+    double vL = computeTotalVolume(myVectChildren[segIndex].first);
+    double vR = computeTotalVolume(myVectChildren[segIndex].second);
+    v += vL + vR;
+  }
+  return v;
+}
+
+bool
+CoronaryArteryTree::isAddable(const Point2D &p, unsigned int segIndex, unsigned int nbIter)
+{
+  DGtal::Z2i::RealPoint pOpt;
+  double r0 = 1.0, r1 = 1.0, r2 = 1.0;
+  
+  Point2D newCenter = FindBarycenter(p, segIndex);
+  // Creation of the left child
+  Segment<Point2D> sNewLeft;
+  sNewLeft.myCoordinate = myVectSegments[segIndex].myCoordinate;
+  sNewLeft.myRadius = myVectSegments[segIndex].myRadius;
+  sNewLeft.myIndex = myVectSegments.size();
+  sNewLeft.myLength = (newCenter - myVectSegments[segIndex].myCoordinate).norm();
+  sNewLeft.myFlow = myVectSegments[segIndex].myFlow;
+  
+  // Creation of the right child
+  Segment<Point2D> sNewRight;
+  sNewRight.myCoordinate = p;
+  sNewRight.myRadius = myVectSegments[segIndex].myRadius;
+  sNewRight.myIndex = myVectSegments.size()+1;
+  sNewRight.myLength = (newCenter - p).norm();
+  sNewRight.myFlow = my_qTerm;
+  
+  
+  // Cretation a copy of center segment
+  Segment<Point2D> sCurrent = myVectSegments[segIndex];
+  sCurrent.myCoordinate = newCenter;
+  sCurrent.myLength = (newCenter - myVectSegments[myVectParent[segIndex]].myCoordinate).norm();
+  //sCurrent.myRadius = myVectSegments[segIndex].myRadius;
+  sCurrent.myFlow = myVectSegments[segIndex].myFlow + my_qTerm;
+  
+  // Cretation a copy of parent segment
+  Segment<Point2D> sParent = myVectSegments[myVectParent[segIndex]];
+  
+  bool res = kamyiaOptimization(sParent.myCoordinate, sCurrent, sNewLeft, sNewRight, nbIter, pOpt, r0, r1, r2);
+  if(res) {
+    //Update optimal values
+    sNewLeft.myLength = (sNewLeft.myCoordinate - pOpt).norm();
+    sNewLeft.myRadius = r1;
+    sNewRight.myLength = (sNewRight.myCoordinate - pOpt).norm();
+    sNewRight.myRadius = r2;
+    //sCurrent.myCoordinate = pOpt;
+    //sCurrent.myRadius = r0;
+    //sCurrent.myLength = (sParent.myCoordinate - pOpt).norm();
+    
+    //Add left segment
+    myVectSegments.push_back(sNewLeft);
+    myVectChildren.push_back(std::pair<unsigned int, unsigned int>(0,0));
+    myVectParent.push_back(segIndex);
+    
+    // Update for the new parent of the new left segment
+    unsigned int leftGrandChildIndex = myVectChildren[myVectSegments[segIndex].myIndex].first;
+    unsigned int rightGrandChildIndex = myVectChildren[myVectSegments[segIndex].myIndex].second;
+    myVectParent[leftGrandChildIndex] = sNewLeft.myIndex;
+    myVectParent[rightGrandChildIndex] = sNewLeft.myIndex;
+    
+    // Update of the child of the new left segment (sNewLeft)
+    myVectChildren[sNewLeft.myIndex].first = leftGrandChildIndex;
+    myVectChildren[sNewLeft.myIndex].second = rightGrandChildIndex;
+    
+    //Add right segment
+    myVectSegments.push_back(sNewRight);
+    myVectChildren.push_back(std::pair<unsigned int, unsigned int>(0,0));
+    myVectParent.push_back(segIndex);
+    myVectTerminals.push_back(sNewRight.myIndex);
+    
+    // Update center segment
+    myVectSegments[segIndex].myRadius = r0;
+    myVectSegments[segIndex].myLength = (pOpt - myVectSegments[myVectParent[segIndex]].myCoordinate).norm();
+    //update childrens of center segment
+    myVectChildren[segIndex].first = sNewLeft.myIndex;
+    myVectChildren[segIndex].second = sNewRight.myIndex;
+    /*
+    // Before update optimal center coordinate
+    myVectSegments[segIndex].myCoordinate = newCenter;
+    std::string filename = "testCCO_"+std::to_string(segIndex)+"B.eps";
+    exportBoardDisplay(filename.c_str(), true);
+    myBoard.clear();
+    */
+    //Update center coordinate
+    myVectSegments[segIndex].myCoordinate = pOpt;
+    /*
+    //Before update radius
+    filename = "testCCO_"+std::to_string(segIndex)+"C.eps";
+    exportBoardDisplay(filename.c_str(), true);
+    myBoard.clear();
+    */
+    // update parameters
+    // Update Kterm
+    myKTerm++;
+    
+    // Update physilogique paramaters
+    updateFlowTerminal(sNewRight.myIndex);
+    updateFlowParameters(sNewLeft.myIndex);
+    
+    // Update root radius
+    updateRootRadius();
+    
+  }
+  return res;
+}
 
 bool
 CoronaryArteryTree::addSegmentFromPoint(const Point2D &p,
@@ -32,62 +242,72 @@ CoronaryArteryTree::addSegmentFromPoint(const Point2D &p,
   // (b) Second point added: the new point with its new segment.
   // to process (a): s
   Point2D newCenter = FindBarycenter(p, nearIndex);
-  //bool inter = hasNearestIntersections(p, newCenter, 10);
-  bool inter = hasNearestIntersections(myVectParent[nearIndex], nearIndex, p, newCenter,  10);
-  double minDistance = 50.0;
-  if (inter){
-    DGtal::trace.warning() << "detection intersection" << std::endl;
-    return false;
-  }
-  if (isToCloseFromNearest(p, minDistance)){
-    DGtal::trace.warning() << "detection near too close " << std::endl;
-    return false;
-  }
-  if (getProjDistance(nearIndex, p) < minDistance||
-      getProjDistance(myVectParent[nearIndex], p) < minDistance||
-      getProjDistance(myVectChildren[nearIndex].first, p) < minDistance||
-      getProjDistance(myVectChildren[nearIndex].second, p) < minDistance){
-    DGtal::trace.warning() << "detection too close existing" << std::endl;
-    return false;
-  }
+  
   // Creation of the left child
   Segment<Point2D> sNewLeft;
   sNewLeft.myCoordinate = myVectSegments[nearIndex].myCoordinate;
   sNewLeft.myRadius = rLeft;
   sNewLeft.myIndex = myVectSegments.size();
   sNewLeft.myLength = (newCenter - myVectSegments[nearIndex].myCoordinate).norm();
+  sNewLeft.myFlow = myVectSegments[nearIndex].myFlow;
   myVectSegments.push_back(sNewLeft);
   myVectChildren.push_back(std::pair<unsigned int, unsigned int>(0,0));
   myVectParent.push_back(nearIndex);
-
+  
   // Update for the new parent of the new left segment
   unsigned int leftGrandChildIndex = myVectChildren[myVectSegments[nearIndex].myIndex].first;
   unsigned int rightGrandChildIndex = myVectChildren[myVectSegments[nearIndex].myIndex].second;
   myVectParent[leftGrandChildIndex] = sNewLeft.myIndex;
   myVectParent[rightGrandChildIndex] = sNewLeft.myIndex;
- 
+  
   // Update of the child of the new left segment (sNewLeft)
   myVectChildren[sNewLeft.myIndex].first = leftGrandChildIndex;
   myVectChildren[sNewLeft.myIndex].second = rightGrandChildIndex;
-
+  
   // Creation of the right child
   Segment<Point2D> sNewRight;
   sNewRight.myCoordinate = p;
   sNewRight.myRadius = rRight;
   sNewRight.myIndex = myVectSegments.size();
   sNewRight.myLength = (newCenter - p).norm();
+  sNewRight.myFlow = my_qTerm;
   myVectSegments.push_back(sNewRight);
   myVectChildren.push_back(std::pair<unsigned int, unsigned int>(0,0));
   myVectParent.push_back(nearIndex);
   myVectTerminals.push_back(sNewRight.myIndex);
+  
   // Update center segment
   myVectSegments[nearIndex].myCoordinate = newCenter;
   myVectSegments[nearIndex].myLength = (newCenter - myVectSegments[myVectParent[nearIndex]].myCoordinate).norm();
   //update childrens of center segment
   myVectChildren[nearIndex].first = sNewLeft.myIndex;
   myVectChildren[nearIndex].second = sNewRight.myIndex;
-
+  
+  //Avant
+  std::string filename = "testCCO_"+std::to_string(nearIndex)+"A.eps";
+  exportBoardDisplay(filename.c_str(), true);
+  myBoard.clear();
+  
+  // Optimization
+  bool res = kamyiaOptimization(nearIndex);
+  //Apres
+  filename = "testCCO_"+std::to_string(nearIndex)+"B.eps";
+  exportBoardDisplay(filename.c_str(), true);
+  myBoard.clear();
+  
+  // Update Kterm
   myKTerm++;
+  
+  // Update physilogique paramaters
+  updateFlowTerminal(sNewRight.myIndex);
+  updateFlowParameters(sNewLeft.myIndex);
+  
+  // Update root radius
+  updateRootRadius();
+  
+  //TODO: then opt with volume of the
+  
+  
   
   return true;
 }
@@ -194,7 +414,7 @@ CoronaryArteryTree::boardDisplay(bool clearDisplay)
     myBoard.clear();
   }
   // drawing base circle
-  std::cout <<"My rsupp is " << myRsupp<<std::endl;
+  //std::cout <<"My rsupp is " << myRsupp<<std::endl;
   myBoard.setPenColor(DGtal::Color::Blue);
   myBoard.setLineWidth(myVectSegments[0].myRadius*57.5);
   myBoard.drawCircle(myTreeCenter[0], myTreeCenter[1], my_rPerf, 1);
@@ -211,11 +431,11 @@ CoronaryArteryTree::boardDisplay(bool clearDisplay)
   myBoard.setPenColor(DGtal::Color(180, 0, 0, 180));
   myBoard.setLineWidth(1.0);
   myBoard.fillCircle(p1[0], p1[1], myVectSegments[1].myRadius, 1);
-
-  myBoard.setLineWidth(myVectSegments[0].myRadius*57.5);
+  
+  myBoard.setLineWidth(myVectSegments[1].myRadius*57.5);
   myBoard.setPenColor(DGtal::Color(150, 0, 0, 150));
   myBoard.drawLine(p0[0], p0[1], p1[0], p1[1], 2);
-
+  
   DGtal::GradientColorMap<int> cmap_grad( 0, myVectSegments.size()+1 );
   cmap_grad.addColor( DGtal::Color( 50, 50, 255 ) );
   cmap_grad.addColor( DGtal::Color( 255, 0, 0 ) );
@@ -232,7 +452,7 @@ CoronaryArteryTree::boardDisplay(bool clearDisplay)
     Point2D distal = s.myCoordinate;
     Point2D proxital = myVectSegments[myVectParent[s.myIndex]].myCoordinate;
     myBoard.setLineWidth(myVectSegments[s.myIndex].myRadius*57.5);
- //   myBoard.setPenColor(cmap_grad(i));
+    //   myBoard.setPenColor(cmap_grad(i));
     myBoard.setPenColor(DGtal::Color::Gray);
     myBoard.drawLine(distal[0], distal[1], proxital[0], proxital[1],2);
     //      std::cout << " myRsupp Value = "<< myRsupp<<std::endl;
@@ -501,7 +721,7 @@ CoronaryArteryTree::hasNearestIntersections(unsigned int indexPFather,
 
 
 
-void
+bool
 CoronaryArteryTree::kamyiaOptimization(unsigned int index,
                                        unsigned int nbIter){
   
@@ -514,59 +734,166 @@ CoronaryArteryTree::kamyiaOptimization(unsigned int index,
   DGtal::Z2i::RealPoint pL = sL.myCoordinate;
   DGtal::Z2i::RealPoint pR = sR.myCoordinate;
   
+  //std::cout<<"myFlow="<< myVectSegments[index].myFlow<<" and sL.myFlow="<<sL.myFlow<<" and sR.myFlow="<<sR.myFlow<<std::endl;
+  double ratioQ = sL.myFlow/(myVectSegments[index].myFlow+my_qTerm);//0.5;
+  std::cout<<"ratioQ="<< sL.myFlow/myVectSegments[index].myFlow<<std::endl;
+  double r0 = myVectSegments[index].myRadius;
+  double R0 = r0*r0; //R0 = r0*r0
+  double R1 = r0*r0; //R1 = r1*r1
+  double R2 = r0*r0; //R2 = r2*r2
   
-  double r0 = sParent.myRadius;
-  double r1 = sParent.myRadius;
-  double r2 = sParent.myRadius;
-  
-  double f0 =  r0*r0*r0;
-  double f1 = 0.5*f0;//k * r1*r1*r1;
-  double f2 = (1.0-0.5)*f0;//k * r2*r2*r2;
+  double f0 =  R0*R0*R0;
+  double f1 = ratioQ*f0;//k * r1*r1*r1; //left
+  double f2 = (1.0-ratioQ)*f0;//k * r2*r2*r2; //right
   // Starting position from Equation (21) for initialisation as mentionned page 11 [Clara Jaquet et HT]
-  //DGtal::Z2i::RealPoint pb ((f0*pParent[0]+f1*pL[0]+f2*pR[0])/(f0+f1+f2), (f0*pParent[1]+f1*pL[1]+f2*pR[1])/(f0+f1+f2));
   DGtal::Z2i::RealPoint pb ((f0*pParent[0]+f1*pL[0]+f2*pR[0])/(2.0*f0), (f0*pParent[1]+f1*pL[1]+f2*pR[1])/(2.0*f0));
   std::cout<<"Init:"<<pb<<std::endl;
   double l0 = (pParent - pb).norm();
   double l1 = (pL - pb).norm();
   double l2 = (pR - pb).norm();
-  std::cout<<"l0="<<l0<<", l1="<<l1<<", l2="<<l2<<std::endl;
-  double deltaP1 = (f0*l0)/(r0*r0)+(f1*l1)/(r1*r1);
-  double deltaP2 = (f0*l0)/(r0*r0)+(f2*l2)/(r2*r2);
+  //std::cout<<"l0="<<l0<<", l1="<<l1<<", l2="<<l2<<std::endl;
+  double deltaP1 = (f0*l0)/(R0*R0)+(f1*l1)/(R1*R1);
+  double deltaP2 = (f0*l0)/(R0*R0)+(f2*l2)/(R2*R2);
   
   double rr1 = sParent.myRadius;
   double rr2 = sParent.myRadius;
   // The variable to solve for with its initial value. It will be
   // mutated in place by the solver.
-  DGtal::Z2i::RealPoint pbInit ((f0*pParent[0]+f1*pL[0]+f2*pR[0])/(2.0*f0), (f0*pParent[1]+f1*pL[1]+f2*pR[1])/(2.0*f0));
-  DGtal::trace.info() << pbInit << std::endl;
+  //DGtal::Z2i::RealPoint pbInit ((f0*pParent[0]+f1*pL[0]+f2*pR[0])/(2.0*f0), (f0*pParent[1]+f1*pL[1]+f2*pR[1])/(2.0*f0));
+  //DGtal::trace.info() << pbInit << std::endl;
   
-  for (int i = 0; i< nbIter; i++){
+  bool hasSolution = true;
+  
+  for (int i = 0; i< nbIter && hasSolution; i++){
     DGtal::trace.progressBar(i, nbIter);
     l0 = (pParent - pb).norm();
     l1 = (pL - pb).norm();
     l2 = (pR - pb).norm();
     
-    kamiyaOpt(deltaP1, deltaP2, f0, f1, f2, l0, l1, l2, rr1, rr2);
-    //Equation 27
-    r0 = pow(f0*(pow(rr1, my_gamma)/f1 + pow(rr2, my_gamma)/f2), 1.0/my_gamma);
+    hasSolution = kamiyaOpt(deltaP1, deltaP2, f0, f1, f2, l0, l1, l2, rr1, rr2);
+    // Equation 27
+    R0 = pow(f0*(pow(rr1, my_gamma)/f1 + pow(rr2, my_gamma)/f2), 1.0/my_gamma);
     // Equation (26) page 13
-    pb[0] = (pParent[0]*r0/l0 + pL[0]*r1/l1 + pR[0]*r2/l2)/(r0/l0+r1/l1+r2/l2);
-    pb[1] = (pParent[1]*r0/l0 + pL[1]*r1/l1 + pR[1]*r2/l2)/(r0/l0+r1/l1+r2/l2);
-    deltaP1 = (f0*l0)/(r0*r0)+(f1*l1)/(r1*r1);
-    deltaP2 = (f0*l0)/(r0*r0)+(f2*l2)/(r2*r2);
-    std::cout << "xpL[0] : " << rr1 << " and xpR[0] " << rr2 << " r0 " << r0 << "\n";
+    pb[0] = (pParent[0]*R0/l0 + pL[0]*R1/l1 + pR[0]*R2/l2)/(R0/l0+R1/l1+R2/l2);
+    pb[1] = (pParent[1]*R0/l0 + pL[1]*R1/l1 + pR[1]*R2/l2)/(R0/l0+R1/l1+R2/l2);
+    deltaP1 = (f0*l0)/(R0*R0)+(f1*l1)/(R1*R1);
+    deltaP2 = (f0*l0)/(R0*R0)+(f2*l2)/(R2*R2);
+    std::cout << "xpL[0] : " << rr1 << " and xpR[0] " << rr2 << " r0 " << R0 << "\n";
     std::cout << "pbNew[0]  : " << pb[0] << " and pbNew[1] " << pb[1] << "\n";
   }
-  
-
-  //myVectSegments[myVectParent[index]].myCoordinate[0] = pb[0];
-  //myVectSegments[myVectParent[index]].myCoordinate[1] = pb[1];
-  myVectSegments[index].myCoordinate[0] = pb[0];
-  myVectSegments[index].myCoordinate[1] = pb[1];
-
+  // If there is a solution, then update result
+  if(hasSolution) {
+    // Update center point coordinate
+    //myVectSegments[myVectParent[index]].myCoordinate[0] = pb[0];
+    //myVectSegments[myVectParent[index]].myCoordinate[1] = pb[1];
+    myVectSegments[index].myCoordinate[0] = pb[0];
+    myVectSegments[index].myCoordinate[1] = pb[1];
+    double mR0 = sqrt(R0);
+    double mR1 = sqrt(rr1);
+    double mR2 = sqrt(rr2);
+    double mL0 = (pb - pParent).norm();
+    double mL1 = (pb - pL).norm();
+    double mL2 = (pb - pR).norm();
+    
+    // Update radius of center, left and right segments
+    myVectSegments[index].myRadius = mR0;
+    myVectSegments[myVectChildren[index].first].myRadius =  mR1;
+    myVectSegments[myVectChildren[index].second].myRadius =  mR2;
+    // Update length segments
+    myVectSegments[index].myLength = mL0;
+    myVectSegments[myVectChildren[index].first].myLength = mL1;
+    myVectSegments[myVectChildren[index].second].myLength = mL2;
+    
+    if(2*mR0<=mL0 && 2*mR1<=mL1 && 2*mR2<mL2)
+      hasSolution = true;
+    else
+      hasSolution = false;
+  }
+  return hasSolution;
 }
 
-
+bool
+CoronaryArteryTree::kamyiaOptimization(const DGtal::Z2i::RealPoint& pParent,
+                                       const Segment<Point2D>& sCurrent,
+                                       const Segment<Point2D>& sL,
+                                       const Segment<Point2D>& sR,
+                                       unsigned int nbIter,
+                                       DGtal::Z2i::RealPoint& pOpt,
+                                       double& r0, double& r1, double& r2){
+  
+  // Prepare
+  //Segment<Point2D> sParent = myVectSegments[myVectParent[index]];
+  //Segment<Point2D> sL = myVectSegments[myVectChildren[index].first];
+  //Segment<Point2D> sR = myVectSegments[myVectChildren[index].second];
+  
+  //DGtal::Z2i::RealPoint pParent = sParent.myCoordinate;
+  DGtal::Z2i::RealPoint pL = sL.myCoordinate;
+  DGtal::Z2i::RealPoint pR = sR.myCoordinate;
+  
+  //std::cout<<"myFlow="<< myVectSegments[index].myFlow<<" and sL.myFlow="<<sL.myFlow<<" and sR.myFlow="<<sR.myFlow<<std::endl;
+  double ratioQ = sL.myFlow/sCurrent.myFlow;//0.5;
+  //std::cout<<"ratioQ="<< sL.myFlow/sCurrent.myFlow<<std::endl;
+  double rr0 = sCurrent.myRadius;
+  double R0 = rr0*rr0; //R0 = r0*r0
+  double R1 = rr0*rr0; //R1 = r1*r1
+  double R2 = rr0*rr0; //R2 = r2*r2
+  
+  double f0 =  rr0*rr0*rr0;
+  double f1 = ratioQ*f0;//k * r1*r1*r1; //left
+  double f2 = (1.0-ratioQ)*f0;//k * r2*r2*r2; //right
+  // Starting position from Equation (21) for initialisation as mentionned page 11 [Clara Jaquet et HT]
+  DGtal::Z2i::RealPoint pb ((f0*pParent[0]+f1*pL[0]+f2*pR[0])/(2.0*f0), (f0*pParent[1]+f1*pL[1]+f2*pR[1])/(2.0*f0));
+  //std::cout<<"Init:"<<pb<<std::endl;
+  double l0 = (pParent - pb).norm();
+  double l1 = (pL - pb).norm();
+  double l2 = (pR - pb).norm();
+  //std::cout<<"l0="<<l0<<", l1="<<l1<<", l2="<<l2<<std::endl;
+  double deltaP1 = (f0*l0)/(R0*R0)+(f1*l1)/(R1*R1);
+  double deltaP2 = (f0*l0)/(R0*R0)+(f2*l2)/(R2*R2);
+  
+  double rr1 = sCurrent.myRadius;
+  double rr2 = sCurrent.myRadius;
+  // The variable to solve for with its initial value. It will be
+  // mutated in place by the solver.
+  //DGtal::Z2i::RealPoint pbInit ((f0*pParent[0]+f1*pL[0]+f2*pR[0])/(2.0*f0), (f0*pParent[1]+f1*pL[1]+f2*pR[1])/(2.0*f0));
+  //DGtal::trace.info() << pbInit << std::endl;
+  
+  bool hasSolution = true;
+  
+  for (int i = 0; i< nbIter && hasSolution; i++){
+    //DGtal::trace.progressBar(i, nbIter);
+    l0 = (pParent - pb).norm();
+    l1 = (pL - pb).norm();
+    l2 = (pR - pb).norm();
+    
+    hasSolution = kamiyaOpt(deltaP1, deltaP2, f0, f1, f2, l0, l1, l2, R1, R2);
+    // Equation 27
+    R0 = pow(f0*(pow(R1, my_gamma)/f1 + pow(R2, my_gamma)/f2), 1.0/my_gamma);
+    // Equation (26) page 13
+    pb[0] = (pParent[0]*R0/l0 + pL[0]*R1/l1 + pR[0]*R2/l2)/(R0/l0+R1/l1+R2/l2);
+    pb[1] = (pParent[1]*R0/l0 + pL[1]*R1/l1 + pR[1]*R2/l2)/(R0/l0+R1/l1+R2/l2);
+    deltaP1 = (f0*l0)/(R0*R0)+(f1*l1)/(R1*R1);
+    deltaP2 = (f0*l0)/(R0*R0)+(f2*l2)/(R2*R2);
+    //std::cout << "xpL[0] : " << rr1 << " and xpR[0] " << rr2 << " r0 " << R0 << "\n";
+    //std::cout << "pbNew[0]  : " << pb[0] << " and pbNew[1] " << pb[1] << "\n";
+  }
+  // If there is a solution, then update result
+  if(hasSolution) {
+    pOpt = pb;
+    r0 = sqrt(R0);
+    r1 = sqrt(rr1);
+    r2 = sqrt(rr2);
+    double mL0 = (pb - pParent).norm();
+    double mL1 = (pb - pL).norm();
+    double mL2 = (pb - pR).norm();
+    
+    if(2*r0<=mL0 && 2*r1<=mL1 && 2*r2<mL2)
+      hasSolution = true;
+    else
+      hasSolution = false;
+  }
+  return hasSolution;
+}
 
 void
 CoronaryArteryTree::selfDisplay( std::ostream & out ) const {
