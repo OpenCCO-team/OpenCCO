@@ -92,7 +92,6 @@ isInsideSphere(const TPoint &ptCenter,const TPoint &p,  double radius){
  * @return true if ptProjected is inside the segment [A,B].
  **/
 
-
 template<typename TPoint, typename TPointD>
 inline
 bool
@@ -114,7 +113,10 @@ projectOnStraightLine(const TPoint & ptA,
 
   TPointD vAB (ptB[0]- ptA[0], ptB[1]- ptA[1]);
   TPointD vABn ((double)vAB[0], (double)vAB[1]);
-  vABn = vABn/vABn.norm();
+  double norm = vABn.norm();
+  vABn[0] /= norm;
+  vABn[1] /= norm;
+
   TPointD vAC (ptC[0]-ptA[0], ptC[1]-ptA[1]);
   double distPtA_Proj = vAC.dot(vABn);
 
@@ -152,13 +154,10 @@ hasIntersection(const TPoint &seg1ptA, const TPoint &seg1ptB,
 {
    double  d = ((seg2ptB[1] - seg2ptA[1])*(seg1ptB[0] - seg1ptA[0])) -
                ((seg2ptB[0] - seg2ptA[0])*(seg1ptB[1] - seg1ptA[1]));
-   
    double a = ((seg2ptB[0] - seg2ptA[0])*(seg1ptA[1] - seg2ptA[1])) -
               ((seg2ptB[1] - seg2ptA[1])*(seg1ptA[0] - seg2ptA[0]));
-   
    double b = ((seg1ptB[0] - seg1ptA[0])*(seg1ptA[1] - seg2ptA[1])) -
               ((seg1ptB[1] - seg1ptA[1])*(seg1ptA[0] - seg2ptA[0]));
-
    if ( d==0.0 )
    {
      // test coincident 
@@ -168,11 +167,8 @@ hasIntersection(const TPoint &seg1ptA, const TPoint &seg1ptB,
      else
        return false;
    }
-   
-   
    double ua = a / d;
    double ub = b / d;
-
    return ua > 0.0f && ua < 1.0f && ub > 0.0f && ub < 1.0f;
    // Get the intersection point.
    //intersection.x_ = begin_.x_ + ua*(end_.x_ - begin_.x_);

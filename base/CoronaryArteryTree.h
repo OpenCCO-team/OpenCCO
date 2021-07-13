@@ -154,7 +154,7 @@ public:
    * @param nTerm: number of terminal segments.
    **/
   
-  CoronaryArteryTree(Point2D &ptRoot, double aPerf, unsigned int nTerm,
+  CoronaryArteryTree(const Point2D &ptRoot, double aPerf, unsigned int nTerm,
                      double aRadius = 1.0 ){
      
     myTreeCenter = Point2D(0,0);
@@ -164,13 +164,14 @@ public:
     my_NTerm = nTerm;
     myDThresold = sqrt(M_PI*myRsupp*myRsupp/myKTerm);
     // Generate the first random terminal point
-    Point2D pTerm = generateRandomPtOnDisk(myTreeCenter, myRsupp);
+    //Point2D pTerm = ptRoot; //generateRandomPtOnDisk(myTreeCenter, myRsupp);
+    Point2D pTerm = ptRoot;
     
     // Construction of the special root segment
-    ptRoot = Point2D(0,myRsupp);
+    Point2D ptRootNew = Point2D(0,myRsupp);
     Segment<Point2D> s;
     s.myRadius = aRadius;
-    s.myCoordinate = ptRoot;
+    s.myCoordinate = ptRootNew;
     s.myLength = 0;
     s.myIndex = 0;
     s.myKTerm = 0;
@@ -182,7 +183,7 @@ public:
     Segment<Point2D> s1;
     s1.myRadius = aRadius;
     s1.myCoordinate = pTerm; //myTreeCenter
-    s1.myLength = (ptRoot-pTerm).norm(); //(ptRoot-myTreeCenter).norm();
+    s1.myLength = (ptRootNew-pTerm).norm(); //(ptRootNew-myTreeCenter).norm();
     s1.myIndex = 1;
     s1.myKTerm = 1; //it contains terminal itself
     s1.myHydroResistance = 8.0*my_mu*s1.myLength/M_PI;
@@ -219,7 +220,9 @@ public:
   bool addSegmentFromPoint(const Point2D &p,  unsigned int nearIndex,
                            double rLeft = 1.0, double rRight = 1.0);
   
- 
+  bool addSegmentFromPointBK(const Point2D &p,  unsigned int nearIndex,
+                           double rLeft = 1.0, double rRight = 1.0);
+  
   
   /**
    * Update the distribution of segmental flows after adding a new segment (new bifurcation)
@@ -315,23 +318,82 @@ public:
   std::pair<Point2D, bool> generateALocation();
 
   /**
+   * Computes the distance from a segment represented with the index  and the point given as argument.
+   * @param index : the index of the segement used for the comparison
+   * @param p : a point
+   */
+  double getDistance(unsigned int index, const Point2D &p ) const;
+  
+  
+  
+  /**
+   * Computes the projected distance from a segment represented with the index  and the point given as argument.
+   * @param index : the index of the segement used for the comparison
+   * @param p : a point
+   */
+  double getProjDistance(unsigned int index, const Point2D &p) const;
+  /**
+   * Computes the projected distance from a segment represented with the index  and the point given as argument.
+   * @param p0 : a point representing one extremity
+   * @param p1 : a point representing another extremity
+   * @param p : a point to be projected
+   */
+  double getProjDistance(const Point2D &p0, const Point2D &p1, const Point2D &p) const;
+  
+  /**
+   * Check if a new added point is too close the nearest segment.
+   * @param p : a point
+   * @param minDist: min distance
+   * @return true is a point is too close
+   */
+  bool isToCloseFromNearest(const Point2D &p, double minDist) const;
+  
+  
+  
+  /**
    * Computes the n nearest index of neighborhood segments  of a given point
    * @param p : the point considered to get the nearest point
    * @param n : the number of nearest point to be recovered
    */
-  
   std::vector<unsigned int> getN_NearestSegments(const Point2D &p,
                                                  unsigned int n) const;
+  
   /**
-   * Computes the distance from and the segment represented with the index  and the point given as argument.
-   * @param index : the index of the segement used for the comparison
-
+   * Compute if a segment has intersection on the n nearest segments.
+   * @param p0 one extremity of one segment
+   * @param p1 another extremity of one segment
+   * @param n : the number of nearest point to be considered
    */
- 
-  double getDistance(unsigned int index, const Point2D &p ) const;
+  
+  bool hasNearestIntersections(const Point2D &p0,
+                               const Point2D &p1, unsigned int n) const;
   
   
-  bool hasIntersections(Segment<CoronaryArteryTree::Point2D> S1, Point2D newPoint);
+  
+  /**
+   * Computes if an bifurcation has intersections on the n nearest segments.
+   * It uses the middle point
+   * @param indexPFather index extremity of initial segment (father).
+   * @param indexPChild index  extremity  of initial segment (child).
+   * @param pAdded point added at the origin of the creation of bifurcation.
+   * @param pBifurcation the central point of the bifurcation.
+   * @param n : the number of nearest point to be considered
+   */
+  
+  bool hasNearestIntersections(unsigned int indexPFather,
+                               unsigned int indexPChild,
+                               const Point2D &pAdded,
+                               const Point2D &pBifurcation, unsigned int n) const;
+  
+  
+  
+  
+  /// Fin New from updating code... (BK+PN)
+  
+  
+  
+  
+  bool hasIntersections(Segment<Point2D> S1, Point2D newPoint);
   /**
    * Use to display object.
    * @param out  the object of class 'GeodesicGraphComputer' to write.
