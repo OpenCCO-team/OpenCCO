@@ -101,7 +101,7 @@ int main(int argc, char *const *argv)
   
   DGtal::trace.beginBlock("Testing class CoronaryArteryTree: test random adds");
   std::vector<unsigned int> v = c.getPathToRoot(c.myVectSegments[c.myVectSegments.size()-2]);
-  c.myBoard.setLineWidth(20.0);
+  c.myBoard.setLineWidth(5.0);
   c.myBoard.setPenColor(DGtal::Color::Yellow);
   c.myBoard.setFillColor(DGtal::Color::Yellow);
 

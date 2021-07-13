@@ -53,7 +53,7 @@ int main(int argc, char *const *argv)
                             DGtal::Z2i::RealPoint(5, 5), 10);
   DGtal::trace.info() << "Test intersection 2: intersection " << (intersec5 ? "OK" : "KO") << std::endl;
   DGtal::trace.info() << "Test intersection segments ";
-  bool intersec6 = c.hasNearestIntersections(c.myVectParent[2], 2,
+  bool intersec6 = c.hasNearestIntersections(c.myVectParent[1], 2,
                             DGtal::Z2i::RealPoint(-10, 6),DGtal::Z2i::RealPoint(-7, 10),  10);
   DGtal::trace.info() << "Test intersection 3:  intersection " << (!intersec6 ? "OK" : "KO") << std::endl;
   DGtal::trace.endBlock();
@@ -66,9 +66,8 @@ int main(int argc, char *const *argv)
   DGtal::trace.beginBlock("Testing class CoronaryArteryTree: test random adds with distance constraint");
   srand (time(NULL));
   CoronaryArteryTree cIntersec (DGtal::Z2i::RealPoint(0, 250), 20000000, 100);
-  
-  for (unsigned int i = 0; i < 500; i++){
-    DGtal::trace.progressBar(i, 500);
+  for (unsigned int i = 0; i < 10000; i++){
+    DGtal::trace.progressBar(i, 10000);
     CoronaryArteryTree::Point2D pt = cIntersec.generateNewLocation(100);
     auto nearest = cIntersec.getNearestSegment(pt);
     cIntersec.addSegmentFromPoint(pt, nearest, 1.0, 1.0);
@@ -78,8 +77,8 @@ int main(int argc, char *const *argv)
   cIntersec.boardDisplay();
 
   cIntersec.myBoard.setFillColor(DGtal::Color::Cyan);
-  cIntersec.myBoard.drawCircle(0, 0, 50, 1);
-
+  cIntersec.myBoard.drawCircle(0, 0, 10, 1);
+  
   cIntersec.exportBoardDisplay("testNoIntersect.svg", false);
   cIntersec.exportBoardDisplay("testNoIntersect.eps", false);
   DGtal::trace.endBlock();
@@ -126,6 +125,7 @@ int main(int argc, char *const *argv)
   << " distance (should be sqrt(2)) :" <<dist2 <<  ( dist2*dist2 - 2.0 < 0.0000001? " OK": " KO")  << std::endl;
   DGtal::trace.endBlock();
 
+  
   
   return EXIT_SUCCESS;
 }
