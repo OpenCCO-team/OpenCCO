@@ -116,6 +116,20 @@ CoronaryArteryTree::computeTreeVolume(double mu, double lambda)
   return volume;
 }
 
+void
+CoronaryArteryTree::updateScale(double scale)
+{
+  for(size_t it=0; it<this->myVectSegments.size(); it++) {
+    this->myVectSegments[it].myCoordinate[0] *= scale;
+    this->myVectSegments[it].myCoordinate[1] *= scale;
+    this->myVectSegments[it].myRadius *= scale;
+    this->myVectSegments[it].myLength *= scale;
+  }
+  this->myRsupp *= scale;
+  this->my_rPerf = this->myRsupp;
+  this->myDThresold=sqrt(M_PI*this->myRsupp*this->myRsupp/this->myKTerm);
+}
+
 double
 CoronaryArteryTree::computeTotalVolume(unsigned int segIndex)
 {
@@ -925,8 +939,8 @@ CoronaryArteryTree::kamyiaOptimization(const DGtal::Z2i::RealPoint& pParent,
   if(hasSolution) {
     pOpt = pb;
     r0 = sqrt(R0);
-    r1 = sqrt(rr1);
-    r2 = sqrt(rr2);
+    r1 = sqrt(R1);
+    r2 = sqrt(R2);
     double mL0 = (pb - pParent).norm();
     double mL1 = (pb - pL).norm();
     double mL2 = (pb - pR).norm();

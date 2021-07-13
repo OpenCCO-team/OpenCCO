@@ -65,7 +65,7 @@ int main(int argc, char *const *argv)
     cTreeOpt.myBoard.clear();
     */
     cTree = cTreeOpt;
-    //cTree.updateScale(sqrt(1.0+(1.0/(i+1.0))));
+    //cTree.updateScale(sqrt(1.0+(1.0/(i+1.0)))); 
     std::cout<<"it="<<i<<"=> Aperf="<<cTree.myRsupp*cTree.myRsupp*M_PI<<std::endl;
     /*
     filename = "testCCO_V_B"+std::to_string(i)+".eps";
