@@ -272,6 +272,21 @@ public:
    * @param p : a point
    */
   double getProjDistance(unsigned int index, const Point2D &p) const;
+  /**
+   * Computes the projected distance from a segment represented with the index  and the point given as argument.
+   * @param p0 : a point representing one extremity
+   * @param p1 : a point representing another extremity
+   * @param p : a point to be projected
+   */
+  double getProjDistance(const Point2D &p0, const Point2D &p1, const Point2D &p) const;
+  
+  /**
+   * Check if a new added point is too close the nearest segment.
+   * @param p : a point
+   * @param minDist: min distance
+   * @return true is a point is too close
+   */
+  bool isToCloseFromNearest(const Point2D &p, double minDist) const;
   
   
   

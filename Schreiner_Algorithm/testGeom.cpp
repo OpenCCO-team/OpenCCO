@@ -28,7 +28,7 @@ int main(int argc, char *const *argv)
 
   DGtal::trace.info() << "Test intersection segments [(12.0, 11.0) (19,9.4)] and [(12.0, 10.0) (19,9.4)]";
   bool intersec3 = hasIntersection(DGtal::Z2i::RealPoint(12.0, 11.0), DGtal::Z2i::RealPoint(19,9.4),
-                                   DGtal::Z2i::RealPoint(12.0, 10.0), DGtal::Z2i::RealPoint(19, 9,4));
+                                   DGtal::Z2i::RealPoint(12.0, 10.0), DGtal::Z2i::RealPoint(19, 9.4));
   DGtal::trace.info() << "Test intersection " << (!intersec3 ? "OK" : "KO") << std::endl;
   DGtal::trace.endBlock();
   
@@ -75,8 +75,13 @@ int main(int argc, char *const *argv)
     cIntersec.udpatePerfusionArea();
     cIntersec.updateTreshold();
   }
-  cIntersec.exportBoardDisplay("testNoIntersect.svg", true);
-  cIntersec.exportBoardDisplay("testNoIntersect.eps", true);
+  cIntersec.boardDisplay();
+
+  cIntersec.myBoard.setFillColor(DGtal::Color::Cyan);
+  cIntersec.myBoard.drawCircle(0, 0, 50, 1);
+
+  cIntersec.exportBoardDisplay("testNoIntersect.svg", false);
+  cIntersec.exportBoardDisplay("testNoIntersect.eps", false);
   DGtal::trace.endBlock();
 
   ///-----------------------------------------------------------------------------------------------

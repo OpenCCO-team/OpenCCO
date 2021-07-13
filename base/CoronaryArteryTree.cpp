@@ -34,8 +34,20 @@ CoronaryArteryTree::addSegmentFromPoint(const Point2D &p,
   Point2D newCenter = FindBarycenter(p, nearIndex);
   //bool inter = hasNearestIntersections(p, newCenter, 10);
   bool inter = hasNearestIntersections(myVectParent[nearIndex], nearIndex, p, newCenter,  10);
+  double minDistance = 50.0;
   if (inter){
     DGtal::trace.warning() << "detection intersection" << std::endl;
+    return false;
+  }
+  if (isToCloseFromNearest(p, minDistance)){
+    DGtal::trace.warning() << "detection near too close " << std::endl;
+    return false;
+  }
+  if (getProjDistance(nearIndex, p) < minDistance||
+      getProjDistance(myVectParent[nearIndex], p) < minDistance||
+      getProjDistance(myVectChildren[nearIndex].first, p) < minDistance||
+      getProjDistance(myVectChildren[nearIndex].second, p) < minDistance){
+    DGtal::trace.warning() << "detection too close existing" << std::endl;
     return false;
   }
   // Creation of the left child
@@ -185,13 +197,16 @@ unsigned int
 CoronaryArteryTree::getNearestSegment(const Point2D &pt)
 {
   unsigned int sNear=1;
-  double distMin = (getSegmentCenter(myVectSegments[1])-pt).norm();
+  double distMin = getProjDistance(myVectSegments[0].myCoordinate,
+                                   myVectSegments[1].myCoordinate, pt);
   for (const auto &s: myVectSegments)
   {
     if (s.myIndex==0)
       continue;
-    Point2D c = getSegmentCenter(s);
-    double d = (getSegmentCenter(s)-pt).norm();
+    
+    double d = getProjDistance(s.myCoordinate,
+                              myVectSegments[myVectParent[s.myIndex]].myCoordinate, pt);
+
     if (d < distMin)
     {
       distMin = d;
@@ -294,11 +309,14 @@ CoronaryArteryTree::getDistance(unsigned int index,
   return (myVectSegments[index].myCoordinate-p).norm();
 }
 
+bool
+CoronaryArteryTree::isToCloseFromNearest(const Point2D &p, double minDist) const{
+  double d = getProjDistance(getN_NearestSegments(p,3)[0],p);
+  return d < minDist;
+}
 double
-CoronaryArteryTree::getProjDistance(unsigned int index, const Point2D &p ) const {
+CoronaryArteryTree::getProjDistance(const Point2D &p0, const Point2D &p1, const Point2D &p) const{
   double result = 0.0;
-  Point2D p0 = myVectSegments[index].myCoordinate;
-  Point2D p1 = myVectSegments[myVectParent[index]].myCoordinate;
   Point2D pProj(0,0);
   bool isInside = projectOnStraightLine(p0, p1, p, pProj);
   if (isInside)
@@ -313,6 +331,13 @@ CoronaryArteryTree::getProjDistance(unsigned int index, const Point2D &p ) const
   return result;
 }
 
+double
+CoronaryArteryTree::getProjDistance(unsigned int index, const Point2D &p ) const {
+  Point2D p0 = myVectSegments[index].myCoordinate;
+  Point2D p1 = myVectSegments[myVectParent[index]].myCoordinate;
+  return  getProjDistance(p0, p1, p);
+}
+
 
 
 std::vector<unsigned int>
@@ -320,10 +345,10 @@ CoronaryArteryTree::getN_NearestSegments(const Point2D &p, unsigned int n) const
   std::vector<unsigned int> res;
   res.push_back(1);
   for (unsigned int i=2; i < myVectSegments.size(); i++){
-    double d = getDistance(i, p);
+    double d = getProjDistance(i, p);
     std::vector<unsigned int>::iterator it = res.end();
     int k = (int)(res.size())-1;
-    while ( k >= 0 && getDistance(res[k], p)>=d ){
+    while ( k >= 0 && getProjDistance(res[k], p)>=d ){
       k--;
       it--;
     }
