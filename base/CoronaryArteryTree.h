@@ -204,6 +204,8 @@ public:
   
   bool addFirstSegment(const Point2D &p);
   
+  double computeTotalVolume(unsigned int segIndex);
+  
   bool isAddable(const Point2D &p, unsigned int segIndex, unsigned int nbIter);
   
   /**

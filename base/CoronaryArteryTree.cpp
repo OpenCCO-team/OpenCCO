@@ -116,6 +116,19 @@ CoronaryArteryTree::computeTreeVolume(double mu, double lambda)
   return volume;
 }
 
+double
+CoronaryArteryTree::computeTotalVolume(unsigned int segIndex)
+{
+  //Volumn of current segment
+  double v = myVectSegments[segIndex].myRadius*myVectSegments[segIndex].myLength;
+  if(myVectChildren[segIndex].first!=0 && myVectChildren[segIndex].second!=0) {
+    double vL = computeTotalVolume(myVectChildren[segIndex].first);
+    double vR = computeTotalVolume(myVectChildren[segIndex].second);
+    v += vL + vR;
+  }
+  return v;
+}
+
 bool
 CoronaryArteryTree::isAddable(const Point2D &p, unsigned int segIndex, unsigned int nbIter)
 {
@@ -308,7 +321,7 @@ CoronaryArteryTree::boardDisplay(bool clearDisplay)
     myBoard.clear();
   }
   // drawing base circle
-  std::cout <<"My rsupp is " << myRsupp<<std::endl;
+  //std::cout <<"My rsupp is " << myRsupp<<std::endl;
   myBoard.setPenColor(DGtal::Color::Blue);
   myBoard.setLineWidth(myVectSegments[0].myRadius*57.5);
   myBoard.drawCircle(myTreeCenter[0], myTreeCenter[1], my_rPerf, 1);
