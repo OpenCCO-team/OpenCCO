@@ -154,7 +154,7 @@ public:
    * @param nTerm: number of terminal segments.
    **/
   
-  CoronaryArteryTree(Point2D &ptRoot, double aPerf, unsigned int nTerm,
+  CoronaryArteryTree(const Point2D &ptRoot, double aPerf, unsigned int nTerm,
                      double aRadius = 1.0 ){
      
     myTreeCenter = Point2D(0,0);
@@ -164,13 +164,14 @@ public:
     my_NTerm = nTerm;
     myDThresold = sqrt(M_PI*myRsupp*myRsupp/myKTerm);
     // Generate the first random terminal point
-    Point2D pTerm = ptRoot; //generateRandomPtOnDisk(myTreeCenter, myRsupp);
+    //Point2D pTerm = ptRoot; //generateRandomPtOnDisk(myTreeCenter, myRsupp);
+    Point2D pTerm = ptRoot;
     
     // Construction of the special root segment
-    ptRoot = Point2D(0,myRsupp);
+    Point2D ptRootNew = Point2D(0,myRsupp);
     Segment<Point2D> s;
     s.myRadius = aRadius;
-    s.myCoordinate = ptRoot;
+    s.myCoordinate = ptRootNew;
     s.myLength = 0;
     s.myIndex = 0;
     s.myKTerm = 0;
@@ -182,7 +183,7 @@ public:
     Segment<Point2D> s1;
     s1.myRadius = aRadius;
     s1.myCoordinate = pTerm; //myTreeCenter
-    s1.myLength = (ptRoot-pTerm).norm(); //(ptRoot-myTreeCenter).norm();
+    s1.myLength = (ptRootNew-pTerm).norm(); //(ptRootNew-myTreeCenter).norm();
     s1.myIndex = 1;
     s1.myKTerm = 1; //it contains terminal itself
     s1.myHydroResistance = 8.0*my_mu*s1.myLength/M_PI;
@@ -219,7 +220,9 @@ public:
   bool addSegmentFromPoint(const Point2D &p,  unsigned int nearIndex,
                            double rLeft = 1.0, double rRight = 1.0);
   
- 
+  bool addSegmentFromPointBK(const Point2D &p,  unsigned int nearIndex,
+                           double rLeft = 1.0, double rRight = 1.0);
+  
   
   /**
    * Update the distribution of segmental flows after adding a new segment (new bifurcation)

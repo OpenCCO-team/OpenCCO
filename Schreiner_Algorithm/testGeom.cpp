@@ -35,7 +35,7 @@ int main(int argc, char *const *argv)
   
   ///-----------------------------------------------------------------------------------------------
   DGtal::trace.beginBlock("Testing basic intersections on Tree");
-  CoronaryArteryTree c (DGtal::Z2i::RealPoint(0, 0), 2000, 1);
+  CoronaryArteryTree c (DGtal::Z2i::RealPoint(0.0, 0.0), 2000, 1);
   c.addSegmentFromPoint(DGtal::Z2i::RealPoint(-10, 10), 1);
   c.addSegmentFromPoint(DGtal::Z2i::RealPoint(12, 8), 1);
   c.boardDisplay();
@@ -70,7 +70,7 @@ int main(int argc, char *const *argv)
     DGtal::trace.progressBar(i, 10000);
     CoronaryArteryTree::Point2D pt = cIntersec.generateNewLocation(100);
     auto nearest = cIntersec.getNearestSegment(pt);
-    cIntersec.addSegmentFromPoint(pt, nearest, 1.0, 1.0);
+    cIntersec.addSegmentFromPointBK(pt, nearest, 1.0, 1.0);
     cIntersec.udpatePerfusionArea();
     cIntersec.updateTreshold();
   }
