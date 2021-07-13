@@ -19,7 +19,7 @@ int main(int argc, char *const *argv)
   srand (time(NULL));
   DGtal::Z2i::RealPoint pRoot;
   double aPerf = 2000000;
-  int nbTerm = 100;
+  int nbTerm = 200;
   double rRoot = 1.0;//1.0/nbTerm;
   
   CoronaryArteryTree cTree (pRoot, aPerf, nbTerm, rRoot);
@@ -37,7 +37,7 @@ int main(int argc, char *const *argv)
       CoronaryArteryTree::Point2D pt = cTree.generateNewLocation(100);
       std::vector<unsigned int> vecN = cTree.getN_NearestSegments(pt,n);
       for(size_t it=0; it<vecN.size(); it++) {
-        if(!cTree.isIntersecting(pt,vecN.at(it),n)) {
+        if(!cTree.isIntersecting(pt, cTree.FindBarycenter(pt, vecN.at(it)),vecN.at(it),n)) {
           CoronaryArteryTree cTree1 = cTree;
           isOK = cTree1.isAddable(pt,vecN.at(it), 100);
           if(isOK) {

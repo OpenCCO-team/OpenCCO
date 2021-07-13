@@ -178,72 +178,64 @@ CoronaryArteryTree::isAddable(const Point2D &p, unsigned int segIndex, unsigned 
   // Cretation a copy of parent segment
   Segment<Point2D> sParent = myVectSegments[myVectParent[segIndex]];
   
-  bool res = kamyiaOptimization(sParent.myCoordinate, sCurrent, sNewLeft, sNewRight, nbIter, pOpt, r0, r1, r2);
-  if(res) {
-    //Update optimal values
-    sNewLeft.myLength = (sNewLeft.myCoordinate - pOpt).norm();
-    sNewLeft.myRadius = r1;
-    sNewRight.myLength = (sNewRight.myCoordinate - pOpt).norm();
-    sNewRight.myRadius = r2;
-    //sCurrent.myCoordinate = pOpt;
-    //sCurrent.myRadius = r0;
-    //sCurrent.myLength = (sParent.myCoordinate - pOpt).norm();
-    
-    //Add left segment
-    myVectSegments.push_back(sNewLeft);
-    myVectChildren.push_back(std::pair<unsigned int, unsigned int>(0,0));
-    myVectParent.push_back(segIndex);
-    
-    // Update for the new parent of the new left segment
-    unsigned int leftGrandChildIndex = myVectChildren[myVectSegments[segIndex].myIndex].first;
-    unsigned int rightGrandChildIndex = myVectChildren[myVectSegments[segIndex].myIndex].second;
-    myVectParent[leftGrandChildIndex] = sNewLeft.myIndex;
-    myVectParent[rightGrandChildIndex] = sNewLeft.myIndex;
-    
-    // Update of the child of the new left segment (sNewLeft)
-    myVectChildren[sNewLeft.myIndex].first = leftGrandChildIndex;
-    myVectChildren[sNewLeft.myIndex].second = rightGrandChildIndex;
-    
-    //Add right segment
-    myVectSegments.push_back(sNewRight);
-    myVectChildren.push_back(std::pair<unsigned int, unsigned int>(0,0));
-    myVectParent.push_back(segIndex);
-    myVectTerminals.push_back(sNewRight.myIndex);
-    
-    // Update center segment
-    myVectSegments[segIndex].myRadius = r0;
-    myVectSegments[segIndex].myLength = (pOpt - myVectSegments[myVectParent[segIndex]].myCoordinate).norm();
-    //update childrens of center segment
-    myVectChildren[segIndex].first = sNewLeft.myIndex;
-    myVectChildren[segIndex].second = sNewRight.myIndex;
-    /*
-    // Before update optimal center coordinate
-    myVectSegments[segIndex].myCoordinate = newCenter;
-    std::string filename = "testCCO_"+std::to_string(segIndex)+"B.eps";
-    exportBoardDisplay(filename.c_str(), true);
-    myBoard.clear();
-    */
-    //Update center coordinate
-    myVectSegments[segIndex].myCoordinate = pOpt;
-    /*
-    //Before update radius
-    filename = "testCCO_"+std::to_string(segIndex)+"C.eps";
-    exportBoardDisplay(filename.c_str(), true);
-    myBoard.clear();
-    */
-    // update parameters
-    // Update Kterm
-    myKTerm++;
-    
-    // Update physilogique paramaters
-    updateFlowTerminal(sNewRight.myIndex);
-    updateFlowParameters(sNewLeft.myIndex);
-    
-    // Update root radius
-    updateRootRadius();
-    
+  bool res1 = kamyiaOptimization(sParent.myCoordinate, sCurrent, sNewLeft, sNewRight, nbIter, pOpt, r0, r1, r2);
+  bool res2;
+  if(res1) {
+    res2 = isIntersecting(p, pOpt, segIndex);
+    if(!res2) {
+      //Update optimal values
+      sNewLeft.myLength = (sNewLeft.myCoordinate - pOpt).norm();
+      sNewLeft.myRadius = r1;
+      sNewRight.myLength = (sNewRight.myCoordinate - pOpt).norm();
+      sNewRight.myRadius = r2;
+      //sCurrent.myCoordinate = pOpt;
+      //sCurrent.myRadius = r0;
+      //sCurrent.myLength = (sParent.myCoordinate - pOpt).norm();
+      
+      //Add left segment
+      myVectSegments.push_back(sNewLeft);
+      myVectChildren.push_back(std::pair<unsigned int, unsigned int>(0,0));
+      myVectParent.push_back(segIndex);
+      
+      // Update for the new parent of the new left segment
+      unsigned int leftGrandChildIndex = myVectChildren[myVectSegments[segIndex].myIndex].first;
+      unsigned int rightGrandChildIndex = myVectChildren[myVectSegments[segIndex].myIndex].second;
+      myVectParent[leftGrandChildIndex] = sNewLeft.myIndex;
+      myVectParent[rightGrandChildIndex] = sNewLeft.myIndex;
+      
+      // Update of the child of the new left segment (sNewLeft)
+      myVectChildren[sNewLeft.myIndex].first = leftGrandChildIndex;
+      myVectChildren[sNewLeft.myIndex].second = rightGrandChildIndex;
+      
+      //Add right segment
+      myVectSegments.push_back(sNewRight);
+      myVectChildren.push_back(std::pair<unsigned int, unsigned int>(0,0));
+      myVectParent.push_back(segIndex);
+      myVectTerminals.push_back(sNewRight.myIndex);
+      
+      // Update center segment
+      myVectSegments[segIndex].myRadius = r0;
+      myVectSegments[segIndex].myLength = (pOpt - myVectSegments[myVectParent[segIndex]].myCoordinate).norm();
+      //update childrens of center segment
+      myVectChildren[segIndex].first = sNewLeft.myIndex;
+      myVectChildren[segIndex].second = sNewRight.myIndex;
+      
+      //Update center coordinate
+      myVectSegments[segIndex].myCoordinate = pOpt;
+      
+      // update parameters
+      myKTerm++;
+      
+      // Update physilogique paramaters
+      updateFlowTerminal(sNewRight.myIndex);
+      updateFlowParameters(sNewLeft.myIndex);
+      
+      // Update root radius
+      updateRootRadius();
+      
+    }
   }
-  return res;
+  return res1 && !res2;
 }
 
 bool
@@ -326,43 +318,43 @@ CoronaryArteryTree::addSegmentFromPoint(const Point2D &p,
 }
 
 bool
-CoronaryArteryTree::isIntersecting(const Point2D &p,  unsigned int nearIndex, unsigned int nbNeibour, double minDistance)
+CoronaryArteryTree::isIntersecting(const Point2D &pNew, const Point2D &pCenter, unsigned int nearIndex, unsigned int nbNeibour, double minDistance)
 {
-  Point2D newCenter = FindBarycenter(p, nearIndex);
   //bool inter = hasNearestIntersections(p, newCenter, 10);
-  bool inter = hasNearestIntersections(myVectParent[nearIndex], nearIndex, p, newCenter,  nbNeibour);
+  //bool inter = hasNearestIntersections(myVectParent[nearIndex], nearIndex, p, newCenter,  nbNeibour);
+  bool inter = hasNearestIntersections(myVectParent[nearIndex], nearIndex, pNew, pCenter,  nbNeibour);
   if (inter){
     //DGtal::trace.warning() << "detection intersection" << std::endl;
     return true;
   }
   // Check barycenter is not too close considered segment
-  if ((newCenter-myVectSegments[nearIndex].myCoordinate).norm() < minDistance ||
-      (newCenter-myVectSegments[myVectParent[nearIndex]].myCoordinate).norm() < minDistance ||
-      (newCenter - p).norm() < minDistance){
+  if ((pCenter-myVectSegments[nearIndex].myCoordinate).norm() < minDistance ||
+      (pCenter-myVectSegments[myVectParent[nearIndex]].myCoordinate).norm() < minDistance ||
+      (pCenter - pNew).norm() < minDistance){
     //DGtal::trace.warning() << "new barycenter too close!!!!!!!!" << std::endl;
     return true;
   }
   // Check new point with new segment of barycenter:
   // - newPt and new segment [Barycenter-OriginNewSeg]
   // - newPt and new segment [Barycenter-FatherNewSeg]
-  if ((newCenter-myVectSegments[nearIndex].myCoordinate).norm() < minDistance ||
-      (newCenter-myVectSegments[myVectParent[nearIndex]].myCoordinate).norm() < minDistance) {
+  if ((pCenter-myVectSegments[nearIndex].myCoordinate).norm() < minDistance ||
+      (pCenter-myVectSegments[myVectParent[nearIndex]].myCoordinate).norm() < minDistance) {
     //DGtal::trace.warning() << "initial too close to new!!!!!!!!" << std::endl;
     return true;
   }
-  if (getProjDistance(nearIndex, p) < minDistance) {
+  if (getProjDistance(nearIndex, pNew) < minDistance) {
     //DGtal::trace.warning() << "initial too close!!!!!!!!" << std::endl;
     return true;
 
   }
-  if (isToCloseFromNearest(p, minDistance)){
+  if (isToCloseFromNearest(pNew, minDistance)){
     //DGtal::trace.warning() << "detection near too close " << std::endl;
     return true;
   }
-  if (getProjDistance(nearIndex, p) < minDistance||
-      getProjDistance(myVectParent[nearIndex], p) < minDistance||
-      getProjDistance(myVectChildren[nearIndex].first, p) < minDistance||
-      getProjDistance(myVectChildren[nearIndex].second, p) < minDistance){
+  if (getProjDistance(nearIndex, pNew) < minDistance||
+      getProjDistance(myVectParent[nearIndex], pNew) < minDistance||
+      getProjDistance(myVectChildren[nearIndex].first, pNew) < minDistance||
+      getProjDistance(myVectChildren[nearIndex].second, pNew) < minDistance){
     //DGtal::trace.warning() << "detection too close existing" << std::endl;
     return true;
   }
