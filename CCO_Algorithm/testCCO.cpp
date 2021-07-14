@@ -10,6 +10,25 @@
 #include "geomhelpers.h"
 
 /**
+ * @brief read seed file
+ * @param filename
+ * @return vector of pair of point and its corresponding radius
+ */
+std::vector<std::pair<DGtal::Z2i::RealPoint, double> > readSeed(std::string filename) {
+  std::vector<std::pair<DGtal::Z2i::RealPoint, double> > vecSeeds;
+  double x, y, r;
+  std::ifstream myfile (filename);
+  if (myfile.is_open()) {
+    while ( myfile >> x >> y >> r )
+      vecSeeds.push_back(std::make_pair(DGtal::Z2i::RealPoint(x,y), r));
+    myfile.close();
+  }
+  else std::cout << "Unable to open file"<<std::endl;
+
+  return vecSeeds;
+}
+
+/**
  * @brief main function call
  *
  */
@@ -17,12 +36,17 @@ int main(int argc, char *const *argv)
 {
   DGtal::trace.beginBlock("Testing class CoronaryArteryTree: test random adds with distance constraint");
   srand (time(NULL));
-  DGtal::Z2i::RealPoint pRoot;
   double aPerf = 2000000;
   int nbTerm = 100;
   double rRoot = 1.0;//1.0/nbTerm;
+  double r = sqrt(aPerf/(nbTerm*M_PI));
+  DGtal::Z2i::RealPoint pRoot(0,r);
+  DGtal::Z2i::RealPoint pTerm(0,0);
   
-  CoronaryArteryTree cTree (pRoot, aPerf, nbTerm, rRoot);
+  //Test constructors
+  //CoronaryArteryTree cTree (aPerf, nbTerm, rRoot);
+  //CoronaryArteryTree cTree (pRoot, aPerf, nbTerm, rRoot);
+  CoronaryArteryTree cTree (pRoot, pTerm, aPerf, nbTerm, rRoot);
   
   unsigned int n = 20;
   bool isOK = false;
@@ -60,7 +84,7 @@ int main(int argc, char *const *argv)
       }
     }
     /*
-    filename = "testCCO_V_A"+std::to_string(i)+".eps";
+    filename = "testCCO_V_"+std::to_string(i)+".eps";
     cTreeOpt.exportBoardDisplay(filename.c_str(), true);
     cTreeOpt.myBoard.clear();
     */
@@ -77,8 +101,8 @@ int main(int argc, char *const *argv)
   std::cout<<"====> Aperf="<<cTree.myRsupp*cTree.myRsupp*M_PI<<" == "<<aPerf<<std::endl;
 
   filename = "testCCO_"+std::to_string(nbTerm)+".svg";
-  cTree.exportBoardDisplay(filename.c_str(), 5.0, true);
-  //cTree.exportBoardDisplay(filename.c_str());
+  //cTree.exportBoardDisplay(filename.c_str(), 5.0, true);
+  cTree.exportBoardDisplay(filename.c_str());
   cTree.myBoard.clear();
   
   return EXIT_SUCCESS;

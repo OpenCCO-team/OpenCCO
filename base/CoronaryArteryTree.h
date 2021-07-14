@@ -148,14 +148,12 @@ public:
   
   /**
    * Default constructor.
-   * It generates the first root segment by randomly choose the first terminal point.
-   * @param ptRoot: coordinates of the root special segment (who have no parent)
+   * It generates the first root segment with tree center as the first terminal point.
    * @param aPerf: surface of the perfusion.
    * @param nTerm: number of terminal segments.
    **/
   
-  CoronaryArteryTree(const Point2D &ptRoot, double aPerf, unsigned int nTerm,
-                     double aRadius = 1.0 ){
+  CoronaryArteryTree(double aPerf, unsigned int nTerm, double aRadius = 1.0 ){
      
     myTreeCenter = Point2D(0,0);
     myRsupp = sqrt(aPerf/(nTerm*M_PI));
@@ -163,15 +161,12 @@ public:
     my_aPerf = aPerf;
     my_NTerm = nTerm;
     myDThresold = sqrt(M_PI*myRsupp*myRsupp/myKTerm);
-    // Generate the first random terminal point
-    //Point2D pTerm = ptRoot; //generateRandomPtOnDisk(myTreeCenter, myRsupp);
-    Point2D pTerm = ptRoot;
     
     // Construction of the special root segment
-    Point2D ptRootNew = Point2D(0,myRsupp);
+    Point2D ptRoot = Point2D(0,myRsupp);
     Segment<Point2D> s;
     s.myRadius = aRadius;
-    s.myCoordinate = ptRootNew;
+    s.myCoordinate = ptRoot;
     s.myLength = 0;
     s.myIndex = 0;
     s.myKTerm = 0;
@@ -182,8 +177,8 @@ public:
     // Construction of the first segment after the root
     Segment<Point2D> s1;
     s1.myRadius = aRadius;
-    s1.myCoordinate = pTerm; //myTreeCenter
-    s1.myLength = (ptRootNew-pTerm).norm(); //(ptRootNew-myTreeCenter).norm();
+    s1.myCoordinate = myTreeCenter;
+    s1.myLength = (ptRoot-myTreeCenter).norm();
     s1.myIndex = 1;
     s1.myKTerm = 1; //it contains terminal itself
     s1.myHydroResistance = 8.0*my_mu*s1.myLength/M_PI;
@@ -198,8 +193,103 @@ public:
     DGtal::trace.info() << "Construction initialized..." << std::endl;
   };
   
+  /**
+   * Constructor.
+   * It generates the first root segment by randomly choose the first terminal point.
+   * @param ptRoot: coordinates of the root special segment (who have no parent)
+   * @param aPerf: surface of the perfusion.
+   * @param nTerm: number of terminal segments.
+   **/
   
+  CoronaryArteryTree(const Point2D &ptRoot, double aPerf, unsigned int nTerm, double aRadius = 1.0 ){
+     
+    myTreeCenter = Point2D(0,0);
+    myRsupp = sqrt(aPerf/(nTerm*M_PI));
+    my_rPerf = myRsupp;
+    my_aPerf = aPerf;
+    my_NTerm = nTerm;
+    myDThresold = sqrt(M_PI*myRsupp*myRsupp/myKTerm);
+    
+    // Construction of the special root segment
+    assert((ptRoot - myTreeCenter).norm() == myRsupp); //ptRoot must be on the perfusion circle
+    Segment<Point2D> s;
+    s.myRadius = aRadius;
+    s.myCoordinate = ptRoot;
+    s.myLength = 0;
+    s.myIndex = 0;
+    s.myKTerm = 0;
+    myVectSegments.push_back(s);
+    myVectParent.push_back(0); //if parent index is itsef it is the root (special segment of length 0).
+    myVectChildren.push_back(std::pair<unsigned int, unsigned int>(0,0)); // if children index is itself, it is an end segment.
+    
+    // Construction of the first segment after the root
+    Segment<Point2D> s1;
+    s1.myRadius = aRadius;
+    s1.myCoordinate = generateRandomPtOnDisk(myTreeCenter, myRsupp);
+    s1.myLength = (ptRoot-s1.myCoordinate).norm();
+    s1.myIndex = 1;
+    s1.myKTerm = 1; //it contains terminal itself
+    s1.myHydroResistance = 8.0*my_mu*s1.myLength/M_PI;
+    s1.myFlow = my_qTerm;
+    s1.myRaidusRatio = 0.0;
+    s1.beta = 1.0;
+    
+    myVectSegments.push_back(s1);
+    myVectTerminals.push_back(1);
+    myVectParent.push_back(0); //if parent index is the root
+    myVectChildren.push_back(std::pair<unsigned int, unsigned int>(0,0)); // if children index is itself, it is an end segment.
+    DGtal::trace.info() << "Construction initialized..." << std::endl;
+  };
   
+  /**
+   * Constructor.
+   * It generates the first root segment from a given terminal point.
+   * @param ptRoot: coordinates of the root special segment (who have no parent)
+   * @param ptTerm: coordinates of the first terminal point
+   * @param aPerf: surface of the perfusion.
+   * @param nTerm: number of terminal segments.
+   **/
+  
+  CoronaryArteryTree(const Point2D &ptRoot, const Point2D &ptTerm, double aPerf, unsigned int nTerm, double aRadius = 1.0 ){
+     
+    myTreeCenter = Point2D(0,0);
+    myRsupp = sqrt(aPerf/(nTerm*M_PI));
+    my_rPerf = myRsupp;
+    my_aPerf = aPerf;
+    my_NTerm = nTerm;
+    myDThresold = sqrt(M_PI*myRsupp*myRsupp/myKTerm);
+    
+    // Construction of the special root segment
+    assert((ptRoot - myTreeCenter).norm() == myRsupp); //ptRoot must be on the perfusion circle
+    Segment<Point2D> s;
+    s.myRadius = aRadius;
+    s.myCoordinate = ptRoot;
+    s.myLength = 0;
+    s.myIndex = 0;
+    s.myKTerm = 0;
+    myVectSegments.push_back(s);
+    myVectParent.push_back(0); //if parent index is itsef it is the root (special segment of length 0).
+    myVectChildren.push_back(std::pair<unsigned int, unsigned int>(0,0)); // if children index is itself, it is an end segment.
+    
+    // Construction of the first segment after the root
+    assert((ptTerm - myTreeCenter).norm() <= myRsupp); //ptTerm must be in the perfusion disk
+    Segment<Point2D> s1;
+    s1.myRadius = aRadius;
+    s1.myCoordinate = ptTerm;
+    s1.myLength = (ptRoot-s1.myCoordinate).norm();
+    s1.myIndex = 1;
+    s1.myKTerm = 1; //it contains terminal itself
+    s1.myHydroResistance = 8.0*my_mu*s1.myLength/M_PI;
+    s1.myFlow = my_qTerm;
+    s1.myRaidusRatio = 0.0;
+    s1.beta = 1.0;
+    
+    myVectSegments.push_back(s1);
+    myVectTerminals.push_back(1);
+    myVectParent.push_back(0); //if parent index is the root
+    myVectChildren.push_back(std::pair<unsigned int, unsigned int>(0,0)); // if children index is itself, it is an end segment.
+    DGtal::trace.info() << "Construction initialized..." << std::endl;
+  };
   
   // ----------------------- Interface --------------------------------------
   
