@@ -1023,9 +1023,7 @@ CoronaryArteryTree::addSegmentFromPointWithBarycenter(const Point2D &p, unsigned
   // Update Kterm
   myKTerm++;
   
-  kamyiaOptimization(nearIndex);
-  
-  //updateRadius();
+  updateRadius();
   
   return true;
   

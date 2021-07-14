@@ -56,10 +56,13 @@ int main(int argc, char *const *argv)
   CoronaryArteryTree cTree (pCenter, pRoot, pTerm, aPerf, nbTerm, rRoot);
   for(size_t it=1; it<vecSeed.size(); it++) {
     CoronaryArteryTree::Point2D pt = vecSeed[it].first;
-    cTree.addSegmentFromPointWithBarycenter(pt);
+    //cTree.addSegmentFromPointWithBarycenter(pt);
+    cTree.addSegmentFromPoint(pt);
+    /*
     filename = "testCCO_V_"+std::to_string(it)+".eps";
     cTree.exportBoardDisplay(filename.c_str(), true);
     cTree.myBoard.clear();
+    */
   }
 
   //Draw CCO result
