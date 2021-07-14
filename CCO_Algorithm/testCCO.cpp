@@ -34,23 +34,43 @@ std::vector<std::pair<DGtal::Z2i::RealPoint, double> > readSeed(std::string file
  */
 int main(int argc, char *const *argv)
 {
-  DGtal::trace.beginBlock("Testing class CoronaryArteryTree: test random adds with distance constraint");
+  DGtal::trace.beginBlock("Testing class CoronaryArteryTree: test adds fixed terminal points from file");
   srand (time(NULL));
-  double aPerf = 2000000;
-  int nbTerm = 100;
+  
+  std::vector<std::pair<DGtal::Z2i::RealPoint, double> > vecSeed = readSeed("../Data/NoCom_Nt10_s420_M301_TerminalSeeds.txt");
+  assert(vecSeed.size() != 0);
+  
+  double radius = 50;
+  double aPerf = M_PI*radius*radius;//2000000;
+  int nbTerm = vecSeed.size();//10;
   double rRoot = 1.0;//1.0/nbTerm;
   double r = sqrt(aPerf/(nbTerm*M_PI));
-  DGtal::Z2i::RealPoint pRoot(0,r);
-  DGtal::Z2i::RealPoint pTerm(0,0);
-  
+  DGtal::Z2i::RealPoint pRoot(2*radius,2*radius);
+  DGtal::Z2i::RealPoint pCenter(2*radius,radius);
+  //DGtal::Z2i::RealPoint pTerm(0,0);
   //Test constructors
   //CoronaryArteryTree cTree (aPerf, nbTerm, rRoot);
   //CoronaryArteryTree cTree (pRoot, aPerf, nbTerm, rRoot);
-  CoronaryArteryTree cTree (pRoot, pTerm, aPerf, nbTerm, rRoot);
+  std::string filename;
+  DGtal::Z2i::RealPoint pTerm = vecSeed[0].first;
+  CoronaryArteryTree cTree (pCenter, pRoot, pTerm, aPerf, nbTerm, rRoot);
+  for(size_t it=1; it<vecSeed.size(); it++) {
+    CoronaryArteryTree::Point2D pt = vecSeed[it].first;
+    cTree.addSegmentFromPointWithBarycenter(pt);
+    filename = "testCCO_V_"+std::to_string(it)+".eps";
+    cTree.exportBoardDisplay(filename.c_str(), true);
+    cTree.myBoard.clear();
+  }
+
+  filename = "testCCO_"+std::to_string(nbTerm)+".eps";
+  cTree.exportBoardDisplay(filename.c_str());
+  cTree.myBoard.clear();
+  
+  return 1;
+  
   
   unsigned int n = 20;
   bool isOK = false;
-  std::string filename;
   unsigned int nbSeed = cTree.my_NTerm - 1;
   for (unsigned int i = 0; i < nbSeed; i++) {
     DGtal::trace.progressBar(i, nbSeed);
@@ -83,11 +103,11 @@ int main(int argc, char *const *argv)
         }
       }
     }
-    /*
+    
     filename = "testCCO_V_"+std::to_string(i)+".eps";
     cTreeOpt.exportBoardDisplay(filename.c_str(), true);
     cTreeOpt.myBoard.clear();
-    */
+    
     cTree = cTreeOpt;
     //cTree.updateScale(sqrt(1.0+(1.0/(i+1.0))));
     std::cout<<"it="<<i<<"=> Aperf="<<cTree.myRsupp*cTree.myRsupp*M_PI<<std::endl;

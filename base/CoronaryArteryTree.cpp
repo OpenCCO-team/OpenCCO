@@ -289,19 +289,20 @@ CoronaryArteryTree::addSegmentFromPoint(const Point2D &p,
   //update childrens of center segment
   myVectChildren[nearIndex].first = sNewLeft.myIndex;
   myVectChildren[nearIndex].second = sNewRight.myIndex;
-  
+  /*
   //Avant
   std::string filename = "testCCO_"+std::to_string(nearIndex)+"A.eps";
   exportBoardDisplay(filename.c_str(), true);
   myBoard.clear();
-  
+  */
   // Optimization
   bool res = kamyiaOptimization(nearIndex);
+  /*
   //Apres
   filename = "testCCO_"+std::to_string(nearIndex)+"B.eps";
   exportBoardDisplay(filename.c_str(), true);
   myBoard.clear();
-  
+  */
   // Update Kterm
   myKTerm++;
   
@@ -976,35 +977,54 @@ bool
 CoronaryArteryTree::addSegmentFromPointWithBarycenter(const Point2D &p, unsigned int nearIndex)
 {
   // (a) First point added : point associated to the nearest segment. (basic solution the center of the nearest)
+  Point2D newCenter = FindBarycenter(p, nearIndex);
   
-  Point2D first_point=p;
-  Point2D second_point=myVectSegments[nearIndex].myCoordinate;
-  Point2D third_point=myVectSegments[myVectParent[nearIndex]].myCoordinate;
-  Point2D barycenter=FindBarycenter(p,nearIndex);
+  // Creation of the left child
+  Segment<Point2D> sNewLeft;
+  sNewLeft.myCoordinate = myVectSegments[nearIndex].myCoordinate;
+  sNewLeft.myRadius = 1.0;
+  sNewLeft.myIndex = myVectSegments.size();
+  sNewLeft.myLength = (newCenter - myVectSegments[nearIndex].myCoordinate).norm();
+  sNewLeft.myFlow = myVectSegments[nearIndex].myFlow;
+  myVectSegments.push_back(sNewLeft);
+  myVectChildren.push_back(std::pair<unsigned int, unsigned int>(0,0));
+  myVectParent.push_back(nearIndex);
   
-  Segment<Point2D> sMiddle;
-  sMiddle.myCoordinate = barycenter;
-  sMiddle.myRadius = sqrt(my_qTerm/(M_PI*GetLength(nearIndex)));
-  sMiddle.myIndex = myVectSegments.size();
-  myVectSegments.push_back(sMiddle);
-  myVectParent.push_back(myVectParent[nearIndex]);
-  myVectChildren.push_back(SegmentChildren(nearIndex,  myVectSegments.size()));
+  // Update for the new parent of the new left segment
+  unsigned int leftGrandChildIndex = myVectChildren[myVectSegments[nearIndex].myIndex].first;
+  unsigned int rightGrandChildIndex = myVectChildren[myVectSegments[nearIndex].myIndex].second;
+  myVectParent[leftGrandChildIndex] = sNewLeft.myIndex;
+  myVectParent[rightGrandChildIndex] = sNewLeft.myIndex;
   
-  // to process (b): new point to s middle
-  Segment<Point2D> sNew;
-  sNew.myCoordinate = p;
-  sNew.myRadius = sqrt(my_qTerm/(M_PI*GetLength(nearIndex)));
-  sNew.myIndex = myVectSegments.size();
-  myVectSegments.push_back(sNew);
-  myVectParent.push_back(sMiddle.myIndex);
-  // update parent with new (a).
-  myVectParent[nearIndex] = sMiddle.myIndex;
+  // Update of the child of the new left segment (sNewLeft)
+  myVectChildren[sNewLeft.myIndex].first = leftGrandChildIndex;
+  myVectChildren[sNewLeft.myIndex].second = rightGrandChildIndex;
   
-  // NearIndex est un fils, sNew est un fils, et sMiddle est le pere des deux.
-  myVectChildren[sMiddle.myIndex] = SegmentChildren(nearIndex, sNew.myIndex);
+  // Creation of the right child
+  Segment<Point2D> sNewRight;
+  sNewRight.myCoordinate = p;
+  sNewRight.myRadius = 1.0;
+  sNewRight.myIndex = myVectSegments.size();
+  sNewRight.myLength = (newCenter - p).norm();
+  sNewRight.myFlow = my_qTerm;
+  myVectSegments.push_back(sNewRight);
+  myVectChildren.push_back(std::pair<unsigned int, unsigned int>(0,0));
+  myVectParent.push_back(nearIndex);
+  myVectTerminals.push_back(sNewRight.myIndex);
   
+  // Update center segment
+  myVectSegments[nearIndex].myCoordinate = newCenter;
+  myVectSegments[nearIndex].myLength = (newCenter - myVectSegments[myVectParent[nearIndex]].myCoordinate).norm();
+  //update childrens of center segment
+  myVectChildren[nearIndex].first = sNewLeft.myIndex;
+  myVectChildren[nearIndex].second = sNewRight.myIndex;
   
-  updateRadius();
+  // Update Kterm
+  myKTerm++;
+  
+  kamyiaOptimization(nearIndex);
+  
+  //updateRadius();
   
   return true;
   
@@ -1054,8 +1074,7 @@ CoronaryArteryTree::updateRadius()
 {
   for (auto s : myVectSegments)
   {
-    
-    myVectSegments[s.myIndex].myRadius=sqrt((1+1-1)*my_qTerm/(M_PI*GetLength(s.myIndex)));
+    myVectSegments[s.myIndex].myRadius=sqrt(my_qTerm/(M_PI*GetLength(s.myIndex)));
   }
   //    cout << "max gene = " << MaxGene<<endl;
   return TRUE;

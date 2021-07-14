@@ -86,14 +86,14 @@ public:
   // my_NTerm: number of terminal segments
   unsigned int my_NTerm = 1;
   
-  // my_rPref radius of circular area (m)
+  // my_rPref final radius of circular area (m)
   double my_rPerf = 1.0;
   
   // my_qPerf LAD flow in vasodilated
-  double my_qPerf = 0.00000833;
+  double my_qPerf = 8.33e3; //0.00000833;
   
   // my_pPerf perfusion pressure
-  double my_pPerf = 13300.0;
+  double my_pPerf = 1.33e4; //13300.0;
   
   // my_pTerm pressure et distal ends of terminal segment
   double my_pTerm = 4000;
@@ -105,10 +105,10 @@ public:
   double my_gamma = 3.0;
   
   // my_mu: viscosity of blood
-  double my_mu = 3.6;
+  double my_mu = 3.6e-3; //3.6;
   
   // my_aPerf: Perfusion area
-  double my_aPerf =10000;
+  double my_aPerf = 10000;
   
   // End biological parameters
   //-----------------------------
@@ -157,9 +157,10 @@ public:
      
     myTreeCenter = Point2D(0,0);
     myRsupp = sqrt(aPerf/(nTerm*M_PI));
-    my_rPerf = myRsupp;
+    my_rPerf = sqrt(aPerf/M_PI);
     my_aPerf = aPerf;
     my_NTerm = nTerm;
+    my_qTerm = my_qPerf / my_NTerm;
     myDThresold = sqrt(M_PI*myRsupp*myRsupp/myKTerm);
     
     // Construction of the special root segment
@@ -205,9 +206,10 @@ public:
      
     myTreeCenter = Point2D(0,0);
     myRsupp = sqrt(aPerf/(nTerm*M_PI));
-    my_rPerf = myRsupp;
+    my_rPerf = sqrt(aPerf/M_PI);
     my_aPerf = aPerf;
     my_NTerm = nTerm;
+    my_qTerm = my_qPerf / my_NTerm;
     myDThresold = sqrt(M_PI*myRsupp*myRsupp/myKTerm);
     
     // Construction of the special root segment
@@ -244,23 +246,25 @@ public:
   /**
    * Constructor.
    * It generates the first root segment from a given terminal point.
+   * @param ptCenter: coordinates of the center of the tree
    * @param ptRoot: coordinates of the root special segment (who have no parent)
    * @param ptTerm: coordinates of the first terminal point
    * @param aPerf: surface of the perfusion.
    * @param nTerm: number of terminal segments.
    **/
   
-  CoronaryArteryTree(const Point2D &ptRoot, const Point2D &ptTerm, double aPerf, unsigned int nTerm, double aRadius = 1.0 ){
+  CoronaryArteryTree(const Point2D &ptCenter, const Point2D &ptRoot, const Point2D &ptTerm, double aPerf, unsigned int nTerm, double aRadius = 1.0 ){
      
-    myTreeCenter = Point2D(0,0);
+    myTreeCenter = ptCenter;
     myRsupp = sqrt(aPerf/(nTerm*M_PI));
-    my_rPerf = myRsupp;
+    my_rPerf = sqrt(aPerf/M_PI);
     my_aPerf = aPerf;
     my_NTerm = nTerm;
+    my_qTerm = my_qPerf / my_NTerm;
     myDThresold = sqrt(M_PI*myRsupp*myRsupp/myKTerm);
     
     // Construction of the special root segment
-    assert((ptRoot - myTreeCenter).norm() == myRsupp); //ptRoot must be on the perfusion circle
+    assert((ptRoot - myTreeCenter).norm() == my_rPerf); //ptRoot must be on the perfusion circle
     Segment<Point2D> s;
     s.myRadius = aRadius;
     s.myCoordinate = ptRoot;
@@ -272,7 +276,7 @@ public:
     myVectChildren.push_back(std::pair<unsigned int, unsigned int>(0,0)); // if children index is itself, it is an end segment.
     
     // Construction of the first segment after the root
-    assert((ptTerm - myTreeCenter).norm() <= myRsupp); //ptTerm must be in the perfusion disk
+    assert((ptTerm - myTreeCenter).norm() <= my_rPerf); //ptTerm must be in the perfusion disk
     Segment<Point2D> s1;
     s1.myRadius = aRadius;
     s1.myCoordinate = ptTerm;
