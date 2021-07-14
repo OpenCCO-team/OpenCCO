@@ -158,7 +158,7 @@ public:
                      double aRadius = 1.0 ){
      
     myTreeCenter = Point2D(0,0);
-    myRsupp = sqrt((aPerf/nTerm)/M_PI);
+    myRsupp = sqrt(aPerf/(nTerm*M_PI));
     my_rPerf = myRsupp;
     my_aPerf = aPerf;
     my_NTerm = nTerm;
@@ -209,7 +209,7 @@ public:
   
   double computeTotalVolume(unsigned int segIndex);
   
-  bool isAddable(const Point2D &p, unsigned int segIndex, unsigned int nbIter);
+  bool isAddable(const Point2D &p, unsigned int segIndex, unsigned int nbIter, unsigned int nbNeibour = 10);
   
   bool isIntersecting(const Point2D &pNew, const Point2D &pCenter, unsigned int nearIndex, unsigned int nbNeibour = 10, double minDistance = 5.0);
   /**

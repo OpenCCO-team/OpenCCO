@@ -128,7 +128,7 @@ CoronaryArteryTree::updateScale(double scale)
   }
   this->myRsupp *= scale;
   this->my_rPerf = this->myRsupp;
-  this->myDThresold=sqrt(M_PI*this->myRsupp*this->myRsupp/this->myKTerm);
+  this->myDThresold=sqrt((M_PI*this->myRsupp*this->myRsupp)/this->myKTerm);
 }
 
 double
@@ -145,7 +145,7 @@ CoronaryArteryTree::computeTotalVolume(unsigned int segIndex)
 }
 
 bool
-CoronaryArteryTree::isAddable(const Point2D &p, unsigned int segIndex, unsigned int nbIter)
+CoronaryArteryTree::isAddable(const Point2D &p, unsigned int segIndex, unsigned int nbIter, unsigned int nbNeibour)
 {
   DGtal::Z2i::RealPoint pOpt;
   double r0 = 1.0, r1 = 1.0, r2 = 1.0;
@@ -181,7 +181,7 @@ CoronaryArteryTree::isAddable(const Point2D &p, unsigned int segIndex, unsigned 
   bool res1 = kamyiaOptimization(sParent.myCoordinate, sCurrent, sNewLeft, sNewRight, nbIter, pOpt, r0, r1, r2);
   bool res2;
   if(res1) {
-    res2 = isIntersecting(p, pOpt, segIndex);
+    res2 = isIntersecting(p, pOpt, segIndex, nbNeibour);
     if(!res2) {
       //Update optimal values
       sNewLeft.myLength = (sNewLeft.myCoordinate - pOpt).norm();
@@ -1047,7 +1047,7 @@ CoronaryArteryTree::dCritCalculation(const Point2D &p,unsigned int Index )
 void
 CoronaryArteryTree::updateTreshold()
 {
-  myDThresold=sqrt(M_PI*myRsupp*myRsupp/myKTerm);
+  myDThresold=sqrt((M_PI*myRsupp*myRsupp)/myKTerm);
 }
 bool
 CoronaryArteryTree::updateRadius()

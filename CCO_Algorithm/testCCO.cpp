@@ -19,17 +19,17 @@ int main(int argc, char *const *argv)
   srand (time(NULL));
   DGtal::Z2i::RealPoint pRoot;
   double aPerf = 2000000;
-  int nbTerm = 200;
+  int nbTerm = 100;
   double rRoot = 1.0;//1.0/nbTerm;
   
   CoronaryArteryTree cTree (pRoot, aPerf, nbTerm, rRoot);
   
-  unsigned int n = 10;
+  unsigned int n = 20;
   bool isOK = false;
   std::string filename;
   unsigned int nbSeed = cTree.my_NTerm - 1;
   for (unsigned int i = 0; i < nbSeed; i++) {
-    //DGtal::trace.progressBar(i, nbSeed);
+    DGtal::trace.progressBar(i, nbSeed);
     int nbSol = 0, itOpt = 0;
     CoronaryArteryTree cTreeOpt = cTree;
     double volOpt = -1.0, vol = 0.0;
@@ -39,7 +39,7 @@ int main(int argc, char *const *argv)
       for(size_t it=0; it<vecN.size(); it++) {
         if(!cTree.isIntersecting(pt, cTree.FindBarycenter(pt, vecN.at(it)),vecN.at(it),n)) {
           CoronaryArteryTree cTree1 = cTree;
-          isOK = cTree1.isAddable(pt,vecN.at(it), 100);
+          isOK = cTree1.isAddable(pt,vecN.at(it), 100, n);
           if(isOK) {
             vol = cTree1.computeTotalVolume(1);
             if(volOpt<0.0) {
@@ -76,9 +76,9 @@ int main(int argc, char *const *argv)
   }
   std::cout<<"====> Aperf="<<cTree.myRsupp*cTree.myRsupp*M_PI<<" == "<<aPerf<<std::endl;
 
-  filename = "testCCO_"+std::to_string(nbTerm)+".eps";
-  //cTree.exportBoardDisplay(filename.c_str(), nbTerm/10.0, true);
-  cTree.exportBoardDisplay(filename.c_str());
+  filename = "testCCO_"+std::to_string(nbTerm)+".svg";
+  cTree.exportBoardDisplay(filename.c_str(), 5.0, true);
+  //cTree.exportBoardDisplay(filename.c_str());
   cTree.myBoard.clear();
   
   return EXIT_SUCCESS;
