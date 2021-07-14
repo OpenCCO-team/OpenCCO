@@ -368,7 +368,8 @@ public:
                     bool clearDisplay = true);
   void exportBoardDisplay(const std::string &fileName = "result.eps",
                           double thickness = 1,
-                          bool updateDisplay = true );
+                          bool updateDisplay = true,
+                          bool clearDisplay = true);
   
   
   Point2D getSegmentCenter(const Segment<Point2D> &s);

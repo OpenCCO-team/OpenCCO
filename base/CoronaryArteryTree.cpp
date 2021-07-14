@@ -520,9 +520,10 @@ CoronaryArteryTree::boardDisplay(double thickness, bool clearDisplay)
 void
 CoronaryArteryTree::exportBoardDisplay(const std::string &fileName,
                                        double thickness,
-                                       bool updateDisplay ){
+                                       bool updateDisplay,
+                                       bool clearDisplay){
   if (updateDisplay){
-    boardDisplay(thickness);
+    boardDisplay(thickness, clearDisplay);
   }
   std::string ext = fileName.substr(fileName.find_last_of(".") + 1);
   if (ext == "svg")

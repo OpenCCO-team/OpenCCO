@@ -62,8 +62,22 @@ int main(int argc, char *const *argv)
     cTree.myBoard.clear();
   }
 
+  //Draw CCO result
+  std::vector<std::pair<DGtal::Z2i::RealPoint, double> > vecCCO_res1 = readSeed("../Data/NoCom_Nt10_s420_M301_distal.txt");
+  std::vector<std::pair<DGtal::Z2i::RealPoint, double> > vecCCO_res2 = readSeed("../Data/NoCom_Nt10_s420_M301_proximal.txt");
+  
+  for(size_t it=0; it<vecCCO_res1.size(); it++) {
+    DGtal::Z2i::RealPoint p1 = vecCCO_res1.at(it).first;
+    DGtal::Z2i::RealPoint p2 = vecCCO_res2.at(it).first;
+    double r = vecCCO_res1.at(it).second;
+    cTree.myBoard.setPenColor(DGtal::Color::Black);
+    cTree.myBoard.fillCircle(p2[0], p2[1], 20*r/57.5, 1);
+    cTree.myBoard.setPenColor(DGtal::Color::Green);
+    cTree.myBoard.setLineWidth(20*r);
+    cTree.myBoard.drawLine(p1[0], p1[1], p2[0], p2[1], 2);
+  }
   filename = "testCCO_"+std::to_string(nbTerm)+".eps";
-  cTree.exportBoardDisplay(filename.c_str());
+  cTree.exportBoardDisplay(filename.c_str(), 1.0, true, false);
   cTree.myBoard.clear();
   
   return 1;
