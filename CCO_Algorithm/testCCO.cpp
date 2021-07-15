@@ -54,53 +54,28 @@ int main(int argc, char *const *argv)
   std::string filename;
   DGtal::Z2i::RealPoint pTerm = vecSeed[0].first;
   CoronaryArteryTree cTree (pCenter, pRoot, pTerm, aPerf, nbTerm, rRoot);
-  for(size_t it=1; it<vecSeed.size(); it++) {
+  /*
+  for(size_t it=1; it<10; it++) {//vecSeed.size()
     CoronaryArteryTree::Point2D pt = vecSeed[it].first;
     //cTree.addSegmentFromPointWithBarycenter(pt);
     cTree.addSegmentFromPoint(pt);
-    /*
-    filename = "testCCO_V_"+std::to_string(it)+".eps";
-    cTree.exportBoardDisplay(filename.c_str(), true);
-    cTree.myBoard.clear();
-    */
   }
-
-  //Draw CCO result
-  std::vector<std::pair<DGtal::Z2i::RealPoint, double> > vecCCO_res1 = readSeed("../Data/NoCom_Nt10_s420_M301_distal.txt");
-  std::vector<std::pair<DGtal::Z2i::RealPoint, double> > vecCCO_res2 = readSeed("../Data/NoCom_Nt10_s420_M301_proximal.txt");
-  
-  for(size_t it=0; it<vecCCO_res1.size(); it++) {
-    DGtal::Z2i::RealPoint p1 = vecCCO_res1.at(it).first;
-    DGtal::Z2i::RealPoint p2 = vecCCO_res2.at(it).first;
-    double r = vecCCO_res1.at(it).second;
-    cTree.myBoard.setPenColor(DGtal::Color::Black);
-    cTree.myBoard.fillCircle(p2[0], p2[1], 20*r/57.5, 1);
-    cTree.myBoard.setPenColor(DGtal::Color::Green);
-    cTree.myBoard.setLineWidth(20*r);
-    cTree.myBoard.drawLine(p1[0], p1[1], p2[0], p2[1], 2);
-  }
-  filename = "testCCO_"+std::to_string(nbTerm)+".eps";
-  cTree.exportBoardDisplay(filename.c_str(), 1.0, true, false);
-  cTree.myBoard.clear();
-  
-  return 1;
-  
-  
+  */
   unsigned int n = 20;
   bool isOK = false;
-  unsigned int nbSeed = cTree.my_NTerm - 1;
-  for (unsigned int i = 0; i < nbSeed; i++) {
+  unsigned int nbSeed = cTree.my_NTerm;
+  for (unsigned int i = 1; i < nbSeed; i++) {
     DGtal::trace.progressBar(i, nbSeed);
     int nbSol = 0, itOpt = 0;
     CoronaryArteryTree cTreeOpt = cTree;
     double volOpt = -1.0, vol = 0.0;
     while (nbSol==0) {
-      CoronaryArteryTree::Point2D pt = cTree.generateNewLocation(100);
+      CoronaryArteryTree::Point2D pt = vecSeed[i].first; //cTree.generateNewLocation(100);
       std::vector<unsigned int> vecN = cTree.getN_NearestSegments(pt,n);
       for(size_t it=0; it<vecN.size(); it++) {
         if(!cTree.isIntersecting(pt, cTree.FindBarycenter(pt, vecN.at(it)),vecN.at(it),n)) {
           CoronaryArteryTree cTree1 = cTree;
-          isOK = cTree1.isAddable(pt,vecN.at(it), 100, n);
+          isOK = cTree1.isAddable(pt,vecN.at(it), 10, n);
           if(isOK) {
             vol = cTree1.computeTotalVolume(1);
             if(volOpt<0.0) {
@@ -120,27 +95,29 @@ int main(int argc, char *const *argv)
         }
       }
     }
-    
-    filename = "testCCO_V_"+std::to_string(i)+".eps";
-    cTreeOpt.exportBoardDisplay(filename.c_str(), true);
-    cTreeOpt.myBoard.clear();
-    
     cTree = cTreeOpt;
     //cTree.updateScale(sqrt(1.0+(1.0/(i+1.0))));
     std::cout<<"it="<<i<<"=> Aperf="<<cTree.myRsupp*cTree.myRsupp*M_PI<<std::endl;
-    /*
-    filename = "testCCO_V_B"+std::to_string(i)+".eps";
-    cTreeOpt.exportBoardDisplay(filename.c_str(), true);
-    cTreeOpt.myBoard.clear();
-    */
-    
   }
   std::cout<<"====> Aperf="<<cTree.myRsupp*cTree.myRsupp*M_PI<<" == "<<aPerf<<std::endl;
 
-  filename = "testCCO_"+std::to_string(nbTerm)+".svg";
-  //cTree.exportBoardDisplay(filename.c_str(), 5.0, true);
-  cTree.exportBoardDisplay(filename.c_str());
-  cTree.myBoard.clear();
+  //Draw CCO result
+  std::vector<std::pair<DGtal::Z2i::RealPoint, double> > vecCCO_res1 = readSeed("../Data/NoCom_Nt10_s420_M301_distal.txt");//NoCom_Nt10_s420_M301_distal InterTree_Nt10_kt2_s420_M301_distal
+  std::vector<std::pair<DGtal::Z2i::RealPoint, double> > vecCCO_res2 = readSeed("../Data/NoCom_Nt10_s420_M301_proximal.txt");//NoCom_Nt10_s420_M301_proximal InterTree_Nt10_kt2_s420_M301_proximal
   
+  for(size_t it=0; it<vecCCO_res1.size(); it++) {
+    DGtal::Z2i::RealPoint p1 = vecCCO_res1.at(it).first;
+    DGtal::Z2i::RealPoint p2 = vecCCO_res2.at(it).first;
+    double r = vecCCO_res1.at(it).second;
+    cTree.myBoard.setPenColor(DGtal::Color::Black);
+    cTree.myBoard.fillCircle(p2[0], p2[1], 20*r/57.5, 1);
+    cTree.myBoard.setPenColor(DGtal::Color::Green);
+    cTree.myBoard.setLineWidth(20*r);
+    cTree.myBoard.drawLine(p1[0], p1[1], p2[0], p2[1], 2);
+  }
+  filename = "testCCO_"+std::to_string(nbTerm)+".eps";
+  cTree.exportBoardDisplay(filename.c_str(), 1.0, true, false);
+  cTree.myBoard.clear();
+
   return EXIT_SUCCESS;
 }
