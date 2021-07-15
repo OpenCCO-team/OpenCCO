@@ -97,9 +97,9 @@ int main(int argc, char *const *argv)
     }
     cTree = cTreeOpt;
     //cTree.updateScale(sqrt(1.0+(1.0/(i+1.0))));
-    std::cout<<"it="<<i<<"=> Aperf="<<cTree.myRsupp*cTree.myRsupp*M_PI<<std::endl;
+    //std::cout<<"it="<<i<<"=> Aperf="<<cTree.myRsupp*cTree.myRsupp*M_PI<<std::endl;
   }
-  std::cout<<"====> Aperf="<<cTree.myRsupp*cTree.myRsupp*M_PI<<" == "<<aPerf<<std::endl;
+  std::cout<<"====> Aperf="<<cTree.myRsupp*cTree.myRsupp*cTree.my_NTerm*M_PI<<" == "<<aPerf<<std::endl;
 
   //Draw CCO result
   std::vector<std::pair<DGtal::Z2i::RealPoint, double> > vecCCO_res1 = readSeed("../Data/NoCom_Nt10_s420_M301_distal.txt");//NoCom_Nt10_s420_M301_distal InterTree_Nt10_kt2_s420_M301_distal
