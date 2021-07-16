@@ -125,7 +125,7 @@ public:
   unsigned int myKTerm = 1;
   
   //myDThresold: threshold on the distance criterion of adding a segment
-  double myDThresold = 0.0;
+  //double myDThresold = 0.0;
   
   //myRsupp: average radius of blackboxes
   double myRsupp = 0.0;
@@ -171,10 +171,10 @@ public:
     my_NTerm = nTerm;
     my_qTerm = my_qPerf / my_NTerm;
     my_pDrop = my_pPerf-my_pTerm;
-    myDThresold = sqrt(M_PI*myRsupp*myRsupp/myKTerm);
+    //myDThresold = sqrt(M_PI*myRsupp*myRsupp/myKTerm);
     
     // Construction of the special root segment
-    Point2D ptRoot = Point2D(0,myRsupp);
+    Point2D ptRoot = Point2D(0,my_rPerf);
     Segment<Point2D> s;
     s.myRadius = aRadius;
     s.myCoordinate = ptRoot;
@@ -221,10 +221,10 @@ public:
     my_NTerm = nTerm;
     my_qTerm = my_qPerf / my_NTerm;
     my_pDrop = my_pPerf-my_pTerm;
-    myDThresold = sqrt(M_PI*myRsupp*myRsupp/myKTerm);
+    //myDThresold = sqrt(M_PI*myRsupp*myRsupp/myKTerm);
     
     // Construction of the special root segment
-    assert((ptRoot - myTreeCenter).norm() == myRsupp); //ptRoot must be on the perfusion circle
+    assert((ptRoot - myTreeCenter).norm() == my_rPerf); //ptRoot must be on the perfusion circle
     Segment<Point2D> s;
     s.myRadius = aRadius;
     s.myCoordinate = ptRoot;
@@ -273,7 +273,7 @@ public:
     my_NTerm = nTerm;
     my_qTerm = my_qPerf / my_NTerm;
     my_pDrop = my_pPerf-my_pTerm;
-    myDThresold = sqrt(M_PI*myRsupp*myRsupp/myKTerm);
+    //myDThresold = sqrt(M_PI*myRsupp*myRsupp/myKTerm);
     
     // Construction of the special root segment
     assert((ptRoot - myTreeCenter).norm() == my_rPerf); //ptRoot must be on the perfusion circle
@@ -315,6 +315,7 @@ public:
   
   double computeTotalVolume(unsigned int segIndex);
   
+  double getDistanceThreshold();
   double getLengthSegment(unsigned int segIndex);
   
   bool isAddable(const Point2D &p, unsigned int segIndex, unsigned int nbIter, unsigned int nbNeibour = 10);
@@ -339,8 +340,8 @@ public:
    * Update the distribution of segmental flows after adding a new segment (new bifurcation)
    * @param segIndex index of the parent segment to be updated
    */
-  void updateFlowTerminal(unsigned int segIndex);
-  void updateFlowParameters(unsigned int segIndex);
+  void updateResistanceTerminal(unsigned int segIndex);
+  void updateResistance(unsigned int segIndex);
   void updateFlow();
   void updateLengthFactor();
   void updateScale(double scale);
@@ -408,7 +409,6 @@ public:
   double dProjCalculation(const Point2D &p,unsigned int Index );
   double dCritCalculation(const Point2D &p,unsigned int Index );
   Point2D FindBarycenter(const Point2D &p, unsigned int index);
-  void updateTreshold();
   double GetLength(unsigned int Index);
   bool updateRadius();
   bool updateRadius2(unsigned int index );
@@ -433,7 +433,7 @@ public:
    */
   Point2D generateNewLocation(unsigned int nbTrials = 1000);
 
-  std::pair<Point2D, bool> generateALocation();
+  std::pair<Point2D, bool> generateALocation(double myDThresold);
 
   /**
    * Computes the distance from a segment represented with the index  and the point given as argument.
