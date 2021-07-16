@@ -259,7 +259,7 @@ CoronaryArteryTree::isAddable(const Point2D &p, unsigned int segIndex, unsigned 
       updateRootRadius();
       //updateLengthFactor();
       
-      std::cout<<"Vol : "<< this->computeTotalVolume(1);
+      //std::cout<<"Vol : "<< this->computeTotalVolume(1);
     }
   }
   
@@ -350,7 +350,7 @@ CoronaryArteryTree::isAddable(const Point2D &p, unsigned int segIndex, unsigned 
         //updateLengthFactor();
         
         vol = cTree1.computeTotalVolume(1);
-        std::cout<<"Iter "<<i<<" has tree Volume: "<< vol <<std::endl;
+        //std::cout<<"Iter "<<i<<" has tree Volume: "<< vol <<std::endl;
         if(i==0)
           volCurr = vol;
         else {
