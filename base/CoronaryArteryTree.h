@@ -319,6 +319,7 @@ public:
   double getLengthSegment(unsigned int segIndex);
   
   bool isAddable(const Point2D &p, unsigned int segIndex, unsigned int nbIter, unsigned int nbNeibour = 10);
+  bool isAddable(const Point2D &p, unsigned int segIndex, unsigned int nbIter, double tolerance, unsigned int nbNeibour = 10);
   
   bool isIntersecting(const Point2D &pNew, const Point2D &pCenter, unsigned int nearIndex, unsigned int nbNeibour = 10, double minDistance = 5.0);
   /**
@@ -525,6 +526,8 @@ public:
   bool kamyiaOptimization(unsigned int index, unsigned int nbIter = 100);
   
   bool kamyiaOptimization(const DGtal::Z2i::RealPoint& pParent, const Segment<Point2D>& sCurrent, const Segment<Point2D>& sL, const Segment<Point2D>& sR, unsigned int nbIter, DGtal::Z2i::RealPoint& pOpt, double& r0, double& r1, double& r2);
+  
+  bool kamyiaOptimization(const DGtal::Z2i::RealPoint& pCurrent, const DGtal::Z2i::RealPoint& pParent, const Segment<Point2D>& sCurrent, const Segment<Point2D>& sL, const Segment<Point2D>& sR, unsigned int nbIter, DGtal::Z2i::RealPoint& pOpt, double& r0, double& r1, double& r2);
   
 };
 
