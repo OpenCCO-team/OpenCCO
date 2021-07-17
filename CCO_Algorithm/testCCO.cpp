@@ -222,7 +222,7 @@ int main(int argc, char *const *argv)
   assert(vecSeed.size() != 0);
   
   //testAutoGen1(20000, 100);
-  //testAutoGen2(20000, 100);
+  testAutoGen2(20000, 100);
   //testFixedSeeds(50, vecSeed);
   //return 0;
   
@@ -249,11 +249,12 @@ int main(int argc, char *const *argv)
   unsigned int n = 20;
   bool isOK = false;
   unsigned int nbSeed = cTree.my_NTerm;
-  for (unsigned int i = 1; i < nbSeed; i++) {
+  for (unsigned int i = 1; i < 3; i++) {
     DGtal::trace.progressBar(i, nbSeed);
     int nbSol = 0, itOpt = 0;
     CoronaryArteryTree cTreeOpt = cTree;
     double volOpt = -1.0, vol = 0.0;
+    std::cout<<"Vol in: "<<cTree.computeTotalVolume()<<std::endl;
     while (nbSol==0) {
       CoronaryArteryTree::Point2D pt = vecSeed[i].first; //cTree.generateNewLocation(100);
       std::vector<unsigned int> vecN = cTree.getN_NearestSegments(pt,n);
@@ -263,7 +264,7 @@ int main(int argc, char *const *argv)
           CoronaryArteryTree cTree1 = cTree;
           isOK = cTree1.isAddable(pt,vecN.at(it), 100, 0.01, n);
           if(isOK) {
-            vol = cTree1.computeTotalVolume(1);
+            vol = cTree1.computeTotalVolume();
             if(volOpt<0.0) {
               volOpt = vol;
               cTreeOpt = cTree1;
@@ -283,12 +284,15 @@ int main(int argc, char *const *argv)
     }
     cTree = cTreeOpt;
     cTree.updateLengthFactor();
+    //cTree.updateResistanceTerminal();
+    //cTree.updateRootRadius();
+    std::cout<<"Vol out: "<<cTree.computeTotalVolume()<<std::endl;
   }
   std::cout<<"====> Aperf="<<cTree.myRsupp*cTree.myRsupp*cTree.my_NTerm*M_PI<<" == "<<aPerf<<std::endl;
 
   //Draw CCO result
-  std::vector<std::pair<DGtal::Z2i::RealPoint, double> > vecCCO_res1 = readSeed("../Data/NoCom_Nt10_s420_M301_distal.txt");//NoCom_Nt10_s420_M301_distal InterTree_Nt10_kt2_s420_M301_distal
-  std::vector<std::pair<DGtal::Z2i::RealPoint, double> > vecCCO_res2 = readSeed("../Data/NoCom_Nt10_s420_M301_proximal.txt");//NoCom_Nt10_s420_M301_proximal InterTree_Nt10_kt2_s420_M301_proximal
+  std::vector<std::pair<DGtal::Z2i::RealPoint, double> > vecCCO_res1 = readSeed("../Data/InterTree_Nt10_kt3_s420_M301_distal.txt");//NoCom_Nt10_s420_M301_distal InterTree_Nt10_kt2_s420_M301_distal
+  std::vector<std::pair<DGtal::Z2i::RealPoint, double> > vecCCO_res2 = readSeed("../Data/InterTree_Nt10_kt3_s420_M301_proximal.txt");//NoCom_Nt10_s420_M301_proximal InterTree_Nt10_kt2_s420_M301_proximal
   
   for(size_t it=0; it<vecCCO_res1.size(); it++) {
     DGtal::Z2i::RealPoint p1 = vecCCO_res1.at(it).first;

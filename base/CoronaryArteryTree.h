@@ -313,7 +313,7 @@ public:
   
   bool addFirstSegment(const Point2D &p);
   
-  double computeTotalVolume(unsigned int segIndex);
+  double computeTotalVolume(unsigned int segIndex = 1);
   
   double getDistanceThreshold();
   double getLengthSegment(unsigned int segIndex);
@@ -341,9 +341,11 @@ public:
    * Update the distribution of segmental flows after adding a new segment (new bifurcation)
    * @param segIndex index of the parent segment to be updated
    */
-  void updateResistanceTerminal(unsigned int segIndex);
-  void updateResistance(unsigned int segIndex);
+  void updateResistanceTerminal(unsigned int segIndex = 1);
+  void updateResistance(unsigned int segIndex = 1);
+  void updateKTerm(unsigned int segIndex);
   void updateFlow();
+  void updateFlow(unsigned int segIndex);
   void updateLengthFactor();
   void updateScale(double scale);
   void depthFirstResistances();

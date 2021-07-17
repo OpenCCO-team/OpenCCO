@@ -71,6 +71,28 @@ CoronaryArteryTree::updateResistance(unsigned int segIndex)
 }
 
 void
+CoronaryArteryTree::updateKTerm(unsigned int segIndex)
+{
+  Segment<Point2D> sC = myVectSegments[segIndex];
+  while (sC.myIndex != 0){
+    myVectSegments[segIndex].myKTerm ++;
+    sC = myVectSegments[myVectParent[sC.myIndex]];
+  }
+}
+
+void
+CoronaryArteryTree::updateFlow(unsigned int segIndex)
+{
+  Segment<Point2D> sC = myVectSegments[segIndex];
+  while (sC.myIndex != 0){
+    myVectSegments[segIndex].myKTerm ++;
+    //Eq. 11
+    myVectSegments[segIndex].myFlow = myVectSegments[segIndex].myKTerm*my_qTerm;
+    sC = myVectSegments[myVectParent[sC.myIndex]];
+  }
+}
+
+void
 CoronaryArteryTree::updateFlow()
 {
   for(size_t it=0; it<myVectSegments.size(); it++) {
@@ -241,6 +263,7 @@ CoronaryArteryTree::isAddable(const Point2D &p, unsigned int segIndex, unsigned 
       // Update center segment
       myVectSegments[segIndex].myRadius = r0;
       myVectSegments[segIndex].myKTerm = sCurrent.myKTerm;
+      myVectSegments[segIndex].myFlow = sCurrent.myFlow;
       //update childrens of center segment
       myVectChildren[segIndex].first = sNewLeft.myIndex;
       myVectChildren[segIndex].second = sNewRight.myIndex;
@@ -254,7 +277,7 @@ CoronaryArteryTree::isAddable(const Point2D &p, unsigned int segIndex, unsigned 
       // Update physilogique paramaters
       updateResistanceTerminal(sNewRight.myIndex);
       updateResistance(sNewLeft.myIndex);
-      
+      updateFlow(myVectParent[segIndex]);
       // Update root radius
       updateRootRadius();
       //updateLengthFactor();
@@ -331,6 +354,7 @@ CoronaryArteryTree::isAddable(const Point2D &p, unsigned int segIndex, unsigned 
         // Update center segment
         cTree1.myVectSegments[segIndex].myRadius = r0;
         cTree1.myVectSegments[segIndex].myKTerm = sCurrent.myKTerm;
+        cTree1.myVectSegments[segIndex].myFlow = sCurrent.myFlow;
         //update childrens of center segment
         cTree1.myVectChildren[segIndex].first = sNewLeft.myIndex;
         cTree1.myVectChildren[segIndex].second = sNewRight.myIndex;
@@ -344,15 +368,15 @@ CoronaryArteryTree::isAddable(const Point2D &p, unsigned int segIndex, unsigned 
         // Update physilogique paramaters
         cTree1.updateResistanceTerminal(sNewRight.myIndex);
         cTree1.updateResistance(sNewLeft.myIndex);
-        
+        cTree1.updateFlow(cTree1.myVectParent[segIndex]);
         // Update root radius
         cTree1.updateRootRadius();
-        //updateLengthFactor();
         
-        vol = cTree1.computeTotalVolume(1);
+        vol = cTree1.computeTotalVolume();
         //std::cout<<"Iter "<<i<<" has tree Volume: "<< vol <<std::endl;
-        if(i==0)
+        if(i==0) {
           volCurr = vol;
+        }
         else {
           diffVol = volCurr - vol;
           if(fabs(diffVol) < tolerance) {
@@ -1083,9 +1107,9 @@ CoronaryArteryTree::kamyiaOptimization(const DGtal::Z2i::RealPoint& pParent,
     r0 = sqrt(R0);
     r1 = sqrt(R1);
     r2 = sqrt(R2);
-    double mL0 = (pb - pParent).norm();
-    double mL1 = (pb - pL).norm();
-    double mL2 = (pb - pR).norm();
+    double mL0 = l0;//(pb - pParent).norm();
+    double mL1 = l1;//(pb - pL).norm();
+    double mL2 = l2;//(pb - pR).norm();
     
     if(2*r0<=mL0 && 2*r1<=mL1 && 2*r2<mL2)
       hasSolution = true;
@@ -1170,11 +1194,12 @@ CoronaryArteryTree::kamyiaOptimization(const DGtal::Z2i::RealPoint& pCurrent,
     r0 = sqrt(R0);
     r1 = sqrt(R1);
     r2 = sqrt(R2);
-    double mL0 = (pb - pParent).norm();
-    double mL1 = (pb - pL).norm();
-    double mL2 = (pb - pR).norm();
+    //double mL0 = (pb - pParent).norm();
+    //double mL1 = (pb - pL).norm();
+    //double mL2 = (pb - pR).norm();
     
-    if(2*r0<=mL0 && 2*r1<=mL1 && 2*r2<mL2)
+    //if(2*r0<=mL0 && 2*r1<=mL1 && 2*r2<mL2)
+    if(2*r0<=l0 && 2*r1<=l1 && 2*r2<l2)
       hasSolution = true;
     else
       hasSolution = false;
