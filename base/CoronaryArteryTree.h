@@ -349,12 +349,14 @@ public:
   void updateLengthFactor();
   void updateScale(double scale);
   void depthFirstResistances();
-  
+  void updateBeta(unsigned int segIndex);
+  void updateBeta();
   /**
    * Update ...
    * @param segIndex index of the parent segment to be updated
    */
   void updateRadius(unsigned int segIndex);
+  void updateRadius(unsigned int segIndex, double beta);
   
   /**
    * Update the root radius after updating flow parameters (as given in Eq. 18)
