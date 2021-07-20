@@ -25,7 +25,7 @@ std::vector<std::pair<DGtal::Z2i::RealPoint, double> > readSeed(std::string file
     myfile.close();
   }
   else std::cout << "Unable to open file"<<std::endl;
-
+  assert(vecSeeds.size() != 0);
   return vecSeeds;
 }
 
@@ -219,18 +219,25 @@ void testFixedSeeds(double radius, std::vector<std::pair<DGtal::Z2i::RealPoint, 
  */
 int main(int argc, char *const *argv)
 {
-  std::vector<std::pair<DGtal::Z2i::RealPoint, double> > vecSeed = readSeed("../Data/Nt10_kt10_s42_M301/NoCom_Nt10_s42_M301_TerminalSeeds.txt");
-  assert(vecSeed.size() != 0);
+  int Nt = 10; //10 20 30 40
+  int seed = 42;//42 420 25 250 90 201
+  std::string dir = "../Data/Nt" + std::to_string(Nt) + "_kt10_s" + std::to_string(seed) + "_M301/";
+  std::string prefix = "NoCom_Nt" + std::to_string(Nt) + "_s" + std::to_string(seed) + "_M301_";
+  std::string fileDistal = dir + prefix + "distal.txt";
+  std::string fileProximal = dir + prefix + "proximal.txt";
+  std::string fileSeeds = dir + prefix + "TerminalSeeds.txt";
+  std::vector<std::pair<DGtal::Z2i::RealPoint, double> > vecSeed = readSeed(fileSeeds);
   
+  /*
   clock_t start, end;
   start = clock();
-  //testAutoGen2(20000, 100);
-  testAutoGen2(200000, 1000);
+  testAutoGen2(20000, 100);
+  //testAutoGen2(200000, 1000);
   //testFixedSeeds(50, vecSeed);
   end = clock();
-  printf ("Execution time: %0.8f sec\n", ((float) end - start)/CLOCKS_PER_SEC);
+  printf ("Execution time: %0.8f sec\n", ((double) end - start)/CLOCKS_PER_SEC);
   return 0;
-  
+  */
   DGtal::trace.beginBlock("Testing class CoronaryArteryTree: test adds fixed terminal points from file");
   srand (time(NULL));
   
@@ -302,8 +309,8 @@ int main(int argc, char *const *argv)
   std::cout<<"====> Aperf="<<cTree.myRsupp*cTree.myRsupp*cTree.my_NTerm*M_PI<<" == "<<aPerf<<std::endl;
 
   //Draw CCO result
-  std::vector<std::pair<DGtal::Z2i::RealPoint, double> > vecCCO_res1 = readSeed("../Data/Nt10_kt10_s42_M301/InterTree_Nt10_kt10_s42_M301_distal.txt");//NoCom_Nt10_s42_M301_distal InterTree_Nt10_kt3_s42_M301_distal
-  std::vector<std::pair<DGtal::Z2i::RealPoint, double> > vecCCO_res2 = readSeed("../Data/Nt10_kt10_s42_M301/InterTree_Nt10_kt10_s42_M301_proximal.txt");//NoCom_Nt10_s42_M301_proximal InterTree_Nt10_kt3_s42_M301_proximal
+  std::vector<std::pair<DGtal::Z2i::RealPoint, double> > vecCCO_res1 = readSeed(fileDistal);
+  std::vector<std::pair<DGtal::Z2i::RealPoint, double> > vecCCO_res2 = readSeed(fileProximal);
   
   for(size_t it=0; it<vecCCO_res1.size(); it++) {
     DGtal::Z2i::RealPoint p1 = vecCCO_res1.at(it).first;
@@ -317,7 +324,7 @@ int main(int argc, char *const *argv)
     //cTree.myBoard.setPenColor(DGtal::Color::Red);
     //cTree.myBoard.drawLine(pRoot[0], pRoot[1], p1[0], p1[1], 2);
   }
-  filename = "testCCO_"+std::to_string(nbTerm)+".eps";
+  filename = "testCCO_Nt" + std::to_string(Nt) + "_s" + std::to_string(seed) +".eps";
   cTree.exportBoardDisplay(filename.c_str(), 1.0, true, false);
   cTree.myBoard.clear();
 
