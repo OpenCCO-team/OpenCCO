@@ -2,9 +2,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+#include <chrono>
+
 #include "DGtal/base/Common.h"
 #include "DGtal/helpers/StdDefs.h"
-
 
 #include "CoronaryArteryTree.h"
 #include "geomhelpers.h"
@@ -221,10 +222,14 @@ int main(int argc, char *const *argv)
   std::vector<std::pair<DGtal::Z2i::RealPoint, double> > vecSeed = readSeed("../Data/Nt10_kt10_s42_M301/NoCom_Nt10_s42_M301_TerminalSeeds.txt");
   assert(vecSeed.size() != 0);
   
+  clock_t start, end;
+  start = clock();
   //testAutoGen2(20000, 100);
-  //testAutoGen2(200000, 1000);
+  testAutoGen2(200000, 1000);
   //testFixedSeeds(50, vecSeed);
-  //return 0;
+  end = clock();
+  printf ("Execution time: %0.8f sec\n", ((float) end - start)/CLOCKS_PER_SEC);
+  return 0;
   
   DGtal::trace.beginBlock("Testing class CoronaryArteryTree: test adds fixed terminal points from file");
   srand (time(NULL));
@@ -249,12 +254,12 @@ int main(int argc, char *const *argv)
   unsigned int n = 20;
   bool isOK = false;
   unsigned int nbSeed = cTree.my_NTerm;
-  for (unsigned int i = 1; i < 5; i++) {
+  for (unsigned int i = 1; i < nbSeed; i++) {
     DGtal::trace.progressBar(i, nbSeed);
     int nbSol = 0, itOpt = 0;
     CoronaryArteryTree cTreeOpt = cTree;
     double volOpt = -1.0, vol = 0.0;
-    std::cout<<"Vol in: "<<cTree.computeTotalVolume()<<std::endl;
+    std::cout<<"Vol in ("<<i<<"): "<<cTree.computeTotalVolume()<<std::endl;
     while (nbSol==0) {
       CoronaryArteryTree::Point2D pt = vecSeed[i].first; //cTree.generateNewLocation(100);
       std::vector<unsigned int> vecN = cTree.getN_NearestSegments(pt,n);
@@ -286,18 +291,19 @@ int main(int argc, char *const *argv)
     cTree.updateLengthFactor();
     //cTree.updateResistanceTerminal(cTree.myVectSegments.size()-1); //seg right (new segment)
     //cTree.updateResistance(cTree.myVectSegments.size()-2); //seg left
-    cTree.updateResistance(cTree.myVectSegments.size()-1);
+    //cTree.updateResistance(cTree.myVectSegments.size()-1, 0);
+    cTree.updateResistanceFromRoot();
     //cTree.updateBeta(cTree.myVectSegments.size()-1);
     //cTree.updateBeta();
     cTree.updateRootRadius();
     //std::cout<<"Vol out 2: "<<cTree.computeTotalVolume()<<std::endl;
-    std::cout<<"Vol out: "<<cTree.computeTotalVolume()<<std::endl;
+    std::cout<<"Vol out ("<<i<<"): "<<cTree.computeTotalVolume()<<std::endl;
   }
   std::cout<<"====> Aperf="<<cTree.myRsupp*cTree.myRsupp*cTree.my_NTerm*M_PI<<" == "<<aPerf<<std::endl;
 
   //Draw CCO result
-  std::vector<std::pair<DGtal::Z2i::RealPoint, double> > vecCCO_res1 = readSeed("../Data/Nt10_kt10_s42_M301/InterTree_Nt10_kt5_s42_M301_distal.txt");//NoCom_Nt10_s42_M301_distal InterTree_Nt10_kt3_s42_M301_distal
-  std::vector<std::pair<DGtal::Z2i::RealPoint, double> > vecCCO_res2 = readSeed("../Data/Nt10_kt10_s42_M301/InterTree_Nt10_kt5_s42_M301_proximal.txt");//NoCom_Nt10_s42_M301_proximal InterTree_Nt10_kt3_s42_M301_proximal
+  std::vector<std::pair<DGtal::Z2i::RealPoint, double> > vecCCO_res1 = readSeed("../Data/Nt10_kt10_s42_M301/InterTree_Nt10_kt10_s42_M301_distal.txt");//NoCom_Nt10_s42_M301_distal InterTree_Nt10_kt3_s42_M301_distal
+  std::vector<std::pair<DGtal::Z2i::RealPoint, double> > vecCCO_res2 = readSeed("../Data/Nt10_kt10_s42_M301/InterTree_Nt10_kt10_s42_M301_proximal.txt");//NoCom_Nt10_s42_M301_proximal InterTree_Nt10_kt3_s42_M301_proximal
   
   for(size_t it=0; it<vecCCO_res1.size(); it++) {
     DGtal::Z2i::RealPoint p1 = vecCCO_res1.at(it).first;

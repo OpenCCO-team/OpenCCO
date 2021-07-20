@@ -170,6 +170,8 @@ public:
     my_aPerf = aPerf;
     my_NTerm = nTerm;
     my_qTerm = my_qPerf / my_NTerm;
+    if(nTerm > 250)
+      my_pTerm = 7.98e3;
     my_pDrop = my_pPerf-my_pTerm;
     //myDThresold = sqrt(M_PI*myRsupp*myRsupp/myKTerm);
     
@@ -220,6 +222,8 @@ public:
     my_aPerf = aPerf;
     my_NTerm = nTerm;
     my_qTerm = my_qPerf / my_NTerm;
+    if(nTerm > 250)
+      my_pTerm = 7.98e3;
     my_pDrop = my_pPerf-my_pTerm;
     //myDThresold = sqrt(M_PI*myRsupp*myRsupp/myKTerm);
     
@@ -272,7 +276,10 @@ public:
     my_aPerf = aPerf;
     my_NTerm = nTerm;
     my_qTerm = my_qPerf / my_NTerm;
+    if(nTerm > 250)
+      my_pTerm = 7.98e3;
     my_pDrop = my_pPerf-my_pTerm;
+    
     //myDThresold = sqrt(M_PI*myRsupp*myRsupp/myKTerm);
     
     // Construction of the special root segment
@@ -341,8 +348,11 @@ public:
    * Update the distribution of segmental flows after adding a new segment (new bifurcation)
    * @param segIndex index of the parent segment to be updated
    */
-  void updateResistanceTerminal(unsigned int segIndex = 1);
-  void updateResistance(unsigned int segIndex = 1);
+  void updateResistanceTerminal(unsigned int segIndex);
+  void updateResistance(unsigned int segIndex);
+  void updateResistance(unsigned int segIndex, int order);
+  CoronaryArteryTree::Segment<CoronaryArteryTree::Point2D> updateResistanceFromRoot(unsigned int segIndex=1);
+  
   void updateKTerm(unsigned int segIndex);
   void updateFlow();
   void updateFlow(unsigned int segIndex);
