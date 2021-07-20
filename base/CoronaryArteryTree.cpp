@@ -438,13 +438,7 @@ CoronaryArteryTree::isAddable(const Point2D &p, unsigned int segIndex, unsigned 
       updateFlow(myVectParent[segIndex]);
       updateResistanceTerminal(sNewRight.myIndex);
       updateResistance(sNewLeft.myIndex);
-      //updateBeta(sNewRight.myIndex);
-      //updateBeta();
-      // Update root radius
       updateRootRadius();
-      //updateLengthFactor();
-      
-      //std::cout<<"Vol : "<< this->computeTotalVolume(1);
     }
   }
   return res1 && !res2;
@@ -534,15 +528,8 @@ CoronaryArteryTree::isAddable(const Point2D &p, unsigned int segIndex, unsigned 
         // update parameters
         cTree1.myKTerm++;
         // Update physilogique paramaters
-        //cTree1.updateKTerm(sParent.myIndex);
         cTree1.updateFlow(cTree1.myVectParent[segIndex]);
-        //cTree1.updateResistanceTerminal(sNewRight.myIndex);
-        //cTree1.updateResistance(sNewLeft.myIndex);
-        //cTree1.updateResistance(cTree1.myVectSegments.size()-1, 0);
         cTree1.updateResistanceFromRoot();
-        //cTree1.updateBeta(cTree1.myVectSegments.size()-1);
-        //cTree1.updateBeta();
-        // Update root radius
         cTree1.updateRootRadius();
         
         vol = cTree1.computeTotalVolume();
@@ -637,38 +624,10 @@ CoronaryArteryTree::addSegmentFromPoint(const Point2D &p,
   // Update physilogique paramaters
   updateResistanceTerminal(sNewRight.myIndex);
   updateResistance(sNewLeft.myIndex);
-  //updateBeta(sNewRight.myIndex);
-  //updateBeta();
   // Update root radius
   updateRootRadius();
   updateLengthFactor();
   
-  /*
-  // Optimization
-  bool resKamiya;
-  double tolerance = 0.01;
-  int nbIter = 100;
-  bool isDone = false;
-  double volCurrent = this->computeTotalVolume(1)*10;
-  CoronaryArteryTree cTreeCurrent = *this;
-  for(int i=0; i<nbIter && !isDone; i++) {
-    DGtal::trace.progressBar(i, nbIter);
-    CoronaryArteryTree cTreeCopy = cTreeCurrent;
-    resKamiya = cTreeCopy.kamyiaOptimization(nearIndex);
-    // Update root radius
-    cTreeCopy.updateRootRadius();
-    cTreeCopy.updateFlowTerminal(sNewRight.myIndex);
-    cTreeCopy.updateFlowParameters(sNewLeft.myIndex);
-    double vol = cTreeCopy.computeTotalVolume(1);
-    if(fabs(vol - volCurrent)<tolerance)
-      isDone = true;
-    else {
-      cTreeCurrent = cTreeCopy;
-      volCurrent = vol;
-    }
-  }
-  *this = cTreeCurrent;
-  */
   return resKamiya;
 }
 
