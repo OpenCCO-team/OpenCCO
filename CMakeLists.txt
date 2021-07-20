@@ -15,7 +15,7 @@ find_package(Ceres REQUIRED)
 
 
 # CLI11
-include_directories( "${PROJECT_SOURCE_DIR}/ext/" "${PROJECT_SOURCE_DIR}/helpers/" "${PROJECT_SOURCE_DIR}/gbase/" )
+include_directories( "${PROJECT_SOURCE_DIR}/ext/" "${PROJECT_SOURCE_DIR}/helpers/" "${PROJECT_SOURCE_DIR}/base/" )
 FIND_PACKAGE(DGtal REQUIRED)
 
 INCLUDE_DIRECTORIES(${DGTAL_INCLUDE_DIRS})
