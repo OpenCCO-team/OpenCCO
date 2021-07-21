@@ -49,8 +49,8 @@ void testAutoGen(double aPerf, int nbTerm) {
       CoronaryArteryTree::Point2D pt = cTree.generateNewLocation(100);
       std::vector<unsigned int> vecN = cTree.getN_NearestSegments(pt,n);
       for(size_t it=0; it<vecN.size(); it++) {
-        if(!cTree.isIntersecting(pt, cTree.FindBarycenter(pt, vecN.at(it)),vecN.at(it),n))
-        {
+        //if(!cTree.isIntersecting(pt, cTree.findBarycenter(pt, vecN.at(it)),vecN.at(it),n))
+        if(!cTree.isIntersecting(pt, cTree.findBarycenter(pt, vecN.at(it)),vecN.at(it),n, 2*cTree.myVectSegments[vecN.at(it)].myRadius)) {
           CoronaryArteryTree cTree1 = cTree;
           isOK = cTree1.isAddable(pt,vecN.at(it), 100, 0.01, n);
           if(isOK) {
@@ -74,11 +74,13 @@ void testAutoGen(double aPerf, int nbTerm) {
     }
     cTree = cTreeOpt;
     cTree.updateLengthFactor();
+    cTree.updateResistanceFromRoot();
+    cTree.updateRootRadius();
   }
   std::cout<<"====> Aperf="<<cTree.myRsupp*cTree.myRsupp*cTree.my_NTerm*M_PI<<" == "<<aPerf<<std::endl;
 
   filename = "testCCO_"+std::to_string(nbTerm)+".eps";
-  cTree.exportBoardDisplay(filename.c_str(), 5.0, true);
+  cTree.exportBoardDisplay(filename.c_str(), 1.0);
   cTree.myBoard.clear();
 }
 
@@ -97,15 +99,15 @@ int main(int argc, char *const *argv)
   std::string fileSeeds = dir + prefix + "TerminalSeeds.txt";
   std::vector<std::pair<DGtal::Z2i::RealPoint, double> > vecSeed = readSeed(fileSeeds);
   
-  /*
+  
   clock_t start, end;
   start = clock();
-  testAutoGen(20000, 100);
-  //testAutoGen(200000, 1000);
+  //2000 => Execution time: 291.32636200 sec
+  testAutoGen(20000, 2000);
   end = clock();
   printf ("Execution time: %0.8f sec\n", ((double) end - start)/CLOCKS_PER_SEC);
-  return 0;
-  */
+  //return 0;
+  
   DGtal::trace.beginBlock("Testing class CoronaryArteryTree: test adds fixed terminal points from file");
   srand (time(NULL));
   
@@ -138,7 +140,7 @@ int main(int argc, char *const *argv)
       CoronaryArteryTree::Point2D pt = vecSeed[i].first; //cTree.generateNewLocation(100);
       std::vector<unsigned int> vecN = cTree.getN_NearestSegments(pt,n);
       for(size_t it=0; it<vecN.size(); it++) {
-        if(!cTree.isIntersecting(pt, cTree.FindBarycenter(pt, vecN.at(it)),vecN.at(it),n, cTree.myVectSegments[vecN.at(it)].myRadius)) {
+        if(!cTree.isIntersecting(pt, cTree.findBarycenter(pt, vecN.at(it)),vecN.at(it),n, cTree.myVectSegments[vecN.at(it)].myRadius)) {
           CoronaryArteryTree cTree1 = cTree;
           isOK = cTree1.isAddable(pt,vecN.at(it), 100, 0.01, n);
           if(isOK) {

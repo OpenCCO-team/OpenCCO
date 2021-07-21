@@ -162,7 +162,7 @@ CoronaryArteryTree::updateResistanceFromRoot(unsigned int segIndex) {
     return myVectSegments[segIndex];
   }
 }
-
+/*
 void
 CoronaryArteryTree::updateBeta() {
   for(size_t i=1; i<myVectSegments.size(); i++) {
@@ -183,7 +183,8 @@ CoronaryArteryTree::updateBeta() {
     }
   }
 }
-
+*/
+/*
 void
 CoronaryArteryTree::updateBeta(unsigned int segIndex) {
   if(myVectSegments[myVectParent[segIndex]].myIndex!=0) { //it's not the first segment
@@ -206,7 +207,8 @@ CoronaryArteryTree::updateBeta(unsigned int segIndex) {
     //updateBeta();
   }
 }
-
+*/
+/*
 void
 CoronaryArteryTree::updateKTerm(unsigned int segIndex)
 {
@@ -216,7 +218,7 @@ CoronaryArteryTree::updateKTerm(unsigned int segIndex)
     sC = myVectSegments[myVectParent[sC.myIndex]];
   }
 }
-
+*/
 void
 CoronaryArteryTree::updateFlow(unsigned int segIndex)
 {
@@ -228,7 +230,7 @@ CoronaryArteryTree::updateFlow(unsigned int segIndex)
     sC = myVectSegments[myVectParent[sC.myIndex]];
   }
 }
-
+/*
 void
 CoronaryArteryTree::updateFlow()
 {
@@ -239,7 +241,7 @@ CoronaryArteryTree::updateFlow()
       myVectSegments[it].myFlow = myVectSegments[it].myKTerm*my_qTerm;
   }
 }
-
+*/
 void
 CoronaryArteryTree::updateLengthFactor()
 {
@@ -293,7 +295,7 @@ CoronaryArteryTree::updateRootRadius()
   //updateRadius(idRoot);
   updateRadius(idRoot, 1.0);
 }
-
+/*
 void
 CoronaryArteryTree::updateSegmentRadiusToRoot(unsigned int segIndex)
 {
@@ -306,7 +308,7 @@ CoronaryArteryTree::updateSegmentRadiusToRoot(unsigned int segIndex)
     myVectSegments[v[id]].myRadius = radius;
   }
 }
-
+*/
 double
 CoronaryArteryTree::getLengthSegment(unsigned int segIndex)
 {
@@ -315,7 +317,7 @@ CoronaryArteryTree::getLengthSegment(unsigned int segIndex)
   DGtal::Z2i::RealPoint p2 = myVectSegments[myVectParent[segIndex]].myCoordinate;
   return (p1-p2).norm()*myLengthFactor;
 }
-
+/*
 double
 CoronaryArteryTree::computeTreeVolume(double mu, double lambda)
 {
@@ -325,7 +327,8 @@ CoronaryArteryTree::computeTreeVolume(double mu, double lambda)
   }
   return volume;
 }
-
+*/
+/*
 void
 CoronaryArteryTree::updateScale(double scale)
 {
@@ -340,7 +343,7 @@ CoronaryArteryTree::updateScale(double scale)
   this->my_rPerf = this->myRsupp;
   //this->myDThresold=sqrt((M_PI*this->myRsupp*this->myRsupp)/this->myKTerm);
 }
-
+*/
 double
 CoronaryArteryTree::computeTotalVolume(unsigned int segIndex)
 {
@@ -362,13 +365,13 @@ CoronaryArteryTree::computeTotalVolume(unsigned int segIndex)
   //std::cout<<"Vol final ="<<v<<std::endl;
   return v;
 }
-
+/*
 bool
 CoronaryArteryTree::isAddable(const Point2D &p, unsigned int segIndex, unsigned int nbIter, unsigned int nbNeibour)
 {
   DGtal::Z2i::RealPoint pOpt;
   
-  Point2D newCenter = FindBarycenter(p, segIndex);
+  Point2D newCenter = findBarycenter(p, segIndex);
   // Creation of the left child
   Segment<Point2D> sNewLeft;
   sNewLeft.myCoordinate = myVectSegments[segIndex].myCoordinate;
@@ -443,13 +446,13 @@ CoronaryArteryTree::isAddable(const Point2D &p, unsigned int segIndex, unsigned 
   }
   return res1 && !res2;
 }
-
+*/
 bool
 CoronaryArteryTree::isAddable(const Point2D &p, unsigned int segIndex, unsigned int nbIter, double tolerance, unsigned int nbNeibour)
 {
   DGtal::Z2i::RealPoint pOpt;
   
-  Point2D newCenter = FindBarycenter(p, segIndex);
+  Point2D newCenter = findBarycenter(p, segIndex);
   // Creation of the left child
   Segment<Point2D> sNewLeft;
   sNewLeft.myCoordinate = myVectSegments[segIndex].myCoordinate;
@@ -488,7 +491,7 @@ CoronaryArteryTree::isAddable(const Point2D &p, unsigned int segIndex, unsigned 
       }
     }
     else {
-      res2 = isIntersecting(p, pOpt, segIndex, nbNeibour, cTreeCurr.myVectSegments[segIndex].myRadius);
+      res2 = isIntersecting(p, pOpt, segIndex, nbNeibour, 2*cTreeCurr.myVectSegments[segIndex].myRadius);
       if(!res2) {
         CoronaryArteryTree cTree1 = *this;
         //Update optimal values
@@ -574,7 +577,7 @@ CoronaryArteryTree::addSegmentFromPoint(const Point2D &p,
   // (a) First point added : point associated to the nearest segment. (basic solution the center of the nearest)
   // (b) Second point added: the new point with its new segment.
   // to process (a): s
-  Point2D newCenter = FindBarycenter(p, nearIndex);
+  Point2D newCenter = findBarycenter(p, nearIndex);
   
   // Creation of the left child
   Segment<Point2D> sNewLeft;
@@ -676,7 +679,7 @@ CoronaryArteryTree::isIntersecting(const Point2D &pNew, const Point2D &pCenter, 
 }
 
 // Test Version to debug...
-
+/*
 bool
 CoronaryArteryTree::addSegmentFromPointBK(const Point2D &p,
                                         unsigned int nearIndex,
@@ -687,7 +690,7 @@ CoronaryArteryTree::addSegmentFromPointBK(const Point2D &p,
   // (a) First point added : point associated to the nearest segment. (basic solution the center of the nearest)
   // (b) Second point added: the new point with its new segment.
   // to process (a): s
-  Point2D newCenter = FindBarycenter(p, nearIndex);
+  Point2D newCenter = findBarycenter(p, nearIndex);
   //bool inter = hasNearestIntersections(p, newCenter, 10);
   bool inter = hasNearestIntersections(myVectParent[nearIndex], nearIndex, p, newCenter,  10);
   double minDistance = 5.0;
@@ -764,7 +767,7 @@ CoronaryArteryTree::addSegmentFromPointBK(const Point2D &p,
 
   return true;
 }
-
+*/
 
 
 void
@@ -845,14 +848,14 @@ CoronaryArteryTree::exportBoardDisplay(const std::string &fileName,
   }
 }
 
-
+/*
 CoronaryArteryTree::Point2D
 CoronaryArteryTree::getSegmentCenter(unsigned int i)
 {
   return getSegmentCenter(myVectSegments.at(i));
 }
-
-
+*/
+/*
 CoronaryArteryTree::Point2D
 CoronaryArteryTree::getSegmentCenter(const Segment<Point2D> &s)
 {
@@ -868,7 +871,7 @@ CoronaryArteryTree::getSegmentCenter(const Segment<Point2D> &s)
   }
   return res;
 }
-
+*/
 
 unsigned int
 CoronaryArteryTree::getNearestSegment(const Point2D &pt)
@@ -894,22 +897,25 @@ CoronaryArteryTree::getNearestSegment(const Point2D &pt)
 }
 
 
-
+/*
 unsigned int
 CoronaryArteryTree::getParentSegment(const Segment<Point2D> &s){
   return myVectParent[s.myIndex];
 }
-
+*/
+/*
 unsigned int
 CoronaryArteryTree::getLeftChild(const Segment<Point2D> &s){
   return myVectChildren[s.myIndex].first;
 }
-
+*/
+/*
 unsigned int
 CoronaryArteryTree::getRightChild(const Segment<Point2D> &s){
   return myVectChildren[s.myIndex].second;
 }
-
+*/
+/*
 double
 CoronaryArteryTree::compDistCriteria(const Point2D &p, unsigned int indexNode)
 {
@@ -923,7 +929,7 @@ CoronaryArteryTree::compDistCriteria(const Point2D &p, unsigned int indexNode)
   }
   return std::min((p-pDist).norm(), (p-pProxi).norm());
 }
-
+*/
 std::vector<unsigned int>
 CoronaryArteryTree::getPathToRoot(const Segment<Point2D> &s)
 {
@@ -979,13 +985,13 @@ CoronaryArteryTree::generateALocation(double myDThresold) {
   }
   return  std::pair<Point2D, bool> {res, isComp};
 }
-
+/*
 double
 CoronaryArteryTree::getDistance(unsigned int index,
                                 const Point2D &p ) const {
   return (myVectSegments[index].myCoordinate-p).norm();
 }
-
+*/
 bool
 CoronaryArteryTree::isToCloseFromNearest(const Point2D &p, double minDist) const{
   double d = getProjDistance(getN_NearestSegments(p,1)[0],p);
@@ -1379,7 +1385,7 @@ bool
 CoronaryArteryTree::addSegmentFromPointWithBarycenter(const Point2D &p, unsigned int nearIndex)
 {
   // (a) First point added : point associated to the nearest segment. (basic solution the center of the nearest)
-  Point2D newCenter = FindBarycenter(p, nearIndex);
+  Point2D newCenter = findBarycenter(p, nearIndex);
   
   // Creation of the left child
   Segment<Point2D> sNewLeft;
@@ -1421,12 +1427,12 @@ CoronaryArteryTree::addSegmentFromPointWithBarycenter(const Point2D &p, unsigned
   // Update Kterm
   myKTerm++;
   
-  updateRadius();
-  
+  //updateRadius();
+  updateRootRadius();
   return true;
   
 }
-
+/*
 double
 CoronaryArteryTree::dProjCalculation(const Point2D &p,unsigned int Index )
 {
@@ -1440,8 +1446,8 @@ CoronaryArteryTree::dProjCalculation(const Point2D &p,unsigned int Index )
   return dProj;
   
 }
-
-
+*/
+/*
 double
 CoronaryArteryTree::dCritCalculation(const Point2D &p,unsigned int Index )
 {
@@ -1460,7 +1466,7 @@ CoronaryArteryTree::dCritCalculation(const Point2D &p,unsigned int Index )
   return dCrit;
   
 }
-
+*/
 double
 CoronaryArteryTree::getDistanceThreshold()
 {
@@ -1468,6 +1474,8 @@ CoronaryArteryTree::getDistanceThreshold()
   return sqrt((M_PI*my_rPerf*my_rPerf)/myKTerm);
   //return sqrt((M_PI*myRsupp*myRsupp)/myKTerm);
 }
+
+/*
 bool
 CoronaryArteryTree::updateRadius()
 {
@@ -1479,7 +1487,8 @@ CoronaryArteryTree::updateRadius()
   return TRUE;
   
 }
-
+*/
+/*
 bool
 CoronaryArteryTree::updateRadius2(unsigned int index )
 {
@@ -1499,13 +1508,13 @@ CoronaryArteryTree::updateRadius2(unsigned int index )
   return TRUE;
   
 }
+*/
 
 
 
 
 
-
-
+/*
 double
 CoronaryArteryTree::GetLength(unsigned int Index)
 {
@@ -1514,9 +1523,9 @@ CoronaryArteryTree::GetLength(unsigned int Index)
   double length  = pow(pow((proximalPoint[0] - distalPoint[0]), 2.0) + pow((proximalPoint[1] - distalPoint[1]), 2.0),0.5);
   return length;
 }
+*/
 
-
-
+/*
 double
 CoronaryArteryTree::GetTotalVolume(const Point2D &p1,const Point2D &p2,const Point2D &p3,const Point2D &pOpti)
 {
@@ -1529,7 +1538,7 @@ CoronaryArteryTree::GetTotalVolume(const Point2D &p1,const Point2D &p2,const Poi
   return M_PI*H1+M_PI*H2+M_PI*H3;
   
 }
-
+*/
 bool
 CoronaryArteryTree::addSegment(const Point2D &NewPoint,const Point2D &OptimizePoint, unsigned int nearIndex)
 {
@@ -1562,7 +1571,7 @@ CoronaryArteryTree::addSegment(const Point2D &NewPoint,const Point2D &OptimizePo
 }
 
 CoronaryArteryTree::Point2D
-CoronaryArteryTree::FindBarycenter(const Point2D &p, unsigned int index)
+CoronaryArteryTree::findBarycenter(const Point2D &p, unsigned int index)
 {
   Point2D first_point=p;
   Point2D second_point=myVectSegments[index].myCoordinate;
@@ -1571,7 +1580,7 @@ CoronaryArteryTree::FindBarycenter(const Point2D &p, unsigned int index)
   return barycenter;
 }
 
-
+/*
 int
 CoronaryArteryTree::AddFirstSegmentonImage()
 {
@@ -1586,14 +1595,16 @@ CoronaryArteryTree::AddFirstSegmentonImage()
   myVectChildren.push_back(SegmentChildren(0,0));
   return true;
 }
-
+*/
+/*
 double
 CoronaryArteryTree::FindXmax(int xDim, int yDim)
 {
   
   return myRsupp*cos(atan(xDim/yDim));
 }
-
+*/
+/*
 double
 CoronaryArteryTree::FindYmax(int xDim, int yDim)
 {
@@ -1601,8 +1612,8 @@ CoronaryArteryTree::FindYmax(int xDim, int yDim)
   return myRsupp*sin(atan(xDim/yDim));
   
 }
-
-
+*/
+/*
 // The following function converts a M_PIxelfrom the image into a point in the supporting circle
 CoronaryArteryTree::Point2D
 CoronaryArteryTree::fromImageToCircle(int ximage,int yimage,int xdim,int ydim)
@@ -1620,9 +1631,9 @@ CoronaryArteryTree::fromImageToCircle(int ximage,int yimage,int xdim,int ydim)
   return NewPoint;
   
 }
+*/
 
-
-
+/*
 // The following function converts a random generated point into a couple (x,y) in the M_PIcture
 CoronaryArteryTree::Point2D
 CoronaryArteryTree::fromCircleToImage(string fileName, double x, double y, int xdim,int ydim )
@@ -1644,13 +1655,13 @@ CoronaryArteryTree::fromCircleToImage(string fileName, double x, double y, int x
   return NewPoint;
   
 }
-
+*/
 
 
 bool
 CoronaryArteryTree::hasIntersections(Segment<Point2D> S1, Point2D newPoint)
 {
-  DGtal::Z2i::RealPoint Barycenter = FindBarycenter(newPoint, S1.myIndex);
+  DGtal::Z2i::RealPoint Barycenter = findBarycenter(newPoint, S1.myIndex);
   
   Segment<Point2D> newSegment;
   newSegment.myCoordinate = newPoint;

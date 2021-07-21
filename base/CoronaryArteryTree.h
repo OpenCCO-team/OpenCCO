@@ -318,14 +318,12 @@ public:
   // ----------------------- Interface --------------------------------------
   
   
-  bool addFirstSegment(const Point2D &p);
-  
-  double computeTotalVolume(unsigned int segIndex = 1);
+  //bool addFirstSegment(const Point2D &p);
   
   double getDistanceThreshold();
   double getLengthSegment(unsigned int segIndex);
   
-  bool isAddable(const Point2D &p, unsigned int segIndex, unsigned int nbIter, unsigned int nbNeibour = 10);
+  //bool isAddable(const Point2D &p, unsigned int segIndex, unsigned int nbIter, unsigned int nbNeibour = 10);
   bool isAddable(const Point2D &p, unsigned int segIndex, unsigned int nbIter, double tolerance, unsigned int nbNeibour = 10);
   
   bool isIntersecting(const Point2D &pNew, const Point2D &pCenter, unsigned int nearIndex, unsigned int nbNeibour = 10, double minDistance = 5.0);
@@ -340,8 +338,8 @@ public:
   bool addSegmentFromPoint(const Point2D &p,  unsigned int nearIndex,
                            double rLeft = 1.0, double rRight = 1.0);
   
-  bool addSegmentFromPointBK(const Point2D &p,  unsigned int nearIndex,
-                           double rLeft = 1.0, double rRight = 1.0);
+  //bool addSegmentFromPointBK(const Point2D &p,  unsigned int nearIndex,
+  //                         double rLeft = 1.0, double rRight = 1.0);
   
   
   /**
@@ -353,14 +351,14 @@ public:
   void updateResistance(unsigned int segIndex, int order);
   CoronaryArteryTree::Segment<CoronaryArteryTree::Point2D> updateResistanceFromRoot(unsigned int segIndex=1);
   
-  void updateKTerm(unsigned int segIndex);
-  void updateFlow();
+  //void updateKTerm(unsigned int segIndex);
+  //void updateFlow();
   void updateFlow(unsigned int segIndex);
   void updateLengthFactor();
-  void updateScale(double scale);
-  void depthFirstResistances();
-  void updateBeta(unsigned int segIndex);
-  void updateBeta();
+  //void updateScale(double scale);
+  //void depthFirstResistances();
+  //void updateBeta(unsigned int segIndex);
+  //void updateBeta();
   /**
    * Update ...
    * @param segIndex index of the parent segment to be updated
@@ -376,12 +374,13 @@ public:
   /**
    * Update the segment radius after updating flow parameters (as given in Eq. 19)
    */
-  void updateSegmentRadiusToRoot(unsigned int segIndex);
+  //void updateSegmentRadiusToRoot(unsigned int segIndex);
   
   /**
    * Compute the total tree volume (as given in Eq. 20)
    */
-  double computeTreeVolume(double mu, double lambda);
+  //double computeTreeVolume(double mu, double lambda);
+  double computeTotalVolume(unsigned int segIndex = 1);
   
   /**
    * Tries to add a new segment from a given point.
@@ -406,32 +405,32 @@ public:
                           bool clearDisplay = true);
   
   
-  Point2D getSegmentCenter(const Segment<Point2D> &s);
+  //Point2D getSegmentCenter(const Segment<Point2D> &s);
   
-  Point2D getSegmentCenter(unsigned int i);
-  double GetTotalVolume(const Point2D &p1,const Point2D &p2,const Point2D &p3,const Point2D &pOpti);
+  //Point2D getSegmentCenter(unsigned int i);
+  //double GetTotalVolume(const Point2D &p1,const Point2D &p2,const Point2D &p3,const Point2D &pOpti);
   unsigned int getNearestSegment(const Point2D &pt);
   
-  unsigned int getParentSegment(const Segment<Point2D> &s);
-  unsigned int getLeftChild(const Segment<Point2D> &s);
-  unsigned int getRightChild(const Segment<Point2D> &s);
+  //unsigned int getParentSegment(const Segment<Point2D> &s);
+  //unsigned int getLeftChild(const Segment<Point2D> &s);
+  //unsigned int getRightChild(const Segment<Point2D> &s);
   bool addSegment(const Point2D &NewPoint,const Point2D &OptimizePoint, unsigned int nearIndex);
   /**
    * Computes the distance criteria (d_crit) computed from the orthogonal projection or distance to end point.
    *
    */
-  double compDistCriteria(const Point2D &p, unsigned int indexNode);
-  double dProjCalculation(const Point2D &p,unsigned int Index );
-  double dCritCalculation(const Point2D &p,unsigned int Index );
-  Point2D FindBarycenter(const Point2D &p, unsigned int index);
-  double GetLength(unsigned int Index);
-  bool updateRadius();
-  bool updateRadius2(unsigned int index );
-  double FindXmax(int xDim, int yDim);
-  double FindYmax(int xDim, int yDim);
-  int AddFirstSegmentonImage();
-  Point2D fromCircleToImage(std::string fileName, double x, double y, int xdim,int ydim );
-  Point2D fromImageToCircle(int ximage,int yimage,int xdim,int ydim);
+  //double compDistCriteria(const Point2D &p, unsigned int indexNode);
+  //double dProjCalculation(const Point2D &p,unsigned int Index );
+  //double dCritCalculation(const Point2D &p,unsigned int Index );
+  Point2D findBarycenter(const Point2D &p, unsigned int index);
+  //double GetLength(unsigned int Index);
+  //bool updateRadius();
+  //bool updateRadius2(unsigned int index );
+  //double FindXmax(int xDim, int yDim);
+  //double FindYmax(int xDim, int yDim);
+  //int AddFirstSegmentonImage();
+  //Point2D fromCircleToImage(std::string fileName, double x, double y, int xdim,int ydim );
+  //Point2D fromImageToCircle(int ximage,int yimage,int xdim,int ydim);
   
   /// New from updating code... (BK+PN)
   /**
@@ -455,7 +454,7 @@ public:
    * @param index : the index of the segement used for the comparison
    * @param p : a point
    */
-  double getDistance(unsigned int index, const Point2D &p ) const;
+  //double getDistance(unsigned int index, const Point2D &p ) const;
   
   
   
