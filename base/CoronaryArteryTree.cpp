@@ -140,18 +140,25 @@ CoronaryArteryTree::isAddable(const Point2D &p, unsigned int segIndex, unsigned 
   sCurrent.myKTerm = sNewLeft.myKTerm + 1;
   // Cretation a copy of parent segment
   Segment<Point2D> sParent = myVectSegments[myVectParent[segIndex]];
-  //Point2D pCurrent ((f0*pParent[0]+f1*pL[0]+f2*pR[0])/(2.0*f0), (f0*pParent[1]+f1*pL[1]+f2*pR[1])/(2.0*f0)); //barycenter of the sement
-  //Point2D pCurrent ((pParent[0]+pL[0])/(2.0), (pParent[1]+pL[1])/(2.0)); //center of the old segment
-  Point2D pCurrent = (sParent.myCoordinate+sNewLeft.myCoordinate)/2.0;
+  Point2D pParent = sParent.myCoordinate;
+  /*
+  double f1 = sNewLeft.myFlow;//ratioQ*f0;//k * r1*r1*r1; //left
+  double f2 = sNewRight.myFlow;//(1.0-ratioQ)*f0;//k * r2*r2*r2; //right
+  double f0 =  f1 + f2;//R0*R0*R0; //middle
+  Point2D pL = sNewLeft.myCoordinate;
+  Point2D pR = sNewRight.myCoordinate;
+  Point2D pCurrent ((f0*pParent[0]+f1*pL[0]+f2*pR[0])/(2.0*f0), (f0*pParent[1]+f1*pL[1]+f2*pR[1])/(2.0*f0)); //barycenter of the sement
+  */
+  Point2D pCurrent = (sParent.myCoordinate+sNewLeft.myCoordinate)/2.0; //center of the current segment
   double r0 = sCurrent.myRadius, r1 = sCurrent.myRadius, r2 = sCurrent.myRadius;
   bool res1 = true, res2 = false, isDone = false;
-  double vol, volCurr, diffVol;
+  double vol = -1, volCurr = -1, diffVol = -1;
   CoronaryArteryTree cTreeCurr = *this;
   //std::cout<<"---------- segIndex: "<<segIndex<<std::endl;
   size_t i=0;
   for(size_t i=0; i<nbIter && res1 && !res2 && !isDone; i++) {
-    res1 = kamyiaOptimization(pCurrent, sParent.myCoordinate, sCurrent, sNewLeft, sNewRight, 1, pOpt, r0, r1, r2);
-    if(!res1) {
+    res1 = kamyiaOptimization(pCurrent, pParent, sCurrent.myRadius, sNewLeft, sNewRight, 1, pOpt, r0, r1, r2);
+    if(res1) {
       if(volCurr>0) {
         isDone = true;
         *this = cTreeCurr;
@@ -413,8 +420,16 @@ CoronaryArteryTree::generateALocation(double myDThresold) {
   Point2D res = generateRandomPtOnDisk(myTreeCenter, my_rPerf);
   bool isComp = true;
   unsigned int id = 1;
+  /*
   while ( isComp && id < myVectTerminals.size() ) {
-    isComp = (myVectSegments[myVectTerminals[id]].myCoordinate - res).norm() > myDThresold;
+    //isComp = (myVectSegments[myVectTerminals[id]].myCoordinate - res).norm() > myDThresold;
+   isComp = getProjDistance(myVectTerminals[id], res) > myDThresold;
+    id++;
+  }
+  */
+  //generated point must have a certain distance to ALL tree segments
+  while ( isComp && id < myVectSegments.size() ) {
+    isComp = getProjDistance(myVectSegments[id].myIndex, res) > myDThresold;
     id++;
   }
   return  std::pair<Point2D, bool> {res, isComp};
@@ -517,7 +532,7 @@ CoronaryArteryTree::hasNearestIntersections(unsigned int indexPFather,
 bool
 CoronaryArteryTree::kamyiaOptimization(const Point2D& pCurrent,
                                        const Point2D& pParent,
-                                       const Segment<Point2D>& sCurrent,
+                                       double rCurrent,
                                        const Segment<Point2D>& sL,
                                        const Segment<Point2D>& sR,
                                        unsigned int nbIter,
@@ -532,7 +547,7 @@ CoronaryArteryTree::kamyiaOptimization(const Point2D& pCurrent,
   //double ratioQ = sL.myFlow/sCurrent.myFlow;//0.5;
   //std::cout<<"ratioQ="<< ratioQ<<std::endl;
   //double rr0 = sCurrent.myRadius;
-  double R0 = sCurrent.myRadius*sCurrent.myRadius;//rr0*rr0; //R0 = r0*r0
+  double R0 = rCurrent*rCurrent;//rr0*rr0; //R0 = r0*r0
   double R1 = sL.myRadius*sL.myRadius;//rr0*rr0; //R1 = r1*r1
   double R2 = sR.myRadius*sR.myRadius;//rr0*rr0; //R2 = r2*r2
   
@@ -593,8 +608,8 @@ CoronaryArteryTree::kamyiaOptimization(const Point2D& pCurrent,
     //double mL1 = (pb - pL).norm();
     //double mL2 = (pb - pR).norm();
     
-    //if(2*r0<=mL0 && 2*r1<=mL1 && 2*r2<mL2)
-    if(2*r0<=l0 && 2*r1<=l1 && 2*r2<l2)
+    //if(2*r0<=mL0 && 2*r1<=mL1 && 2*r2<=mL2)
+    if(2*r0<=l0 && 2*r1<=l1 && 2*r2<=l2)
       hasSolution = true;
     else
       hasSolution = false;
@@ -622,8 +637,10 @@ operator<< ( std::ostream & out,
 double
 CoronaryArteryTree::getDistanceThreshold()
 {
+  // Check with python code, here is the equation after simplification
   return sqrt((M_PI*my_rPerf*my_rPerf)/myKTerm);
-  //return sqrt((M_PI*myRsupp*myRsupp)/myKTerm);
+  //Scale factor must be taken into account here
+  //return sqrt((M_PI*(myKTerm + 1)*myRsupp*myRsupp)/myKTerm) / myLengthFactor;
 }
 
 CoronaryArteryTree::Point2D

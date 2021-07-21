@@ -467,6 +467,13 @@ public:
                                const Point2D &pAdded,
                                const Point2D &pBifurcation, unsigned int n) const;
   
+  /**
+   * Verifies the condition of degenerate after Kamyia solution : 2 ri < li
+   * @param length length segment
+   * @param radius radius segment
+   * @return true if degenerate and false otherwise
+   */
+  bool isDegenerate(double length, double radius);
   
   /**
    * Solver for  Kamyia optimization
@@ -482,7 +489,7 @@ public:
    */
   bool kamyiaOptimization(const Point2D& pCurrent,
                           const Point2D& pParent,
-                          const Segment<Point2D>& sCurrent,
+                          double rCurrent,
                           const Segment<Point2D>& sL,
                           const Segment<Point2D>& sR,
                           unsigned int nbIter,
