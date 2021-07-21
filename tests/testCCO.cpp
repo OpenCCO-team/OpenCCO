@@ -15,7 +15,8 @@
  * @param filename
  * @return vector of pair of point and its corresponding radius
  */
-std::vector<std::pair<DGtal::Z2i::RealPoint, double> > readSeed(std::string filename) {
+std::vector<std::pair<DGtal::Z2i::RealPoint, double> >
+readSeed(std::string filename) {
   std::vector<std::pair<DGtal::Z2i::RealPoint, double> > vecSeeds;
   double x, y, r;
   std::ifstream myfile (filename);
@@ -29,7 +30,8 @@ std::vector<std::pair<DGtal::Z2i::RealPoint, double> > readSeed(std::string file
   return vecSeeds;
 }
 
-void testAutoGen(double aPerf, int nbTerm) {
+void
+testAutoGen(double aPerf, int nbTerm) {
   DGtal::trace.beginBlock("Testing class CoronaryArteryTree: test random adds with distance constraint");
   srand (time(NULL));
   double rRoot = 10.0/nbTerm;
@@ -84,36 +86,17 @@ void testAutoGen(double aPerf, int nbTerm) {
   cTree.myBoard.clear();
 }
 
-/**
- * @brief main function call
- *
- */
-int main(int argc, char *const *argv)
+void
+testCompareResult(int NTerm, int seed)
 {
-  int Nt = 10; //10 20 30 40
-  int seed = 42;//42 420 25 250 90 201
-  std::string dir = "../Data/Nt" + std::to_string(Nt) + "_kt10_s" + std::to_string(seed) + "_M301/";
-  std::string prefix = "NoCom_Nt" + std::to_string(Nt) + "_s" + std::to_string(seed) + "_M301_";
+  DGtal::trace.beginBlock("Testing class CoronaryArteryTree: test adds fixed terminal points from file");
+  
+  std::string dir = "../Data/Nt" + std::to_string(NTerm) + "_kt10_s" + std::to_string(seed) + "_M301/";
+  std::string prefix = "NoCom_Nt" + std::to_string(NTerm) + "_s" + std::to_string(seed) + "_M301_";
   std::string fileDistal = dir + prefix + "distal.txt";
   std::string fileProximal = dir + prefix + "proximal.txt";
   std::string fileSeeds = dir + prefix + "TerminalSeeds.txt";
   std::vector<std::pair<DGtal::Z2i::RealPoint, double> > vecSeed = readSeed(fileSeeds);
-  
-  
-  clock_t start, end;
-  start = clock();
-  //1000 => Execution time: 85.03337500 sec
-  //2000 => Execution time: 291.32636200 sec
-  //3000 => Execution time: 620.52828500 sec
-  //4000 => Execution time: 1189.52678800 sec
-  //5000 => Execution time: 1794.88643800 sec
-  testAutoGen(20000, 100);
-  end = clock();
-  printf ("Execution time: %0.8f sec\n", ((double) end - start)/CLOCKS_PER_SEC);
-  //return 0;
-  
-  DGtal::trace.beginBlock("Testing class CoronaryArteryTree: test adds fixed terminal points from file");
-  srand (time(NULL));
   
   double radius = 50;
   double aPerf = M_PI*radius*radius;//2000000;
@@ -188,9 +171,33 @@ int main(int argc, char *const *argv)
     cTree.myBoard.setLineWidth(20*r);
     cTree.myBoard.drawLine(p1[0], p1[1], p2[0], p2[1], 2);
   }
-  filename = "testCCO_Nt" + std::to_string(Nt) + "_s" + std::to_string(seed) +".eps";
+  filename = "testCCO_Nt" + std::to_string(NTerm) + "_s" + std::to_string(seed) +".eps";
   cTree.exportBoardDisplay(filename.c_str(), 1.0, true, false);
   cTree.myBoard.clear();
 
+  
+}
+/**
+ * @brief main function call
+ *
+ */
+int main(int argc, char *const *argv)
+{
+  clock_t start, end;
+  start = clock();
+  //1000 => Execution time: 85.03337500 sec
+  //2000 => Execution time: 291.32636200 sec
+  //3000 => Execution time: 620.52828500 sec
+  //4000 => Execution time: 1189.52678800 sec
+  //5000 => Execution time: 1794.88643800 sec
+  testAutoGen(20000, 100);
+  end = clock();
+  printf ("Execution time: %0.8f sec\n", ((double) end - start)/CLOCKS_PER_SEC);
+  //return 0;
+  
+  int Nt = 10; //10 20 30 40
+  int seed = 42;//42 420 25 250 90 201
+  testCompareResult(Nt, seed);
+  
   return EXIT_SUCCESS;
 }

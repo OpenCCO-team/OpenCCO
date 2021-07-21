@@ -814,25 +814,22 @@ CoronaryArteryTree::boardDisplay(double thickness, bool clearDisplay)
   {
     // test if the segment is the root or its parent we do not display (already done).
     if (s.myIndex == 0 || s.myIndex == 1)
-    {
       continue;
-    }
-    // distal node:
+  
+    // distal node
     Point2D distal = s.myCoordinate;
     Point2D proxital = myVectSegments[myVectParent[s.myIndex]].myCoordinate;
     myBoard.setLineWidth(myVectSegments[s.myIndex].myRadius*scaleBoard*thickness);
-    //   myBoard.setPenColor(cmap_grad(i));
+    // myBoard.setPenColor(cmap_grad(i));
     myBoard.setPenColor(DGtal::Color::Gray);
     myBoard.drawLine(distal[0], distal[1], proxital[0], proxital[1],2);
-    //      std::cout << " myRsupp Value = "<< myRsupp<<std::endl;
+    // std::cout << " myRsupp Value = "<< myRsupp<<std::endl;
     myBoard.setLineWidth(1.0);
     myBoard.setPenColor(DGtal::Color(180, 0, 0, 180));
     myBoard.fillCircle(distal[0], distal[1], myVectSegments[s.myIndex].myRadius*thickness, 1 );
     i++;
-    
   }
 }
-
 
 void
 CoronaryArteryTree::exportBoardDisplay(const std::string &fileName,
@@ -1075,9 +1072,9 @@ CoronaryArteryTree::hasNearestIntersections(unsigned int indexPFather,
   
   for (const auto &s : near){
     // ignoring self initial segment.
-    if (myVectParent[s] == indexPFather && s == indexPChild){
+    if (myVectParent[s] == indexPFather && s == indexPChild)
       continue;
-    }
+
     bool inter1 = hasIntersection(p0, pBifurcation, myVectSegments[s].myCoordinate,
                                   myVectSegments[myVectParent[s]].myCoordinate  );
     bool inter2 = hasIntersection(p1, pBifurcation, myVectSegments[s].myCoordinate,
@@ -1086,9 +1083,7 @@ CoronaryArteryTree::hasNearestIntersections(unsigned int indexPFather,
                                   myVectSegments[myVectParent[s]].myCoordinate  );
 
     if (inter1 || inter2 || inter3)
-    {
       return  true;
-    }
   }
   return false;
   
