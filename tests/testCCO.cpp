@@ -30,11 +30,17 @@ readSeed(std::string filename) {
   return vecSeeds;
 }
 
+/**
+ * @brief read seed file
+ * @param filename
+ * @return vector of pair of point and its corresponding radius
+ */
+
 void
 testAutoGen(double aPerf, int nbTerm) {
   DGtal::trace.beginBlock("Testing class CoronaryArteryTree: test random adds with distance constraint");
   srand (time(NULL));
-  double rRoot = 10.0/nbTerm;
+  double rRoot = 1.0;//10.0/nbTerm;
   std::string filename;
   
   CoronaryArteryTree cTree (aPerf, nbTerm, rRoot);
@@ -190,7 +196,7 @@ int main(int argc, char *const *argv)
   //3000 => Execution time: 620.52828500 sec
   //4000 => Execution time: 1189.52678800 sec
   //5000 => Execution time: 1794.88643800 sec
-  testAutoGen(20000, 100);
+  testAutoGen(20000, 1000);
   end = clock();
   printf ("Execution time: %0.8f sec\n", ((double) end - start)/CLOCKS_PER_SEC);
   //return 0;

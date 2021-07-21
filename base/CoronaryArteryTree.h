@@ -51,24 +51,21 @@ public:
   
   template <typename TPoint>
   struct Segment{
-    TPoint myCoordinate; // represents the distal point of the segment.
-    unsigned int myIndex = 0; // index in the vectSegments
+    // Distal point of the segment.
+    TPoint myCoordinate;
+    // index in the vectSegments.
+    unsigned int myIndex = 0;
+    
     // radius of the tubular section.
     double myRadius = 1.0;
-    // length of the tubular section.
-    // double myLength = 0.0;
-    
     // number of terminal segments in its children segment
     unsigned int myKTerm = 1;
     // hydrodynamc registance (R star)
     double myResistance = 0.00;
     // flow (Qi)
     double myFlow = 0.00;
-    // radius ratio of the segment and his brother (ri/rj)
-    //double myRaidusRatio = 1.0;
     // radius ratio of the segment and its parent
     double myBeta = 1.0;
-    
   };
   
   // to recover the Children left (first) and right (second) on an indexed segment.
@@ -78,7 +75,8 @@ public:
   std::vector<unsigned int >  myVectParent;
   // represents all the vertices of the graph
   std::vector<Segment<Point2D>> myVectSegments;
-  
+  // to store the index of the terminal segments
+  std::vector<unsigned int> myVectTerminals;
   
   //-----------------------------
   // Global biological parameters
@@ -105,7 +103,7 @@ public:
   double my_gamma = 3.0;
   
   // my_mu: viscosity of blood
-  double my_nu = 3.6e-3; //3.6;
+  double my_mu = 3.6e-3; //3.6;
   
   // my_aPerf: Perfusion area
   double my_aPerf = 10000;
@@ -116,16 +114,11 @@ public:
   // End biological parameters
   //-----------------------------
   
-  
-  
   //-----------------------------
   // Internal algorithm parameter
 
   //myKTerm: current number of terminal segments of the tree
   unsigned int myKTerm = 1;
-  
-  //myDThresold: threshold on the distance criterion of adding a segment
-  //double myDThresold = 0.0;
   
   //myRsupp: average radius of blackboxes
   double myRsupp = 0.0;
@@ -133,18 +126,11 @@ public:
   // myTreeCenter: coordinate of the tree center used to define the main domain.
   Point2D myTreeCenter;
   
-  // myCurrAPerf : represents the current perfusion surface
-  // double myCurrAPerf = 1.0;
-  
   // myNbNeighbors : represents the number of nearest neighbours to be tested
   int myNbNeighbors = 20;
   
   // myLengthFactor : scale factor (updated during tree growth after each added bifurcation)
   double myLengthFactor = 1.0;
-  
-  
-  // myVectTerminals : store the index of the terminal segments
-  std::vector<unsigned int> myVectTerminals;
   
   // End: Internal algorithm parameter
   //-----------------------------
@@ -156,8 +142,8 @@ public:
 public: 
   
   /**
-   * Default constructor.
-   * It generates the first root segment with tree center as the first terminal point.
+   * @brief Default constructor.
+   * @brief It generates the first root segment with tree center as the first terminal point.
    * @param aPerf: surface of the perfusion.
    * @param nTerm: number of terminal segments.
    **/
@@ -194,7 +180,7 @@ public:
     double myLength = (ptRoot-s1.myCoordinate).norm()*myLengthFactor;
     s1.myIndex = 1;
     s1.myKTerm = 1; //it contains terminal itself
-    s1.myResistance = 8.0*my_nu*myLength/M_PI;
+    s1.myResistance = 8.0*my_mu*myLength/M_PI;
     s1.myFlow = my_qTerm;
     s1.myBeta = 1.0;
     
@@ -207,8 +193,8 @@ public:
   };
   
   /**
-   * Constructor.
-   * It generates the first root segment by randomly choose the first terminal point.
+   * @brief Constructor.
+   * @brief It generates the first root segment by randomly choose the first terminal point.
    * @param ptRoot: coordinates of the root special segment (who have no parent)
    * @param aPerf: surface of the perfusion.
    * @param nTerm: number of terminal segments.
@@ -242,11 +228,12 @@ public:
     // Construction of the first segment after the root
     Segment<Point2D> s1;
     s1.myRadius = aRadius;
-    s1.myCoordinate = generateRandomPtOnDisk(myTreeCenter, myRsupp);
+    //s1.myCoordinate = generateRandomPtOnDisk(myTreeCenter, myRsupp);
+    s1.myCoordinate = generateRandomPtOnDisk(myTreeCenter, my_rPerf);
     double myLength = (ptRoot-s1.myCoordinate).norm()*myLengthFactor;
     s1.myIndex = 1;
     s1.myKTerm = 1; //it contains terminal itself
-    s1.myResistance = 8.0*my_nu*myLength/M_PI;
+    s1.myResistance = 8.0*my_mu*myLength/M_PI;
     s1.myFlow = my_qTerm;
     s1.myBeta = 1.0;
     
@@ -259,8 +246,8 @@ public:
   };
   
   /**
-   * Constructor.
-   * It generates the first root segment from a given terminal point.
+   * @brief Constructor.
+   * @brief It generates the first root segment from a given terminal point.
    * @param ptCenter: coordinates of the center of the tree
    * @param ptRoot: coordinates of the root special segment (who have no parent)
    * @param ptTerm: coordinates of the first terminal point
@@ -303,7 +290,7 @@ public:
     double myLength = (ptRoot-s1.myCoordinate).norm()*myLengthFactor;
     s1.myIndex = 1;
     s1.myKTerm = 1; //it contains terminal itself
-    s1.myResistance = 8.0*my_nu*myLength/M_PI;
+    s1.myResistance = 8.0*my_mu*myLength/M_PI;
     s1.myFlow = my_qTerm;
     s1.myBeta = 1.0;
     
@@ -316,147 +303,115 @@ public:
   };
   
   // ----------------------- Interface --------------------------------------
-  
-  
-  //bool addFirstSegment(const Point2D &p);
-  
-  double getDistanceThreshold();
-  double getLengthSegment(unsigned int segIndex);
-  
-  //bool isAddable(const Point2D &p, unsigned int segIndex, unsigned int nbIter, unsigned int nbNeibour = 10);
-  bool isAddable(const Point2D &p, unsigned int segIndex, unsigned int nbIter, double tolerance, unsigned int nbNeibour = 10);
-  
-  bool isIntersecting(const Point2D &pNew, const Point2D &pCenter, unsigned int nearIndex, unsigned int nbNeibour = 10, double minDistance = 5.0);
+    
   /**
-   * Tries to add a new segment from a given point and it parent index.
-   * @param p the extremity of the nex segment to be created
-   * @param nearIndex the index of the near segement to p.
+   * Tries to add a new segment from a given point and a nearest segement given by index.
+   * @param p the extremity of the new segment to be created
+   * @param segIndex the index of the near segement to p.
+   * @param nbIter maximal number of iteration
+   * @param tolerance convegence boundary for tree volume gradient
    * @return true of the new segment is created, false in the other case.
    * (for instance if an intersection to previous point was present)
    **/
+  bool isAddable(const Point2D &p,
+                 unsigned int segIndex,
+                 unsigned int nbIter,
+                 double tolerance,
+                 unsigned int nbNeibour = 10);
   
-  //bool addSegmentFromPoint(const Point2D &p,  unsigned int nearIndex,
-  //                         double rLeft = 1.0, double rRight = 1.0);
-  
-  //bool addSegmentFromPointBK(const Point2D &p,  unsigned int nearIndex,
-  //                         double rLeft = 1.0, double rRight = 1.0);
-  
+  /**
+   * Verifies if there is an intersection for the new bifurcation position or the point is to near to the neigbour segment
+   * @param pNew the extremity of the new segment to be created
+   * @param pCenter the  new bifurcation position.
+   * @param nearIndex the index of the near segement to pNew.
+   * @param nbNeibour the number of nearest segments to be tested.
+   * @param minDistance the limit distance to the nearest segments.
+   * @return true of there is an intersection, false in the other case.
+   */
+  bool isIntersecting(const Point2D &pNew,
+                      const Point2D &pCenter,
+                      unsigned int nearIndex,
+                      unsigned int nbNeibour = 10,
+                      double minDistance = 5.0);
   
   /**
    * Update the distribution of segmental flows after adding a new segment (new bifurcation)
    * @param segIndex index of the parent segment to be updated
    */
-  //void updateResistanceTerminal(unsigned int segIndex);
-  //void updateResistance(unsigned int segIndex);
-  //void updateResistance(unsigned int segIndex, int order);
   CoronaryArteryTree::Segment<CoronaryArteryTree::Point2D> updateResistanceFromRoot(unsigned int segIndex=1);
   
-  //void updateKTerm(unsigned int segIndex);
-  //void updateFlow();
-  void updateFlow(unsigned int segIndex);
-  void updateLengthFactor();
-  //void updateScale(double scale);
-  //void depthFirstResistances();
-  //void updateBeta(unsigned int segIndex);
-  //void updateBeta();
   /**
-   * Update ...
+   * Updates the flow of a segment (as given in Eq. 11)
    * @param segIndex index of the parent segment to be updated
    */
-  //void updateRadius(unsigned int segIndex);
+  void updateFlow(unsigned int segIndex);
+  
+  /**
+   * Updates the length factor value (as given in Eq. 9)
+   */
+  void updateLengthFactor();
+
+  /**
+   * Computes the distance threshold  (as given in Eq. 12)
+   * @return the threshold
+   */
+  double getDistanceThreshold();
+  
+  /**
+   * Updates the radius of a segment (as given in Eq. 19)
+   * @param segIndex index of the parent segment to be updated
+   * @param beta beta value of the segment
+   */
   void updateRadius(unsigned int segIndex, double beta);
   
   /**
-   * Update the root radius after updating flow parameters (as given in Eq. 18)
+   * Updates the root radius after updating flow parameters (as given in Eq. 18)
    */
   void updateRootRadius();
   
   /**
-   * Update the segment radius after updating flow parameters (as given in Eq. 19)
+   * Computes the total tree volume (as given in Eq. 20)
    */
-  //void updateSegmentRadiusToRoot(unsigned int segIndex);
-  
-  /**
-   * Compute the total tree volume (as given in Eq. 20)
-   */
-  //double computeTreeVolume(double mu, double lambda);
   double computeTotalVolume(unsigned int segIndex = 1);
   
   /**
-   * Tries to add a new segment from a given point.
-   * @param p the extremity of the nex segment to be created
-   * @param indexParent the index of the parent.
-   * @return true of the new segment is created, false in the other case.
-   * (for instance if an intersection to previous point was present)
-   **/
-  
-  //bool addSegmentFromPoint(const Point2D &p);
-  //bool addSegmentFromPointWithBarycenter(const Point2D &p);
-  //bool addSegmentFromPointWithBarycenter(const Point2D &p, unsigned int nearIndex);
-  /**
-   * Export the current display of the tree.
+   * Computes the nearest segment of the given point
+   * @param pt: a point
+   * @return the index of the nearest segement
    */
-  
-  void boardDisplay(double thickness = 1,
-                    bool clearDisplay = true);
-  void exportBoardDisplay(const std::string &fileName = "result.eps",
-                          double thickness = 1,
-                          bool updateDisplay = true,
-                          bool clearDisplay = true);
-  
-  
-  //Point2D getSegmentCenter(const Segment<Point2D> &s);
-  
-  //Point2D getSegmentCenter(unsigned int i);
-  //double GetTotalVolume(const Point2D &p1,const Point2D &p2,const Point2D &p3,const Point2D &pOpti);
   unsigned int getNearestSegment(const Point2D &pt);
-  
-  //unsigned int getParentSegment(const Segment<Point2D> &s);
-  //unsigned int getLeftChild(const Segment<Point2D> &s);
-  //unsigned int getRightChild(const Segment<Point2D> &s);
-  //bool addSegment(const Point2D &NewPoint,const Point2D &OptimizePoint, unsigned int nearIndex);
+
   /**
-   * Computes the distance criteria (d_crit) computed from the orthogonal projection or distance to end point.
-   *
+   * Computes the barycenter of the given point and the two points of the segment
+   * @param p: a point
+   * @param segIndex : the index of the segement used for the computation
    */
-  //double compDistCriteria(const Point2D &p, unsigned int indexNode);
-  //double dProjCalculation(const Point2D &p,unsigned int Index );
-  //double dCritCalculation(const Point2D &p,unsigned int Index );
   Point2D findBarycenter(const Point2D &p, unsigned int index);
-  //double GetLength(unsigned int Index);
-  //bool updateRadius();
-  //bool updateRadius2(unsigned int index );
-  //double FindXmax(int xDim, int yDim);
-  //double FindYmax(int xDim, int yDim);
-  //int AddFirstSegmentonImage();
-  //Point2D fromCircleToImage(std::string fileName, double x, double y, int xdim,int ydim );
-  //Point2D fromImageToCircle(int ximage,int yimage,int xdim,int ydim);
-  
-  /// New from updating code... (BK+PN)
+
   /**
    * From a segment returns a vector of segment index representing the path to the root.
    */
-  //std::vector<unsigned int> getPathToRoot(const Segment<Point2D> &s);
-  
-  //void udpatePerfusionArea();
+  std::vector<unsigned int> getPathToRoot(const Segment<Point2D> &s);
   
   /**
-   * Generate a new location with distance constraints.
-   * @param nbTrials: number of trials before reducing the distance constaint value
+   * Generates a new location with distance constraints.
+   * @param nbTrials : number of trials before reducing the distance constaint value
    *
    */
   Point2D generateNewLocation(unsigned int nbTrials = 1000);
 
+  /**
+   * Generates a new location with distance constraints.
+   * @param myDThresold : the distance constaint value
+   * @return the generated point and a bool true if sucess and false othewise
+   */
   std::pair<Point2D, bool> generateALocation(double myDThresold);
 
   /**
-   * Computes the distance from a segment represented with the index  and the point given as argument.
-   * @param index : the index of the segement used for the comparison
-   * @param p : a point
+   * Computes the length of a segment represented with the index and mutiliplies by the length factor.
+   * @param segIndex : the index of the segement used for the comparison
    */
-  //double getDistance(unsigned int index, const Point2D &p ) const;
-  
-  
+  double getLengthSegment(unsigned int segIndex);
   
   /**
    * Computes the projected distance from a segment represented with the index  and the point given as argument.
@@ -480,8 +435,6 @@ public:
    */
   bool isToCloseFromNearest(const Point2D &p, double minDist) const;
   
-  
-  
   /**
    * Computes the n nearest index of neighborhood segments  of a given point
    * @param p : the point considered to get the nearest point
@@ -492,16 +445,14 @@ public:
   
   /**
    * Compute if a segment has intersection on the n nearest segments.
-   * @param p0 one extremity of one segment
-   * @param p1 another extremity of one segment
+   * @param p0 : one extremity of one segment
+   * @param p1 : another extremity of one segment
    * @param n : the number of nearest point to be considered
    */
-  
   bool hasNearestIntersections(const Point2D &p0,
                                const Point2D &p1, unsigned int n) const;
   
-  
-  
+
   /**
    * Computes if an bifurcation has intersections on the n nearest segments.
    * It uses the middle point
@@ -511,21 +462,35 @@ public:
    * @param pBifurcation the central point of the bifurcation.
    * @param n : the number of nearest point to be considered
    */
-  
   bool hasNearestIntersections(unsigned int indexPFather,
                                unsigned int indexPChild,
                                const Point2D &pAdded,
                                const Point2D &pBifurcation, unsigned int n) const;
   
   
+  /**
+   * Solver for  Kamyia optimization
+   * @param pCurrent: the coordinate of the current bifurcation position
+   * @param pParent: the coordinate of the parent point (the point from which the bifucation arrives)
+   * @param sCurrent: the midle segment (from pParent point)
+   * @param sL: the left segment
+   * @param sR: the right segment
+   * @param pOpt: output opmized point
+   * @param r0: output radius of the middle segment
+   * @param r1: output radius of the left segment
+   * @param r2: output radius of the right segment
+   */
+  bool kamyiaOptimization(const Point2D& pCurrent,
+                          const Point2D& pParent,
+                          const Segment<Point2D>& sCurrent,
+                          const Segment<Point2D>& sL,
+                          const Segment<Point2D>& sR,
+                          unsigned int nbIter,
+                          Point2D& pOpt,
+                          double& r0,
+                          double& r1,
+                          double& r2);
   
-  
-  /// Fin New from updating code... (BK+PN)
-  
-  
-  
-  
-  bool hasIntersections(Segment<Point2D> S1, Point2D newPoint);
   /**
    * Use to display object.
    * @param out  the object of class 'GeodesicGraphComputer' to write.
@@ -534,14 +499,15 @@ public:
   
   
   /**
-   * @param index: the segment index
+   * Export the current display of the tree.
    */
-  bool kamyiaOptimization(unsigned int index, unsigned int nbIter = 100);
   
-  bool kamyiaOptimization(const DGtal::Z2i::RealPoint& pParent, const Segment<Point2D>& sCurrent, const Segment<Point2D>& sL, const Segment<Point2D>& sR, unsigned int nbIter, DGtal::Z2i::RealPoint& pOpt, double& r0, double& r1, double& r2);
-  
-  bool kamyiaOptimization(const DGtal::Z2i::RealPoint& pCurrent, const DGtal::Z2i::RealPoint& pParent, const Segment<Point2D>& sCurrent, const Segment<Point2D>& sL, const Segment<Point2D>& sR, unsigned int nbIter, DGtal::Z2i::RealPoint& pOpt, double& r0, double& r1, double& r2);
-  
+  void boardDisplay(double thickness = 1,
+                    bool clearDisplay = true);
+  void exportBoardDisplay(const std::string &fileName = "result.eps",
+                          double thickness = 1,
+                          bool updateDisplay = true,
+                          bool clearDisplay = true);
 };
 
 
