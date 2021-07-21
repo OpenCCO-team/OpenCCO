@@ -122,7 +122,7 @@ testCompareResult(int NTerm, int seed)
     int nbSol = 0, itOpt = 0;
     CoronaryArteryTree cTreeOpt = cTree;
     double volOpt = -1.0, vol = 0.0;
-    std::cout<<"Vol in ("<<i<<"): "<<cTree.computeTotalVolume()<<std::endl;
+    //std::cout<<"Vol in ("<<i<<"): "<<cTree.computeTotalVolume()<<std::endl;
     while (nbSol==0) {
       CoronaryArteryTree::Point2D pt = vecSeed[i].first; //cTree.generateNewLocation(100);
       std::vector<unsigned int> vecN = cTree.getN_NearestSegments(pt,n);
@@ -153,9 +153,9 @@ testCompareResult(int NTerm, int seed)
     cTree.updateLengthFactor();
     cTree.updateResistanceFromRoot();
     cTree.updateRootRadius();
-    std::cout<<"Vol out ("<<i<<"): "<<cTree.computeTotalVolume()<<std::endl;
+    //std::cout<<"Vol out ("<<i<<"): "<<cTree.computeTotalVolume()<<std::endl;
   }
-  std::cout<<"====> Aperf="<<cTree.myRsupp*cTree.myRsupp*cTree.my_NTerm*M_PI<<" == "<<aPerf<<std::endl;
+  //std::cout<<"====> Aperf="<<cTree.myRsupp*cTree.myRsupp*cTree.my_NTerm*M_PI<<" == "<<aPerf<<std::endl;
 
   //Draw CCO result
   std::vector<std::pair<DGtal::Z2i::RealPoint, double> > vecCCO_res1 = readSeed(fileDistal);
@@ -197,7 +197,10 @@ int main(int argc, char *const *argv)
   
   int Nt = 10; //10 20 30 40
   int seed = 42;//42 420 25 250 90 201
+  start = clock();
   testCompareResult(Nt, seed);
+  end = clock();
+  printf ("Execution time: %0.8f sec\n", ((double) end - start)/CLOCKS_PER_SEC);
   
   return EXIT_SUCCESS;
 }
