@@ -189,18 +189,18 @@ testCompareResult(int NTerm, int seed)
 int main(int argc, char *const *argv)
 {
   clock_t start, end;
-  
+  /*
   start = clock();
   //1000 => Execution time: 129.17274900 sec
   //2000 => Execution time: 478.48590200 sec
   //3000 => Execution time: 1023.94746700 sec
-  testAutoGen(20000, 1000);
+  testAutoGen(20000, 3000);
   end = clock();
   printf ("Execution time: %0.8f sec\n", ((double) end - start)/CLOCKS_PER_SEC);
   return 0;
-  
-  int Nt = 10; //10 20 30 40
-  int seed = 42;//42 420 25 250 90 201
+  */
+  int Nt = 10; //10 20 30 40 50 60
+  int seed = 42;//42 420 25 250 90 201 15 215
   start = clock();
   testCompareResult(Nt, seed);
   end = clock();

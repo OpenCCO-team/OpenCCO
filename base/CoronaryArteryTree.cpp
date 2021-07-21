@@ -151,20 +151,14 @@ CoronaryArteryTree::isAddable(const Point2D &p, unsigned int segIndex, unsigned 
   */
   Point2D pCurrent = (sParent.myCoordinate+sNewLeft.myCoordinate)/2.0; //center of the current segment
   double r0 = sCurrent.myRadius, r1 = sCurrent.myRadius, r2 = sCurrent.myRadius;
-  bool res1 = true, res2 = false, isDone = false;
+  bool res1 = true, res2 = false, res3 = true, isDone = false;
   double vol = -1, volCurr = -1, diffVol = -1;
   CoronaryArteryTree cTreeCurr = *this;
-  //std::cout<<"---------- segIndex: "<<segIndex<<std::endl;
+  std::cout<<"---------- segIndex: "<<segIndex<<std::endl;
   size_t i=0;
-  for(size_t i=0; i<nbIter && res1 && !res2 && !isDone; i++) {
+  for(size_t i=0; i<nbIter && res1 && !res2 && res3 && !isDone; i++) {
     res1 = kamyiaOptimization(pCurrent, pParent, sCurrent.myRadius, sNewLeft, sNewRight, 1, pOpt, r0, r1, r2);
-    if(!res1) {
-      if(volCurr>0) {
-        isDone = true;
-        *this = cTreeCurr;
-      }
-    }
-    else {
+    if(res1) {
       res2 = isIntersecting(p, pOpt, segIndex, nbNeibour, 2*cTreeCurr.myVectSegments[segIndex].myRadius);
       if(!res2) {
         CoronaryArteryTree cTree1 = *this;
@@ -210,7 +204,7 @@ CoronaryArteryTree::isAddable(const Point2D &p, unsigned int segIndex, unsigned 
         cTree1.updateRootRadius();
         
         vol = cTree1.computeTotalVolume();
-        //std::cout<<"Iter "<<i<<" has tree Volume: "<< vol <<std::endl;
+        std::cout<<"Iter "<<i<<" has tree Volume: "<< vol <<std::endl;
         if(i==0) {
           volCurr = vol;
           cTreeCurr = cTree1;
@@ -218,9 +212,17 @@ CoronaryArteryTree::isAddable(const Point2D &p, unsigned int segIndex, unsigned 
         else {
           diffVol = volCurr - vol;
           if(fabs(diffVol) < tolerance) {
-            //std::cout<<"Best volume at "<<i<<std::endl;
-            isDone = true;
-            *this = cTree1;
+            // Verify the degenerate case of the resulting segment
+            double l0 = (pOpt - pParent).norm()*myLengthFactor;
+            double l1 = (pOpt - sNewLeft.myCoordinate).norm()*myLengthFactor;
+            double l2 = (pOpt - sNewRight.myCoordinate).norm()*myLengthFactor;
+            res3 = (2*r0<=l0) && (2*r1<=l1) && (2*r2<=l2);
+            // If there is a solution, then save the result
+            if(res3) {
+              //std::cout<<"Best volume at "<<i<<std::endl;
+              isDone = true;
+              *this = cTree1;
+            }
           }
           else {
             volCurr = vol;
@@ -604,15 +606,6 @@ CoronaryArteryTree::kamyiaOptimization(const Point2D& pCurrent,
     r0 = sqrt(R0);
     r1 = sqrt(R1);
     r2 = sqrt(R2);
-    //double mL0 = (pb - pParent).norm();
-    //double mL1 = (pb - pL).norm();
-    //double mL2 = (pb - pR).norm();
-    
-    //if(2*r0<=mL0 && 2*r1<=mL1 && 2*r2<=mL2)
-    if(2*r0<=l0 && 2*r1<=l1 && 2*r2<=l2)
-      hasSolution = true;
-    else
-      hasSolution = false;
   }
   return hasSolution;
 }
