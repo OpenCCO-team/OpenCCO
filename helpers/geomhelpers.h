@@ -92,7 +92,6 @@ isInsideSphere(const TPoint &ptCenter,const TPoint &p,  double radius){
  * @return true if ptProjected is inside the segment [A,B].
  **/
 
-
 template<typename TPoint, typename TPointD>
 inline
 bool
@@ -114,7 +113,10 @@ projectOnStraightLine(const TPoint & ptA,
 
   TPointD vAB (ptB[0]- ptA[0], ptB[1]- ptA[1]);
   TPointD vABn ((double)vAB[0], (double)vAB[1]);
-  vABn = vABn/vABn.norm();
+  double norm = vABn.norm();
+  vABn[0] /= norm;
+  vABn[1] /= norm;
+
   TPointD vAC (ptC[0]-ptA[0], ptC[1]-ptA[1]);
   double distPtA_Proj = vAC.dot(vABn);
 
@@ -152,13 +154,10 @@ hasIntersection(const TPoint &seg1ptA, const TPoint &seg1ptB,
 {
    double  d = ((seg2ptB[1] - seg2ptA[1])*(seg1ptB[0] - seg1ptA[0])) -
                ((seg2ptB[0] - seg2ptA[0])*(seg1ptB[1] - seg1ptA[1]));
-   
    double a = ((seg2ptB[0] - seg2ptA[0])*(seg1ptA[1] - seg2ptA[1])) -
               ((seg2ptB[1] - seg2ptA[1])*(seg1ptA[0] - seg2ptA[0]));
-   
    double b = ((seg1ptB[0] - seg1ptA[0])*(seg1ptA[1] - seg2ptA[1])) -
               ((seg1ptB[1] - seg1ptA[1])*(seg1ptA[0] - seg2ptA[0]));
-
    if ( d==0.0 )
    {
      // test coincident 
@@ -168,11 +167,8 @@ hasIntersection(const TPoint &seg1ptA, const TPoint &seg1ptB,
      else
        return false;
    }
-   
-   
    double ua = a / d;
    double ub = b / d;
-
    return ua > 0.0f && ua < 1.0f && ub > 0.0f && ub < 1.0f;
    // Get the intersection point.
    //intersection.x_ = begin_.x_ + ua*(end_.x_ - begin_.x_);
@@ -190,14 +186,18 @@ struct CostOptPos {
   double l0;
   double l1;
   double l2;
+  double gamma;
   
   template <typename T>
   bool operator()(const T* const x1, const T* const x2, T* residual) const {
-    residual[0] =  deltap1*x1[0]*x1[0]*pow((f0*(((x1[0]*x1[0]*x1[0])/f1)+(x2[0]*x2[0]*x2[0])/f2)), 2.0/3.0)
-    - (f0*l0*x1[0]*x1[0]) - f1 * l1 * pow(f0*((x1[0]*x1[0]*x1[0]/f1)+(x2[0]*x2[0]*x2[0])/f2), 2.0/3.0);
-    residual[1] =  deltap2*x2[0]*x2[0]*pow((f0*(((x1[0]*x1[0]*x1[0])/f1)+(x2[0]*x2[0]*x2[0])/f2)), 2.0/3.0)
-    - (f0*l0*x2[0]*x2[0]) - f2 * l2 * pow(f0*((x1[0]*x1[0]*x1[0]/f1)+(x2[0]*x2[0]*x2[0])/f2), 2.0/3.0);
-    
+    //residual[0] =  deltap1*x1[0]*x1[0]*pow((f0*(((x1[0]*x1[0]*x1[0])/f1)+(x2[0]*x2[0]*x2[0])/f2)), 2.0/3.0)
+    //- (f0*l0*x1[0]*x1[0]) - f1 * l1 * pow(f0*((x1[0]*x1[0]*x1[0]/f1)+(x2[0]*x2[0]*x2[0])/f2), 2.0/3.0);
+    //residual[1] =  deltap2*x2[0]*x2[0]*pow((f0*(((x1[0]*x1[0]*x1[0])/f1)+(x2[0]*x2[0]*x2[0])/f2)), 2.0/3.0)
+    //- (f0*l0*x2[0]*x2[0]) - f2 * l2 * pow(f0*((x1[0]*x1[0]*x1[0]/f1)+(x2[0]*x2[0]*x2[0])/f2), 2.0/3.0);
+    residual[0] =  deltap1*x1[0]*x1[0]*(pow(f0*((pow(x1[0],(3.0+gamma)/2.0)/f1) + (pow(x2[0],(3.0+gamma)/2.0)/f2)),2.0/3.0))
+    - (f0*l0*x1[0]*x1[0]) - f1 * l1 * (pow(f0*((pow(x1[0],(3.0+gamma)/2.0)/f1) + (pow(x2[0],(3.0+gamma)/2.0))/f2),2.0/3.0));
+    residual[1] =  deltap2*x2[0]*x2[0]*(pow(f0*((pow(x1[0],(3.0+gamma)/2.0)/f1) + (pow(x2[0],(3.0+gamma)/2.0)/f2)),2.0/3.0))
+    - (f0*l0*x2[0]*x2[0]) - f2 * l2 * (pow(f0*((pow(x1[0],(3.0+gamma)/2.0)/f1) + (pow(x2[0],(3.0+gamma)/2.0))/f2),2.0/3.0));
     return true;
   }
 };
@@ -206,7 +206,7 @@ struct CostOptPos {
 /**
  * @return true if a solution exists
  */
-static bool kamiyaOpt(double deltaP1, double deltaP2, double f0, double f1, double f2, double l0, double l1, double l2, double &xx1, double &xx2) {
+static bool kamiyaOpt(double gamma, double deltaP1, double deltaP2, double f0, double f1, double f2, double l0, double l1, double l2, double &xx1, double &xx2) {
   CostOptPos *f = new CostOptPos();
   f->deltap1 = deltaP1;
   f->deltap2 = deltaP2;
@@ -216,7 +216,7 @@ static bool kamiyaOpt(double deltaP1, double deltaP2, double f0, double f1, doub
   f->l0 = l0;
   f->l1 = l1;
   f->l2 = l2;
-  
+  f->gamma = gamma;
   
   // const double initial_x = x;
   // Build the problem.
