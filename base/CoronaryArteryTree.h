@@ -126,8 +126,8 @@ public:
   // myTreeCenter: coordinate of the tree center used to define the main domain.
   Point2D myTreeCenter;
   
-  // myNbNeighbors : represents the number of nearest neighbours to be tested
-  int myNbNeighbors = 20;
+  // myNumNeighbor : represents the number of nearest neighbours to be tested
+  int myNumNeighbor = 20;
   
   // myLengthFactor : scale factor (updated during tree growth after each added bifurcation)
   double myLengthFactor = 1.0;
@@ -255,7 +255,7 @@ public:
    * @param nTerm: number of terminal segments.
    **/
   
-  CoronaryArteryTree(const Point2D &ptCenter, const Point2D &ptRoot, const Point2D &ptTerm, double aPerf, unsigned int nTerm, double aRadius = 1.0 ){
+  CoronaryArteryTree(const Point2D &ptCenter, const Point2D &ptRoot, const Point2D &ptTerm, double aPerf, unsigned int nTerm, int nNeighbor = 20, double aRadius = 1.0 ){
      
     myTreeCenter = ptCenter;
     myRsupp = sqrt(aPerf/(nTerm*M_PI));
@@ -310,6 +310,7 @@ public:
    * @param segIndex the index of the near segement to p.
    * @param nbIter maximal number of iteration
    * @param tolerance convegence boundary for tree volume gradient
+   * @param nbNeibour number of neighbours to be considered for intersecting test
    * @return true of the new segment is created, false in the other case.
    * (for instance if an intersection to previous point was present)
    **/

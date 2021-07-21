@@ -45,7 +45,6 @@ testAutoGen(double aPerf, int nbTerm) {
   
   CoronaryArteryTree cTree (aPerf, nbTerm, rRoot);
   
-  unsigned int n = 20;
   bool isOK = false;
   unsigned int nbSeed = cTree.my_NTerm;
   for (unsigned int i = 1; i < nbSeed; i++) {
@@ -55,12 +54,12 @@ testAutoGen(double aPerf, int nbTerm) {
     double volOpt = -1.0, vol = 0.0;
     while (nbSol==0) {
       CoronaryArteryTree::Point2D pt = cTree.generateNewLocation(100);
-      std::vector<unsigned int> vecN = cTree.getN_NearestSegments(pt,n);
+      std::vector<unsigned int> vecN = cTree.getN_NearestSegments(pt,cTree.myNumNeighbor);
       for(size_t it=0; it<vecN.size(); it++) {
         //if(!cTree.isIntersecting(pt, cTree.findBarycenter(pt, vecN.at(it)),vecN.at(it),n))
-        if(!cTree.isIntersecting(pt, cTree.findBarycenter(pt, vecN.at(it)),vecN.at(it),n, 2*cTree.myVectSegments[vecN.at(it)].myRadius)) {
+        if(!cTree.isIntersecting(pt, cTree.findBarycenter(pt, vecN.at(it)),vecN.at(it),cTree.myNumNeighbor, 2*cTree.myVectSegments[vecN.at(it)].myRadius)) {
           CoronaryArteryTree cTree1 = cTree;
-          isOK = cTree1.isAddable(pt,vecN.at(it), 100, 0.01, n);
+          isOK = cTree1.isAddable(pt,vecN.at(it), 100, 0.01, cTree1.myNumNeighbor);
           if(isOK) {
             vol = cTree1.computeTotalVolume(1);
             if(volOpt<0.0) {
@@ -98,12 +97,10 @@ testCompareResult(int NTerm, int seed)
   DGtal::trace.beginBlock("Testing class CoronaryArteryTree: test adds fixed terminal points from file");
   
   std::string dir = "../Data/Nt" + std::to_string(NTerm) + "_kt10_s" + std::to_string(seed) + "_M301/";
-  std::string prefix1 = "NoCom_Nt" + std::to_string(NTerm) + "_s" + std::to_string(seed) + "_M301_";
-  int KTerm = 24;
-  std::string prefix2 = "InterTree_Nt" + std::to_string(NTerm) + "_kt" + std::to_string(KTerm) + "_s" + std::to_string(seed) + "_M301_";
-  std::string fileDistal = dir + prefix2 + "distal.txt";
-  std::string fileProximal = dir + prefix2 + "proximal.txt";
-  std::string fileSeeds = dir + prefix1 + "TerminalSeeds.txt";
+  std::string prefix = "NoCom_Nt" + std::to_string(NTerm) + "_s" + std::to_string(seed) + "_M301_";
+  std::string fileDistal = dir + prefix + "distal.txt";
+  std::string fileProximal = dir + prefix + "proximal.txt";
+  std::string fileSeeds = dir + prefix + "TerminalSeeds.txt";
   std::vector<std::pair<DGtal::Z2i::RealPoint, double> > vecSeed = readSeed(fileSeeds);
   
   double radius = 50;
@@ -122,12 +119,9 @@ testCompareResult(int NTerm, int seed)
   
   std::cout<<"Vol : "<<cTree.computeTotalVolume(1)<<std::endl;
   
-  unsigned int n = 20;
   bool isOK = false;
   unsigned int nbSeed = cTree.my_NTerm;
-  for (unsigned int i = 1; i < KTerm; i++) {
-    if(i == KTerm-1)
-      std::cout<<"STOP"<<std::endl;
+  for (unsigned int i = 1; i < nbSeed; i++) {
     DGtal::trace.progressBar(i, nbSeed);
     int nbSol = 0, itOpt = 0;
     CoronaryArteryTree cTreeOpt = cTree;
@@ -135,11 +129,11 @@ testCompareResult(int NTerm, int seed)
     std::cout<<"Vol in ("<<i<<"): "<< vol <<std::endl;
     while (nbSol==0) {
       CoronaryArteryTree::Point2D pt = vecSeed[i].first; //cTree.generateNewLocation(100);
-      std::vector<unsigned int> vecN = cTree.getN_NearestSegments(pt,n);
+      std::vector<unsigned int> vecN = cTree.getN_NearestSegments(pt,cTree.myNumNeighbor);
       for(size_t it=0; it<vecN.size(); it++) {
-        if(!cTree.isIntersecting(pt, cTree.findBarycenter(pt, vecN.at(it)),vecN.at(it),n, cTree.myVectSegments[vecN.at(it)].myRadius)) {
+        if(!cTree.isIntersecting(pt, cTree.findBarycenter(pt, vecN.at(it)),vecN.at(it),cTree.myNumNeighbor, cTree.myVectSegments[vecN.at(it)].myRadius)) {
           CoronaryArteryTree cTree1 = cTree;
-          isOK = cTree1.isAddable(pt,vecN.at(it), 100, 0.01, n);
+          isOK = cTree1.isAddable(pt,vecN.at(it), 100, 0.01, cTree1.myNumNeighbor);
           if(isOK) {
             vol = cTree1.computeTotalVolume();
             if(volOpt<0.0) {
@@ -200,13 +194,13 @@ int main(int argc, char *const *argv)
   //1000 => Execution time: 129.17274900 sec
   //2000 => Execution time: 478.48590200 sec
   //3000 => Execution time: 1023.94746700 sec
-  testAutoGen(20000, 3000);
+  testAutoGen(20000, 1000);
   end = clock();
   printf ("Execution time: %0.8f sec\n", ((double) end - start)/CLOCKS_PER_SEC);
   return 0;
   
-  int Nt = 50; //10 20 30 40
-  int seed = 15;//42 420 25 250 90 201
+  int Nt = 10; //10 20 30 40
+  int seed = 42;//42 420 25 250 90 201
   start = clock();
   testCompareResult(Nt, seed);
   end = clock();

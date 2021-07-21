@@ -158,7 +158,7 @@ CoronaryArteryTree::isAddable(const Point2D &p, unsigned int segIndex, unsigned 
   size_t i=0;
   for(size_t i=0; i<nbIter && res1 && !res2 && !isDone; i++) {
     res1 = kamyiaOptimization(pCurrent, pParent, sCurrent.myRadius, sNewLeft, sNewRight, 1, pOpt, r0, r1, r2);
-    if(res1) {
+    if(!res1) {
       if(volCurr>0) {
         isDone = true;
         *this = cTreeCurr;
