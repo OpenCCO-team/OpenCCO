@@ -335,8 +335,8 @@ public:
    * (for instance if an intersection to previous point was present)
    **/
   
-  bool addSegmentFromPoint(const Point2D &p,  unsigned int nearIndex,
-                           double rLeft = 1.0, double rRight = 1.0);
+  //bool addSegmentFromPoint(const Point2D &p,  unsigned int nearIndex,
+  //                         double rLeft = 1.0, double rRight = 1.0);
   
   //bool addSegmentFromPointBK(const Point2D &p,  unsigned int nearIndex,
   //                         double rLeft = 1.0, double rRight = 1.0);
@@ -346,9 +346,9 @@ public:
    * Update the distribution of segmental flows after adding a new segment (new bifurcation)
    * @param segIndex index of the parent segment to be updated
    */
-  void updateResistanceTerminal(unsigned int segIndex);
-  void updateResistance(unsigned int segIndex);
-  void updateResistance(unsigned int segIndex, int order);
+  //void updateResistanceTerminal(unsigned int segIndex);
+  //void updateResistance(unsigned int segIndex);
+  //void updateResistance(unsigned int segIndex, int order);
   CoronaryArteryTree::Segment<CoronaryArteryTree::Point2D> updateResistanceFromRoot(unsigned int segIndex=1);
   
   //void updateKTerm(unsigned int segIndex);
@@ -363,7 +363,7 @@ public:
    * Update ...
    * @param segIndex index of the parent segment to be updated
    */
-  void updateRadius(unsigned int segIndex);
+  //void updateRadius(unsigned int segIndex);
   void updateRadius(unsigned int segIndex, double beta);
   
   /**
@@ -390,9 +390,9 @@ public:
    * (for instance if an intersection to previous point was present)
    **/
   
-  bool addSegmentFromPoint(const Point2D &p);
-  bool addSegmentFromPointWithBarycenter(const Point2D &p);
-  bool addSegmentFromPointWithBarycenter(const Point2D &p, unsigned int nearIndex);
+  //bool addSegmentFromPoint(const Point2D &p);
+  //bool addSegmentFromPointWithBarycenter(const Point2D &p);
+  //bool addSegmentFromPointWithBarycenter(const Point2D &p, unsigned int nearIndex);
   /**
    * Export the current display of the tree.
    */
@@ -414,7 +414,7 @@ public:
   //unsigned int getParentSegment(const Segment<Point2D> &s);
   //unsigned int getLeftChild(const Segment<Point2D> &s);
   //unsigned int getRightChild(const Segment<Point2D> &s);
-  bool addSegment(const Point2D &NewPoint,const Point2D &OptimizePoint, unsigned int nearIndex);
+  //bool addSegment(const Point2D &NewPoint,const Point2D &OptimizePoint, unsigned int nearIndex);
   /**
    * Computes the distance criteria (d_crit) computed from the orthogonal projection or distance to end point.
    *
@@ -436,7 +436,7 @@ public:
   /**
    * From a segment returns a vector of segment index representing the path to the root.
    */
-  std::vector<unsigned int> getPathToRoot(const Segment<Point2D> &s);
+  //std::vector<unsigned int> getPathToRoot(const Segment<Point2D> &s);
   
   //void udpatePerfusionArea();
   

@@ -11,7 +11,7 @@
 
 #include "DGtal/io/colormaps/GradientColorMap.h"
 
-
+/*
 using namespace std;
 bool
 CoronaryArteryTree::addSegmentFromPoint(const Point2D &p)
@@ -19,7 +19,8 @@ CoronaryArteryTree::addSegmentFromPoint(const Point2D &p)
   unsigned int nearIndex = getNearestSegment(p);
   return addSegmentFromPoint(p, nearIndex);
 }
-
+*/
+/*
 void
 CoronaryArteryTree::updateResistanceTerminal(unsigned int segIndex)
 {
@@ -32,7 +33,8 @@ CoronaryArteryTree::updateResistanceTerminal(unsigned int segIndex)
   assert(myVectSegments[segIndex].myResistance != 0);
   //std::cout<<"myResistance="<<myVectSegments[segIndex].myResistance<<std::endl;
 }
-
+*/
+/*
 void
 CoronaryArteryTree::updateResistance(unsigned int segIndex)
 {
@@ -81,7 +83,8 @@ CoronaryArteryTree::updateResistance(unsigned int segIndex)
     updateResistance(myVectSegments[myVectParent[segIndex]].myIndex);
   }
 }
-
+*/
+/*
 void
 CoronaryArteryTree::updateResistance(unsigned int segIndex, int order)
 {
@@ -129,7 +132,7 @@ CoronaryArteryTree::updateResistance(unsigned int segIndex, int order)
     updateResistance(myVectSegments[myVectParent[segIndex]].myIndex, 0);
   }
 }
-
+*/
 CoronaryArteryTree::Segment<CoronaryArteryTree::Point2D>
 CoronaryArteryTree::updateResistanceFromRoot(unsigned int segIndex) {
   if(segIndex != 0) {
@@ -248,7 +251,7 @@ CoronaryArteryTree::updateLengthFactor()
   double r_pk = sqrt(myKTerm + 1)*myRsupp; //Eq 9 => but not the same
   myLengthFactor =  r_pk / my_rPerf;
 }
-
+/*
 void
 CoronaryArteryTree::updateRadius(unsigned int segIndex)
 {
@@ -265,6 +268,7 @@ CoronaryArteryTree::updateRadius(unsigned int segIndex)
     updateRadius(sRight.myIndex);
   }
 }
+*/
 
 void
 CoronaryArteryTree::updateRadius(unsigned int segIndex, double beta)
@@ -566,7 +570,7 @@ CoronaryArteryTree::isAddable(const Point2D &p, unsigned int segIndex, unsigned 
   
   return res1 && !res2 && isDone;
 }
-
+/*
 bool
 CoronaryArteryTree::addSegmentFromPoint(const Point2D &p,
                                         unsigned int nearIndex,
@@ -633,7 +637,7 @@ CoronaryArteryTree::addSegmentFromPoint(const Point2D &p,
   
   return resKamiya;
 }
-
+*/
 bool
 CoronaryArteryTree::isIntersecting(const Point2D &pNew, const Point2D &pCenter, unsigned int nearIndex, unsigned int nbNeibour, double minDistance)
 {
@@ -930,6 +934,7 @@ CoronaryArteryTree::compDistCriteria(const Point2D &p, unsigned int indexNode)
   return std::min((p-pDist).norm(), (p-pProxi).norm());
 }
 */
+/*
 std::vector<unsigned int>
 CoronaryArteryTree::getPathToRoot(const Segment<Point2D> &s)
 {
@@ -942,7 +947,7 @@ CoronaryArteryTree::getPathToRoot(const Segment<Point2D> &s)
   return res;
   
 }
-
+*/
 /*
 void
 CoronaryArteryTree::udpatePerfusionArea(){
@@ -1373,14 +1378,15 @@ operator<< ( std::ostream & out,
   aCoronaryTree.selfDisplay ( out );
   return out;
 }
-
+/*
 bool
 CoronaryArteryTree::addSegmentFromPointWithBarycenter(const Point2D &p)
 {
   unsigned int nearIndex = getNearestSegment(p);
   return addSegmentFromPointWithBarycenter(p, nearIndex);
 }
-
+*/
+/*
 bool
 CoronaryArteryTree::addSegmentFromPointWithBarycenter(const Point2D &p, unsigned int nearIndex)
 {
@@ -1432,6 +1438,7 @@ CoronaryArteryTree::addSegmentFromPointWithBarycenter(const Point2D &p, unsigned
   return true;
   
 }
+*/
 /*
 double
 CoronaryArteryTree::dProjCalculation(const Point2D &p,unsigned int Index )
@@ -1539,6 +1546,7 @@ CoronaryArteryTree::GetTotalVolume(const Point2D &p1,const Point2D &p2,const Poi
   
 }
 */
+/*
 bool
 CoronaryArteryTree::addSegment(const Point2D &NewPoint,const Point2D &OptimizePoint, unsigned int nearIndex)
 {
@@ -1569,7 +1577,7 @@ CoronaryArteryTree::addSegment(const Point2D &NewPoint,const Point2D &OptimizePo
   
   return true;
 }
-
+*/
 CoronaryArteryTree::Point2D
 CoronaryArteryTree::findBarycenter(const Point2D &p, unsigned int index)
 {

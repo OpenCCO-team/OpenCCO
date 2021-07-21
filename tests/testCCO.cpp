@@ -102,8 +102,12 @@ int main(int argc, char *const *argv)
   
   clock_t start, end;
   start = clock();
+  //1000 => Execution time: 85.03337500 sec
   //2000 => Execution time: 291.32636200 sec
-  testAutoGen(20000, 2000);
+  //3000 => Execution time: 620.52828500 sec
+  //4000 => Execution time: 1189.52678800 sec
+  //5000 => Execution time: 1794.88643800 sec
+  testAutoGen(20000, 100);
   end = clock();
   printf ("Execution time: %0.8f sec\n", ((double) end - start)/CLOCKS_PER_SEC);
   //return 0;
