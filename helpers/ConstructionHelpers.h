@@ -19,7 +19,7 @@
 namespace ConstructionHelpers {
 
 void constructTree(double aPerf, int nbTerm,
-                   std::string imageOrgan, bool verbose);
+                   std::string imageOrgan, bool verbose, DGtal::Z2i::Point ptCenter= DGtal::Z2i::Point(0,0));
 
 template< typename TImage>
 inline

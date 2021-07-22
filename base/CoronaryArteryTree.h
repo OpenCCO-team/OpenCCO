@@ -161,9 +161,11 @@ public:
    * @param nTerm: number of terminal segments.
    **/
   
-  CoronaryArteryTree(double aPerf, unsigned int nTerm, double aRadius = 1.0 ){
+  CoronaryArteryTree(double aPerf, unsigned int nTerm, double aRadius = 1.0, DGtal::Z2i::Point treeCenter = DGtal::Z2i::Point(0,0) ){
     assert(nTerm>=1);
-    myTreeCenter = Point2D(20,20);
+    myTreeCenter[0] = treeCenter[0];
+    myTreeCenter[1] = treeCenter[1];
+
     myRsupp = sqrt(aPerf/(nTerm*M_PI));
     my_rPerf = sqrt(aPerf/M_PI);
     my_aPerf = aPerf;
@@ -175,7 +177,8 @@ public:
     //myDThresold = sqrt(M_PI*myRsupp*myRsupp/myKTerm);
     
     // Construction of the special root segment
-    Point2D ptRoot = Point2D(0,my_rPerf);
+    Point2D ptRoot = myTreeCenter;
+    ptRoot[1] += my_rPerf;// Point2D(0,my_rPerf);
     Segment<Point2D> s;
     s.myRadius = aRadius;
     s.myCoordinate = ptRoot;
