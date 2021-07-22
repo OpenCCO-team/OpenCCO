@@ -344,6 +344,7 @@ public:
    * @param nbIter maximal number of iteration
    * @param tolerance convegence boundary for tree volume gradient
    * @param nbNeibour number of neighbours to be considered for intersecting test
+   * @param verbose used to display process algorithm  informations.
    * @return true of the new segment is created, false in the other case.
    * (for instance if an intersection to previous point was present)
    **/
@@ -351,7 +352,9 @@ public:
                  unsigned int segIndex,
                  unsigned int nbIter,
                  double tolerance,
-                 unsigned int nbNeibour = 10);
+                 unsigned int nbNeibour = 10,
+                 bool verbose = true);
+  
   
   bool addSegmentFromPoint(const Point2D &p, unsigned int nearIndex);
 
