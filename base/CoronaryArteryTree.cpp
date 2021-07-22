@@ -401,11 +401,13 @@ CoronaryArteryTree::isIntersecting(const Point2D &pNew, const Point2D &pCenter, 
 void
 CoronaryArteryTree::boardDisplay(double thickness, bool clearDisplay)
 {
+  double scaleFactorEPS = 0.01;
+  myBoard.setUnit(scaleFactorEPS, LibBoard::Board::UCentimeter);
   if (clearDisplay){
     myBoard.clear();
   }
   // 57.5 from myBoard change scale
-  double scaleBoard = 57.5;
+  double scaleBoard = 57.5*scaleFactorEPS;
   // drawing base circle
   if (!myIsImageDomainRestrained){
     myBoard.setPenColor(DGtal::Color::Blue);
@@ -466,7 +468,7 @@ CoronaryArteryTree::boardDisplay(double thickness, bool clearDisplay)
         bv.push_back(LibBoard::Point(c[i][0], c[i][1]));
       }
       myBoard.setFillColor(col);
-      myBoard.setLineWidth(5.0);
+      myBoard.setLineWidth(5.0*scaleFactorEPS);
       myBoard.fillPolyline(bv);
       myBoard.drawPolyline(bv);
     }
