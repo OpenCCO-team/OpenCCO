@@ -28,8 +28,11 @@ int main(int argc, char *const *argv)
   int nbTerm {300};
   double aPerf {20000};
   bool verbose {false};
+  std::string nameImgDom {""}; 
+
   app.add_option("-n,--nbTerm,1", nbTerm, "Set the number of terminal segments.", true);
   app.add_option("-a,--aPerf,2", aPerf, "The value of the input parameter A perfusion.", true);
+  app.add_option("--organDomain,-d", nameImgDom, "Define the organ domain using a mask image (organ=255).");
   app.add_flag("-v,--verbose", verbose);
   app.get_formatter()->column_width(40);
   CLI11_PARSE(app, argc, argv);
@@ -40,7 +43,7 @@ int main(int argc, char *const *argv)
   //1000 => Execution time: 129.17274900 sec
   //2000 => Execution time: 478.48590200 sec
   //3000 => Execution time: 1023.94746700 sec
-  ConstructionHelpers::constructTree(aPerf, nbTerm, verbose);
+  ConstructionHelpers::constructTree(aPerf, nbTerm, nameImgDom, verbose);
   end = clock();
   printf ("Execution time: %0.8f sec\n", ((double) end - start)/CLOCKS_PER_SEC);
   

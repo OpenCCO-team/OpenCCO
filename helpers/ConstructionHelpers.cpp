@@ -7,14 +7,21 @@
 
 
 void
-ConstructionHelpers::constructTree(double aPerf, int nbTerm, bool verbose) {
+ConstructionHelpers::constructTree(double aPerf, int nbTerm,
+                                   std::string imageOrgan,
+                                   bool verbose) {
   DGtal::trace.beginBlock("Testing class CoronaryArteryTree: test random adds with distance constraint");
   srand (time(NULL));
   double rRoot = 1.0;//10.0/nbTerm;
   std::string filename;
   
   CoronaryArteryTree cTree (aPerf, nbTerm, rRoot);
-  
+  if (imageOrgan != ""){
+    bool restrainedOK = cTree.restrainDomain(imageOrgan);
+    if (restrainedOK){
+      DGtal::trace.info() << "Using restrained image  " << imageOrgan << std::endl;
+    }
+  }
   bool isOK = false;
   unsigned int nbSeed = cTree.my_NTerm;
   for (unsigned int i = 1; i < nbSeed; i++) {
@@ -61,3 +68,6 @@ ConstructionHelpers::constructTree(double aPerf, int nbTerm, bool verbose) {
   cTree.exportBoardDisplay(filename.c_str(), 1.0);
   cTree.myBoard.clear();
 }
+
+
+

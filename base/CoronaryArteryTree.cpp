@@ -1,15 +1,18 @@
 
 #include "CoronaryArteryTree.h"
-#include "DGtal/io/boards/Board2D.h"
 #include "geomhelpers.h"
+
+#include "DGtal/io/boards/Board2D.h"
 #include "DGtal/io/readers/PPMReader.h"
-#include "DGtal/images/ArrayImageIterator.h"
 #include "DGtal/io/readers/PGMReader.h"
-#include <math.h>
+#include "DGtal/io/readers/GenericReader.h"
+#include "DGtal/io/colormaps/GradientColorMap.h"
+
+#include "DGtal/images/ArrayImageIterator.h"
 #include "DGtal/base/Common.h"
 #include "DGtal/helpers/StdDefs.h"
 
-#include "DGtal/io/colormaps/GradientColorMap.h"
+#include <math.h>
 
 CoronaryArteryTree::Segment<CoronaryArteryTree::Point2D>
 CoronaryArteryTree::updateResistanceFromRoot(unsigned int segIndex) {
@@ -733,6 +736,23 @@ CoronaryArteryTree::findBarycenter(const Point2D &p, unsigned int index)
   Point2D barycenter((first_point[0]+second_point[0]+third_point[0])/3.0,(first_point[1]+second_point[1]+third_point[1])/3.0);
   return barycenter;
 }
+
+
+
+bool
+CoronaryArteryTree::restrainDomain(const std::string &imageName){
+  myImageDomain = DGtal::GenericReader<Image>::import( imageName );
+  // Check if at least one pixel of with foreground value exist:
+  for (auto p: myImageDomain.domain()){
+    if (myImageDomain(p) == 255){
+      myIsImageDomainRestrained = true;
+      return true;
+    }
+  }
+  return false;
+}
+
+
 
 bool operator==(CoronaryArteryTree::Segment<CoronaryArteryTree::Point2D>  S1, CoronaryArteryTree::Segment<CoronaryArteryTree::Point2D> S2)
 {

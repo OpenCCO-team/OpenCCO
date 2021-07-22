@@ -6,7 +6,7 @@
 
 
 #pragma once
- 
+
 #if defined(CONSTRUCTIONHELPERS_RECURSES)
 #error Recursive header files inclusion detected in ConstructionHelpers.h
 #else // defined(CONSTRUCTIONHELPERS_RECURSES)
@@ -19,7 +19,8 @@
 
 namespace ConstructionHelpers {
 
-void constructTree(double aPerf, int nbTerm, bool verbose);
+void constructTree(double aPerf, int nbTerm,
+                   std::string imageOrgan, bool verbose);
 
 }
 
