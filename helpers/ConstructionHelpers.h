@@ -19,7 +19,7 @@
 
 namespace ConstructionHelpers {
 
-void constructTree(double aPerf, int nbTerm);
+void constructTree(double aPerf, int nbTerm, bool verbose);
 
 }
 

@@ -115,7 +115,9 @@ CoronaryArteryTree::computeTotalVolume(unsigned int segIndex)
 }
 
 bool
-CoronaryArteryTree::isAddable(const Point2D &p, unsigned int segIndex, unsigned int nbIter, double tolerance, unsigned int nbNeibour)
+CoronaryArteryTree::isAddable(const Point2D &p, unsigned int segIndex,
+                              unsigned int nbIter, double tolerance,
+                              unsigned int nbNeibour, bool verbose)
 {
   Point2D pOpt, newCenter = findBarycenter(p, segIndex);
   // Creation of the left child
@@ -154,7 +156,9 @@ CoronaryArteryTree::isAddable(const Point2D &p, unsigned int segIndex, unsigned 
   bool res1 = true, res2 = false, res3 = true, isDone = false;
   double vol = -1, volCurr = -1, diffVol = -1;
   CoronaryArteryTree cTreeCurr = *this;
-  std::cout<<"---------- segIndex: "<<segIndex<<std::endl;
+  if (verbose){
+    DGtal::trace.info() <<"---------- segIndex: "<<segIndex<<std::endl;
+  }
   size_t i=0;
   for(size_t i=0; i<nbIter && res1 && !res2 && res3 && !isDone; i++) {
     res1 = kamyiaOptimization(pCurrent, pParent, sCurrent.myRadius, sNewLeft, sNewRight, 1, pOpt, r0, r1, r2);
@@ -204,7 +208,9 @@ CoronaryArteryTree::isAddable(const Point2D &p, unsigned int segIndex, unsigned 
         cTree1.updateRootRadius();
         
         vol = cTree1.computeTotalVolume();
-        std::cout<<"Iter "<<i<<" has tree Volume: "<< vol <<std::endl;
+        if (verbose){
+          DGtal::trace.info() <<"Iter "<<i<<" has tree Volume: "<< vol <<std::endl;
+        }
         if(i==0) {
           volCurr = vol;
           cTreeCurr = cTree1;

@@ -7,7 +7,7 @@
 
 
 void
-ConstructionHelpers::constructTree(double aPerf, int nbTerm) {
+ConstructionHelpers::constructTree(double aPerf, int nbTerm, bool verbose) {
   DGtal::trace.beginBlock("Testing class CoronaryArteryTree: test random adds with distance constraint");
   srand (time(NULL));
   double rRoot = 1.0;//10.0/nbTerm;
@@ -29,7 +29,7 @@ ConstructionHelpers::constructTree(double aPerf, int nbTerm) {
         //if(!cTree.isIntersecting(pt, cTree.findBarycenter(pt, vecN.at(it)),vecN.at(it),n))
         if(!cTree.isIntersecting(pt, cTree.findBarycenter(pt, vecN.at(it)),vecN.at(it),cTree.myNumNeighbor, 2*cTree.myVectSegments[vecN.at(it)].myRadius)) {
           CoronaryArteryTree cTree1 = cTree;
-          isOK = cTree1.isAddable(pt,vecN.at(it), 100, 0.01, cTree1.myNumNeighbor);
+          isOK = cTree1.isAddable(pt,vecN.at(it), 100, 0.01, cTree1.myNumNeighbor, verbose);
           if(isOK) {
             vol = cTree1.computeTotalVolume(1);
             if(volOpt<0.0) {
@@ -54,8 +54,9 @@ ConstructionHelpers::constructTree(double aPerf, int nbTerm) {
     cTree.updateResistanceFromRoot();
     cTree.updateRootRadius();
   }
-  std::cout<<"====> Aperf="<<cTree.myRsupp*cTree.myRsupp*cTree.my_NTerm*M_PI<<" == "<<aPerf<<std::endl;
-  
+  if (verbose){
+    std::cout<<"====> Aperf="<<cTree.myRsupp*cTree.myRsupp*cTree.my_NTerm*M_PI<<" == "<<aPerf<<std::endl;
+  }
   filename = "testCCO_"+std::to_string(nbTerm)+".eps";
   cTree.exportBoardDisplay(filename.c_str(), 1.0);
   cTree.myBoard.clear();
