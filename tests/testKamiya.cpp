@@ -30,11 +30,11 @@ int main(int argc, char** argv) {
   double x0 {0};
   double y0 {0};
   
-  double x1 {0};
+  double x1 {100};
   double y1 {0};
   
   double x2 {0};
-  double y2 {0};
+  double y2 {100};
   
   double gamma {3.0};
   double r_ori {1.0};
@@ -96,48 +96,45 @@ int main(int argc, char** argv) {
   double deltaP1 = (f0*l0)/(r0*r0)+(f1*l1)/(r1*r1);
   double deltaP2 = (f0*l0)/(r0*r0)+(f2*l2)/(r2*r2);
   
-  double rr1 = r_ori;
-  double rr2 = r_ori;
+  double rr1 = r_ori*r_ori;
+  double rr2 = r_ori*r_ori;
   // The variable to solve for with its initial value. It will be
   // mutated in place by the solver.
   DGtal::Z2i::RealPoint pbInit ((f0*x0+f1*x1+f2*x2)/(2.0*f0), (f0*y0+f1*y1+f2*y2)/(2.0*f0));
   DGtal::trace.info() << pbInit << std::endl;
-  
+  double R0, R1, R2;
   for (int i = 0; i< 100; i++){
     DGtal::trace.progressBar(i, 100);
-    l0 = (p0 - pb).norm();
-    l1 = (p1 - pb).norm();
-    l2 = (p2 - pb).norm();
-   
     kamiyaOpt(gamma, deltaP1, deltaP2, f0, f1, f2, l0, l1, l2, rr1, rr2);
     ///f1 = k * rr1*rr1*rr1;
     ///f2 = k * rr2*rr2*rr2;
     //r0 = pow((pow(rr1, gamma) + pow(rr2, gamma)), 1.0/gamma);
     //Equation 27
-    r0 = pow(f0*(pow(rr1, gamma)/f1 + pow(rr2, gamma)/f2), 1.0/gamma);
-    ///f0 = k * r0*r0*r0;
+    R0 = pow(f0*(pow(rr1, gamma)/f1 + pow(rr2, gamma)/f2), 1.0/gamma);
+    R1 = rr1;
+    R2 = rr2;
     // Equation (26) page 13
-    //DGtal::Z2i::RealPoint pbNew ((f0*x0+f1*x1+f2*x2)/(2.0*f0), (f0*y0+f1*y1+f2*y2)/(2.0*f0));
-    ///pb[0] = (x0*r0*r0/l0 + x1*r1*r1/l1 + x2*r2*r2/l2)/(r0*r0/l0+r1*r1/l1+r2*r2/l2);
-    ///pb[1] = (y0*r0*r0/l0 + y1*r1*r1/l1 + y2*r2*r2/l2)/(r0*r0/l0+r1*r1/l1+r2*r2/l2);
-    pb[0] = (x0*r0/l0 + x1*r1/l1 + x2*r2/l2)/(r0/l0+r1/l1+r2/l2);
-    pb[1] = (y0*r0/l0 + y1*r1/l1 + y2*r2/l2)/(r0/l0+r1/l1+r2/l2);
-    deltaP1 = (f0*l0)/(r0*r0)+(f1*l1)/(r1*r1);
-    deltaP2 = (f0*l0)/(r0*r0)+(f2*l2)/(r2*r2);
-    std::cout << "xx1 : " << rr1 << " and xx2 " << rr2 << " r0 " << r0 << "\n";
+    pb[0] = (x0*R0/l0 + x1*R1/l1 + x2*R2/l2)/(R0/l0+R1/l1+R2/l2);
+    pb[1] = (x0*R0/l0 + y1*R1/l1 + y2*R2/l2)/(R0/l0+R1/l1+R2/l2);
+  
+    //Update values
+    deltaP1 = (f0*l0)/(R0*R0)+(f1*l1)/(R1*R1);
+    deltaP2 = (f0*l0)/(R0*R0)+(f2*l2)/(R2*R2);
+    r0 = sqrt(R0);
+    r1 = sqrt(R1);
+    r2 = sqrt(R2);
+    f0 = r0*r0*r0;
+    f1 = r1*r1*r1;
+    f2 = r2*r2*r2;
+    l0 = (p0 - pb).norm();
+    l1 = (p1 - pb).norm();
+    l2 = (p2 - pb).norm();
+   
+    std::cout << "R0 : " << R0 << " and R1 " << R1 << " R2 " << R2 << "\n";
     std::cout << "pbNew[0]  : " << pb[0] << " and pbNew[1] " << pb[1] << "\n";
   }
   
-  f1 = rr1*rr1*rr1;
-  f2 = rr2*rr2*rr2;
-  r0 = pow(f0*(pow(rr1, gamma)/f1 + pow(rr2, gamma)/f2), 1.0/gamma);
-
-//  r0 = pow(pow(rr1, gamma) + pow(rr2, gamma), 1.0/gamma);
-  f0 = r0*r0*r0;
-  
-  // DGtal::Z2i::RealPoint pbNew ((f0*x0+f1*x1+f2*x2)/(2.0*f0), (f0*y0+f1*y1+f2*y2)/(2.0*f0));
-  
-  std::cout << "xx1 : " << rr1 << " and xx2 " << rr2 << " r0 " << r0 << "\n";
+  std::cout << "r0 : " << r0 << " and r1 " << r1 << " r2 " << r2 << "\n";
   std::cout << "pbNew[0]  : " << pb[0] << " and pbNew[1] " << pb[1] << "\n";
   Board2D board;
   // Draw initial points
