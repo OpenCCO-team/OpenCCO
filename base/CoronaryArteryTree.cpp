@@ -243,6 +243,88 @@ CoronaryArteryTree::isAddable(const Point2D &p, unsigned int segIndex, unsigned 
   return res1 && !res2 && isDone;
 }
 
+
+bool
+CoronaryArteryTree::addSegmentFromPoint(const Point2D &p,
+                                        unsigned int nearIndex)
+{
+
+  Point2D newCenter = findBarycenter(p, nearIndex);
+  bool inter = hasNearestIntersections(myVectParent[nearIndex], nearIndex, p, newCenter,  10);
+  double minDistance = 5.0;
+  if (inter){
+    DGtal::trace.warning() << "detection intersection" << std::endl;
+    return false;
+  }
+  // Check barycenter is not too close considered segment
+  if ((newCenter-myVectSegments[nearIndex].myCoordinate).norm() < minDistance ||
+      (newCenter-myVectSegments[myVectParent[nearIndex]].myCoordinate).norm() < minDistance ||
+      (newCenter - p).norm() < minDistance){
+    DGtal::trace.warning() << "new barycenter too close!!!!!!!!" << std::endl;
+    return false;
+  }
+  // Check new point with new segment of barycenter:
+  // - newPt and new segment [Barycenter-OriginNewSeg]
+  // - newPt and new segment [Barycenter-FatherNewSeg]
+  if ((newCenter-myVectSegments[nearIndex].myCoordinate).norm() < minDistance ||
+      (newCenter-myVectSegments[myVectParent[nearIndex]].myCoordinate).norm() < minDistance) {
+    DGtal::trace.warning() << "initial too close to new!!!!!!!!" << std::endl;
+    return false;
+  }
+  if (getProjDistance(nearIndex, p) < minDistance) {
+    DGtal::trace.warning() << "initial too close!!!!!!!!" << std::endl;
+    return false;
+
+  }
+  if (isToCloseFromNearest(p, minDistance)){
+    DGtal::trace.warning() << "detection near too close " << std::endl;
+    return false;
+  }
+  if (getProjDistance(nearIndex, p) < minDistance||
+      getProjDistance(myVectParent[nearIndex], p) < minDistance||
+      getProjDistance(myVectChildren[nearIndex].first, p) < minDistance||
+      getProjDistance(myVectChildren[nearIndex].second, p) < minDistance){
+    DGtal::trace.warning() << "detection too close existing" << std::endl;
+    return false;
+  }
+  // Creation of the left child
+  Segment<Point2D> sNewLeft;
+  sNewLeft.myCoordinate = myVectSegments[nearIndex].myCoordinate;
+  sNewLeft.myRadius = 1.0;
+  sNewLeft.myIndex = myVectSegments.size();
+  myVectSegments.push_back(sNewLeft);
+  myVectChildren.push_back(std::pair<unsigned int, unsigned int>(0,0));
+  myVectParent.push_back(nearIndex);
+
+  // Update for the new parent of the new left segment
+  unsigned int leftGrandChildIndex = myVectChildren[myVectSegments[nearIndex].myIndex].first;
+  unsigned int rightGrandChildIndex = myVectChildren[myVectSegments[nearIndex].myIndex].second;
+  myVectParent[leftGrandChildIndex] = sNewLeft.myIndex;
+  myVectParent[rightGrandChildIndex] = sNewLeft.myIndex;
+
+  // Update of the child of the new left segment (sNewLeft)
+  myVectChildren[sNewLeft.myIndex].first = leftGrandChildIndex;
+  myVectChildren[sNewLeft.myIndex].second = rightGrandChildIndex;
+
+  // Creation of the right child
+  Segment<Point2D> sNewRight;
+  sNewRight.myCoordinate = p;
+  sNewRight.myRadius = 1.0;
+  sNewRight.myIndex = myVectSegments.size();
+  myVectSegments.push_back(sNewRight);
+  myVectChildren.push_back(std::pair<unsigned int, unsigned int>(0,0));
+  myVectParent.push_back(nearIndex);
+  myVectTerminals.push_back(sNewRight.myIndex);
+  // Update center segment
+  myVectSegments[nearIndex].myCoordinate = newCenter;
+  //update childrens of center segment
+  myVectChildren[nearIndex].first = sNewLeft.myIndex;
+  myVectChildren[nearIndex].second = sNewRight.myIndex;
+
+  return true;
+}
+
+
 bool
 CoronaryArteryTree::isIntersecting(const Point2D &pNew, const Point2D &pCenter, unsigned int nearIndex, unsigned int nbNeibour, double minDistance)
 {

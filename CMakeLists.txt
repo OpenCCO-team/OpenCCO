@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.5)
-project(CCO_Algorithm)
+project(CCO_Implementation)
 set (CMAKE_CXX_STANDARD 11)
 
 
