@@ -301,7 +301,40 @@ public:
     updateRootRadius();
     DGtal::trace.info() << "Construction initialized..." << std::endl;
   };
-  
+
+    /**
+     * Constructor for base tests (used on various files of directory tests, like testGeom).
+     * @param r: the radius of the domain circle
+     **/
+    
+    CoronaryArteryTree( double r){
+      myTreeCenter = Point2D(0,0);
+      myRsupp = r;
+      my_aPerf = 1.0;
+      my_NTerm = 1;
+      // Construction of the special root segment
+      Segment<Point2D> s;
+      s.myRadius = 1.0;
+      s.myCoordinate = Point2D(0,r);//ptRoot;
+      s.myIndex = 0;
+      myVectSegments.push_back(s);
+      myVectParent.push_back(0); //if parent index is itsef it is the root (special segment of length 0).
+      myVectChildren.push_back(std::pair<unsigned int, unsigned int>(0,0)); // if children index is itself, it is an end segment.
+      my_rPerf = myRsupp;
+      
+      // Construction of the first segment after the root
+      Segment<Point2D> s1;
+      s1.myRadius = 1.0;
+      s1.myCoordinate = Point2D(0,0);
+      s1.myIndex = 1;
+      myVectSegments.push_back(s1);
+      myVectTerminals.push_back(1);
+      myVectParent.push_back(0); //if parent index is the root
+      myVectChildren.push_back(std::pair<unsigned int, unsigned int>(0,0)); // if children index is itself, it is an end segment.
+      DGtal::trace.info() << "Construction initialized..." << std::endl;
+    };
+    
+    
   // ----------------------- Interface --------------------------------------
     
   /**
@@ -319,6 +352,9 @@ public:
                  unsigned int nbIter,
                  double tolerance,
                  unsigned int nbNeibour = 10);
+  
+  bool addSegmentFromPoint(const Point2D &p, unsigned int nearIndex);
+
   
   /**
    * Verifies if there is an intersection for the new bifurcation position or the point is to near to the neigbour segment

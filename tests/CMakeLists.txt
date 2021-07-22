@@ -1,8 +1,8 @@
 SET(TESTS_SRC
   testCCO
-#  testGeom
-#  testKamiya
-#  testSchreiner
+  testGeom
+  testKamiya
+  testSchreiner
 )
 
 FOREACH(FILE ${TESTS_SRC})

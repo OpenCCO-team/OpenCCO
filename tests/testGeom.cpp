@@ -35,7 +35,7 @@ int main(int argc, char *const *argv)
   
   ///-----------------------------------------------------------------------------------------------
   DGtal::trace.beginBlock("Testing basic intersections on Tree");
-  CoronaryArteryTree c (DGtal::Z2i::RealPoint(0.0, 0.0), 2000, 1);
+  CoronaryArteryTree c ( 20);
   c.addSegmentFromPoint(DGtal::Z2i::RealPoint(-10, 10), 1);
   c.addSegmentFromPoint(DGtal::Z2i::RealPoint(12, 8), 1);
   c.boardDisplay();
@@ -65,14 +65,12 @@ int main(int argc, char *const *argv)
   ///-----------------------------------------------------------------------------------------------
   DGtal::trace.beginBlock("Testing class CoronaryArteryTree: test random adds with distance constraint");
   srand (time(NULL));
-  CoronaryArteryTree cIntersec (DGtal::Z2i::RealPoint(0, 250), 20000000, 100);
-  for (unsigned int i = 0; i < 10000; i++){
-    DGtal::trace.progressBar(i, 10000);
+  CoronaryArteryTree cIntersec (DGtal::Z2i::RealPoint(0, 0), DGtal::Z2i::RealPoint(0, 30), DGtal::Z2i::RealPoint (0,  0), 1.0, 1.0);
+  for (unsigned int i = 0; i < 100; i++){
+    DGtal::trace.progressBar(i, 100);
     CoronaryArteryTree::Point2D pt = cIntersec.generateNewLocation(100);
     auto nearest = cIntersec.getNearestSegment(pt);
-    cIntersec.addSegmentFromPointBK(pt, nearest, 1.0, 1.0);
-    cIntersec.udpatePerfusionArea();
-    cIntersec.updateTreshold();
+    cIntersec.addSegmentFromPoint(pt, nearest);
   }
   cIntersec.boardDisplay();
 
@@ -113,8 +111,7 @@ int main(int argc, char *const *argv)
   ///-----------------------------------------------------------------------------------------------
   /// Test projection distances
   DGtal::trace.beginBlock("Testing projection distances");
-  CoronaryArteryTree ci (DGtal::Z2i::RealPoint(0, 0), 2000, 1);
-  
+  CoronaryArteryTree ci (DGtal::Z2i::RealPoint(0, 0), DGtal::Z2i::RealPoint(0, 10), DGtal::Z2i::RealPoint (0,  0), 1.0, 1.0);
   DGtal::Z2i::RealPoint pDirect (2,  5);
   double dist = ci.getProjDistance(1, pDirect);
   DGtal::trace.info() << "Test projection on initial segment: " << pDirect

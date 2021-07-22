@@ -73,11 +73,11 @@ int main(int argc, char *const *argv)
   
   DGtal::trace.beginBlock("Testing class CoronaryArteryTree: display constructions steps (3)");
   nearest = c.getNearestSegment(DGtal::Z2i::RealPoint(-2,6));
-  c.addSegmentFromPoint(DGtal::Z2i::RealPoint(-2, 6), nearest, 1.0, 1.0);
+  c.addSegmentFromPoint(DGtal::Z2i::RealPoint(-2, 6), nearest);
   c.exportBoardDisplay("testBase3.svg", true);
   c.exportBoardDisplay("testBase3.eps", true);
   nearest = c.getNearestSegment(DGtal::Z2i::RealPoint(15,-5));
-  c.addSegmentFromPoint(DGtal::Z2i::RealPoint(15, -5), nearest, 0.5, 0.3);
+  c.addSegmentFromPoint(DGtal::Z2i::RealPoint(15, -5), nearest);
   c.exportBoardDisplay("testBase4.svg", true);
   c.exportBoardDisplay("testBase4.eps", true);
   DGtal::trace.endBlock();
@@ -91,7 +91,7 @@ int main(int argc, char *const *argv)
     CoronaryArteryTree::Point2D pt = generateRandomPtOnDisk(cRand.myTreeCenter, cRand.my_rPerf);
     
     nearest = cRand.getNearestSegment(pt);
-    cRand.addSegmentFromPoint(pt, nearest, 1.0, 1.0);
+    cRand.addSegmentFromPoint(pt, nearest);
   }
   
   cRand.exportBoardDisplay("testRandomAdd.svg", true);
@@ -128,9 +128,8 @@ int main(int argc, char *const *argv)
     //std::cout <<"myDThresold: " <<  cRand2.myDThresold << std::endl;
 
     nearest = cRand2.getNearestSegment(pt);
-    cRand2.addSegmentFromPoint(pt, nearest, 1.0, 1.0);
-    cRand2.udpatePerfusionArea();
-    cRand2.updateTreshold();
+    cRand2.addSegmentFromPoint(pt, nearest);
+  
   }
   
   cRand2.exportBoardDisplay("testRandomAdd2.svg", true);
@@ -168,9 +167,7 @@ int main(int argc, char *const *argv)
     DGtal::trace.progressBar(i, 1000);
     CoronaryArteryTree::Point2D pt = cRand3.generateNewLocation(100);
     nearest = cRand3.getNearestSegment(pt);
-    cRand3.addSegmentFromPoint(pt, nearest, 1.0, 1.0);
-    cRand3.udpatePerfusionArea();
-    cRand3.updateTreshold();
+    cRand3.addSegmentFromPoint(pt, nearest);
   }
   cRand3.boardDisplay();
   v = cRand3.getPathToRoot(cRand3.myVectSegments[cRand3.myVectSegments.size()-1]);
