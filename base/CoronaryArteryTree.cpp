@@ -125,6 +125,10 @@ CoronaryArteryTree::isAddable(const Point2D &p, unsigned int segIndex,
                               unsigned int nbNeibour, bool verbose)
 {
   Point2D pOpt, newCenter = findBarycenter(p, segIndex);
+  if(myIsImageDomainRestrained && (myImageDomain(DGtal::Z2i::Point(static_cast<int>(newCenter[0]),
+                                      static_cast<int>(newCenter[1])))< 128)){
+    return false;
+  }
   // Creation of the left child
   Segment<Point2D> sNewLeft;
   sNewLeft.myCoordinate = myVectSegments[segIndex].myCoordinate;

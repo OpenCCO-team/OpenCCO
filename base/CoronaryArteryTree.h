@@ -163,7 +163,7 @@ public:
   
   CoronaryArteryTree(double aPerf, unsigned int nTerm, double aRadius = 1.0 ){
     assert(nTerm>=1);
-    myTreeCenter = Point2D(0,0);
+    myTreeCenter = Point2D(20,20);
     myRsupp = sqrt(aPerf/(nTerm*M_PI));
     my_rPerf = sqrt(aPerf/M_PI);
     my_aPerf = aPerf;
