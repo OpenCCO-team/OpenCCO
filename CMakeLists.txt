@@ -6,9 +6,11 @@ set (CMAKE_CXX_STANDARD 11)
 SET(SOURCE_BASE_HEADER_FILES
   ${PROJECT_SOURCE_DIR}/base/CoronaryArteryTree.h
   ${PROJECT_SOURCE_DIR}/helpers/geomhelpers.h
+  ${PROJECT_SOURCE_DIR}/helpers/ConstructionHelpers.h
 )
 SET(SOURCE_BASE_FILES
   ${PROJECT_SOURCE_DIR}/base/CoronaryArteryTree.cpp
+  ${PROJECT_SOURCE_DIR}/helpers/ConstructionHelpers.cpp
 )
 
 find_package(Ceres REQUIRED)
