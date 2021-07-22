@@ -387,10 +387,11 @@ CoronaryArteryTree::boardDisplay(double thickness, bool clearDisplay)
   // 57.5 from myBoard change scale
   double scaleBoard = 57.5;
   // drawing base circle
-  myBoard.setPenColor(DGtal::Color::Blue);
-  myBoard.setLineWidth(myVectSegments[0].myRadius*scaleBoard*thickness);
-  myBoard.drawCircle(myTreeCenter[0], myTreeCenter[1], my_rPerf, 1);
-  
+  if (!myIsImageDomainRestrained){
+    myBoard.setPenColor(DGtal::Color::Blue);
+    myBoard.setLineWidth(myVectSegments[0].myRadius*scaleBoard*thickness);
+    myBoard.drawCircle(myTreeCenter[0], myTreeCenter[1], my_rPerf, 1);
+  }
   
   // draw root: (first segment is special reduced to one point and no parent).
   Point2D p0 = myVectSegments[0].myCoordinate;
@@ -431,6 +432,8 @@ CoronaryArteryTree::boardDisplay(double thickness, bool clearDisplay)
     myBoard.fillCircle(distal[0], distal[1], myVectSegments[s.myIndex].myRadius*thickness, 1 );
     i++;
   }
+  myBoard.drawImage(myImageFileDomain, 0, myImageDomain.domain().upperBound()[1], myImageDomain.domain().upperBound()[0],
+                    myImageDomain.domain().upperBound()[1], -1, 255);
 }
 
 void
@@ -510,7 +513,12 @@ CoronaryArteryTree::generateNewLocation(unsigned int nbTrials){
 
 std::pair<CoronaryArteryTree::Point2D, bool>
 CoronaryArteryTree::generateALocation(double myDThresold) {
-  Point2D res = generateRandomPtOnDisk(myTreeCenter, my_rPerf);
+  Point2D res;
+  if (myIsImageDomainRestrained){
+    res = generateRandomPtOnImageDomain<CoronaryArteryTree::Point2D>(myImageDomain, 128);
+  } else {
+    res = generateRandomPtOnDisk(myTreeCenter, my_rPerf);
+  }
   bool isComp = true;
   unsigned int id = 1;
   /*
@@ -741,14 +749,16 @@ CoronaryArteryTree::findBarycenter(const Point2D &p, unsigned int index)
 
 bool
 CoronaryArteryTree::restrainDomain(const std::string &imageName){
+  myImageFileDomain = imageName;
   myImageDomain = DGtal::GenericReader<Image>::import( imageName );
   // Check if at least one pixel of with foreground value exist:
   for (auto p: myImageDomain.domain()){
-    if (myImageDomain(p) == 255){
+    if (myImageDomain(p) >= 128){
       myIsImageDomainRestrained = true;
       return true;
     }
   }
+  myImageFileDomain = "";
   return false;
 }
 

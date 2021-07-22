@@ -52,6 +52,36 @@ generateRandomPtOnDisk(const TPoint &ptCenter, double r)
 }
 
 
+
+template<typename TPoint, typename TImage>
+inline
+TPoint
+generateRandomPtOnImageDomain(const TImage &image, unsigned int fgTh, unsigned int nbTry = 100)
+{
+  bool found = false;
+  unsigned int x = 0;
+  unsigned int y = 0;
+  TPoint pMin = image.domain().lowerBound();
+  TPoint pMax = image.domain().upperBound();
+  int dx = pMax[0] - pMin[0];
+  int dy = pMax[1] - pMin[1];
+  DGtal::Z2i::Point pCand;
+  unsigned int n = 0;
+  while(!found && n < nbTry){
+    x =  rand()%dx;
+    y =  rand()%dy;
+    pCand[0] = pMin[0] +x;
+    pCand[1] = pMin[1] +y;
+    found = image(pCand)>=fgTh;
+    n++;
+  }
+  if (n >= nbTry){
+    for(auto p : image.domain()){if (image(p)>=fgTh) return p;}
+  }
+  return pCand;
+}
+
+
 /**
  * Dertermines if a point is on the right of a line represented by two points [ptA, ptB]
  */

@@ -148,7 +148,8 @@ public:
 protected:
   Image myImageDomain = Image(DGtal::Z2i::Domain());
   bool myIsImageDomainRestrained = false;
-  
+  std::string myImageFileDomain = "";
+
   
   
 public: 
@@ -571,9 +572,10 @@ public:
   /**
    * Restrain the domain from the image mask.
    * @param image name that should represent the restricted domain (ie all pixels set to 255)
+   * @param threshold the threshold to consider foreground value (used to test if at least one domain pixel exist).
    * @return true the restriction was well set (image exist).
    */
-  bool restrainDomain(const std::string &imageName);
+  bool restrainDomain(const std::string &imageName, unsigned int threshold=128);
   
 };
 
