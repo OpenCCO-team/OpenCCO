@@ -21,9 +21,10 @@ readSeed(std::string filename) {
   double x, y, r;
   std::ifstream myfile (filename);
   if (myfile.is_open()) {
-    while ( myfile >> x >> y >> r )
+       while ( myfile >> x >> y >> r )
       vecSeeds.push_back(std::make_pair(DGtal::Z2i::RealPoint(x,y), r));
     myfile.close();
+   
   }
   else std::cout << "Unable to open file"<<std::endl;
   assert(vecSeeds.size() != 0);
@@ -35,61 +36,6 @@ readSeed(std::string filename) {
  * @param filename
  * @return vector of pair of point and its corresponding radius
  */
-
-void
-testAutoGen(double aPerf, int nbTerm) {
-  DGtal::trace.beginBlock("Testing class CoronaryArteryTree: test random adds with distance constraint");
-  srand (time(NULL));
-  double rRoot = 1.0;//10.0/nbTerm;
-  std::string filename;
-  
-  CoronaryArteryTree cTree (aPerf, nbTerm, rRoot);
-  
-  bool isOK = false;
-  unsigned int nbSeed = cTree.my_NTerm;
-  for (unsigned int i = 1; i < nbSeed; i++) {
-    DGtal::trace.progressBar(i, nbSeed);
-    int nbSol = 0, itOpt = 0;
-    CoronaryArteryTree cTreeOpt = cTree;
-    double volOpt = -1.0, vol = 0.0;
-    while (nbSol==0) {
-      CoronaryArteryTree::Point2D pt = cTree.generateNewLocation(100);
-      std::vector<unsigned int> vecN = cTree.getN_NearestSegments(pt,cTree.myNumNeighbor);
-      for(size_t it=0; it<vecN.size(); it++) {
-        //if(!cTree.isIntersecting(pt, cTree.findBarycenter(pt, vecN.at(it)),vecN.at(it),n))
-        if(!cTree.isIntersecting(pt, cTree.findBarycenter(pt, vecN.at(it)),vecN.at(it),cTree.myNumNeighbor, 2*cTree.myVectSegments[vecN.at(it)].myRadius)) {
-          CoronaryArteryTree cTree1 = cTree;
-          isOK = cTree1.isAddable(pt,vecN.at(it), 100, 0.01, cTree1.myNumNeighbor);
-          if(isOK) {
-            vol = cTree1.computeTotalVolume(1);
-            if(volOpt<0.0) {
-              volOpt = vol;
-              cTreeOpt = cTree1;
-              itOpt = it;
-            }
-            else {
-              if(volOpt>vol) {
-                volOpt = vol;
-                cTreeOpt = cTree1;
-                itOpt = it;
-              }
-            }
-            nbSol++;
-          }
-        }
-      }
-    }
-    cTree = cTreeOpt;
-    cTree.updateLengthFactor();
-    cTree.updateResistanceFromRoot();
-    cTree.updateRootRadius();
-  }
-  std::cout<<"====> Aperf="<<cTree.myRsupp*cTree.myRsupp*cTree.my_NTerm*M_PI<<" == "<<aPerf<<std::endl;
-
-  filename = "testCCO_"+std::to_string(nbTerm)+".eps";
-  cTree.exportBoardDisplay(filename.c_str(), 1.0);
-  cTree.myBoard.clear();
-}
 
 void
 testCompareResult(int NTerm, int seed)
@@ -189,16 +135,6 @@ testCompareResult(int NTerm, int seed)
 int main(int argc, char *const *argv)
 {
   clock_t start, end;
-  /*
-  start = clock();
-  //1000 => Execution time: 129.17274900 sec
-  //2000 => Execution time: 478.48590200 sec
-  //3000 => Execution time: 1023.94746700 sec
-  testAutoGen(20000, 3000);
-  end = clock();
-  printf ("Execution time: %0.8f sec\n", ((double) end - start)/CLOCKS_PER_SEC);
-  return 0;
-  */
   int Nt = 10; //10 20 30 40 50 60
   int seed = 42;//42 420 25 250 90 201 15 215
   start = clock();

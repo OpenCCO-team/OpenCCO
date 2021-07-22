@@ -1,5 +1,6 @@
 SET(TESTS_SRC
-  testCCO
+  testCompCCO
+  testGenerateTree
   testGeom
   testKamiya
   testSchreiner
