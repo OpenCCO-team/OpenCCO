@@ -12,6 +12,7 @@
 #include "DGtal/images/ArrayImageIterator.h"
 #include "DGtal/base/Common.h"
 #include "DGtal/helpers/StdDefs.h"
+#include "DGtal/geometry/helpers/ContourHelper.h"
 
 #include <math.h>
 
@@ -450,11 +451,17 @@ CoronaryArteryTree::boardDisplay(double thickness, bool clearDisplay)
   if (myIsImageDomainRestrained){
     std::vector<std::vector<DGtal::Z2i::Point>> vectContours = ConstructionHelpers::getImageContours(myImageDomain, 128);
     for(auto const c: vectContours){
+      DGtal::Color col;
+      if(DGtal::ContourHelper::isCounterClockWise(c)){
+        col = DGtal::Color(200, 200, 200);
+      }else{
+        col = DGtal::Color::White;
+      }
       std::vector<LibBoard::Point> bv;
       for(unsigned int i=0; i<c.size(); i++){
         bv.push_back(LibBoard::Point(c[i][0], c[i][1]));
       }
-      myBoard.setFillColor(DGtal::Color(200, 200, 200));
+      myBoard.setFillColor(col);
       myBoard.setLineWidth(5.0);
       myBoard.fillPolyline(bv);
       myBoard.drawPolyline(bv);
