@@ -762,12 +762,12 @@ CoronaryArteryTree::findBarycenter(const Point2D &p, unsigned int index)
 
 
 bool
-CoronaryArteryTree::restrainDomain(const std::string &imageName){
+CoronaryArteryTree::restrainDomain(const std::string &imageName, unsigned int threshold){
   myImageFileDomain = imageName;
   myImageDomain = DGtal::GenericReader<Image>::import( imageName );
   // Check if at least one pixel of with foreground value exist:
   for (auto p: myImageDomain.domain()){
-    if (myImageDomain(p) >= 128){
+    if (myImageDomain(p) >= threshold){
       myIsImageDomainRestrained = true;
       return true;
     }
