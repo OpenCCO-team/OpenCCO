@@ -57,7 +57,8 @@ generateRandomPtOnDisk(const TPoint &ptCenter, double r)
 template<typename TPoint, typename TImage>
 inline
 TPoint
-generateRandomPtOnImageDomain(const TImage &image, unsigned int fgTh, unsigned int nbTry = 100)
+generateRandomPtOnImageDomain(const TImage &image, unsigned int fgTh,
+                              unsigned int nbTry = 100)
 {
   bool found = false;
   unsigned int x = 0;
@@ -82,6 +83,33 @@ generateRandomPtOnImageDomain(const TImage &image, unsigned int fgTh, unsigned i
   return pCand;
 }
 
+
+
+/**
+ * Check if the segment defined by two points intersect the domain.
+ *
+ * @param image defining the domain
+ * @param fgTh the threshol defining the foreground
+ * @param pt1 first point of the segment
+ * @param pt2  second point of the segment
+ */
+template<typename TPoint, typename TImage>
+inline
+bool
+checkNoIntersectDomain(const TImage &image, unsigned int fgTh,
+                          const DGtal::Z2i::Point &pt1,
+                          const DGtal::Z2i::Point &pt2)
+{
+  DGtal::Z2i::RealPoint dir = pt2 - pt1;
+  dir /= dir.norm();
+  DGtal::Z2i::RealPoint p (pt1[0], pt1[1]);
+  for (unsigned int i = 0; i<(pt2 - pt1).norm(); i++){
+    DGtal::Z2i::RealPoint p = pt1+dir*i;
+    if (image(DGtal::Z2i::Point(static_cast<int>(p[0]),static_cast<int>(p[1]) )) < fgTh) return false;
+  }
+
+  return true;
+}
 
 /**
  * Dertermines if a point is on the right of a line represented by two points [ptA, ptB]

@@ -1,9 +1,10 @@
 #include <iostream>
 #include <stdio.h>
 #include <stdlib.h>
-
 #include "DGtal/base/Common.h"
 #include "DGtal/helpers/StdDefs.h"
+#include "DGtal/io/readers/GenericReader.h"
+
 #include "CoronaryArteryTree.h"
 #include "geomhelpers.h"
 
@@ -13,6 +14,8 @@
  */
 int main(int argc, char *const *argv)
 {
+  std::string resource_dir = SAMPLE_DIR;
+
   ///-----------------------------------------------------------------------------------------------
   /// Test intesection on segments
   DGtal::trace.beginBlock("Testing basic intersections on two segments");
@@ -122,6 +125,23 @@ int main(int argc, char *const *argv)
   DGtal::trace.info() << "Test projection on initial segment: " << pDirect
   << " distance (should be sqrt(2)) :" <<dist2 <<  ( dist2*dist2 - 2.0 < 0.0000001? " OK": " KO")  << std::endl;
   DGtal::trace.endBlock();
+
+  
+  ///-----------------------------------------------------------------------------------------------
+  /// Test projection distances
+  DGtal::trace.beginBlock("Testing intersections");
+  std::cout << "ressource:"  << resource_dir << std::endl;
+  std::stringstream ss;
+  ss << resource_dir <<"shape.pgm";
+  CoronaryArteryTree::Image img = DGtal::GenericReader<CoronaryArteryTree::Image>::import(ss.str());
+  bool checkDomInter = checkNoIntersectDomain<DGtal::Z2i::Point>(img, 128, DGtal::Z2i::Point(264,196), DGtal::Z2i::Point(438,225));
+  DGtal::trace.info() << "Test intersection: 264 196 and 438 225 "
+  << " distance (should be true) :" << checkDomInter <<  ( checkDomInter ? " OK": " KO")  << std::endl;
+  bool checkDomInter2 = checkNoIntersectDomain<DGtal::Z2i::Point>(img, 128, DGtal::Z2i::Point(264,196), DGtal::Z2i::Point(2,56));
+  DGtal::trace.info() << "Test intersection: 264 196 and 2 56 "
+  << " distance (should be false) :" << checkDomInter2 <<  ( !checkDomInter2 ? " OK": " KO")  << std::endl;
+  DGtal::trace.endBlock();
+  
 
   
   
