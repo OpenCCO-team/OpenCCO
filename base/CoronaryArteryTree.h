@@ -149,7 +149,7 @@ public:
    **/
   
   CoronaryArteryTree(double aPerf, unsigned int nTerm, double aRadius = 1.0 ){
-     
+    assert(nTerm>=1);
     myTreeCenter = Point2D(0,0);
     myRsupp = sqrt(aPerf/(nTerm*M_PI));
     my_rPerf = sqrt(aPerf/M_PI);
@@ -201,7 +201,7 @@ public:
    **/
   
   CoronaryArteryTree(const Point2D &ptRoot, double aPerf, unsigned int nTerm, double aRadius = 1.0 ){
-     
+    assert(nTerm>=1);
     myTreeCenter = Point2D(0,0);
     myRsupp = sqrt(aPerf/(nTerm*M_PI));
     my_rPerf = sqrt(aPerf/M_PI);
@@ -251,16 +251,15 @@ public:
    * @param ptCenter: coordinates of the center of the tree
    * @param ptRoot: coordinates of the root special segment (who have no parent)
    * @param ptTerm: coordinates of the first terminal point
-   * @param aPerf: surface of the perfusion.
    * @param nTerm: number of terminal segments.
    **/
   
-  CoronaryArteryTree(const Point2D &ptCenter, const Point2D &ptRoot, const Point2D &ptTerm, double aPerf, unsigned int nTerm, int nNeighbor = 20, double aRadius = 1.0 ){
-     
+  CoronaryArteryTree(const Point2D &ptCenter, const Point2D &ptRoot, const Point2D &ptTerm, unsigned int nTerm, int nNeighbor = 20, double aRadius = 1.0 ){
+    assert(nTerm>=1);
     myTreeCenter = ptCenter;
-    myRsupp = sqrt(aPerf/(nTerm*M_PI));
-    my_rPerf = sqrt(aPerf/M_PI);
-    my_aPerf = aPerf;
+    my_rPerf = (ptCenter - ptRoot).norm();
+    my_aPerf = M_PI*my_rPerf*my_rPerf;
+    myRsupp = sqrt(my_aPerf/(nTerm*M_PI));
     my_NTerm = nTerm;
     my_qTerm = my_qPerf / my_NTerm;
     if(nTerm > 250)
@@ -307,7 +306,7 @@ public:
      * @param r: the radius of the domain circle
      **/
     
-    CoronaryArteryTree( double r){
+    CoronaryArteryTree(double r){
       myTreeCenter = Point2D(0,0);
       myRsupp = r;
       my_aPerf = 1.0;

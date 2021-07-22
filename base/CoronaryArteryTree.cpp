@@ -296,12 +296,15 @@ CoronaryArteryTree::addSegmentFromPoint(const Point2D &p,
   // Creation of the left child
   Segment<Point2D> sNewLeft;
   sNewLeft.myCoordinate = myVectSegments[nearIndex].myCoordinate;
-  sNewLeft.myRadius = 1.0;
   sNewLeft.myIndex = myVectSegments.size();
+  sNewLeft.myRadius = myVectSegments[nearIndex].myRadius;
+  sNewLeft.myFlow = myVectSegments[nearIndex].myFlow;
+  sNewLeft.myKTerm = myVectSegments[nearIndex].myKTerm;
+  sNewLeft.myResistance = myVectSegments[nearIndex].myResistance;
   myVectSegments.push_back(sNewLeft);
   myVectChildren.push_back(std::pair<unsigned int, unsigned int>(0,0));
   myVectParent.push_back(nearIndex);
-
+  
   // Update for the new parent of the new left segment
   unsigned int leftGrandChildIndex = myVectChildren[myVectSegments[nearIndex].myIndex].first;
   unsigned int rightGrandChildIndex = myVectChildren[myVectSegments[nearIndex].myIndex].second;
@@ -315,18 +318,29 @@ CoronaryArteryTree::addSegmentFromPoint(const Point2D &p,
   // Creation of the right child
   Segment<Point2D> sNewRight;
   sNewRight.myCoordinate = p;
-  sNewRight.myRadius = 1.0;
+  sNewRight.myRadius = myVectSegments[nearIndex].myRadius;
   sNewRight.myIndex = myVectSegments.size();
+  sNewRight.myFlow = my_qTerm;
+  sNewRight.myKTerm = 1;
   myVectSegments.push_back(sNewRight);
   myVectChildren.push_back(std::pair<unsigned int, unsigned int>(0,0));
   myVectParent.push_back(nearIndex);
   myVectTerminals.push_back(sNewRight.myIndex);
+  
   // Update center segment
   myVectSegments[nearIndex].myCoordinate = newCenter;
+  myVectSegments[nearIndex].myFlow = myVectSegments[nearIndex].myFlow + my_qTerm;
+  myVectSegments[nearIndex].myKTerm = sNewLeft.myKTerm + 1;
   //update childrens of center segment
   myVectChildren[nearIndex].first = sNewLeft.myIndex;
   myVectChildren[nearIndex].second = sNewRight.myIndex;
-
+  
+  // Update physilogique paramaters
+  myKTerm++;
+  updateFlow(myVectParent[nearIndex]);
+  updateResistanceFromRoot();
+  updateRootRadius();
+  
   return true;
 }
 
