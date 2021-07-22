@@ -1,6 +1,7 @@
 
 #include "CoronaryArteryTree.h"
 #include "geomhelpers.h"
+#include "ConstructionHelpers.h"
 
 #include "DGtal/io/boards/Board2D.h"
 #include "DGtal/io/readers/PPMReader.h"
@@ -446,9 +447,21 @@ CoronaryArteryTree::boardDisplay(double thickness, bool clearDisplay)
     myBoard.fillCircle(distal[0], distal[1], myVectSegments[s.myIndex].myRadius*thickness, 1 );
     i++;
   }
-  myBoard.drawImage(myImageFileDomain, 0, myImageDomain.domain().upperBound()[1], myImageDomain.domain().upperBound()[0],
-                    myImageDomain.domain().upperBound()[1], -1, 255);
-}
+  if (myIsImageDomainRestrained){
+    std::vector<std::vector<DGtal::Z2i::Point>> vectContours = ConstructionHelpers::getImageContours(myImageDomain, 128);
+    for(auto const c: vectContours){
+      std::vector<LibBoard::Point> bv;
+      for(unsigned int i=0; i<c.size(); i++){
+        bv.push_back(LibBoard::Point(c[i][0], c[i][1]));
+      }
+      myBoard.setFillColor(DGtal::Color(200, 200, 200));
+      myBoard.setLineWidth(5.0);
+      myBoard.fillPolyline(bv);
+      myBoard.drawPolyline(bv);
+    }
+    
+  }
+ }
 
 void
 CoronaryArteryTree::exportBoardDisplay(const std::string &fileName,

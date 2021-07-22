@@ -4,13 +4,13 @@ set (CMAKE_CXX_STANDARD 11)
 
 
 SET(SOURCE_BASE_HEADER_FILES
-  ${PROJECT_SOURCE_DIR}/base/CoronaryArteryTree.h
   ${PROJECT_SOURCE_DIR}/helpers/geomhelpers.h
   ${PROJECT_SOURCE_DIR}/helpers/ConstructionHelpers.h
+  ${PROJECT_SOURCE_DIR}/base/CoronaryArteryTree.h
 )
 SET(SOURCE_BASE_FILES
-  ${PROJECT_SOURCE_DIR}/base/CoronaryArteryTree.cpp
   ${PROJECT_SOURCE_DIR}/helpers/ConstructionHelpers.cpp
+  ${PROJECT_SOURCE_DIR}/base/CoronaryArteryTree.cpp
 )
 
 find_package(Ceres REQUIRED)
@@ -21,7 +21,7 @@ include_directories( "${PROJECT_SOURCE_DIR}/ext/" "${PROJECT_SOURCE_DIR}/helpers
 FIND_PACKAGE(DGtal REQUIRED)
 
 INCLUDE_DIRECTORIES(${DGTAL_INCLUDE_DIRS})
-LINK_DIRECTORIES(${DGTAL_LIBRARY_DIRS})
+LINK_DIRECTORIES(${DGTAL_LIBRARY_DIRS} )
 
 add_subdirectory(tests)
 

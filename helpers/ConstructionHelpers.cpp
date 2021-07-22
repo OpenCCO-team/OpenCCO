@@ -1,7 +1,7 @@
 
 #include "ConstructionHelpers.h"
 #include "CoronaryArteryTree.h"
-
+#include "DGtal/geometry/helpers/ContourHelper.h"
 
 
 

@@ -1,14 +1,3 @@
-#include "DGtal/base/Common.h"
-#include "DGtal/helpers/StdDefs.h"
-#include "DGtal/images/ImageContainerBySTLVector.h"
-
-
-#include "ceres/ceres.h"
-using ceres::AutoDiffCostFunction;
-using ceres::CostFunction;
-using ceres::Problem;
-using ceres::Solve;
-using ceres::Solver;
 
 
 
@@ -23,6 +12,18 @@ using ceres::Solver;
 #if !defined GEOMHELPERS_h
 /** Prevents repeated inclusion of headers. */
 #define GEOMHELPERS_h
+#include "DGtal/base/Common.h"
+#include "DGtal/helpers/StdDefs.h"
+#include "DGtal/images/ImageContainerBySTLVector.h"
+
+
+#include "ceres/ceres.h"
+using ceres::AutoDiffCostFunction;
+using ceres::CostFunction;
+using ceres::Problem;
+using ceres::Solve;
+using ceres::Solver;
+
 
 
 //template<typename TPoint>
