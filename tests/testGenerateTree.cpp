@@ -43,6 +43,8 @@ int main(int argc, char *const *argv)
   //1000 => Execution time: 129.17274900 sec
   //2000 => Execution time: 478.48590200 sec
   //3000 => Execution time: 1023.94746700 sec
+  //4000 => Execution time: 1896.94450700 sec
+  //5000 => Execution time: 3435.08630500 sec
   ConstructionHelpers::constructTree(aPerf, nbTerm, nameImgDom, verbose);
   end = clock();
   printf ("Execution time: %0.8f sec\n", ((double) end - start)/CLOCKS_PER_SEC);

@@ -39,12 +39,13 @@ int main(int argc, char *const *argv)
   c.addSegmentFromPoint(DGtal::Z2i::RealPoint(-10, 10), 1);
   c.addSegmentFromPoint(DGtal::Z2i::RealPoint(12, 8), 1);
   c.boardDisplay();
-  c.myBoard.setFillColor(DGtal::Color::Cyan);
-  c.myBoard.drawCircle(-10, 5, 1, 1);
-  c.myBoard.setFillColor(DGtal::Color::Yellow);
-  c.myBoard.drawCircle(-7, 6, 1, 1);
-  c.exportBoardDisplay("testIntersection1.svg", false);
-  c.exportBoardDisplay("testIntersection1.eps", false);
+  c.myBoard.setPenColor(DGtal::Color::Cyan);
+  c.myBoard.fillCircle(-10, 5, 1, 1);
+  c.myBoard.setPenColor(DGtal::Color::Yellow);
+  c.myBoard.fillCircle(-7, 6, 1, 1);
+  c.myBoard.saveEPS("tmp.eps");
+  c.exportBoardDisplay("testIntersection1.svg", 5.0, false);
+  c.exportBoardDisplay("testIntersection1.eps", 5.0, false);
   DGtal::trace.info() << "Test intersection segments ";
   bool intersec4 = c.hasNearestIntersections(DGtal::Z2i::RealPoint(-10, -5),
                             DGtal::Z2i::RealPoint(10, -5), 10);
@@ -65,7 +66,7 @@ int main(int argc, char *const *argv)
   ///-----------------------------------------------------------------------------------------------
   DGtal::trace.beginBlock("Testing class CoronaryArteryTree: test random adds with distance constraint");
   srand (time(NULL));
-  CoronaryArteryTree cIntersec (DGtal::Z2i::RealPoint(0, 0), DGtal::Z2i::RealPoint(0, 30), DGtal::Z2i::RealPoint (0,  0), 1.0, 1.0);
+  CoronaryArteryTree cIntersec (DGtal::Z2i::RealPoint(0, 0), DGtal::Z2i::RealPoint(0, 30), DGtal::Z2i::RealPoint (0,  0), 100);
   for (unsigned int i = 0; i < 100; i++){
     DGtal::trace.progressBar(i, 100);
     CoronaryArteryTree::Point2D pt = cIntersec.generateNewLocation(100);
@@ -74,11 +75,11 @@ int main(int argc, char *const *argv)
   }
   cIntersec.boardDisplay();
 
-  cIntersec.myBoard.setFillColor(DGtal::Color::Cyan);
-  cIntersec.myBoard.drawCircle(0, 0, 10, 1);
+  cIntersec.myBoard.setPenColor(DGtal::Color::Cyan);
+  cIntersec.myBoard.fillCircle(0, 0, 1, 1);
   
-  cIntersec.exportBoardDisplay("testNoIntersect.svg", false);
-  cIntersec.exportBoardDisplay("testNoIntersect.eps", false);
+  cIntersec.exportBoardDisplay("testNoIntersect.svg", 1.0, false);
+  cIntersec.exportBoardDisplay("testNoIntersect.eps", 1.0, false);
   DGtal::trace.endBlock();
 
   ///-----------------------------------------------------------------------------------------------
@@ -111,7 +112,7 @@ int main(int argc, char *const *argv)
   ///-----------------------------------------------------------------------------------------------
   /// Test projection distances
   DGtal::trace.beginBlock("Testing projection distances");
-  CoronaryArteryTree ci (DGtal::Z2i::RealPoint(0, 0), DGtal::Z2i::RealPoint(0, 10), DGtal::Z2i::RealPoint (0,  0), 1.0, 1.0);
+  CoronaryArteryTree ci (DGtal::Z2i::RealPoint(0, 0), DGtal::Z2i::RealPoint(0, 10), DGtal::Z2i::RealPoint (0,  0), 1);
   DGtal::Z2i::RealPoint pDirect (2,  5);
   double dist = ci.getProjDistance(1, pDirect);
   DGtal::trace.info() << "Test projection on initial segment: " << pDirect

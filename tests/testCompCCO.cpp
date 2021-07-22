@@ -11,8 +11,8 @@
 #include "geomhelpers.h"
 
 /**
- * @brief read seed file
- * @param filename
+ * @brief reads seed file from results obtained by Clara and Hugues's code
+ * @param filename : input filename
  * @return vector of pair of point and its corresponding radius
  */
 std::vector<std::pair<DGtal::Z2i::RealPoint, double> >
@@ -32,8 +32,9 @@ readSeed(std::string filename) {
 }
 
 /**
- * @brief read seed file
- * @param filename
+ * @brief compares results obtained by Clara and Hugues's code and ours implementation
+ * @param NTerm number of terminal
+ * @param seed seed used for the generation of terminals
  * @return vector of pair of point and its corresponding radius
  */
 
@@ -61,7 +62,7 @@ testCompareResult(int NTerm, int seed)
   //CoronaryArteryTree cTree (pRoot, aPerf, nbTerm, rRoot);
   std::string filename;
   DGtal::Z2i::RealPoint pTerm = vecSeed[0].first;
-  CoronaryArteryTree cTree (pCenter, pRoot, pTerm, aPerf, nbTerm, rRoot);
+  CoronaryArteryTree cTree (pCenter, pRoot, pTerm, nbTerm, rRoot);
   
   std::cout<<"Vol : "<<cTree.computeTotalVolume(1)<<std::endl;
   
@@ -111,7 +112,7 @@ testCompareResult(int NTerm, int seed)
   //Draw CCO result
   std::vector<std::pair<DGtal::Z2i::RealPoint, double> > vecCCO_res1 = readSeed(fileDistal);
   std::vector<std::pair<DGtal::Z2i::RealPoint, double> > vecCCO_res2 = readSeed(fileProximal);
-  
+  //from Clara and Hugues's code
   for(size_t it=0; it<vecCCO_res1.size(); it++) {
       DGtal::Z2i::RealPoint p1 = vecCCO_res1.at(it).first;
       DGtal::Z2i::RealPoint p2 = vecCCO_res2.at(it).first;
@@ -123,6 +124,7 @@ testCompareResult(int NTerm, int seed)
     cTree.myBoard.drawLine(p1[0], p1[1], p2[0], p2[1], 2);
   }
   filename = "testCCO_Nt" + std::to_string(NTerm) + "_s" + std::to_string(seed) +".eps";
+  //our result
   cTree.exportBoardDisplay(filename.c_str(), 1.0, true, false);
   cTree.myBoard.clear();
 
