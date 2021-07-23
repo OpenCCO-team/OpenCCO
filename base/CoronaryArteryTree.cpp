@@ -186,9 +186,19 @@ CoronaryArteryTree::isAddable(const Point2D &p, unsigned int segIndex,
     
     if(myIsImageDomainRestrained && (myImageDomain(DGtal::Z2i::Point(static_cast<int>(pOpt[0]), static_cast<int>(pOpt[1])))< 128)) //resulting point is out of the domaine
       return false;
+    
+    //resulting segments intersect the domaine
     if(myIsImageDomainRestrained && (!checkNoIntersectDomain(myImageDomain, 128,
                     DGtal::Z2i::Point(static_cast<int>(p[0]), static_cast<int>(p[1])),
-                    DGtal::Z2i::Point(static_cast<int>(pOpt[0]),static_cast<int>(pOpt[1]))))) //resulting segments intersect the domaine
+                    DGtal::Z2i::Point(static_cast<int>(pOpt[0]),static_cast<int>(pOpt[1]))))) //Center segment
+      return false;
+    if(myIsImageDomainRestrained && (!checkNoIntersectDomain(myImageDomain, 128,
+                    DGtal::Z2i::Point(static_cast<int>(sNewLeft.myCoordinate[0]), static_cast<int>(sNewLeft.myCoordinate[1])),
+                    DGtal::Z2i::Point(static_cast<int>(pOpt[0]),static_cast<int>(pOpt[1]))))) //Left segment
+      return false;
+    if(myIsImageDomainRestrained && (!checkNoIntersectDomain(myImageDomain, 128,
+                    DGtal::Z2i::Point(static_cast<int>(sNewRight.myCoordinate[0]), static_cast<int>(sNewRight.myCoordinate[1])),
+                    DGtal::Z2i::Point(static_cast<int>(pOpt[0]),static_cast<int>(pOpt[1]))))) //Right segment
       return false;
     
     //Otherwise, iterate for the optimisation process
