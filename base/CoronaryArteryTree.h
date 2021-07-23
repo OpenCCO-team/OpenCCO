@@ -17,7 +17,7 @@
 
 #include "DGtal/helpers/StdDefs.h"
 
-#include "geomhelpers.h"
+#include "GeomHelpers.h"
 
 
 #include "ceres/ceres.h"

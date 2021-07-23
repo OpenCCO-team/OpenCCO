@@ -1,6 +1,6 @@
 
 #include "CoronaryArteryTree.h"
-#include "geomhelpers.h"
+#include "GeomHelpers.h"
 #include "ConstructionHelpers.h"
 
 #include "DGtal/io/boards/Board2D.h"

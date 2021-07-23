@@ -12,7 +12,7 @@ using ceres::Problem;
 using ceres::Solve;
 using ceres::Solver;
 
-#include "geomhelpers.h"
+#include "GeomHelpers.h"
 
 #include "DGtal/io/boards/Board2D.h"
 

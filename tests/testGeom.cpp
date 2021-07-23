@@ -6,7 +6,7 @@
 #include "DGtal/io/readers/GenericReader.h"
 
 #include "CoronaryArteryTree.h"
-#include "geomhelpers.h"
+#include "GeomHelpers.h"
 #include "ConstructionHelpers.h"
 
 /**

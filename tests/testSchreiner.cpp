@@ -7,7 +7,7 @@
 
 
 #include "CoronaryArteryTree.h"
-#include "geomhelpers.h"
+#include "GeomHelpers.h"
 
 /**
  * @brief main function call

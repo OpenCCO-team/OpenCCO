@@ -8,7 +8,7 @@
 #include "DGtal/helpers/StdDefs.h"
 
 #include "CoronaryArteryTree.h"
-#include "geomhelpers.h"
+#include "GeomHelpers.h"
 
 /**
  * @brief reads seed file from results obtained by Clara and Hugues's code
