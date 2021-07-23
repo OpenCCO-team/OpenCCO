@@ -199,7 +199,7 @@ CoronaryArteryTree::isAddable(const Point2D &p, unsigned int segIndex,
     
     //resulting segments intersect the domaine
     if(myIsImageDomainRestrained && (!checkNoIntersectDomain(myImageDomain, 128,
-                    DGtal::Z2i::Point(static_cast<int>(p[0]), static_cast<int>(p[1])),
+                    DGtal::Z2i::Point(static_cast<int>(sParent[0]), static_cast<int>(sParent[1])),
                     DGtal::Z2i::Point(static_cast<int>(pOpt[0]),static_cast<int>(pOpt[1]))))) //Center segment
       return false;
     if(myIsImageDomainRestrained && (!checkNoIntersectDomain(myImageDomain, 128,
