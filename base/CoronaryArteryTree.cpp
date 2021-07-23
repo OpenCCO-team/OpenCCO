@@ -126,15 +126,27 @@ CoronaryArteryTree::isAddable(const Point2D &p, unsigned int segIndex,
 {
   Point2D pOpt, newCenter = findBarycenter(p, segIndex);
   if(myIsImageDomainRestrained && (myImageDomain(DGtal::Z2i::Point(static_cast<int>(newCenter[0]),
-                                      static_cast<int>(newCenter[1])))< 128)){
+                                      static_cast<int>(newCenter[1])))< 128))
     return false;
-  }
+
   if(myIsImageDomainRestrained && (!checkNoIntersectDomain(myImageDomain, 128,
                   DGtal::Z2i::Point(static_cast<int>(p[0]), static_cast<int>(p[1])),
                   DGtal::Z2i::Point(static_cast<int>(newCenter[0]),static_cast<int>(newCenter[1])))))
-     {
       return false;
-  }
+  if(myIsImageDomainRestrained && (!checkNoIntersectDomain(myImageDomain, 128,
+                  DGtal::Z2i::Point(static_cast<int>(myVectSegments[segIndex].myCoordinate[0]), static_cast<int>(myVectSegments[segIndex].myCoordinate[1])),
+                  DGtal::Z2i::Point(static_cast<int>(newCenter[0]),static_cast<int>(newCenter[1])))))
+      return false;
+  
+  // Creation a copy of parent segment
+  Segment<Point2D> sParent = myVectSegments[myVectParent[segIndex]];
+  Point2D pParent = sParent.myCoordinate;
+  
+  if(myIsImageDomainRestrained && (!checkNoIntersectDomain(myImageDomain, 128,
+                  DGtal::Z2i::Point(static_cast<int>(pParent[0]), static_cast<int>(pParent[1])),
+                  DGtal::Z2i::Point(static_cast<int>(newCenter[0]),static_cast<int>(newCenter[1])))))
+      return false;
+  
   // Creation of the left child
   Segment<Point2D> sNewLeft;
   sNewLeft.myCoordinate = myVectSegments[segIndex].myCoordinate;
@@ -155,9 +167,7 @@ CoronaryArteryTree::isAddable(const Point2D &p, unsigned int segIndex,
   sCurrent.myCoordinate = newCenter;
   sCurrent.myFlow = myVectSegments[segIndex].myFlow + my_qTerm;
   sCurrent.myKTerm = sNewLeft.myKTerm + 1;
-  // Cretation a copy of parent segment
-  Segment<Point2D> sParent = myVectSegments[myVectParent[segIndex]];
-  Point2D pParent = sParent.myCoordinate;
+  
   /*
   double f1 = sNewLeft.myFlow;//ratioQ*f0;//k * r1*r1*r1; //left
   double f2 = sNewRight.myFlow;//(1.0-ratioQ)*f0;//k * r2*r2*r2; //right

@@ -105,7 +105,8 @@ checkNoIntersectDomain(const TImage &image, unsigned int fgTh,
   DGtal::Z2i::RealPoint p (pt1[0], pt1[1]);
   for (unsigned int i = 0; i<(pt2 - pt1).norm(); i++){
     DGtal::Z2i::RealPoint p = pt1+dir*i;
-    if (image(DGtal::Z2i::Point(static_cast<int>(p[0]),static_cast<int>(p[1]) )) < fgTh) return false;
+    if (image(DGtal::Z2i::Point(static_cast<int>(p[0]),static_cast<int>(p[1]) )) < fgTh)
+      return false;
   }
 
   return true;
