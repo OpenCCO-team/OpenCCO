@@ -246,7 +246,7 @@ public:
     Segment<Point2D> s1;
     s1.myRadius = aRadius;
     //s1.myCoordinate = generateRandomPtOnDisk(myTreeCenter, myRsupp);
-    s1.myCoordinate = generateRandomPtOnDisk(myTreeCenter, my_rPerf);
+    s1.myCoordinate = GeomHelpers::generateRandomPtOnDisk(myTreeCenter, my_rPerf);
     double myLength = (ptRoot-s1.myCoordinate).norm()*myLengthFactor;
     s1.myIndex = 1;
     s1.myKTerm = 1; //it contains terminal itself

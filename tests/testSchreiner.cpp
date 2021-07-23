@@ -90,7 +90,7 @@ int main(int argc, char *const *argv)
   CoronaryArteryTree cRand(DGtal::Z2i::RealPoint(0, sqrt(aPerf/M_PI)), aPerf, 1000);
   
   for (unsigned int i = 0; i < 1000; i++){
-    CoronaryArteryTree::Point2D pt = generateRandomPtOnDisk(cRand.myTreeCenter, cRand.my_rPerf);
+    CoronaryArteryTree::Point2D pt = GeomHelpers::generateRandomPtOnDisk(cRand.myTreeCenter, cRand.my_rPerf);
     
     nearest = cRand.getNearestSegment(pt);
     cRand.addSegmentFromPoint(pt, nearest);

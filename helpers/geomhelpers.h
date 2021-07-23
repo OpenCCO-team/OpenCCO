@@ -2,7 +2,7 @@
 
 
 #pragma once
- 
+
 #if defined(GEOMHELPERS_RECURSES)
 #error Recursive header files inclusion detected in Geomhelpers.h
 #else // defined(GEOMHELPERS_RECURSES)
@@ -27,6 +27,7 @@ using ceres::Solve;
 using ceres::Solver;
 
 
+namespace GeomHelpers {
 
 //template<typename TPoint>
 //inline
@@ -45,7 +46,7 @@ generateRandomPtOnDisk(const TPoint &ptCenter, double r)
   bool found = false;
   double x = 0.0;
   double y = 0.0;
-
+  
   while(!found){
     x =  ((double)rand() / RAND_MAX)*2.0*r - r;
     y =  ((double)rand() / RAND_MAX)*2.0*r - r;
@@ -99,8 +100,8 @@ template<typename TImage>
 inline
 bool
 checkNoIntersectDomain(const TImage &image, unsigned int fgTh,
-                          const DGtal::Z2i::Point &pt1,
-                          const DGtal::Z2i::Point &pt2)
+                       const DGtal::Z2i::Point &pt1,
+                       const DGtal::Z2i::Point &pt2)
 {
   DGtal::Z2i::RealPoint dir = pt2 - pt1;
   dir /= dir.norm();
@@ -110,21 +111,21 @@ checkNoIntersectDomain(const TImage &image, unsigned int fgTh,
     if (image(DGtal::Z2i::Point(static_cast<int>(p[0]),static_cast<int>(p[1]) )) < fgTh)
       return false;
   }
-
+  
   return true;
 }
 
 /**
  * Dertermines if a point is on the right of a line represented by two points [ptA, ptB]
  */
-  template<typename TPoint>
-  inline
-  bool
-  isOnRight(const TPoint &ptA, const TPoint &ptB, const TPoint &ptC ){
-    auto u = ptB-ptA;
-    auto v = ptC-ptA;
-    return u[0]*v[1]- u[1]*v[0] < 0.0;
-  }
+template<typename TPoint>
+inline
+bool
+isOnRight(const TPoint &ptA, const TPoint &ptB, const TPoint &ptC ){
+  auto u = ptB-ptA;
+  auto v = ptC-ptA;
+  return u[0]*v[1]- u[1]*v[0] < 0.0;
+}
 
 
 template<typename TPoint>
@@ -160,31 +161,31 @@ bool
 projectOnStraightLine(const TPoint & ptA,
                       const TPoint & ptB,
                       const TPoint & ptC,
-                      TPointD & ptProjected) 
+                      TPointD & ptProjected)
 {
   if (ptA==ptC)
-    {
-      ptProjected=ptA;
-      return true;
-    }
+  {
+    ptProjected=ptA;
+    return true;
+  }
   if (ptB==ptC)
-    {
-      ptProjected=ptB;
-      return true ;
-    }
-
+  {
+    ptProjected=ptB;
+    return true ;
+  }
+  
   TPointD vAB (ptB[0]- ptA[0], ptB[1]- ptA[1]);
   TPointD vABn ((double)vAB[0], (double)vAB[1]);
   double norm = vABn.norm();
   vABn[0] /= norm;
   vABn[1] /= norm;
-
+  
   TPointD vAC (ptC[0]-ptA[0], ptC[1]-ptA[1]);
   double distPtA_Proj = vAC.dot(vABn);
-
+  
   ptProjected[0]= ptA[0]+vABn[0]*(distPtA_Proj);
   ptProjected[1] = ptA[1]+vABn[1]*(distPtA_Proj);
-
+  
   return  distPtA_Proj>=0 && ((ptA[0]<ptB[0] && ptProjected[0]<=ptB[0] ) ||
                               (ptA[0]>ptB[0] && ptProjected[0]>=ptB[0] ) ||
                               (ptA[0]==ptB[0] && ptA[1]<ptB[1] && ptProjected[1]<=ptB[1]) ||
@@ -214,27 +215,27 @@ bool
 hasIntersection(const TPoint &seg1ptA, const TPoint &seg1ptB,
                 const TPoint &seg2ptA, const TPoint &seg2ptB)
 {
-   double  d = ((seg2ptB[1] - seg2ptA[1])*(seg1ptB[0] - seg1ptA[0])) -
-               ((seg2ptB[0] - seg2ptA[0])*(seg1ptB[1] - seg1ptA[1]));
-   double a = ((seg2ptB[0] - seg2ptA[0])*(seg1ptA[1] - seg2ptA[1])) -
-              ((seg2ptB[1] - seg2ptA[1])*(seg1ptA[0] - seg2ptA[0]));
-   double b = ((seg1ptB[0] - seg1ptA[0])*(seg1ptA[1] - seg2ptA[1])) -
-              ((seg1ptB[1] - seg1ptA[1])*(seg1ptA[0] - seg2ptA[0]));
-   if ( d==0.0 )
-   {
-     // test coincident 
-     if (a==0.0 && b == 0.0 ) {
-       return false;
-     }
-     else
-       return false;
-   }
-   double ua = a / d;
-   double ub = b / d;
-   return ua > 0.0f && ua < 1.0f && ub > 0.0f && ub < 1.0f;
-   // Get the intersection point.
-   //intersection.x_ = begin_.x_ + ua*(end_.x_ - begin_.x_);
-   //intersection.y_ = begin_.y_ + ua*(end_.y_ - begin_.y_);     
+  double  d = ((seg2ptB[1] - seg2ptA[1])*(seg1ptB[0] - seg1ptA[0])) -
+  ((seg2ptB[0] - seg2ptA[0])*(seg1ptB[1] - seg1ptA[1]));
+  double a = ((seg2ptB[0] - seg2ptA[0])*(seg1ptA[1] - seg2ptA[1])) -
+  ((seg2ptB[1] - seg2ptA[1])*(seg1ptA[0] - seg2ptA[0]));
+  double b = ((seg1ptB[0] - seg1ptA[0])*(seg1ptA[1] - seg2ptA[1])) -
+  ((seg1ptB[1] - seg1ptA[1])*(seg1ptA[0] - seg2ptA[0]));
+  if ( d==0.0 )
+  {
+    // test coincident
+    if (a==0.0 && b == 0.0 ) {
+      return false;
+    }
+    else
+      return false;
+  }
+  double ua = a / d;
+  double ub = b / d;
+  return ua > 0.0f && ua < 1.0f && ub > 0.0f && ub < 1.0f;
+  // Get the intersection point.
+  //intersection.x_ = begin_.x_ + ua*(end_.x_ - begin_.x_);
+  //intersection.y_ = begin_.y_ + ua*(end_.y_ - begin_.y_);
 }
 
 
@@ -313,7 +314,7 @@ getImageDistance(const TImage &image, unsigned int threshold=128){
   }
   return res;
 }
-
+}
 
 
 #endif // !defined GEOMHELPERS_h

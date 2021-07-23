@@ -21,17 +21,17 @@ int main(int argc, char *const *argv)
   /// Test intesection on segments
   DGtal::trace.beginBlock("Testing basic intersections on two segments");
   DGtal::trace.info() << "Test intersection segments [(10, 10) (20,10)] and [(15, 20) (15,0)]";
-  bool intersec1 = hasIntersection(DGtal::Z2i::RealPoint(10, 10), DGtal::Z2i::RealPoint(20, 10),
+  bool intersec1 = GeomHelpers::hasIntersection(DGtal::Z2i::RealPoint(10, 10), DGtal::Z2i::RealPoint(20, 10),
                                    DGtal::Z2i::RealPoint(15, 20), DGtal::Z2i::RealPoint(15, 0));
   DGtal::trace.info() << "Test intersection " << (intersec1 ? "OK" : "KO") << std::endl;
 
   DGtal::trace.info() << "Test intersection segments [(12.0, 11.0) (19,9.4)] and [(17.3, 22.0) (12,3.0)]";
-  bool intersec2 = hasIntersection(DGtal::Z2i::RealPoint(12.0, 11.0), DGtal::Z2i::RealPoint(19,9.4),
+  bool intersec2 = GeomHelpers::hasIntersection(DGtal::Z2i::RealPoint(12.0, 11.0), DGtal::Z2i::RealPoint(19,9.4),
                                    DGtal::Z2i::RealPoint(17.3, 22.0), DGtal::Z2i::RealPoint(12, 3.0));
   DGtal::trace.info() << "Test intersection " << (intersec2 ? "OK" : "KO") << std::endl;
 
   DGtal::trace.info() << "Test intersection segments [(12.0, 11.0) (19,9.4)] and [(12.0, 10.0) (19,9.4)]";
-  bool intersec3 = hasIntersection(DGtal::Z2i::RealPoint(12.0, 11.0), DGtal::Z2i::RealPoint(19,9.4),
+  bool intersec3 = GeomHelpers::hasIntersection(DGtal::Z2i::RealPoint(12.0, 11.0), DGtal::Z2i::RealPoint(19,9.4),
                                    DGtal::Z2i::RealPoint(12.0, 10.0), DGtal::Z2i::RealPoint(19, 9.4));
   DGtal::trace.info() << "Test intersection " << (!intersec3 ? "OK" : "KO") << std::endl;
   DGtal::trace.endBlock();
@@ -93,21 +93,21 @@ int main(int argc, char *const *argv)
   DGtal::Z2i::RealPoint p1 (10, 0);
   DGtal::Z2i::RealPoint p2 (5.3, 15.3);
   DGtal::Z2i::RealPoint pProj (0, 0);
-  bool in = projectOnStraightLine(p0, p1, p2, pProj);
+  bool in = GeomHelpers::projectOnStraightLine(p0, p1, p2, pProj);
   DGtal::trace.info() << "Test intersecting segments pProj " << pProj
   << " should be (5.3, 0) " << (pProj ==  DGtal::Z2i::RealPoint(5.3, 0) && in ? "OK": "KO")  << std::endl;
   DGtal::Z2i::RealPoint pp0 (0,  0);
   DGtal::Z2i::RealPoint pp1 (3, 3);
   DGtal::Z2i::RealPoint pp2 (0, 2);
   DGtal::Z2i::RealPoint ppProj (0, 0);
-  in = projectOnStraightLine(pp0, pp1, pp2, ppProj);
+  in = GeomHelpers::projectOnStraightLine(pp0, pp1, pp2, ppProj);
   DGtal::trace.info() << "Test intersecting segments ppProj " << ppProj
   << " should be (1, 1) " << (((ppProj - DGtal::Z2i::RealPoint(1.0, 1.0)).norm() < 0.000001) && in ? "OK": "KO")  << std::endl;
   DGtal::Z2i::RealPoint ppp0 (0,  0);
   DGtal::Z2i::RealPoint ppp1 (3, 3);
   DGtal::Z2i::RealPoint ppp2 (4, 4);
   DGtal::Z2i::RealPoint pppProj (0, 0);
-  in = projectOnStraightLine(ppp0, ppp1, ppp2, pppProj);
+  in = GeomHelpers::projectOnStraightLine(ppp0, ppp1, ppp2, pppProj);
   DGtal::trace.info() << "Test intersecting segments pppProj no inside " << pppProj
   << " should be in pppProj " << (((pppProj - DGtal::Z2i::RealPoint(4.0, 4.0)).norm() < 0.000001) && !in ? "OK": "KO")  << std::endl;
   DGtal::trace.endBlock();
@@ -135,10 +135,10 @@ int main(int argc, char *const *argv)
   std::stringstream ss;
   ss << resource_dir <<"shape.pgm";
   CoronaryArteryTree::Image img = DGtal::GenericReader<CoronaryArteryTree::Image>::import(ss.str());
-  bool checkDomInter = checkNoIntersectDomain(img, 128, DGtal::Z2i::Point(264,196), DGtal::Z2i::Point(438,225));
+  bool checkDomInter = GeomHelpers::checkNoIntersectDomain(img, 128, DGtal::Z2i::Point(264,196), DGtal::Z2i::Point(438,225));
   DGtal::trace.info() << "Test intersection: 264 196 and 438 225 "
   << " distance (should be true) :" << checkDomInter <<  ( checkDomInter ? " OK": " KO")  << std::endl;
-  bool checkDomInter2 = checkNoIntersectDomain(img, 128, DGtal::Z2i::Point(264,196), DGtal::Z2i::Point(2,56));
+  bool checkDomInter2 = GeomHelpers::checkNoIntersectDomain(img, 128, DGtal::Z2i::Point(264,196), DGtal::Z2i::Point(2,56));
   DGtal::trace.info() << "Test intersection: 264 196 and 2 56 "
   << " distance (should be false) :" << checkDomInter2 <<  ( !checkDomInter2 ? " OK": " KO")  << std::endl;
   DGtal::trace.endBlock();
@@ -146,7 +146,7 @@ int main(int argc, char *const *argv)
   DGtal::trace.beginBlock("Testing computation of ditance map..");
 
   typedef typename DGtal::ImageContainerBySTLVector<DGtal::Z2i::Domain, double> ImageDouble;
-  ImageDouble imgD = getImageDistance<CoronaryArteryTree::Image, ImageDouble>(img);
+  ImageDouble imgD = GeomHelpers::getImageDistance<CoronaryArteryTree::Image, ImageDouble>(img);
   DGtal::Z2i::Point pInt(313, 201);
   DGtal::Z2i::Point pExt(20, 20);
 

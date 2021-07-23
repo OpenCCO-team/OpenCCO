@@ -105,7 +105,7 @@ int main(int argc, char** argv) {
   double R0, R1, R2;
   for (int i = 0; i< 100; i++){
     DGtal::trace.progressBar(i, 100);
-    kamyiaOpt(gamma, deltaP1, deltaP2, f0, f1, f2, l0, l1, l2, rr1, rr2);
+    GeomHelpers::kamyiaOpt(gamma, deltaP1, deltaP2, f0, f1, f2, l0, l1, l2, rr1, rr2);
     ///f1 = k * rr1*rr1*rr1;
     ///f2 = k * rr2*rr2*rr2;
     //r0 = pow((pow(rr1, gamma) + pow(rr2, gamma)), 1.0/gamma);
