@@ -51,7 +51,7 @@ public:
   typedef std::pair<unsigned int, unsigned int> SegmentChildren;
   typedef DGtal::Z2i::RealPoint Point2D;
   typedef DGtal::ImageSelector < DGtal::Z2i::Domain, unsigned int>::Type Image;
-  typedef DGtal::ImageSelector < DGtal::Z2i::Domain, double>::Type ImageDist;
+  typedef DGtal::ImageContainerBySTLVector< DGtal::Z2i::Domain, int> ImageDist;
 
   template <typename TPoint>
   struct Segment{

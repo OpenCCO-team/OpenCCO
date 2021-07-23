@@ -840,7 +840,7 @@ CoronaryArteryTree::restrainDomain(const std::string &imageName, unsigned int th
     Point2D pRoot = myVectSegments[0].myCoordinate;
     if(myImageDomain(DGtal::Z2i::Point(static_cast<int>(pRoot[0]), static_cast<int>(pRoot[1]))) >= threshold) {
       myIsImageDomainRestrained = true;
-      myImageDist = GeomHelpers::getImageDistance<Image, ImageDist>(myImageDomain);
+      myImageDist = GeomHelpers::getImageDistance<Image, ImageDist>(myImageDomain, threshold);
       return true;
     }
   }
