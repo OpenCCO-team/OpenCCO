@@ -13,8 +13,10 @@
 #include <iostream>
 #include <math.h>
 #include "DGtal/io/boards/Board2D.h"
+#include "DGtal/images/ImageSelector.h"
 
 #include "DGtal/helpers/StdDefs.h"
+
 #include "geomhelpers.h"
 
 
@@ -48,6 +50,7 @@ public:
   // Represent the left and right
   typedef std::pair<unsigned int, unsigned int> SegmentChildren;
   typedef DGtal::Z2i::RealPoint Point2D;
+  typedef DGtal::ImageSelector < DGtal::Z2i::Domain, unsigned int>::Type Image;
   
   template <typename TPoint>
   struct Segment{
@@ -134,10 +137,21 @@ public:
   
   // End: Internal algorithm parameter
   //-----------------------------
+
+  
+  
   
   // To handle display
   DGtal::Board2D myBoard;
 
+  
+protected:
+  Image myImageDomain = Image(DGtal::Z2i::Domain());
+  unsigned int myForegroundThreshold = 128;
+  bool myIsImageDomainRestrained = false;
+  std::string myImageFileDomain = "";
+
+  
   
 public: 
   
@@ -148,9 +162,11 @@ public:
    * @param nTerm: number of terminal segments.
    **/
   
-  CoronaryArteryTree(double aPerf, unsigned int nTerm, double aRadius = 1.0 ){
+  CoronaryArteryTree(double aPerf, unsigned int nTerm, double aRadius = 1.0, DGtal::Z2i::Point treeCenter = DGtal::Z2i::Point(0,0) ){
     assert(nTerm>=1);
-    myTreeCenter = Point2D(0,0);
+    myTreeCenter[0] = treeCenter[0];
+    myTreeCenter[1] = treeCenter[1];
+
     myRsupp = sqrt(aPerf/(nTerm*M_PI));
     my_rPerf = sqrt(aPerf/M_PI);
     my_aPerf = aPerf;
@@ -162,7 +178,8 @@ public:
     //myDThresold = sqrt(M_PI*myRsupp*myRsupp/myKTerm);
     
     // Construction of the special root segment
-    Point2D ptRoot = Point2D(0,my_rPerf);
+    Point2D ptRoot = myTreeCenter;
+    ptRoot[1] += my_rPerf;// Point2D(0,my_rPerf);
     Segment<Point2D> s;
     s.myRadius = aRadius;
     s.myCoordinate = ptRoot;
@@ -554,6 +571,15 @@ public:
                           double thickness = 1,
                           bool updateDisplay = true,
                           bool clearDisplay = true);
+  
+  /**
+   * Restrain the domain from the image mask.
+   * @param image name that should represent the restricted domain (ie all pixels set to 255)
+   * @param threshold the threshold to consider foreground value (used to test if at least one domain pixel exist).
+   * @return true the restriction was well set (image exist).
+   */
+  bool restrainDomain(const std::string &imageName, unsigned int threshold=128);
+  
 };
 
 

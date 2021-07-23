@@ -1,14 +1,3 @@
-#include "DGtal/base/Common.h"
-#include "DGtal/helpers/StdDefs.h"
-#include "DGtal/images/ImageContainerBySTLVector.h"
-
-
-#include "ceres/ceres.h"
-using ceres::AutoDiffCostFunction;
-using ceres::CostFunction;
-using ceres::Problem;
-using ceres::Solve;
-using ceres::Solver;
 
 
 
@@ -23,6 +12,18 @@ using ceres::Solver;
 #if !defined GEOMHELPERS_h
 /** Prevents repeated inclusion of headers. */
 #define GEOMHELPERS_h
+#include "DGtal/base/Common.h"
+#include "DGtal/helpers/StdDefs.h"
+#include "DGtal/images/ImageContainerBySTLVector.h"
+
+
+#include "ceres/ceres.h"
+using ceres::AutoDiffCostFunction;
+using ceres::CostFunction;
+using ceres::Problem;
+using ceres::Solve;
+using ceres::Solver;
+
 
 
 //template<typename TPoint>
@@ -51,6 +52,65 @@ generateRandomPtOnDisk(const TPoint &ptCenter, double r)
   return TPoint(x+ptCenter[0], y+ptCenter[1]);
 }
 
+
+
+template<typename TPoint, typename TImage>
+inline
+TPoint
+generateRandomPtOnImageDomain(const TImage &image, unsigned int fgTh,
+                              unsigned int nbTry = 100)
+{
+  bool found = false;
+  unsigned int x = 0;
+  unsigned int y = 0;
+  TPoint pMin = image.domain().lowerBound();
+  TPoint pMax = image.domain().upperBound();
+  int dx = pMax[0] - pMin[0];
+  int dy = pMax[1] - pMin[1];
+  DGtal::Z2i::Point pCand;
+  unsigned int n = 0;
+  while(!found && n < nbTry){
+    x =  rand()%dx;
+    y =  rand()%dy;
+    pCand[0] = pMin[0] +x;
+    pCand[1] = pMin[1] +y;
+    found = image(pCand)>=fgTh;
+    n++;
+  }
+  if (n >= nbTry){
+    for(auto p : image.domain()){if (image(p)>=fgTh) return p;}
+  }
+  return pCand;
+}
+
+
+
+/**
+ * Check if the segment defined by two points intersect the domain.
+ *
+ * @param image defining the domain
+ * @param fgTh the threshol defining the foreground
+ * @param pt1 first point of the segment
+ * @param pt2  second point of the segment
+ */
+template<typename TImage>
+inline
+bool
+checkNoIntersectDomain(const TImage &image, unsigned int fgTh,
+                          const DGtal::Z2i::Point &pt1,
+                          const DGtal::Z2i::Point &pt2)
+{
+  DGtal::Z2i::RealPoint dir = pt2 - pt1;
+  dir /= dir.norm();
+  DGtal::Z2i::RealPoint p (pt1[0], pt1[1]);
+  for (unsigned int i = 0; i<(pt2 - pt1).norm(); i++){
+    DGtal::Z2i::RealPoint p = pt1+dir*i;
+    if (image(DGtal::Z2i::Point(static_cast<int>(p[0]),static_cast<int>(p[1]) )) < fgTh)
+      return false;
+  }
+
+  return true;
+}
 
 /**
  * Dertermines if a point is on the right of a line represented by two points [ptA, ptB]
@@ -206,7 +266,7 @@ struct CostOptPos {
 /**
  * @return true if a solution exists
  */
-static bool kamiyaOpt(double gamma, double deltaP1, double deltaP2, double f0, double f1, double f2, double l0, double l1, double l2, double &xx1, double &xx2) {
+static bool kamyiaOpt(double gamma, double deltaP1, double deltaP2, double f0, double f1, double f2, double l0, double l1, double l2, double &xx1, double &xx2) {
   CostOptPos *f = new CostOptPos();
   f->deltap1 = deltaP1;
   f->deltap2 = deltaP2;
