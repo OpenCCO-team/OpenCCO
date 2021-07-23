@@ -93,7 +93,7 @@ generateRandomPtOnImageDomain(const TImage &image, unsigned int fgTh,
  * @param pt1 first point of the segment
  * @param pt2  second point of the segment
  */
-template<typename TPoint, typename TImage>
+template<typename TImage>
 inline
 bool
 checkNoIntersectDomain(const TImage &image, unsigned int fgTh,

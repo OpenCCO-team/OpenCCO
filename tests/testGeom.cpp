@@ -134,10 +134,10 @@ int main(int argc, char *const *argv)
   std::stringstream ss;
   ss << resource_dir <<"shape.pgm";
   CoronaryArteryTree::Image img = DGtal::GenericReader<CoronaryArteryTree::Image>::import(ss.str());
-  bool checkDomInter = checkNoIntersectDomain<DGtal::Z2i::Point>(img, 128, DGtal::Z2i::Point(264,196), DGtal::Z2i::Point(438,225));
+  bool checkDomInter = checkNoIntersectDomain(img, 128, DGtal::Z2i::Point(264,196), DGtal::Z2i::Point(438,225));
   DGtal::trace.info() << "Test intersection: 264 196 and 438 225 "
   << " distance (should be true) :" << checkDomInter <<  ( checkDomInter ? " OK": " KO")  << std::endl;
-  bool checkDomInter2 = checkNoIntersectDomain<DGtal::Z2i::Point>(img, 128, DGtal::Z2i::Point(264,196), DGtal::Z2i::Point(2,56));
+  bool checkDomInter2 = checkNoIntersectDomain(img, 128, DGtal::Z2i::Point(264,196), DGtal::Z2i::Point(2,56));
   DGtal::trace.info() << "Test intersection: 264 196 and 2 56 "
   << " distance (should be false) :" << checkDomInter2 <<  ( !checkDomInter2 ? " OK": " KO")  << std::endl;
   DGtal::trace.endBlock();
