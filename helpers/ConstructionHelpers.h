@@ -21,7 +21,7 @@
 namespace ConstructionHelpers {
 
 void constructTree(double aPerf, int nbTerm,
-                   std::string imageOrgan, unsigned int fgTh = 128,
+                   std::string imageOrgan, unsigned int fgTh = 128, int minDBorder = 0,
                    bool verbose = false, DGtal::Z2i::Point ptCenter= DGtal::Z2i::Point(0,0));
 
 template< typename TImage>

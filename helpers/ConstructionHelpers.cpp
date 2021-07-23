@@ -8,7 +8,7 @@
 
 void
 ConstructionHelpers::constructTree(double aPerf, int nbTerm,
-                                   std::string imageOrgan, unsigned int fgTh,
+                                   std::string imageOrgan, unsigned int fgTh, int minDBorder,
                                    bool verbose, DGtal::Z2i::Point ptCenter) {
   DGtal::trace.beginBlock("Testing class CoronaryArteryTree: test random adds with distance constraint");
   srand (time(NULL));
@@ -30,7 +30,7 @@ ConstructionHelpers::constructTree(double aPerf, int nbTerm,
     CoronaryArteryTree cTreeOpt = cTree;
     double volOpt = -1.0, vol = 0.0;
     while (nbSol==0) {
-      CoronaryArteryTree::Point2D pt = cTree.generateNewLocation(100, 10.0);
+      CoronaryArteryTree::Point2D pt = cTree.generateNewLocation(100, minDBorder);
       std::vector<unsigned int> vecN = cTree.getN_NearestSegments(pt,cTree.myNumNeighbor);
       for(size_t it=0; it<vecN.size(); it++) {
         //if(!cTree.isIntersecting(pt, cTree.findBarycenter(pt, vecN.at(it)),vecN.at(it),n))

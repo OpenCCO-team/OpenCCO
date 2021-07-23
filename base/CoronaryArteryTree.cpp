@@ -8,6 +8,7 @@
 #include "DGtal/io/readers/PGMReader.h"
 #include "DGtal/io/readers/GenericReader.h"
 #include "DGtal/io/colormaps/GradientColorMap.h"
+#include "DGtal/io/colormaps/GrayscaleColorMap.h"
 
 #include "DGtal/images/ArrayImageIterator.h"
 #include "DGtal/base/Common.h"
@@ -566,14 +567,14 @@ CoronaryArteryTree::getPathToRoot(const Segment<Point2D> &s)
 }
 
 CoronaryArteryTree::Point2D
-CoronaryArteryTree::generateNewLocation(unsigned int nbTrials, double minD){
+CoronaryArteryTree::generateNewLocation(unsigned int nbTrials, int minDist){
   Point2D res;
   double myDThresold = getDistanceThreshold();
   bool found = false;
   unsigned int n = nbTrials;
   while(!found && n >= 0) {
     n--;
-    auto p = generateALocation(myDThresold, minD);
+    auto p = generateALocation(myDThresold, minDist);
     found = p.second;
     if (found) {
       res = p.first;
@@ -588,7 +589,7 @@ CoronaryArteryTree::generateNewLocation(unsigned int nbTrials, double minD){
 
 
 std::pair<CoronaryArteryTree::Point2D, bool>
-CoronaryArteryTree::generateALocation(double myDThresold, double minDist) {
+CoronaryArteryTree::generateALocation(double myDThresold, int minDist) {
   Point2D res;
   if (myIsImageDomainRestrained){
     res = GeomHelpers::generateRandomPtOnImageDomain<CoronaryArteryTree::Point2D>(myImageDomain, myForegroundThreshold,  myImageDist, minDist);
@@ -840,7 +841,7 @@ CoronaryArteryTree::restrainDomain(const std::string &imageName, unsigned int th
     Point2D pRoot = myVectSegments[0].myCoordinate;
     if(myImageDomain(DGtal::Z2i::Point(static_cast<int>(pRoot[0]), static_cast<int>(pRoot[1]))) >= threshold) {
       myIsImageDomainRestrained = true;
-      myImageDist = GeomHelpers::getImageDistance<Image, ImageDist>(myImageDomain, threshold);
+      myImageDist = GeomHelpers::getImageDistance<Image, ImageDist>(myImageDomain);
       return true;
     }
   }

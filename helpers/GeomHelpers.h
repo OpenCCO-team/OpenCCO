@@ -18,6 +18,7 @@
 #include "DGtal/images/IntervalForegroundPredicate.h"
 #include "DGtal/geometry/volumes/distance/DistanceTransformation.h"
 
+#include "DGtal/io/colormaps/HueShadeColorMap.h"
 
 #include "ceres/ceres.h"
 using ceres::AutoDiffCostFunction;
@@ -62,7 +63,7 @@ inline
 TPoint
 generateRandomPtOnImageDomain(const TImage &image, unsigned int fgTh,
                               const TImageDist &imageDistance,
-                              double minDist = 10.0,
+                              int minDist = 0,
                               unsigned int nbTry = 100)
 {
   bool found = false;
