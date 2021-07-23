@@ -17,7 +17,7 @@
 
 #include "DGtal/helpers/StdDefs.h"
 
-#include "geomhelpers.h"
+#include "GeomHelpers.h"
 
 
 #include "ceres/ceres.h"
@@ -51,7 +51,8 @@ public:
   typedef std::pair<unsigned int, unsigned int> SegmentChildren;
   typedef DGtal::Z2i::RealPoint Point2D;
   typedef DGtal::ImageSelector < DGtal::Z2i::Domain, unsigned int>::Type Image;
-  
+  typedef DGtal::ImageContainerBySTLVector< DGtal::Z2i::Domain, int> ImageDist;
+
   template <typename TPoint>
   struct Segment{
     // Distal point of the segment.
@@ -147,9 +148,9 @@ public:
   
 protected:
   Image myImageDomain = Image(DGtal::Z2i::Domain());
+  ImageDist myImageDist = ImageDist(DGtal::Z2i::Domain());
   unsigned int myForegroundThreshold = 128;
   bool myIsImageDomainRestrained = false;
-  std::string myImageFileDomain = "";
 
   
   
@@ -246,7 +247,7 @@ public:
     Segment<Point2D> s1;
     s1.myRadius = aRadius;
     //s1.myCoordinate = generateRandomPtOnDisk(myTreeCenter, myRsupp);
-    s1.myCoordinate = generateRandomPtOnDisk(myTreeCenter, my_rPerf);
+    s1.myCoordinate = GeomHelpers::generateRandomPtOnDisk(myTreeCenter, my_rPerf);
     double myLength = (ptRoot-s1.myCoordinate).norm()*myLengthFactor;
     s1.myIndex = 1;
     s1.myKTerm = 1; //it contains terminal itself

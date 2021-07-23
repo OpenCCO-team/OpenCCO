@@ -15,6 +15,8 @@
 #include "DGtal/helpers/StdDefs.h"
 #include "DGtal/images/ImageContainerBySTLVector.h"
 #include "DGtal/topology/helpers/Surfaces.h"
+#include "DGtal/kernel/BasicPointPredicates.h"
+
 
 namespace ConstructionHelpers {
 
@@ -41,6 +43,7 @@ std::vector<std::vector<DGtal::Z2i::Point> > getImageContours(const TImage &imag
   DGtal::Surfaces<DGtal::Z2i::KSpace>::extractAllPointContours4C( vectContoursBdryPointels, ks, predicate, sAdj );
   return vectContoursBdryPointels;
 }
+
 
 }
 

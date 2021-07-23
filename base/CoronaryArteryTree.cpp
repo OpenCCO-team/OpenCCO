@@ -1,6 +1,6 @@
 
 #include "CoronaryArteryTree.h"
-#include "geomhelpers.h"
+#include "GeomHelpers.h"
 #include "ConstructionHelpers.h"
 
 #include "DGtal/io/boards/Board2D.h"
@@ -129,11 +129,11 @@ CoronaryArteryTree::isAddable(const Point2D &p, unsigned int segIndex,
                                       static_cast<int>(newCenter[1])))< myForegroundThreshold))
     return false;
 
-  if(myIsImageDomainRestrained && (!checkNoIntersectDomain(myImageDomain, myForegroundThreshold,
+  if(myIsImageDomainRestrained && (!GeomHelpers::checkNoIntersectDomain(myImageDomain, myForegroundThreshold,
                   DGtal::Z2i::Point(static_cast<int>(p[0]), static_cast<int>(p[1])),
                   DGtal::Z2i::Point(static_cast<int>(newCenter[0]),static_cast<int>(newCenter[1])))))
       return false;
-  if(myIsImageDomainRestrained && (!checkNoIntersectDomain(myImageDomain, myForegroundThreshold,
+  if(myIsImageDomainRestrained && (!GeomHelpers::checkNoIntersectDomain(myImageDomain, myForegroundThreshold,
                   DGtal::Z2i::Point(static_cast<int>(myVectSegments[segIndex].myCoordinate[0]), static_cast<int>(myVectSegments[segIndex].myCoordinate[1])),
                   DGtal::Z2i::Point(static_cast<int>(newCenter[0]),static_cast<int>(newCenter[1])))))
       return false;
@@ -142,7 +142,7 @@ CoronaryArteryTree::isAddable(const Point2D &p, unsigned int segIndex,
   Segment<Point2D> sParent = myVectSegments[myVectParent[segIndex]];
   Point2D pParent = sParent.myCoordinate;
   
-  if(myIsImageDomainRestrained && (!checkNoIntersectDomain(myImageDomain, myForegroundThreshold,
+  if(myIsImageDomainRestrained && (!GeomHelpers::checkNoIntersectDomain(myImageDomain, myForegroundThreshold,
                   DGtal::Z2i::Point(static_cast<int>(pParent[0]), static_cast<int>(pParent[1])),
                   DGtal::Z2i::Point(static_cast<int>(newCenter[0]),static_cast<int>(newCenter[1])))))
       return false;
@@ -198,15 +198,15 @@ CoronaryArteryTree::isAddable(const Point2D &p, unsigned int segIndex,
       return false;
     
     //resulting segments intersect the domaine
-    if(myIsImageDomainRestrained && (!checkNoIntersectDomain(myImageDomain, myForegroundThreshold,
+    if(myIsImageDomainRestrained && (!GeomHelpers::checkNoIntersectDomain(myImageDomain, myForegroundThreshold,
                     DGtal::Z2i::Point(static_cast<int>(pParent[0]), static_cast<int>(pParent[1])),
                     DGtal::Z2i::Point(static_cast<int>(pOpt[0]),static_cast<int>(pOpt[1]))))) //Center segment
       return false;
-    if(myIsImageDomainRestrained && (!checkNoIntersectDomain(myImageDomain, myForegroundThreshold,
+    if(myIsImageDomainRestrained && (!GeomHelpers::checkNoIntersectDomain(myImageDomain, myForegroundThreshold,
                     DGtal::Z2i::Point(static_cast<int>(sNewLeft.myCoordinate[0]), static_cast<int>(sNewLeft.myCoordinate[1])),
                     DGtal::Z2i::Point(static_cast<int>(pOpt[0]),static_cast<int>(pOpt[1]))))) //Left segment
       return false;
-    if(myIsImageDomainRestrained && (!checkNoIntersectDomain(myImageDomain, myForegroundThreshold,
+    if(myIsImageDomainRestrained && (!GeomHelpers::checkNoIntersectDomain(myImageDomain, myForegroundThreshold,
                     DGtal::Z2i::Point(static_cast<int>(sNewRight.myCoordinate[0]), static_cast<int>(sNewRight.myCoordinate[1])),
                     DGtal::Z2i::Point(static_cast<int>(pOpt[0]),static_cast<int>(pOpt[1]))))) //Right segment
       return false;
@@ -591,9 +591,9 @@ std::pair<CoronaryArteryTree::Point2D, bool>
 CoronaryArteryTree::generateALocation(double myDThresold) {
   Point2D res;
   if (myIsImageDomainRestrained){
-    res = generateRandomPtOnImageDomain<CoronaryArteryTree::Point2D>(myImageDomain, myForegroundThreshold);
+    res = GeomHelpers::generateRandomPtOnImageDomain<CoronaryArteryTree::Point2D>(myImageDomain, myForegroundThreshold,  myImageDist);
   } else {
-    res = generateRandomPtOnDisk(myTreeCenter, my_rPerf);
+    res = GeomHelpers::generateRandomPtOnDisk(myTreeCenter, my_rPerf);
   }
   bool isComp = true;
   unsigned int id = 1;
@@ -621,7 +621,7 @@ double
 CoronaryArteryTree::getProjDistance(const Point2D &p0, const Point2D &p1, const Point2D &p) const{
   double result = 0.0;
   Point2D pProj(0,0);
-  bool isInside = projectOnStraightLine(p0, p1, p, pProj);
+  bool isInside = GeomHelpers::projectOnStraightLine(p0, p1, p, pProj);
   if (isInside)
   {
     result = (pProj-p).norm();
@@ -670,7 +670,7 @@ CoronaryArteryTree::hasNearestIntersections(const Point2D &p0,
   Point2D b = (p1+p0)/2;
   std::vector<unsigned int> near = getN_NearestSegments(b, n);
   for (const auto &s : near){
-    if (hasIntersection(p0, p1, myVectSegments[s].myCoordinate,
+    if (GeomHelpers::hasIntersection(p0, p1, myVectSegments[s].myCoordinate,
                         myVectSegments[myVectParent[s]].myCoordinate ))
     {
       return  true;
@@ -692,11 +692,11 @@ CoronaryArteryTree::hasNearestIntersections(unsigned int indexPFather,
     if (myVectParent[s] == indexPFather && s == indexPChild)
       continue;
 
-    bool inter1 = hasIntersection(p0, pBifurcation, myVectSegments[s].myCoordinate,
+    bool inter1 = GeomHelpers::hasIntersection(p0, pBifurcation, myVectSegments[s].myCoordinate,
                                   myVectSegments[myVectParent[s]].myCoordinate  );
-    bool inter2 = hasIntersection(p1, pBifurcation, myVectSegments[s].myCoordinate,
+    bool inter2 = GeomHelpers::hasIntersection(p1, pBifurcation, myVectSegments[s].myCoordinate,
                                   myVectSegments[myVectParent[s]].myCoordinate  );
-    bool inter3 = hasIntersection(pAdded, pBifurcation, myVectSegments[s].myCoordinate,
+    bool inter3 = GeomHelpers::hasIntersection(pAdded, pBifurcation, myVectSegments[s].myCoordinate,
                                   myVectSegments[myVectParent[s]].myCoordinate  );
 
     if (inter1 || inter2 || inter3)
@@ -756,7 +756,7 @@ CoronaryArteryTree::kamyiaOptimization(const Point2D& pCurrent,
   
   for (int i = 0; i<nbIter && hasSolution; i++) {
     //DGtal::trace.progressBar(i, nbIter);
-    hasSolution = kamyiaOpt(my_gamma, deltaP1, deltaP2, f0, f1, f2, l0, l1, l2,rr1, rr2);
+    hasSolution = GeomHelpers::kamyiaOpt(my_gamma, deltaP1, deltaP2, f0, f1, f2, l0, l1, l2,rr1, rr2);
     // Equation 27
     R0 = pow(f0*(pow(rr1, my_gamma)/f1 + pow(rr2, my_gamma)/f2), 1.0/my_gamma);
     R1 = rr1;
@@ -825,7 +825,6 @@ CoronaryArteryTree::findBarycenter(const Point2D &p, unsigned int index)
 
 bool
 CoronaryArteryTree::restrainDomain(const std::string &imageName, unsigned int threshold){
-  myImageFileDomain = imageName;
   myForegroundThreshold = threshold;
   myImageDomain = DGtal::GenericReader<Image>::import( imageName );
   bool isOk = false;
@@ -841,10 +840,10 @@ CoronaryArteryTree::restrainDomain(const std::string &imageName, unsigned int th
     Point2D pRoot = myVectSegments[0].myCoordinate;
     if(myImageDomain(DGtal::Z2i::Point(static_cast<int>(pRoot[0]), static_cast<int>(pRoot[1]))) >= threshold) {
       myIsImageDomainRestrained = true;
+      myImageDist = GeomHelpers::getImageDistance<Image, ImageDist>(myImageDomain, threshold);
       return true;
     }
   }
-  myImageFileDomain = "";
   return false;
 }
 

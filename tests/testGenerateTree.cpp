@@ -9,7 +9,7 @@
 #include "CLI11.hpp"
 
 #include "CoronaryArteryTree.h"
-#include "geomhelpers.h"
+#include "GeomHelpers.h"
 #include "ConstructionHelpers.h"
 
 
