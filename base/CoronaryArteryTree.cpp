@@ -126,14 +126,14 @@ CoronaryArteryTree::isAddable(const Point2D &p, unsigned int segIndex,
 {
   Point2D pOpt, newCenter = findBarycenter(p, segIndex);
   if(myIsImageDomainRestrained && (myImageDomain(DGtal::Z2i::Point(static_cast<int>(newCenter[0]),
-                                      static_cast<int>(newCenter[1])))< 128))
+                                      static_cast<int>(newCenter[1])))< myForegroundThreshold))
     return false;
 
-  if(myIsImageDomainRestrained && (!checkNoIntersectDomain(myImageDomain, 128,
+  if(myIsImageDomainRestrained && (!checkNoIntersectDomain(myImageDomain, myForegroundThreshold,
                   DGtal::Z2i::Point(static_cast<int>(p[0]), static_cast<int>(p[1])),
                   DGtal::Z2i::Point(static_cast<int>(newCenter[0]),static_cast<int>(newCenter[1])))))
       return false;
-  if(myIsImageDomainRestrained && (!checkNoIntersectDomain(myImageDomain, 128,
+  if(myIsImageDomainRestrained && (!checkNoIntersectDomain(myImageDomain, myForegroundThreshold,
                   DGtal::Z2i::Point(static_cast<int>(myVectSegments[segIndex].myCoordinate[0]), static_cast<int>(myVectSegments[segIndex].myCoordinate[1])),
                   DGtal::Z2i::Point(static_cast<int>(newCenter[0]),static_cast<int>(newCenter[1])))))
       return false;
@@ -142,7 +142,7 @@ CoronaryArteryTree::isAddable(const Point2D &p, unsigned int segIndex,
   Segment<Point2D> sParent = myVectSegments[myVectParent[segIndex]];
   Point2D pParent = sParent.myCoordinate;
   
-  if(myIsImageDomainRestrained && (!checkNoIntersectDomain(myImageDomain, 128,
+  if(myIsImageDomainRestrained && (!checkNoIntersectDomain(myImageDomain, myForegroundThreshold,
                   DGtal::Z2i::Point(static_cast<int>(pParent[0]), static_cast<int>(pParent[1])),
                   DGtal::Z2i::Point(static_cast<int>(newCenter[0]),static_cast<int>(newCenter[1])))))
       return false;
@@ -194,19 +194,19 @@ CoronaryArteryTree::isAddable(const Point2D &p, unsigned int segIndex,
     if(res2) //there is intersection betweeen segments
       return false;
     
-    if(myIsImageDomainRestrained && (myImageDomain(DGtal::Z2i::Point(static_cast<int>(pOpt[0]), static_cast<int>(pOpt[1])))< 128)) //resulting point is out of the domaine
+    if(myIsImageDomainRestrained && (myImageDomain(DGtal::Z2i::Point(static_cast<int>(pOpt[0]), static_cast<int>(pOpt[1])))< myForegroundThreshold)) //resulting point is out of the domaine
       return false;
     
     //resulting segments intersect the domaine
-    if(myIsImageDomainRestrained && (!checkNoIntersectDomain(myImageDomain, 128,
+    if(myIsImageDomainRestrained && (!checkNoIntersectDomain(myImageDomain, myForegroundThreshold,
                     DGtal::Z2i::Point(static_cast<int>(pParent[0]), static_cast<int>(pParent[1])),
                     DGtal::Z2i::Point(static_cast<int>(pOpt[0]),static_cast<int>(pOpt[1]))))) //Center segment
       return false;
-    if(myIsImageDomainRestrained && (!checkNoIntersectDomain(myImageDomain, 128,
+    if(myIsImageDomainRestrained && (!checkNoIntersectDomain(myImageDomain, myForegroundThreshold,
                     DGtal::Z2i::Point(static_cast<int>(sNewLeft.myCoordinate[0]), static_cast<int>(sNewLeft.myCoordinate[1])),
                     DGtal::Z2i::Point(static_cast<int>(pOpt[0]),static_cast<int>(pOpt[1]))))) //Left segment
       return false;
-    if(myIsImageDomainRestrained && (!checkNoIntersectDomain(myImageDomain, 128,
+    if(myIsImageDomainRestrained && (!checkNoIntersectDomain(myImageDomain, myForegroundThreshold,
                     DGtal::Z2i::Point(static_cast<int>(sNewRight.myCoordinate[0]), static_cast<int>(sNewRight.myCoordinate[1])),
                     DGtal::Z2i::Point(static_cast<int>(pOpt[0]),static_cast<int>(pOpt[1]))))) //Right segment
       return false;
@@ -491,7 +491,7 @@ CoronaryArteryTree::boardDisplay(double thickness, bool clearDisplay)
     i++;
   }
   if (myIsImageDomainRestrained){
-    std::vector<std::vector<DGtal::Z2i::Point>> vectContours = ConstructionHelpers::getImageContours(myImageDomain, 128);
+    std::vector<std::vector<DGtal::Z2i::Point>> vectContours = ConstructionHelpers::getImageContours(myImageDomain, myForegroundThreshold);
     for(auto const c: vectContours){
       DGtal::Color col;
       if(DGtal::ContourHelper::isCounterClockWise(c)){
@@ -591,7 +591,7 @@ std::pair<CoronaryArteryTree::Point2D, bool>
 CoronaryArteryTree::generateALocation(double myDThresold) {
   Point2D res;
   if (myIsImageDomainRestrained){
-    res = generateRandomPtOnImageDomain<CoronaryArteryTree::Point2D>(myImageDomain, 128);
+    res = generateRandomPtOnImageDomain<CoronaryArteryTree::Point2D>(myImageDomain, myForegroundThreshold);
   } else {
     res = generateRandomPtOnDisk(myTreeCenter, my_rPerf);
   }
@@ -826,6 +826,7 @@ CoronaryArteryTree::findBarycenter(const Point2D &p, unsigned int index)
 bool
 CoronaryArteryTree::restrainDomain(const std::string &imageName, unsigned int threshold){
   myImageFileDomain = imageName;
+  myForegroundThreshold = threshold;
   myImageDomain = DGtal::GenericReader<Image>::import( imageName );
   bool isOk = false;
   // Check if at least one pixel of with foreground value exist:

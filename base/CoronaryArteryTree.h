@@ -147,6 +147,7 @@ public:
   
 protected:
   Image myImageDomain = Image(DGtal::Z2i::Domain());
+  unsigned int myForegroundThreshold = 128;
   bool myIsImageDomainRestrained = false;
   std::string myImageFileDomain = "";
 

@@ -8,7 +8,7 @@
 
 void
 ConstructionHelpers::constructTree(double aPerf, int nbTerm,
-                                   std::string imageOrgan,
+                                   std::string imageOrgan, unsigned int fgTh,
                                    bool verbose, DGtal::Z2i::Point ptCenter) {
   DGtal::trace.beginBlock("Testing class CoronaryArteryTree: test random adds with distance constraint");
   srand (time(NULL));
@@ -17,7 +17,7 @@ ConstructionHelpers::constructTree(double aPerf, int nbTerm,
   
   CoronaryArteryTree cTree (aPerf, nbTerm, rRoot, ptCenter);
   if (imageOrgan != ""){
-    bool restrainedOK = cTree.restrainDomain(imageOrgan);
+    bool restrainedOK = cTree.restrainDomain(imageOrgan, fgTh);
     if (restrainedOK){
       DGtal::trace.info() << "Using restrained image  " << imageOrgan << std::endl;
     }
