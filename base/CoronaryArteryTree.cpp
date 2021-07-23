@@ -591,7 +591,7 @@ std::pair<CoronaryArteryTree::Point2D, bool>
 CoronaryArteryTree::generateALocation(double myDThresold) {
   Point2D res;
   if (myIsImageDomainRestrained){
-    res = GeomHelpers::generateRandomPtOnImageDomain<CoronaryArteryTree::Point2D>(myImageDomain, myForegroundThreshold);
+    res = GeomHelpers::generateRandomPtOnImageDomain<CoronaryArteryTree::Point2D>(myImageDomain, myForegroundThreshold,  myImageDist);
   } else {
     res = GeomHelpers::generateRandomPtOnDisk(myTreeCenter, my_rPerf);
   }
@@ -825,7 +825,6 @@ CoronaryArteryTree::findBarycenter(const Point2D &p, unsigned int index)
 
 bool
 CoronaryArteryTree::restrainDomain(const std::string &imageName, unsigned int threshold){
-  myImageFileDomain = imageName;
   myForegroundThreshold = threshold;
   myImageDomain = DGtal::GenericReader<Image>::import( imageName );
   bool isOk = false;
@@ -841,10 +840,10 @@ CoronaryArteryTree::restrainDomain(const std::string &imageName, unsigned int th
     Point2D pRoot = myVectSegments[0].myCoordinate;
     if(myImageDomain(DGtal::Z2i::Point(static_cast<int>(pRoot[0]), static_cast<int>(pRoot[1]))) >= threshold) {
       myIsImageDomainRestrained = true;
+      myImageDist = GeomHelpers::getImageDistance<Image, ImageDist>(myImageDomain);
       return true;
     }
   }
-  myImageFileDomain = "";
   return false;
 }
 

@@ -51,7 +51,8 @@ public:
   typedef std::pair<unsigned int, unsigned int> SegmentChildren;
   typedef DGtal::Z2i::RealPoint Point2D;
   typedef DGtal::ImageSelector < DGtal::Z2i::Domain, unsigned int>::Type Image;
-  
+  typedef DGtal::ImageSelector < DGtal::Z2i::Domain, double>::Type ImageDist;
+
   template <typename TPoint>
   struct Segment{
     // Distal point of the segment.
@@ -147,9 +148,9 @@ public:
   
 protected:
   Image myImageDomain = Image(DGtal::Z2i::Domain());
+  ImageDist myImageDist = ImageDist(DGtal::Z2i::Domain());
   unsigned int myForegroundThreshold = 128;
   bool myIsImageDomainRestrained = false;
-  std::string myImageFileDomain = "";
 
   
   

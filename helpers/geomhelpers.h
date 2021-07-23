@@ -1,22 +1,6 @@
-
-
-
-#pragma once
-
-#if defined(GEOMHELPERS_RECURSES)
-#error Recursive header files inclusion detected in Geomhelpers.h
-#else // defined(GEOMHELPERS_RECURSES)
-/** Prevents recursive inclusion of headers. */
-#define GEOMHELPERS_RECURSES
-
-#if !defined GEOMHELPERS_h
-/** Prevents repeated inclusion of headers. */
-#define GEOMHELPERS_h
 #include "DGtal/base/Common.h"
 #include "DGtal/helpers/StdDefs.h"
 #include "DGtal/images/ImageContainerBySTLVector.h"
-#include "DGtal/images/IntervalForegroundPredicate.h"
-#include "DGtal/geometry/volumes/distance/DistanceTransformation.h"
 
 
 #include "ceres/ceres.h"
@@ -27,7 +11,19 @@ using ceres::Solve;
 using ceres::Solver;
 
 
-namespace GeomHelpers {
+
+#pragma once
+ 
+#if defined(GEOMHELPERS_RECURSES)
+#error Recursive header files inclusion detected in Geomhelpers.h
+#else // defined(GEOMHELPERS_RECURSES)
+/** Prevents recursive inclusion of headers. */
+#define GEOMHELPERS_RECURSES
+
+#if !defined GEOMHELPERS_h
+/** Prevents repeated inclusion of headers. */
+#define GEOMHELPERS_h
+
 
 //template<typename TPoint>
 //inline
@@ -46,7 +42,7 @@ generateRandomPtOnDisk(const TPoint &ptCenter, double r)
   bool found = false;
   double x = 0.0;
   double y = 0.0;
-  
+
   while(!found){
     x =  ((double)rand() / RAND_MAX)*2.0*r - r;
     y =  ((double)rand() / RAND_MAX)*2.0*r - r;
@@ -56,76 +52,17 @@ generateRandomPtOnDisk(const TPoint &ptCenter, double r)
 }
 
 
-
-template<typename TPoint, typename TImage>
-inline
-TPoint
-generateRandomPtOnImageDomain(const TImage &image, unsigned int fgTh,
-                              unsigned int nbTry = 100)
-{
-  bool found = false;
-  unsigned int x = 0;
-  unsigned int y = 0;
-  TPoint pMin = image.domain().lowerBound();
-  TPoint pMax = image.domain().upperBound();
-  int dx = pMax[0] - pMin[0];
-  int dy = pMax[1] - pMin[1];
-  DGtal::Z2i::Point pCand;
-  unsigned int n = 0;
-  while(!found && n < nbTry){
-    x =  rand()%dx;
-    y =  rand()%dy;
-    pCand[0] = pMin[0] +x;
-    pCand[1] = pMin[1] +y;
-    found = image(pCand)>=fgTh;
-    n++;
-  }
-  if (n >= nbTry){
-    for(auto p : image.domain()){if (image(p)>=fgTh) return p;}
-  }
-  return pCand;
-}
-
-
-
-/**
- * Check if the segment defined by two points intersect the domain.
- *
- * @param image defining the domain
- * @param fgTh the threshol defining the foreground
- * @param pt1 first point of the segment
- * @param pt2  second point of the segment
- */
-template<typename TImage>
-inline
-bool
-checkNoIntersectDomain(const TImage &image, unsigned int fgTh,
-                       const DGtal::Z2i::Point &pt1,
-                       const DGtal::Z2i::Point &pt2)
-{
-  DGtal::Z2i::RealPoint dir = pt2 - pt1;
-  dir /= dir.norm();
-  DGtal::Z2i::RealPoint p (pt1[0], pt1[1]);
-  for (unsigned int i = 0; i<(pt2 - pt1).norm(); i++){
-    DGtal::Z2i::RealPoint p = pt1+dir*i;
-    if (image(DGtal::Z2i::Point(static_cast<int>(p[0]),static_cast<int>(p[1]) )) < fgTh)
-      return false;
-  }
-  
-  return true;
-}
-
 /**
  * Dertermines if a point is on the right of a line represented by two points [ptA, ptB]
  */
-template<typename TPoint>
-inline
-bool
-isOnRight(const TPoint &ptA, const TPoint &ptB, const TPoint &ptC ){
-  auto u = ptB-ptA;
-  auto v = ptC-ptA;
-  return u[0]*v[1]- u[1]*v[0] < 0.0;
-}
+  template<typename TPoint>
+  inline
+  bool
+  isOnRight(const TPoint &ptA, const TPoint &ptB, const TPoint &ptC ){
+    auto u = ptB-ptA;
+    auto v = ptC-ptA;
+    return u[0]*v[1]- u[1]*v[0] < 0.0;
+  }
 
 
 template<typename TPoint>
@@ -161,31 +98,31 @@ bool
 projectOnStraightLine(const TPoint & ptA,
                       const TPoint & ptB,
                       const TPoint & ptC,
-                      TPointD & ptProjected)
+                      TPointD & ptProjected) 
 {
   if (ptA==ptC)
-  {
-    ptProjected=ptA;
-    return true;
-  }
+    {
+      ptProjected=ptA;
+      return true;
+    }
   if (ptB==ptC)
-  {
-    ptProjected=ptB;
-    return true ;
-  }
-  
+    {
+      ptProjected=ptB;
+      return true ;
+    }
+
   TPointD vAB (ptB[0]- ptA[0], ptB[1]- ptA[1]);
   TPointD vABn ((double)vAB[0], (double)vAB[1]);
   double norm = vABn.norm();
   vABn[0] /= norm;
   vABn[1] /= norm;
-  
+
   TPointD vAC (ptC[0]-ptA[0], ptC[1]-ptA[1]);
   double distPtA_Proj = vAC.dot(vABn);
-  
+
   ptProjected[0]= ptA[0]+vABn[0]*(distPtA_Proj);
   ptProjected[1] = ptA[1]+vABn[1]*(distPtA_Proj);
-  
+
   return  distPtA_Proj>=0 && ((ptA[0]<ptB[0] && ptProjected[0]<=ptB[0] ) ||
                               (ptA[0]>ptB[0] && ptProjected[0]>=ptB[0] ) ||
                               (ptA[0]==ptB[0] && ptA[1]<ptB[1] && ptProjected[1]<=ptB[1]) ||
@@ -215,27 +152,27 @@ bool
 hasIntersection(const TPoint &seg1ptA, const TPoint &seg1ptB,
                 const TPoint &seg2ptA, const TPoint &seg2ptB)
 {
-  double  d = ((seg2ptB[1] - seg2ptA[1])*(seg1ptB[0] - seg1ptA[0])) -
-  ((seg2ptB[0] - seg2ptA[0])*(seg1ptB[1] - seg1ptA[1]));
-  double a = ((seg2ptB[0] - seg2ptA[0])*(seg1ptA[1] - seg2ptA[1])) -
-  ((seg2ptB[1] - seg2ptA[1])*(seg1ptA[0] - seg2ptA[0]));
-  double b = ((seg1ptB[0] - seg1ptA[0])*(seg1ptA[1] - seg2ptA[1])) -
-  ((seg1ptB[1] - seg1ptA[1])*(seg1ptA[0] - seg2ptA[0]));
-  if ( d==0.0 )
-  {
-    // test coincident
-    if (a==0.0 && b == 0.0 ) {
-      return false;
-    }
-    else
-      return false;
-  }
-  double ua = a / d;
-  double ub = b / d;
-  return ua > 0.0f && ua < 1.0f && ub > 0.0f && ub < 1.0f;
-  // Get the intersection point.
-  //intersection.x_ = begin_.x_ + ua*(end_.x_ - begin_.x_);
-  //intersection.y_ = begin_.y_ + ua*(end_.y_ - begin_.y_);
+   double  d = ((seg2ptB[1] - seg2ptA[1])*(seg1ptB[0] - seg1ptA[0])) -
+               ((seg2ptB[0] - seg2ptA[0])*(seg1ptB[1] - seg1ptA[1]));
+   double a = ((seg2ptB[0] - seg2ptA[0])*(seg1ptA[1] - seg2ptA[1])) -
+              ((seg2ptB[1] - seg2ptA[1])*(seg1ptA[0] - seg2ptA[0]));
+   double b = ((seg1ptB[0] - seg1ptA[0])*(seg1ptA[1] - seg2ptA[1])) -
+              ((seg1ptB[1] - seg1ptA[1])*(seg1ptA[0] - seg2ptA[0]));
+   if ( d==0.0 )
+   {
+     // test coincident 
+     if (a==0.0 && b == 0.0 ) {
+       return false;
+     }
+     else
+       return false;
+   }
+   double ua = a / d;
+   double ub = b / d;
+   return ua > 0.0f && ua < 1.0f && ub > 0.0f && ub < 1.0f;
+   // Get the intersection point.
+   //intersection.x_ = begin_.x_ + ua*(end_.x_ - begin_.x_);
+   //intersection.y_ = begin_.y_ + ua*(end_.y_ - begin_.y_);     
 }
 
 
@@ -269,7 +206,7 @@ struct CostOptPos {
 /**
  * @return true if a solution exists
  */
-static bool kamyiaOpt(double gamma, double deltaP1, double deltaP2, double f0, double f1, double f2, double l0, double l1, double l2, double &xx1, double &xx2) {
+static bool kamiyaOpt(double gamma, double deltaP1, double deltaP2, double f0, double f1, double f2, double l0, double l1, double l2, double &xx1, double &xx2) {
   CostOptPos *f = new CostOptPos();
   f->deltap1 = deltaP1;
   f->deltap2 = deltaP2;
@@ -300,21 +237,8 @@ static bool kamyiaOpt(double gamma, double deltaP1, double deltaP2, double f0, d
 }
 
 
-template< typename TImage, typename TImageDistance>
-inline
-TImageDistance
-getImageDistance(const TImage &image, unsigned int threshold=128){
-  TImageDistance res (image.domain());
-  typedef DGtal::functors::IntervalForegroundPredicate<TImage> Binarizer;
-  typedef DGtal::DistanceTransformation<DGtal::Z2i::Space, Binarizer, DGtal::Z2i::L2Metric> DTL2;
-  Binarizer b(image, threshold, 255);
-  DTL2 dt(&image.domain(),&b, &DGtal::Z2i::l2Metric);
-  for (auto p: dt.domain()){
-    res.setValue(p, dt(p));
-  }
-  return res;
-}
-}
+
+
 
 
 #endif // !defined GEOMHELPERS_h
