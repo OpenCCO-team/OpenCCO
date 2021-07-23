@@ -7,6 +7,7 @@
 
 #include "CoronaryArteryTree.h"
 #include "geomhelpers.h"
+#include "ConstructionHelpers.h"
 
 /**
  * @brief main function call
@@ -142,6 +143,21 @@ int main(int argc, char *const *argv)
   << " distance (should be false) :" << checkDomInter2 <<  ( !checkDomInter2 ? " OK": " KO")  << std::endl;
   DGtal::trace.endBlock();
   
+  DGtal::trace.beginBlock("Testing computation of ditance map..");
+
+  typedef typename DGtal::ImageContainerBySTLVector<DGtal::Z2i::Domain, double> ImageDouble;
+  ImageDouble imgD = ConstructionHelpers::getImageDistance<CoronaryArteryTree::Image, ImageDouble>(img);
+  DGtal::Z2i::Point pInt(313, 201);
+  DGtal::Z2i::Point pExt(20, 20);
+
+  
+  DGtal::trace.info() << "Distance map of point int"  << pInt << "distance:" <<
+  imgD(pInt) << " sould be > 10" << ( imgD(pInt) > 10 ? " OK": "KO") << std::endl;
+
+  DGtal::trace.info() << "Distance map of point int"  << pExt << "distance:" <<
+  imgD(pExt) << " sould be 0" << ( imgD(pExt) == 0 ? " OK": "KO") << std::endl;
+
+  DGtal::trace.endBlock();
 
   
   

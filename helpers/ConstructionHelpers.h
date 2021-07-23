@@ -14,7 +14,11 @@
 #include "DGtal/base/Common.h"
 #include "DGtal/helpers/StdDefs.h"
 #include "DGtal/images/ImageContainerBySTLVector.h"
+#include "DGtal/images/IntervalForegroundPredicate.h"
 #include "DGtal/topology/helpers/Surfaces.h"
+#include "DGtal/geometry/volumes/distance/DistanceTransformation.h"
+#include "DGtal/kernel/BasicPointPredicates.h"
+
 
 namespace ConstructionHelpers {
 
@@ -41,6 +45,23 @@ std::vector<std::vector<DGtal::Z2i::Point> > getImageContours(const TImage &imag
   DGtal::Surfaces<DGtal::Z2i::KSpace>::extractAllPointContours4C( vectContoursBdryPointels, ks, predicate, sAdj );
   return vectContoursBdryPointels;
 }
+
+template< typename TImage, typename TImageDistance>
+inline
+TImageDistance
+getImageDistance(const TImage &image, unsigned int threshold=128){
+  TImageDistance res (image.domain());
+  typedef DGtal::functors::IntervalForegroundPredicate<TImage> Binarizer;
+  typedef DGtal::DistanceTransformation<DGtal::Z2i::Space, Binarizer, DGtal::Z2i::L2Metric> DTL2;
+  Binarizer b(image, threshold, 255);
+  DTL2 dt(&image.domain(),&b, &DGtal::Z2i::l2Metric);
+  for (auto p: dt.domain()){
+    res.setValue(p, dt(p));
+  }
+  return res;
+}
+
+
 
 }
 
