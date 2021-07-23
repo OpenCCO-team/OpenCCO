@@ -30,7 +30,7 @@ ConstructionHelpers::constructTree(double aPerf, int nbTerm,
     CoronaryArteryTree cTreeOpt = cTree;
     double volOpt = -1.0, vol = 0.0;
     while (nbSol==0) {
-      CoronaryArteryTree::Point2D pt = cTree.generateNewLocation(100);
+      CoronaryArteryTree::Point2D pt = cTree.generateNewLocation(100, 10.0);
       std::vector<unsigned int> vecN = cTree.getN_NearestSegments(pt,cTree.myNumNeighbor);
       for(size_t it=0; it<vecN.size(); it++) {
         //if(!cTree.isIntersecting(pt, cTree.findBarycenter(pt, vecN.at(it)),vecN.at(it),n))

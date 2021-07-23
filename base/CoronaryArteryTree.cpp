@@ -566,14 +566,14 @@ CoronaryArteryTree::getPathToRoot(const Segment<Point2D> &s)
 }
 
 CoronaryArteryTree::Point2D
-CoronaryArteryTree::generateNewLocation(unsigned int nbTrials){
+CoronaryArteryTree::generateNewLocation(unsigned int nbTrials, double minD){
   Point2D res;
   double myDThresold = getDistanceThreshold();
   bool found = false;
   unsigned int n = nbTrials;
   while(!found && n >= 0) {
     n--;
-    auto p = generateALocation(myDThresold);
+    auto p = generateALocation(myDThresold, minD);
     found = p.second;
     if (found) {
       res = p.first;
@@ -588,10 +588,10 @@ CoronaryArteryTree::generateNewLocation(unsigned int nbTrials){
 
 
 std::pair<CoronaryArteryTree::Point2D, bool>
-CoronaryArteryTree::generateALocation(double myDThresold) {
+CoronaryArteryTree::generateALocation(double myDThresold, double minDist) {
   Point2D res;
   if (myIsImageDomainRestrained){
-    res = GeomHelpers::generateRandomPtOnImageDomain<CoronaryArteryTree::Point2D>(myImageDomain, myForegroundThreshold,  myImageDist);
+    res = GeomHelpers::generateRandomPtOnImageDomain<CoronaryArteryTree::Point2D>(myImageDomain, myForegroundThreshold,  myImageDist, minDist);
   } else {
     res = GeomHelpers::generateRandomPtOnDisk(myTreeCenter, my_rPerf);
   }

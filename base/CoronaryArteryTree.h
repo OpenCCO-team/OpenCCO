@@ -453,16 +453,18 @@ public:
   /**
    * Generates a new location with distance constraints.
    * @param nbTrials : number of trials before reducing the distance constaint value
+   * @param minD : min distance to border domain (wrt distance map)
    *
    */
-  Point2D generateNewLocation(unsigned int nbTrials = 1000);
+  Point2D generateNewLocation(unsigned int nbTrials = 1000, double minD = 1.0);
 
   /**
    * Generates a new location with distance constraints.
    * @param myDThresold : the distance constaint value
+   * @param minDist : the min distance to border domaine (from distance map)
    * @return the generated point and a bool true if sucess and false othewise
    */
-  std::pair<Point2D, bool> generateALocation(double myDThresold);
+  std::pair<Point2D, bool> generateALocation(double myDThresold, double minDist = 5.0);
 
   /**
    * Computes the length of a segment represented with the index and mutiliplies by the length factor.

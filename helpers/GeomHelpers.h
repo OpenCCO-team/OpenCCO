@@ -62,6 +62,7 @@ inline
 TPoint
 generateRandomPtOnImageDomain(const TImage &image, unsigned int fgTh,
                               const TImageDist &imageDistance,
+                              double minDist = 10.0,
                               unsigned int nbTry = 100)
 {
   bool found = false;
@@ -78,11 +79,11 @@ generateRandomPtOnImageDomain(const TImage &image, unsigned int fgTh,
     y =  rand()%dy;
     pCand[0] = pMin[0] +x;
     pCand[1] = pMin[1] +y;
-    found = image(pCand)>=fgTh && abs(imageDistance(pCand)) >= 10.0;
+    found = image(pCand)>=fgTh && abs(imageDistance(pCand)) >= minDist;
     n++;
   }
   if (n >= nbTry){
-    for(auto p : image.domain()){if (image(p)>=fgTh && abs(imageDistance(p)) >= 10.0 ) return p;}
+    for(auto p : image.domain()){if (image(p)>=fgTh && abs(imageDistance(p)) >= minDist ) return p;}
   }
   return pCand;
 }
