@@ -130,9 +130,8 @@ CoronaryArteryTree::isAddable(const Point2D &p, unsigned int segIndex,
     return false;
   }
   if(myIsImageDomainRestrained && (!checkNoIntersectDomain(myImageDomain, 128,
-                                                          DGtal::Z2i::Point(static_cast<int>(p[0]),
-                                                                                              static_cast<int>(p[1])), DGtal::Z2i::Point(static_cast<int>(newCenter[0]),
-                                                                                                                                          static_cast<int>(newCenter[1])))))
+                  DGtal::Z2i::Point(static_cast<int>(p[0]), static_cast<int>(p[1])),
+                  DGtal::Z2i::Point(static_cast<int>(newCenter[0]),static_cast<int>(newCenter[1])))))
      {
       return false;
   }
@@ -176,93 +175,103 @@ CoronaryArteryTree::isAddable(const Point2D &p, unsigned int segIndex,
     DGtal::trace.info() <<"---------- segIndex: "<<segIndex<<std::endl;
   }
   size_t i=0;
-  for(size_t i=0; i<nbIter && res1 && !res2 && res3 && !isDone; i++) {
+  for(size_t i=0; i<nbIter && !isDone; i++) {
     res1 = kamyiaOptimization(pCurrent, pParent, sCurrent.myRadius, sNewLeft, sNewRight, 1, pOpt, r0, r1, r2);
-    if(res1) {
-      res2 = isIntersecting(p, pOpt, segIndex, nbNeibour, 2*cTreeCurr.myVectSegments[segIndex].myRadius);
-      if(!res2) {
-        CoronaryArteryTree cTree1 = *this;
-        //Update optimal values
-        sNewLeft.myRadius = r1;
-        sNewRight.myRadius = r2;
-        
-        //Add left segment
-        cTree1.myVectSegments.push_back(sNewLeft);
-        cTree1.myVectChildren.push_back(std::pair<unsigned int, unsigned int>(0,0));
-        cTree1.myVectParent.push_back(segIndex);
-        
-        // Update for the new parent of the new left segment
-        unsigned int leftGrandChildIndex = cTree1.myVectChildren[myVectSegments[segIndex].myIndex].first;
-        unsigned int rightGrandChildIndex = cTree1.myVectChildren[myVectSegments[segIndex].myIndex].second;
-        cTree1.myVectParent[leftGrandChildIndex] = sNewLeft.myIndex;
-        cTree1.myVectParent[rightGrandChildIndex] = sNewLeft.myIndex;
-        
-        // Update of the child of the new left segment (sNewLeft)
-        cTree1.myVectChildren[sNewLeft.myIndex].first = leftGrandChildIndex;
-        cTree1.myVectChildren[sNewLeft.myIndex].second = rightGrandChildIndex;
-        
-        //Add right segment
-        cTree1.myVectSegments.push_back(sNewRight);
-        cTree1.myVectChildren.push_back(std::pair<unsigned int, unsigned int>(0,0));
-        cTree1.myVectParent.push_back(segIndex);
-        cTree1.myVectTerminals.push_back(sNewRight.myIndex);
-        
-        // Update center segment
-        cTree1.myVectSegments[segIndex].myCoordinate = pOpt;
-        cTree1.myVectSegments[segIndex].myRadius = r0;
-        cTree1.myVectSegments[segIndex].myKTerm = sCurrent.myKTerm;
-        cTree1.myVectSegments[segIndex].myFlow = sCurrent.myFlow;
-        //update childrens of center segment
-        cTree1.myVectChildren[segIndex].first = sNewLeft.myIndex;
-        cTree1.myVectChildren[segIndex].second = sNewRight.myIndex;
-        
-        // update parameters
-        cTree1.myKTerm++;
-        // Update physilogique paramaters
-        cTree1.updateFlow(cTree1.myVectParent[segIndex]);
-        cTree1.updateResistanceFromRoot();
-        cTree1.updateRootRadius();
-        
-        vol = cTree1.computeTotalVolume();
-        if (verbose){
-          DGtal::trace.info() <<"Iter "<<i<<" has tree Volume: "<< vol <<std::endl;
+    if(!res1) //Kamyia does not have solution
+      return false;
+    
+    res2 = isIntersecting(p, pOpt, segIndex, nbNeibour, 2*cTreeCurr.myVectSegments[segIndex].myRadius);
+    if(res2) //there is intersection betweeen segments
+      return false;
+    
+    if(myIsImageDomainRestrained && (myImageDomain(DGtal::Z2i::Point(static_cast<int>(pOpt[0]), static_cast<int>(pOpt[1])))< 128)) //resulting point is out of the domaine
+      return false;
+    if(myIsImageDomainRestrained && (!checkNoIntersectDomain(myImageDomain, 128,
+                    DGtal::Z2i::Point(static_cast<int>(p[0]), static_cast<int>(p[1])),
+                    DGtal::Z2i::Point(static_cast<int>(pOpt[0]),static_cast<int>(pOpt[1]))))) //resulting segments intersect the domaine
+      return false;
+    
+    //Otherwise, iterate for the optimisation process
+    CoronaryArteryTree cTree1 = *this;
+    //Update optimal values
+    sNewLeft.myRadius = r1;
+    sNewRight.myRadius = r2;
+    
+    //Add left segment
+    cTree1.myVectSegments.push_back(sNewLeft);
+    cTree1.myVectChildren.push_back(std::pair<unsigned int, unsigned int>(0,0));
+    cTree1.myVectParent.push_back(segIndex);
+    
+    // Update for the new parent of the new left segment
+    unsigned int leftGrandChildIndex = cTree1.myVectChildren[myVectSegments[segIndex].myIndex].first;
+    unsigned int rightGrandChildIndex = cTree1.myVectChildren[myVectSegments[segIndex].myIndex].second;
+    cTree1.myVectParent[leftGrandChildIndex] = sNewLeft.myIndex;
+    cTree1.myVectParent[rightGrandChildIndex] = sNewLeft.myIndex;
+    
+    // Update of the child of the new left segment (sNewLeft)
+    cTree1.myVectChildren[sNewLeft.myIndex].first = leftGrandChildIndex;
+    cTree1.myVectChildren[sNewLeft.myIndex].second = rightGrandChildIndex;
+    
+    //Add right segment
+    cTree1.myVectSegments.push_back(sNewRight);
+    cTree1.myVectChildren.push_back(std::pair<unsigned int, unsigned int>(0,0));
+    cTree1.myVectParent.push_back(segIndex);
+    cTree1.myVectTerminals.push_back(sNewRight.myIndex);
+    
+    // Update center segment
+    cTree1.myVectSegments[segIndex].myCoordinate = pOpt;
+    cTree1.myVectSegments[segIndex].myRadius = r0;
+    cTree1.myVectSegments[segIndex].myKTerm = sCurrent.myKTerm;
+    cTree1.myVectSegments[segIndex].myFlow = sCurrent.myFlow;
+    //update childrens of center segment
+    cTree1.myVectChildren[segIndex].first = sNewLeft.myIndex;
+    cTree1.myVectChildren[segIndex].second = sNewRight.myIndex;
+    
+    // update parameters
+    cTree1.myKTerm++;
+    // Update physilogique paramaters
+    cTree1.updateFlow(cTree1.myVectParent[segIndex]);
+    cTree1.updateResistanceFromRoot();
+    cTree1.updateRootRadius();
+    
+    vol = cTree1.computeTotalVolume();
+    if (verbose){
+      DGtal::trace.info() <<"Iter "<<i<<" has tree Volume: "<< vol <<std::endl;
+    }
+    if(i==0) {
+      volCurr = vol;
+      cTreeCurr = cTree1;
+    }
+    else {
+      diffVol = volCurr - vol;
+      if(fabs(diffVol) < tolerance) {
+        // Verify the degenerate case of the resulting segment
+        double l0 = (pOpt - pParent).norm()*myLengthFactor;
+        double l1 = (pOpt - sNewLeft.myCoordinate).norm()*myLengthFactor;
+        double l2 = (pOpt - sNewRight.myCoordinate).norm()*myLengthFactor;
+        res3 = (2*r0<=l0) && (2*r1<=l1) && (2*r2<=l2);
+        // If there is a solution, then save the result
+        if(res3) {
+          //std::cout<<"Best volume at "<<i<<std::endl;
+          isDone = true;
+          *this = cTree1;
         }
-        if(i==0) {
-          volCurr = vol;
-          cTreeCurr = cTree1;
-        }
-        else {
-          diffVol = volCurr - vol;
-          if(fabs(diffVol) < tolerance) {
-            // Verify the degenerate case of the resulting segment
-            double l0 = (pOpt - pParent).norm()*myLengthFactor;
-            double l1 = (pOpt - sNewLeft.myCoordinate).norm()*myLengthFactor;
-            double l2 = (pOpt - sNewRight.myCoordinate).norm()*myLengthFactor;
-            res3 = (2*r0<=l0) && (2*r1<=l1) && (2*r2<=l2);
-            // If there is a solution, then save the result
-            if(res3) {
-              //std::cout<<"Best volume at "<<i<<std::endl;
-              isDone = true;
-              *this = cTree1;
-            }
-          }
-          else {
-            volCurr = vol;
-            cTreeCurr = cTree1;
-          }
-        }
-        //update new position, radius and flow
-        pCurrent = pOpt;
-        sCurrent.myRadius = cTree1.myVectSegments[segIndex].myRadius;
-        sNewLeft.myRadius = cTree1.myVectSegments[cTree1.myVectChildren[segIndex].first].myRadius;
-        sNewLeft.myFlow = cTree1.myVectSegments[cTree1.myVectChildren[segIndex].first].myFlow;
-        sNewRight.myRadius = cTree1.myVectSegments[cTree1.myVectChildren[segIndex].second].myRadius;
-        sNewRight.myFlow = cTree1.myVectSegments[cTree1.myVectChildren[segIndex].second].myFlow;
+      }
+      else {
+        volCurr = vol;
+        cTreeCurr = cTree1;
       }
     }
+    //update new position, radius and flow
+    pCurrent = pOpt;
+    sCurrent.myRadius = cTree1.myVectSegments[segIndex].myRadius;
+    sNewLeft.myRadius = cTree1.myVectSegments[cTree1.myVectChildren[segIndex].first].myRadius;
+    sNewLeft.myFlow = cTree1.myVectSegments[cTree1.myVectChildren[segIndex].first].myFlow;
+    sNewRight.myRadius = cTree1.myVectSegments[cTree1.myVectChildren[segIndex].second].myRadius;
+    sNewRight.myFlow = cTree1.myVectSegments[cTree1.myVectChildren[segIndex].second].myFlow;
   }
   
-  return res1 && !res2 && isDone;
+  return isDone;
 }
 
 
@@ -727,7 +736,7 @@ CoronaryArteryTree::kamyiaOptimization(const Point2D& pCurrent,
   
   for (int i = 0; i<nbIter && hasSolution; i++) {
     //DGtal::trace.progressBar(i, nbIter);
-    hasSolution = kamiyaOpt(my_gamma, deltaP1, deltaP2, f0, f1, f2, l0, l1, l2,rr1, rr2);
+    hasSolution = kamyiaOpt(my_gamma, deltaP1, deltaP2, f0, f1, f2, l0, l1, l2,rr1, rr2);
     // Equation 27
     R0 = pow(f0*(pow(rr1, my_gamma)/f1 + pow(rr2, my_gamma)/f2), 1.0/my_gamma);
     R1 = rr1;
@@ -798,9 +807,18 @@ bool
 CoronaryArteryTree::restrainDomain(const std::string &imageName, unsigned int threshold){
   myImageFileDomain = imageName;
   myImageDomain = DGtal::GenericReader<Image>::import( imageName );
+  bool isOk = false;
   // Check if at least one pixel of with foreground value exist:
   for (auto p: myImageDomain.domain()){
     if (myImageDomain(p) >= threshold){
+      isOk = true;
+      break;
+    }
+  }
+  //Check if the root is inside the domaine
+  if(isOk) {
+    Point2D pRoot = myVectSegments[0].myCoordinate;
+    if(myImageDomain(DGtal::Z2i::Point(static_cast<int>(pRoot[0]), static_cast<int>(pRoot[1]))) >= threshold) {
       myIsImageDomainRestrained = true;
       return true;
     }
