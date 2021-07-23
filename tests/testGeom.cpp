@@ -146,7 +146,7 @@ int main(int argc, char *const *argv)
   DGtal::trace.beginBlock("Testing computation of ditance map..");
 
   typedef typename DGtal::ImageContainerBySTLVector<DGtal::Z2i::Domain, double> ImageDouble;
-  ImageDouble imgD = ConstructionHelpers::getImageDistance<CoronaryArteryTree::Image, ImageDouble>(img);
+  ImageDouble imgD = getImageDistance<CoronaryArteryTree::Image, ImageDouble>(img);
   DGtal::Z2i::Point pInt(313, 201);
   DGtal::Z2i::Point pExt(20, 20);
 

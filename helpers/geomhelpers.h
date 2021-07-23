@@ -15,6 +15,8 @@
 #include "DGtal/base/Common.h"
 #include "DGtal/helpers/StdDefs.h"
 #include "DGtal/images/ImageContainerBySTLVector.h"
+#include "DGtal/images/IntervalForegroundPredicate.h"
+#include "DGtal/geometry/volumes/distance/DistanceTransformation.h"
 
 
 #include "ceres/ceres.h"
@@ -297,6 +299,20 @@ static bool kamyiaOpt(double gamma, double deltaP1, double deltaP2, double f0, d
 }
 
 
+template< typename TImage, typename TImageDistance>
+inline
+TImageDistance
+getImageDistance(const TImage &image, unsigned int threshold=128){
+  TImageDistance res (image.domain());
+  typedef DGtal::functors::IntervalForegroundPredicate<TImage> Binarizer;
+  typedef DGtal::DistanceTransformation<DGtal::Z2i::Space, Binarizer, DGtal::Z2i::L2Metric> DTL2;
+  Binarizer b(image, threshold, 255);
+  DTL2 dt(&image.domain(),&b, &DGtal::Z2i::l2Metric);
+  for (auto p: dt.domain()){
+    res.setValue(p, dt(p));
+  }
+  return res;
+}
 
 
 
