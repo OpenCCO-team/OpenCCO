@@ -29,11 +29,11 @@ int main(int argc, char *const *argv)
   double aPerf {20000};
   bool verbose {false};
   std::string nameImgDom {""}; 
-  std::vector<int> postInitV {0,0};
+  std::vector<int> postInitV {-1,-1};
   app.add_option("-n,--nbTerm,1", nbTerm, "Set the number of terminal segments.", true);
   app.add_option("-a,--aPerf,2", aPerf, "The value of the input parameter A perfusion.", true);
   app.add_option("--organDomain,-d", nameImgDom, "Define the organ domain using a mask image (organ=255).");
-  app.add_option("-p,--posInit", postInitV, "Initial position of root")
+  app.add_option("-p,--posInit", postInitV, "Initial position of root, if not given the position of point is determined from the image center")
   ->expected(2);
   app.add_flag("-v,--verbose", verbose);
   app.get_formatter()->column_width(40);

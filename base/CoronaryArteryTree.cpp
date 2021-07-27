@@ -794,6 +794,24 @@ CoronaryArteryTree::selfDisplay( std::ostream & out ) const {
   out << "----" << std::endl;
 }
 
+CoronaryArteryTree::Point2D CoronaryArteryTree::getDomainCenter() const {
+  if (!myIsImageDomainRestrained){
+    return Point2D(0,0);
+  }
+  else {
+    // searching the farthest point of the border domain
+    double maxDistance = 0;
+    Point2D ptMax (0,0);
+    for (auto p: myImageDomain.domain()){
+      if (myImageDist(p) >= maxDistance){
+        ptMax = p;
+        maxDistance = myImageDist(p);
+      }
+    }
+    return ptMax;
+  }
+}
+
 std::ostream&
 operator<< ( std::ostream & out,
             const CoronaryArteryTree & aCoronaryTree )
@@ -835,7 +853,7 @@ CoronaryArteryTree::restrainDomain(const std::string &imageName, unsigned int th
       break;
     }
   }
-  //Check if the root is inside the domaine
+  //Check if the root is inside the domain
   if(isOk) {
     Point2D pRoot = myVectSegments[0].myCoordinate;
     if(myImageDomain(DGtal::Z2i::Point(static_cast<int>(pRoot[0]), static_cast<int>(pRoot[1]))) >= threshold) {

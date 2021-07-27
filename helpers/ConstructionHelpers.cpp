@@ -20,6 +20,10 @@ ConstructionHelpers::constructTree(double aPerf, int nbTerm,
     bool restrainedOK = cTree.restrainDomain(imageOrgan, fgTh);
     if (restrainedOK){
       DGtal::trace.info() << "Using restrained image  " << imageOrgan << std::endl;
+      if (ptCenter[0]==-1 && ptCenter[0]==-1) {
+        CoronaryArteryTree::Point2D pC = cTree.getDomainCenter();
+        cTree.myVectSegments[1].myCoordinate = pC;
+      }
     }
   }
   bool isOK = false;

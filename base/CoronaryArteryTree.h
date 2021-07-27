@@ -561,6 +561,12 @@ public:
    */
   void selfDisplay( std::ostream & out ) const;
   
+  /**
+   * Get the supported domain of the tree. By default it is defined from the circle center.
+   * If the domain if defined from a mask image, the center if computed from the imate center.
+   */
+  Point2D getDomainCenter() const;
+  
   
   /**
    * Export the current display of the tree.
