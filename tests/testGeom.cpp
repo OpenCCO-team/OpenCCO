@@ -161,10 +161,20 @@ int main(int argc, char *const *argv)
   DGtal::trace.info() << "Export distance map...";
   DGtal::trace.info() << "[Done]" << std::endl;
   imgD >> "distanceMap.pgm" ;
+  DGtal::trace.endBlock();
+
+  
+  DGtal::trace.beginBlock("Testing generate circle points.");
+  DGtal::Z2i::DigitalSet vPt =  GeomHelpers::pointsOnCircle(DGtal::Z2i::Point(3,3), 4);
+  DGtal::trace.info() << "Nb points :" << vPt.size() <<
+  " Should be more than 0 "<< ( vPt.size() > 0 ? " OK": "KO") <<   std::endl;
+  DGtal::trace.info() << "Should contain P(7,3) and P(-1,3) :"
+  << (vPt.find(DGtal::Z2i::Point(7,3)) != vPt.end()  && vPt.find(DGtal::Z2i::Point(-1,3)) != vPt.end() ? " OK": "KO") << std::endl;
   
   
   DGtal::trace.endBlock();
 
+  
   
   
   return EXIT_SUCCESS;
