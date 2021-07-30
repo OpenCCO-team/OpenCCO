@@ -587,6 +587,18 @@ public:
    */
   bool restrainDomain(const std::string &imageName, unsigned int threshold=128);
   
+private:
+ /**
+  * Try to find the root point (the non distal vertex of the first segment).
+  * The center of tree (distal segment) is supposed to be already given and
+  * and this function try to find a point P_root on circular area with the condition that
+  * that the segment [P_root, P_center] .
+  * @param d the distance to search around the central point.
+  * @return true of the root point was found.
+  */
+  bool searchRootFarthest(const double & d);
+  
+  
 };
 
 

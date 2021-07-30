@@ -867,6 +867,20 @@ CoronaryArteryTree::restrainDomain(const std::string &imageName, unsigned int th
 
 
 
+bool
+CoronaryArteryTree::searchRootFarthest(const double & d){
+  DGtal::Z2i::DigitalSet sPts =  GeomHelpers::pointsOnCircle(myTreeCenter, d);
+  for (const DGtal::Z2i::Point &p : sPts){
+      if (GeomHelpers::checkNoIntersectDomain(myImageDomain, myForegroundThreshold,
+                                              p, DGtal::Z2i::Point(myTreeCenter[0],
+                                                                   myTreeCenter[1]))){
+        
+      }
+    
+  }
+}
+
+
 bool operator==(CoronaryArteryTree::Segment<CoronaryArteryTree::Point2D>  S1, CoronaryArteryTree::Segment<CoronaryArteryTree::Point2D> S2)
 {
   if(S1.myCoordinate==S2.myCoordinate)
