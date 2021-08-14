@@ -594,9 +594,10 @@ private:
   * and this function try to find a point P_root on circular area with the condition that
   * that the segment [P_root, P_center] .
   * @param d the distance to search around the central point.
+  *  @param[out] ptRoot the root point is updated if found.
   * @return true of the root point was found.
   */
-  bool searchRootFarthest(const double & d);
+  bool searchRootFarthest(const double & d, DGtal::Z2i::Point &ptRoot );
   
   
 };
