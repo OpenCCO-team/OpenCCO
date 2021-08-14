@@ -4,6 +4,15 @@
 #include "DGtal/geometry/helpers/ContourHelper.h"
 
 
+void
+ConstructionHelpers::constructTreeImageDomain(double aPerf, int nbTerm,
+                                              std::string imageOrgan,
+                                              unsigned int fgTh,
+                                              bool verbose){
+  // searching center from maximak distance.
+  
+  constructTree(aPerf, nbTerm, imageOrgan, fgTh, verbose);
+}
 
 
 void
