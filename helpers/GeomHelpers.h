@@ -110,6 +110,10 @@ checkNoIntersectDomain(const TImage &image, unsigned int fgTh,
                        const DGtal::Z2i::Point &pt1,
                        const DGtal::Z2i::Point &pt2)
 {
+  if ( !image.domain().isInside(pt1) ||
+      !image.domain().isInside(pt2)){
+    return false;
+  }
   DGtal::Z2i::RealPoint dir = pt2 - pt1;
   dir /= dir.norm();
   DGtal::Z2i::RealPoint p (pt1[0], pt1[1]);

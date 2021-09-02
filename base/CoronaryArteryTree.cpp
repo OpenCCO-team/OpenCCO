@@ -842,9 +842,9 @@ CoronaryArteryTree::findBarycenter(const Point2D &p, unsigned int index)
 
 
 bool
-CoronaryArteryTree::restrainDomain(const std::string &imageName, unsigned int threshold){
+CoronaryArteryTree::érestrainDomain(const Image &imageDom, unsigned int threshold){
   myForegroundThreshold = threshold;
-  myImageDomain = DGtal::GenericReader<Image>::import( imageName );
+  myImageDomain = imageDom;
   bool isOk = false;
   // Check if at least one pixel of with foreground value exist:
   for (auto p: myImageDomain.domain()){
@@ -874,7 +874,7 @@ CoronaryArteryTree::searchRootFarthest(const double & d,
   for (const DGtal::Z2i::Point &p : sPts){
       if (GeomHelpers::checkNoIntersectDomain(myImageDomain, myForegroundThreshold,
                                               p, DGtal::Z2i::Point(myTreeCenter[0],
-                                                                   myTreeCenter[1]))){
+                                                                   myTreeCenter[1])) ){
         ptRoot[0] = p[0];
         ptRoot[1] = p[1];
         return true;

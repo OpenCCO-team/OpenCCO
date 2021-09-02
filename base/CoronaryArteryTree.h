@@ -585,19 +585,23 @@ public:
    * @param threshold the threshold to consider foreground value (used to test if at least one domain pixel exist).
    * @return true the restriction was well set (image exist).
    */
-  bool restrainDomain(const std::string &imageName, unsigned int threshold=128);
+  bool restrainDomain(const Image &imageDom, unsigned int threshold=128);
+
+  
+  /**
+   * Try to find the root point (the non distal vertex of the first segment).
+   * The center of tree (distal segment) is supposed to be already given and
+   * and this function try to find a point P_root on circular area with the condition that
+   * that the segment [P_root, P_center] .
+   * @param d the distance to search around the central point.
+   *  @param[out] ptRoot the root point is updated if found.
+   * @return true of the root point was found.
+   */
+   bool searchRootFarthest(const double & d, DGtal::Z2i::Point &ptRoot );
+  
   
 private:
- /**
-  * Try to find the root point (the non distal vertex of the first segment).
-  * The center of tree (distal segment) is supposed to be already given and
-  * and this function try to find a point P_root on circular area with the condition that
-  * that the segment [P_root, P_center] .
-  * @param d the distance to search around the central point.
-  *  @param[out] ptRoot the root point is updated if found.
-  * @return true of the root point was found.
-  */
-  bool searchRootFarthest(const double & d, DGtal::Z2i::Point &ptRoot );
+
   
   
 };

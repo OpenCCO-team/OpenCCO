@@ -33,7 +33,7 @@ int main(int argc, char *const *argv)
   app.add_option("-n,--nbTerm,1", nbTerm, "Set the number of terminal segments.", true);
   app.add_option("-a,--aPerf,2", aPerf, "The value of the input parameter A perfusion.", true);
   app.add_option("--organDomain,-d", nameImgDom, "Define the organ domain using a mask image (organ=255).");
-  app.add_option("-p,--posInit", postInitV, "Initial position of root, if not given the position of point is determined from the image center")
+  auto pInit = app.add_option("-p,--posInit", postInitV, "Initial position of root, if not given the position of point is determined from the image center")
   ->expected(2);
   app.add_flag("-v,--verbose", verbose);
   app.get_formatter()->column_width(40);
@@ -47,6 +47,9 @@ int main(int argc, char *const *argv)
   //3000 => Execution time: 1023.94746700 sec
   //4000 => Execution time: 1896.94450700 sec
   //5000 => Execution time: 3435.08630500 sec
+  if(nameImgDom != "" && pInit->empty()){
+    ConstructionHelpers::constructTreeImageDomain(aPerf, nbTerm, nameImgDom, 128, verbose);
+  }
   ConstructionHelpers::constructTree(aPerf, nbTerm, nameImgDom, 128, verbose, ptRoot);
   end = clock();
   printf ("Execution time: %0.8f sec\n", ((double) end - start)/CLOCKS_PER_SEC);
