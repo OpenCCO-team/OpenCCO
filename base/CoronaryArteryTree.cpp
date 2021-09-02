@@ -455,7 +455,8 @@ CoronaryArteryTree::boardDisplay(double thickness, bool clearDisplay)
   Point2D p0 = myVectSegments[0].myCoordinate;
   myBoard.setPenColor(DGtal::Color(10, 100, 0, 180));
   myBoard.setLineWidth(1.0);
-  myBoard.fillCircle(p0[0], p0[1], myVectSegments[0].myRadius*thickness, 1);
+  
+  myBoard.fillCircle(p0[0], p0[1], 2.0*myVectSegments[1].myRadius*scaleBoard*thickness, 1);
   
   Point2D p1 = myVectSegments[1].myCoordinate;
   
@@ -856,7 +857,11 @@ CoronaryArteryTree::restrainDomain(const Image &imageDom, unsigned int threshold
   //Check if the root is inside the domain
   if(isOk) {
     Point2D pRoot = myVectSegments[0].myCoordinate;
-    if(myImageDomain(DGtal::Z2i::Point(static_cast<int>(pRoot[0]), static_cast<int>(pRoot[1]))) >= threshold) {
+    DGtal::Z2i::Point pRootI (static_cast<int>(pRoot[0]),
+                              static_cast<int>(pRoot[1]));
+    
+    if(myImageDomain.domain().isInside(pRootI) &&
+       myImageDomain(pRootI) >= threshold) {
       myIsImageDomainRestrained = true;
       myImageDist = GeomHelpers::getImageDistance<Image, ImageDist>(myImageDomain, threshold);
       return true;
