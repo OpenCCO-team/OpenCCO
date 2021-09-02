@@ -17,7 +17,8 @@ ConstructionHelpers::constructTreeImageDomain(double aPerf, int nbTerm,
   DGtal::Z2i::Point pM;
   for(auto p: imgDist.domain()) {if (imgDist(p) > m ){m = imgDist(p); pM = p;}}
   if (verbose){
-    DGtal::trace.info() << "center point found: " << pM << std::endl;
+    DGtal::trace.info() << "center point found: " << pM << "maximal value:"
+                        << m <<   std::endl;
   }
   constructTree(aPerf, nbTerm, imageOrgan, fgTh, verbose, pM);
 }

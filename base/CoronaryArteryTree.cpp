@@ -455,8 +455,12 @@ CoronaryArteryTree::boardDisplay(double thickness, bool clearDisplay)
   Point2D p0 = myVectSegments[0].myCoordinate;
   myBoard.setPenColor(DGtal::Color(10, 100, 0, 180));
   myBoard.setLineWidth(1.0);
-  
   myBoard.fillCircle(p0[0], p0[1], 2.0*myVectSegments[1].myRadius*scaleBoard*thickness, 1);
+  
+  myBoard.setPenColor(DGtal::Color(100, 100, 0, 180));
+  myBoard.setLineWidth(1.0);
+  myBoard.fillCircle(myTreeCenter[0], myTreeCenter[1], 2.0*myVectSegments[1].myRadius*scaleBoard*thickness, 1);
+  
   
   Point2D p1 = myVectSegments[1].myCoordinate;
   
