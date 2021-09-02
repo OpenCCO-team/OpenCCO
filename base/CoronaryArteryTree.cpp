@@ -45,8 +45,8 @@ CoronaryArteryTree::updateResistanceFromRoot(unsigned int segIndex) {
     double r1 = myVectSegments[segIndexLeft].myBeta;
     double r2 = myVectSegments[segIndexRight].myBeta;
     myVectSegments[segIndex].myResistance += 1.0/((r1*r1*r1*r1)/sLeft.myResistance + (r2*r2*r2*r2)/sRight.myResistance) ;
-    return myVectSegments[segIndex];
   }
+  return myVectSegments[segIndex];
 }
 
 void
@@ -842,7 +842,7 @@ CoronaryArteryTree::findBarycenter(const Point2D &p, unsigned int index)
 
 
 bool
-CoronaryArteryTree::érestrainDomain(const Image &imageDom, unsigned int threshold){
+CoronaryArteryTree::restrainDomain(const Image &imageDom, unsigned int threshold){
   myForegroundThreshold = threshold;
   myImageDomain = imageDom;
   bool isOk = false;
