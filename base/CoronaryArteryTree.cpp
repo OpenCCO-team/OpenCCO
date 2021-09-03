@@ -601,20 +601,21 @@ CoronaryArteryTree::generateALocation(double myDThresold) {
     res = GeomHelpers::generateRandomPtOnDisk(myTreeCenter, my_rPerf);
   }
   bool isComp = true;
+  bool isComp2 = true;
   unsigned int id = 1;
-  /*
+  
   while ( isComp && id < myVectTerminals.size() ) {
-    //isComp = (myVectSegments[myVectTerminals[id]].myCoordinate - res).norm() > myDThresold;
-   isComp = getProjDistance(myVectTerminals[id], res) > myDThresold;
+    isComp = (myVectSegments[myVectTerminals[id]].myCoordinate - res).norm() > myDThresold;
+   //isComp = getProjDistance(myVectTerminals[id], res) > myDThresold;
     id++;
   }
-  */
+  
   //generated point must have a certain distance to ALL tree segments
-  while ( isComp && id < myVectSegments.size() ) {
-    isComp = getProjDistance(myVectSegments[id].myIndex, res) > myDThresold;
+  while ( isComp2 && id < myVectSegments.size() ) {
+    isComp2 = getProjDistance(myVectSegments[id].myIndex, res) > myVectSegments[id].myRadius;
     id++;
   }
-  return  std::pair<Point2D, bool> {res, isComp};
+  return  std::pair<Point2D, bool> {res, isComp && isComp2};
 }
 
 bool

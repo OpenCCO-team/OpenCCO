@@ -30,13 +30,12 @@ ConstructionHelpers::constructTree(double aPerf, int nbTerm,
                                    bool verbose, DGtal::Z2i::Point ptCenter) {
   DGtal::trace.beginBlock("Testing class CoronaryArteryTree: test random adds with distance constraint");
   srand (time(NULL));
-  
-  double rRoot;// = 100.0; //1.0;//10.0/nbTerm;
+  double distSearchRoot = 10;
+  double rRoot = 1.0;// = 100.0; //1.0;//10.0/nbTerm;
   std::string filename;
   
   CoronaryArteryTree cTree (aPerf, nbTerm, rRoot, ptCenter);
   if (imageOrgan != ""){
-    rRoot = 100;
     auto img = DGtal::GenericReader<CoronaryArteryTree::Image>::import( imageOrgan );
     bool restrainedOK = cTree.restrainDomain(img, fgTh);
     if (restrainedOK){
@@ -48,13 +47,9 @@ ConstructionHelpers::constructTree(double aPerf, int nbTerm,
         cTree.myVectSegments[1].myCoordinate = pC;
       }
       DGtal::Z2i::Point pRoot;
-      cTree.searchRootFarthest(rRoot, pRoot);
+      cTree.searchRootFarthest(distSearchRoot, pRoot);
       cTree.myVectSegments[0].myCoordinate = pRoot;
-    }else{
-      rRoot = 1.0;
     }
-  }else{
-    rRoot = 1.0;
   }
   bool isOK = false;
   unsigned int nbSeed = cTree.my_NTerm;
