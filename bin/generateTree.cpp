@@ -49,10 +49,11 @@ int main(int argc, char *const *argv)
   //5000 => Execution time: 3435.08630500 sec
   if(nameImgDom != "" && pInit->empty()){
     ConstructionHelpers::constructTreeImageDomain(aPerf, nbTerm, nameImgDom, 128, verbose);
+  } else {
+    ConstructionHelpers::constructTree(aPerf, nbTerm, nameImgDom, 128, verbose, ptRoot);
   }
-  ConstructionHelpers::constructTree(aPerf, nbTerm, nameImgDom, 128, verbose, ptRoot);
   end = clock();
   printf ("Execution time: %0.8f sec\n", ((double) end - start)/CLOCKS_PER_SEC);
-  
+
   return EXIT_SUCCESS;
 }

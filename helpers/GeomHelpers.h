@@ -17,6 +17,12 @@
 #include "DGtal/images/ImageContainerBySTLVector.h"
 #include "DGtal/images/IntervalForegroundPredicate.h"
 #include "DGtal/geometry/volumes/distance/DistanceTransformation.h"
+#include "DGtal/shapes/implicit/ImplicitBall.h"
+#include "DGtal/shapes/GaussDigitizer.h"
+#include "DGtal/shapes/Shapes.h"
+#include "DGtal/topology/LightImplicitDigitalSurface.h"
+#include "DGtal/shapes/EuclideanShapesDecorator.h"
+
 
 
 #include "ceres/ceres.h"
@@ -104,6 +110,10 @@ checkNoIntersectDomain(const TImage &image, unsigned int fgTh,
                        const DGtal::Z2i::Point &pt1,
                        const DGtal::Z2i::Point &pt2)
 {
+  if ( !image.domain().isInside(pt1) ||
+      !image.domain().isInside(pt2)){
+    return false;
+  }
   DGtal::Z2i::RealPoint dir = pt2 - pt1;
   dir /= dir.norm();
   DGtal::Z2i::RealPoint p (pt1[0], pt1[1]);
@@ -194,7 +204,27 @@ projectOnStraightLine(const TPoint & ptA,
 }
 
 
-
+template<typename TPoint>
+inline
+DGtal::Z2i::DigitalSet
+pointsOnCircle(const TPoint & ptCenter,
+               double radius)
+{
+  typedef DGtal::ImplicitBall< DGtal::Z2i::Space > MyBall;
+  MyBall disk( ptCenter, radius-0.5 );
+  MyBall diskDilate( ptCenter, radius+0.5 );
+  typedef DGtal::EuclideanShapesCSG< MyBall, MyBall > Minus;
+  Minus border ( diskDilate );
+  border.minus( disk );
+  typedef DGtal::GaussDigitizer< DGtal::Z2i::Space, Minus > MyGaussDigitizer;
+  MyGaussDigitizer digShape;
+  digShape.attach( border );
+  digShape.init( border.getLowerBound(), border.getUpperBound(), 1 );
+  DGtal::Z2i::Domain domainShape = digShape.getDomain();
+  DGtal::Z2i::DigitalSet aSet( domainShape );
+  DGtal::Shapes<DGtal::Z2i::Domain>::digitalShaper( aSet, digShape );
+  return aSet;
+}
 
 /**
  * From two segments represented by the end points, it returns true if

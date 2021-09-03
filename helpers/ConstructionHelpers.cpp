@@ -2,8 +2,26 @@
 #include "ConstructionHelpers.h"
 #include "CoronaryArteryTree.h"
 #include "DGtal/geometry/helpers/ContourHelper.h"
+#include "DGtal/io/readers/GenericReader.h"
 
-
+void
+ConstructionHelpers::constructTreeImageDomain(double aPerf, int nbTerm,
+                                              std::string imageOrgan,
+                                              unsigned int fgTh,
+                                              bool verbose){
+  // searching center from maximak distance.
+  auto img = DGtal::GenericReader<CoronaryArteryTree::Image>::import( imageOrgan );
+  auto imgDist = GeomHelpers::getImageDistance<CoronaryArteryTree::Image,
+                                              CoronaryArteryTree::ImageDist>(img);
+  double m = 0.0;
+  DGtal::Z2i::Point pM;
+  for(auto p: imgDist.domain()) {if (imgDist(p) > m ){m = imgDist(p); pM = p;}}
+  if (verbose){
+    DGtal::trace.info() << "center point found: " << pM << "maximal value:"
+                        << m <<   std::endl;
+  }
+  constructTree(aPerf, nbTerm, imageOrgan, fgTh, verbose, pM);
+}
 
 
 void
@@ -12,14 +30,25 @@ ConstructionHelpers::constructTree(double aPerf, int nbTerm,
                                    bool verbose, DGtal::Z2i::Point ptCenter) {
   DGtal::trace.beginBlock("Testing class CoronaryArteryTree: test random adds with distance constraint");
   srand (time(NULL));
-  double rRoot = 1.0;//10.0/nbTerm;
+  double distSearchRoot = 10;
+  double rRoot = 1.0;// = 100.0; //1.0;//10.0/nbTerm;
   std::string filename;
   
   CoronaryArteryTree cTree (aPerf, nbTerm, rRoot, ptCenter);
   if (imageOrgan != ""){
-    bool restrainedOK = cTree.restrainDomain(imageOrgan, fgTh);
+    auto img = DGtal::GenericReader<CoronaryArteryTree::Image>::import( imageOrgan );
+    bool restrainedOK = cTree.restrainDomain(img, fgTh);
     if (restrainedOK){
       DGtal::trace.info() << "Using restrained image  " << imageOrgan << std::endl;
+      cTree.myVectSegments[1].myCoordinate = ptCenter;
+      cTree.myTreeCenter = ptCenter;
+      if (ptCenter[0]==-1 && ptCenter[0]==-1) {
+        CoronaryArteryTree::Point2D pC = cTree.getDomainCenter();
+        cTree.myVectSegments[1].myCoordinate = pC;
+      }
+      DGtal::Z2i::Point pRoot;
+      cTree.searchRootFarthest(distSearchRoot, pRoot);
+      cTree.myVectSegments[0].myCoordinate = pRoot;
     }
   }
   bool isOK = false;

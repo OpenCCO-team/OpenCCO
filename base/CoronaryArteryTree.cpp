@@ -45,8 +45,8 @@ CoronaryArteryTree::updateResistanceFromRoot(unsigned int segIndex) {
     double r1 = myVectSegments[segIndexLeft].myBeta;
     double r2 = myVectSegments[segIndexRight].myBeta;
     myVectSegments[segIndex].myResistance += 1.0/((r1*r1*r1*r1)/sLeft.myResistance + (r2*r2*r2*r2)/sRight.myResistance) ;
-    return myVectSegments[segIndex];
   }
+  return myVectSegments[segIndex];
 }
 
 void
@@ -455,7 +455,12 @@ CoronaryArteryTree::boardDisplay(double thickness, bool clearDisplay)
   Point2D p0 = myVectSegments[0].myCoordinate;
   myBoard.setPenColor(DGtal::Color(10, 100, 0, 180));
   myBoard.setLineWidth(1.0);
-  myBoard.fillCircle(p0[0], p0[1], myVectSegments[0].myRadius*thickness, 1);
+  myBoard.fillCircle(p0[0], p0[1], 2.0*myVectSegments[1].myRadius*scaleBoard*thickness, 1);
+  
+  myBoard.setPenColor(DGtal::Color(100, 100, 0, 180));
+  myBoard.setLineWidth(1.0);
+  myBoard.fillCircle(myTreeCenter[0], myTreeCenter[1], 2.0*myVectSegments[1].myRadius*scaleBoard*thickness, 1);
+  
   
   Point2D p1 = myVectSegments[1].myCoordinate;
   
@@ -596,20 +601,21 @@ CoronaryArteryTree::generateALocation(double myDThresold) {
     res = GeomHelpers::generateRandomPtOnDisk(myTreeCenter, my_rPerf);
   }
   bool isComp = true;
+  bool isComp2 = true;
   unsigned int id = 1;
-  /*
+  
   while ( isComp && id < myVectTerminals.size() ) {
-    //isComp = (myVectSegments[myVectTerminals[id]].myCoordinate - res).norm() > myDThresold;
-   isComp = getProjDistance(myVectTerminals[id], res) > myDThresold;
+    isComp = (myVectSegments[myVectTerminals[id]].myCoordinate - res).norm() > myDThresold;
+   //isComp = getProjDistance(myVectTerminals[id], res) > myDThresold;
     id++;
   }
-  */
+  
   //generated point must have a certain distance to ALL tree segments
-  while ( isComp && id < myVectSegments.size() ) {
-    isComp = getProjDistance(myVectSegments[id].myIndex, res) > myDThresold;
+  while ( isComp2 && id < myVectSegments.size() ) {
+    isComp2 = getProjDistance(myVectSegments[id].myIndex, res) > myVectSegments[id].myRadius;
     id++;
   }
-  return  std::pair<Point2D, bool> {res, isComp};
+  return  std::pair<Point2D, bool> {res, isComp && isComp2};
 }
 
 bool
@@ -794,6 +800,24 @@ CoronaryArteryTree::selfDisplay( std::ostream & out ) const {
   out << "----" << std::endl;
 }
 
+CoronaryArteryTree::Point2D CoronaryArteryTree::getDomainCenter() const {
+  if (!myIsImageDomainRestrained){
+    return Point2D(0,0);
+  }
+  else {
+    // searching the farthest point of the border domain
+    double maxDistance = 0;
+    Point2D ptMax (0,0);
+    for (auto p: myImageDomain.domain()){
+      if (myImageDist(p) >= maxDistance){
+        ptMax = p;
+        maxDistance = myImageDist(p);
+      }
+    }
+    return ptMax;
+  }
+}
+
 std::ostream&
 operator<< ( std::ostream & out,
             const CoronaryArteryTree & aCoronaryTree )
@@ -824,9 +848,9 @@ CoronaryArteryTree::findBarycenter(const Point2D &p, unsigned int index)
 
 
 bool
-CoronaryArteryTree::restrainDomain(const std::string &imageName, unsigned int threshold){
+CoronaryArteryTree::restrainDomain(const Image &imageDom, unsigned int threshold){
   myForegroundThreshold = threshold;
-  myImageDomain = DGtal::GenericReader<Image>::import( imageName );
+  myImageDomain = imageDom;
   bool isOk = false;
   // Check if at least one pixel of with foreground value exist:
   for (auto p: myImageDomain.domain()){
@@ -835,10 +859,14 @@ CoronaryArteryTree::restrainDomain(const std::string &imageName, unsigned int th
       break;
     }
   }
-  //Check if the root is inside the domaine
+  //Check if the root is inside the domain
   if(isOk) {
     Point2D pRoot = myVectSegments[0].myCoordinate;
-    if(myImageDomain(DGtal::Z2i::Point(static_cast<int>(pRoot[0]), static_cast<int>(pRoot[1]))) >= threshold) {
+    DGtal::Z2i::Point pRootI (static_cast<int>(pRoot[0]),
+                              static_cast<int>(pRoot[1]));
+    
+    if(myImageDomain.domain().isInside(pRootI) &&
+       myImageDomain(pRootI) >= threshold) {
       myIsImageDomainRestrained = true;
       myImageDist = GeomHelpers::getImageDistance<Image, ImageDist>(myImageDomain, threshold);
       return true;
@@ -847,6 +875,23 @@ CoronaryArteryTree::restrainDomain(const std::string &imageName, unsigned int th
   return false;
 }
 
+
+
+bool
+CoronaryArteryTree::searchRootFarthest(const double & d,
+                                       DGtal::Z2i::Point &ptRoot ){
+  DGtal::Z2i::DigitalSet sPts =  GeomHelpers::pointsOnCircle(myTreeCenter, d);
+  for (const DGtal::Z2i::Point &p : sPts){
+      if (GeomHelpers::checkNoIntersectDomain(myImageDomain, myForegroundThreshold,
+                                              p, DGtal::Z2i::Point(myTreeCenter[0],
+                                                                   myTreeCenter[1])) ){
+        ptRoot[0] = p[0];
+        ptRoot[1] = p[1];
+        return true;
+      }
+  }
+  return false;
+}
 
 
 bool operator==(CoronaryArteryTree::Segment<CoronaryArteryTree::Point2D>  S1, CoronaryArteryTree::Segment<CoronaryArteryTree::Point2D> S2)
