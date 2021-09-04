@@ -20,18 +20,19 @@ ConstructionHelpers::constructTreeImageDomain(double aPerf, int nbTerm,
     DGtal::trace.info() << "center point found: " << pM << "maximal value:"
                         << m <<   std::endl;
   }
-  constructTree(aPerf, nbTerm, imageOrgan, fgTh, verbose, pM);
+  constructTree(aPerf, nbTerm, imageOrgan, fgTh, verbose, pM,
+                static_cast<unsigned int >(m)/2.0);
 }
 
 
 void
 ConstructionHelpers::constructTree(double aPerf, int nbTerm,
                                    std::string imageOrgan, unsigned int fgTh,
-                                   bool verbose, DGtal::Z2i::Point ptCenter) {
+                                   bool verbose, DGtal::Z2i::Point ptCenter,
+                                   unsigned int distSearchRoot) {
   DGtal::trace.beginBlock("Testing class CoronaryArteryTree: test random adds with distance constraint");
   srand (time(NULL));
-  double distSearchRoot = 10;
-  double rRoot = 1.0;// = 100.0; //1.0;//10.0/nbTerm;
+  double rRoot = 1.0;
   std::string filename;
   
   CoronaryArteryTree cTree (aPerf, nbTerm, rRoot, ptCenter);
