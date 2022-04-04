@@ -157,17 +157,15 @@ protected:
 public: 
   
   /**
-   * @brief Default constructor.
+   * @brief Default constructor by considering circle based domain.
    * @brief It generates the first root segment with tree center as the first terminal point.
    * @param aPerf: surface of the perfusion.
    * @param nTerm: number of terminal segments.
    **/
   
-  CoronaryArteryTree(double aPerf, unsigned int nTerm, double aRadius = 1.0, DGtal::Z2i::Point treeCenter = DGtal::Z2i::Point(0,0) ){
+  CoronaryArteryTree(double aPerf, unsigned int nTerm, double aRadius = 1.0){
     assert(nTerm>=1);
-    myTreeCenter[0] = treeCenter[0];
-    myTreeCenter[1] = treeCenter[1];
-
+    myTreeCenter = DGtal::Z2i::Point(0,0);
     myRsupp = sqrt(aPerf/(nTerm*M_PI));
     my_rPerf = sqrt(aPerf/M_PI);
     my_aPerf = aPerf;
@@ -176,11 +174,10 @@ public:
     if(nTerm > 250)
       my_pTerm = 7.98e3;
     my_pDrop = my_pPerf-my_pTerm;
-    //myDThresold = sqrt(M_PI*myRsupp*myRsupp/myKTerm);
     
     // Construction of the special root segment
     Point2D ptRoot = myTreeCenter;
-    ptRoot[1] += my_rPerf;// Point2D(0,my_rPerf);
+    ptRoot[1] += my_rPerf;
     Segment<Point2D> s;
     s.myRadius = aRadius;
     s.myCoordinate = ptRoot;
@@ -210,14 +207,16 @@ public:
     DGtal::trace.info() << "Construction initialized..." << std::endl;
   };
   
+  
+  
   /**
-   * @brief Constructor.
+   * @brief Default constructor by considering circle based domain. (mainly used in TestSchreiner)
    * @brief It generates the first root segment by randomly choose the first terminal point.
    * @param ptRoot: coordinates of the root special segment (who have no parent)
    * @param aPerf: surface of the perfusion.
    * @param nTerm: number of terminal segments.
    **/
-  
+
   CoronaryArteryTree(const Point2D &ptRoot, double aPerf, unsigned int nTerm, double aRadius = 1.0 ){
     assert(nTerm>=1);
     myTreeCenter = Point2D(0,0);
@@ -262,6 +261,8 @@ public:
     updateRootRadius();
     DGtal::trace.info() << "Construction initialized..." << std::endl;
   };
+  
+  
   
   /**
    * @brief Constructor.
