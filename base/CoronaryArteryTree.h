@@ -47,7 +47,8 @@ public:
   
   // Represent the left and right
   typedef std::pair<unsigned int, unsigned int> SegmentChildren;
-  typedef DGtal::Z2i::RealPoint Point2D;
+  //typedef DGtal::Z2i::RealPoint Point3D;
+  typedef DGtal::Z3i::RealPoint Point3D;
   
   template <typename TPoint>
   struct Segment{
@@ -74,7 +75,7 @@ public:
   // to recover the parent of an indexed segement
   std::vector<unsigned int >  myVectParent;
   // represents all the vertices of the graph
-  std::vector<Segment<Point2D>> myVectSegments;
+  std::vector<Segment<Point3D>> myVectSegments;
   // to store the index of the terminal segments
   std::vector<unsigned int> myVectTerminals;
   
@@ -82,34 +83,34 @@ public:
   // Global biological parameters
   
   // my_NTerm: number of terminal segments
-  unsigned int my_NTerm = 1;
+  unsigned int my_NTerm = 1; //Default value, to be updated
   
   // my_rPref final radius of circular area (m)
-  double my_rPerf = 1.0;
+  double my_rPerf = 1.0; //Default value, to be updated
   
   // my_qPerf LAD flow in vasodilated
-  double my_qPerf = 8.33e3; //0.00000833;
+  double my_qPerf = 8.33e3; //0.00000833; 500 mL/min = 8.33e3 mm3/s
   
   // my_pPerf perfusion pressure
-  double my_pPerf = 1.33e4; //13300.0;
+  double my_pPerf = 1.33e4; //13300.0; 100 mmHg = 1.33e4 Pa
   
   // my_pTerm pressure et distal ends of terminal segment
-  double my_pTerm = 8.40e3;
+  double my_pTerm = 8.40e3; //60 mmHg = 8.40e3 Pa
   
   // my_qTerm flow in one terminal segment
-  double my_qTerm = 1000;
+  double my_qTerm = 1000; //Default value, to be updated
   
   // my_gamma: bifurcation exponent (2.10-3.0)
   double my_gamma = 3.0;
   
   // my_mu: viscosity of blood
-  double my_mu = 3.6e-3; //3.6;
+  double my_mu = 3.6e-3; //3.6 cp = 3.6e-3 Pa;
   
   // my_aPerf: Perfusion area
-  double my_aPerf = 10000;
+  double my_aPerf = 10000; //Default value, to be updated
   
   // my_pDrop = my_pPerf-my_pTerm
-  double my_pDrop = 4900;
+  double my_pDrop = 4900; //Default value, to be updated
   
   // End biological parameters
   //-----------------------------
@@ -124,7 +125,7 @@ public:
   double myRsupp = 0.0;
   
   // myTreeCenter: coordinate of the tree center used to define the main domain.
-  Point2D myTreeCenter;
+  Point3D myTreeCenter;
   
   // myNumNeighbor : represents the number of nearest neighbours to be tested
   int myNumNeighbor = 20;
@@ -150,9 +151,9 @@ public:
   
   CoronaryArteryTree(double aPerf, unsigned int nTerm, double aRadius = 1.0 ){
      
-    myTreeCenter = Point2D(0,0);
-    myRsupp = sqrt(aPerf/(nTerm*M_PI));
-    my_rPerf = sqrt(aPerf/M_PI);
+    myTreeCenter = Point3D(0,0,0);
+    myRsupp = pow(3.0*aPerf/(4.0*M_PI*nTerm),1.0/3.0);//2D: sqrt(aPerf/(nTerm*M_PI));
+    my_rPerf = pow(3.0*aPerf/(4.0*M_PI),1.0/3.0);//2D: sqrt(aPerf/M_PI);
     my_aPerf = aPerf;
     my_NTerm = nTerm;
     my_qTerm = my_qPerf / my_NTerm;
@@ -162,8 +163,8 @@ public:
     //myDThresold = sqrt(M_PI*myRsupp*myRsupp/myKTerm);
     
     // Construction of the special root segment
-    Point2D ptRoot = Point2D(0,my_rPerf);
-    Segment<Point2D> s;
+    Point3D ptRoot = Point3D(0,my_rPerf,0);
+    Segment<Point3D> s;
     s.myRadius = aRadius;
     s.myCoordinate = ptRoot;
     s.myIndex = 0;
@@ -174,7 +175,7 @@ public:
     updateLengthFactor();
     
     // Construction of the first segment after the root
-    Segment<Point2D> s1;
+    Segment<Point3D> s1;
     s1.myRadius = aRadius;
     s1.myCoordinate = myTreeCenter;
     double myLength = (ptRoot-s1.myCoordinate).norm()*myLengthFactor;
@@ -193,18 +194,17 @@ public:
   };
   
   /**
-   * @brief Constructor.
-   * @brief It generates the first root segment by randomly choose the first terminal point.
-   * @param ptRoot: coordinates of the root special segment (who have no parent)
+   * @brief Default constructor.
+   * @brief It generates the first root segment with tree center as the first terminal point.
    * @param aPerf: surface of the perfusion.
    * @param nTerm: number of terminal segments.
    **/
   
-  CoronaryArteryTree(const Point2D &ptRoot, double aPerf, unsigned int nTerm, double aRadius = 1.0 ){
+  CoronaryArteryTree(double aPerf, unsigned int nTerm, std::vector<Point3D> constraintSeeds, double aRadius = 1.0 ){
      
-    myTreeCenter = Point2D(0,0);
-    myRsupp = sqrt(aPerf/(nTerm*M_PI));
-    my_rPerf = sqrt(aPerf/M_PI);
+    myTreeCenter = Point3D(0,0,0);
+    myRsupp = pow(3.0*aPerf/(4.0*M_PI*nTerm),1.0/3.0);//2D: sqrt(aPerf/(nTerm*M_PI));
+    my_rPerf = pow(3.0*aPerf/(4.0*M_PI),1.0/3.0);//2D: sqrt(aPerf/M_PI);
     my_aPerf = aPerf;
     my_NTerm = nTerm;
     my_qTerm = my_qPerf / my_NTerm;
@@ -214,8 +214,8 @@ public:
     //myDThresold = sqrt(M_PI*myRsupp*myRsupp/myKTerm);
     
     // Construction of the special root segment
-    assert((ptRoot - myTreeCenter).norm() == my_rPerf); //ptRoot must be on the perfusion circle
-    Segment<Point2D> s;
+    Point3D ptRoot = constraintSeeds.at(0); //FIXME: check inside domaine
+    Segment<Point3D> s;
     s.myRadius = aRadius;
     s.myCoordinate = ptRoot;
     s.myIndex = 0;
@@ -226,7 +226,98 @@ public:
     updateLengthFactor();
     
     // Construction of the first segment after the root
-    Segment<Point2D> s1;
+    Segment<Point3D> s1;
+    s1.myRadius = aRadius;
+    s1.myCoordinate = constraintSeeds.at(1);
+    double myLength = (ptRoot-s1.myCoordinate).norm()*myLengthFactor;
+    s1.myIndex = 1;
+    s1.myKTerm = 1; //it contains terminal itself
+    s1.myResistance = 8.0*my_mu*myLength/M_PI;
+    s1.myFlow = my_qTerm;
+    s1.myBeta = 1.0;
+    
+    myVectSegments.push_back(s1);
+    myVectTerminals.push_back(1);
+    myVectParent.push_back(0); //if parent index is the root
+    myVectChildren.push_back(std::pair<unsigned int, unsigned int>(0,0)); // if children index is itself, it is an end segment.
+    updateRootRadius();
+    
+    //Add other constraint seed
+    for(unsigned int i=2; i<constraintSeeds.size(); i++) {
+      int nbSol = 0, itOpt = 0;
+      bool isOK = false;
+      CoronaryArteryTree cTreeOpt = *this;
+      double volOpt = -1.0, vol = 0.0;
+      while (nbSol==0) {
+        CoronaryArteryTree::Point3D pt = constraintSeeds.at(i);
+        std::vector<unsigned int> vecN = this->getN_NearestSegments(pt,this->myNumNeighbor);
+        for(size_t it=0; it<vecN.size(); it++) {
+          if(! this->isIntersecting(pt, this->findBarycenter(pt, vecN.at(it)),vecN.at(it),this->myNumNeighbor, 2*this->myVectSegments[vecN.at(it)].myRadius)) {
+            CoronaryArteryTree cTree1 = *this;
+            isOK = cTree1.isAddable(pt,vecN.at(it), 100, 0.01, cTree1.myNumNeighbor);
+            if(isOK) {
+              vol = cTree1.computeTotalVolume(1);
+              if(volOpt<0.0) {
+                volOpt = vol;
+                cTreeOpt = cTree1;
+                itOpt = it;
+              }
+              else {
+                if(volOpt>vol) {
+                  volOpt = vol;
+                  cTreeOpt = cTree1;
+                  itOpt = it;
+                }
+              }
+              nbSol++;
+            }
+          }
+        }
+      }
+      *this = cTreeOpt;
+      this->updateLengthFactor();
+      this->updateResistanceFromRoot();
+      this->updateRootRadius();
+    }
+    
+    DGtal::trace.info() << "Construction initialized..." << std::endl;
+  };
+  
+  /**
+   * @brief Constructor.
+   * @brief It generates the first root segment by randomly choose the first terminal point.
+   * @param ptRoot: coordinates of the root special segment (who have no parent)
+   * @param aPerf: surface of the perfusion.
+   * @param nTerm: number of terminal segments.
+   **/
+  
+  CoronaryArteryTree(const Point3D &ptRoot, double aPerf, unsigned int nTerm, double aRadius = 1.0 ){
+     
+    myTreeCenter = Point3D(0,0,0);
+    myRsupp = pow(3.0*aPerf/(4.0*M_PI*nTerm),1.0/3.0);//2D: sqrt(aPerf/(nTerm*M_PI));
+    my_rPerf = pow(3.0*aPerf/(4.0*M_PI),1.0/3.0);//2D: sqrt(aPerf/M_PI);
+    my_aPerf = aPerf;
+    my_NTerm = nTerm;
+    my_qTerm = my_qPerf / my_NTerm;
+    if(nTerm > 250)
+      my_pTerm = 7.98e3;
+    my_pDrop = my_pPerf-my_pTerm;
+    //myDThresold = sqrt(M_PI*myRsupp*myRsupp/myKTerm);
+    
+    // Construction of the special root segment
+    assert((ptRoot - myTreeCenter).norm() == my_rPerf); //ptRoot must be on the perfusion circle
+    Segment<Point3D> s;
+    s.myRadius = aRadius;
+    s.myCoordinate = ptRoot;
+    s.myIndex = 0;
+    s.myKTerm = 0;
+    myVectSegments.push_back(s);
+    myVectParent.push_back(0); //if parent index is itsef it is the root (special segment of length 0).
+    myVectChildren.push_back(std::pair<unsigned int, unsigned int>(0,0)); // if children index is itself, it is an end segment.
+    updateLengthFactor();
+    
+    // Construction of the first segment after the root
+    Segment<Point3D> s1;
     s1.myRadius = aRadius;
     //s1.myCoordinate = generateRandomPtOnDisk(myTreeCenter, myRsupp);
     s1.myCoordinate = generateRandomPtOnDisk(myTreeCenter, my_rPerf);
@@ -255,7 +346,7 @@ public:
    * @param nTerm: number of terminal segments.
    **/
   
-  CoronaryArteryTree(const Point2D &ptCenter, const Point2D &ptRoot, const Point2D &ptTerm, double aPerf, unsigned int nTerm, int nNeighbor = 20, double aRadius = 1.0 ){
+  CoronaryArteryTree(const Point3D &ptCenter, const Point3D &ptRoot, const Point3D &ptTerm, double aPerf, unsigned int nTerm, int nNeighbor = 20, double aRadius = 1.0 ){
      
     myTreeCenter = ptCenter;
     myRsupp = sqrt(aPerf/(nTerm*M_PI));
@@ -271,7 +362,7 @@ public:
     
     // Construction of the special root segment
     assert((ptRoot - myTreeCenter).norm() == my_rPerf); //ptRoot must be on the perfusion circle
-    Segment<Point2D> s;
+    Segment<Point3D> s;
     s.myRadius = aRadius;
     s.myCoordinate = ptRoot;
     s.myIndex = 0;
@@ -284,7 +375,7 @@ public:
     
     // Construction of the first segment after the root
     assert((ptTerm - myTreeCenter).norm() <= my_rPerf); //ptTerm must be in the perfusion disk
-    Segment<Point2D> s1;
+    Segment<Point3D> s1;
     s1.myRadius = aRadius;
     s1.myCoordinate = ptTerm;
     double myLength = (ptRoot-s1.myCoordinate).norm()*myLengthFactor;
@@ -314,7 +405,7 @@ public:
    * @return true of the new segment is created, false in the other case.
    * (for instance if an intersection to previous point was present)
    **/
-  bool isAddable(const Point2D &p,
+  bool isAddable(const Point3D &p,
                  unsigned int segIndex,
                  unsigned int nbIter,
                  double tolerance,
@@ -329,8 +420,8 @@ public:
    * @param minDistance the limit distance to the nearest segments.
    * @return true of there is an intersection, false in the other case.
    */
-  bool isIntersecting(const Point2D &pNew,
-                      const Point2D &pCenter,
+  bool isIntersecting(const Point3D &pNew,
+                      const Point3D &pCenter,
                       unsigned int nearIndex,
                       unsigned int nbNeibour = 10,
                       double minDistance = 5.0);
@@ -339,7 +430,7 @@ public:
    * Update the distribution of segmental flows after adding a new segment (new bifurcation)
    * @param segIndex index of the parent segment to be updated
    */
-  CoronaryArteryTree::Segment<CoronaryArteryTree::Point2D> updateResistanceFromRoot(unsigned int segIndex=1);
+  CoronaryArteryTree::Segment<CoronaryArteryTree::Point3D> updateResistanceFromRoot(unsigned int segIndex=1);
   
   /**
    * Updates the flow of a segment (as given in Eq. 11)
@@ -380,33 +471,33 @@ public:
    * @param pt: a point
    * @return the index of the nearest segement
    */
-  unsigned int getNearestSegment(const Point2D &pt);
+  unsigned int getNearestSegment(const Point3D &pt);
 
   /**
    * Computes the barycenter of the given point and the two points of the segment
    * @param p: a point
    * @param segIndex : the index of the segement used for the computation
    */
-  Point2D findBarycenter(const Point2D &p, unsigned int index);
+  Point3D findBarycenter(const Point3D &p, unsigned int index);
 
   /**
    * From a segment returns a vector of segment index representing the path to the root.
    */
-  std::vector<unsigned int> getPathToRoot(const Segment<Point2D> &s);
+  std::vector<unsigned int> getPathToRoot(const Segment<Point3D> &s);
   
   /**
    * Generates a new location with distance constraints.
    * @param nbTrials : number of trials before reducing the distance constaint value
    *
    */
-  Point2D generateNewLocation(unsigned int nbTrials = 1000);
+  Point3D generateNewLocation(unsigned int nbTrials = 1000);
 
   /**
    * Generates a new location with distance constraints.
    * @param myDThresold : the distance constaint value
    * @return the generated point and a bool true if sucess and false othewise
    */
-  std::pair<Point2D, bool> generateALocation(double myDThresold);
+  std::pair<Point3D, bool> generateALocation(double myDThresold);
 
   /**
    * Computes the length of a segment represented with the index and mutiliplies by the length factor.
@@ -419,14 +510,14 @@ public:
    * @param index : the index of the segement used for the comparison
    * @param p : a point
    */
-  double getProjDistance(unsigned int index, const Point2D &p) const;
+  double getProjDistance(unsigned int index, const Point3D &p) const;
   /**
    * Computes the projected distance from a segment represented with the index  and the point given as argument.
    * @param p0 : a point representing one extremity
    * @param p1 : a point representing another extremity
    * @param p : a point to be projected
    */
-  double getProjDistance(const Point2D &p0, const Point2D &p1, const Point2D &p) const;
+  double getProjDistance(const Point3D &p0, const Point3D &p1, const Point3D &p) const;
   
   /**
    * Check if a new added point is too close the nearest segment.
@@ -434,14 +525,14 @@ public:
    * @param minDist: min distance
    * @return true is a point is too close
    */
-  bool isToCloseFromNearest(const Point2D &p, double minDist) const;
+  bool isToCloseFromNearest(const Point3D &p, double minDist) const;
   
   /**
    * Computes the n nearest index of neighborhood segments  of a given point
    * @param p : the point considered to get the nearest point
    * @param n : the number of nearest point to be recovered
    */
-  std::vector<unsigned int> getN_NearestSegments(const Point2D &p,
+  std::vector<unsigned int> getN_NearestSegments(const Point3D &p,
                                                  unsigned int n) const;
   
   /**
@@ -450,8 +541,8 @@ public:
    * @param p1 : another extremity of one segment
    * @param n : the number of nearest point to be considered
    */
-  bool hasNearestIntersections(const Point2D &p0,
-                               const Point2D &p1, unsigned int n) const;
+  bool hasNearestIntersections(const Point3D &p0,
+                               const Point3D &p1, unsigned int n) const;
   
 
   /**
@@ -465,8 +556,8 @@ public:
    */
   bool hasNearestIntersections(unsigned int indexPFather,
                                unsigned int indexPChild,
-                               const Point2D &pAdded,
-                               const Point2D &pBifurcation, unsigned int n) const;
+                               const Point3D &pAdded,
+                               const Point3D &pBifurcation, unsigned int n) const;
   
   /**
    * Verifies the condition of degenerate after Kamyia solution : 2 ri < li
@@ -488,13 +579,13 @@ public:
    * @param r1: output radius of the left segment
    * @param r2: output radius of the right segment
    */
-  bool kamyiaOptimization(const Point2D& pCurrent,
-                          const Point2D& pParent,
+  bool kamyiaOptimization(const Point3D& pCurrent,
+                          const Point3D& pParent,
                           double rCurrent,
-                          const Segment<Point2D>& sL,
-                          const Segment<Point2D>& sR,
+                          const Segment<Point3D>& sL,
+                          const Segment<Point3D>& sR,
                           unsigned int nbIter,
-                          Point2D& pOpt,
+                          Point3D& pOpt,
                           double& r0,
                           double& r1,
                           double& r2);
@@ -531,11 +622,11 @@ std::ostream&
 operator<< ( std::ostream & out, const CoronaryArteryTree & aCoronaryTree );
 
 bool
-operator==(CoronaryArteryTree::Segment<CoronaryArteryTree::Point2D>  S1, CoronaryArteryTree::Segment<CoronaryArteryTree::Point2D> S2);
+operator==(CoronaryArteryTree::Segment<CoronaryArteryTree::Point3D>  S1, CoronaryArteryTree::Segment<CoronaryArteryTree::Point3D> S2);
 
 
 bool
-operator!=(CoronaryArteryTree::Segment<CoronaryArteryTree::Point2D>  S1, CoronaryArteryTree::Segment<CoronaryArteryTree::Point2D> S2);
+operator!=(CoronaryArteryTree::Segment<CoronaryArteryTree::Point3D>  S1, CoronaryArteryTree::Segment<CoronaryArteryTree::Point3D> S2);
 
 
 

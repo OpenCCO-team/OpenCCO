@@ -42,13 +42,14 @@ generateRandomPtOnDisk(const TPoint &ptCenter, double r)
   bool found = false;
   double x = 0.0;
   double y = 0.0;
-
+  double z = 0.0;
   while(!found){
     x =  ((double)rand() / RAND_MAX)*2.0*r - r;
     y =  ((double)rand() / RAND_MAX)*2.0*r - r;
-    found = x*x + y*y < r*r;
+    z =  ((double)rand() / RAND_MAX)*2.0*r - r;
+    found = x*x + y*y + z*z < r*r;
   }
-  return TPoint(x+ptCenter[0], y+ptCenter[1]);
+  return TPoint(x+ptCenter[0], y+ptCenter[1], z+ptCenter[2]);
 }
 
 
@@ -111,22 +112,27 @@ projectOnStraightLine(const TPoint & ptA,
       return true ;
     }
 
-  TPointD vAB (ptB[0]- ptA[0], ptB[1]- ptA[1]);
-  TPointD vABn ((double)vAB[0], (double)vAB[1]);
+  TPointD vAB (ptB[0]- ptA[0], ptB[1]- ptA[1], ptB[2]- ptA[2]);
+  TPointD vABn ((double)vAB[0], (double)vAB[1], (double)vAB[2]);
   double norm = vABn.norm();
   vABn[0] /= norm;
   vABn[1] /= norm;
+  vABn[2] /= norm;
 
-  TPointD vAC (ptC[0]-ptA[0], ptC[1]-ptA[1]);
+  TPointD vAC (ptC[0]-ptA[0], ptC[1]-ptA[1], ptC[1]-ptA[1]);
   double distPtA_Proj = vAC.dot(vABn);
 
-  ptProjected[0]= ptA[0]+vABn[0]*(distPtA_Proj);
+  ptProjected[0] = ptA[0]+vABn[0]*(distPtA_Proj);
   ptProjected[1] = ptA[1]+vABn[1]*(distPtA_Proj);
-
+  ptProjected[2] = ptA[2]+vABn[2]*(distPtA_Proj);
+  /*
   return  distPtA_Proj>=0 && ((ptA[0]<ptB[0] && ptProjected[0]<=ptB[0] ) ||
                               (ptA[0]>ptB[0] && ptProjected[0]>=ptB[0] ) ||
                               (ptA[0]==ptB[0] && ptA[1]<ptB[1] && ptProjected[1]<=ptB[1]) ||
                               (ptA[0]==ptB[0] && ptA[1]>=ptB[1] && ptProjected[1]>=ptB[1]));
+  */
+  TPointD vBC (ptC[0]- ptB[0], ptC[1]- ptB[1], ptC[2]- ptB[2]);
+  return vAC.dot(vBC)<=0;
 }
 
 
