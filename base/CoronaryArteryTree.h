@@ -423,8 +423,12 @@ public:
   bool isIntersecting(const Point3D &pNew,
                       const Point3D &pCenter,
                       unsigned int nearIndex,
-                      unsigned int nbNeibour = 10,
-                      double minDistance = 5.0);
+                      unsigned int nbNeibour,
+                      double minDistance = 5.0) const;
+  
+  bool isIntersecting(unsigned int index1,
+                      unsigned int index2,
+                      double epsilon=0.01) const;
   
   /**
    * Update the distribution of segmental flows after adding a new segment (new bifurcation)
@@ -511,6 +515,9 @@ public:
    * @param p : a point
    */
   double getProjDistance(unsigned int index, const Point3D &p) const;
+  
+  double getProjDistanceDico(unsigned int index, const Point3D &p1, const Point3D &p2, const double& epsilon = 0.01) const;
+  
   /**
    * Computes the projected distance from a segment represented with the index  and the point given as argument.
    * @param p0 : a point representing one extremity
@@ -544,7 +551,18 @@ public:
   bool hasNearestIntersections(const Point3D &p0,
                                const Point3D &p1, unsigned int n) const;
   
+  /**
+   * Compute if a segment has intersection all the segments.
+   * @param p0 : one point
+   */
+  bool hasIntersections(const Point3D &p) const;
 
+  /**
+   * Compute if a segment has intersection all the segments.
+   * @param indexSeg : a segment
+   */
+  bool hasIntersections(unsigned int indexSeg, double epsilon=0.01) const;
+  
   /**
    * Computes if an bifurcation has intersections on the n nearest segments.
    * It uses the middle point

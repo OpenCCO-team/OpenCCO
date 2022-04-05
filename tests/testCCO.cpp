@@ -170,7 +170,7 @@ int main(int argc, char** argv)
   //4000 => Execution time: 1896.94450700 sec
   //5000 => Execution time: 3435.08630500 sec
   double aPerf = 200000;
-  double nTerm = 500;
+  double nTerm = 100;
   //CoronaryArteryTree tree = testAutoGen(aPerf, nTerm);
   
   double my_rPerf = pow(3.0*aPerf/(4.0*M_PI),1.0/3.0);//2D: sqrt(aPerf/M_PI);
@@ -179,7 +179,7 @@ int main(int argc, char** argv)
   int n=4;
   for(int i=1; i<n; i++) {
     double angle = i*2*M_PI/n + M_PI/2.0;
-    std::cout<<"iter"<<i<<", angle="<<angle<<std::endl;
+    //std::cout<<"iter"<<i<<", angle="<<angle<<std::endl;
     //constraintSeeds.push_back(CoronaryArteryTree::Point3D(cos(angle)*my_rPerf, sin(angle)*my_rPerf));
     constraintSeeds.push_back(CoronaryArteryTree::Point3D(sqrt(3.0)*cos(angle)*my_rPerf/2.0, -1.0/2.0, sqrt(3.0)*sin(angle)*my_rPerf)/2.0);
   }
@@ -212,7 +212,7 @@ int main(int argc, char** argv)
     viewer << DGtal::CustomColors3D(DGtal::Color(0,250,0),DGtal::Color(0,250,0));
     //viewer.addBall(distal,1);
     viewer.addCylinder(distal,proxital,tree.myVectSegments[s.myIndex].myRadius*thickness);
-    std::cout<<"r="<<tree.myVectSegments[s.myIndex].myRadius<<std::endl;
+    //std::cout<<"r="<<tree.myVectSegments[s.myIndex].myRadius<<std::endl;
     i++;
   }
   /*

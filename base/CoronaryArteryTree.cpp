@@ -151,12 +151,12 @@ CoronaryArteryTree::isAddable(const Point3D &p, unsigned int segIndex, unsigned 
   */
   Point3D pCurrent = (sParent.myCoordinate+sNewLeft.myCoordinate)/2.0; //center of the current segment
   double r0 = sCurrent.myRadius, r1 = sCurrent.myRadius, r2 = sCurrent.myRadius;
-  bool res1 = true, res2 = false, res3 = true, isDone = false;
+  bool res1 = true, res2 = false, res3 = true, isDone = false, res4 = false;
   double vol = -1, volCurr = -1, diffVol = -1;
   CoronaryArteryTree cTreeCurr = *this;
   //std::cout<<"---------- segIndex: "<<segIndex<<std::endl;
   size_t i=0;
-  for(size_t i=0; i<nbIter && res1 && !res2 && res3 && !isDone; i++) {
+  for(size_t i=0; i<nbIter && res1 && !res2 && res3 && !res4 && !isDone; i++) {
     res1 = kamyiaOptimization(pCurrent, pParent, sCurrent.myRadius, sNewLeft, sNewRight, 1, pOpt, r0, r1, r2);
     if(res1) {
       res2 = isIntersecting(p, pOpt, segIndex, nbNeibour, 2*cTreeCurr.myVectSegments[segIndex].myRadius);
@@ -203,55 +203,65 @@ CoronaryArteryTree::isAddable(const Point3D &p, unsigned int segIndex, unsigned 
         cTree1.updateResistanceFromRoot();
         cTree1.updateRootRadius();
         
-        vol = cTree1.computeTotalVolume();
-        //std::cout<<"Iter "<<i<<" has tree Volume: "<< vol <<std::endl;
-        if(i==0) {
-          volCurr = vol;
-          cTreeCurr = cTree1;
-        }
-        else {
-          diffVol = volCurr - vol;
-          if(fabs(diffVol) < tolerance) {
-            // Verify the degenerate case of the resulting segment
-            double l0 = (pOpt - pParent).norm()*myLengthFactor;
-            double l1 = (pOpt - sNewLeft.myCoordinate).norm()*myLengthFactor;
-            double l2 = (pOpt - sNewRight.myCoordinate).norm()*myLengthFactor;
-            res3 = (2*r0<=l0) && (2*r1<=l1) && (2*r2<=l2);
-            // If there is a solution, then save the result
-            if(res3) {
-              //std::cout<<"Best volume at "<<i<<std::endl;
-              isDone = true;
-              *this = cTree1;
-            }
-          }
-          else {
+        //Test intersection wrt radius except the childs and the parent and brother
+        res4 = cTree1.hasIntersections(sNewLeft.myIndex) || cTree1.hasIntersections(sNewRight.myIndex) || cTree1.hasIntersections(segIndex); //FIXME: epsilon
+        if(!res4) {
+          vol = cTree1.computeTotalVolume();
+          //std::cout<<"Iter "<<i<<" has tree Volume: "<< vol <<std::endl;
+          if(i==0) {
             volCurr = vol;
             cTreeCurr = cTree1;
           }
+          else {
+            diffVol = volCurr - vol;
+            if(fabs(diffVol) < tolerance) {
+              // Verify the degenerate case of the resulting segment
+              double l0 = (pOpt - pParent).norm()*myLengthFactor;
+              double l1 = (pOpt - sNewLeft.myCoordinate).norm()*myLengthFactor;
+              double l2 = (pOpt - sNewRight.myCoordinate).norm()*myLengthFactor;
+              res3 = (2*r0<=l0) && (2*r1<=l1) && (2*r2<=l2);
+              // If there is a solution, then save the result
+              if(res3) {
+                //std::cout<<"Best volume at "<<i<<std::endl;
+                isDone = true;
+                *this = cTree1;
+              }
+            }
+            else {
+              volCurr = vol;
+              cTreeCurr = cTree1;
+            }
+          }
+          //update new position, radius and flow
+          pCurrent = pOpt;
+          sCurrent.myRadius = cTree1.myVectSegments[segIndex].myRadius;
+          sNewLeft.myRadius = cTree1.myVectSegments[cTree1.myVectChildren[segIndex].first].myRadius;
+          sNewLeft.myFlow = cTree1.myVectSegments[cTree1.myVectChildren[segIndex].first].myFlow;
+          sNewRight.myRadius = cTree1.myVectSegments[cTree1.myVectChildren[segIndex].second].myRadius;
+          sNewRight.myFlow = cTree1.myVectSegments[cTree1.myVectChildren[segIndex].second].myFlow;
         }
-        //update new position, radius and flow
-        pCurrent = pOpt;
-        sCurrent.myRadius = cTree1.myVectSegments[segIndex].myRadius;
-        sNewLeft.myRadius = cTree1.myVectSegments[cTree1.myVectChildren[segIndex].first].myRadius;
-        sNewLeft.myFlow = cTree1.myVectSegments[cTree1.myVectChildren[segIndex].first].myFlow;
-        sNewRight.myRadius = cTree1.myVectSegments[cTree1.myVectChildren[segIndex].second].myRadius;
-        sNewRight.myFlow = cTree1.myVectSegments[cTree1.myVectChildren[segIndex].second].myFlow;
       }
     }
   }
-  
-  return res1 && !res2 && isDone;
+  return isDone && res1 && !res2 && !res4;
 }
 
 bool
-CoronaryArteryTree::isIntersecting(const Point3D &pNew, const Point3D &pCenter, unsigned int nearIndex, unsigned int nbNeibour, double minDistance)
+CoronaryArteryTree::isIntersecting(const Point3D &pNew, const Point3D &pCenter, unsigned int nearIndex, unsigned int nbNeibour, double minDistance) const
 {
-  return false; //TODO: do intersecting in 3D
   //bool inter = hasNearestIntersections(p, newCenter, 10);
   //bool inter = hasNearestIntersections(myVectParent[nearIndex], nearIndex, p, newCenter,  nbNeibour);
-  bool inter = hasNearestIntersections(myVectParent[nearIndex], nearIndex, pNew, pCenter,  nbNeibour);
+  bool inter = hasIntersections(pNew) || hasIntersections(pCenter);//Old: hasNearestIntersections(myVectParent[nearIndex], nearIndex, pNew, pCenter,  nbNeibour);
   if (inter){
     //DGtal::trace.warning() << "detection intersection" << std::endl;
+    return true;
+  }
+  // Check new point with new segment of barycenter:
+  // - newPt and new segment [Barycenter-OriginNewSeg]
+  // - newPt and new segment [Barycenter-FatherNewSeg]
+  if ((pNew-myVectSegments[nearIndex].myCoordinate).norm() < minDistance ||
+      (pNew-myVectSegments[myVectParent[nearIndex]].myCoordinate).norm() < minDistance) {
+    //DGtal::trace.warning() << "initial too close to new!!!!!!!!" << std::endl;
     return true;
   }
   // Check barycenter is not too close considered segment
@@ -261,18 +271,9 @@ CoronaryArteryTree::isIntersecting(const Point3D &pNew, const Point3D &pCenter, 
     //DGtal::trace.warning() << "new barycenter too close!!!!!!!!" << std::endl;
     return true;
   }
-  // Check new point with new segment of barycenter:
-  // - newPt and new segment [Barycenter-OriginNewSeg]
-  // - newPt and new segment [Barycenter-FatherNewSeg]
-  if ((pCenter-myVectSegments[nearIndex].myCoordinate).norm() < minDistance ||
-      (pCenter-myVectSegments[myVectParent[nearIndex]].myCoordinate).norm() < minDistance) {
-    //DGtal::trace.warning() << "initial too close to new!!!!!!!!" << std::endl;
-    return true;
-  }
   if (getProjDistance(nearIndex, pNew) < minDistance) {
     //DGtal::trace.warning() << "initial too close!!!!!!!!" << std::endl;
     return true;
-
   }
   if (isToCloseFromNearest(pNew, minDistance)){
     //DGtal::trace.warning() << "detection near too close " << std::endl;
@@ -285,7 +286,54 @@ CoronaryArteryTree::isIntersecting(const Point3D &pNew, const Point3D &pCenter, 
     //DGtal::trace.warning() << "detection too close existing" << std::endl;
     return true;
   }
+  
+  if (getProjDistanceDico(nearIndex, pNew, pCenter) < minDistance||
+      getProjDistanceDico(myVectParent[nearIndex], pNew, pCenter) < minDistance||
+      getProjDistanceDico(myVectChildren[nearIndex].first, pNew, pCenter) < minDistance||
+      getProjDistanceDico(myVectChildren[nearIndex].second, pNew, pCenter) < minDistance){
+    //DGtal::trace.warning() << "detection too close existing" << std::endl;
+    return true;
+  }
+  
   return false;
+}
+
+bool
+CoronaryArteryTree::isIntersecting(unsigned int index1, unsigned int index2, double epsilon) const
+{
+  Point3D p10 = myVectSegments[index1].myCoordinate;
+  Point3D p11 = myVectSegments[myVectParent[index1]].myCoordinate;
+  Point3D p20 = myVectSegments[index2].myCoordinate;
+  Point3D p21 = myVectSegments[myVectParent[index2]].myCoordinate;
+  Point3D c1 = (p10+p11)/2.0;
+  Point3D c2 = (p20+p21)/2.0;
+  double d = (c1-c2).norm();
+  double l1 = (p10-p11).norm();
+  double l2 = (p20-p21).norm();
+  double tmp = d-l1/2.0-l2/2.0;
+  double r1 = myVectSegments[index1].myRadius;
+  double r2 = myVectSegments[index2].myRadius;
+  if(tmp>r1+r2)
+    return false;
+  double d1 = getProjDistance(index1, p20);
+  double d2 = getProjDistance(index1, p21);
+  double d3 = std::min(d1,d2);
+  Point3D p, q, r;
+  if(d1<d2) {
+    q = p21;
+    p = p20;
+  }
+  else {
+    p = p21;
+    q = p20;
+  }
+  r = (1.0-epsilon)*p + epsilon*q;
+  double d4 = getProjDistance(index1, r);
+  if ((d4 > d3) && (d3 > r1+r2))
+    return false;
+  //Use dico search for testing intersection
+  double d5 = getProjDistanceDico(index1, p20, p21, epsilon);
+  return (d5 < r1+r2);
 }
 
 void
@@ -476,7 +524,35 @@ CoronaryArteryTree::getProjDistance(unsigned int index, const Point3D &p ) const
   return  getProjDistance(p0, p1, p);
 }
 
-
+double
+CoronaryArteryTree::getProjDistanceDico(unsigned int index1, const Point3D &p1, const Point3D &p2, const double& epsilon) const {
+  Point3D p10 = myVectSegments[index1].myCoordinate;
+  Point3D p11 = myVectSegments[myVectParent[index1]].myCoordinate;
+  Point3D p20 = p1;
+  Point3D p23 = p2;
+  Point3D p21 = (2.0*p20+p23)/3.0;
+  Point3D p22 = (p20+2.0*p23)/3.0;
+  double d20, d21, d22, d23, delta_d1, delta_d2, delta_d3;
+  double d = (p20-p22).norm();
+  while (d>epsilon) {
+    d20 = getProjDistance(p10, p11, p20);
+    d21 = getProjDistance(p10, p11, p21);
+    d22 = getProjDistance(p10, p11, p22);
+    d23 = getProjDistance(p10, p11, p23);
+    delta_d1 = d21 - d20;
+    delta_d2 = d22 - d21;
+    delta_d3 = d23 - d22;
+    if(delta_d2>=0 && delta_d3>=0)
+      p23 = p22;
+    else
+      p20 = p21;
+      
+    p21 = (2.0*p20+p23)/3.0;
+    p22 = (p20+2.0*p23)/3.0;
+    d = (p20-p22).norm();
+  }
+  return  std::min(d20, std::min(d21, std::min (d22, d23)));
+}
 
 std::vector<unsigned int>
 CoronaryArteryTree::getN_NearestSegments(const Point3D &p, unsigned int n) const {
@@ -513,6 +589,37 @@ CoronaryArteryTree::hasNearestIntersections(const Point3D &p0,
   }
   return false;
 }
+
+bool CoronaryArteryTree::hasIntersections(const Point3D &p) const {
+  for(auto s : myVectSegments) {
+    double d = getProjDistance(s.myIndex, p);
+    if (d<2*s.myRadius)
+      return true;
+  }
+  return false;
+}
+
+bool CoronaryArteryTree::hasIntersections(unsigned int indexSeg, double epsilon) const {
+  if(indexSeg==0 || indexSeg==1)
+    return false;
+  for(auto s : myVectSegments) {
+    if (s.myIndex != 0) {
+      //std::cout<<"Current: indexSeg="<<indexSeg<<" vs s.myIndex="<<s.myIndex<<std::endl;
+      //std::cout<<"brother: "<<myVectSegments[myVectParent[indexSeg]].myIndex<<" vs. "<<myVectSegments[myVectParent[s.myIndex]].myIndex<<std::endl;
+      //std::cout<<"children: "<<myVectSegments[myVectParent[s.myIndex]].myIndex<<" vs. "<<indexSeg<<std::endl;
+      if(indexSeg != s.myIndex && // current segment
+         myVectSegments[myVectParent[indexSeg]].myIndex != myVectSegments[myVectParent[s.myIndex]].myIndex && //brother = same parents
+         myVectSegments[myVectParent[s.myIndex]].myIndex != indexSeg && // children
+         s.myIndex != myVectSegments[myVectParent[indexSeg]].myIndex ) { //parent
+        if(isIntersecting(indexSeg, s.myIndex, epsilon))
+          return true;
+      }
+    }
+  }
+  return false;
+}
+
+
 bool
 CoronaryArteryTree::hasNearestIntersections(unsigned int indexPFather,
                                             unsigned int indexPChild,
