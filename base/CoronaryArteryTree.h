@@ -176,7 +176,7 @@ public:
     // Construction of the first segment after the root
     Segment<Point2D> s1;
     s1.myRadius = aRadius;
-    s1.myCoordinate = myTreeCenter;
+    s1.myCoordinate = Point2D(0,3.0*my_rPerf/4.0);//Old: myTreeCenter;
     double myLength = (ptRoot-s1.myCoordinate).norm()*myLengthFactor;
     s1.myIndex = 1;
     s1.myKTerm = 1; //it contains terminal itself
