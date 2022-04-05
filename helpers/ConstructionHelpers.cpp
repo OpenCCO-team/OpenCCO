@@ -96,6 +96,9 @@ ConstructionHelpers::constructTree(double aPerf, int nbTerm,
   }
   filename = "testCCO_"+std::to_string(nbTerm)+".eps";
   cTree.exportBoardDisplay(filename.c_str(), 1.0);
+  cTree.exportBoardDisplay("result.eps", 1.0);
+  cTree.exportBoardDisplay("result.svg", 1.0);
+
   cTree.myBoard.clear();
 }
 
