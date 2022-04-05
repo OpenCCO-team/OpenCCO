@@ -400,7 +400,7 @@ public:
    *
    */
   Point2D generateNewLocation(unsigned int nbTrials = 1000);
-
+  
   /**
    * Generates a new location with distance constraints.
    * @param myDThresold : the distance constaint value

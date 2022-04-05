@@ -51,6 +51,27 @@ generateRandomPtOnDisk(const TPoint &ptCenter, double r)
   return TPoint(x+ptCenter[0], y+ptCenter[1]);
 }
 
+template<typename TPoint>
+inline
+TPoint
+generateRandomPtOnBorderDisk(const TPoint &ptCenter, double r)
+{
+  //bool found = false;
+  double x = 0.0;
+  double y = 0.0;
+  double theta = ((double)rand() / RAND_MAX)*2*M_PI;
+  double c = 10000;
+  double t = ((double)rand() / RAND_MAX);
+  double rRandom = (1+(log(1+c*t) / log(1+c)))*r/2.0;
+  //while(!found){
+    x =  rRandom*cos(theta);
+    y =  rRandom*sin(theta);
+    //found = x*x + y*y < r*r;
+  //}
+  //std::cout<<"r="<<r<<", rRandom="<<rRandom<<", theta="<<theta<<": "<<x<<","<<y<<std::endl;
+  return TPoint(x+ptCenter[0], y+ptCenter[1]);
+}
+
 
 /**
  * Dertermines if a point is on the right of a line represented by two points [ptA, ptB]

@@ -154,7 +154,7 @@ CoronaryArteryTree::isAddable(const Point2D &p, unsigned int segIndex, unsigned 
   bool res1 = true, res2 = false, res3 = true, isDone = false;
   double vol = -1, volCurr = -1, diffVol = -1;
   CoronaryArteryTree cTreeCurr = *this;
-  std::cout<<"---------- segIndex: "<<segIndex<<std::endl;
+  //std::cout<<"---------- segIndex: "<<segIndex<<std::endl;
   size_t i=0;
   for(size_t i=0; i<nbIter && res1 && !res2 && res3 && !isDone; i++) {
     res1 = kamyiaOptimization(pCurrent, pParent, sCurrent.myRadius, sNewLeft, sNewRight, 1, pOpt, r0, r1, r2);
@@ -204,7 +204,7 @@ CoronaryArteryTree::isAddable(const Point2D &p, unsigned int segIndex, unsigned 
         cTree1.updateRootRadius();
         
         vol = cTree1.computeTotalVolume();
-        std::cout<<"Iter "<<i<<" has tree Volume: "<< vol <<std::endl;
+        //std::cout<<"Iter "<<i<<" has tree Volume: "<< vol <<std::endl;
         if(i==0) {
           volCurr = vol;
           cTreeCurr = cTree1;
@@ -416,10 +416,9 @@ CoronaryArteryTree::generateNewLocation(unsigned int nbTrials){
   return res;
 }
 
-
 std::pair<CoronaryArteryTree::Point2D, bool>
 CoronaryArteryTree::generateALocation(double myDThresold) {
-  Point2D res = generateRandomPtOnDisk(myTreeCenter, my_rPerf);
+  Point2D res = generateRandomPtOnBorderDisk(myTreeCenter, my_rPerf); //Old: generateRandomPtOnDisk(myTreeCenter, my_rPerf);
   bool isComp = true;
   unsigned int id = 1;
   /*
