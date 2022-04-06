@@ -525,6 +525,12 @@ CoronaryArteryTree::exportBoardDisplay(const std::string &fileName,
   if (updateDisplay){
     boardDisplay(thickness, clearDisplay);
   }
+  if (myIsImageDomainRestrained){
+    myBoard.drawDot(0, 0);
+    myBoard.drawDot(myImageDomain.domain().upperBound()[0],
+                    myImageDomain.domain().upperBound()[1]);
+
+  }
   std::string ext = fileName.substr(fileName.find_last_of(".") + 1);
   if (ext == "svg")
   {
