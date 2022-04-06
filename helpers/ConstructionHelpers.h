@@ -20,13 +20,6 @@
 
 namespace ConstructionHelpers {
 
-
-/**
- * Helpers fonction to construction the tree. (mainly from circular domain and image organ for testing).
- */
-void constructTree(double aPerf, int nbTerm,
-                   std::string imageOrgan, unsigned int fgTh = 128,
-                   bool verbose = false, DGtal::Z2i::Point ptCenter= DGtal::Z2i::Point(0,0));
 /**
  * Helpers fonction to construction the tree with autoSearch of the center and root.
  * The center is defined from the maximal distance map and the root point is searched on the image domain.
@@ -35,6 +28,15 @@ void constructTreeImageDomain(double aPerf, int nbTerm,
                    std::string imageOrgan, unsigned int fgTh = 128,
                    bool verbose = false);
 
+
+
+/**
+ * Helpers fonction to construction the tree. (mainly from circular domain and image organ for testing).
+ */
+void constructTree(double aPerf, int nbTerm,
+                   std::string imageOrgan, unsigned int fgTh = 128,
+                   bool verbose = false, DGtal::Z2i::Point ptCenter= DGtal::Z2i::Point(0,0),
+                   unsigned int distSearchRoot = 10);
 
 
 template< typename TImage>
