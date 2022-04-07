@@ -47,13 +47,13 @@ int main(int argc, char *const *argv)
   //3000 => Execution time: 1023.94746700 sec
   //4000 => Execution time: 1896.94450700 sec
   //5000 => Execution time: 3435.08630500 sec
-//  if(nameImgDom != "" && pInit->empty()){
-//    ConstructionHelpers::constructTreeImageDomain(aPerf, nbTerm, nameImgDom, 128, verbose);
-//  } else {
-//    ConstructionHelpers::constructTree(aPerf, nbTerm, nameImgDom, 128, verbose, ptRoot);
-//  }
-//  end = clock();
-//  printf ("Execution time: %0.8f sec\n", ((double) end - start)/CLOCKS_PER_SEC);
+  if(nameImgDom != "" && pInit->empty()){
+    ConstructionHelpers::constructTreeImageDomain<DGtal::Z2i::RealPoint>(aPerf, nbTerm, nameImgDom, 128, verbose);
+  } else {
+    ConstructionHelpers::constructTree(aPerf, nbTerm, nameImgDom, 128, verbose, ptRoot);
+  }
+  end = clock();
+  printf ("Execution time: %0.8f sec\n", ((double) end - start)/CLOCKS_PER_SEC);
 
   return EXIT_SUCCESS;
 }

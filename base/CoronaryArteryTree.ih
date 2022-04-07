@@ -508,26 +508,7 @@ CoronaryArteryTree<TPoint>::boardDisplay(double thickness, bool clearDisplay)
     myBoard.fillCircle(distal[0], distal[1], myVectSegments[s.myIndex].myRadius*thickness, 1 );
     i++;
   }
-  if (myIsImageDomainRestrained){
-    std::vector<std::vector<DGtal::Z2i::Point>> vectContours = ConstructionHelpers::getImageContours(myImageDomain, myForegroundThreshold);
-    for(auto const c: vectContours){
-      DGtal::Color col;
-      if(DGtal::ContourHelper::isCounterClockWise(c)){
-        col = DGtal::Color(200, 200, 200);
-      }else{
-        col = DGtal::Color::White;
-      }
-      std::vector<LibBoard::Point> bv;
-      for(unsigned int i=0; i<c.size(); i++){
-        bv.push_back(LibBoard::Point(c[i][0], c[i][1]));
-      }
-      myBoard.setFillColor(col);
-      myBoard.setLineWidth(5.0*scaleFactorEPS);
-      myBoard.fillPolyline(bv);
-      myBoard.drawPolyline(bv);
-    }
-    
-  }
+ 
  }
 
 template< typename TPoint >
@@ -896,13 +877,45 @@ CoronaryArteryTree<TPoint>::restrainDomain(const Image &imageDom, unsigned int t
   //Check if the root is inside the domain
   if(isOk) {
     TPoint pRoot = myVectSegments[0].myCoordinate;
-    DGtal::Z2i::Point pRootI (static_cast<int>(pRoot[0]),
-                              static_cast<int>(pRoot[1]));
-    
+    DomPoint pRootI;
+    for (auto i=0; i< TPoint::dimension; i++){
+        pRootI[i] = static_cast<int>(pRoot[i]);
+    }
+  
     if(myImageDomain.domain().isInside(pRootI) &&
        myImageDomain(pRootI) >= threshold) {
-      myIsImageDomainRestrained = true;
-      myImageDist = GeomHelpers::getImageDistance<Image, ImageDist>(myImageDomain, threshold);
+       myIsImageDomainRestrained = true;
+       myImageDist = GeomHelpers::getImageDistance2D<Image, ImageDist>(myImageDomain, threshold);
+      return true;
+    }
+  }
+  return false;
+}
+
+template<>
+bool
+CoronaryArteryTree<DGtal::Z3i::Point>::restrainDomain(const Image &imageDom, unsigned int threshold){
+  myForegroundThreshold = threshold;
+  myImageDomain = imageDom;
+  bool isOk = false;
+  // Check if at least one pixel of with foreground value exist:
+  for (auto p: myImageDomain.domain()){
+    if (myImageDomain(p) >= threshold){
+      isOk = true;
+      break;
+    }
+  }
+  //Check if the root is inside the domain
+  if(isOk) {
+    DGtal::Z3i::Point pRoot = myVectSegments[0].myCoordinate;
+    DomPoint pRootI;
+    for (auto i=0; i< 3; i++){
+        pRootI[i] = static_cast<int>(pRoot[i]);
+    }
+    if(myImageDomain.domain().isInside(pRootI) &&
+       myImageDomain(pRootI) >= threshold) {
+       myIsImageDomainRestrained = true;
+       myImageDist = GeomHelpers::getImageDistance3D<Image, ImageDist>(myImageDomain, threshold);
       return true;
     }
   }
@@ -913,7 +926,7 @@ CoronaryArteryTree<TPoint>::restrainDomain(const Image &imageDom, unsigned int t
 template< typename TPoint >
 bool
 CoronaryArteryTree<TPoint>::searchRootFarthest(const double & d,
-                                       DGtal::Z2i::RealPoint &ptRoot ){
+                                       TPoint &ptRoot ){
   DGtal::Z2i::DigitalSet sPts =  GeomHelpers::pointsOnCircle(myTreeCenter, d);
   for (const DGtal::Z2i::Point &p : sPts){
       if (GeomHelpers::checkNoIntersectDomain(myImageDomain, myForegroundThreshold,
@@ -953,3 +966,5 @@ bool operator!=(typename CoronaryArteryTree<TPoint>::Segment  S1,
     return false;
   }
 }
+
+

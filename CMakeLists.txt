@@ -9,7 +9,6 @@ SET(SOURCE_BASE_HEADER_FILES
   ${PROJECT_SOURCE_DIR}/base/CoronaryArteryTree.h
 )
 SET(SOURCE_BASE_FILES
-  ${PROJECT_SOURCE_DIR}/helpers/ConstructionHelpers.cpp
   ${PROJECT_SOURCE_DIR}/base/CoronaryArteryTree.ih
 )
 

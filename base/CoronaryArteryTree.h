@@ -1,3 +1,5 @@
+#pragma once
+
 #if defined(CORONARY_ARTERY_TREE_RECURSES)
 #error Recursive header files inclusion detected in CoronaryArteryTree.h
 #else // defined(CORONARY_ARTERY_TREE_RECURSES)
@@ -50,7 +52,7 @@ public:
   // Domain
   typedef DGtal::SpaceND< TPoint::dimension, int >   SpaceCT;
   typedef DGtal::HyperRectDomain<SpaceCT> DomCT;
-  
+  typedef DGtal::PointVector<TPoint::dimension, int> DomPoint;
   
   // Represent the left and right
   typedef std::pair<unsigned int, unsigned int> SegmentChildren;
@@ -151,8 +153,8 @@ public:
 
   
 protected:
-  Image myImageDomain = Image(DGtal::Z2i::Domain());
-  ImageDist myImageDist = ImageDist(DGtal::Z2i::Domain());
+  Image myImageDomain = Image(DomCT());
+  ImageDist myImageDist = ImageDist(DomCT());
   unsigned int myForegroundThreshold = 128;
   bool myIsImageDomainRestrained = false;
 
@@ -167,7 +169,7 @@ public:
    * @param nTerm: number of terminal segments.
    **/
   
-  CoronaryArteryTree(double aPerf, unsigned int nTerm, double aRadius = 1.0, DGtal::Z2i::RealPoint treeCenter = DGtal::Z2i::RealPoint(0,0) ){
+  CoronaryArteryTree(double aPerf, unsigned int nTerm, double aRadius = 1.0, TPoint treeCenter = TPoint::diagonal(0) ){
     assert(nTerm>=1);
     myTreeCenter[0] = treeCenter[0];
     myTreeCenter[1] = treeCenter[1];
@@ -601,7 +603,7 @@ public:
    *  @param[out] ptRoot the root point is updated if found.
    * @return true of the root point was found.
    */
-   bool searchRootFarthest(const double & d, DGtal::Z2i::RealPoint &ptRoot );
+   bool searchRootFarthest(const double & d, TPoint &ptRoot );
   
   
 private:

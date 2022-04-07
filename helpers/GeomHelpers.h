@@ -334,7 +334,7 @@ static bool kamyiaOpt(double gamma, double deltaP1, double deltaP2, double f0, d
 template< typename TImage, typename TImageDistance>
 inline
 TImageDistance
-getImageDistance(const TImage &image, unsigned int threshold=128){
+getImageDistance2D(const TImage &image, unsigned int threshold=128){
   TImageDistance res (image.domain());
   typedef DGtal::functors::IntervalForegroundPredicate<TImage> Binarizer;
   typedef DGtal::DistanceTransformation<DGtal::Z2i::Space, Binarizer, DGtal::Z2i::L2Metric> DTL2;
@@ -345,7 +345,24 @@ getImageDistance(const TImage &image, unsigned int threshold=128){
   }
   return res;
 }
+
+template< typename TImage, typename TImageDistance>
+inline
+TImageDistance
+getImageDistance3D(const TImage &image, unsigned int threshold=128){
+  TImageDistance res (image.domain());
+  typedef DGtal::functors::IntervalForegroundPredicate<TImage> Binarizer;
+  typedef DGtal::DistanceTransformation<DGtal::Z3i::Space, Binarizer, DGtal::Z3i::L2Metric> DTL3;
+  Binarizer b(image, threshold, 255);
+  DTL3 dt(&image.domain(),&b, &DGtal::Z3i::l2Metric);
+  for (auto p: dt.domain()){
+    res.setValue(p, dt(p));
+  }
+  return res;
 }
+
+}
+
 
 
 #endif // !defined GEOMHELPERS_h
