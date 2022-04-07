@@ -137,17 +137,20 @@ CoronaryArteryTree<TDim>::isAddable(const TPointD &p, unsigned int segIndex,
                               unsigned int nbNeibour, bool verbose)
 {
   TPointD pOpt, newCenter = findBarycenter(p, segIndex);
-  if(myIsImageDomainRestrained && (myImageDomain(TPoint(static_cast<int>(newCenter[0]),
-                                      static_cast<int>(newCenter[1])))< myForegroundThreshold))
+  TPoint newCenterDom; for (auto i=0; i < TDim; i++){newCenterDom[i] = static_cast<int>(newCenter[i]);}
+  TPoint pDom; for (auto i=0; i < TDim; i++){pDom[i] = static_cast<int>(p[i]);}
+  TPoint pSegIndDom; for (auto i=0; i < TDim; i++){pSegIndDom[i] = static_cast<int>(myVectSegments[segIndex].myCoordinate[i]);}
+  
+  if(myIsImageDomainRestrained && (myImageDomain(newCenterDom)< myForegroundThreshold))
     return false;
 
   if(myIsImageDomainRestrained && (!GeomHelpers::checkNoIntersectDomain(myImageDomain, myForegroundThreshold,
-                  TPoint(static_cast<int>(p[0]), static_cast<int>(p[1]), static_cast<int>(p[2])),
-                  TPoint(static_cast<int>(newCenter[0]),static_cast<int>(newCenter[1]), 0 ))))
+                  TPoint(static_cast<int>(p[0]), static_cast<int>(p[1])),
+                  TPoint(static_cast<int>(newCenter[0]),static_cast<int>(newCenter[1])))))
       return false;
   if(myIsImageDomainRestrained && (!GeomHelpers::checkNoIntersectDomain(myImageDomain, myForegroundThreshold,
-                  TPoint(static_cast<int>(myVectSegments[segIndex].myCoordinate[0]), static_cast<int>(myVectSegments[segIndex].myCoordinate[1])),
-                  TPoint(static_cast<int>(newCenter[0]),static_cast<int>(newCenter[1])))))
+                                                                        pSegIndDom,
+                                                                        newCenterDom)))
       return false;
   
   // Creation a copy of parent segment
@@ -206,21 +209,26 @@ CoronaryArteryTree<TDim>::isAddable(const TPointD &p, unsigned int segIndex,
     if(res2) //there is intersection betweeen segments
       return false;
     
-    if(myIsImageDomainRestrained && (myImageDomain(TPoint(static_cast<int>(pOpt[0]), static_cast<int>(pOpt[1])))< myForegroundThreshold)) //resulting point is out of the domaine
+    TPoint pParentDom; for (auto i=0; i < TDim; i++){pParentDom[i] = static_cast<int>(pParent[i]);}
+    TPoint pOptDom; for (auto i=0; i < TDim; i++){pOptDom[i] = static_cast<int>(pOpt[i]);}
+    TPoint sNewLeftDom; for (auto i=0; i < TDim; i++){sNewLeftDom[i] = static_cast<int>(sNewLeft.myCoordinate[i]);}
+    TPoint sNewRightDom; for (auto i=0; i < TDim; i++){sNewRightDom[i] = static_cast<int>(sNewRight.myCoordinate[i]);}
+
+    if(myIsImageDomainRestrained &&  (myImageDomain(pOptDom)< myForegroundThreshold)) //resulting point is out of the domaine
       return false;
+      
+   
     
     //resulting segments intersect the domaine
     if(myIsImageDomainRestrained && (!GeomHelpers::checkNoIntersectDomain(myImageDomain, myForegroundThreshold,
-                    TPoint(static_cast<int>(pParent[0]), static_cast<int>(pParent[1])),
-                    TPoint(static_cast<int>(pOpt[0]),static_cast<int>(pOpt[1]))))) //Center segment
+                                    pParentDom,
+                                    pOptDom))) //Center segment
       return false;
     if(myIsImageDomainRestrained && (!GeomHelpers::checkNoIntersectDomain(myImageDomain, myForegroundThreshold,
-                    TPoint(static_cast<int>(sNewLeft.myCoordinate[0]), static_cast<int>(sNewLeft.myCoordinate[1])),
-                    TPoint(static_cast<int>(pOpt[0]),static_cast<int>(pOpt[1]))))) //Left segment
+                                                                          sNewLeftDom, pOptDom))) //Left segment
       return false;
     if(myIsImageDomainRestrained && (!GeomHelpers::checkNoIntersectDomain(myImageDomain, myForegroundThreshold,
-                    TPoint(static_cast<int>(sNewRight.myCoordinate[0]), static_cast<int>(sNewRight.myCoordinate[1])),
-                    TPoint(static_cast<int>(pOpt[0]),static_cast<int>(pOpt[1]))))) //Right segment
+                                                                          sNewRightDom, pOptDom))) //Right segment
       return false;
     
     //Otherwise, iterate for the optimisation process
@@ -991,5 +999,6 @@ bool operator!=(typename CoronaryArteryTree<TDim>::Segment  S1,
     return false;
   }
 }
+
 
 

@@ -119,7 +119,7 @@ checkNoIntersectDomain(const TImage &image, unsigned int fgTh,
   DGtal::PointVector<TPoint::dimension, double>  p (pt1[0], pt1[1]);
   for (unsigned int i = 0; i<(pt2 - pt1).norm(); i++){
     DGtal::PointVector<TPoint::dimension, double>  p = pt1+dir*i;
-    if (image(TPoint(static_cast<int>(p[0]),static_cast<int>(p[2]) )) < fgTh)
+    if (image(TPoint(static_cast<int>(p[0]),static_cast<int>(p[1]) )) < fgTh)
       return false;
   }
   
@@ -176,12 +176,12 @@ projectOnStraightLine(const TPoint & ptA,
 {
   if (ptA==ptC)
   {
-    for(auto i=0; i<TPoint::dimension; i++){ ptProjected[i]=static_cast<int>(ptA[i]);}
+    for(auto i=0; i<TPoint::dimension; i++){ ptProjected[i]=ptA[i];}
     return true;
   }
   if (ptB==ptC)
   {
-    for(auto i=0; i<TPoint::dimension; i++){ ptProjected[i]=static_cast<int>(ptB[i]);}
+    for(auto i=0; i<TPoint::dimension; i++){ ptProjected[i]=ptB[i];}
     return true ;
   }
   
