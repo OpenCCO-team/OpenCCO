@@ -46,11 +46,17 @@ class CoronaryArteryTree{
    */
 public:
   
+  
+  // Domain
+  typedef DGtal::SpaceND< TPoint::dimension, int >   SpaceCT;
+  typedef DGtal::HyperRectDomain<SpaceCT> DomCT;
+  
+  
   // Represent the left and right
   typedef std::pair<unsigned int, unsigned int> SegmentChildren;
-  //typedef TPoint Point2D;
-  typedef DGtal::ImageSelector < DGtal::Z2i::Domain, unsigned int>::Type Image;
-  typedef DGtal::ImageContainerBySTLVector< DGtal::Z2i::Domain, int> ImageDist;
+
+  typedef typename DGtal::ImageSelector < DomCT, unsigned int>::Type Image;
+  typedef DGtal::ImageContainerBySTLVector< DomCT, int> ImageDist;
 
   struct Segment{
     // Distal point of the segment.
