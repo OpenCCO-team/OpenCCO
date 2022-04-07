@@ -48,7 +48,7 @@ int main(int argc, char *const *argv)
   //4000 => Execution time: 1896.94450700 sec
   //5000 => Execution time: 3435.08630500 sec
   if(nameImgDom != "" && pInit->empty()){
-    ConstructionHelpers::constructTreeImageDomain<DGtal::Z2i::RealPoint>(aPerf, nbTerm, nameImgDom, 128, verbose);
+    ConstructionHelpers::constructTreeImageDomain<DGtal::Z2i::Point>(aPerf, nbTerm, nameImgDom, 128, verbose);
   } else {
     ConstructionHelpers::constructTree(aPerf, nbTerm, nameImgDom, 128, verbose, ptRoot);
   }

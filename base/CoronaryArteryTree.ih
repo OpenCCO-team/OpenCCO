@@ -861,9 +861,9 @@ CoronaryArteryTree<TPoint>::findBarycenter(const TPoint &p, unsigned int index)
 }
 
 
-template< typename TPoint >
+template< >
 bool
-CoronaryArteryTree<TPoint>::restrainDomain(const Image &imageDom, unsigned int threshold){
+CoronaryArteryTree<DGtal::Z2i::Point >::restrainDomain(const Image &imageDom, unsigned int threshold){
   myForegroundThreshold = threshold;
   myImageDomain = imageDom;
   bool isOk = false;
@@ -876,9 +876,9 @@ CoronaryArteryTree<TPoint>::restrainDomain(const Image &imageDom, unsigned int t
   }
   //Check if the root is inside the domain
   if(isOk) {
-    TPoint pRoot = myVectSegments[0].myCoordinate;
+    DGtal::Z2i::Point pRoot = myVectSegments[0].myCoordinate;
     DomPoint pRootI;
-    for (auto i=0; i< TPoint::dimension; i++){
+    for (auto i=0; i< 2; i++){
         pRootI[i] = static_cast<int>(pRoot[i]);
     }
   
@@ -892,10 +892,13 @@ CoronaryArteryTree<TPoint>::restrainDomain(const Image &imageDom, unsigned int t
   return false;
 }
 
+
 template<>
 bool
-CoronaryArteryTree<DGtal::Z3i::Point>::restrainDomain(const Image &imageDom, unsigned int threshold){
-  myForegroundThreshold = threshold;
+CoronaryArteryTree<DGtal::Z3i::Point>::restrainDomain(const Image &imageDom,
+                                                      unsigned int threshold){
+  /*
+   myForegroundThreshold = threshold;
   myImageDomain = imageDom;
   bool isOk = false;
   // Check if at least one pixel of with foreground value exist:
@@ -912,15 +915,18 @@ CoronaryArteryTree<DGtal::Z3i::Point>::restrainDomain(const Image &imageDom, uns
     for (auto i=0; i< 3; i++){
         pRootI[i] = static_cast<int>(pRoot[i]);
     }
+  
     if(myImageDomain.domain().isInside(pRootI) &&
        myImageDomain(pRootI) >= threshold) {
        myIsImageDomainRestrained = true;
        myImageDist = GeomHelpers::getImageDistance3D<Image, ImageDist>(myImageDomain, threshold);
       return true;
     }
-  }
+  }*/
   return false;
 }
+
+
 
 
 template< typename TPoint >
