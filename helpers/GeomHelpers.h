@@ -176,12 +176,12 @@ projectOnStraightLine(const TPoint & ptA,
 {
   if (ptA==ptC)
   {
-    ptProjected=ptA;
+    for(auto i=0; i<TPoint::dimension; i++){ ptProjected[i]=static_cast<int>(ptA[i]);}
     return true;
   }
   if (ptB==ptC)
   {
-    ptProjected=ptB;
+    for(auto i=0; i<TPoint::dimension; i++){ ptProjected[i]=static_cast<int>(ptB[i]);}
     return true ;
   }
   
@@ -225,6 +225,7 @@ pointsOnCircle(const TPoint & ptCenter,
   DGtal::Shapes<DGtal::Z2i::Domain>::digitalShaper( aSet, digShape );
   return aSet;
 }
+
 
 /**
  * From two segments represented by the end points, it returns true if

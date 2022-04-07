@@ -28,19 +28,19 @@ namespace ConstructionHelpers {
 /**
  * Helpers fonction to construction the tree. (mainly from circular domain and image organ for testing).
  */
-template<typename TPoint>
+template<int TDim>
 inline
 void constructTree(double aPerf, int nbTerm,
                    std::string imageOrgan, unsigned int fgTh = 128,
-                   bool verbose = false, TPoint ptCenter = TPoint::diagonal(),
+                   bool verbose = false, DGtal::PointVector<TDim, double> ptCenter = DGtal::PointVector<TDim, double>::diagonal(),
                    unsigned int distSearchRoot = 10){ DGtal::trace.beginBlock("Testing class CoronaryArteryTree: test random adds with distance constraint");
   srand (time(NULL));
   double rRoot = 1.0;
   std::string filename;
   
-  CoronaryArteryTree<TPoint> cTree (aPerf, nbTerm, rRoot, ptCenter);
+  CoronaryArteryTree<TDim> cTree (aPerf, nbTerm, rRoot, ptCenter);
   if (imageOrgan != ""){
-    auto img = DGtal::GenericReader<typename CoronaryArteryTree<TPoint>::Image>::import( imageOrgan );
+    auto img = DGtal::GenericReader<typename CoronaryArteryTree<TDim>::Image>::import( imageOrgan );
     bool restrainedOK = cTree.restrainDomain(img, fgTh);
     if (restrainedOK){
       DGtal::trace.info() << "Using restrained image  " << imageOrgan << std::endl;
@@ -50,7 +50,7 @@ void constructTree(double aPerf, int nbTerm,
         auto pC = cTree.getDomainCenter();
         cTree.myVectSegments[1].myCoordinate = pC;
       }
-      TPoint pRoot;
+      DGtal::PointVector<TDim, double> pRoot;
       cTree.searchRootFarthest(distSearchRoot, pRoot);
       cTree.myVectSegments[0].myCoordinate = pRoot;
     }
@@ -60,7 +60,7 @@ void constructTree(double aPerf, int nbTerm,
   for (unsigned int i = 1; i < nbSeed; i++) {
     DGtal::trace.progressBar(i, nbSeed);
     int nbSol = 0, itOpt = 0;
-    CoronaryArteryTree<TPoint> cTreeOpt = cTree;
+    CoronaryArteryTree<TDim> cTreeOpt = cTree;
     double volOpt = -1.0, vol = 0.0;
     while (nbSol==0) {
       auto pt = cTree.generateNewLocation(100);
@@ -68,7 +68,7 @@ void constructTree(double aPerf, int nbTerm,
       for(size_t it=0; it<vecN.size(); it++) {
         //if(!cTree.isIntersecting(pt, cTree.findBarycenter(pt, vecN.at(it)),vecN.at(it),n))
         if(!cTree.isIntersecting(pt, cTree.findBarycenter(pt, vecN.at(it)),vecN.at(it),cTree.myNumNeighbor, 2*cTree.myVectSegments[vecN.at(it)].myRadius)) {
-          CoronaryArteryTree<TPoint> cTree1 = cTree;
+          CoronaryArteryTree<TDim> cTree1 = cTree;
           isOK = cTree1.isAddable(pt,vecN.at(it), 100, 0.01, cTree1.myNumNeighbor, verbose);
           if(isOK) {
             vol = cTree1.computeTotalVolume(1);
@@ -115,9 +115,9 @@ void constructTreeImageDomain(double aPerf, int nbTerm,
                               std::string imageOrgan, unsigned int fgTh = 128,
                               bool verbose = false){
   // searching center from maximak distance.
-  auto img = DGtal::GenericReader<typename CoronaryArteryTree<TPoint>::Image>::import( imageOrgan );
-  auto imgDist = GeomHelpers::getImageDistance2D<typename CoronaryArteryTree<TPoint>::Image,
-                                               typename CoronaryArteryTree<TPoint>::ImageDist>(img);
+  auto img = DGtal::GenericReader<typename CoronaryArteryTree<TPoint::dimension>::Image>::import( imageOrgan );
+  auto imgDist = GeomHelpers::getImageDistance2D<typename CoronaryArteryTree<TPoint::dimension>::Image,
+                                               typename CoronaryArteryTree<TPoint::dimension>::ImageDist>(img);
   double m = 0.0;
   TPoint pM;
   for(auto p: imgDist.domain()) {if (imgDist(p) > m ){m = imgDist(p); pM = TPoint(p[0], p[1]);}}
@@ -125,7 +125,7 @@ void constructTreeImageDomain(double aPerf, int nbTerm,
     DGtal::trace.info() << "center point found: " << pM << "maximal value:"
                         << m <<   std::endl;
   }
-  constructTree(aPerf, nbTerm, imageOrgan, fgTh, verbose, pM,
+  constructTree<2>(aPerf, nbTerm, imageOrgan, fgTh, verbose, pM,
                 static_cast<unsigned int >(m)/2.0);
 }
 
