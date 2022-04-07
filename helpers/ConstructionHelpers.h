@@ -35,7 +35,7 @@ void constructTreeImageDomain(double aPerf, int nbTerm,
  */
 void constructTree(double aPerf, int nbTerm,
                    std::string imageOrgan, unsigned int fgTh = 128,
-                   bool verbose = false, DGtal::Z2i::Point ptCenter= DGtal::Z2i::Point(0,0),
+                   bool verbose = false, DGtal::Z2i::RealPoint ptCenter= DGtal::Z2i::RealPoint(0,0),
                    unsigned int distSearchRoot = 10);
 
 

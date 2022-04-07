@@ -1,5 +1,4 @@
 
-#include "CoronaryArteryTree.h"
 #include "GeomHelpers.h"
 #include "ConstructionHelpers.h"
 
@@ -16,8 +15,13 @@
 
 #include <math.h>
 
-CoronaryArteryTree::Segment<CoronaryArteryTree::Point2D>
-CoronaryArteryTree::updateResistanceFromRoot(unsigned int segIndex) {
+
+
+
+template< typename TPoint >
+inline
+typename CoronaryArteryTree<TPoint>::Segment
+CoronaryArteryTree<TPoint>::updateResistanceFromRoot(unsigned int segIndex) {
   if(segIndex != 0) {
     //Update HydroResistance
     double l = getLengthSegment(segIndex);
@@ -29,8 +33,8 @@ CoronaryArteryTree::updateResistanceFromRoot(unsigned int segIndex) {
     int segIndexLeft = children.first;
     int segIndexRight = children.second;
     //Update resitance of the two children segments
-    Segment<Point2D> sLeft = updateResistanceFromRoot(segIndexLeft);
-    Segment<Point2D> sRight = updateResistanceFromRoot(segIndexRight);
+    Segment sLeft = updateResistanceFromRoot(segIndexLeft);
+    Segment sRight = updateResistanceFromRoot(segIndexRight);
     
     //Update beta of the two children segments
     double segFlow = myVectSegments[segIndexLeft].myFlow;
@@ -49,10 +53,11 @@ CoronaryArteryTree::updateResistanceFromRoot(unsigned int segIndex) {
   return myVectSegments[segIndex];
 }
 
+template< typename TPoint >
 void
-CoronaryArteryTree::updateFlow(unsigned int segIndex)
+CoronaryArteryTree<TPoint>::updateFlow(unsigned int segIndex)
 {
-  Segment<Point2D> sC = myVectSegments[segIndex];
+  Segment sC = myVectSegments[segIndex];
   while (sC.myIndex != 0){
     myVectSegments[sC.myIndex].myKTerm ++;
     myVectSegments[sC.myIndex].myFlow = myVectSegments[sC.myIndex].myKTerm*my_qTerm;
@@ -60,20 +65,23 @@ CoronaryArteryTree::updateFlow(unsigned int segIndex)
   }
 }
 
+template< typename TPoint >
 void
-CoronaryArteryTree::updateLengthFactor()
+CoronaryArteryTree<TPoint>::updateLengthFactor()
 {
   double r_pk = sqrt(myKTerm + 1)*myRsupp;
   myLengthFactor =  r_pk / my_rPerf;
 }
 
+
+template< typename TPoint >
 void
-CoronaryArteryTree::updateRadius(unsigned int segIndex, double beta)
+CoronaryArteryTree<TPoint>::updateRadius(unsigned int segIndex, double beta)
 {
   if(myVectChildren[segIndex].first!=0 && myVectChildren[segIndex].second!=0) {
     //update radii left and right children
-    Segment<Point2D> sLeft = myVectSegments[myVectChildren[segIndex].first];
-    Segment<Point2D> sRight = myVectSegments[myVectChildren[segIndex].second];
+    Segment sLeft = myVectSegments[myVectChildren[segIndex].first];
+    Segment sRight = myVectSegments[myVectChildren[segIndex].second];
     double bL = beta * sLeft.myBeta;
     double bR = beta * sRight.myBeta;
     updateRadius(sLeft.myIndex, bL);
@@ -83,9 +91,9 @@ CoronaryArteryTree::updateRadius(unsigned int segIndex, double beta)
   }
 }
 
-
+template< typename TPoint >
 void
-CoronaryArteryTree::updateRootRadius()
+CoronaryArteryTree<TPoint>::updateRootRadius()
 {
   unsigned int idRoot = 1;
   double Qpk = myVectSegments[idRoot].myKTerm*my_qTerm;
@@ -94,17 +102,20 @@ CoronaryArteryTree::updateRootRadius()
   updateRadius(idRoot, 1.0);
 }
 
+
+template< typename TPoint >
 double
-CoronaryArteryTree::getLengthSegment(unsigned int segIndex)
+CoronaryArteryTree<TPoint>::getLengthSegment(unsigned int segIndex)
 {
   if(segIndex==0) return 0; //there is no parent segment
-  Point2D p1 = myVectSegments[segIndex].myCoordinate;
-  Point2D p2 = myVectSegments[myVectParent[segIndex]].myCoordinate;
+  TPoint p1 = myVectSegments[segIndex].myCoordinate;
+  TPoint p2 = myVectSegments[myVectParent[segIndex]].myCoordinate;
   return (p1-p2).norm()*myLengthFactor;
 }
 
+template< typename TPoint >
 double
-CoronaryArteryTree::computeTotalVolume(unsigned int segIndex)
+CoronaryArteryTree<TPoint>::computeTotalVolume(unsigned int segIndex)
 {
   //Volumn of current segment : Eq 20
   double l = getLengthSegment(segIndex);
@@ -119,12 +130,13 @@ CoronaryArteryTree::computeTotalVolume(unsigned int segIndex)
   return v;
 }
 
+template< typename TPoint >
 bool
-CoronaryArteryTree::isAddable(const Point2D &p, unsigned int segIndex,
+CoronaryArteryTree<TPoint>::isAddable(const TPoint &p, unsigned int segIndex,
                               unsigned int nbIter, double tolerance,
                               unsigned int nbNeibour, bool verbose)
 {
-  Point2D pOpt, newCenter = findBarycenter(p, segIndex);
+  TPoint pOpt, newCenter = findBarycenter(p, segIndex);
   if(myIsImageDomainRestrained && (myImageDomain(DGtal::Z2i::Point(static_cast<int>(newCenter[0]),
                                       static_cast<int>(newCenter[1])))< myForegroundThreshold))
     return false;
@@ -139,8 +151,8 @@ CoronaryArteryTree::isAddable(const Point2D &p, unsigned int segIndex,
       return false;
   
   // Creation a copy of parent segment
-  Segment<Point2D> sParent = myVectSegments[myVectParent[segIndex]];
-  Point2D pParent = sParent.myCoordinate;
+  Segment sParent = myVectSegments[myVectParent[segIndex]];
+  TPoint pParent = sParent.myCoordinate;
   
   if(myIsImageDomainRestrained && (!GeomHelpers::checkNoIntersectDomain(myImageDomain, myForegroundThreshold,
                   DGtal::Z2i::Point(static_cast<int>(pParent[0]), static_cast<int>(pParent[1])),
@@ -148,7 +160,7 @@ CoronaryArteryTree::isAddable(const Point2D &p, unsigned int segIndex,
       return false;
   
   // Creation of the left child
-  Segment<Point2D> sNewLeft;
+  Segment sNewLeft;
   sNewLeft.myCoordinate = myVectSegments[segIndex].myCoordinate;
   sNewLeft.myIndex = myVectSegments.size();
   sNewLeft.myRadius = myVectSegments[segIndex].myRadius;
@@ -156,14 +168,14 @@ CoronaryArteryTree::isAddable(const Point2D &p, unsigned int segIndex,
   sNewLeft.myKTerm = myVectSegments[segIndex].myKTerm;
   sNewLeft.myResistance = myVectSegments[segIndex].myResistance;
   // Creation of the right child
-  Segment<Point2D> sNewRight;
+  Segment sNewRight;
   sNewRight.myCoordinate = p;
   sNewRight.myIndex = myVectSegments.size()+1;
   sNewRight.myRadius = myVectSegments[segIndex].myRadius;
   sNewRight.myFlow = my_qTerm;
   sNewRight.myKTerm = 1;
   // Cretation a copy of center segment
-  Segment<Point2D> sCurrent = myVectSegments[segIndex];
+  Segment sCurrent = myVectSegments[segIndex];
   sCurrent.myCoordinate = newCenter;
   sCurrent.myFlow = myVectSegments[segIndex].myFlow + my_qTerm;
   sCurrent.myKTerm = sNewLeft.myKTerm + 1;
@@ -172,11 +184,11 @@ CoronaryArteryTree::isAddable(const Point2D &p, unsigned int segIndex,
   double f1 = sNewLeft.myFlow;//ratioQ*f0;//k * r1*r1*r1; //left
   double f2 = sNewRight.myFlow;//(1.0-ratioQ)*f0;//k * r2*r2*r2; //right
   double f0 =  f1 + f2;//R0*R0*R0; //middle
-  Point2D pL = sNewLeft.myCoordinate;
-  Point2D pR = sNewRight.myCoordinate;
-  Point2D pCurrent ((f0*pParent[0]+f1*pL[0]+f2*pR[0])/(2.0*f0), (f0*pParent[1]+f1*pL[1]+f2*pR[1])/(2.0*f0)); //barycenter of the sement
+   TPoint pL = sNewLeft.myCoordinate;
+   TPoint pR = sNewRight.myCoordinate;
+   TPoint pCurrent ((f0*pParent[0]+f1*pL[0]+f2*pR[0])/(2.0*f0), (f0*pParent[1]+f1*pL[1]+f2*pR[1])/(2.0*f0)); //barycenter of the sement
   */
-  Point2D pCurrent = (sParent.myCoordinate+sNewLeft.myCoordinate)/2.0; //center of the current segment
+  TPoint pCurrent = (sParent.myCoordinate+sNewLeft.myCoordinate)/2.0; //center of the current segment
   double r0 = sCurrent.myRadius, r1 = sCurrent.myRadius, r2 = sCurrent.myRadius;
   bool res1 = true, res2 = false, res3 = true, isDone = false;
   double vol = -1, volCurr = -1, diffVol = -1;
@@ -294,13 +306,13 @@ CoronaryArteryTree::isAddable(const Point2D &p, unsigned int segIndex,
   return isDone;
 }
 
-
+template< typename TPoint >
 bool
-CoronaryArteryTree::addSegmentFromPoint(const Point2D &p,
+CoronaryArteryTree<TPoint>::addSegmentFromPoint(const TPoint &p,
                                         unsigned int nearIndex)
 {
 
-  Point2D newCenter = findBarycenter(p, nearIndex);
+  TPoint newCenter = findBarycenter(p, nearIndex);
   bool inter = hasNearestIntersections(myVectParent[nearIndex], nearIndex, p, newCenter,  10);
   double minDistance = 5.0;
   if (inter){
@@ -339,7 +351,7 @@ CoronaryArteryTree::addSegmentFromPoint(const Point2D &p,
     return false;
   }
   // Creation of the left child
-  Segment<Point2D> sNewLeft;
+  Segment sNewLeft;
   sNewLeft.myCoordinate = myVectSegments[nearIndex].myCoordinate;
   sNewLeft.myIndex = myVectSegments.size();
   sNewLeft.myRadius = myVectSegments[nearIndex].myRadius;
@@ -361,7 +373,7 @@ CoronaryArteryTree::addSegmentFromPoint(const Point2D &p,
   myVectChildren[sNewLeft.myIndex].second = rightGrandChildIndex;
 
   // Creation of the right child
-  Segment<Point2D> sNewRight;
+  Segment sNewRight;
   sNewRight.myCoordinate = p;
   sNewRight.myRadius = myVectSegments[nearIndex].myRadius;
   sNewRight.myIndex = myVectSegments.size();
@@ -389,9 +401,9 @@ CoronaryArteryTree::addSegmentFromPoint(const Point2D &p,
   return true;
 }
 
-
+template< typename TPoint >
 bool
-CoronaryArteryTree::isIntersecting(const Point2D &pNew, const Point2D &pCenter, unsigned int nearIndex, unsigned int nbNeibour, double minDistance)
+CoronaryArteryTree<TPoint>::isIntersecting(const TPoint &pNew, const TPoint &pCenter, unsigned int nearIndex, unsigned int nbNeibour, double minDistance)
 {
   //bool inter = hasNearestIntersections(p, newCenter, 10);
   //bool inter = hasNearestIntersections(myVectParent[nearIndex], nearIndex, p, newCenter,  nbNeibour);
@@ -434,8 +446,9 @@ CoronaryArteryTree::isIntersecting(const Point2D &pNew, const Point2D &pCenter, 
   return false;
 }
 
+template< typename TPoint >
 void
-CoronaryArteryTree::boardDisplay(double thickness, bool clearDisplay)
+CoronaryArteryTree<TPoint>::boardDisplay(double thickness, bool clearDisplay)
 {
   double scaleFactorEPS = 0.01;
   myBoard.setUnit(scaleFactorEPS, LibBoard::Board::UCentimeter);
@@ -452,7 +465,7 @@ CoronaryArteryTree::boardDisplay(double thickness, bool clearDisplay)
   }
   
   // draw root: (first segment is special reduced to one point and no parent).
-  Point2D p0 = myVectSegments[0].myCoordinate;
+  TPoint p0 = myVectSegments[0].myCoordinate;
   myBoard.setPenColor(DGtal::Color(10, 100, 0, 180));
   myBoard.setLineWidth(1.0);
   myBoard.fillCircle(p0[0], p0[1], 2.0*myVectSegments[1].myRadius*scaleBoard*thickness, 1);
@@ -462,7 +475,7 @@ CoronaryArteryTree::boardDisplay(double thickness, bool clearDisplay)
   myBoard.fillCircle(myTreeCenter[0], myTreeCenter[1], 2.0*myVectSegments[1].myRadius*scaleBoard*thickness, 1);
   
   
-  Point2D p1 = myVectSegments[1].myCoordinate;
+  TPoint p1 = myVectSegments[1].myCoordinate;
   
   myBoard.setPenColor(DGtal::Color(180, 0, 0, 180));
   myBoard.setLineWidth(1.0);
@@ -484,8 +497,8 @@ CoronaryArteryTree::boardDisplay(double thickness, bool clearDisplay)
       continue;
   
     // distal node
-    Point2D distal = s.myCoordinate;
-    Point2D proxital = myVectSegments[myVectParent[s.myIndex]].myCoordinate;
+    TPoint distal = s.myCoordinate;
+    TPoint proxital = myVectSegments[myVectParent[s.myIndex]].myCoordinate;
     myBoard.setLineWidth(myVectSegments[s.myIndex].myRadius*scaleBoard*thickness);
     // myBoard.setPenColor(cmap_grad(i));
     myBoard.setPenColor(DGtal::Color::Gray);
@@ -517,8 +530,9 @@ CoronaryArteryTree::boardDisplay(double thickness, bool clearDisplay)
   }
  }
 
+template< typename TPoint >
 void
-CoronaryArteryTree::exportBoardDisplay(const std::string &fileName,
+CoronaryArteryTree<TPoint>::exportBoardDisplay(const std::string &fileName,
                                        double thickness,
                                        bool updateDisplay,
                                        bool clearDisplay){
@@ -541,8 +555,9 @@ CoronaryArteryTree::exportBoardDisplay(const std::string &fileName,
   }
 }
 
+template< typename TPoint >
 unsigned int
-CoronaryArteryTree::getNearestSegment(const Point2D &pt)
+CoronaryArteryTree<TPoint>::getNearestSegment(const TPoint &pt)
 {
   unsigned int sNear=1;
   double distMin = getProjDistance(myVectSegments[0].myCoordinate,
@@ -564,11 +579,13 @@ CoronaryArteryTree::getNearestSegment(const Point2D &pt)
   return sNear;
 }
 
+
+template< typename TPoint >
 std::vector<unsigned int>
-CoronaryArteryTree::getPathToRoot(const Segment<Point2D> &s)
+CoronaryArteryTree<TPoint>::getPathToRoot(const Segment &s)
 {
   std::vector<unsigned int> res;
-  Segment<Point2D> sC = s;
+  Segment sC = s;
   while (sC.myIndex != 0){
     res.push_back(sC.myIndex);
     sC = myVectSegments[ myVectParent[sC.myIndex]];
@@ -576,9 +593,10 @@ CoronaryArteryTree::getPathToRoot(const Segment<Point2D> &s)
   return res;
 }
 
-CoronaryArteryTree::Point2D
-CoronaryArteryTree::generateNewLocation(unsigned int nbTrials){
-  Point2D res;
+template< typename TPoint >
+TPoint
+CoronaryArteryTree<TPoint>::generateNewLocation(unsigned int nbTrials){
+  TPoint res;
   double myDThresold = getDistanceThreshold();
   bool found = false;
   unsigned int n = nbTrials;
@@ -597,12 +615,12 @@ CoronaryArteryTree::generateNewLocation(unsigned int nbTrials){
   return res;
 }
 
-
-std::pair<CoronaryArteryTree::Point2D, bool>
-CoronaryArteryTree::generateALocation(double myDThresold) {
-  Point2D res;
+template< typename TPoint >
+std::pair<TPoint, bool>
+CoronaryArteryTree<TPoint>::generateALocation(double myDThresold) {
+  TPoint res;
   if (myIsImageDomainRestrained){
-    res = GeomHelpers::generateRandomPtOnImageDomain<CoronaryArteryTree::Point2D>(myImageDomain, myForegroundThreshold,  myImageDist);
+    res = GeomHelpers::generateRandomPtOnImageDomain<TPoint>(myImageDomain, myForegroundThreshold,  myImageDist);
   } else {
     res = GeomHelpers::generateRandomPtOnDisk(myTreeCenter, my_rPerf);
   }
@@ -621,18 +639,20 @@ CoronaryArteryTree::generateALocation(double myDThresold) {
     isComp2 = getProjDistance(myVectSegments[id].myIndex, res) > myVectSegments[id].myRadius;
     id++;
   }
-  return  std::pair<Point2D, bool> {res, isComp && isComp2};
+  return  std::pair<TPoint, bool> {res, isComp && isComp2};
 }
-
+template< typename TPoint >
 bool
-CoronaryArteryTree::isToCloseFromNearest(const Point2D &p, double minDist) const{
+CoronaryArteryTree<TPoint>::isToCloseFromNearest(const TPoint &p, double minDist) const{
   double d = getProjDistance(getN_NearestSegments(p,1)[0],p);
   return d < minDist;
 }
+
+template< typename TPoint >
 double
-CoronaryArteryTree::getProjDistance(const Point2D &p0, const Point2D &p1, const Point2D &p) const{
+CoronaryArteryTree<TPoint>::getProjDistance(const TPoint &p0, const TPoint &p1, const TPoint &p) const{
   double result = 0.0;
-  Point2D pProj(0,0);
+  TPoint pProj(0,0);
   bool isInside = GeomHelpers::projectOnStraightLine(p0, p1, p, pProj);
   if (isInside)
   {
@@ -646,17 +666,18 @@ CoronaryArteryTree::getProjDistance(const Point2D &p0, const Point2D &p1, const 
   return result;
 }
 
+template< typename TPoint >
 double
-CoronaryArteryTree::getProjDistance(unsigned int index, const Point2D &p ) const {
-  Point2D p0 = myVectSegments[index].myCoordinate;
-  Point2D p1 = myVectSegments[myVectParent[index]].myCoordinate;
+CoronaryArteryTree<TPoint>::getProjDistance(unsigned int index, const TPoint &p ) const {
+  TPoint p0 = myVectSegments[index].myCoordinate;
+  TPoint p1 = myVectSegments[myVectParent[index]].myCoordinate;
   return  getProjDistance(p0, p1, p);
 }
 
 
-
+template< typename TPoint >
 std::vector<unsigned int>
-CoronaryArteryTree::getN_NearestSegments(const Point2D &p, unsigned int n) const {
+CoronaryArteryTree<TPoint>::getN_NearestSegments(const TPoint &p, unsigned int n) const {
   std::vector<unsigned int> res;
   res.push_back(1);
   for (unsigned int i=2; i < myVectSegments.size(); i++){
@@ -675,11 +696,11 @@ CoronaryArteryTree::getN_NearestSegments(const Point2D &p, unsigned int n) const
   return res;
 }
 
-
+template< typename TPoint >
 bool
-CoronaryArteryTree::hasNearestIntersections(const Point2D &p0,
-                                            const Point2D &p1, unsigned int n) const {
-  Point2D b = (p1+p0)/2;
+CoronaryArteryTree<TPoint>::hasNearestIntersections(const TPoint &p0,
+                                            const TPoint &p1, unsigned int n) const {
+  TPoint b = (p1+p0)/2;
   std::vector<unsigned int> near = getN_NearestSegments(b, n);
   for (const auto &s : near){
     if (GeomHelpers::hasIntersection(p0, p1, myVectSegments[s].myCoordinate,
@@ -690,14 +711,16 @@ CoronaryArteryTree::hasNearestIntersections(const Point2D &p0,
   }
   return false;
 }
+
+template< typename TPoint >
 bool
-CoronaryArteryTree::hasNearestIntersections(unsigned int indexPFather,
+CoronaryArteryTree<TPoint>::hasNearestIntersections(unsigned int indexPFather,
                                             unsigned int indexPChild,
-                                            const Point2D &pAdded,
-                                            const Point2D &pBifurcation, unsigned int n) const{
+                                            const TPoint &pAdded,
+                                            const TPoint &pBifurcation, unsigned int n) const{
   std::vector<unsigned int> near = getN_NearestSegments(pAdded, n);
-  Point2D p0  = myVectSegments[indexPFather].myCoordinate;
-  Point2D p1  = myVectSegments[indexPChild].myCoordinate;
+  TPoint p0  = myVectSegments[indexPFather].myCoordinate;
+  TPoint p1  = myVectSegments[indexPChild].myCoordinate;
   
   for (const auto &s : near){
     // ignoring self initial segment.
@@ -718,19 +741,20 @@ CoronaryArteryTree::hasNearestIntersections(unsigned int indexPFather,
   
 }
 
+template< typename TPoint >
 bool
-CoronaryArteryTree::kamyiaOptimization(const Point2D& pCurrent,
-                                       const Point2D& pParent,
+CoronaryArteryTree<TPoint>::kamyiaOptimization(const TPoint& pCurrent,
+                                       const TPoint& pParent,
                                        double rCurrent,
-                                       const Segment<Point2D>& sL,
-                                       const Segment<Point2D>& sR,
+                                       const Segment& sL,
+                                       const Segment& sR,
                                        unsigned int nbIter,
-                                       Point2D& pOpt,
+                                               TPoint& pOpt,
                                        double& r0, double& r1, double& r2){
   
   // Prepare
-  Point2D pL = sL.myCoordinate;
-  Point2D pR = sR.myCoordinate;
+  TPoint pL = sL.myCoordinate;
+  TPoint pR = sR.myCoordinate;
   
   //std::cout<<"myFlow="<< myVectSegments[index].myFlow<<" and sL.myFlow="<<sL.myFlow<<" and sR.myFlow="<<sR.myFlow<<std::endl;
   //double ratioQ = sL.myFlow/sCurrent.myFlow;//0.5;
@@ -744,9 +768,9 @@ CoronaryArteryTree::kamyiaOptimization(const Point2D& pCurrent,
   double f2 = sR.myFlow;//(1.0-ratioQ)*f0;//k * r2*r2*r2; //right
   double f0 =  f1 + f2;//R0*R0*R0; //middle
   // Starting position from Equation (21) for initialisation as mentionned page 11 [Clara Jaquet et HT]
-  //Point2D pb ((f0*pParent[0]+f1*pL[0]+f2*pR[0])/(2.0*f0), (f0*pParent[1]+f1*pL[1]+f2*pR[1])/(2.0*f0));
-  //Point2D pb ((pParent[0]+pL[0])/(2.0), (pParent[1]+pL[1])/(2.0)); //center of the old segment
-  Point2D pb (pCurrent[0], pCurrent[1]);
+  //TPoint pb ((f0*pParent[0]+f1*pL[0]+f2*pR[0])/(2.0*f0), (f0*pParent[1]+f1*pL[1]+f2*pR[1])/(2.0*f0));
+  //TPoint pb ((pParent[0]+pL[0])/(2.0), (pParent[1]+pL[1])/(2.0)); //center of the old segment
+  TPoint pb (pCurrent[0], pCurrent[1]);
   //std::cout<<"Init:"<<pb<<std::endl;
   double l0 = (pParent - pb).norm()*myLengthFactor;
   double l1 = (pL - pb).norm()*myLengthFactor;
@@ -797,23 +821,24 @@ CoronaryArteryTree::kamyiaOptimization(const Point2D& pCurrent,
   return hasSolution;
 }
 
+template< typename TPoint >
 void
-CoronaryArteryTree::selfDisplay( std::ostream & out ) const {
+CoronaryArteryTree<TPoint>::selfDisplay( std::ostream & out ) const {
   out << std::endl << "----" << std::endl;
   out << "CoronaryArteryTree: " << std::endl;
   out << "main parameters: myKTerm: "  << myKTerm << "\n\t myRsupp: " << myRsupp << std::endl;
   out << "\n\t Nb Segments from container: " << myVectSegments.size() << std::endl;
   out << "----" << std::endl;
 }
-
-CoronaryArteryTree::Point2D CoronaryArteryTree::getDomainCenter() const {
+template< typename TPoint >
+TPoint CoronaryArteryTree<TPoint>::getDomainCenter() const {
   if (!myIsImageDomainRestrained){
-    return Point2D(0,0);
+    return TPoint(0,0);
   }
   else {
     // searching the farthest point of the border domain
     double maxDistance = 0;
-    Point2D ptMax (0,0);
+    TPoint ptMax (0,0);
     for (auto p: myImageDomain.domain()){
       if (myImageDist(p) >= maxDistance){
         ptMax = p;
@@ -824,37 +849,40 @@ CoronaryArteryTree::Point2D CoronaryArteryTree::getDomainCenter() const {
   }
 }
 
+template< typename TPoint >
+
 std::ostream&
 operator<< ( std::ostream & out,
-            const CoronaryArteryTree & aCoronaryTree )
+            const CoronaryArteryTree<TPoint> & aCoronaryTree )
 {
   aCoronaryTree.selfDisplay ( out );
   return out;
 }
 
+template< typename TPoint >
 double
-CoronaryArteryTree::getDistanceThreshold()
+CoronaryArteryTree<TPoint>::getDistanceThreshold()
 {
   // Check with python code, here is the equation after simplification
   return sqrt((M_PI*my_rPerf*my_rPerf)/myKTerm);
   //Scale factor must be taken into account here
   //return sqrt((M_PI*(myKTerm + 1)*myRsupp*myRsupp)/myKTerm) / myLengthFactor;
 }
-
-CoronaryArteryTree::Point2D
-CoronaryArteryTree::findBarycenter(const Point2D &p, unsigned int index)
+template< typename TPoint >
+TPoint
+CoronaryArteryTree<TPoint>::findBarycenter(const TPoint &p, unsigned int index)
 {
-  Point2D first_point=p;
-  Point2D second_point=myVectSegments[index].myCoordinate;
-  Point2D third_point=myVectSegments[myVectParent[index]].myCoordinate;
-  Point2D barycenter((first_point[0]+second_point[0]+third_point[0])/3.0,(first_point[1]+second_point[1]+third_point[1])/3.0);
+  TPoint first_point=p;
+  TPoint second_point=myVectSegments[index].myCoordinate;
+  TPoint third_point=myVectSegments[myVectParent[index]].myCoordinate;
+  TPoint barycenter((first_point[0]+second_point[0]+third_point[0])/3.0,(first_point[1]+second_point[1]+third_point[1])/3.0);
   return barycenter;
 }
 
 
-
+template< typename TPoint >
 bool
-CoronaryArteryTree::restrainDomain(const Image &imageDom, unsigned int threshold){
+CoronaryArteryTree<TPoint>::restrainDomain(const Image &imageDom, unsigned int threshold){
   myForegroundThreshold = threshold;
   myImageDomain = imageDom;
   bool isOk = false;
@@ -867,7 +895,7 @@ CoronaryArteryTree::restrainDomain(const Image &imageDom, unsigned int threshold
   }
   //Check if the root is inside the domain
   if(isOk) {
-    Point2D pRoot = myVectSegments[0].myCoordinate;
+    TPoint pRoot = myVectSegments[0].myCoordinate;
     DGtal::Z2i::Point pRootI (static_cast<int>(pRoot[0]),
                               static_cast<int>(pRoot[1]));
     
@@ -882,10 +910,10 @@ CoronaryArteryTree::restrainDomain(const Image &imageDom, unsigned int threshold
 }
 
 
-
+template< typename TPoint >
 bool
-CoronaryArteryTree::searchRootFarthest(const double & d,
-                                       DGtal::Z2i::Point &ptRoot ){
+CoronaryArteryTree<TPoint>::searchRootFarthest(const double & d,
+                                       DGtal::Z2i::RealPoint &ptRoot ){
   DGtal::Z2i::DigitalSet sPts =  GeomHelpers::pointsOnCircle(myTreeCenter, d);
   for (const DGtal::Z2i::Point &p : sPts){
       if (GeomHelpers::checkNoIntersectDomain(myImageDomain, myForegroundThreshold,
@@ -899,8 +927,9 @@ CoronaryArteryTree::searchRootFarthest(const double & d,
   return false;
 }
 
-
-bool operator==(CoronaryArteryTree::Segment<CoronaryArteryTree::Point2D>  S1, CoronaryArteryTree::Segment<CoronaryArteryTree::Point2D> S2)
+template< typename TPoint >
+bool operator==(typename CoronaryArteryTree<TPoint>::Segment S1,
+                typename CoronaryArteryTree<TPoint>::Segment S2)
 {
   if(S1.myCoordinate==S2.myCoordinate)
   {
@@ -911,8 +940,9 @@ bool operator==(CoronaryArteryTree::Segment<CoronaryArteryTree::Point2D>  S1, Co
     return false;
   }
 }
-
-bool operator!=(CoronaryArteryTree::Segment<CoronaryArteryTree::Point2D>  S1, CoronaryArteryTree::Segment<CoronaryArteryTree::Point2D> S2)
+template< typename TPoint >
+bool operator!=(typename CoronaryArteryTree<TPoint>::Segment  S1,
+                typename CoronaryArteryTree<TPoint>::Segment S2)
 {
   if(S1.myCoordinate!=S2.myCoordinate)
   {

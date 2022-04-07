@@ -38,8 +38,7 @@ using ceres::Solver;
  *
  */
 
-
-
+template <typename TPoint>
 class CoronaryArteryTree{
   
   /**
@@ -49,11 +48,10 @@ public:
   
   // Represent the left and right
   typedef std::pair<unsigned int, unsigned int> SegmentChildren;
-  typedef DGtal::Z2i::RealPoint Point2D;
+  //typedef TPoint Point2D;
   typedef DGtal::ImageSelector < DGtal::Z2i::Domain, unsigned int>::Type Image;
   typedef DGtal::ImageContainerBySTLVector< DGtal::Z2i::Domain, int> ImageDist;
 
-  template <typename TPoint>
   struct Segment{
     // Distal point of the segment.
     TPoint myCoordinate;
@@ -78,7 +76,7 @@ public:
   // to recover the parent of an indexed segement
   std::vector<unsigned int >  myVectParent;
   // represents all the vertices of the graph
-  std::vector<Segment<Point2D>> myVectSegments;
+  std::vector< Segment > myVectSegments;
   // to store the index of the terminal segments
   std::vector<unsigned int> myVectTerminals;
   
@@ -128,7 +126,7 @@ public:
   double myRsupp = 0.0;
   
   // myTreeCenter: coordinate of the tree center used to define the main domain.
-  Point2D myTreeCenter;
+  TPoint myTreeCenter;
   
   // myNumNeighbor : represents the number of nearest neighbours to be tested
   int myNumNeighbor = 20;
@@ -163,7 +161,7 @@ public:
    * @param nTerm: number of terminal segments.
    **/
   
-  CoronaryArteryTree(double aPerf, unsigned int nTerm, double aRadius = 1.0, DGtal::Z2i::Point treeCenter = DGtal::Z2i::Point(0,0) ){
+  CoronaryArteryTree(double aPerf, unsigned int nTerm, double aRadius = 1.0, DGtal::Z2i::RealPoint treeCenter = DGtal::Z2i::RealPoint(0,0) ){
     assert(nTerm>=1);
     myTreeCenter[0] = treeCenter[0];
     myTreeCenter[1] = treeCenter[1];
@@ -179,9 +177,9 @@ public:
     //myDThresold = sqrt(M_PI*myRsupp*myRsupp/myKTerm);
     
     // Construction of the special root segment
-    Point2D ptRoot = myTreeCenter;
+    TPoint ptRoot = myTreeCenter;
     ptRoot[1] += my_rPerf;// Point2D(0,my_rPerf);
-    Segment<Point2D> s;
+    Segment s;
     s.myRadius = aRadius;
     s.myCoordinate = ptRoot;
     s.myIndex = 0;
@@ -192,7 +190,7 @@ public:
     updateLengthFactor();
     
     // Construction of the first segment after the root
-    Segment<Point2D> s1;
+    Segment s1;
     s1.myRadius = aRadius;
     s1.myCoordinate = myTreeCenter;
     double myLength = (ptRoot-s1.myCoordinate).norm()*myLengthFactor;
@@ -218,9 +216,9 @@ public:
    * @param nTerm: number of terminal segments.
    **/
   
-  CoronaryArteryTree(const Point2D &ptRoot, double aPerf, unsigned int nTerm, double aRadius = 1.0 ){
+  CoronaryArteryTree(const TPoint &ptRoot, double aPerf, unsigned int nTerm, double aRadius = 1.0 ){
     assert(nTerm>=1);
-    myTreeCenter = Point2D(0,0);
+    myTreeCenter = TPoint(0,0);
     myRsupp = sqrt(aPerf/(nTerm*M_PI));
     my_rPerf = sqrt(aPerf/M_PI);
     my_aPerf = aPerf;
@@ -233,7 +231,7 @@ public:
     
     // Construction of the special root segment
     assert((ptRoot - myTreeCenter).norm() == my_rPerf); //ptRoot must be on the perfusion circle
-    Segment<Point2D> s;
+    Segment s;
     s.myRadius = aRadius;
     s.myCoordinate = ptRoot;
     s.myIndex = 0;
@@ -244,7 +242,7 @@ public:
     updateLengthFactor();
     
     // Construction of the first segment after the root
-    Segment<Point2D> s1;
+    Segment s1;
     s1.myRadius = aRadius;
     //s1.myCoordinate = generateRandomPtOnDisk(myTreeCenter, myRsupp);
     s1.myCoordinate = GeomHelpers::generateRandomPtOnDisk(myTreeCenter, my_rPerf);
@@ -272,7 +270,7 @@ public:
    * @param nTerm: number of terminal segments.
    **/
   
-  CoronaryArteryTree(const Point2D &ptCenter, const Point2D &ptRoot, const Point2D &ptTerm, unsigned int nTerm, int nNeighbor = 20, double aRadius = 1.0 ){
+  CoronaryArteryTree(const TPoint &ptCenter, const TPoint &ptRoot, const TPoint &ptTerm, unsigned int nTerm, int nNeighbor = 20, double aRadius = 1.0 ){
     assert(nTerm>=1);
     myTreeCenter = ptCenter;
     my_rPerf = (ptCenter - ptRoot).norm();
@@ -288,7 +286,7 @@ public:
     
     // Construction of the special root segment
     assert((ptRoot - myTreeCenter).norm() == my_rPerf); //ptRoot must be on the perfusion circle
-    Segment<Point2D> s;
+    Segment s;
     s.myRadius = aRadius;
     s.myCoordinate = ptRoot;
     s.myIndex = 0;
@@ -301,7 +299,7 @@ public:
     
     // Construction of the first segment after the root
     assert((ptTerm - myTreeCenter).norm() <= my_rPerf); //ptTerm must be in the perfusion disk
-    Segment<Point2D> s1;
+    Segment s1;
     s1.myRadius = aRadius;
     s1.myCoordinate = ptTerm;
     double myLength = (ptRoot-s1.myCoordinate).norm()*myLengthFactor;
@@ -325,14 +323,14 @@ public:
      **/
     
     CoronaryArteryTree(double r){
-      myTreeCenter = Point2D(0,0);
+      myTreeCenter = TPoint(0,0);
       myRsupp = r;
       my_aPerf = 1.0;
       my_NTerm = 1;
       // Construction of the special root segment
-      Segment<Point2D> s;
+      Segment s;
       s.myRadius = 1.0;
-      s.myCoordinate = Point2D(0,r);//ptRoot;
+      s.myCoordinate = TPoint(0,r);//ptRoot;
       s.myIndex = 0;
       myVectSegments.push_back(s);
       myVectParent.push_back(0); //if parent index is itsef it is the root (special segment of length 0).
@@ -340,9 +338,9 @@ public:
       my_rPerf = myRsupp;
       
       // Construction of the first segment after the root
-      Segment<Point2D> s1;
+      Segment s1;
       s1.myRadius = 1.0;
-      s1.myCoordinate = Point2D(0,0);
+      s1.myCoordinate = TPoint(0,0);
       s1.myIndex = 1;
       myVectSegments.push_back(s1);
       myVectTerminals.push_back(1);
@@ -365,7 +363,7 @@ public:
    * @return true of the new segment is created, false in the other case.
    * (for instance if an intersection to previous point was present)
    **/
-  bool isAddable(const Point2D &p,
+  bool isAddable(const TPoint &p,
                  unsigned int segIndex,
                  unsigned int nbIter,
                  double tolerance,
@@ -373,7 +371,7 @@ public:
                  bool verbose = true);
   
   
-  bool addSegmentFromPoint(const Point2D &p, unsigned int nearIndex);
+  bool addSegmentFromPoint(const TPoint &p, unsigned int nearIndex);
 
   
   /**
@@ -385,8 +383,8 @@ public:
    * @param minDistance the limit distance to the nearest segments.
    * @return true of there is an intersection, false in the other case.
    */
-  bool isIntersecting(const Point2D &pNew,
-                      const Point2D &pCenter,
+  bool isIntersecting(const TPoint &pNew,
+                      const TPoint &pCenter,
                       unsigned int nearIndex,
                       unsigned int nbNeibour = 10,
                       double minDistance = 5.0);
@@ -395,7 +393,7 @@ public:
    * Update the distribution of segmental flows after adding a new segment (new bifurcation)
    * @param segIndex index of the parent segment to be updated
    */
-  CoronaryArteryTree::Segment<CoronaryArteryTree::Point2D> updateResistanceFromRoot(unsigned int segIndex=1);
+  CoronaryArteryTree::Segment updateResistanceFromRoot(unsigned int segIndex=1);
   
   /**
    * Updates the flow of a segment (as given in Eq. 11)
@@ -436,33 +434,33 @@ public:
    * @param pt: a point
    * @return the index of the nearest segement
    */
-  unsigned int getNearestSegment(const Point2D &pt);
+  unsigned int getNearestSegment(const TPoint &pt);
 
   /**
    * Computes the barycenter of the given point and the two points of the segment
    * @param p: a point
    * @param segIndex : the index of the segement used for the computation
    */
-  Point2D findBarycenter(const Point2D &p, unsigned int index);
+  TPoint findBarycenter(const TPoint &p, unsigned int index);
 
   /**
    * From a segment returns a vector of segment index representing the path to the root.
    */
-  std::vector<unsigned int> getPathToRoot(const Segment<Point2D> &s);
+  std::vector<unsigned int> getPathToRoot(const Segment &s);
   
   /**
    * Generates a new location with distance constraints.
    * @param nbTrials : number of trials before reducing the distance constaint value
    *
    */
-  Point2D generateNewLocation(unsigned int nbTrials = 1000);
+  TPoint generateNewLocation(unsigned int nbTrials = 1000);
 
   /**
    * Generates a new location with distance constraints.
    * @param myDThresold : the distance constaint value
    * @return the generated point and a bool true if sucess and false othewise
    */
-  std::pair<Point2D, bool> generateALocation(double myDThresold);
+  std::pair<TPoint, bool> generateALocation(double myDThresold);
 
   /**
    * Computes the length of a segment represented with the index and mutiliplies by the length factor.
@@ -475,14 +473,14 @@ public:
    * @param index : the index of the segement used for the comparison
    * @param p : a point
    */
-  double getProjDistance(unsigned int index, const Point2D &p) const;
+  double getProjDistance(unsigned int index, const TPoint &p) const;
   /**
    * Computes the projected distance from a segment represented with the index  and the point given as argument.
    * @param p0 : a point representing one extremity
    * @param p1 : a point representing another extremity
    * @param p : a point to be projected
    */
-  double getProjDistance(const Point2D &p0, const Point2D &p1, const Point2D &p) const;
+  double getProjDistance(const TPoint &p0, const TPoint &p1, const TPoint &p) const;
   
   /**
    * Check if a new added point is too close the nearest segment.
@@ -490,14 +488,14 @@ public:
    * @param minDist: min distance
    * @return true is a point is too close
    */
-  bool isToCloseFromNearest(const Point2D &p, double minDist) const;
+  bool isToCloseFromNearest(const TPoint &p, double minDist) const;
   
   /**
    * Computes the n nearest index of neighborhood segments  of a given point
    * @param p : the point considered to get the nearest point
    * @param n : the number of nearest point to be recovered
    */
-  std::vector<unsigned int> getN_NearestSegments(const Point2D &p,
+  std::vector<unsigned int> getN_NearestSegments(const TPoint &p,
                                                  unsigned int n) const;
   
   /**
@@ -506,8 +504,8 @@ public:
    * @param p1 : another extremity of one segment
    * @param n : the number of nearest point to be considered
    */
-  bool hasNearestIntersections(const Point2D &p0,
-                               const Point2D &p1, unsigned int n) const;
+  bool hasNearestIntersections(const TPoint &p0,
+                               const TPoint &p1, unsigned int n) const;
   
 
   /**
@@ -521,8 +519,8 @@ public:
    */
   bool hasNearestIntersections(unsigned int indexPFather,
                                unsigned int indexPChild,
-                               const Point2D &pAdded,
-                               const Point2D &pBifurcation, unsigned int n) const;
+                               const TPoint &pAdded,
+                               const TPoint &pBifurcation, unsigned int n) const;
   
   /**
    * Verifies the condition of degenerate after Kamyia solution : 2 ri < li
@@ -544,13 +542,13 @@ public:
    * @param r1: output radius of the left segment
    * @param r2: output radius of the right segment
    */
-  bool kamyiaOptimization(const Point2D& pCurrent,
-                          const Point2D& pParent,
+  bool kamyiaOptimization(const TPoint& pCurrent,
+                          const TPoint& pParent,
                           double rCurrent,
-                          const Segment<Point2D>& sL,
-                          const Segment<Point2D>& sR,
+                          const Segment &sL,
+                          const Segment &sR,
                           unsigned int nbIter,
-                          Point2D& pOpt,
+                          TPoint& pOpt,
                           double& r0,
                           double& r1,
                           double& r2);
@@ -565,7 +563,7 @@ public:
    * Get the supported domain of the tree. By default it is defined from the circle center.
    * If the domain if defined from a mask image, the center if computed from the imate center.
    */
-  Point2D getDomainCenter() const;
+  TPoint getDomainCenter() const;
   
   
   /**
@@ -597,7 +595,7 @@ public:
    *  @param[out] ptRoot the root point is updated if found.
    * @return true of the root point was found.
    */
-   bool searchRootFarthest(const double & d, DGtal::Z2i::Point &ptRoot );
+   bool searchRootFarthest(const double & d, DGtal::Z2i::RealPoint &ptRoot );
   
   
 private:
@@ -614,16 +612,17 @@ private:
  * @param aCoronaryTree the object of class 'CoronaryArteryTree' to write.
  * @return the output stream after the writing.
  */
-
+template <typename TPoint>
 std::ostream&
-operator<< ( std::ostream & out, const CoronaryArteryTree & aCoronaryTree );
+operator<< ( std::ostream & out, const CoronaryArteryTree<TPoint> & aCoronaryTree );
 
+template <typename TPoint>
 bool
-operator==(CoronaryArteryTree::Segment<CoronaryArteryTree::Point2D>  S1, CoronaryArteryTree::Segment<CoronaryArteryTree::Point2D> S2);
+operator==(typename CoronaryArteryTree<TPoint>::Segment  S1,typename  CoronaryArteryTree<TPoint>::Segment S2);
 
-
+template <typename TPoint>
 bool
-operator!=(CoronaryArteryTree::Segment<CoronaryArteryTree::Point2D>  S1, CoronaryArteryTree::Segment<CoronaryArteryTree::Point2D> S2);
+operator!=(typename CoronaryArteryTree<TPoint>::Segment  S1, typename CoronaryArteryTree<TPoint>::Segment S2);
 
 
 
@@ -633,6 +632,8 @@ operator!=(CoronaryArteryTree::Segment<CoronaryArteryTree::Point2D>  S1, Coronar
 
 ///////////////////////////////////////////////////////////////////////////////
 // Includes inline functions/methods 
+#include "CoronaryArteryTree.ih"
+
 
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -641,7 +642,6 @@ operator!=(CoronaryArteryTree::Segment<CoronaryArteryTree::Point2D>  S1, Coronar
 
 #undef CORONARY_ARTERY_TREE_RECURSES
 #endif // else defined(CORONARY_ARTERY_TREE_RECURSES)
-
 
 
 

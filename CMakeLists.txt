@@ -10,7 +10,7 @@ SET(SOURCE_BASE_HEADER_FILES
 )
 SET(SOURCE_BASE_FILES
   ${PROJECT_SOURCE_DIR}/helpers/ConstructionHelpers.cpp
-  ${PROJECT_SOURCE_DIR}/base/CoronaryArteryTree.cpp
+  ${PROJECT_SOURCE_DIR}/base/CoronaryArteryTree.ih
 )
 
 find_package(Ceres REQUIRED)
