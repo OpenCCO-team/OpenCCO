@@ -137,17 +137,17 @@ CoronaryArteryTree<TDim>::isAddable(const TPointD &p, unsigned int segIndex,
                               unsigned int nbNeibour, bool verbose)
 {
   TPointD pOpt, newCenter = findBarycenter(p, segIndex);
-  if(myIsImageDomainRestrained && (myImageDomain(DGtal::Z2i::Point(static_cast<int>(newCenter[0]),
+  if(myIsImageDomainRestrained && (myImageDomain(TPoint(static_cast<int>(newCenter[0]),
                                       static_cast<int>(newCenter[1])))< myForegroundThreshold))
     return false;
 
   if(myIsImageDomainRestrained && (!GeomHelpers::checkNoIntersectDomain(myImageDomain, myForegroundThreshold,
-                  DGtal::Z2i::Point(static_cast<int>(p[0]), static_cast<int>(p[1])),
-                  DGtal::Z2i::Point(static_cast<int>(newCenter[0]),static_cast<int>(newCenter[1])))))
+                  TPoint(static_cast<int>(p[0]), static_cast<int>(p[1]), static_cast<int>(p[2])),
+                  TPoint(static_cast<int>(newCenter[0]),static_cast<int>(newCenter[1]), 0 ))))
       return false;
   if(myIsImageDomainRestrained && (!GeomHelpers::checkNoIntersectDomain(myImageDomain, myForegroundThreshold,
-                  DGtal::Z2i::Point(static_cast<int>(myVectSegments[segIndex].myCoordinate[0]), static_cast<int>(myVectSegments[segIndex].myCoordinate[1])),
-                  DGtal::Z2i::Point(static_cast<int>(newCenter[0]),static_cast<int>(newCenter[1])))))
+                  TPoint(static_cast<int>(myVectSegments[segIndex].myCoordinate[0]), static_cast<int>(myVectSegments[segIndex].myCoordinate[1])),
+                  TPoint(static_cast<int>(newCenter[0]),static_cast<int>(newCenter[1])))))
       return false;
   
   // Creation a copy of parent segment
@@ -155,8 +155,8 @@ CoronaryArteryTree<TDim>::isAddable(const TPointD &p, unsigned int segIndex,
   TPointD pParent = sParent.myCoordinate;
   
   if(myIsImageDomainRestrained && (!GeomHelpers::checkNoIntersectDomain(myImageDomain, myForegroundThreshold,
-                  DGtal::Z2i::Point(static_cast<int>(pParent[0]), static_cast<int>(pParent[1])),
-                  DGtal::Z2i::Point(static_cast<int>(newCenter[0]),static_cast<int>(newCenter[1])))))
+  TPoint(static_cast<int>(pParent[0]), static_cast<int>(pParent[1])),
+  TPoint(static_cast<int>(newCenter[0]),static_cast<int>(newCenter[1])))))
       return false;
   
   // Creation of the left child
@@ -206,21 +206,21 @@ CoronaryArteryTree<TDim>::isAddable(const TPointD &p, unsigned int segIndex,
     if(res2) //there is intersection betweeen segments
       return false;
     
-    if(myIsImageDomainRestrained && (myImageDomain(DGtal::Z2i::Point(static_cast<int>(pOpt[0]), static_cast<int>(pOpt[1])))< myForegroundThreshold)) //resulting point is out of the domaine
+    if(myIsImageDomainRestrained && (myImageDomain(TPoint(static_cast<int>(pOpt[0]), static_cast<int>(pOpt[1])))< myForegroundThreshold)) //resulting point is out of the domaine
       return false;
     
     //resulting segments intersect the domaine
     if(myIsImageDomainRestrained && (!GeomHelpers::checkNoIntersectDomain(myImageDomain, myForegroundThreshold,
-                    DGtal::Z2i::Point(static_cast<int>(pParent[0]), static_cast<int>(pParent[1])),
-                    DGtal::Z2i::Point(static_cast<int>(pOpt[0]),static_cast<int>(pOpt[1]))))) //Center segment
+                    TPoint(static_cast<int>(pParent[0]), static_cast<int>(pParent[1])),
+                    TPoint(static_cast<int>(pOpt[0]),static_cast<int>(pOpt[1]))))) //Center segment
       return false;
     if(myIsImageDomainRestrained && (!GeomHelpers::checkNoIntersectDomain(myImageDomain, myForegroundThreshold,
-                    DGtal::Z2i::Point(static_cast<int>(sNewLeft.myCoordinate[0]), static_cast<int>(sNewLeft.myCoordinate[1])),
-                    DGtal::Z2i::Point(static_cast<int>(pOpt[0]),static_cast<int>(pOpt[1]))))) //Left segment
+                    TPoint(static_cast<int>(sNewLeft.myCoordinate[0]), static_cast<int>(sNewLeft.myCoordinate[1])),
+                    TPoint(static_cast<int>(pOpt[0]),static_cast<int>(pOpt[1]))))) //Left segment
       return false;
     if(myIsImageDomainRestrained && (!GeomHelpers::checkNoIntersectDomain(myImageDomain, myForegroundThreshold,
-                    DGtal::Z2i::Point(static_cast<int>(sNewRight.myCoordinate[0]), static_cast<int>(sNewRight.myCoordinate[1])),
-                    DGtal::Z2i::Point(static_cast<int>(pOpt[0]),static_cast<int>(pOpt[1]))))) //Right segment
+                    TPoint(static_cast<int>(sNewRight.myCoordinate[0]), static_cast<int>(sNewRight.myCoordinate[1])),
+                    TPoint(static_cast<int>(pOpt[0]),static_cast<int>(pOpt[1]))))) //Right segment
       return false;
     
     //Otherwise, iterate for the optimisation process
@@ -945,6 +945,25 @@ CoronaryArteryTree<TDim>::searchRootFarthest(const double & d,
   }
   return false;
 }
+
+
+template<>
+bool
+CoronaryArteryTree<3>::searchRootFarthest(const double & d,
+                                             DGtal::PointVector<3, double> &ptRoot ){
+ /** DGtal::Z2i::DigitalSet sPts =  GeomHelpers::pointsOnCircle(myTreeCenter, d);
+  for (const DGtal::Z2i::Point &p : sPts){
+      if (GeomHelpers::checkNoIntersectDomain(myImageDomain, myForegroundThreshold,
+                                              p, DGtal::Z2i::Point(myTreeCenter[0],
+                                                                   myTreeCenter[1])) ){
+        ptRoot[0] = p[0];
+        ptRoot[1] = p[1];
+        return true;
+      }
+  }**/
+  return false;
+}
+
 
 template< int TDim >
 bool operator==(typename CoronaryArteryTree<TDim>::Segment S1,

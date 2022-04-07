@@ -111,7 +111,7 @@ void constructTree(double aPerf, int nbTerm,
  */
 template<typename TPoint>
 inline
-void constructTreeImageDomain(double aPerf, int nbTerm,
+void constructTreeImageDomain2D(double aPerf, int nbTerm,
                               std::string imageOrgan, unsigned int fgTh = 128,
                               bool verbose = false){
   // searching center from maximak distance.
@@ -129,6 +129,30 @@ void constructTreeImageDomain(double aPerf, int nbTerm,
                 static_cast<unsigned int >(m)/2.0);
 }
 
+
+/**
+ * Helpers fonction to construction the tree with autoSearch of the center and root.
+ * The center is defined from the maximal distance map and the root point is searched on the image domain.
+ */
+template<typename TPoint>
+inline
+void constructTreeImageDomain3D(double aPerf, int nbTerm,
+                              std::string imageOrgan, unsigned int fgTh = 128,
+                              bool verbose = false){
+  // searching center from maximak distance.
+  auto img = DGtal::GenericReader<typename CoronaryArteryTree<TPoint::dimension>::Image>::import( imageOrgan );
+  auto imgDist = GeomHelpers::getImageDistance3D<typename CoronaryArteryTree<TPoint::dimension>::Image,
+                                               typename CoronaryArteryTree<TPoint::dimension>::ImageDist>(img);
+  double m = 0.0;
+  TPoint pM;
+  for(auto p: imgDist.domain()) {if (imgDist(p) > m ){m = imgDist(p); pM = TPoint(p[0], p[1]);}}
+  if (verbose){
+    DGtal::trace.info() << "center point found: " << pM << "maximal value:"
+                        << m <<   std::endl;
+  }
+  constructTree<3>(aPerf, nbTerm, imageOrgan, fgTh, verbose, pM,
+                static_cast<unsigned int >(m)/2.0);
+}
 
 template< typename TImage>
 inline
