@@ -187,9 +187,9 @@ CoronaryArteryTree<TDim>::isAddable(const TPointD &p, unsigned int segIndex,
   double f1 = sNewLeft.myFlow;//ratioQ*f0;//k * r1*r1*r1; //left
   double f2 = sNewRight.myFlow;//(1.0-ratioQ)*f0;//k * r2*r2*r2; //right
   double f0 =  f1 + f2;//R0*R0*R0; //middle
-   TPoint pL = sNewLeft.myCoordinate;
-   TPoint pR = sNewRight.myCoordinate;
-   TPoint pCurrent ((f0*pParent[0]+f1*pL[0]+f2*pR[0])/(2.0*f0), (f0*pParent[1]+f1*pL[1]+f2*pR[1])/(2.0*f0)); //barycenter of the sement
+   TPointD pL = sNewLeft.myCoordinate;
+   TPointD pR = sNewRight.myCoordinate;
+   TPointD pCurrent ((f0*pParent[0]+f1*pL[0]+f2*pR[0])/(2.0*f0), (f0*pParent[1]+f1*pL[1]+f2*pR[1])/(2.0*f0)); //barycenter of the sement
   */
   TPointD pCurrent = (sParent.myCoordinate+sNewLeft.myCoordinate)/2.0; //center of the current segment
   double r0 = sCurrent.myRadius, r1 = sCurrent.myRadius, r2 = sCurrent.myRadius;
@@ -316,11 +316,11 @@ CoronaryArteryTree<TDim>::isAddable(const TPointD &p, unsigned int segIndex,
 
 template< int TDim >
 bool
-CoronaryArteryTree<TDim>::addSegmentFromPoint(const TPoint &p,
+CoronaryArteryTree<TDim>::addSegmentFromPoint(const TPointD &p,
                                         unsigned int nearIndex)
 {
 
-  TPoint newCenter = findBarycenter(p, nearIndex);
+  TPointD newCenter = findBarycenter(p, nearIndex);
   bool inter = hasNearestIntersections(myVectParent[nearIndex], nearIndex, p, newCenter,  10);
   double minDistance = 5.0;
   if (inter){
@@ -516,7 +516,26 @@ CoronaryArteryTree<TDim>::boardDisplay(double thickness, bool clearDisplay)
     myBoard.fillCircle(distal[0], distal[1], myVectSegments[s.myIndex].myRadius*thickness, 1 );
     i++;
   }
- 
+  if (myIsImageDomainRestrained){
+     std::vector<std::vector<DGtal::Z2i::Point>> vectContours = ConstructionHelpers::getImageContours(myImageDomain, myForegroundThreshold);
+     for(auto const c: vectContours){
+       DGtal::Color col;
+       if(DGtal::ContourHelper::isCounterClockWise(c)){
+         col = DGtal::Color(200, 200, 200);
+       }else{
+         col = DGtal::Color::White;
+       }
+       std::vector<LibBoard::Point> bv;
+       for(unsigned int i=0; i<c.size(); i++){
+         bv.push_back(LibBoard::Point(c[i][0], c[i][1]));
+       }
+       myBoard.setFillColor(col);
+       myBoard.setLineWidth(5.0*scaleFactorEPS);
+       myBoard.fillPolyline(bv);
+       myBoard.drawPolyline(bv);
+     }
+
+   }
  }
 
 template< int TDim >
@@ -546,7 +565,7 @@ CoronaryArteryTree<TDim>::exportBoardDisplay(const std::string &fileName,
 
 template< int TDim >
 unsigned int
-CoronaryArteryTree<TDim>::getNearestSegment(const TPoint &pt)
+CoronaryArteryTree<TDim>::getNearestSegment(const TPointD &pt)
 {
   unsigned int sNear=1;
   double distMin = getProjDistance(myVectSegments[0].myCoordinate,
@@ -641,7 +660,7 @@ template< int TDim >
 double
 CoronaryArteryTree<TDim>::getProjDistance(const TPointD &p0, const TPointD &p1, const TPointD &p) const{
   double result = 0.0;
-  TPoint pProj(0,0);
+  TPointD pProj(0,0);
   bool isInside = GeomHelpers::projectOnStraightLine(p0, p1, p, pProj);
   if (isInside)
   {
@@ -689,7 +708,7 @@ template< int TDim >
 bool
 CoronaryArteryTree<TDim>::hasNearestIntersections(const TPointD &p0,
                                             const TPointD &p1, unsigned int n) const {
-  TPoint b = (p1+p0)/2;
+  TPointD b = (p1+p0)/2;
   std::vector<unsigned int> near = getN_NearestSegments(b, n);
   for (const auto &s : near){
     if (GeomHelpers::hasIntersection(p0, p1, myVectSegments[s].myCoordinate,
@@ -759,7 +778,7 @@ CoronaryArteryTree<TDim>::kamyiaOptimization(const TPointD& pCurrent,
   // Starting position from Equation (21) for initialisation as mentionned page 11 [Clara Jaquet et HT]
   //TPoint pb ((f0*pParent[0]+f1*pL[0]+f2*pR[0])/(2.0*f0), (f0*pParent[1]+f1*pL[1]+f2*pR[1])/(2.0*f0));
   //TPoint pb ((pParent[0]+pL[0])/(2.0), (pParent[1]+pL[1])/(2.0)); //center of the old segment
-  TPoint pb (pCurrent[0], pCurrent[1]);
+  TPointD pb (pCurrent[0], pCurrent[1]);
   //std::cout<<"Init:"<<pb<<std::endl;
   double l0 = (pParent - pb).norm()*myLengthFactor;
   double l1 = (pL - pb).norm()*myLengthFactor;
@@ -820,14 +839,14 @@ CoronaryArteryTree<TDim>::selfDisplay( std::ostream & out ) const {
   out << "----" << std::endl;
 }
 template< int TDim >
-DGtal::PointVector<TDim, int> CoronaryArteryTree<TDim>::getDomainCenter() const {
+typename CoronaryArteryTree<TDim>::TPointD CoronaryArteryTree<TDim>::getDomainCenter() const {
   if (!myIsImageDomainRestrained){
-    return TPoint(0,0);
+    return TPointD::diagonal(0);
   }
   else {
     // searching the farthest point of the border domain
     double maxDistance = 0;
-    DGtal::PointVector<TDim, int> ptMax (0,0);
+    TPoint ptMax = TPoint::diagonal(0);
     for (auto p: myImageDomain.domain()){
       if (myImageDist(p) >= maxDistance){
         ptMax = p;
@@ -859,12 +878,13 @@ CoronaryArteryTree<TDim>::getDistanceThreshold()
 }
 template< int TDim >
 DGtal::PointVector<TDim, double>
-CoronaryArteryTree<TDim>::findBarycenter(const DGtal::PointVector<TDim, double> &p, unsigned int index)
+CoronaryArteryTree<TDim>::findBarycenter(const TPointD &p, unsigned int index)
 {
-  DGtal::PointVector<TDim, double> first_point=p;
-  DGtal::PointVector<TDim, double> second_point=myVectSegments[index].myCoordinate;
-  DGtal::PointVector<TDim, double> third_point=myVectSegments[myVectParent[index]].myCoordinate;
-  DGtal::PointVector<TDim, double> barycenter((first_point[0]+second_point[0]+third_point[0])/3.0,(first_point[1]+second_point[1]+third_point[1])/3.0);
+  TPointD first_point=p;
+  TPointD second_point=myVectSegments[index].myCoordinate;
+  TPointD third_point=myVectSegments[myVectParent[index]].myCoordinate;
+  TPointD barycenter((first_point[0]+second_point[0]+third_point[0])/3.0,
+                     (first_point[1]+second_point[1]+third_point[1])/3.0);
   return barycenter;
 }
 
@@ -937,10 +957,10 @@ CoronaryArteryTree<3>::restrainDomain(const Image &imageDom,
 
 
 
-template< int TDim >
+template< >
 bool
-CoronaryArteryTree<TDim>::searchRootFarthest(const double & d,
-                                             DGtal::PointVector<TDim, double> &ptRoot ){
+CoronaryArteryTree<2>::searchRootFarthest(const double & d,
+                                             DGtal::PointVector<2, double> &ptRoot ){
   DGtal::Z2i::DigitalSet sPts =  GeomHelpers::pointsOnCircle(myTreeCenter, d);
   for (const DGtal::Z2i::Point &p : sPts){
       if (GeomHelpers::checkNoIntersectDomain(myImageDomain, myForegroundThreshold,
@@ -972,6 +992,14 @@ CoronaryArteryTree<3>::searchRootFarthest(const double & d,
   return false;
 }
 
+template< int TDim >
+bool
+CoronaryArteryTree<TDim>::searchRootFarthest(const double & d,
+                                             DGtal::PointVector<TDim, double> &ptRoot ){
+  DGtal::trace.error() << "not yet implemented in "<< TDim << "dimensions" << std::endl;
+  throw 1;
+  return false;
+}
 
 template< int TDim >
 bool operator==(typename CoronaryArteryTree<TDim>::Segment S1,

@@ -170,10 +170,9 @@ public:
    * @param nTerm: number of terminal segments.
    **/
   
-  CoronaryArteryTree(double aPerf, unsigned int nTerm, double aRadius = 1.0, TPointD treeCenter = TPoint::diagonal(0) ){
+  CoronaryArteryTree(double aPerf, unsigned int nTerm, double aRadius = 1.0, TPoint treeCenter = TPoint::diagonal(0) ){
     assert(nTerm>=1);
-    myTreeCenter[0] = treeCenter[0];
-    myTreeCenter[1] = treeCenter[1];
+    for (auto i=0; i < TDim; i++){myTreeCenter[i]=treeCenter[i];}
 
     myRsupp = sqrt(aPerf/(nTerm*M_PI));
     my_rPerf = sqrt(aPerf/M_PI);
@@ -227,7 +226,7 @@ public:
   
   CoronaryArteryTree(const TPointD &ptRoot, double aPerf, unsigned int nTerm, double aRadius = 1.0 ){
     assert(nTerm>=1);
-    myTreeCenter = TPoint(0,0);
+    myTreeCenter = TPointD::diagonal(0.0);
     myRsupp = sqrt(aPerf/(nTerm*M_PI));
     my_rPerf = sqrt(aPerf/M_PI);
     my_aPerf = aPerf;
@@ -332,14 +331,14 @@ public:
      **/
     
     CoronaryArteryTree(double r){
-      myTreeCenter = TPoint(0,0);
+      myTreeCenter = TPointD::diagonal(0);
       myRsupp = r;
       my_aPerf = 1.0;
       my_NTerm = 1;
       // Construction of the special root segment
       Segment s;
       s.myRadius = 1.0;
-      s.myCoordinate = TPoint(0,r);//ptRoot;
+      s.myCoordinate = TPointD(0,r);//ptRoot;
       s.myIndex = 0;
       myVectSegments.push_back(s);
       myVectParent.push_back(0); //if parent index is itsef it is the root (special segment of length 0).
@@ -349,7 +348,7 @@ public:
       // Construction of the first segment after the root
       Segment s1;
       s1.myRadius = 1.0;
-      s1.myCoordinate = TPoint(0,0);
+      s1.myCoordinate = TPointD::diagonal(0);
       s1.myIndex = 1;
       myVectSegments.push_back(s1);
       myVectTerminals.push_back(1);
@@ -380,7 +379,7 @@ public:
                  bool verbose = true);
   
   
-  bool addSegmentFromPoint(const TPoint &p, unsigned int nearIndex);
+  bool addSegmentFromPoint(const TPointD &p, unsigned int nearIndex);
 
   
   /**
@@ -443,14 +442,14 @@ public:
    * @param pt: a point
    * @return the index of the nearest segement
    */
-  unsigned int getNearestSegment(const TPoint &pt);
+  unsigned int getNearestSegment(const TPointD &pt);
 
   /**
    * Computes the barycenter of the given point and the two points of the segment
    * @param p: a point
    * @param segIndex : the index of the segement used for the computation
    */
-  DGtal::PointVector<TDim, double> findBarycenter(const DGtal::PointVector<TDim, double> &p, unsigned int index);
+  TPointD findBarycenter(const TPointD &p, unsigned int index);
 
   /**
    * From a segment returns a vector of segment index representing the path to the root.
@@ -575,7 +574,7 @@ public:
    * Get the supported domain of the tree. By default it is defined from the circle center.
    * If the domain if defined from a mask image, the center if computed from the imate center.
    */
-  TPoint getDomainCenter() const;
+  TPointD getDomainCenter() const;
   
   
   /**

@@ -32,8 +32,9 @@ template<int TDim>
 inline
 void constructTree(double aPerf, int nbTerm,
                    std::string imageOrgan, unsigned int fgTh = 128,
-                   bool verbose = false, DGtal::PointVector<TDim, double> ptCenter = DGtal::PointVector<TDim, double>::diagonal(),
-                   unsigned int distSearchRoot = 10){ DGtal::trace.beginBlock("Testing class CoronaryArteryTree: test random adds with distance constraint");
+                   bool verbose = false, DGtal::PointVector<TDim, int> ptCenter = DGtal::PointVector<TDim, int>::diagonal(0),
+                   unsigned int distSearchRoot = 10){
+  DGtal::trace.beginBlock("Testing class CoronaryArteryTree: test random adds with distance constraint");
   srand (time(NULL));
   double rRoot = 1.0;
   std::string filename;
@@ -119,14 +120,14 @@ void constructTreeImageDomain2D(double aPerf, int nbTerm,
   auto imgDist = GeomHelpers::getImageDistance2D<typename CoronaryArteryTree<TPoint::dimension>::Image,
                                                typename CoronaryArteryTree<TPoint::dimension>::ImageDist>(img);
   double m = 0.0;
-  TPoint pM;
-  for(auto p: imgDist.domain()) {if (imgDist(p) > m ){m = imgDist(p); pM = TPoint(p[0], p[1]);}}
+  DGtal::PointVector<2, int> pM;
+  for(auto p: imgDist.domain()) {if (imgDist(p) > m ){m = imgDist(p); pM =  DGtal::PointVector<2, int>(p[0], p[1]);}}
   if (verbose){
     DGtal::trace.info() << "center point found: " << pM << "maximal value:"
                         << m <<   std::endl;
   }
   constructTree<2>(aPerf, nbTerm, imageOrgan, fgTh, verbose, pM,
-                static_cast<unsigned int >(m)/2.0);
+                static_cast<unsigned int >(m/2.0));
 }
 
 
