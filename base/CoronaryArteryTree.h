@@ -170,7 +170,8 @@ public:
    * @param nTerm: number of terminal segments.
    **/
   
-  CoronaryArteryTree(double aPerf, unsigned int nTerm, double aRadius = 1.0, TPoint treeCenter = TPoint::diagonal(0) ){
+  CoronaryArteryTree(double aPerf, unsigned int nTerm, double aRadius = 1.0,
+                     TPointD treeCenter = TPointD::diagonal(0) ){
     assert(nTerm>=1);
     for (auto i=0; i < TDim; i++){myTreeCenter[i]=treeCenter[i];}
 
@@ -574,7 +575,7 @@ public:
    * Get the supported domain of the tree. By default it is defined from the circle center.
    * If the domain if defined from a mask image, the center if computed from the imate center.
    */
-  TPointD getDomainCenter() const;
+  TPoint getDomainCenter() const;
   
   
   /**
