@@ -40,7 +40,7 @@ int main(int argc, char *const *argv)
   CLI11_PARSE(app, argc, argv);
   // END parse command line using CLI ----------------------------------------------
   
-  DGtal::Z2i::Point ptRoot(postInitV[0], postInitV[1]);
+  DGtal::Z3i::Point ptRoot(postInitV[0], postInitV[1], 0);
 
   start = clock();
   //1000 => Execution time: 129.17274900 sec
@@ -49,9 +49,9 @@ int main(int argc, char *const *argv)
   //4000 => Execution time: 1896.94450700 sec
   //5000 => Execution time: 3435.08630500 sec
   if(nameImgDom != "" && pInit->empty()){
-    ConstructionHelpers::constructTreeImageDomain2D<DGtal::Z2i::RealPoint>(aPerf, nbTerm, nameImgDom, 128, verbose);
+    ConstructionHelpers::constructTreeImageDomain3D<DGtal::Z3i::RealPoint>(aPerf, nbTerm, nameImgDom, 128, verbose);
   } else {
-    ConstructionHelpers::constructTree<2>(aPerf, nbTerm, nameImgDom, 128, verbose, ptRoot);
+    ConstructionHelpers::constructTree<3>(aPerf, nbTerm, nameImgDom, 128, verbose, ptRoot);
   }
   end = clock();
   printf ("Execution time: %0.8f sec\n", ((double) end - start)/CLOCKS_PER_SEC);

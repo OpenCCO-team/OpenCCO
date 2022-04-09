@@ -77,13 +77,13 @@ generateRandomPtOnImageDomain(const TImage &image, unsigned int fgTh,
   TPoint pMax = image.domain().upperBound();
   int dx = pMax[0] - pMin[0];
   int dy = pMax[1] - pMin[1];
-  DGtal::Z2i::Point pCand;
+  DGtal::PointVector<TPoint::dimension, int > pCand;
   unsigned int n = 0;
   while(!found && n < nbTry){
     x =  rand()%dx;
     y =  rand()%dy;
-    pCand[0] = pMin[0] +x;
-    pCand[1] = pMin[1] +y;
+    pCand[0] = static_cast<int>(pMin[0] +x);
+    pCand[1] = static_cast<int>(pMin[1] +y);
     found = image(pCand)>=fgTh && abs(imageDistance(pCand)) >= 10.0;
     n++;
   }
@@ -103,23 +103,23 @@ generateRandomPtOnImageDomain(const TImage &image, unsigned int fgTh,
  * @param pt1 first point of the segment
  * @param pt2  second point of the segment
  */
-template<typename TImage>
+template<typename TImage, typename TPoint>
 inline
 bool
 checkNoIntersectDomain(const TImage &image, unsigned int fgTh,
-                       const DGtal::Z2i::Point &pt1,
-                       const DGtal::Z2i::Point &pt2)
+                       const TPoint &pt1,
+                       const TPoint &pt2)
 {
   if ( !image.domain().isInside(pt1) ||
       !image.domain().isInside(pt2)){
     return false;
   }
-  DGtal::Z2i::RealPoint dir = pt2 - pt1;
+  DGtal::PointVector<TPoint::dimension, double> dir = pt2 - pt1;
   dir /= dir.norm();
-  DGtal::Z2i::RealPoint p (pt1[0], pt1[1]);
+  DGtal::PointVector<TPoint::dimension, double>  p (pt1[0], pt1[1]);
   for (unsigned int i = 0; i<(pt2 - pt1).norm(); i++){
-    DGtal::Z2i::RealPoint p = pt1+dir*i;
-    if (image(DGtal::Z2i::Point(static_cast<int>(p[0]),static_cast<int>(p[1]) )) < fgTh)
+    DGtal::PointVector<TPoint::dimension, double>  p = pt1+dir*i;
+    if (image(TPoint(static_cast<int>(p[0]),static_cast<int>(p[1]) )) < fgTh)
       return false;
   }
   
@@ -176,12 +176,12 @@ projectOnStraightLine(const TPoint & ptA,
 {
   if (ptA==ptC)
   {
-    ptProjected=ptA;
+    for(auto i=0; i<TPoint::dimension; i++){ ptProjected[i]=ptA[i];}
     return true;
   }
   if (ptB==ptC)
   {
-    ptProjected=ptB;
+    for(auto i=0; i<TPoint::dimension; i++){ ptProjected[i]=ptB[i];}
     return true ;
   }
   
@@ -225,6 +225,7 @@ pointsOnCircle(const TPoint & ptCenter,
   DGtal::Shapes<DGtal::Z2i::Domain>::digitalShaper( aSet, digShape );
   return aSet;
 }
+
 
 /**
  * From two segments represented by the end points, it returns true if
@@ -334,7 +335,7 @@ static bool kamyiaOpt(double gamma, double deltaP1, double deltaP2, double f0, d
 template< typename TImage, typename TImageDistance>
 inline
 TImageDistance
-getImageDistance(const TImage &image, unsigned int threshold=128){
+getImageDistance2D(const TImage &image, unsigned int threshold=128){
   TImageDistance res (image.domain());
   typedef DGtal::functors::IntervalForegroundPredicate<TImage> Binarizer;
   typedef DGtal::DistanceTransformation<DGtal::Z2i::Space, Binarizer, DGtal::Z2i::L2Metric> DTL2;
@@ -345,7 +346,24 @@ getImageDistance(const TImage &image, unsigned int threshold=128){
   }
   return res;
 }
+
+template< typename TImage, typename TImageDistance>
+inline
+TImageDistance
+getImageDistance3D(const TImage &image, unsigned int threshold=128){
+  TImageDistance res (image.domain());
+  typedef DGtal::functors::IntervalForegroundPredicate<TImage> Binarizer;
+  typedef DGtal::DistanceTransformation<DGtal::Z3i::Space, Binarizer, DGtal::Z3i::L2Metric> DTL3;
+  Binarizer b(image, threshold, 255);
+  DTL3 dt(&image.domain(),&b, &DGtal::Z3i::l2Metric);
+  for (auto p: dt.domain()){
+    res.setValue(p, dt(p));
+  }
+  return res;
 }
+
+}
+
 
 
 #endif // !defined GEOMHELPERS_h
