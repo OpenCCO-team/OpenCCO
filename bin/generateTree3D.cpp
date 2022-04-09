@@ -40,7 +40,7 @@ int main(int argc, char *const *argv)
   CLI11_PARSE(app, argc, argv);
   // END parse command line using CLI ----------------------------------------------
   
-  DGtal::Z3i::RealPoint ptRoot(postInitV[0], postInitV[1], 0);
+  DGtal::Z3i::Point ptRoot(postInitV[0], postInitV[1], 0);
 
   start = clock();
   //1000 => Execution time: 129.17274900 sec

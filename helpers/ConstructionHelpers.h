@@ -145,35 +145,70 @@ void constructTreeImageDomain3D(double aPerf, int nbTerm,
   auto imgDist = GeomHelpers::getImageDistance3D<typename CoronaryArteryTree<TPoint::dimension>::Image,
                                                typename CoronaryArteryTree<TPoint::dimension>::ImageDist>(img);
   double m = 0.0;
-  TPoint pM;
-  for(auto p: imgDist.domain()) {if (imgDist(p) > m ){m = imgDist(p); pM = TPoint(p[0], p[1]);}}
+  DGtal::PointVector<3, int> pM;
+  for(auto p: imgDist.domain()) {if (imgDist(p) > m ){m = imgDist(p); pM = DGtal::PointVector<3, int>(p[0], p[1], p[2]);}}
   if (verbose){
     DGtal::trace.info() << "center point found: " << pM << "maximal value:"
                         << m <<   std::endl;
   }
   constructTree<3>(aPerf, nbTerm, imageOrgan, fgTh, verbose, pM,
-                static_cast<unsigned int >(m)/2.0);
+                static_cast<unsigned int >(m/2.0));
 }
 
-template< typename TImage>
+
+template<typename TImage >
 inline
-std::vector<std::vector<DGtal::Z2i::Point> > getImageContours(const TImage &image,
-                                                              unsigned int threshold=128){
-  typedef DGtal::functors::IntervalThresholder<typename TImage::Value> Binarizer;
-  DGtal::Z2i::KSpace ks;
-  if(! ks.init( image.domain().lowerBound(),
-               image.domain().upperBound(), true )){
-    DGtal::trace.error() << "Problem in KSpace initialisation"<< std::endl;
-  }
-  
-  Binarizer b(threshold, 255);
-  DGtal::functors::PointFunctorPredicate<TImage,Binarizer> predicate(image, b);
-  DGtal::trace.info() << "DGtal contour extraction from thresholds ["<<  threshold << "," << 255 << "]" ;
-  DGtal::SurfelAdjacency<2> sAdj( true );
-  std::vector< std::vector< DGtal::Z2i::Point >  >  vectContoursBdryPointels;
-  DGtal::Surfaces<DGtal::Z2i::KSpace>::extractAllPointContours4C( vectContoursBdryPointels, ks, predicate, sAdj );
-  return vectContoursBdryPointels;
+std::vector<std::vector<typename TImage::Domain::Point > >
+getImageContours(const TImage &image,
+                 unsigned int threshold=128){
+  std::vector<std::vector<typename TImage::Domain::Point > > v;
+  DGtal::trace.error() << "Use CCO is only implemented in 2D and 3D and use ImageContainerBySTLVector with unsigned char"
+                << "to export domain."
+                << "You use such an image : " << image <<  std::endl;
+      throw 1;
+  return v;
 }
+
+/**
+  Template Specialisation in 2D  to export image contour of the restricted image domain.
+ */
+template< >
+inline
+std::vector<std::vector<DGtal::Z2i::Point > >
+getImageContours(const DGtal::ImageContainerBySTLVector<DGtal::Z2i::Domain, unsigned char> &image,
+                 unsigned int threshold){
+    typedef  DGtal::ImageContainerBySTLVector<DGtal::Z2i::Domain, unsigned char> TImage;
+    typedef DGtal::functors::IntervalThresholder<typename TImage::Value> Binarizer;
+    DGtal::Z2i::KSpace ks;
+    if(! ks.init( image.domain().lowerBound(),
+                 image.domain().upperBound(), true )){
+      DGtal::trace.error() << "Problem in KSpace initialisation"<< std::endl;
+    }
+  
+    Binarizer b(threshold, 255);
+    DGtal::functors::PointFunctorPredicate<TImage,Binarizer> predicate(image, b);
+    DGtal::trace.info() << "DGtal contour extraction from thresholds ["<<  threshold << "," << 255 << "]" ;
+    DGtal::SurfelAdjacency<2> sAdj( true );
+    std::vector< std::vector< DGtal::Z2i::Point >  >  vectContoursBdryPointels;
+    DGtal::Surfaces<DGtal::Z2i::KSpace>::extractAllPointContours4C( vectContoursBdryPointels, ks, predicate, sAdj );
+    return vectContoursBdryPointels;
+}
+
+/**
+  Template Specialisation in 3D  to export surfel image  border of the restricted image domain.
+ * Todo @BK
+ */
+template< >
+inline
+std::vector<std::vector<DGtal::Z3i::Point > >
+getImageContours(const DGtal::ImageContainerBySTLVector<DGtal::Z3i::Domain, unsigned char> &image,
+                 unsigned int threshold){
+  std::vector<std::vector<DGtal::Z3i::Point > > v;
+  
+  return v;
+}
+
+
 
 
 }

@@ -58,7 +58,7 @@ public:
   // Represent the left and right
   typedef std::pair<unsigned int, unsigned int> SegmentChildren;
 
-  typedef typename DGtal::ImageSelector < DomCT, unsigned int>::Type Image;
+  typedef typename DGtal::ImageSelector < DomCT, unsigned char>::Type Image;
   typedef DGtal::ImageContainerBySTLVector< DomCT, int> ImageDist;
 
   struct Segment{
