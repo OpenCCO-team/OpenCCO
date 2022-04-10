@@ -129,46 +129,34 @@ CoronaryArteryTree<TDim>::computeTotalVolume(unsigned int segIndex)
   }
   return v;
 }
-
 template< int TDim >
 bool
 CoronaryArteryTree<TDim>::isAddable(const TPointD &p, unsigned int segIndex,
                               unsigned int nbIter, double tolerance,
                               unsigned int nbNeibour, bool verbose)
 {
+  
   TPointD pOpt, newCenter = findBarycenter(p, segIndex);
   TPoint newCenterDom; for (auto i=0; i < TDim; i++){newCenterDom[i] = static_cast<int>(newCenter[i]);}
   TPoint pDom; for (auto i=0; i < TDim; i++){pDom[i] = static_cast<int>(p[i]);}
-
   TPoint pSegIndDom; for (auto i=0; i < TDim; i++){pSegIndDom[i] = static_cast<int>(myVectSegments[segIndex].myCoordinate[i]);}
   
   if(myIsImageDomainRestrained && (myImageDomain(newCenterDom)< myForegroundThreshold))
     return false;
+  if(myIsImageDomainRestrained &&
+      !GeomHelpers::checkNoIntersectDomain(myImageDomain,
+                                          myForegroundThreshold,
+                                          pDom,
+                                          newCenterDom))
+        return false;
+  if(myIsImageDomainRestrained &&
+           !GeomHelpers::checkNoIntersectDomain(myImageDomain,myForegroundThreshold,
+                                                              pSegIndDom,
+                                                              newCenterDom))
+            return false;
+        
 
-  if(myIsImageDomainRestrained &&
-    !GeomHelpers::checkNoIntersectDomain(myImageDomain,
-                                        myForegroundThreshold,
-                                        pDom,
-                                        newCenterDom))
-      return false;
-  if(myIsImageDomainRestrained &&
-     !GeomHelpers::checkNoIntersectDomain(myImageDomain,myForegroundThreshold,
-                                                        pSegIndDom,
-                                                        newCenterDom))
-      return false;
-  
-  // Creation a copy of parent segment
-  Segment sParent = myVectSegments[myVectParent[segIndex]];
-  TPointD pParent = sParent.myCoordinate;
-  TPoint pParentDom; for (auto i=0; i < TDim; i++){pParentDom[i] = static_cast<int>(pParent[i]);}
-
-  if(myIsImageDomainRestrained &&
-    !GeomHelpers::checkNoIntersectDomain(myImageDomain,
-                                         myForegroundThreshold,
-                                         pParentDom,
-                                         newCenterDom))
-      return false;
-  
+        
   // Creation of the left child
   Segment sNewLeft;
   sNewLeft.myCoordinate = myVectSegments[segIndex].myCoordinate;
@@ -189,137 +177,181 @@ CoronaryArteryTree<TDim>::isAddable(const TPointD &p, unsigned int segIndex,
   sCurrent.myCoordinate = newCenter;
   sCurrent.myFlow = myVectSegments[segIndex].myFlow + my_qTerm;
   sCurrent.myKTerm = sNewLeft.myKTerm + 1;
+  // Cretation a copy of parent segment
+  Segment sParent = myVectSegments[myVectParent[segIndex]];
+  TPointD pParent = sParent.myCoordinate;
+  TPoint pParentDom; for (auto i=0; i < TDim; i++){pParentDom[i] = static_cast<int>(pParent[i]);}
+
+  if(myIsImageDomainRestrained &&
+    !GeomHelpers::checkNoIntersectDomain(myImageDomain,
+                                         myForegroundThreshold,
+                                         pParentDom,
+                                         newCenterDom))
+      return false;
   
   /*
   double f1 = sNewLeft.myFlow;//ratioQ*f0;//k * r1*r1*r1; //left
   double f2 = sNewRight.myFlow;//(1.0-ratioQ)*f0;//k * r2*r2*r2; //right
   double f0 =  f1 + f2;//R0*R0*R0; //middle
-   TPointD pL = sNewLeft.myCoordinate;
-   TPointD pR = sNewRight.myCoordinate;
-   TPointD pCurrent ((f0*pParent[0]+f1*pL[0]+f2*pR[0])/(2.0*f0), (f0*pParent[1]+f1*pL[1]+f2*pR[1])/(2.0*f0)); //barycenter of the sement
+  Point3D pL = sNewLeft.myCoordinate;
+  Point3D pR = sNewRight.myCoordinate;
+  Point3D pCurrent ((f0*pParent[0]+f1*pL[0]+f2*pR[0])/(2.0*f0), (f0*pParent[1]+f1*pL[1]+f2*pR[1])/(2.0*f0)); //barycenter of the sement
   */
   TPointD pCurrent = (sParent.myCoordinate+sNewLeft.myCoordinate)/2.0; //center of the current segment
   double r0 = sCurrent.myRadius, r1 = sCurrent.myRadius, r2 = sCurrent.myRadius;
-  bool res1 = true, res2 = false, res3 = true, isDone = false;
+  bool res1 = true, res2 = false, res3 = true, isDone = false, res4 = false;
   double vol = -1, volCurr = -1, diffVol = -1;
   CoronaryArteryTree cTreeCurr = *this;
-  if (verbose){
-    DGtal::trace.info() <<"---------- segIndex: "<<segIndex<<std::endl;
-  }
+  //std::cout<<"---------- segIndex: "<<segIndex<<std::endl;
   size_t i=0;
-  for(size_t i=0; i<nbIter && !isDone; i++) {
+  for(size_t i=0; i<nbIter && res1 && !res2 && res3 && !res4 && !isDone; i++) {
     res1 = kamyiaOptimization(pCurrent, pParent, sCurrent.myRadius, sNewLeft, sNewRight, 1, pOpt, r0, r1, r2);
-    if(!res1) //Kamyia does not have solution
-      return false;
-    
-    res2 = isIntersecting(p, pOpt, segIndex, nbNeibour, 2*cTreeCurr.myVectSegments[segIndex].myRadius);
-    if(res2) //there is intersection betweeen segments
-      return false;
-    
-    TPoint pParentDom; for (auto i=0; i < TDim; i++){pParentDom[i] = static_cast<int>(pParent[i]);}
-    TPoint pOptDom; for (auto i=0; i < TDim; i++){pOptDom[i] = static_cast<int>(pOpt[i]);}
-    TPoint sNewLeftDom; for (auto i=0; i < TDim; i++){sNewLeftDom[i] = static_cast<int>(sNewLeft.myCoordinate[i]);}
-    TPoint sNewRightDom; for (auto i=0; i < TDim; i++){sNewRightDom[i] = static_cast<int>(sNewRight.myCoordinate[i]);}
-
-    if(myIsImageDomainRestrained &&  (myImageDomain(pOptDom)< myForegroundThreshold)) //resulting point is out of the domaine
-      return false;
+    if(res1) {
+      res2 = isIntersecting(p, pOpt, segIndex, nbNeibour, 2*cTreeCurr.myVectSegments[segIndex].myRadius);
       
-   
-    
-    //resulting segments intersect the domaine
-    if(myIsImageDomainRestrained && !GeomHelpers::checkNoIntersectDomain(myImageDomain, myForegroundThreshold,
-                                    pParentDom,
-                                    pOptDom)) //Center segment
-      return false;
-    if(myIsImageDomainRestrained && !GeomHelpers::checkNoIntersectDomain(myImageDomain, myForegroundThreshold,
-                                                                          sNewLeftDom, pOptDom)) //Left segment
-      return false;
-    if(myIsImageDomainRestrained && !GeomHelpers::checkNoIntersectDomain(myImageDomain, myForegroundThreshold,
-                                                                          sNewRightDom, pOptDom)) //Right segment
-      return false;
-    
-    //Otherwise, iterate for the optimisation process
-    CoronaryArteryTree cTree1 = *this;
-    //Update optimal values
-    sNewLeft.myRadius = r1;
-    sNewRight.myRadius = r2;
-    
-    //Add left segment
-    cTree1.myVectSegments.push_back(sNewLeft);
-    cTree1.myVectChildren.push_back(std::pair<unsigned int, unsigned int>(0,0));
-    cTree1.myVectParent.push_back(segIndex);
-    
-    // Update for the new parent of the new left segment
-    unsigned int leftGrandChildIndex = cTree1.myVectChildren[myVectSegments[segIndex].myIndex].first;
-    unsigned int rightGrandChildIndex = cTree1.myVectChildren[myVectSegments[segIndex].myIndex].second;
-    cTree1.myVectParent[leftGrandChildIndex] = sNewLeft.myIndex;
-    cTree1.myVectParent[rightGrandChildIndex] = sNewLeft.myIndex;
-    
-    // Update of the child of the new left segment (sNewLeft)
-    cTree1.myVectChildren[sNewLeft.myIndex].first = leftGrandChildIndex;
-    cTree1.myVectChildren[sNewLeft.myIndex].second = rightGrandChildIndex;
-    
-    //Add right segment
-    cTree1.myVectSegments.push_back(sNewRight);
-    cTree1.myVectChildren.push_back(std::pair<unsigned int, unsigned int>(0,0));
-    cTree1.myVectParent.push_back(segIndex);
-    cTree1.myVectTerminals.push_back(sNewRight.myIndex);
-    
-    // Update center segment
-    cTree1.myVectSegments[segIndex].myCoordinate = pOpt;
-    cTree1.myVectSegments[segIndex].myRadius = r0;
-    cTree1.myVectSegments[segIndex].myKTerm = sCurrent.myKTerm;
-    cTree1.myVectSegments[segIndex].myFlow = sCurrent.myFlow;
-    //update childrens of center segment
-    cTree1.myVectChildren[segIndex].first = sNewLeft.myIndex;
-    cTree1.myVectChildren[segIndex].second = sNewRight.myIndex;
-    
-    // update parameters
-    cTree1.myKTerm++;
-    // Update physilogique paramaters
-    cTree1.updateFlow(cTree1.myVectParent[segIndex]);
-    cTree1.updateResistanceFromRoot();
-    cTree1.updateRootRadius();
-    
-    vol = cTree1.computeTotalVolume();
-    if (verbose){
-      DGtal::trace.info() <<"Iter "<<i<<" has tree Volume: "<< vol <<std::endl;
-    }
-    if(i==0) {
-      volCurr = vol;
-      cTreeCurr = cTree1;
-    }
-    else {
-      diffVol = volCurr - vol;
-      if(fabs(diffVol) < tolerance) {
-        // Verify the degenerate case of the resulting segment
-        double l0 = (pOpt - pParent).norm()*myLengthFactor;
-        double l1 = (pOpt - sNewLeft.myCoordinate).norm()*myLengthFactor;
-        double l2 = (pOpt - sNewRight.myCoordinate).norm()*myLengthFactor;
-        res3 = (2*r0<=l0) && (2*r1<=l1) && (2*r2<=l2);
-        // If there is a solution, then save the result
-        if(res3) {
-          //std::cout<<"Best volume at "<<i<<std::endl;
-          isDone = true;
-          *this = cTree1;
+      TPoint pParentDom; for (auto i=0; i < TDim; i++){pParentDom[i] = static_cast<int>(pParent[i]);}
+      TPoint pOptDom; for (auto i=0; i < TDim; i++){pOptDom[i] = static_cast<int>(pOpt[i]);}
+      TPoint sNewLeftDom; for (auto i=0; i < TDim; i++){sNewLeftDom[i] = static_cast<int>(sNewLeft.myCoordinate[i]);}
+      TPoint sNewRightDom; for (auto i=0; i < TDim; i++){sNewRightDom[i] = static_cast<int>(sNewRight.myCoordinate[i]);}
+
+      if(myIsImageDomainRestrained &&  (myImageDomain(pOptDom)< myForegroundThreshold)) //resulting point is out of the domaine
+        return false;
+        
+     
+      
+      //resulting segments intersect the domaine
+      if(myIsImageDomainRestrained && !GeomHelpers::checkNoIntersectDomain(myImageDomain, myForegroundThreshold,
+                                      pParentDom,
+                                      pOptDom)) //Center segment
+        return false;
+      if(myIsImageDomainRestrained && !GeomHelpers::checkNoIntersectDomain(myImageDomain, myForegroundThreshold,
+                                                                            sNewLeftDom, pOptDom)) //Left segment
+        return false;
+      if(myIsImageDomainRestrained && !GeomHelpers::checkNoIntersectDomain(myImageDomain, myForegroundThreshold,
+                                                                            sNewRightDom, pOptDom)) //Right segment
+        return false;
+     
+      if(!res2) {
+        CoronaryArteryTree cTree1 = *this;
+        //Update optimal values
+        sNewLeft.myRadius = r1;
+        sNewRight.myRadius = r2;
+        
+        //Add left segment
+        cTree1.myVectSegments.push_back(sNewLeft);
+        cTree1.myVectChildren.push_back(std::pair<unsigned int, unsigned int>(0,0));
+        cTree1.myVectParent.push_back(segIndex);
+        
+        // Update for the new parent of the new left segment
+        unsigned int leftGrandChildIndex = cTree1.myVectChildren[myVectSegments[segIndex].myIndex].first;
+        unsigned int rightGrandChildIndex = cTree1.myVectChildren[myVectSegments[segIndex].myIndex].second;
+        cTree1.myVectParent[leftGrandChildIndex] = sNewLeft.myIndex;
+        cTree1.myVectParent[rightGrandChildIndex] = sNewLeft.myIndex;
+        
+        // Update of the child of the new left segment (sNewLeft)
+        cTree1.myVectChildren[sNewLeft.myIndex].first = leftGrandChildIndex;
+        cTree1.myVectChildren[sNewLeft.myIndex].second = rightGrandChildIndex;
+        
+        //Add right segment
+        cTree1.myVectSegments.push_back(sNewRight);
+        cTree1.myVectChildren.push_back(std::pair<unsigned int, unsigned int>(0,0));
+        cTree1.myVectParent.push_back(segIndex);
+        cTree1.myVectTerminals.push_back(sNewRight.myIndex);
+        
+        // Update center segment
+        cTree1.myVectSegments[segIndex].myCoordinate = pOpt;
+        cTree1.myVectSegments[segIndex].myRadius = r0;
+        cTree1.myVectSegments[segIndex].myKTerm = sCurrent.myKTerm;
+        cTree1.myVectSegments[segIndex].myFlow = sCurrent.myFlow;
+        //update childrens of center segment
+        cTree1.myVectChildren[segIndex].first = sNewLeft.myIndex;
+        cTree1.myVectChildren[segIndex].second = sNewRight.myIndex;
+        
+        // update parameters
+        cTree1.myKTerm++;
+        // Update physilogique paramaters
+        cTree1.updateFlow(cTree1.myVectParent[segIndex]);
+        cTree1.updateResistanceFromRoot();
+        cTree1.updateRootRadius();
+        
+        //Test intersection wrt radius except the childs and the parent and brother
+        res4 = cTree1.hasIntersections(sNewLeft.myIndex) || cTree1.hasIntersections(sNewRight.myIndex) || cTree1.hasIntersections(segIndex); //FIXME: epsilon
+        if(!res4) {
+          vol = cTree1.computeTotalVolume();
+          //std::cout<<"Iter "<<i<<" has tree Volume: "<< vol <<std::endl;
+          if(i==0) {
+            volCurr = vol;
+            cTreeCurr = cTree1;
+          }
+          else {
+            diffVol = volCurr - vol;
+            if(fabs(diffVol) < tolerance) {
+              // Verify the degenerate case of the resulting segment
+              double l0 = (pOpt - pParent).norm()*myLengthFactor;
+              double l1 = (pOpt - sNewLeft.myCoordinate).norm()*myLengthFactor;
+              double l2 = (pOpt - sNewRight.myCoordinate).norm()*myLengthFactor;
+              res3 = (2*r0<=l0) && (2*r1<=l1) && (2*r2<=l2);
+              // If there is a solution, then save the result
+              if(res3) {
+                //std::cout<<"Best volume at "<<i<<std::endl;
+                isDone = true;
+                *this = cTree1;
+              }
+            }
+            else {
+              volCurr = vol;
+              cTreeCurr = cTree1;
+            }
+          }
+          //update new position, radius and flow
+          pCurrent = pOpt;
+          sCurrent.myRadius = cTree1.myVectSegments[segIndex].myRadius;
+          sNewLeft.myRadius = cTree1.myVectSegments[cTree1.myVectChildren[segIndex].first].myRadius;
+          sNewLeft.myFlow = cTree1.myVectSegments[cTree1.myVectChildren[segIndex].first].myFlow;
+          sNewRight.myRadius = cTree1.myVectSegments[cTree1.myVectChildren[segIndex].second].myRadius;
+          sNewRight.myFlow = cTree1.myVectSegments[cTree1.myVectChildren[segIndex].second].myFlow;
         }
       }
-      else {
-        volCurr = vol;
-        cTreeCurr = cTree1;
+    }
+  }
+  return isDone && res1 && !res2 && !res4;
+}
+
+
+
+template< int TDim >
+bool CoronaryArteryTree<TDim>::hasIntersections(const TPointD &p) const {
+  for(auto s : myVectSegments) {
+    double d = getProjDistance(s.myIndex, p);
+    if (d<2*s.myRadius)
+      return true;
+  }
+  return false;
+}
+
+template< int TDim >
+bool CoronaryArteryTree<TDim>::hasIntersections(unsigned int indexSeg, double epsilon) const {
+  if(indexSeg==0 || indexSeg==1)
+    return false;
+  for(auto s : myVectSegments) {
+    if (s.myIndex != 0) {
+      //std::cout<<"Current: indexSeg="<<indexSeg<<" vs s.myIndex="<<s.myIndex<<std::endl;
+      //std::cout<<"brother: "<<myVectSegments[myVectParent[indexSeg]].myIndex<<" vs. "<<myVectSegments[myVectParent[s.myIndex]].myIndex<<std::endl;
+      //std::cout<<"children: "<<myVectSegments[myVectParent[s.myIndex]].myIndex<<" vs. "<<indexSeg<<std::endl;
+      if(indexSeg != s.myIndex && // current segment
+         myVectSegments[myVectParent[indexSeg]].myIndex != myVectSegments[myVectParent[s.myIndex]].myIndex && //brother = same parents
+         myVectSegments[myVectParent[s.myIndex]].myIndex != indexSeg && // children
+         s.myIndex != myVectSegments[myVectParent[indexSeg]].myIndex ) { //parent
+        if(isIntersecting(indexSeg, s.myIndex, epsilon))
+          return true;
       }
     }
-    //update new position, radius and flow
-    pCurrent = pOpt;
-    sCurrent.myRadius = cTree1.myVectSegments[segIndex].myRadius;
-    sNewLeft.myRadius = cTree1.myVectSegments[cTree1.myVectChildren[segIndex].first].myRadius;
-    sNewLeft.myFlow = cTree1.myVectSegments[cTree1.myVectChildren[segIndex].first].myFlow;
-    sNewRight.myRadius = cTree1.myVectSegments[cTree1.myVectChildren[segIndex].second].myRadius;
-    sNewRight.myFlow = cTree1.myVectSegments[cTree1.myVectChildren[segIndex].second].myFlow;
   }
-  
-  return isDone;
+  return false;
 }
+
+
+
 
 template< int TDim >
 bool
@@ -418,7 +450,7 @@ CoronaryArteryTree<TDim>::addSegmentFromPoint(const TPointD &p,
 
 template< int TDim >
 bool
-CoronaryArteryTree<TDim>::isIntersecting(const TPointD &pNew, const TPointD &pCenter, unsigned int nearIndex, unsigned int nbNeibour, double minDistance)
+CoronaryArteryTree<TDim>::isIntersecting(const TPointD &pNew, const TPointD &pCenter, unsigned int nearIndex, unsigned int nbNeibour, double minDistance) const
 {
   //bool inter = hasNearestIntersections(p, newCenter, 10);
   //bool inter = hasNearestIntersections(myVectParent[nearIndex], nearIndex, p, newCenter,  nbNeibour);
@@ -460,6 +492,48 @@ CoronaryArteryTree<TDim>::isIntersecting(const TPointD &pNew, const TPointD &pCe
   }
   return false;
 }
+
+
+template< int TDim >
+bool
+CoronaryArteryTree<TDim>::isIntersecting(unsigned int index1, unsigned int index2, double epsilon) const
+{
+  TPointD p10 = myVectSegments[index1].myCoordinate;
+  TPointD p11 = myVectSegments[myVectParent[index1]].myCoordinate;
+  TPointD p20 = myVectSegments[index2].myCoordinate;
+  TPointD p21 = myVectSegments[myVectParent[index2]].myCoordinate;
+  TPointD c1 = (p10+p11)/2.0;
+  TPointD c2 = (p20+p21)/2.0;
+  double d = (c1-c2).norm();
+  double l1 = (p10-p11).norm();
+  double l2 = (p20-p21).norm();
+  double tmp = d-l1/2.0-l2/2.0;
+  double r1 = myVectSegments[index1].myRadius;
+  double r2 = myVectSegments[index2].myRadius;
+  if(tmp>r1+r2)
+    return false;
+  double d1 = getProjDistance(index1, p20);
+  double d2 = getProjDistance(index1, p21);
+  double d3 = std::min(d1,d2);
+  TPointD p, q, r;
+  if(d1<d2) {
+    q = p21;
+    p = p20;
+  }
+  else {
+    p = p21;
+    q = p20;
+  }
+  r = (1.0-epsilon)*p + epsilon*q;
+  double d4 = getProjDistance(index1, r);
+  if ((d4 > d3) && (d3 > r1+r2))
+    return false;
+  //Use dico search for testing intersection
+  double d5 = getProjDistanceDico(index1, p20, p21, epsilon);
+  return (d5 < r1+r2);
+}
+
+
 
 template< int TDim >
 void
@@ -688,6 +762,38 @@ CoronaryArteryTree<TDim>::getProjDistance(unsigned int index, const TPointD &p )
   TPointD p1 = myVectSegments[myVectParent[index]].myCoordinate;
   return  getProjDistance(p0, p1, p);
 }
+
+template<>
+double
+CoronaryArteryTree<3>::getProjDistanceDico(unsigned int index1, const TPointD &p1, const TPointD &p2, const double& epsilon) const {
+  TPointD p10 = myVectSegments[index1].myCoordinate;
+  TPointD p11 = myVectSegments[myVectParent[index1]].myCoordinate;
+  TPointD p20 = p1;
+  TPointD p23 = p2;
+  TPointD p21 = (2.0*p20+p23)/3.0;
+  TPointD p22 = (p20+2.0*p23)/3.0;
+  double d20, d21, d22, d23, delta_d1, delta_d2, delta_d3;
+  double d = (p20-p22).norm();
+  while (d>epsilon) {
+    d20 = getProjDistance(p10, p11, p20);
+    d21 = getProjDistance(p10, p11, p21);
+    d22 = getProjDistance(p10, p11, p22);
+    d23 = getProjDistance(p10, p11, p23);
+    delta_d1 = d21 - d20;
+    delta_d2 = d22 - d21;
+    delta_d3 = d23 - d22;
+    if(delta_d2>=0 && delta_d3>=0)
+      p23 = p22;
+    else
+      p20 = p21;
+      
+    p21 = (2.0*p20+p23)/3.0;
+    p22 = (p20+2.0*p23)/3.0;
+    d = (p20-p22).norm();
+  }
+  return  std::min(d20, std::min(d21, std::min (d22, d23)));
+}
+
 
 
 template< int TDim >
