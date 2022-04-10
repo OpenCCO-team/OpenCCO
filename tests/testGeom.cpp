@@ -40,7 +40,7 @@ int main(int argc, char *const *argv)
   
   ///-----------------------------------------------------------------------------------------------
   DGtal::trace.beginBlock("Testing basic intersections on Tree");
-  CoronaryArteryTree c ( 20);
+  CoronaryArteryTree<2> c ( 20);
   c.addSegmentFromPoint(DGtal::Z2i::RealPoint(-10, 10), 1);
   c.addSegmentFromPoint(DGtal::Z2i::RealPoint(12, 8), 1);
   c.boardDisplay();
@@ -71,10 +71,10 @@ int main(int argc, char *const *argv)
   ///-----------------------------------------------------------------------------------------------
   DGtal::trace.beginBlock("Testing class CoronaryArteryTree: test random adds with distance constraint");
   srand (time(NULL));
-  CoronaryArteryTree cIntersec (DGtal::Z2i::RealPoint(0, 0), DGtal::Z2i::RealPoint(0, 30), DGtal::Z2i::RealPoint (0,  0), 100);
+  CoronaryArteryTree<2> cIntersec (DGtal::Z2i::RealPoint(0, 0), DGtal::Z2i::RealPoint(0, 30), DGtal::Z2i::RealPoint (0,  0), 100);
   for (unsigned int i = 0; i < 100; i++){
     DGtal::trace.progressBar(i, 100);
-    CoronaryArteryTree::Point2D pt = cIntersec.generateNewLocation(100);
+    CoronaryArteryTree<2>::TPointD pt = cIntersec.generateNewLocation(100);
     auto nearest = cIntersec.getNearestSegment(pt);
     cIntersec.addSegmentFromPoint(pt, nearest);
   }
@@ -117,7 +117,7 @@ int main(int argc, char *const *argv)
   ///-----------------------------------------------------------------------------------------------
   /// Test projection distances
   DGtal::trace.beginBlock("Testing projection distances");
-  CoronaryArteryTree ci (DGtal::Z2i::RealPoint(0, 0), DGtal::Z2i::RealPoint(0, 10), DGtal::Z2i::RealPoint (0,  0), 1);
+  CoronaryArteryTree<2> ci (DGtal::Z2i::RealPoint(0, 0), DGtal::Z2i::RealPoint(0, 10), DGtal::Z2i::RealPoint (0,  0), 1);
   DGtal::Z2i::RealPoint pDirect (2,  5);
   double dist = ci.getProjDistance(1, pDirect);
   DGtal::trace.info() << "Test projection on initial segment: " << pDirect
@@ -135,7 +135,7 @@ int main(int argc, char *const *argv)
   std::cout << "ressource:"  << resource_dir << std::endl;
   std::stringstream ss;
   ss << resource_dir <<"shape.pgm";
-  CoronaryArteryTree::Image img = DGtal::GenericReader<CoronaryArteryTree::Image>::import(ss.str());
+  CoronaryArteryTree<2>::Image img = DGtal::GenericReader<CoronaryArteryTree<2>::Image>::import(ss.str());
   bool checkDomInter = GeomHelpers::checkNoIntersectDomain(img, 128, DGtal::Z2i::Point(264,196), DGtal::Z2i::Point(438,225));
   DGtal::trace.info() << "Test intersection: 264 196 and 438 225 "
   << " distance (should be true) :" << checkDomInter <<  ( checkDomInter ? " OK": " KO")  << std::endl;
@@ -146,8 +146,8 @@ int main(int argc, char *const *argv)
   
   
   DGtal::trace.beginBlock("Testing computation of ditance map..");
-  typedef typename DGtal::ImageContainerBySTLVector<DGtal::Z2i::Domain, unsigned char> ImageDouble;
-  ImageDouble imgD = GeomHelpers::getImageDistance<CoronaryArteryTree::Image, ImageDouble>(img);
+  typedef typename DGtal::ImageContainerBySTLVector<DGtal::Z2i::Domain, double> ImageDouble;
+  ImageDouble imgD = GeomHelpers::getImageDistance2D<CoronaryArteryTree<2>::Image, ImageDouble >(img);
   DGtal::Z2i::Point pInt(313, 201);
   DGtal::Z2i::Point pExt(20, 20);
 
