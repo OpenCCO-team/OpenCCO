@@ -170,13 +170,13 @@ int main(int argc, char** argv)
   //4000 => Execution time: 1896.94450700 sec
   //5000 => Execution time: 3435.08630500 sec
   double aPerf = 200000;
-  double nTerm = 100;
+  double nTerm = 10000;
   //CoronaryArteryTree tree = testAutoGen(aPerf, nTerm);
   
   double my_rPerf = pow(3.0*aPerf/(4.0*M_PI),1.0/3.0);//2D: sqrt(aPerf/M_PI);
   std::vector<CoronaryArteryTree::Point3D> constraintSeeds;
   constraintSeeds.push_back(CoronaryArteryTree::Point3D(0, my_rPerf, 0));//Root
-  int n=4;
+  int n=2;
   for(int i=1; i<n; i++) {
     double angle = i*2*M_PI/n + M_PI/2.0;
     //std::cout<<"iter"<<i<<", angle="<<angle<<std::endl;

@@ -204,7 +204,7 @@ CoronaryArteryTree::isAddable(const Point3D &p, unsigned int segIndex, unsigned 
         cTree1.updateRootRadius();
         
         //Test intersection wrt radius except the childs and the parent and brother
-        res4 = cTree1.hasIntersections(sNewLeft.myIndex) || cTree1.hasIntersections(sNewRight.myIndex) || cTree1.hasIntersections(segIndex); //FIXME: epsilon
+        res4 = false;//cTree1.hasIntersections(sNewLeft.myIndex) || cTree1.hasIntersections(sNewRight.myIndex) || cTree1.hasIntersections(segIndex); //FIXME: epsilon
         if(!res4) {
           vol = cTree1.computeTotalVolume();
           //std::cout<<"Iter "<<i<<" has tree Volume: "<< vol <<std::endl;
@@ -249,6 +249,7 @@ CoronaryArteryTree::isAddable(const Point3D &p, unsigned int segIndex, unsigned 
 bool
 CoronaryArteryTree::isIntersecting(const Point3D &pNew, const Point3D &pCenter, unsigned int nearIndex, unsigned int nbNeibour, double minDistance) const
 {
+  return false;
   //bool inter = hasNearestIntersections(p, newCenter, 10);
   //bool inter = hasNearestIntersections(myVectParent[nearIndex], nearIndex, p, newCenter,  nbNeibour);
   bool inter = hasIntersections(pNew) || hasIntersections(pCenter);//Old: hasNearestIntersections(myVectParent[nearIndex], nearIndex, pNew, pCenter,  nbNeibour);
