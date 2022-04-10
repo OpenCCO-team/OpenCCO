@@ -174,9 +174,14 @@ public:
                      TPointD treeCenter = TPointD::diagonal(0) ){
     assert(nTerm>=1);
     for (auto i=0; i < TDim; i++){myTreeCenter[i]=treeCenter[i];}
-
-    myRsupp = sqrt(aPerf/(nTerm*M_PI));
-    my_rPerf = sqrt(aPerf/M_PI);
+    if(TDim==2) {
+      myRsupp = sqrt(aPerf/(nTerm*M_PI));
+      my_rPerf = sqrt(aPerf/M_PI);
+    }
+    else {//TDim==3
+      myRsupp = pow(3.0*aPerf/(4.0*M_PI*nTerm),1.0/3.0);
+      my_rPerf = pow(3.0*aPerf/(4.0*M_PI),1.0/3.0);
+    }
     my_aPerf = aPerf;
     my_NTerm = nTerm;
     my_qTerm = my_qPerf / my_NTerm;
@@ -399,6 +404,16 @@ public:
                       double minDistance = 5.0);
   
   /**
+   * Verifies if there is an intersection between two segment
+   * @param index1 the index of the first segement
+   * @param index2 the index of the second segement
+   * @param epsilon : param for dicotomie search
+   */
+  bool isIntersecting(unsigned int index1,
+                        unsigned int index2,
+                        double epsilon=0.01) const;
+  
+  /**
    * Update the distribution of segmental flows after adding a new segment (new bifurcation)
    * @param segIndex index of the parent segment to be updated
    */
@@ -495,6 +510,15 @@ public:
   double getProjDistance(const TPointD &p0, const TPointD &p1, const TPointD &p) const;
   
   /**
+   * Computes the projected distance from a segment represented with the index  and the point given as argument using dicotomic search.
+   * @param index : the index of the segement used for the comparison
+   * @param p1 : a point representing one extremity
+   * @param p2 : a point representing another extremity
+   * @param epsilon : param for dicotomie search
+   */
+  double getProjDistanceDico(unsigned int index1, const TPointD &p1, const TPointD &p2, const double& epsilon) const;
+  
+  /**
    * Check if a new added point is too close the nearest segment.
    * @param p : a point
    * @param minDist: min distance
@@ -519,6 +543,19 @@ public:
   bool hasNearestIntersections(const TPointD &p0,
                                const TPointD &p1, unsigned int n) const;
   
+
+  /**
+   * Compute if a segment has intersection all the segments.
+   * @param p : one point
+   */
+  bool hasIntersections(const TPointD &p) const;
+
+  /**
+   * Compute if a segment has intersection all the segments.
+   * @param indexSeg : a segment
+   * @param epsilon : param for dicotomie search
+   */
+  bool hasIntersections(unsigned int indexSeg, double epsilon=0.01) const;
 
   /**
    * Computes if an bifurcation has intersections on the n nearest segments.

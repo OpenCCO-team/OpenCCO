@@ -200,7 +200,7 @@ CoronaryArteryTree<TDim>::isAddable(const TPointD &p, unsigned int segIndex,
   */
   TPointD pCurrent = (sParent.myCoordinate+sNewLeft.myCoordinate)/2.0; //center of the current segment
   double r0 = sCurrent.myRadius, r1 = sCurrent.myRadius, r2 = sCurrent.myRadius;
-  bool res1 = true, res2 = false, res3 = true, isDone = false;
+  bool res1 = true, res2 = false, res3 = true, res4 = false, isDone = false;
   double vol = -1, volCurr = -1, diffVol = -1;
   CoronaryArteryTree cTreeCurr = *this;
   if (verbose){
@@ -281,32 +281,36 @@ CoronaryArteryTree<TDim>::isAddable(const TPointD &p, unsigned int segIndex,
     cTree1.updateResistanceFromRoot();
     cTree1.updateRootRadius();
     
-    vol = cTree1.computeTotalVolume();
-    if (verbose){
-      DGtal::trace.info() <<"Iter "<<i<<" has tree Volume: "<< vol <<std::endl;
-    }
-    if(i==0) {
-      volCurr = vol;
-      cTreeCurr = cTree1;
-    }
-    else {
-      diffVol = volCurr - vol;
-      if(fabs(diffVol) < tolerance) {
-        // Verify the degenerate case of the resulting segment
-        double l0 = (pOpt - pParent).norm()*myLengthFactor;
-        double l1 = (pOpt - sNewLeft.myCoordinate).norm()*myLengthFactor;
-        double l2 = (pOpt - sNewRight.myCoordinate).norm()*myLengthFactor;
-        res3 = (2*r0<=l0) && (2*r1<=l1) && (2*r2<=l2);
-        // If there is a solution, then save the result
-        if(res3) {
-          //std::cout<<"Best volume at "<<i<<std::endl;
-          isDone = true;
-          *this = cTree1;
-        }
+    //Test intersection wrt radius except the childs and the parent and brother
+    res4 = false;//cTree1.hasIntersections(sNewLeft.myIndex) || cTree1.hasIntersections(sNewRight.myIndex) || cTree1.hasIntersections(segIndex); //FIXME: epsilon
+    if(!res4) {
+      vol = cTree1.computeTotalVolume();
+      if (verbose){
+        DGtal::trace.info() <<"Iter "<<i<<" has tree Volume: "<< vol <<std::endl;
       }
-      else {
+      if(i==0) {
         volCurr = vol;
         cTreeCurr = cTree1;
+      }
+      else {
+        diffVol = volCurr - vol;
+        if(fabs(diffVol) < tolerance) {
+          // Verify the degenerate case of the resulting segment
+          double l0 = (pOpt - pParent).norm()*myLengthFactor;
+          double l1 = (pOpt - sNewLeft.myCoordinate).norm()*myLengthFactor;
+          double l2 = (pOpt - sNewRight.myCoordinate).norm()*myLengthFactor;
+          res3 = (2*r0<=l0) && (2*r1<=l1) && (2*r2<=l2);
+          // If there is a solution, then save the result
+          if(res3) {
+            //std::cout<<"Best volume at "<<i<<std::endl;
+            isDone = true;
+            *this = cTree1;
+          }
+        }
+        else {
+          volCurr = vol;
+          cTreeCurr = cTree1;
+        }
       }
     }
     //update new position, radius and flow
@@ -317,6 +321,7 @@ CoronaryArteryTree<TDim>::isAddable(const TPointD &p, unsigned int segIndex,
     sNewRight.myRadius = cTree1.myVectSegments[cTree1.myVectChildren[segIndex].second].myRadius;
     sNewRight.myFlow = cTree1.myVectSegments[cTree1.myVectChildren[segIndex].second].myFlow;
   }
+    
   
   return isDone;
 }
@@ -420,6 +425,7 @@ template< int TDim >
 bool
 CoronaryArteryTree<TDim>::isIntersecting(const TPointD &pNew, const TPointD &pCenter, unsigned int nearIndex, unsigned int nbNeibour, double minDistance)
 {
+  return false;
   //bool inter = hasNearestIntersections(p, newCenter, 10);
   //bool inter = hasNearestIntersections(myVectParent[nearIndex], nearIndex, p, newCenter,  nbNeibour);
   bool inter = hasNearestIntersections(myVectParent[nearIndex], nearIndex, pNew, pCenter,  nbNeibour);
@@ -459,6 +465,96 @@ CoronaryArteryTree<TDim>::isIntersecting(const TPointD &pNew, const TPointD &pCe
     return true;
   }
   return false;
+}
+
+/**
+ * Template specialisation for 3D
+ **/
+template< >
+bool
+CoronaryArteryTree<3>::isIntersecting(const TPointD &pNew, const TPointD &pCenter, unsigned int nearIndex, unsigned int nbNeibour, double minDistance)
+{
+  //bool inter = hasNearestIntersections(p, newCenter, 10);
+  //bool inter = hasNearestIntersections(myVectParent[nearIndex], nearIndex, p, newCenter,  nbNeibour);
+  bool inter = hasIntersections(pNew) || hasIntersections(pCenter);
+  if (inter){
+    //DGtal::trace.warning() << "detection intersection" << std::endl;
+    return true;
+  }
+  // Check barycenter is not too close considered segment
+  if ((pCenter-myVectSegments[nearIndex].myCoordinate).norm() < minDistance ||
+      (pCenter-myVectSegments[myVectParent[nearIndex]].myCoordinate).norm() < minDistance ||
+      (pCenter - pNew).norm() < minDistance){
+    //DGtal::trace.warning() << "new barycenter too close!!!!!!!!" << std::endl;
+    return true;
+  }
+  // Check new point with new segment of barycenter:
+  // - newPt and new segment [Barycenter-OriginNewSeg]
+  // - newPt and new segment [Barycenter-FatherNewSeg]
+  if ((pCenter-myVectSegments[nearIndex].myCoordinate).norm() < minDistance ||
+      (pCenter-myVectSegments[myVectParent[nearIndex]].myCoordinate).norm() < minDistance) {
+    //DGtal::trace.warning() << "initial too close to new!!!!!!!!" << std::endl;
+    return true;
+  }
+  if (getProjDistance(nearIndex, pNew) < minDistance) {
+    //DGtal::trace.warning() << "initial too close!!!!!!!!" << std::endl;
+    return true;
+
+  }
+  if (isToCloseFromNearest(pNew, minDistance)){
+    //DGtal::trace.warning() << "detection near too close " << std::endl;
+    return true;
+  }
+  if (getProjDistance(nearIndex, pNew) < minDistance||
+      getProjDistance(myVectParent[nearIndex], pNew) < minDistance||
+      getProjDistance(myVectChildren[nearIndex].first, pNew) < minDistance||
+      getProjDistance(myVectChildren[nearIndex].second, pNew) < minDistance){
+    //DGtal::trace.warning() << "detection too close existing" << std::endl;
+    return true;
+  }
+  return false;
+}
+
+/**
+ * Template specialisation for 3D
+ **/
+template< >
+bool
+CoronaryArteryTree<3>::isIntersecting(unsigned int index1, unsigned int index2, double epsilon) const
+{
+  TPointD p10 = myVectSegments[index1].myCoordinate;
+  TPointD p11 = myVectSegments[myVectParent[index1]].myCoordinate;
+  TPointD p20 = myVectSegments[index2].myCoordinate;
+  TPointD p21 = myVectSegments[myVectParent[index2]].myCoordinate;
+  TPointD c1 = (p10+p11)/2.0;
+  TPointD c2 = (p20+p21)/2.0;
+  double d = (c1-c2).norm();
+  double l1 = (p10-p11).norm();
+  double l2 = (p20-p21).norm();
+  double tmp = d-l1/2.0-l2/2.0;
+  double r1 = myVectSegments[index1].myRadius;
+  double r2 = myVectSegments[index2].myRadius;
+  if(tmp>r1+r2)
+    return false;
+  double d1 = getProjDistance(index1, p20);
+  double d2 = getProjDistance(index1, p21);
+  double d3 = std::min(d1,d2);
+  TPointD p, q, r;
+  if(d1<d2) {
+    q = p21;
+    p = p20;
+  }
+  else {
+    p = p21;
+    q = p20;
+  }
+  r = (1.0-epsilon)*p + epsilon*q;
+  double d4 = getProjDistance(index1, r);
+  if ((d4 > d3) && (d3 > r1+r2))
+    return false;
+  //Use dico search for testing intersection
+  double d5 = getProjDistanceDico(index1, p20, p21, epsilon);
+  return (d5 < r1+r2);
 }
 
 template< int TDim >
@@ -689,6 +785,36 @@ CoronaryArteryTree<TDim>::getProjDistance(unsigned int index, const TPointD &p )
   return  getProjDistance(p0, p1, p);
 }
 
+template< int TDim >
+double
+CoronaryArteryTree<TDim>::getProjDistanceDico(unsigned int index1, const TPointD &p1, const TPointD &p2, const double& epsilon) const {
+  TPointD p10 = myVectSegments[index1].myCoordinate;
+  TPointD p11 = myVectSegments[myVectParent[index1]].myCoordinate;
+  TPointD p20 = p1;
+  TPointD p23 = p2;
+  TPointD p21 = (2.0*p20+p23)/3.0;
+  TPointD p22 = (p20+2.0*p23)/3.0;
+  double d20, d21, d22, d23, delta_d1, delta_d2, delta_d3;
+  double d = (p20-p22).norm();
+  while (d>epsilon) {
+    d20 = getProjDistance(p10, p11, p20);
+    d21 = getProjDistance(p10, p11, p21);
+    d22 = getProjDistance(p10, p11, p22);
+    d23 = getProjDistance(p10, p11, p23);
+    delta_d1 = d21 - d20;
+    delta_d2 = d22 - d21;
+    delta_d3 = d23 - d22;
+    if(delta_d2>=0 && delta_d3>=0)
+      p23 = p22;
+    else
+      p20 = p21;
+      
+    p21 = (2.0*p20+p23)/3.0;
+    p22 = (p20+2.0*p23)/3.0;
+    d = (p20-p22).norm();
+  }
+  return  std::min(d20, std::min(d21, std::min (d22, d23)));
+}
 
 template< int TDim >
 std::vector<unsigned int>
@@ -709,6 +835,36 @@ CoronaryArteryTree<TDim>::getN_NearestSegments(const TPointD &p, unsigned int n)
     }
   }
   return res;
+}
+
+template< int TDim >
+bool
+CoronaryArteryTree<TDim>::hasIntersections(const TPointD &p) const {
+  for(auto s : myVectSegments) {
+    double d = getProjDistance(s.myIndex, p);
+    if (d<2*s.myRadius)
+      return true;
+  }
+  return false;
+}
+
+template< int TDim >
+bool
+CoronaryArteryTree<TDim>::hasIntersections(unsigned int indexSeg, double epsilon) const {
+  if(indexSeg==0 || indexSeg==1)
+    return false;
+  for(auto s : myVectSegments) {
+    if (s.myIndex != 0) {
+      if(indexSeg != s.myIndex && // current segment
+         myVectSegments[myVectParent[indexSeg]].myIndex != myVectSegments[myVectParent[s.myIndex]].myIndex && //brother = same parents
+         myVectSegments[myVectParent[s.myIndex]].myIndex != indexSeg && // children
+         s.myIndex != myVectSegments[myVectParent[indexSeg]].myIndex ) { //parent
+        if(isIntersecting(indexSeg, s.myIndex, epsilon))
+          return true;
+      }
+    }
+  }
+  return false;
 }
 
 template< int TDim >
@@ -756,9 +912,9 @@ CoronaryArteryTree<TDim>::hasNearestIntersections(unsigned int indexPFather,
   
 }
 
-template< int TDim >
+template< >
 bool
-CoronaryArteryTree<TDim>::kamyiaOptimization(const TPointD& pCurrent,
+CoronaryArteryTree<2>::kamyiaOptimization(const TPointD& pCurrent,
                                        const TPointD& pParent,
                                        double rCurrent,
                                        const Segment& sL,
@@ -837,6 +993,93 @@ CoronaryArteryTree<TDim>::kamyiaOptimization(const TPointD& pCurrent,
 }
 
 template< int TDim >
+bool
+CoronaryArteryTree<TDim>::kamyiaOptimization(const TPointD& pCurrent,
+                                       const TPointD& pParent,
+                                       double rCurrent,
+                                       const Segment& sL,
+                                       const Segment& sR,
+                                       unsigned int nbIter,
+                                               TPointD& pOpt,
+                                       double& r0, double& r1, double& r2){
+  
+  // Prepare
+  TPointD pL = sL.myCoordinate;
+  TPointD pR = sR.myCoordinate;
+  
+  //std::cout<<"myFlow="<< myVectSegments[index].myFlow<<" and sL.myFlow="<<sL.myFlow<<" and sR.myFlow="<<sR.myFlow<<std::endl;
+  //double ratioQ = sL.myFlow/sCurrent.myFlow;//0.5;
+  //std::cout<<"ratioQ="<< ratioQ<<std::endl;
+  //double rr0 = sCurrent.myRadius;
+  double R0 = rCurrent*rCurrent;//rr0*rr0; //R0 = r0*r0
+  double R1 = sL.myRadius*sL.myRadius;//rr0*rr0; //R1 = r1*r1
+  double R2 = sR.myRadius*sR.myRadius;//rr0*rr0; //R2 = r2*r2
+  
+  double f1 = sL.myFlow;//ratioQ*f0;//k * r1*r1*r1; //left
+  double f2 = sR.myFlow;//(1.0-ratioQ)*f0;//k * r2*r2*r2; //right
+  double f0 =  f1 + f2;//R0*R0*R0; //middle
+  // Starting position from Equation (21) for initialisation as mentionned page 11 [Clara Jaquet et HT]
+  //TPoint pb ((f0*pParent[0]+f1*pL[0]+f2*pR[0])/(2.0*f0), (f0*pParent[1]+f1*pL[1]+f2*pR[1])/(2.0*f0));
+  //TPoint pb ((pParent[0]+pL[0])/(2.0), (pParent[1]+pL[1])/(2.0)); //center of the old segment
+  
+  TPointD pb;//TPointD pb (pCurrent[0], pCurrent[1]);
+  for (auto i=0; i < TDim; i++){pb[i] = pCurrent[i];}
+  
+  //std::cout<<"Init:"<<pb<<std::endl;
+  double l0 = (pParent - pb).norm()*myLengthFactor;
+  double l1 = (pL - pb).norm()*myLengthFactor;
+  double l2 = (pR - pb).norm()*myLengthFactor;
+  //std::cout<<"l0="<<l0<<", l1="<<l1<<", l2="<<l2<<std::endl;
+  double kappa = 8 * my_mu / M_PI;
+  double deltaP1k = kappa*((f0*l0)/(R0*R0)+(f1*l1)/(R1*R1));
+  double deltaP2k = kappa*((f0*l0)/(R0*R0)+(f2*l2)/(R2*R2));
+  double deltaP1 = (f0*l0)/(R0*R0)+(f1*l1)/(R1*R1);
+  double deltaP2 = (f0*l0)/(R0*R0)+(f2*l2)/(R2*R2);
+  
+  double rr1 = R1;
+  double rr2 = R2;
+  
+  // The variable to solve for with its initial value. It will be
+  // mutated in place by the solver.
+  
+  bool hasSolution = true;
+  
+  for (int i = 0; i<nbIter && hasSolution; i++) {
+    //DGtal::trace.progressBar(i, nbIter);
+    hasSolution = GeomHelpers::kamyiaOpt(my_gamma, deltaP1, deltaP2, f0, f1, f2, l0, l1, l2,rr1, rr2);
+    // Equation 27
+    R0 = pow(f0*(pow(rr1, my_gamma)/f1 + pow(rr2, my_gamma)/f2), 1.0/my_gamma);
+    R1 = rr1;
+    R2 = rr2;
+    // Equation (26) page 13
+    //pb[0] = (pParent[0]*R0/l0 + pL[0]*R1/l1 + pR[0]*R2/l2)/(R0/l0+R1/l1+R2/l2);
+    //pb[1] = (pParent[1]*R0/l0 + pL[1]*R1/l1 + pR[1]*R2/l2)/(R0/l0+R1/l1+R2/l2);
+    for (auto i=0; i < TDim; i++){
+      pb[i] = (pParent[i]*R0/l0 + pL[i]*R1/l1 + pR[i]*R2/l2)/(R0/l0+R1/l1+R2/l2);
+    }
+    
+    //Update values
+    deltaP1 = (f0*l0)/(R0*R0)+(f1*l1)/(R1*R1);
+    deltaP2 = (f0*l0)/(R0*R0)+(f2*l2)/(R2*R2);
+    l0 = (pParent - pb).norm()*myLengthFactor;
+    l1 = (pL - pb).norm()*myLengthFactor;
+    l2 = (pR - pb).norm()*myLengthFactor;
+    //std::cout << "r0 : " << sqrt(R0) << ", r1 : " << sqrt(R1) << ", sqrt(R2) : " << sqrt(R2) << "\n";
+    //std::cout << "R0 : " << R0 << ", R1 : " << R1 << ", R2 : " << R2 << "\n";
+    //std::cout << "pbNew[0]  : " << pb[0] << " and pbNew[1] " << pb[1] << "\n";
+  }
+  
+  // If there is a solution, then update result
+  if(hasSolution) {
+    pOpt = pb;
+    r0 = sqrt(R0);
+    r1 = sqrt(R1);
+    r2 = sqrt(R2);
+  }
+  return hasSolution;
+}
+
+template< int TDim >
 void
 CoronaryArteryTree<TDim>::selfDisplay( std::ostream & out ) const {
   out << std::endl << "----" << std::endl;
@@ -874,15 +1117,32 @@ operator<< ( std::ostream & out,
   return out;
 }
 
-template< int TDim >
+/**
+ * Template specialisation for 2D
+ **/
+template< >
 double
-CoronaryArteryTree<TDim>::getDistanceThreshold()
+CoronaryArteryTree<2>::getDistanceThreshold()
 {
   // Check with python code, here is the equation after simplification
   return sqrt((M_PI*my_rPerf*my_rPerf)/myKTerm);
   //Scale factor must be taken into account here
   //return sqrt((M_PI*(myKTerm + 1)*myRsupp*myRsupp)/myKTerm) / myLengthFactor;
 }
+
+/**
+ * Template specialisation for 3D
+ **/
+template< >
+double
+CoronaryArteryTree<3>::getDistanceThreshold()
+{
+  // Check with python code, here is the equation after simplification
+  return pow(((4.0*M_PI*my_rPerf*my_rPerf*my_rPerf)/(3.0*myKTerm)),1.0/3.0);
+  //Scale factor must be taken into account here
+  //return sqrt((M_PI*(myKTerm + 1)*myRsupp*myRsupp)/myKTerm) / myLengthFactor;
+}
+
 template< int TDim >
 typename CoronaryArteryTree<TDim>::TPointD
 CoronaryArteryTree<TDim>::findBarycenter(const TPointD &p, unsigned int index)

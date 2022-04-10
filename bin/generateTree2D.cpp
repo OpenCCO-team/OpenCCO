@@ -41,7 +41,7 @@ int main(int argc, char *const *argv)
   // END parse command line using CLI ----------------------------------------------
   
   DGtal::Z2i::Point ptRoot(postInitV[0], postInitV[1]);
-
+  CoronaryArteryTree<2> tree(aPerf, nbTerm);
   start = clock();
   //1000 => Execution time: 129.17274900 sec
   //2000 => Execution time: 478.48590200 sec
@@ -49,12 +49,20 @@ int main(int argc, char *const *argv)
   //4000 => Execution time: 1896.94450700 sec
   //5000 => Execution time: 3435.08630500 sec
   if(nameImgDom != "" && pInit->empty()){
-    ConstructionHelpers::constructTreeImageDomain2D<DGtal::Z2i::RealPoint>(aPerf, nbTerm, nameImgDom, 128, verbose);
+    tree = ConstructionHelpers::constructTreeImageDomain2D<DGtal::Z2i::RealPoint>(aPerf, nbTerm, nameImgDom, 128, verbose);
   } else {
-    ConstructionHelpers::constructTree<2>(aPerf, nbTerm, nameImgDom, 128, verbose, ptRoot);
+    tree = ConstructionHelpers::constructTree<2>(aPerf, nbTerm, nameImgDom, 128, verbose, ptRoot);
   }
   end = clock();
   printf ("Execution time: %0.8f sec\n", ((double) end - start)/CLOCKS_PER_SEC);
 
+  std::string filename;
+  
+  filename = "testCCO_"+std::to_string(nbTerm)+".eps";
+  tree.exportBoardDisplay(filename.c_str(), 1.0);
+  tree.exportBoardDisplay("result.eps", 1.0);
+  tree.exportBoardDisplay("result.svg", 1.0);
+  tree.myBoard.clear();
+  
   return EXIT_SUCCESS;
 }

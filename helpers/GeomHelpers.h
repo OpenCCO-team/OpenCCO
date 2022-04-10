@@ -44,6 +44,7 @@ namespace GeomHelpers {
 //  double rR = ((double)rand() / RAND_MAX)*r;
 //  return TPoint(ptCenter[0]+rR*cos(a), ptCenter[1]+rR*sin(a));
 //}
+/*
 template<typename TPoint>
 inline
 TPoint
@@ -60,8 +61,47 @@ generateRandomPtOnDisk(const TPoint &ptCenter, double r)
   }
   return TPoint(x+ptCenter[0], y+ptCenter[1]);
 }
+*/
 
+/**
+ * Template specialisation for 2D
+ **/
+inline
+DGtal::PointVector<2, double>
+generateRandomPtOnDisk(const DGtal::PointVector<2, double> &ptCenter, double r)
+{
+  bool found = false;
+  double x = 0.0;
+  double y = 0.0;
+  
+  while(!found){
+    x =  ((double)rand() / RAND_MAX)*2.0*r - r;
+    y =  ((double)rand() / RAND_MAX)*2.0*r - r;
+    found = x*x + y*y < r*r;
+  }
+  return DGtal::PointVector<2, double>(x+ptCenter[0], y+ptCenter[1]);
+}
 
+/**
+ * Template specialisation for 3D
+ **/
+inline
+DGtal::PointVector<3, double>
+generateRandomPtOnDisk(const DGtal::PointVector<3, double> &ptCenter, double r)
+{
+  bool found = false;
+  double x = 0.0;
+  double y = 0.0;
+  double z = 0.0;
+  
+  while(!found){
+    x =  ((double)rand() / RAND_MAX)*2.0*r - r;
+    y =  ((double)rand() / RAND_MAX)*2.0*r - r;
+    z =  ((double)rand() / RAND_MAX)*2.0*r - r;
+    found = x*x + y*y + z*z < r*r;
+  }
+  return DGtal::PointVector<3, double>(x+ptCenter[0], y+ptCenter[1], z+ptCenter[2]);
+}
 
 template<typename TPoint, typename TImage, typename TImageDist>
 inline
