@@ -2,6 +2,7 @@ SET(TESTS_SRC
 #  testCompCCO
   testGenerateTree
   testGeom
+  testGeom3d
   testKamiya
   testSchreiner
 )
@@ -12,3 +13,4 @@ FOREACH(FILE ${TESTS_SRC})
   target_link_libraries (${FILE} Ceres::ceres ${DGTAL_LIBRARIES} )
 ENDFOREACH(FILE)
 target_compile_definitions(testGeom PUBLIC SAMPLE_DIR="${PROJECT_SOURCE_DIR}/samples/")
+target_compile_definitions(testGeom3d PUBLIC SAMPLE_DIR="${PROJECT_SOURCE_DIR}/samples/")
