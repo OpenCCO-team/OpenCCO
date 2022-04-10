@@ -26,7 +26,7 @@ int main(int argc, char **argv)
   
   // parse command line using CLI ----------------------------------------------
   CLI::App app;
-  int nbTerm {300};
+  int nbTerm {100};
   double aPerf {20000};
   bool verbose {false};
   std::string nameImgDom {""}; 

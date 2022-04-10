@@ -522,16 +522,9 @@ CoronaryArteryTree<3>::isIntersecting(const TPointD &pNew, const TPointD &pCente
   return false;
 }
 
-template< >
+template< int TDim >
 bool
-CoronaryArteryTree<2>::isIntersectingNEW(unsigned int index1, unsigned int index2, double epsilon) const
-{
-  return false;//FIXME: to be corrected
-}
-
-template< >
-bool
-CoronaryArteryTree<3>::isIntersectingNEW(unsigned int index1, unsigned int index2, double epsilon) const
+CoronaryArteryTree<TDim>::isIntersectingNEW(unsigned int index1, unsigned int index2, double epsilon) const
 {
   TPointD p10 = myVectSegments[index1].myCoordinate;
   TPointD p11 = myVectSegments[myVectParent[index1]].myCoordinate;
