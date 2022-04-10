@@ -282,7 +282,7 @@ CoronaryArteryTree<TDim>::isAddable(const TPointD &p, unsigned int segIndex,
     cTree1.updateRootRadius();
     
     //Test intersection wrt radius except the childs and the parent and brother
-    res4 = false;//cTree1.hasIntersections(sNewLeft.myIndex) || cTree1.hasIntersections(sNewRight.myIndex) || cTree1.hasIntersections(segIndex); //FIXME: epsilon
+    res4 = cTree1.hasIntersections(sNewLeft.myIndex) || cTree1.hasIntersections(sNewRight.myIndex) || cTree1.hasIntersections(segIndex); //FIXME: epsilon
     if(!res4) {
       vol = cTree1.computeTotalVolume();
       if (verbose){
@@ -423,12 +423,12 @@ CoronaryArteryTree<TDim>::addSegmentFromPoint(const TPointD &p,
 
 template< int TDim >
 bool
-CoronaryArteryTree<TDim>::isIntersecting(const TPointD &pNew, const TPointD &pCenter, unsigned int nearIndex, unsigned int nbNeibour, double minDistance)
+CoronaryArteryTree<TDim>::isIntersecting(const TPointD &pNew, const TPointD &pCenter, unsigned int nearIndex, unsigned int nbNeibour, double minDistance) const
 {
-  return false;
   //bool inter = hasNearestIntersections(p, newCenter, 10);
   //bool inter = hasNearestIntersections(myVectParent[nearIndex], nearIndex, p, newCenter,  nbNeibour);
-  bool inter = hasNearestIntersections(myVectParent[nearIndex], nearIndex, pNew, pCenter,  nbNeibour);
+  //bool inter = hasNearestIntersections(myVectParent[nearIndex], nearIndex, pNew, pCenter,  nbNeibour);
+  bool inter = hasIntersections(pNew) || hasIntersections(pCenter);
   if (inter){
     //DGtal::trace.warning() << "detection intersection" << std::endl;
     return true;
@@ -464,6 +464,13 @@ CoronaryArteryTree<TDim>::isIntersecting(const TPointD &pNew, const TPointD &pCe
     //DGtal::trace.warning() << "detection too close existing" << std::endl;
     return true;
   }
+  if (getProjDistanceDico(nearIndex, pNew, pCenter) < minDistance||
+      getProjDistanceDico(myVectParent[nearIndex], pNew, pCenter) < minDistance||
+      getProjDistanceDico(myVectChildren[nearIndex].first, pNew, pCenter) < minDistance||
+      getProjDistanceDico(myVectChildren[nearIndex].second, pNew, pCenter) < minDistance){
+    //DGtal::trace.warning() << "detection too close existing" << std::endl;
+    return true;
+  }
   return false;
 }
 
@@ -472,7 +479,7 @@ CoronaryArteryTree<TDim>::isIntersecting(const TPointD &pNew, const TPointD &pCe
  **/
 template< >
 bool
-CoronaryArteryTree<3>::isIntersecting(const TPointD &pNew, const TPointD &pCenter, unsigned int nearIndex, unsigned int nbNeibour, double minDistance)
+CoronaryArteryTree<3>::isIntersecting(const TPointD &pNew, const TPointD &pCenter, unsigned int nearIndex, unsigned int nbNeibour, double minDistance) const
 {
   //bool inter = hasNearestIntersections(p, newCenter, 10);
   //bool inter = hasNearestIntersections(myVectParent[nearIndex], nearIndex, p, newCenter,  nbNeibour);
@@ -515,12 +522,16 @@ CoronaryArteryTree<3>::isIntersecting(const TPointD &pNew, const TPointD &pCente
   return false;
 }
 
-/**
- * Template specialisation for 3D
- **/
 template< >
 bool
-CoronaryArteryTree<3>::isIntersecting(unsigned int index1, unsigned int index2, double epsilon) const
+CoronaryArteryTree<2>::isIntersectingNEW(unsigned int index1, unsigned int index2, double epsilon) const
+{
+  return false;//FIXME: to be corrected
+}
+
+template< >
+bool
+CoronaryArteryTree<3>::isIntersectingNEW(unsigned int index1, unsigned int index2, double epsilon) const
 {
   TPointD p10 = myVectSegments[index1].myCoordinate;
   TPointD p11 = myVectSegments[myVectParent[index1]].myCoordinate;
@@ -859,7 +870,7 @@ CoronaryArteryTree<TDim>::hasIntersections(unsigned int indexSeg, double epsilon
          myVectSegments[myVectParent[indexSeg]].myIndex != myVectSegments[myVectParent[s.myIndex]].myIndex && //brother = same parents
          myVectSegments[myVectParent[s.myIndex]].myIndex != indexSeg && // children
          s.myIndex != myVectSegments[myVectParent[indexSeg]].myIndex ) { //parent
-        if(isIntersecting(indexSeg, s.myIndex, epsilon))
+        if(isIntersectingNEW(indexSeg, s.myIndex, epsilon))
           return true;
       }
     }

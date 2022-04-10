@@ -25,7 +25,7 @@ int main(int argc, char *const *argv)
   
   // parse command line using CLI ----------------------------------------------
   CLI::App app;
-  int nbTerm {300};
+  int nbTerm {500};
   double aPerf {20000};
   bool verbose {false};
   std::string nameImgDom {""}; 
@@ -41,7 +41,7 @@ int main(int argc, char *const *argv)
   // END parse command line using CLI ----------------------------------------------
   
   DGtal::Z2i::Point ptRoot(postInitV[0], postInitV[1]);
-  CoronaryArteryTree<2> tree(aPerf, nbTerm);
+  CoronaryArteryTree<2> tree;
   start = clock();
   //1000 => Execution time: 129.17274900 sec
   //2000 => Execution time: 478.48590200 sec
