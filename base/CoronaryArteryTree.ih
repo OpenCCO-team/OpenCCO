@@ -426,9 +426,12 @@ CoronaryArteryTree<TDim>::addSegmentFromPoint(const TPointD &p,
   return true;
 }
 
-template< int TDim >
+/**
+ * Template specialisation for 2D
+ **/
+template< >
 bool
-CoronaryArteryTree<TDim>::isIntersecting(const TPointD &pNew, const TPointD &pCenter, unsigned int nearIndex, unsigned int nbNeibour, double minDistance) const
+CoronaryArteryTree<2>::isIntersecting(const TPointD &pNew, const TPointD &pCenter, unsigned int nearIndex, unsigned int nbNeibour, double minDistance) const
 {
   //bool inter = hasNearestIntersections(p, newCenter, 10);
   //bool inter = hasNearestIntersections(myVectParent[nearIndex], nearIndex, p, newCenter,  nbNeibour);
@@ -469,13 +472,6 @@ CoronaryArteryTree<TDim>::isIntersecting(const TPointD &pNew, const TPointD &pCe
     //DGtal::trace.warning() << "detection too close existing" << std::endl;
     return true;
   }
-  if (TDim==3 && (getProjDistanceDico(nearIndex, pNew, pCenter) < minDistance||
-      getProjDistanceDico(myVectParent[nearIndex], pNew, pCenter) < minDistance||
-      getProjDistanceDico(myVectChildren[nearIndex].first, pNew, pCenter) < minDistance||
-      getProjDistanceDico(myVectChildren[nearIndex].second, pNew, pCenter) < minDistance)){
-    //DGtal::trace.warning() << "detection too close existing" << std::endl;
-    return true;
-  }
   return false;
 }
 
@@ -488,6 +484,7 @@ CoronaryArteryTree<3>::isIntersecting(const TPointD &pNew, const TPointD &pCente
 {
   //bool inter = hasNearestIntersections(p, newCenter, 10);
   //bool inter = hasNearestIntersections(myVectParent[nearIndex], nearIndex, p, newCenter,  nbNeibour);
+  //bool inter = hasNearestIntersections(myVectParent[nearIndex], nearIndex, pNew, pCenter,  nbNeibour);
   bool inter = hasIntersections(pNew) || hasIntersections(pCenter);
   if (inter){
     //DGtal::trace.warning() << "detection intersection" << std::endl;
@@ -521,6 +518,13 @@ CoronaryArteryTree<3>::isIntersecting(const TPointD &pNew, const TPointD &pCente
       getProjDistance(myVectParent[nearIndex], pNew) < minDistance||
       getProjDistance(myVectChildren[nearIndex].first, pNew) < minDistance||
       getProjDistance(myVectChildren[nearIndex].second, pNew) < minDistance){
+    //DGtal::trace.warning() << "detection too close existing" << std::endl;
+    return true;
+  }
+  if (getProjDistanceDico(nearIndex, pNew, pCenter) < minDistance||
+      getProjDistanceDico(myVectParent[nearIndex], pNew, pCenter) < minDistance||
+      getProjDistanceDico(myVectChildren[nearIndex].first, pNew, pCenter) < minDistance||
+      getProjDistanceDico(myVectChildren[nearIndex].second, pNew, pCenter) < minDistance){
     //DGtal::trace.warning() << "detection too close existing" << std::endl;
     return true;
   }
@@ -919,86 +923,6 @@ CoronaryArteryTree<TDim>::hasNearestIntersections(unsigned int indexPFather,
   }
   return false;
   
-}
-
-template< >
-bool
-CoronaryArteryTree<2>::kamyiaOptimization(const TPointD& pCurrent,
-                                       const TPointD& pParent,
-                                       double rCurrent,
-                                       const Segment& sL,
-                                       const Segment& sR,
-                                       unsigned int nbIter,
-                                               TPointD& pOpt,
-                                       double& r0, double& r1, double& r2){
-  
-  // Prepare
-  TPointD pL = sL.myCoordinate;
-  TPointD pR = sR.myCoordinate;
-  
-  //std::cout<<"myFlow="<< myVectSegments[index].myFlow<<" and sL.myFlow="<<sL.myFlow<<" and sR.myFlow="<<sR.myFlow<<std::endl;
-  //double ratioQ = sL.myFlow/sCurrent.myFlow;//0.5;
-  //std::cout<<"ratioQ="<< ratioQ<<std::endl;
-  //double rr0 = sCurrent.myRadius;
-  double R0 = rCurrent*rCurrent;//rr0*rr0; //R0 = r0*r0
-  double R1 = sL.myRadius*sL.myRadius;//rr0*rr0; //R1 = r1*r1
-  double R2 = sR.myRadius*sR.myRadius;//rr0*rr0; //R2 = r2*r2
-  
-  double f1 = sL.myFlow;//ratioQ*f0;//k * r1*r1*r1; //left
-  double f2 = sR.myFlow;//(1.0-ratioQ)*f0;//k * r2*r2*r2; //right
-  double f0 =  f1 + f2;//R0*R0*R0; //middle
-  // Starting position from Equation (21) for initialisation as mentionned page 11 [Clara Jaquet et HT]
-  //TPoint pb ((f0*pParent[0]+f1*pL[0]+f2*pR[0])/(2.0*f0), (f0*pParent[1]+f1*pL[1]+f2*pR[1])/(2.0*f0));
-  //TPoint pb ((pParent[0]+pL[0])/(2.0), (pParent[1]+pL[1])/(2.0)); //center of the old segment
-  TPointD pb (pCurrent[0], pCurrent[1]);
-  //std::cout<<"Init:"<<pb<<std::endl;
-  double l0 = (pParent - pb).norm()*myLengthFactor;
-  double l1 = (pL - pb).norm()*myLengthFactor;
-  double l2 = (pR - pb).norm()*myLengthFactor;
-  //std::cout<<"l0="<<l0<<", l1="<<l1<<", l2="<<l2<<std::endl;
-  double kappa = 8 * my_mu / M_PI;
-  double deltaP1k = kappa*((f0*l0)/(R0*R0)+(f1*l1)/(R1*R1));
-  double deltaP2k = kappa*((f0*l0)/(R0*R0)+(f2*l2)/(R2*R2));
-  double deltaP1 = (f0*l0)/(R0*R0)+(f1*l1)/(R1*R1);
-  double deltaP2 = (f0*l0)/(R0*R0)+(f2*l2)/(R2*R2);
-  
-  double rr1 = R1;
-  double rr2 = R2;
-  
-  // The variable to solve for with its initial value. It will be
-  // mutated in place by the solver.
-  
-  bool hasSolution = true;
-  
-  for (int i = 0; i<nbIter && hasSolution; i++) {
-    //DGtal::trace.progressBar(i, nbIter);
-    hasSolution = GeomHelpers::kamyiaOpt(my_gamma, deltaP1, deltaP2, f0, f1, f2, l0, l1, l2,rr1, rr2);
-    // Equation 27
-    R0 = pow(f0*(pow(rr1, my_gamma)/f1 + pow(rr2, my_gamma)/f2), 1.0/my_gamma);
-    R1 = rr1;
-    R2 = rr2;
-    // Equation (26) page 13
-    pb[0] = (pParent[0]*R0/l0 + pL[0]*R1/l1 + pR[0]*R2/l2)/(R0/l0+R1/l1+R2/l2);
-    pb[1] = (pParent[1]*R0/l0 + pL[1]*R1/l1 + pR[1]*R2/l2)/(R0/l0+R1/l1+R2/l2);
-    //Update values
-    deltaP1 = (f0*l0)/(R0*R0)+(f1*l1)/(R1*R1);
-    deltaP2 = (f0*l0)/(R0*R0)+(f2*l2)/(R2*R2);
-    l0 = (pParent - pb).norm()*myLengthFactor;
-    l1 = (pL - pb).norm()*myLengthFactor;
-    l2 = (pR - pb).norm()*myLengthFactor;
-    //std::cout << "r0 : " << sqrt(R0) << ", r1 : " << sqrt(R1) << ", sqrt(R2) : " << sqrt(R2) << "\n";
-    //std::cout << "R0 : " << R0 << ", R1 : " << R1 << ", R2 : " << R2 << "\n";
-    //std::cout << "pbNew[0]  : " << pb[0] << " and pbNew[1] " << pb[1] << "\n";
-  }
-  
-  // If there is a solution, then update result
-  if(hasSolution) {
-    pOpt = pb;
-    r0 = sqrt(R0);
-    r1 = sqrt(R1);
-    r2 = sqrt(R2);
-  }
-  return hasSolution;
 }
 
 template< int TDim >
