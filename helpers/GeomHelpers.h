@@ -225,22 +225,27 @@ projectOnStraightLine(const TPoint & ptA,
     return true ;
   }
   
-  TPointD vAB (ptB[0]- ptA[0], ptB[1]- ptA[1]);
-  TPointD vABn ((double)vAB[0], (double)vAB[1]);
-  double norm = vABn.norm();
-  vABn[0] /= norm;
-  vABn[1] /= norm;
+  TPointD vAB = ptB - ptA;//(ptB[0]- ptA[0], ptB[1]- ptA[1]);
+  TPointD vABn = vAB / vAB.norm();//((double)vAB[0], (double)vAB[1]);
+  //double norm = vABn.norm();
+  //vABn[0] /= norm;
+  //vABn[1] /= norm;
   
-  TPointD vAC (ptC[0]-ptA[0], ptC[1]-ptA[1]);
+  TPointD vAC = ptC-ptA;// (ptC[0]-ptA[0], ptC[1]-ptA[1]);
   double distPtA_Proj = vAC.dot(vABn);
   
-  ptProjected[0]= ptA[0]+vABn[0]*(distPtA_Proj);
-  ptProjected[1] = ptA[1]+vABn[1]*(distPtA_Proj);
-  
+  for(auto i=0; i<TPoint::dimension; i++){ ptProjected[i]= ptA[i]+vABn[i]*(distPtA_Proj);}
+  //ptProjected[0] = ptA[0]+vABn[0]*(distPtA_Proj);
+  //ptProjected[1] = ptA[1]+vABn[1]*(distPtA_Proj);
+  bool res = false;
+  for(auto i=0; i<TPoint::dimension; i++) { res = res || (ptA[i]<ptB[i] && ptProjected[i]<=ptB[i]); }
+  return distPtA_Proj>=0 && res;
+  /*
   return  distPtA_Proj>=0 && ((ptA[0]<ptB[0] && ptProjected[0]<=ptB[0] ) ||
                               (ptA[0]>ptB[0] && ptProjected[0]>=ptB[0] ) ||
                               (ptA[0]==ptB[0] && ptA[1]<ptB[1] && ptProjected[1]<=ptB[1]) ||
                               (ptA[0]==ptB[0] && ptA[1]>=ptB[1] && ptProjected[1]>=ptB[1]));
+ */
 }
 
 
