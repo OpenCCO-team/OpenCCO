@@ -281,8 +281,13 @@ CoronaryArteryTree<TDim>::isAddable(const TPointD &p, unsigned int segIndex,
     cTree1.updateResistanceFromRoot();
     cTree1.updateRootRadius();
     
+    if(TDim==2) {
+      res4 = false;
+    }
+    else { //TDi==3}
     //Test intersection wrt radius except the childs and the parent and brother
     res4 = cTree1.hasIntersections(sNewLeft.myIndex) || cTree1.hasIntersections(sNewRight.myIndex) || cTree1.hasIntersections(segIndex); //FIXME: epsilon
+    }
     if(!res4) {
       vol = cTree1.computeTotalVolume();
       if (verbose){
@@ -464,10 +469,10 @@ CoronaryArteryTree<TDim>::isIntersecting(const TPointD &pNew, const TPointD &pCe
     //DGtal::trace.warning() << "detection too close existing" << std::endl;
     return true;
   }
-  if (getProjDistanceDico(nearIndex, pNew, pCenter) < minDistance||
+  if (TDim==3 && (getProjDistanceDico(nearIndex, pNew, pCenter) < minDistance||
       getProjDistanceDico(myVectParent[nearIndex], pNew, pCenter) < minDistance||
       getProjDistanceDico(myVectChildren[nearIndex].first, pNew, pCenter) < minDistance||
-      getProjDistanceDico(myVectChildren[nearIndex].second, pNew, pCenter) < minDistance){
+      getProjDistanceDico(myVectChildren[nearIndex].second, pNew, pCenter) < minDistance)){
     //DGtal::trace.warning() << "detection too close existing" << std::endl;
     return true;
   }
