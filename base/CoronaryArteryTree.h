@@ -59,7 +59,7 @@ public:
   typedef std::pair<unsigned int, unsigned int> SegmentChildren;
 
   typedef typename DGtal::ImageSelector < DomCT, unsigned char>::Type Image;
-  typedef DGtal::ImageContainerBySTLVector< DomCT, int> ImageDist;
+  typedef DGtal::ImageContainerBySTLVector< DomCT, unsigned char> ImageDist;
 
   struct Segment{
     // Distal point of the segment.

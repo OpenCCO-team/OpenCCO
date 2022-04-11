@@ -18,31 +18,32 @@ int main(int argc, char *const *argv)
 {
   std::string resource_dir = SAMPLE_DIR;
   
+  typedef typename  CoronaryArteryTree<3>::Image ImageDom;
+  typedef typename  CoronaryArteryTree<3>::ImageDist ImageDist;
+
   ///-----------------------------------------------------------------------------------------------
   /// Test projection distances
   DGtal::trace.beginBlock("Testing distance map from 3D image domain");
   std::cout << "ressource:"  << resource_dir << std::endl;
   std::stringstream ss;
-  ss << resource_dir <<"shape3D.vol";
-  CoronaryArteryTree<2>::Image img = DGtal::GenericReader<CoronaryArteryTree<2>::Image>::import(ss.str());
+  ss << resource_dir <<"domain3D.vol";
+  ImageDom img = DGtal::GenericReader<ImageDom>::import(ss.str());
 
   DGtal::trace.beginBlock("Testing computation of ditance map..");
-  typedef typename DGtal::ImageContainerBySTLVector<DGtal::Z2i::Domain, unsigned char> ImageDouble;
-  ImageDouble imgD = GeomHelpers::getImageDistance2D<CoronaryArteryTree<2>::Image, ImageDouble >(img);
-  DGtal::Z2i::Point pInt(313, 201);
-  DGtal::Z2i::Point pExt(20, 20);
-  
-  
-  
+  ImageDist imgD = GeomHelpers::getImageDistance3D<ImageDom, ImageDist >(img, 1);
+  DGtal::Z3i::Point pInt(100, 50, 100);
+  DGtal::Z3i::Point pExt(140, 60, 90);
+
+
   DGtal::trace.info() << " Distance map of point int "  << pInt << "distance:" <<
-  (int) imgD(pInt) << " sould be > 10" << (imgD(pInt) > 10 ? " OK": "KO") << std::endl;
-  
+  (int) imgD(pInt) << " sould be == 0" << (imgD(pInt) == 0 ? " OK": "KO") << std::endl;
+
   DGtal::trace.info() << " Distance map of point int "  << pExt << "distance:" <<
-  (int) imgD(pExt) << " sould be 0" << ( imgD(pExt) == 0 ? " OK": "KO") << std::endl;
+  (int) imgD(pExt) << " sould be 12" << ( imgD(pExt) == 12 ? " OK": "KO") << std::endl;
 
   DGtal::trace.info() << "Export distance map...";
   DGtal::trace.info() << "[Done]" << std::endl;
-  imgD >> "distanceMap.pgm" ;
+  imgD >> "distanceMap3d.vol" ;
   DGtal::trace.endBlock();
 
   
