@@ -3,6 +3,9 @@
 #include <stdlib.h>
 #include <chrono>
 
+#include <iostream>
+#include <fstream>
+
 #include "DGtal/base/Common.h"
 #include "DGtal/helpers/StdDefs.h"
 #include "DGtal/shapes/Mesh.h"
@@ -38,11 +41,15 @@ int main(int argc, char **argv)
   bool display3D {false};
   std::string nameImgDom {""};
   std::string outputMeshName {"result.off"};
+  std::string exportDatName {""};
+
   std::vector<int> postInitV {-1,-1};
   app.add_option("-n,--nbTerm,1", nbTerm, "Set the number of terminal segments.", true);
   app.add_option("-a,--aPerf,2", aPerf, "The value of the input parameter A perfusion.", true);
   app.add_option("--organDomain,-d", nameImgDom, "Define the organ domain using a mask image (organ=255).");
-  app.add_option("-o,--outputName",outputMeshName, "Output the 3D mesh", true);
+  app.add_option("-o,--outputName", outputMeshName, "Output the 3D mesh", true);
+  app.add_option("-e,--export", exportDatName, "Output the 3D mesh", true);
+
 #ifdef WITH_VISU3D_QGLVIEWER
   app.add_flag("--view", display3D, "display 3D view using QGLViewer");
 #endif
@@ -124,5 +131,24 @@ int main(int argc, char **argv)
     i++;
   }
   aMesh >> outputMeshName;
+  
+  i=0;
+  if (exportDatName != ""){
+    std::ofstream fout;
+    fout.open(exportDatName.c_str());
+    for (auto s : tree.myVectSegments) {
+      // test if the segment is the root or its parent we do not display (already done).
+      if (s.myIndex == 0 || s.myIndex == 1)
+        continue;
+      DGtal::Z3i::RealPoint distal = s.myCoordinate;
+      DGtal::Z3i::RealPoint proxital = tree.myVectSegments[tree.myVectParent[s.myIndex]].myCoordinate;
+      fout << distal[0] << " " << distal[1] << " " << distal[2] << " ";
+      fout << proxital[0] << " " << proxital[1] << " " << proxital[2] << " ";
+      fout << tree.myVectSegments[s.myIndex].myRadius*thickness << std::endl;
+      i++;
+    }
+    fout.close();
+  }
+    
   return EXIT_SUCCESS;
 }
