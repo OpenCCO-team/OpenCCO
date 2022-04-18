@@ -435,8 +435,9 @@ CoronaryArteryTree<2>::isIntersecting(const TPointD &pNew, const TPointD &pCente
 {
   //bool inter = hasNearestIntersections(p, newCenter, 10);
   //bool inter = hasNearestIntersections(myVectParent[nearIndex], nearIndex, p, newCenter,  nbNeibour);
-  //bool inter = hasNearestIntersections(myVectParent[nearIndex], nearIndex, pNew, pCenter,  nbNeibour);
-  bool inter = hasIntersections(pNew) || hasIntersections(pCenter);
+// to be fixed later, else 
+    bool inter = hasNearestIntersections(myVectParent[nearIndex], nearIndex, pNew, pCenter,  nbNeibour);
+  // bool inter = hasIntersections(pNew) || hasIntersections(pCenter);
   if (inter){
     //DGtal::trace.warning() << "detection intersection" << std::endl;
     return true;
