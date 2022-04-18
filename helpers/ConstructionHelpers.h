@@ -30,14 +30,13 @@ namespace ConstructionHelpers {
  */
 template<int TDim>
 inline
-void constructTree(double aPerf, int nbTerm,
+CoronaryArteryTree<TDim> constructTree(double aPerf, int nbTerm,
                    std::string imageOrgan, unsigned int fgTh = 128,
                    bool verbose = false, DGtal::PointVector<TDim, int> ptCenter = DGtal::PointVector<TDim, int>::diagonal(0),
                    unsigned int distSearchRoot = 10){
   DGtal::trace.beginBlock("Testing class CoronaryArteryTree: test random adds with distance constraint");
   srand (time(NULL));
   double rRoot = 1.0;
-  std::string filename;
   
   CoronaryArteryTree<TDim> cTree (aPerf, nbTerm, rRoot, ptCenter);
   if (imageOrgan != ""){
@@ -98,12 +97,7 @@ void constructTree(double aPerf, int nbTerm,
   if (verbose){
     std::cout<<"====> Aperf="<<cTree.myRsupp*cTree.myRsupp*cTree.my_NTerm*M_PI<<" == "<<aPerf<<std::endl;
   }
-  filename = "testCCO_"+std::to_string(nbTerm)+".eps";
-  cTree.exportBoardDisplay(filename.c_str(), 1.0);
-  cTree.exportBoardDisplay("result.eps", 1.0);
-  cTree.exportBoardDisplay("result.svg", 1.0);
-
-  cTree.myBoard.clear();
+  return cTree;
 }
 
 /**
@@ -112,7 +106,7 @@ void constructTree(double aPerf, int nbTerm,
  */
 template<typename TPoint>
 inline
-void constructTreeImageDomain2D(double aPerf, int nbTerm,
+CoronaryArteryTree<2> constructTreeImageDomain2D(double aPerf, int nbTerm,
                               std::string imageOrgan, unsigned int fgTh = 128,
                               bool verbose = false){
   // searching center from maximak distance.
@@ -126,7 +120,7 @@ void constructTreeImageDomain2D(double aPerf, int nbTerm,
     DGtal::trace.info() << "center point found: " << pM << "maximal value:"
                         << m <<   std::endl;
   }
-  constructTree<2>(aPerf, nbTerm, imageOrgan, fgTh, verbose, pM,
+  return constructTree<2>(aPerf, nbTerm, imageOrgan, fgTh, verbose, pM,
                 static_cast<unsigned int >(m/2.0));
 }
 
@@ -137,7 +131,7 @@ void constructTreeImageDomain2D(double aPerf, int nbTerm,
  */
 template<typename TPoint>
 inline
-void constructTreeImageDomain3D(double aPerf, int nbTerm,
+CoronaryArteryTree<3> constructTreeImageDomain3D(double aPerf, int nbTerm,
                               std::string imageOrgan, unsigned int fgTh = 128,
                               bool verbose = false){
   // searching center from maximak distance.
@@ -146,12 +140,13 @@ void constructTreeImageDomain3D(double aPerf, int nbTerm,
                                                typename CoronaryArteryTree<TPoint::dimension>::ImageDist>(img);
   double m = 0.0;
   DGtal::PointVector<3, int> pM;
-  for(auto p: imgDist.domain()) {if (imgDist(p) > m ){m = imgDist(p); pM = DGtal::PointVector<3, int>(p[0], p[1], p[2]);}}
+  for(auto p: imgDist.domain()) {
+    if (imgDist(p) > m ){m = imgDist(p); pM = DGtal::PointVector<3, int>(p[0], p[1], p[2]);}}
   if (verbose){
     DGtal::trace.info() << "center point found: " << pM << "maximal value:"
                         << m <<   std::endl;
   }
-  constructTree<3>(aPerf, nbTerm, imageOrgan, fgTh, verbose, pM,
+  return constructTree<3>(aPerf, nbTerm, imageOrgan, fgTh, verbose, pM,
                 static_cast<unsigned int >(m/2.0));
 }
 

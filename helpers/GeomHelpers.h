@@ -44,6 +44,7 @@ namespace GeomHelpers {
 //  double rR = ((double)rand() / RAND_MAX)*r;
 //  return TPoint(ptCenter[0]+rR*cos(a), ptCenter[1]+rR*sin(a));
 //}
+/*
 template<typename TPoint>
 inline
 TPoint
@@ -60,8 +61,47 @@ generateRandomPtOnDisk(const TPoint &ptCenter, double r)
   }
   return TPoint(x+ptCenter[0], y+ptCenter[1]);
 }
+*/
 
+/**
+ * Template specialisation for 2D
+ **/
+inline
+DGtal::PointVector<2, double>
+generateRandomPtOnDisk(const DGtal::PointVector<2, double> &ptCenter, double r)
+{
+  bool found = false;
+  double x = 0.0;
+  double y = 0.0;
+  
+  while(!found){
+    x =  ((double)rand() / RAND_MAX)*2.0*r - r;
+    y =  ((double)rand() / RAND_MAX)*2.0*r - r;
+    found = x*x + y*y < r*r;
+  }
+  return DGtal::PointVector<2, double>(x+ptCenter[0], y+ptCenter[1]);
+}
 
+/**
+ * Template specialisation for 3D
+ **/
+inline
+DGtal::PointVector<3, double>
+generateRandomPtOnDisk(const DGtal::PointVector<3, double> &ptCenter, double r)
+{
+  bool found = false;
+  double x = 0.0;
+  double y = 0.0;
+  double z = 0.0;
+  
+  while(!found){
+    x =  ((double)rand() / RAND_MAX)*2.0*r - r;
+    y =  ((double)rand() / RAND_MAX)*2.0*r - r;
+    z =  ((double)rand() / RAND_MAX)*2.0*r - r;
+    found = x*x + y*y + z*z < r*r;
+  }
+  return DGtal::PointVector<3, double>(x+ptCenter[0], y+ptCenter[1], z+ptCenter[2]);
+}
 
 template<typename TPoint, typename TImage, typename TImageDist>
 inline
@@ -185,22 +225,27 @@ projectOnStraightLine(const TPoint & ptA,
     return true ;
   }
   
-  TPointD vAB (ptB[0]- ptA[0], ptB[1]- ptA[1]);
-  TPointD vABn ((double)vAB[0], (double)vAB[1]);
-  double norm = vABn.norm();
-  vABn[0] /= norm;
-  vABn[1] /= norm;
+  TPointD vAB = ptB - ptA;//(ptB[0]- ptA[0], ptB[1]- ptA[1]);
+  TPointD vABn = vAB / vAB.norm();//((double)vAB[0], (double)vAB[1]);
+  //double norm = vABn.norm();
+  //vABn[0] /= norm;
+  //vABn[1] /= norm;
   
-  TPointD vAC (ptC[0]-ptA[0], ptC[1]-ptA[1]);
+  TPointD vAC = ptC-ptA;// (ptC[0]-ptA[0], ptC[1]-ptA[1]);
   double distPtA_Proj = vAC.dot(vABn);
   
-  ptProjected[0]= ptA[0]+vABn[0]*(distPtA_Proj);
-  ptProjected[1] = ptA[1]+vABn[1]*(distPtA_Proj);
-  
+  for(auto i=0; i<TPoint::dimension; i++){ ptProjected[i]= ptA[i]+vABn[i]*(distPtA_Proj);}
+  //ptProjected[0] = ptA[0]+vABn[0]*(distPtA_Proj);
+  //ptProjected[1] = ptA[1]+vABn[1]*(distPtA_Proj);
+  bool res = false;
+  for(auto i=0; i<TPoint::dimension; i++) { res = res || (ptA[i]<ptB[i] && ptProjected[i]<=ptB[i]); }
+  return distPtA_Proj>=0 && res;
+  /*
   return  distPtA_Proj>=0 && ((ptA[0]<ptB[0] && ptProjected[0]<=ptB[0] ) ||
                               (ptA[0]>ptB[0] && ptProjected[0]>=ptB[0] ) ||
                               (ptA[0]==ptB[0] && ptA[1]<ptB[1] && ptProjected[1]<=ptB[1]) ||
                               (ptA[0]==ptB[0] && ptA[1]>=ptB[1] && ptProjected[1]>=ptB[1]));
+ */
 }
 
 
@@ -253,8 +298,7 @@ hasIntersection(const TPoint &seg1ptA, const TPoint &seg1ptB,
   ((seg2ptB[1] - seg2ptA[1])*(seg1ptA[0] - seg2ptA[0]));
   double b = ((seg1ptB[0] - seg1ptA[0])*(seg1ptA[1] - seg2ptA[1])) -
   ((seg1ptB[1] - seg1ptA[1])*(seg1ptA[0] - seg2ptA[0]));
-  if ( d==0.0 )
-  {
+  if ( d==0.0 ) {
     // test coincident
     if (a==0.0 && b == 0.0 ) {
       return false;
@@ -289,6 +333,7 @@ struct CostOptPos {
     //- (f0*l0*x1[0]*x1[0]) - f1 * l1 * pow(f0*((x1[0]*x1[0]*x1[0]/f1)+(x2[0]*x2[0]*x2[0])/f2), 2.0/3.0);
     //residual[1] =  deltap2*x2[0]*x2[0]*pow((f0*(((x1[0]*x1[0]*x1[0])/f1)+(x2[0]*x2[0]*x2[0])/f2)), 2.0/3.0)
     //- (f0*l0*x2[0]*x2[0]) - f2 * l2 * pow(f0*((x1[0]*x1[0]*x1[0]/f1)+(x2[0]*x2[0]*x2[0])/f2), 2.0/3.0);
+    //Equation 28
     residual[0] =  deltap1*x1[0]*x1[0]*(pow(f0*((pow(x1[0],(3.0+gamma)/2.0)/f1) + (pow(x2[0],(3.0+gamma)/2.0)/f2)),2.0/3.0))
     - (f0*l0*x1[0]*x1[0]) - f1 * l1 * (pow(f0*((pow(x1[0],(3.0+gamma)/2.0)/f1) + (pow(x2[0],(3.0+gamma)/2.0))/f2),2.0/3.0));
     residual[1] =  deltap2*x2[0]*x2[0]*(pow(f0*((pow(x1[0],(3.0+gamma)/2.0)/f1) + (pow(x2[0],(3.0+gamma)/2.0)/f2)),2.0/3.0))
