@@ -117,17 +117,10 @@ int main(int argc, char **argv)
     // test if the segment is the root or its parent we do not display (already done).
     if (s.myIndex == 0 || s.myIndex == 1)
       continue;
-    
     DGtal::Z3i::RealPoint distal = s.myCoordinate;
     DGtal::Z3i::RealPoint proxital = tree.myVectSegments[tree.myVectParent[s.myIndex]].myCoordinate;
-//    viewer << DGtal::CustomColors3D(DGtal::Color(250,0,0),DGtal::Color(250,0,0));
-//    viewer.addBall(distal,tree.myVectSegments[s.myIndex].myRadius);
-//    viewer << DGtal::CustomColors3D(DGtal::Color(0,250,0),DGtal::Color(0,250,0));
-//    //viewer.addBall(distal,1);
     auto v = {distal, proxital};
-   // viewer.addCylinder(distal,proxital,tree.myVectSegments[s.myIndex].myRadius*thickness);
     DGtal::Mesh<DGtal::Z3i::RealPoint>::createTubularMesh(aMesh, v, tree.myVectSegments[s.myIndex].myRadius*thickness, 0.05);
-    //std::cout<<"r="<<tree.myVectSegments[s.myIndex].myRadius<<std::endl;
     i++;
   }
   aMesh >> outputMeshName;
