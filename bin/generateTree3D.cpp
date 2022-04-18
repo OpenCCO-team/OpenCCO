@@ -6,6 +6,7 @@
 #include "DGtal/base/Common.h"
 #include "DGtal/helpers/StdDefs.h"
 #include "DGtal/shapes/Mesh.h"
+#include "DGtal/io/writers/MeshWriter.h"
 
 #include "CLI11.hpp"
 
@@ -22,8 +23,10 @@
  */
 int main(int argc, char **argv)
 {
+#ifdef WITH_VISU3D_QGLVIEWER
   QApplication application(argc,argv);
-  
+#endif
+
   clock_t start, end;
   
   // parse command line using CLI ----------------------------------------------
@@ -109,7 +112,7 @@ int main(int argc, char **argv)
   double thickness = 1;
 
   // Export 3D mesh of the tree
-  DGtal::Mesh<DGtal::Z3i::RealPoint> aMesh;
+  DGtal::Mesh<DGtal::Z3i::RealPoint> aMesh(true);
   for (auto s : tree.myVectSegments) {
     // test if the segment is the root or its parent we do not display (already done).
     if (s.myIndex == 0 || s.myIndex == 1)
@@ -124,7 +127,6 @@ int main(int argc, char **argv)
     auto v = {distal, proxital};
    // viewer.addCylinder(distal,proxital,tree.myVectSegments[s.myIndex].myRadius*thickness);
     DGtal::Mesh<DGtal::Z3i::RealPoint>::createTubularMesh(aMesh, v, tree.myVectSegments[s.myIndex].myRadius*thickness, 0.05);
-    DGtal::Mesh<DGtal::Z3i::RealPoint>::cre
     //std::cout<<"r="<<tree.myVectSegments[s.myIndex].myRadius<<std::endl;
     i++;
   }
