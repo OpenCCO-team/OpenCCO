@@ -1,6 +1,7 @@
 SET(BIN_SRC
   generateTree2D
   generateTree3D
+  graph2radStat
 )
 
 FOREACH(FILE ${BIN_SRC})

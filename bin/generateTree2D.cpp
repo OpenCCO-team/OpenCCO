@@ -12,7 +12,7 @@
 #include "GeomHelpers.h"
 #include "ConstructionHelpers.h"
 
-
+Miguel Colom <miguel.colom-barco@ens-paris-saclay.fr>, Daniel Lopresti <lopresti@cse.lehigh.edu>, Pascal Monasse <pascal.monasse@enpc.fr>, Jean-Michel Morel <moreljeanmichel@gmail.com>, "PERRET, Benjamin" <benjamin.perret@esiee.fr>, Hugues Talbot <hugues.talbot@centralesupelec.fr>, Burak Yildiz <b.yildiz@tudelft.nl>, "Adrien K." <krahenbuhl@unistra.fr>
 
 
 /**
