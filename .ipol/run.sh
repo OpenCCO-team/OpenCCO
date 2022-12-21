@@ -16,6 +16,10 @@ echo "INPUT3DDom = $INPUT3DDom"
 
 if test -f "$INPUT"
 then
+  echo "----------------------------------------"
+  echo "-----Generating 2D ---------------------"
+  echo "----------------------------------------"
+
   convert ${INPUT} input.pgm
   ${EXEC} -n ${NBTERM} -a ${APERF}  -d input.pgm >> algo_info.txt
   type ${EXEC}
