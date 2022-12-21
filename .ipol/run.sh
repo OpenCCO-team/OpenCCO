@@ -52,7 +52,7 @@ then
   echo "-----Generating 3D  Dom-----------------"
   echo "----------------------------------------"
   ls -la
-  ${EXEC3D} -n ${NBTERM} -a ${APERF} -d ${INPUT3DDom} -o result.obj
+  ${EXEC3D} -n ${NBTERM} -a ${APERF} -d $bin/.ipol/data/maskLiver05.vol -o result.obj
   cat stderr.txt
   key=$(basename $(pwd))
   demo_id=$(basename $(dirname $(pwd)))
