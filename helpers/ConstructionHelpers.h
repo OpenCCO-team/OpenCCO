@@ -40,7 +40,7 @@ CoronaryArteryTree<TDim> constructTree(double aPerf, int nbTerm,
   
   CoronaryArteryTree<TDim> cTree (aPerf, nbTerm, rRoot, ptCenter);
   if (imageOrgan != ""){
-    auto img = DGtal::GenericReader<typename CoronaryArteryTree<TDim>::Image>::import( imageOrgan );
+    auto img = DGtal::GenericReader<typename CoronaryArteryTree<TDim>::Image>::import( imageOrgan, fgTh );
     bool restrainedOK = cTree.restrainDomain(img, fgTh);
     if (restrainedOK){
       DGtal::trace.info() << "Using restrained image  " << imageOrgan << std::endl;
@@ -136,8 +136,8 @@ CoronaryArteryTree<3> constructTreeImageDomain3D(double aPerf, int nbTerm,
                               bool verbose = false){
   // searching center from maximak distance.
   auto img = DGtal::GenericReader<typename CoronaryArteryTree<TPoint::dimension>::Image>::import( imageOrgan );
-  auto imgDist = GeomHelpers::getImageDistance3D<typename CoronaryArteryTree<TPoint::dimension>::Image,
-                                               typename CoronaryArteryTree<TPoint::dimension>::ImageDist>(img);
+  auto imgDist = GeomHelpers::getImageDistance3D<typename CoronaryArteryTree<3>::Image,
+                                               typename CoronaryArteryTree<3>::ImageDist>(img,fgTh);
   double m = 0.0;
   DGtal::PointVector<3, int> pM;
   for(auto p: imgDist.domain()) {

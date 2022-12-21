@@ -54,13 +54,13 @@ int main(int argc, char **argv)
   app.add_flag("--view", display3D, "display 3D view using QGLViewer");
 #endif
   auto pInit = app.add_option("-p,--posInit", postInitV, "Initial position of root, if not given the position of point is determined from the image center")
-  ->expected(2);
+  ->expected(3);
   app.add_flag("-v,--verbose", verbose);
   app.get_formatter()->column_width(40);
   CLI11_PARSE(app, argc, argv);
   // END parse command line using CLI ----------------------------------------------
   
-  DGtal::Z3i::Point ptRoot(postInitV[0], postInitV[1], 0);
+  DGtal::Z3i::Point ptRoot(postInitV[0], postInitV[1], postInitV[2]);
   CoronaryArteryTree<3> tree;
   start = clock();
   //1000 => Execution time: 129.17274900 sec
@@ -68,8 +68,8 @@ int main(int argc, char **argv)
   //3000 => Execution time: 1023.94746700 sec
   //4000 => Execution time: 1896.94450700 sec
   //5000 => Execution time: 3435.08630500 sec
-  if(nameImgDom != "" && pInit->empty()){
-    tree = ConstructionHelpers::constructTreeImageDomain3D<DGtal::Z3i::RealPoint>(aPerf, nbTerm, nameImgDom, 128, verbose);
+  if(nameImgDom != "" ){
+    tree = ConstructionHelpers::constructTreeImageDomain3D<DGtal::Z3i::RealPoint>(aPerf, nbTerm, nameImgDom, 1, verbose);
   } else {
     tree = ConstructionHelpers::constructTree<3>(aPerf, nbTerm, nameImgDom, 128, verbose, ptRoot);
   }
