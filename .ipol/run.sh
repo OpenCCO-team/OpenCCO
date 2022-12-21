@@ -61,6 +61,4 @@ then
   iframe="$iframe frameborder='5' scrolling='no' allowfullscreen webkitallowfullscreen mozallowfullscreen></iframe>"
   echo "url=$iframe" >> algo_info.txt
   echo "algoDim=3" >> algo_info.txt 
-
-
-#fi
+fi
