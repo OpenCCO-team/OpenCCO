@@ -2,7 +2,7 @@
 FROM debian:bullseye
 
 # install additional debian packages
-RUN apt-get update && apt-get install -y build-essential cmake libboost-all-dev m4 libceres-dev libceres1 git && rm -rf /var/lib/apt/lists/*
+RUN apt-get update && apt-get install -y build-essential cmake libboost-all-dev m4 imagemagick libceres-dev libceres1 git && rm -rf /var/lib/apt/lists/*
 
 # copy the code to $bin
 ENV bin /workdir/bin/
