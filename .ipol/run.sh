@@ -6,13 +6,12 @@ NBTERM=$1
 APERF=$2
 INPUT=$3
 INPUT3D=$4
+INPUT3DDom=$5
 INPUTBASE=$(basename $INPUT)
 EXEC=generateTree2D
 EXEC3D=generateTree3D
 
     
-
-
 
 
 if test -f "$INPUT"
@@ -32,8 +31,6 @@ then
   echo "----------------------------------------"
   echo "-----Generating 3D ---------------------"
   echo "----------------------------------------"
-  # Strangely enough we have to change with execution mode...
-  chmod +x /srv/home/ipol/ipolDevel/ipol_demo/modules/demorunner/binaries/5555531082024/bin/generateTree3D
 
   ${EXEC3D} -n ${NBTERM} -a ${APERF}  -o result.obj
   cat stderr.txt
@@ -49,3 +46,17 @@ fi
 
 
 
+if test -f "$INPUT3DDom"
+then
+  ${EXEC3D} -n ${NBTERM} -a ${APERF} -d $INPUT3DDom -o result.obj
+  cat stderr.txt
+  key=$(basename $(pwd))
+  demo_id=$(basename $(dirname $(pwd)))
+  viewer_url="https://3dviewer.net#https://ipolcore.ipol.im/api/core/shared_folder/run/${demo_id}/${key}/result.obj,https://ipolcore.ipol.im/api/core/shared_folder/run/${demo_id}/${key}/result.mtl"
+  iframe="<iframe id='3dviewerplayer' type='text/html' width='620' height='460' src='$viewer_url' "
+  iframe="$iframe frameborder='5' scrolling='no' allowfullscreen webkitallowfullscreen mozallowfullscreen></iframe>"
+  echo "url=$iframe" >> algo_info.txt
+  echo "algoDim=3" >> algo_info.txt 
+
+
+fi
