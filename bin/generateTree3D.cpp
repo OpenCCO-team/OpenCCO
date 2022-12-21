@@ -16,7 +16,7 @@
 #include "CoronaryArteryTree.h"
 #include "GeomHelpers.h"
 #include "ConstructionHelpers.h"
-
+#include "XmlHelpers.h"
 #ifdef WITH_VISU3D_QGLVIEWER
 #include "DGtal/io/viewers/Viewer3D.h"
 #endif
