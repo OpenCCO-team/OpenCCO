@@ -29,7 +29,7 @@ public:
   */
 };
   
-namespace XMLHELPERS {
+namespace XMLHelpers {
 
 /**
  * prints a node into XML/GXL format from the NodeTable

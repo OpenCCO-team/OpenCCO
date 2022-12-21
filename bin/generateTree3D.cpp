@@ -75,7 +75,7 @@ int main(int argc, char **argv)
   }
   end = clock();
   printf ("Execution time: %0.8f sec\n", ((double) end - start)/CLOCKS_PER_SEC);
-  XMLHELPERS::writeTreeToXml<3>(tree, "tree_3D.xml");
+  XMLHelpers::writeTreeToXml<3>(tree, "tree_3D.xml");
   
 #ifdef WITH_VISU3D_QGLVIEWER
   if (display3D){

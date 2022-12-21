@@ -55,7 +55,7 @@ int main(int argc, char *const *argv)
   }
   end = clock();
   printf ("Execution time: %0.8f sec\n", ((double) end - start)/CLOCKS_PER_SEC);
-  XMLHELPERS::writeTreeToXml<2>(tree, "tree_2D.xml");
+  XMLHelpers::writeTreeToXml<2>(tree, "tree_2D.xml");
   
   std::string filename;
   
