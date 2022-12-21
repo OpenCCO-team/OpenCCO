@@ -46,18 +46,21 @@ fi
 
 
 
-#if test -f "$INPUT3DDom"
-#then
-#  ls -la
-  #${EXEC3D} -n ${NBTERM} -a ${APERF} -d ${INPUT3DDom} -o result.obj
-  #cat stderr.txt
-  #key=$(basename $(pwd))
-  #demo_id=$(basename $(dirname $(pwd)))
-  #viewer_url="https://3dviewer.net#https://ipolcore.ipol.im/api/core/shared_folder/run/${demo_id}/${key}/result.obj,https://ipolcore.ipol.im/api/core/shared_folder/run/${demo_id}/${key}/result.mtl"
-  #iframe="<iframe id='3dviewerplayer' type='text/html' width='620' height='460' src='$viewer_url' "
-  #iframe="$iframe frameborder='5' scrolling='no' allowfullscreen webkitallowfullscreen mozallowfullscreen></iframe>"
-  #echo "url=$iframe" >> algo_info.txt
-#  echo "algoDim=3" >> algo_info.txt 
+if test -f "$INPUT3DDom"
+then
+  echo "----------------------------------------"
+  echo "-----Generating 3D  Dom-----------------"
+  echo "----------------------------------------"
+  ls -la
+  ${EXEC3D} -n ${NBTERM} -a ${APERF} -d ${INPUT3DDom} -o result.obj
+  cat stderr.txt
+  key=$(basename $(pwd))
+  demo_id=$(basename $(dirname $(pwd)))
+  viewer_url="https://3dviewer.net#https://ipolcore.ipol.im/api/core/shared_folder/run/${demo_id}/${key}/result.obj,https://ipolcore.ipol.im/api/core/shared_folder/run/${demo_id}/${key}/result.mtl"
+  iframe="<iframe id='3dviewerplayer' type='text/html' width='620' height='460' src='$viewer_url' "
+  iframe="$iframe frameborder='5' scrolling='no' allowfullscreen webkitallowfullscreen mozallowfullscreen></iframe>"
+  echo "url=$iframe" >> algo_info.txt
+  echo "algoDim=3" >> algo_info.txt 
 
 
 #fi
