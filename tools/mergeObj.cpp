@@ -19,8 +19,9 @@ int main (int argc, char * argv [] ) {
   std::string nameGrObj1 {""};
   std::string nameGrObj2 {""};
   bool cleanNormals {false};
+  std::vector<double> material1;
+  std::vector<double> material2;
 
-   
   app.description("Merge two mesh files given in obj format");
   app.add_option("-i,--input,1", inputFileNameBase, "Input base obj file" )
     ->required()
@@ -30,7 +31,11 @@ int main (int argc, char * argv [] ) {
     ->check(CLI::ExistingFile);
   app.add_option("-o,--output,3", outputFileName, "Output obj file" )
     ->required();
- 
+  app.add_option("--materialOne", material1, "define the material (RGBA) of the first mesh" )
+    ->expected(4);
+  app.add_option("--materialTwo", material2, "define the material (RGBA) of the second mesh" )
+    ->expected(4);
+
    
   app.add_option("--nameGrp1,4", nameGrObj1, "Name to reference the first object in the source file" );
   app.add_option("--nameGrp2,5", nameGrObj2, "Name to reference the seconf object in the source file" );
@@ -41,11 +46,25 @@ int main (int argc, char * argv [] ) {
   // END parse command line using CLI ----------------------------------------------
    
 
-  ofstream resultFile;
-  resultFile.open (outputFileName, std::ofstream::out);
-  if (nameGrObj1 != ""){
-    resultFile << "g " << nameGrObj1 << std::endl;
-  }
+    ofstream resultFile;
+    resultFile.open (outputFileName, std::ofstream::out);
+    if (material1.size() == 4){
+        resultFile << "newmtl material1" << std::endl;
+        resultFile << "Ka 0.9 0.9 0.9" << std::endl;
+        resultFile << "Kd " << material1[0]
+        << " " << material1[1]
+        << " " << material1[2] << std::endl;
+        resultFile << "Ks 0.2 0.2 0.2" << std::endl;
+        resultFile << "Ns 20  # shininess" << std::endl;
+        resultFile << "d " << material1[3] << " # transparency" << std::endl;
+    }
+    if (nameGrObj1 != ""){
+        resultFile << "g " << nameGrObj1 << std::endl;
+    }
+    if (material1.size() == 4){
+        resultFile << "usemtl material1" << std::endl;
+    }
+    
   string line;
   std::ifstream myfile;
   myfile.open (inputFileNameBase, std::ifstream::in);
@@ -72,18 +91,31 @@ int main (int argc, char * argv [] ) {
         resultFile << line << '\n';
       }
     }
-    else{
+    else if (line [0] != 'o') {
       resultFile << line << '\n';         
     }
+      
   }
   myfile.close();
  
-    
+    if (material2.size() == 4){
+        resultFile << "newmtl material2" << std::endl;
+        resultFile << "Ka 0.9 0.9 0.9" << std::endl;
+        resultFile << "Kd " << material2[0]
+        << " " << material2[1]
+        << " " << material2[2] << std::endl;
+        resultFile << "Ks 0.2 0.2 0.2" << std::endl;
+        resultFile << "Ns 20  # shininess" << std::endl;
+        resultFile << "d " << material2[3] << " # transparency" << std::endl;
+    }
 
   // File 2:
   if (nameGrObj2 != ""){
     resultFile << "g " << nameGrObj2 << std::endl;
   }
+    if (material2.size() == 4){
+        resultFile << "usemtl material2" << std::endl;
+    }
   std::ifstream myfile2;
   myfile2.open (inputFileNameAdded, std::ifstream::in);
   
@@ -103,8 +135,7 @@ int main (int argc, char * argv [] ) {
       }
       resultFile << "\n";
     }
-    else
-    {
+    else if (line [0] != 'o') {
       resultFile << line << '\n';
     }
     
