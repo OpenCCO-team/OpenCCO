@@ -130,6 +130,20 @@ generateTestDomain/fast:
 	cd /Users/kerautre/EnCours/LiverCCO/build && $(MAKE) $(MAKESILENT) -f tools/CMakeFiles/generateTestDomain.dir/build.make tools/CMakeFiles/generateTestDomain.dir/build
 .PHONY : generateTestDomain/fast
 
+# Convenience name for target.
+tools/CMakeFiles/mergeObj.dir/rule:
+	cd /Users/kerautre/EnCours/LiverCCO/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 tools/CMakeFiles/mergeObj.dir/rule
+.PHONY : tools/CMakeFiles/mergeObj.dir/rule
+
+# Convenience name for target.
+mergeObj: tools/CMakeFiles/mergeObj.dir/rule
+.PHONY : mergeObj
+
+# fast build rule for target.
+mergeObj/fast:
+	cd /Users/kerautre/EnCours/LiverCCO/build && $(MAKE) $(MAKESILENT) -f tools/CMakeFiles/mergeObj.dir/build.make tools/CMakeFiles/mergeObj.dir/build
+.PHONY : mergeObj/fast
+
 generateTestDomain.o: generateTestDomain.cpp.o
 .PHONY : generateTestDomain.o
 
@@ -154,6 +168,30 @@ generateTestDomain.cpp.s:
 	cd /Users/kerautre/EnCours/LiverCCO/build && $(MAKE) $(MAKESILENT) -f tools/CMakeFiles/generateTestDomain.dir/build.make tools/CMakeFiles/generateTestDomain.dir/generateTestDomain.cpp.s
 .PHONY : generateTestDomain.cpp.s
 
+mergeObj.o: mergeObj.cpp.o
+.PHONY : mergeObj.o
+
+# target to build an object file
+mergeObj.cpp.o:
+	cd /Users/kerautre/EnCours/LiverCCO/build && $(MAKE) $(MAKESILENT) -f tools/CMakeFiles/mergeObj.dir/build.make tools/CMakeFiles/mergeObj.dir/mergeObj.cpp.o
+.PHONY : mergeObj.cpp.o
+
+mergeObj.i: mergeObj.cpp.i
+.PHONY : mergeObj.i
+
+# target to preprocess a source file
+mergeObj.cpp.i:
+	cd /Users/kerautre/EnCours/LiverCCO/build && $(MAKE) $(MAKESILENT) -f tools/CMakeFiles/mergeObj.dir/build.make tools/CMakeFiles/mergeObj.dir/mergeObj.cpp.i
+.PHONY : mergeObj.cpp.i
+
+mergeObj.s: mergeObj.cpp.s
+.PHONY : mergeObj.s
+
+# target to generate assembly for a file
+mergeObj.cpp.s:
+	cd /Users/kerautre/EnCours/LiverCCO/build && $(MAKE) $(MAKESILENT) -f tools/CMakeFiles/mergeObj.dir/build.make tools/CMakeFiles/mergeObj.dir/mergeObj.cpp.s
+.PHONY : mergeObj.cpp.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -163,9 +201,13 @@ help:
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
 	@echo "... generateTestDomain"
+	@echo "... mergeObj"
 	@echo "... generateTestDomain.o"
 	@echo "... generateTestDomain.i"
 	@echo "... generateTestDomain.s"
+	@echo "... mergeObj.o"
+	@echo "... mergeObj.i"
+	@echo "... mergeObj.s"
 .PHONY : help
 
 
