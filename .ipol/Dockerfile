@@ -10,6 +10,7 @@ RUN mkdir -p $bin
 WORKDIR $bin
 COPY . .
 RUN git clone https://github.com/DGtal-team/DGtal.git; cd DGtal; mkdir build; cd build; cmake .. -DBUILD_TESTING=OFF -DBUILD_EXAMPLES=OFF -DCMAKE_BUILD_TYPE:string="Release"; make;
+RUN git clone https://github.com/DGtal-team/DGtalTools.git; cd DGtalTools; mkdir build; cd build; cmake ..  -DDGtal_DIR="$bin/DGtal/build" ; make volBoundary2obj && cp converters/volBoundary2obj $bin
 RUN rm -rf build; mkdir build &&  cd build; cmake .. -DCMAKE_BUILD_TYPE:string="Release" -DDGtal_DIR="$bin/DGtal/build"  && make generateTree2D generateTree3D mergeObj && cp bin/generateTree2D $bin &&  cp bin/generateTree3D $bin &&  cp tools/mergeObj $bin
 
 
