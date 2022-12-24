@@ -68,6 +68,23 @@ void subPrint_node(int nodeType, int idNode, DGtal::PointVector<TDim, double> po
   os<<"\t\t},"<<endl;
 }
 
+/**
+ * prints an edge into Json format
+ */
+ void subPrint_edge(int idSeg, int idSegPar, double flow, double radius, ofstream &os){
+ 
+  if(idSeg != 0){
+    os<<"\t\t{\n"<<endl;
+    os<<"\t\t\t\"id\" : "<<idSeg<<","<<endl;
+    os<<"\t\t\t\"from\" : "<<idSeg<<","<<endl;
+    os<<"\t\t\t\"to\" : "<<idSegPar<<","<<endl;
+    os<<"\t\t\t\"flow\" : "<<flow<<","<<endl;
+    os<<"\t\t\t\"radius\" : "<<radius<<","<<endl;
+    os<<"\t\t},"<<endl;
+      
+  }
+}
+
 template<int TDim>
 inline
 void writeTreeToJson(const CoronaryArteryTree<TDim>& tree, const char * filePath) {
@@ -98,7 +115,15 @@ void writeTreeToJson(const CoronaryArteryTree<TDim>& tree, const char * filePath
        }
      }
    }
-
+  //output<<"\t]\n}, "<<endl;
+  output<<"\t], "<<endl;
+  
+  //writing tree's edges
+  //output<<"{\n\t\"edges\":\n\t["<<endl;
+  output<<"\t\"edges\":\n\t["<<endl;
+  for(auto s : tree.myVectSegments) {
+    subPrint_edge(s.myIndex,tree.myVectParent[s.myIndex], s.myFlow, s.myRadius, output);
+  }
   output<<"\t]\n}"<<endl;
   output.close();
 }
