@@ -17,6 +17,7 @@
 #include "GeomHelpers.h"
 #include "ConstructionHelpers.h"
 #include "XmlHelpers.h"
+#include "JsonHelpers.h"
 
 #ifdef WITH_VISU3D_QGLVIEWER
 #include "DGtal/io/viewers/Viewer3D.h"
@@ -77,6 +78,7 @@ int main(int argc, char **argv)
   end = clock();
   printf ("Execution time: %0.8f sec\n", ((double) end - start)/CLOCKS_PER_SEC);
   XMLHelpers::writeTreeToXml<3>(tree, "tree_3D.xml");
+  JSONHelpers::writeTreeToJson<3>(tree, "tree_3D.json");
   
 #ifdef WITH_VISU3D_QGLVIEWER
   if (display3D){

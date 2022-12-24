@@ -25,7 +25,7 @@ int main(int argc, char *const *argv)
   
   // parse command line using CLI ----------------------------------------------
   CLI::App app;
-  int nbTerm {50};
+  int nbTerm {100};
   double aPerf {20000};
   bool verbose {false};
   std::string nameImgDom {""}; 
@@ -55,7 +55,7 @@ int main(int argc, char *const *argv)
   }
   end = clock();
   printf ("Execution time: %0.8f sec\n", ((double) end - start)/CLOCKS_PER_SEC);
-  //XMLHelpers::writeTreeToXml<2>(tree, "tree_2D.xml");
+  XMLHelpers::writeTreeToXml<2>(tree, "tree_2D.xml");
   JSONHelpers::writeTreeToJson<2>(tree, "tree_2D.json");
 
   std::string filename;
