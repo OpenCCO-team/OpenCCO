@@ -397,7 +397,7 @@ public:
                  bool verbose = true);
   
   
-  bool addSegmentFromPoint(const TPointD &p, unsigned int nearIndex);
+  //bool addSegmentFromPoint(const TPointD &p, unsigned int nearIndex);
 
   
   /**
@@ -409,40 +409,38 @@ public:
    * @param minDistance the limit distance to the nearest segments.
    * @return true of there is an intersection, false in the other case.
    */
-  
+  /*
   bool isIntersecting(const TPointD &pNew,
                       const TPointD &pCenter,
                       unsigned int nearIndex,
                       unsigned int nbNeibour = 10,
                       double minDistance = 5.0) const;
-  
+  */
   
   /**
-   * Verifies if there is an intersection between two segment
-   * @param index1 the index of the first segement
-   * @param index2 the index of the second segement
-   * @param epsilon : param for dicotomie search
+   * Verifies if there is an intersection between a thick segment defined by two points
+   * and all other segments of the tree
+   * @param ptA the first point
+   * @param ptA the second point
+   * @param r : radius of the thick segment
    */
-  /*
-  bool isIntersectingNEW(unsigned int index1,
-                        unsigned int index2,
-                        double epsilon=0.01) const;
-  */
-  /*
   bool isIntersectingTree(const TPointD &ptA,
                           const TPointD &ptB,
-                          double r) const;
-  */
-  bool isIntersectingTree(const TPointD &pt,
-                          const TPointD &ptCenter,
                           double r,
                           unsigned int idSeg) const;
   
+  /**
+   * Verifies if there is an intersection between a thick segment defined by two points
+   * and all other segments of the tree, except the segments given in idExcept
+   * @param ptA the first point
+   * @param ptA the second point
+   * @param r : radius of the thick segment
+   * @param idExcept: indices of three segments to ignore
+   */
   bool isIntersectingTree(const TPointD &ptA,
                           const TPointD &ptB,
                           double r,
                           std::tuple<int, int, int> idExcept) const;
-                          //int idExcept1, int idExcept2 = -1, int idExcept3 = -1) const;
   
   /**
    * Update the distribution of segmental flows after adding a new segment (new bifurcation)
@@ -547,7 +545,7 @@ public:
    * @param p2 : a point representing another extremity
    * @param epsilon : param for dicotomie search
    */
-  double getProjDistanceDico(unsigned int index1, const TPointD &p1, const TPointD &p2, const double& epsilon=0.01) const;
+  //double getProjDistanceDico(unsigned int index1, const TPointD &p1, const TPointD &p2, const double& epsilon=0.01) const;
   
   /**
    * Check if a new added point is too close the nearest segment.
@@ -564,44 +562,6 @@ public:
    */
   std::vector<unsigned int> getN_NearestSegments(const TPointD &p,
                                                  unsigned int n) const;
-  
-  /**
-   * Compute if a segment has intersection on the n nearest segments.
-   * @param p0 : one extremity of one segment
-   * @param p1 : another extremity of one segment
-   * @param n : the number of nearest point to be considered
-   */
-  bool hasNearestIntersections(const TPointD &p0,
-                               const TPointD &p1, unsigned int n) const;
-  
-
-  /**
-   * Compute if a segment has intersection all the segments.
-   * @param p : one point
-   */
-  bool hasIntersections(const TPointD &p) const;
-
-  /**
-   * Compute if a segment has intersection all the segments.
-   * @param indexSeg : a segment
-   * @param epsilon : param for dicotomie search
-   */
-  bool hasIntersections(const unsigned int indexSeg, double epsilon=0.01) const;
-
-  /**
-   * Computes if an bifurcation has intersections on the n nearest segments.
-   * It uses the middle point
-   * @param indexPFather index extremity of initial segment (father).
-   * @param indexPChild index  extremity  of initial segment (child).
-   * @param pAdded point added at the origin of the creation of bifurcation.
-   * @param pBifurcation the central point of the bifurcation.
-   * @param n : the number of nearest point to be considered
-   */
-  
-  bool hasNearestIntersections(unsigned int indexPFather,
-                               unsigned int indexPChild,
-                               const TPointD &pAdded,
-                               const TPointD &pBifurcation, unsigned int n) const;
   
   /**
    * Verifies the condition of degenerate after Kamyia solution : 2 ri < li
