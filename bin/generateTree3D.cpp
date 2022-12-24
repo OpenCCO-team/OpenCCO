@@ -36,7 +36,7 @@ int main(int argc, char **argv)
   // parse command line using CLI ----------------------------------------------
   CLI::App app;
   app.description("Generated a 3D tree using the CCO algorithm. By default it generates a 3D mesh.");
-  int nbTerm {100};
+  int nbTerm {1000};
   double aPerf {20000};
   bool verbose {false};
   bool display3D {true};
@@ -76,7 +76,7 @@ int main(int argc, char **argv)
   }
   end = clock();
   printf ("Execution time: %0.8f sec\n", ((double) end - start)/CLOCKS_PER_SEC);
-  XMLHelpers::writeTreeToXml<3>(tree, "test.xml");
+  XMLHelpers::writeTreeToXml<3>(tree, "tree_3D.xml");
   
 #ifdef WITH_VISU3D_QGLVIEWER
   if (display3D){
