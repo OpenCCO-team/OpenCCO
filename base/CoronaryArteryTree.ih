@@ -134,7 +134,7 @@ template< int TDim >
 bool
 CoronaryArteryTree<TDim>::isAddable(const TPointD &p, unsigned int segIndex,
                               unsigned int nbIter, double tolerance,
-                              unsigned int nbNeibour, bool verbose)
+                              /* unsigned int nbNeibour,*/ bool verbose)
 {
   TPointD pOpt, newCenter = findBarycenter(p, segIndex);
   TPoint newCenterDom; for (auto i=0; i < TDim; i++){newCenterDom[i] = static_cast<int>(newCenter[i]);}
@@ -198,7 +198,7 @@ CoronaryArteryTree<TDim>::isAddable(const TPointD &p, unsigned int segIndex,
    TPointD pR = sNewRight.myCoordinate;
    TPointD pCurrent ((f0*pParent[0]+f1*pL[0]+f2*pR[0])/(2.0*f0), (f0*pParent[1]+f1*pL[1]+f2*pR[1])/(2.0*f0)); //barycenter of the sement
   */
-  TPointD pCurrent = (sParent.myCoordinate+sNewLeft.myCoordinate)/2.0; //center of the current segment
+  TPointD pCurrent = newCenter;//(sParent.myCoordinate+sNewLeft.myCoordinate)/2.0; //center of the current segment
   double r0 = sCurrent.myRadius, r1 = sCurrent.myRadius, r2 = sCurrent.myRadius;
   bool res1 = true, res2 = false, res3 = true, res4 = false, isDone = false;
   double vol = -1, volCurr = -1, diffVol = -1;
@@ -217,7 +217,7 @@ CoronaryArteryTree<TDim>::isAddable(const TPointD &p, unsigned int segIndex,
     if(res2) //there is intersection betweeen segments
       return false;
     */
-    
+    /*
     exportBoardDisplay("result_tmp1.svg", 1.0);
     myBoard.setPenColor(DGtal::Color::Green);
     myBoard.fillCircle(pOpt[0], pOpt[1], 1);
@@ -230,25 +230,26 @@ CoronaryArteryTree<TDim>::isAddable(const TPointD &p, unsigned int segIndex,
     myBoard.drawLine(pParent[0], pParent[1], sNewLeft.myCoordinate[0], sNewLeft.myCoordinate[1], 2);
     myBoard.saveSVG("result_tmp2.svg");
     myBoard.clear();
+    */
     
     //Check for middle seg
     //std::cout<<"iter "<<i<<" ";
     int idSegPar = myVectParent[segIndex];
     int idL = myVectChildren[idSegPar].first;
     int idR = myVectChildren[idSegPar].second;
-    res2 = isIntersectingTree(pOpt, sParent.myCoordinate, r0, idL, idR);
+    res2 = isIntersectingTree(pOpt, sParent.myCoordinate, r0, std::make_tuple(idL, idR, idSegPar));
     if(res2) //there is intersection betweeen segments
       return false;
     
     //Check for left seg
     idL = myVectChildren[segIndex].first;
     idR = myVectChildren[segIndex].second;
-    res2 = isIntersectingTree(pOpt, sNewLeft.myCoordinate, r1, segIndex, idL, idR);
+    res2 = isIntersectingTree(pOpt, sNewLeft.myCoordinate, r1,  std::make_tuple(segIndex, idL, idR));
     if(res2) //there is intersection betweeen segments
       return false;
       
     //Check for right seg
-    res2 = isIntersectingTree(pOpt, p, r2, segIndex);
+    res2 = isIntersectingTree(pOpt, p, r2,  std::make_tuple(segIndex,-1,-1));
     if(res2) //there is intersection betweeen segments
       return false;
     
@@ -316,7 +317,8 @@ CoronaryArteryTree<TDim>::isAddable(const TPointD &p, unsigned int segIndex,
     cTree1.updateFlow(cTree1.myVectParent[segIndex]);
     cTree1.updateResistanceFromRoot();
     cTree1.updateRootRadius();
-    
+    //TO REMOVE
+    /*
     if(TDim==2) {
       res4 = false;
     }
@@ -324,7 +326,8 @@ CoronaryArteryTree<TDim>::isAddable(const TPointD &p, unsigned int segIndex,
     //Test intersection wrt radius except the childs and the parent and brother
     res4 = cTree1.hasIntersections(sNewLeft.myIndex) || cTree1.hasIntersections(sNewRight.myIndex) || cTree1.hasIntersections(segIndex); //FIXME: epsilon
     }
-    if(!res4) {
+    */
+    //if(!res4) {
       vol = cTree1.computeTotalVolume();
       if (verbose){
         DGtal::trace.info() <<"Iter "<<i<<" has tree Volume: "<< vol <<std::endl;
@@ -353,7 +356,7 @@ CoronaryArteryTree<TDim>::isAddable(const TPointD &p, unsigned int segIndex,
           cTreeCurr = cTree1;
         }
       }
-    }
+    //}
     //update new position, radius and flow
     pCurrent = pOpt;
     sCurrent.myRadius = cTree1.myVectSegments[segIndex].myRadius;
@@ -616,7 +619,7 @@ CoronaryArteryTree<TDim>::isIntersectingNEW(unsigned int index1, unsigned int in
   return (d5 < r1+r2);
 }
 */
-
+/*
 template<int TDim >
 bool
 CoronaryArteryTree<TDim>::isIntersectingTree(const TPointD &ptA, const TPointD &ptB, double r) const
@@ -633,11 +636,50 @@ CoronaryArteryTree<TDim>::isIntersectingTree(const TPointD &ptA, const TPointD &
   }
   return false;
 }
+*/
+template<int TDim >
+bool
+CoronaryArteryTree<TDim>::isIntersectingTree(const TPointD &pt, const TPointD &ptCenter, double r, unsigned int idSeg) const
+{
+  //Get coordinates of points
+  Segment sParent = myVectSegments[myVectParent[idSeg]];
+  TPointD pParent = sParent.myCoordinate;
+  Segment sNewLeft;
+  sNewLeft.myCoordinate = myVectSegments[idSeg].myCoordinate;
+  Segment sNewRight;
+  sNewRight.myCoordinate = pt;
+
+  //Check for middle seg
+  int idSegPar = myVectParent[idSeg];
+  int idL = myVectChildren[idSegPar].first;
+  int idR = myVectChildren[idSegPar].second;
+  bool res2 = isIntersectingTree(ptCenter, sParent.myCoordinate, r, std::make_tuple(idL, idR, idSegPar));
+  if(res2) //there is intersection betweeen segments
+    return true;
+  
+  //Check for left seg
+  idL = myVectChildren[idSeg].first;
+  idR = myVectChildren[idSeg].second;
+  res2 = isIntersectingTree(ptCenter, sNewLeft.myCoordinate, r, std::make_tuple(idSeg, idL, idR));
+  if(res2) //there is intersection betweeen segments
+    return true;
+    
+  //Check for right seg
+  res2 = isIntersectingTree(ptCenter, pt, r, std::make_tuple(idSeg,-1,-1));
+  if(res2) //there is intersection betweeen segments
+    return true;
+    
+  return false;
+}
 
 template<int TDim >
 bool
-CoronaryArteryTree<TDim>::isIntersectingTree(const TPointD &ptA, const TPointD &ptB, double r, int idExcept1, int idExcept2,  int idExcept3) const
+CoronaryArteryTree<TDim>::isIntersectingTree(const TPointD &ptA, const TPointD &ptB, double r, std::tuple<int, int, int> idExcept) const
+//int idExcept1, int idExcept2,  int idExcept3) const
 {
+  int idExcept1 = std::get<0>(idExcept);
+  int idExcept2 = std::get<1>(idExcept);
+  int idExcept3 = std::get<2>(idExcept);
   if(idExcept1==0 || idExcept2==0 || idExcept3==0) //root segment
     return false;
   for(auto s : myVectSegments) {

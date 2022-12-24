@@ -393,7 +393,7 @@ public:
                  unsigned int segIndex,
                  unsigned int nbIter,
                  double tolerance,
-                 unsigned int nbNeibour = 10,
+                 /* unsigned int nbNeibour = 10,*/
                  bool verbose = true);
   
   
@@ -409,13 +409,13 @@ public:
    * @param minDistance the limit distance to the nearest segments.
    * @return true of there is an intersection, false in the other case.
    */
-  /*
+  
   bool isIntersecting(const TPointD &pNew,
                       const TPointD &pCenter,
                       unsigned int nearIndex,
                       unsigned int nbNeibour = 10,
                       double minDistance = 5.0) const;
-  */
+  
   
   /**
    * Verifies if there is an intersection between two segment
@@ -428,15 +428,21 @@ public:
                         unsigned int index2,
                         double epsilon=0.01) const;
   */
-  
+  /*
   bool isIntersectingTree(const TPointD &ptA,
                           const TPointD &ptB,
                           double r) const;
+  */
+  bool isIntersectingTree(const TPointD &pt,
+                          const TPointD &ptCenter,
+                          double r,
+                          unsigned int idSeg) const;
   
   bool isIntersectingTree(const TPointD &ptA,
                           const TPointD &ptB,
                           double r,
-                          int idExcept1, int idExcept2 = -1, int idExcept3 = -1) const;
+                          std::tuple<int, int, int> idExcept) const;
+                          //int idExcept1, int idExcept2 = -1, int idExcept3 = -1) const;
   
   /**
    * Update the distribution of segmental flows after adding a new segment (new bifurcation)
