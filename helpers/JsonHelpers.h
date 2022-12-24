@@ -15,7 +15,7 @@
 #include "CoronaryArteryTree.h"
 
 using namespace std;
-  
+
 namespace JSONHelpers {
 
 /**
@@ -30,7 +30,7 @@ void subPrint_node(int nodeType, int idNode, DGtal::PointVector<TDim, double> po
   
   os<<"\t\t\t\"position\" : [ ";
   for (auto i=0; i < TDim - 1; i++){
-   os<<pos[i]<<", ";
+    os<<pos[i]<<", ";
   }
   os<<pos[TDim - 1]<<"],"<<endl;
   
@@ -71,8 +71,8 @@ void subPrint_node(int nodeType, int idNode, DGtal::PointVector<TDim, double> po
 /**
  * prints an edge into Json format
  */
- void subPrint_edge(int idSeg, int idSegPar, double flow, double radius, ofstream &os){
- 
+void subPrint_edge(int idSeg, int idSegPar, double flow, double radius, ofstream &os){
+  
   if(idSeg != 0){
     os<<"\t\t{\n"<<endl;
     os<<"\t\t\t\"id\" : "<<idSeg<<","<<endl;
@@ -81,13 +81,13 @@ void subPrint_node(int nodeType, int idNode, DGtal::PointVector<TDim, double> po
     os<<"\t\t\t\"flow\" : "<<flow<<","<<endl;
     os<<"\t\t\t\"radius\" : "<<radius<<","<<endl;
     os<<"\t\t},"<<endl;
-      
+    
   }
 }
 
 template<int TDim>
 inline
-void writeTreeToJson(const CoronaryArteryTree<TDim>& tree, const char * filePath) {
+void writeTreeToJson(const CoronaryArteryTree<TDim>& tree, const char * filePath, bool writeEdge = false) {
   ofstream output;
   
   //writing the tree structure as GXL to the filePath specified
@@ -95,36 +95,38 @@ void writeTreeToJson(const CoronaryArteryTree<TDim>& tree, const char * filePath
   output<<"{\n\t\"control_points\":\n\t["<<endl;
   
   //writing tree's nodes
-   for(auto s : tree.myVectSegments) {
-     // test if the segment is the root or its parent
-     if (s.myIndex == 0) { //root node
-       std::vector<unsigned int> prec = {0};
-       //std::vector<unsigned int> next = {tree.myVectChildren[s.myIndex].first, tree.myVectChildren[s.myIndex].second};
-       subPrint_node<TDim>(NodeTable::ROOT, s.myIndex, s.myCoordinate, s.myRadius, prec, std::vector<unsigned int>(), output);
-     }
-     else {
-       if(std::find(begin(tree.myVectTerminals), end(tree.myVectTerminals), s.myIndex) != end(tree.myVectTerminals)) { //terminal node
-         std::vector<unsigned int> prec = {tree.myVectParent[s.myIndex]};
-         //std::vector<unsigned int> next = {tree.myVectChildren[s.myIndex].first, tree.myVectChildren[s.myIndex].second};
-         subPrint_node<TDim>(NodeTable::TERM, s.myIndex, s.myCoordinate, s.myRadius, prec, std::vector<unsigned int>(), output);
-       }
-       else { // bif node
-         std::vector<unsigned int> prec = {tree.myVectParent[s.myIndex]};
-         std::vector<unsigned int> next = {tree.myVectChildren[s.myIndex].first, tree.myVectChildren[s.myIndex].second};
-         subPrint_node<TDim>(NodeTable::BIF, s.myIndex, s.myCoordinate, s.myRadius, prec, next, output);
-       }
-     }
-   }
-  //output<<"\t]\n}, "<<endl;
-  output<<"\t], "<<endl;
-  
-  //writing tree's edges
-  //output<<"{\n\t\"edges\":\n\t["<<endl;
-  output<<"\t\"edges\":\n\t["<<endl;
   for(auto s : tree.myVectSegments) {
-    subPrint_edge(s.myIndex,tree.myVectParent[s.myIndex], s.myFlow, s.myRadius, output);
+    // test if the segment is the root or its parent
+    if (s.myIndex == 0) { //root node
+      std::vector<unsigned int> prec = {0};
+      //std::vector<unsigned int> next = {tree.myVectChildren[s.myIndex].first, tree.myVectChildren[s.myIndex].second};
+      subPrint_node<TDim>(NodeTable::ROOT, s.myIndex, s.myCoordinate, s.myRadius, prec, std::vector<unsigned int>(), output);
+    }
+    else {
+      if(std::find(begin(tree.myVectTerminals), end(tree.myVectTerminals), s.myIndex) != end(tree.myVectTerminals)) { //terminal node
+        std::vector<unsigned int> prec = {tree.myVectParent[s.myIndex]};
+        //std::vector<unsigned int> next = {tree.myVectChildren[s.myIndex].first, tree.myVectChildren[s.myIndex].second};
+        subPrint_node<TDim>(NodeTable::TERM, s.myIndex, s.myCoordinate, s.myRadius, prec, std::vector<unsigned int>(), output);
+      }
+      else { // bif node
+        std::vector<unsigned int> prec = {tree.myVectParent[s.myIndex]};
+        std::vector<unsigned int> next = {tree.myVectChildren[s.myIndex].first, tree.myVectChildren[s.myIndex].second};
+        subPrint_node<TDim>(NodeTable::BIF, s.myIndex, s.myCoordinate, s.myRadius, prec, next, output);
+      }
+    }
   }
-  output<<"\t]\n}"<<endl;
+  if(!writeEdge)
+    output<<"\t]\n}, "<<endl;
+  else {
+    output<<"\t], "<<endl;
+    //writing tree's edges
+    output<<"\t\"edges\":\n\t["<<endl;
+    for(auto s : tree.myVectSegments) {
+      subPrint_edge(s.myIndex,tree.myVectParent[s.myIndex], s.myFlow, s.myRadius, output);
+    }
+    output<<"\t]\n}"<<endl;
+  }
+  
   output.close();
 }
 };
