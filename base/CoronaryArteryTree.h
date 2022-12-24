@@ -393,29 +393,7 @@ public:
                  unsigned int segIndex,
                  unsigned int nbIter,
                  double tolerance,
-                 /* unsigned int nbNeibour = 10,*/
                  bool verbose = true);
-  
-  
-  //bool addSegmentFromPoint(const TPointD &p, unsigned int nearIndex);
-
-  
-  /**
-   * Verifies if there is an intersection for the new bifurcation position or the point is to near to the neigbour segment
-   * @param pNew the extremity of the new segment to be created
-   * @param pCenter the  new bifurcation position.
-   * @param nearIndex the index of the near segement to pNew.
-   * @param nbNeibour the number of nearest segments to be tested.
-   * @param minDistance the limit distance to the nearest segments.
-   * @return true of there is an intersection, false in the other case.
-   */
-  /*
-  bool isIntersecting(const TPointD &pNew,
-                      const TPointD &pCenter,
-                      unsigned int nearIndex,
-                      unsigned int nbNeibour = 10,
-                      double minDistance = 5.0) const;
-  */
   
   /**
    * Verifies if there is an intersection between a thick segment defined by two points
@@ -537,15 +515,6 @@ public:
    * @param p : a point to be projected
    */
   double getProjDistance(const TPointD &p0, const TPointD &p1, const TPointD &p) const;
-  
-  /**
-   * Computes the projected distance from a segment represented with the index  and the point given as argument using dicotomic search.
-   * @param index : the index of the segement used for the comparison
-   * @param p1 : a point representing one extremity
-   * @param p2 : a point representing another extremity
-   * @param epsilon : param for dicotomie search
-   */
-  //double getProjDistanceDico(unsigned int index1, const TPointD &p1, const TPointD &p2, const double& epsilon=0.01) const;
   
   /**
    * Check if a new added point is too close the nearest segment.

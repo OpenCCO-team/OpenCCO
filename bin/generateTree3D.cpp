@@ -36,7 +36,7 @@ int main(int argc, char **argv)
   // parse command line using CLI ----------------------------------------------
   CLI::App app;
   app.description("Generated a 3D tree using the CCO algorithm. By default it generates a 3D mesh.");
-  int nbTerm {1000};
+  int nbTerm {100};
   double aPerf {20000};
   bool verbose {false};
   bool display3D {true};
