@@ -208,11 +208,47 @@ CoronaryArteryTree<TDim>::isAddable(const TPointD &p, unsigned int segIndex,
   }
   size_t i=0;
   for(size_t i=0; i<nbIter && !isDone; i++) {
+    //TODO: test intersecting before kamyia
     res1 = kamyiaOptimization(pCurrent, pParent, sCurrent.myRadius, sNewLeft, sNewRight, 1, pOpt, r0, r1, r2);
     if(!res1) //Kamyia does not have solution
       return false;
-    
+    /*
     res2 = isIntersecting(p, pOpt, segIndex, nbNeibour, 2*cTreeCurr.myVectSegments[segIndex].myRadius);
+    if(res2) //there is intersection betweeen segments
+      return false;
+    */
+    
+    exportBoardDisplay("result_tmp1.svg", 1.0);
+    myBoard.setPenColor(DGtal::Color::Green);
+    myBoard.fillCircle(pOpt[0], pOpt[1], 1);
+    myBoard.setPenColor(DGtal::Color::Blue);
+    myBoard.fillCircle(sNewRight.myCoordinate[0], sNewRight.myCoordinate[1], 1);
+    myBoard.fillCircle(sNewLeft.myCoordinate[0], sNewLeft.myCoordinate[1], 1);
+    myBoard.fillCircle(pParent[0], pParent[1], 1);
+    myBoard.setPenColor(DGtal::Color::Yellow);
+    myBoard.setLineWidth(0.5);
+    myBoard.drawLine(pParent[0], pParent[1], sNewLeft.myCoordinate[0], sNewLeft.myCoordinate[1], 2);
+    myBoard.saveSVG("result_tmp2.svg");
+    myBoard.clear();
+    
+    //Check for middle seg
+    //std::cout<<"iter "<<i<<" ";
+    int idSegPar = myVectParent[segIndex];
+    int idL = myVectChildren[idSegPar].first;
+    int idR = myVectChildren[idSegPar].second;
+    res2 = isIntersectingTree(pOpt, sParent.myCoordinate, r0, idL, idR);
+    if(res2) //there is intersection betweeen segments
+      return false;
+    
+    //Check for left seg
+    idL = myVectChildren[segIndex].first;
+    idR = myVectChildren[segIndex].second;
+    res2 = isIntersectingTree(pOpt, sNewLeft.myCoordinate, r1, segIndex, idL, idR);
+    if(res2) //there is intersection betweeen segments
+      return false;
+      
+    //Check for right seg
+    res2 = isIntersectingTree(pOpt, p, r2, segIndex);
     if(res2) //there is intersection betweeen segments
       return false;
     
@@ -338,12 +374,15 @@ CoronaryArteryTree<TDim>::addSegmentFromPoint(const TPointD &p,
 {
 
   TPointD newCenter = findBarycenter(p, nearIndex);
+  /* TO CHECK
   bool inter = hasNearestIntersections(myVectParent[nearIndex], nearIndex, p, newCenter,  10);
   double minDistance = 5.0;
   if (inter){
     DGtal::trace.warning() << "detection intersection" << std::endl;
     return false;
   }
+  */
+  double minDistance = 5.0;
   // Check barycenter is not too close considered segment
   if ((newCenter-myVectSegments[nearIndex].myCoordinate).norm() < minDistance ||
       (newCenter-myVectSegments[myVectParent[nearIndex]].myCoordinate).norm() < minDistance ||
@@ -429,6 +468,7 @@ CoronaryArteryTree<TDim>::addSegmentFromPoint(const TPointD &p,
 /**
  * Template specialisation for 2D
  **/
+/*
 template< >
 bool
 CoronaryArteryTree<2>::isIntersecting(const TPointD &pNew, const TPointD &pCenter, unsigned int nearIndex, unsigned int nbNeibour, double minDistance) const
@@ -436,12 +476,15 @@ CoronaryArteryTree<2>::isIntersecting(const TPointD &pNew, const TPointD &pCente
   //bool inter = hasNearestIntersections(p, newCenter, 10);
   //bool inter = hasNearestIntersections(myVectParent[nearIndex], nearIndex, p, newCenter,  nbNeibour);
 // to be fixed later, else 
+    //TO CHECK
+    
     bool inter = hasNearestIntersections(myVectParent[nearIndex], nearIndex, pNew, pCenter,  nbNeibour);
   // bool inter = hasIntersections(pNew) || hasIntersections(pCenter);
   if (inter){
     //DGtal::trace.warning() << "detection intersection" << std::endl;
     return true;
   }
+    
   // Check barycenter is not too close considered segment
   if ((pCenter-myVectSegments[nearIndex].myCoordinate).norm() < minDistance ||
       (pCenter-myVectSegments[myVectParent[nearIndex]].myCoordinate).norm() < minDistance ||
@@ -475,10 +518,11 @@ CoronaryArteryTree<2>::isIntersecting(const TPointD &pNew, const TPointD &pCente
   }
   return false;
 }
-
+*/
 /**
  * Template specialisation for 3D
  **/
+/*
 template< >
 bool
 CoronaryArteryTree<3>::isIntersecting(const TPointD &pNew, const TPointD &pCenter, unsigned int nearIndex, unsigned int nbNeibour, double minDistance) const
@@ -531,7 +575,8 @@ CoronaryArteryTree<3>::isIntersecting(const TPointD &pNew, const TPointD &pCente
   }
   return false;
 }
-
+*/
+/*
 template< int TDim >
 bool
 CoronaryArteryTree<TDim>::isIntersectingNEW(unsigned int index1, unsigned int index2, double epsilon) const
@@ -569,6 +614,44 @@ CoronaryArteryTree<TDim>::isIntersectingNEW(unsigned int index1, unsigned int in
   //Use dico search for testing intersection
   double d5 = getProjDistanceDico(index1, p20, p21, epsilon);
   return (d5 < r1+r2);
+}
+*/
+
+template<int TDim >
+bool
+CoronaryArteryTree<TDim>::isIntersectingTree(const TPointD &ptA, const TPointD &ptB, double r) const
+{
+  for(auto s : myVectSegments) {
+    if(s.myIndex != 0) {
+      TPointD ptC = s.myCoordinate;
+      TPointD ptD = myVectSegments[myVectParent[s.myIndex]].myCoordinate;
+      if(GeomHelpers::isIntersecting<TDim>(ptA, ptB, r, ptC, ptD, s.myRadius)) {
+        std::cout<<"Seg bug :"<<s.myIndex<<std::endl;
+        return true;
+      }
+    }
+  }
+  return false;
+}
+
+template<int TDim >
+bool
+CoronaryArteryTree<TDim>::isIntersectingTree(const TPointD &ptA, const TPointD &ptB, double r, int idExcept1, int idExcept2,  int idExcept3) const
+{
+  if(idExcept1==0 || idExcept2==0 || idExcept3==0) //root segment
+    return false;
+  for(auto s : myVectSegments) {
+    //s.myIndex = 0 is the root segment
+    if(s.myIndex !=0 && s.myIndex != idExcept1 && s.myIndex != idExcept2 && s.myIndex != idExcept3) {
+      TPointD ptC = s.myCoordinate;
+      TPointD ptD = myVectSegments[myVectParent[s.myIndex]].myCoordinate;
+      if(GeomHelpers::isIntersecting<TDim>(ptA, ptB, r, ptC, ptD, s.myRadius)) {
+        //std::cout<<"Seg bug :"<<s.myIndex<<" ==> seg expt :"<<idExcept1<<", "<<idExcept2<<", "<<idExcept3<<std::endl;
+        return true;
+      }
+    }
+  }
+  return false;
 }
 
 template< int TDim >
@@ -861,7 +944,7 @@ CoronaryArteryTree<TDim>::hasIntersections(const TPointD &p) const {
   }
   return false;
 }
-
+/*
 template< int TDim >
 bool
 CoronaryArteryTree<TDim>::hasIntersections(unsigned int indexSeg, double epsilon) const {
@@ -880,7 +963,8 @@ CoronaryArteryTree<TDim>::hasIntersections(unsigned int indexSeg, double epsilon
   }
   return false;
 }
-
+*/
+/*
 template< int TDim >
 bool
 CoronaryArteryTree<TDim>::hasNearestIntersections(const TPointD &p0,
@@ -896,7 +980,8 @@ CoronaryArteryTree<TDim>::hasNearestIntersections(const TPointD &p0,
   }
   return false;
 }
-
+*/
+/*
 template< int TDim >
 bool
 CoronaryArteryTree<TDim>::hasNearestIntersections(unsigned int indexPFather,
@@ -925,7 +1010,7 @@ CoronaryArteryTree<TDim>::hasNearestIntersections(unsigned int indexPFather,
   return false;
   
 }
-
+*/
 template< int TDim >
 bool
 CoronaryArteryTree<TDim>::kamyiaOptimization(const TPointD& pCurrent,

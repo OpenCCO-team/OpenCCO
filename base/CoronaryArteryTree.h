@@ -229,7 +229,7 @@ public:
    * @param aPerf: surface of the perfusion.
    * @param nTerm: number of terminal segments.
    **/
-  
+  /*
   CoronaryArteryTree(const TPointD &ptRoot, double aPerf, unsigned int nTerm, double aRadius = 1.0 ){
     assert(nTerm>=1);
     myTreeCenter = TPointD::diagonal(0.0);
@@ -280,7 +280,7 @@ public:
     updateRootRadius();
     DGtal::trace.info() << "Construction initialized..." << std::endl;
   };
-  
+  */
   /**
    * @brief Constructor.
    * @brief It generates the first root segment from a given terminal point.
@@ -289,7 +289,7 @@ public:
    * @param ptTerm: coordinates of the first terminal point
    * @param nTerm: number of terminal segments.
    **/
-  
+  /*
   CoronaryArteryTree(const TPointD &ptCenter, const TPointD &ptRoot, const TPointD &ptTerm, unsigned int nTerm, int nNeighbor = 20, double aRadius = 1.0 ){
     assert(nTerm>=1);
     myTreeCenter = ptCenter;
@@ -342,7 +342,7 @@ public:
     updateRootRadius();
     DGtal::trace.info() << "Construction initialized..." << std::endl;
   };
-
+  */
     /**
      * Constructor for base tests (used on various files of directory tests, like testGeom).
      * @param r: the radius of the domain circle
@@ -409,11 +409,13 @@ public:
    * @param minDistance the limit distance to the nearest segments.
    * @return true of there is an intersection, false in the other case.
    */
+  /*
   bool isIntersecting(const TPointD &pNew,
                       const TPointD &pCenter,
                       unsigned int nearIndex,
                       unsigned int nbNeibour = 10,
                       double minDistance = 5.0) const;
+  */
   
   /**
    * Verifies if there is an intersection between two segment
@@ -421,9 +423,20 @@ public:
    * @param index2 the index of the second segement
    * @param epsilon : param for dicotomie search
    */
+  /*
   bool isIntersectingNEW(unsigned int index1,
                         unsigned int index2,
                         double epsilon=0.01) const;
+  */
+  
+  bool isIntersectingTree(const TPointD &ptA,
+                          const TPointD &ptB,
+                          double r) const;
+  
+  bool isIntersectingTree(const TPointD &ptA,
+                          const TPointD &ptB,
+                          double r,
+                          int idExcept1, int idExcept2 = -1, int idExcept3 = -1) const;
   
   /**
    * Update the distribution of segmental flows after adding a new segment (new bifurcation)
@@ -578,6 +591,7 @@ public:
    * @param pBifurcation the central point of the bifurcation.
    * @param n : the number of nearest point to be considered
    */
+  
   bool hasNearestIntersections(unsigned int indexPFather,
                                unsigned int indexPChild,
                                const TPointD &pAdded,

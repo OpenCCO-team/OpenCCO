@@ -7,6 +7,7 @@ SET(SOURCE_BASE_HEADER_FILES
   ${PROJECT_SOURCE_DIR}/helpers/GeomHelpers.h
   ${PROJECT_SOURCE_DIR}/helpers/ConstructionHelpers.h
   ${PROJECT_SOURCE_DIR}/base/CoronaryArteryTree.h
+  ${PROJECT_SOURCE_DIR}/helpers/XmlHelpers.h
 )
 SET(SOURCE_BASE_FILES
   ${PROJECT_SOURCE_DIR}/base/CoronaryArteryTree.ih

@@ -16,6 +16,7 @@
 #include "CoronaryArteryTree.h"
 #include "GeomHelpers.h"
 #include "ConstructionHelpers.h"
+#include "XmlHelpers.h"
 
 #ifdef WITH_VISU3D_QGLVIEWER
 #include "DGtal/io/viewers/Viewer3D.h"
@@ -35,10 +36,10 @@ int main(int argc, char **argv)
   // parse command line using CLI ----------------------------------------------
   CLI::App app;
   app.description("Generated a 3D tree using the CCO algorithm. By default it generates a 3D mesh.");
-  int nbTerm {500};
+  int nbTerm {50};
   double aPerf {20000};
   bool verbose {false};
-  bool display3D {false};
+  bool display3D {true};
   std::string nameImgDom {""};
   std::string outputMeshName {"result.off"};
   std::string exportDatName {""};
@@ -76,6 +77,8 @@ int main(int argc, char **argv)
   end = clock();
   printf ("Execution time: %0.8f sec\n", ((double) end - start)/CLOCKS_PER_SEC);
   
+  XMLHelpers::writeTreeToXml<3>(tree, "test.xml");
+  exit(0);
   
 #ifdef WITH_VISU3D_QGLVIEWER
   if (display3D){

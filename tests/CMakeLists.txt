@@ -4,6 +4,7 @@ SET(TESTS_SRC
   testGeom
   testKamiya
   testSchreiner
+  testSegDist
 )
 
 
