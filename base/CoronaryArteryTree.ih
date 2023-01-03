@@ -233,7 +233,7 @@ CoronaryArteryTree<TDim>::isAddable(const TPointD &p, unsigned int segIndex,
    //resulting segments intersect the domaine
     if(myIsImageDomainRestrained && !GeomHelpers::checkNoIntersectDomain(myImageDomain, myForegroundThreshold,
                                     pParentDom,
-                                    pOptDom)) //Center segment
+                                    pOptDom)) //Middle segment
       return false;
     if(myIsImageDomainRestrained && !GeomHelpers::checkNoIntersectDomain(myImageDomain, myForegroundThreshold,
                                                                           sNewLeftDom, pOptDom)) //Left segment
