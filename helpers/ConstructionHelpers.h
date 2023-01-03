@@ -67,7 +67,8 @@ CoronaryArteryTree<TDim> constructTree(double aPerf, int nbTerm,
       std::vector<unsigned int> vecN = cTree.getN_NearestSegments(pt,cTree.myNumNeighbor);
       for(size_t it=0; it<vecN.size(); it++) {
         //Check intersetion before doing Kamyia
-        if(!cTree.isIntersectingTree(pt, cTree.findBarycenter(pt, vecN.at(it)), cTree.myVectSegments[vecN.at(it)].myRadius, vecN.at(it))) {
+        auto ptBifurcation = cTree.findBarycenter(pt, vecN.at(it));
+        if(!cTree.isIntersectingTree(pt, ptBifurcation, cTree.myVectSegments[vecN.at(it)].myRadius, vecN.at(it))) {
           CoronaryArteryTree<TDim> cTree1 = cTree;
           isOK = cTree1.isAddable(pt,vecN.at(it), 100, 0.01, /*cTree1.myNumNeighbor,*/ verbose);
           if(isOK) {

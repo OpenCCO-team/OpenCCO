@@ -379,12 +379,11 @@ public:
   // ----------------------- Interface --------------------------------------
     
   /**
-   * Tries to add a new segment from a given point and a nearest segement given by index.
+   * Tries to add a new segment from a given point and a nearest segment given by index.
    * @param p the extremity of the new segment to be created
-   * @param segIndex the index of the near segement to p.
+   * @param segIndex the index of the near segment to p.
    * @param nbIter maximal number of iteration
-   * @param tolerance convegence boundary for tree volume gradient
-   * @param nbNeibour number of neighbours to be considered for intersecting test
+   * @param tolerance convergence for tree volume gradient
    * @param verbose used to display process algorithm  informations.
    * @return true of the new segment is created, false in the other case.
    * (for instance if an intersection to previous point was present)
