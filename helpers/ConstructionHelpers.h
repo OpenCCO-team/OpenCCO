@@ -70,7 +70,7 @@ CoronaryArteryTree<TDim> constructTree(double aPerf, int nbTerm,
         auto ptBifurcation = cTree.findBarycenter(pt, vecN.at(it));
         if(!cTree.isIntersectingTree(pt, ptBifurcation, cTree.myVectSegments[vecN.at(it)].myRadius, vecN.at(it))) {
           CoronaryArteryTree<TDim> cTree1 = cTree;
-          isOK = cTree1.isAddable(pt,vecN.at(it), 100, 0.01, /*cTree1.myNumNeighbor,*/ verbose);
+          isOK = cTree1.isAddable(pt,vecN.at(it), 100, 0.01, verbose);
           if(isOK) {
             vol = cTree1.computeTotalVolume(1);
             if(volOpt<0.0) {

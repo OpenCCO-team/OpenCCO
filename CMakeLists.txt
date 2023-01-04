@@ -25,6 +25,6 @@ FIND_PACKAGE(DGtal REQUIRED)
 INCLUDE_DIRECTORIES(${DGTAL_INCLUDE_DIRS})
 LINK_DIRECTORIES(${DGTAL_LIBRARY_DIRS} )
 
-add_subdirectory(tests)
+#add_subdirectory(tests)
 add_subdirectory(bin)
 

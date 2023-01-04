@@ -71,7 +71,7 @@ public:
     double myRadius = 1.0;
     // number of terminal segments in its children segment
     unsigned int myKTerm = 1;
-    // hydrodynamc registance (R star)
+    // hydrodynamic resistance (R star)
     double myResistance = 0.00;
     // flow (Qi)
     double myFlow = 0.00;
@@ -79,18 +79,17 @@ public:
     double myBeta = 1.0;
   };
   
-  // to recover the Children left (first) and right (second) on an indexed segment.
-  std::vector< SegmentChildren >  myVectChildren;
-  
-  // to recover the parent of an indexed segement
-  std::vector<unsigned int >  myVectParent;
-  // represents all the vertices of the graph
+  // represents all segments/vertices of the graph
   std::vector< Segment > myVectSegments;
   // to store the index of the terminal segments
   std::vector<unsigned int> myVectTerminals;
+  // to recover the parent of an indexed segement
+  std::vector<unsigned int >  myVectParent;
+  // to recover the Children left (first) and right (second) on an indexed segment.
+  std::vector< SegmentChildren >  myVectChildren;
   
   //-----------------------------
-  // Global biological parameters
+  // Global physiological parameters
   
   // my_NTerm: number of terminal segments
   unsigned int my_NTerm = 1;
@@ -122,11 +121,11 @@ public:
   // my_pDrop = my_pPerf-my_pTerm
   double my_pDrop = 4900;
   
-  // End biological parameters
+  // End physiological parameters
   //-----------------------------
   
   //-----------------------------
-  // Internal algorithm parameter
+  // Internal algorithm parameters
 
   //myKTerm: current number of terminal segments of the tree
   unsigned int myKTerm = 1;
@@ -143,7 +142,7 @@ public:
   // myLengthFactor : scale factor (updated during tree growth after each added bifurcation)
   double myLengthFactor = 1.0;
   
-  // End: Internal algorithm parameter
+  // End: Internal algorithm parameters
   //-----------------------------
 
   
