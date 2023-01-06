@@ -1,7 +1,5 @@
 cmake_minimum_required(VERSION 3.5)
 project(CCO_Implementation)
-set (CMAKE_CXX_STANDARD 11)
-
 
 SET(SOURCE_BASE_HEADER_FILES
   ${PROJECT_SOURCE_DIR}/helpers/GeomHelpers.h

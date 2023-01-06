@@ -59,7 +59,8 @@ CoronaryArteryTree<TDim> constructTree(double aPerf, int nbTerm,
   unsigned int nbSeed = cTree.my_NTerm;
   for (unsigned int i = 1; i < nbSeed; i++) {
     DGtal::trace.progressBar(i, nbSeed);
-    int nbSol = 0, itOpt = 0;
+    int nbSol = 0;
+    size_t itOpt = 0;
     CoronaryArteryTree<TDim> cTreeOpt = cTree;
     double volOpt = -1.0, vol = 0.0;
     while (nbSol==0) {
