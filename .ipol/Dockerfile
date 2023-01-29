@@ -12,7 +12,7 @@ COPY . .
 RUN git clone https://github.com/DGtal-team/DGtal.git; cd DGtal; mkdir build; cd build; cmake .. -DBUILD_TESTING=OFF -DBUILD_EXAMPLES=OFF -DCMAKE_BUILD_TYPE:string="Release"; make;
 RUN git clone https://github.com/DGtal-team/DGtalTools.git; cd DGtalTools; mkdir build; cd build; cmake .. -DCMAKE_BUILD_TYPE:string="Release"  -DDGtal_DIR="$bin/DGtal/build" ; make volBoundary2obj && cp converters/volBoundary2obj $bin
 RUN rm -rf build; mkdir build &&  cd build; cmake .. -DCMAKE_BUILD_TYPE:string="Release" -DDGtal_DIR="$bin/DGtal/build"  && make generateTree2D generateTree3D mergeObj && cp bin/generateTree2D $bin &&  cp bin/generateTree3D $bin &&  cp tools/mergeObj $bin
-RUN cd ext; tar xvf InsightToolkit-5.3.0.tar; cd InsightToolkit-5.3.0; mkdir build; cd build; cmake ..; make -j 8
+RUN cd ext; tar xvzf InsightToolkit-5.3.0.tar; cd InsightToolkit-5.3.0; mkdir build; cd build; cmake ..; make -j 8
 
 
 # the execution will happen in the folder /workdir/exec
