@@ -120,5 +120,54 @@ class FileVascuParse : NSObject, XMLParserDelegate {
   
 }
 
-
 let a = CommandLine.arguments[1]
+print("Command line args: \(a)")
+
+let parseur = FileVascuParse(anURL: URL(fileURLWithPath: a))
+parseur.apply()
+var translate = Dictionary<String, Int>()
+
+
+var vertices = parseur.myVertices
+for v in 0..<vertices.count {
+  translate[vertices[v].id!] = v
+}
+var url = URL( fileURLWithPath: "vertex.txt" )
+var content = ""
+for v in vertices {
+  content += "\(v.x!) \(v.y!) \(v.z!)\n"
+}
+try! content.write(to: url, atomically: true, encoding: .utf8)
+
+
+var edges = parseur.myEdges
+url = URL( fileURLWithPath: "edges.txt" )
+content = ""
+for e in edges {
+  content += "\(translate[e.idA!]!) \(translate[e.idb!]!)  \n"
+}
+try! content.write(to: url, atomically: true, encoding: .utf8)
+
+
+// export radius for each vertex
+url = URL( fileURLWithPath: "radius.txt" )
+content = ""
+for e in edges {
+  if e.radius! > vertices[translate[e.idA!]!].radius ?? 0 {
+  vertices[translate[e.idA!]!].radius = e.radius!
+  }
+  if e.radius! > vertices[translate[e.idb!]!].radius ?? 0 {
+  vertices[translate[e.idb!]!].radius = e.radius!
+  }
+}
+for v in 0..<vertices.count {
+  content += "\(vertices[v].radius!*20)\n"
+
+}
+
+
+try! content.write(to: url, atomically: true, encoding: .utf8)
+
+
+
+
