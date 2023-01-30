@@ -195,30 +195,17 @@ generateTree3D/fast:
 .PHONY : generateTree3D/fast
 
 #=============================================================================
-# Target rules for targets named generateTestDomain
+# Target rules for targets named graph2radStat
 
 # Build rule for target.
-generateTestDomain: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 generateTestDomain
-.PHONY : generateTestDomain
+graph2radStat: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 graph2radStat
+.PHONY : graph2radStat
 
 # fast build rule for target.
-generateTestDomain/fast:
-	$(MAKE) $(MAKESILENT) -f tools/CMakeFiles/generateTestDomain.dir/build.make tools/CMakeFiles/generateTestDomain.dir/build
-.PHONY : generateTestDomain/fast
-
-#=============================================================================
-# Target rules for targets named mergeObj
-
-# Build rule for target.
-mergeObj: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 mergeObj
-.PHONY : mergeObj
-
-# fast build rule for target.
-mergeObj/fast:
-	$(MAKE) $(MAKESILENT) -f tools/CMakeFiles/mergeObj.dir/build.make tools/CMakeFiles/mergeObj.dir/build
-.PHONY : mergeObj/fast
+graph2radStat/fast:
+	$(MAKE) $(MAKESILENT) -f bin/CMakeFiles/graph2radStat.dir/build.make bin/CMakeFiles/graph2radStat.dir/build
+.PHONY : graph2radStat/fast
 
 # Help Target
 help:
@@ -228,10 +215,9 @@ help:
 	@echo "... depend"
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
-	@echo "... generateTestDomain"
 	@echo "... generateTree2D"
 	@echo "... generateTree3D"
-	@echo "... mergeObj"
+	@echo "... graph2radStat"
 	@echo "... testGenerateTree"
 	@echo "... testGeom"
 	@echo "... testKamiya"

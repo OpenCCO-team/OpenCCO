@@ -144,6 +144,20 @@ generateTree3D/fast:
 	cd /Users/kerautre/EnCours/LiverCCO/build && $(MAKE) $(MAKESILENT) -f bin/CMakeFiles/generateTree3D.dir/build.make bin/CMakeFiles/generateTree3D.dir/build
 .PHONY : generateTree3D/fast
 
+# Convenience name for target.
+bin/CMakeFiles/graph2radStat.dir/rule:
+	cd /Users/kerautre/EnCours/LiverCCO/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 bin/CMakeFiles/graph2radStat.dir/rule
+.PHONY : bin/CMakeFiles/graph2radStat.dir/rule
+
+# Convenience name for target.
+graph2radStat: bin/CMakeFiles/graph2radStat.dir/rule
+.PHONY : graph2radStat
+
+# fast build rule for target.
+graph2radStat/fast:
+	cd /Users/kerautre/EnCours/LiverCCO/build && $(MAKE) $(MAKESILENT) -f bin/CMakeFiles/graph2radStat.dir/build.make bin/CMakeFiles/graph2radStat.dir/build
+.PHONY : graph2radStat/fast
+
 generateTree2D.o: generateTree2D.cpp.o
 .PHONY : generateTree2D.o
 
@@ -192,6 +206,30 @@ generateTree3D.cpp.s:
 	cd /Users/kerautre/EnCours/LiverCCO/build && $(MAKE) $(MAKESILENT) -f bin/CMakeFiles/generateTree3D.dir/build.make bin/CMakeFiles/generateTree3D.dir/generateTree3D.cpp.s
 .PHONY : generateTree3D.cpp.s
 
+graph2radStat.o: graph2radStat.cpp.o
+.PHONY : graph2radStat.o
+
+# target to build an object file
+graph2radStat.cpp.o:
+	cd /Users/kerautre/EnCours/LiverCCO/build && $(MAKE) $(MAKESILENT) -f bin/CMakeFiles/graph2radStat.dir/build.make bin/CMakeFiles/graph2radStat.dir/graph2radStat.cpp.o
+.PHONY : graph2radStat.cpp.o
+
+graph2radStat.i: graph2radStat.cpp.i
+.PHONY : graph2radStat.i
+
+# target to preprocess a source file
+graph2radStat.cpp.i:
+	cd /Users/kerautre/EnCours/LiverCCO/build && $(MAKE) $(MAKESILENT) -f bin/CMakeFiles/graph2radStat.dir/build.make bin/CMakeFiles/graph2radStat.dir/graph2radStat.cpp.i
+.PHONY : graph2radStat.cpp.i
+
+graph2radStat.s: graph2radStat.cpp.s
+.PHONY : graph2radStat.s
+
+# target to generate assembly for a file
+graph2radStat.cpp.s:
+	cd /Users/kerautre/EnCours/LiverCCO/build && $(MAKE) $(MAKESILENT) -f bin/CMakeFiles/graph2radStat.dir/build.make bin/CMakeFiles/graph2radStat.dir/graph2radStat.cpp.s
+.PHONY : graph2radStat.cpp.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -202,12 +240,16 @@ help:
 	@echo "... rebuild_cache"
 	@echo "... generateTree2D"
 	@echo "... generateTree3D"
+	@echo "... graph2radStat"
 	@echo "... generateTree2D.o"
 	@echo "... generateTree2D.i"
 	@echo "... generateTree2D.s"
 	@echo "... generateTree3D.o"
 	@echo "... generateTree3D.i"
 	@echo "... generateTree3D.s"
+	@echo "... graph2radStat.o"
+	@echo "... graph2radStat.i"
+	@echo "... graph2radStat.s"
 .PHONY : help
 
 

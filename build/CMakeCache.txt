@@ -84,7 +84,7 @@ BLAS_sgemm_LIBRARY:FILEPATH=BLAS_sgemm_LIBRARY-NOTFOUND
 BLAS_sunperf_LIBRARY:FILEPATH=BLAS_sunperf_LIBRARY-NOTFOUND
 
 //The directory containing a CMake configuration file for Boost.
-Boost_DIR:PATH=/opt/homebrew/lib/cmake/Boost-1.80.0
+Boost_DIR:PATH=/opt/homebrew/lib/cmake/Boost-1.81.0
 
 //Value Computed by CMake
 CCO_Implementation_BINARY_DIR:STATIC=/Users/kerautre/EnCours/LiverCCO/build
@@ -309,6 +309,9 @@ DGtal_DIR:UNINITIALIZED=/Users/kerautre/EnCours/DGtal/build
 //The directory containing a CMake configuration file for Eigen3.
 Eigen3_DIR:PATH=/opt/homebrew/share/eigen3/cmake
 
+//The directory containing a CMake configuration file for ITK.
+ITK_DIR:PATH=/Users/kerautre/Dev/InsightToolkit-5.2.1/build
+
 //METIS include directory
 METIS_INCLUDE_DIR:PATH=/opt/homebrew/include
 
@@ -409,7 +412,7 @@ ZLIB_LIBRARY_DEBUG:FILEPATH=ZLIB_LIBRARY_DEBUG-NOTFOUND
 ZLIB_LIBRARY_RELEASE:FILEPATH=/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk/usr/lib/libz.tbd
 
 //The directory containing a CMake configuration file for boost_headers.
-boost_headers_DIR:PATH=/opt/homebrew/lib/cmake/boost_headers-1.80.0
+boost_headers_DIR:PATH=/opt/homebrew/lib/cmake/boost_headers-1.81.0
 
 //The directory containing a CMake configuration file for gflags.
 gflags_DIR:PATH=/opt/homebrew/lib/cmake/gflags
@@ -570,7 +573,7 @@ CMAKE_MODULE_LINKER_FLAGS_RELWITHDEBINFO-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_NM
 CMAKE_NM-ADVANCED:INTERNAL=1
 //number of local generators
-CMAKE_NUMBER_OF_MAKEFILES:INTERNAL=4
+CMAKE_NUMBER_OF_MAKEFILES:INTERNAL=3
 //ADVANCED property for variable: CMAKE_OBJCOPY
 CMAKE_OBJCOPY-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_OBJDUMP
@@ -618,11 +621,11 @@ CXSparse_INCLUDE_DIR-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CXSparse_LIBRARY
 CXSparse_LIBRARY-ADVANCED:INTERNAL=1
 //Details about finding CXSparse
-FIND_PACKAGE_MESSAGE_DETAILS_CXSparse:INTERNAL=[/opt/homebrew/include][/opt/homebrew/lib/libcxsparse.dylib][v3.2.0(3.2.0)]
+FIND_PACKAGE_MESSAGE_DETAILS_CXSparse:INTERNAL=[/opt/homebrew/include][/opt/homebrew/lib/libcxsparse.dylib][v4.0.3(4.0.3)]
 //Details about finding METIS
 FIND_PACKAGE_MESSAGE_DETAILS_METIS:INTERNAL=[/opt/homebrew/include][debug;/opt/homebrew/lib/libmetis.dylib;optimized;/opt/homebrew/lib/libmetis.dylib][v5.1.0()]
 //Details about finding SuiteSparse
-FIND_PACKAGE_MESSAGE_DETAILS_SuiteSparse:INTERNAL=[/opt/homebrew/include][/opt/homebrew/lib/libamd.dylib][/opt/homebrew/include][/opt/homebrew/lib/libcamd.dylib][/opt/homebrew/include][/opt/homebrew/lib/libccolamd.dylib][/opt/homebrew/include][/opt/homebrew/lib/libcholmod.dylib][/opt/homebrew/include][/opt/homebrew/lib/libcolamd.dylib][/opt/homebrew/include][/opt/homebrew/lib/libspqr.dylib][/opt/homebrew/include][/opt/homebrew/lib/libsuitesparseconfig.dylib][cfound components: AMD CAMD CCOLAMD CHOLMOD COLAMD SPQR Config ][v5.13.0(5.13.0)]
+FIND_PACKAGE_MESSAGE_DETAILS_SuiteSparse:INTERNAL=[/opt/homebrew/include][/opt/homebrew/lib/libamd.dylib][/opt/homebrew/include][/opt/homebrew/lib/libcamd.dylib][/opt/homebrew/include][/opt/homebrew/lib/libccolamd.dylib][/opt/homebrew/include][/opt/homebrew/lib/libcholmod.dylib][/opt/homebrew/include][/opt/homebrew/lib/libcolamd.dylib][/opt/homebrew/include][/opt/homebrew/lib/libspqr.dylib][/opt/homebrew/include][/opt/homebrew/lib/libsuitesparseconfig.dylib][cfound components: AMD CAMD CCOLAMD CHOLMOD COLAMD SPQR Config ][v7.0.1(7.0.0)]
 //Details about finding Threads
 FIND_PACKAGE_MESSAGE_DETAILS_Threads:INTERNAL=[TRUE][v()]
 //Details about finding ZLIB

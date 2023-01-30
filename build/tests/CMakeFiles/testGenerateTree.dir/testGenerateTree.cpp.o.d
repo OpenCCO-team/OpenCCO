@@ -1033,6 +1033,7 @@ tests/CMakeFiles/testGenerateTree.dir/testGenerateTree.cpp.o: \
   /opt/homebrew/include/boost/lexical_cast/detail/converter_numeric.hpp \
   /opt/homebrew/include/boost/type_traits/is_base_of.hpp \
   /opt/homebrew/include/boost/type_traits/is_float.hpp \
+  /opt/homebrew/include/boost/type_traits/remove_volatile.hpp \
   /opt/homebrew/include/boost/numeric/conversion/cast.hpp \
   /opt/homebrew/include/boost/type.hpp \
   /opt/homebrew/include/boost/numeric/conversion/converter.hpp \
@@ -1052,8 +1053,6 @@ tests/CMakeFiles/testGenerateTree.dir/testGenerateTree.cpp.o: \
   /opt/homebrew/include/boost/mpl/aux_/preprocessed/gcc/equal_to.hpp \
   /opt/homebrew/include/boost/numeric/conversion/detail/int_float_mixture.hpp \
   /opt/homebrew/include/boost/numeric/conversion/int_float_mixture_enum.hpp \
-  /opt/homebrew/include/boost/mpl/integral_c.hpp \
-  /opt/homebrew/include/boost/mpl/integral_c_fwd.hpp \
   /opt/homebrew/include/boost/numeric/conversion/detail/sign_mixture.hpp \
   /opt/homebrew/include/boost/numeric/conversion/sign_mixture_enum.hpp \
   /opt/homebrew/include/boost/numeric/conversion/detail/udt_builtin_mixture.hpp \
@@ -1062,6 +1061,8 @@ tests/CMakeFiles/testGenerateTree.dir/testGenerateTree.cpp.o: \
   /opt/homebrew/include/boost/mpl/multiplies.hpp \
   /opt/homebrew/include/boost/mpl/times.hpp \
   /opt/homebrew/include/boost/mpl/aux_/arithmetic_op.hpp \
+  /opt/homebrew/include/boost/mpl/integral_c.hpp \
+  /opt/homebrew/include/boost/mpl/integral_c_fwd.hpp \
   /opt/homebrew/include/boost/mpl/aux_/largest_int.hpp \
   /opt/homebrew/include/boost/mpl/aux_/preprocessed/gcc/times.hpp \
   /opt/homebrew/include/boost/mpl/less.hpp \
@@ -1083,7 +1084,6 @@ tests/CMakeFiles/testGenerateTree.dir/testGenerateTree.cpp.o: \
   /opt/homebrew/include/boost/lexical_cast/detail/widest_char.hpp \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk/usr/include/c++/v1/array \
   /opt/homebrew/include/boost/array.hpp \
-  /opt/homebrew/include/boost/swap.hpp \
   /opt/homebrew/include/boost/core/swap.hpp \
   /opt/homebrew/include/boost/container/container_fwd.hpp \
   /opt/homebrew/include/boost/container/detail/std_fwd.hpp \
@@ -1093,7 +1093,6 @@ tests/CMakeFiles/testGenerateTree.dir/testGenerateTree.cpp.o: \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk/usr/include/c++/v1/sstream \
   /opt/homebrew/include/boost/lexical_cast/detail/lcast_char_constants.hpp \
   /opt/homebrew/include/boost/lexical_cast/detail/lcast_unsigned_converters.hpp \
-  /opt/homebrew/include/boost/noncopyable.hpp \
   /opt/homebrew/include/boost/lexical_cast/detail/inf_nan.hpp \
   /opt/homebrew/include/boost/core/cmath.hpp \
   /opt/homebrew/include/boost/integer.hpp \
@@ -1117,15 +1116,48 @@ tests/CMakeFiles/testGenerateTree.dir/testGenerateTree.cpp.o: \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk/usr/include/c++/v1/cxxabi.h \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk/usr/include/c++/v1/__cxxabi_config.h \
   /opt/homebrew/include/boost/container_hash/hash.hpp \
-  /opt/homebrew/include/boost/container_hash/detail/hash_float.hpp \
-  /opt/homebrew/include/boost/container_hash/detail/float_functions.hpp \
-  /opt/homebrew/include/boost/container_hash/detail/limits.hpp \
-  /opt/homebrew/include/boost/integer/static_log2.hpp \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk/usr/include/c++/v1/typeindex \
-  /opt/homebrew/include/boost/container_hash/extensions.hpp \
-  /opt/homebrew/include/boost/detail/container_fwd.hpp \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk/usr/include/c++/v1/set \
+  /opt/homebrew/include/boost/container_hash/is_range.hpp \
+  /opt/homebrew/include/boost/container_hash/is_contiguous_range.hpp \
+  /opt/homebrew/include/boost/container_hash/is_unordered_range.hpp \
+  /opt/homebrew/include/boost/container_hash/is_described_class.hpp \
+  /opt/homebrew/include/boost/type_traits/is_union.hpp \
+  /opt/homebrew/include/boost/describe/bases.hpp \
+  /opt/homebrew/include/boost/describe/modifiers.hpp \
+  /opt/homebrew/include/boost/describe/detail/config.hpp \
+  /opt/homebrew/include/boost/describe/detail/void_t.hpp \
+  /opt/homebrew/include/boost/mp11/algorithm.hpp \
+  /opt/homebrew/include/boost/mp11/list.hpp \
+  /opt/homebrew/include/boost/mp11/integral.hpp \
+  /opt/homebrew/include/boost/mp11/version.hpp \
+  /opt/homebrew/include/boost/mp11/detail/mp_list.hpp \
+  /opt/homebrew/include/boost/mp11/detail/mp_is_list.hpp \
+  /opt/homebrew/include/boost/mp11/detail/mp_append.hpp \
+  /opt/homebrew/include/boost/mp11/utility.hpp \
+  /opt/homebrew/include/boost/mp11/detail/mp_fold.hpp \
+  /opt/homebrew/include/boost/mp11/detail/config.hpp \
+  /opt/homebrew/include/boost/mp11/detail/mp_front.hpp \
+  /opt/homebrew/include/boost/mp11/detail/mp_rename.hpp \
+  /opt/homebrew/include/boost/mp11/set.hpp \
+  /opt/homebrew/include/boost/mp11/function.hpp \
+  /opt/homebrew/include/boost/mp11/detail/mp_count.hpp \
+  /opt/homebrew/include/boost/mp11/detail/mp_plus.hpp \
+  /opt/homebrew/include/boost/mp11/detail/mp_min_element.hpp \
+  /opt/homebrew/include/boost/mp11/detail/mp_void.hpp \
+  /opt/homebrew/include/boost/mp11/detail/mp_copy_if.hpp \
+  /opt/homebrew/include/boost/mp11/detail/mp_remove_if.hpp \
+  /opt/homebrew/include/boost/mp11/detail/mp_map_find.hpp \
+  /opt/homebrew/include/boost/mp11/detail/mp_with_index.hpp \
+  /opt/homebrew/include/boost/mp11/integer_sequence.hpp \
+  /opt/homebrew/include/boost/describe/members.hpp \
+  /opt/homebrew/include/boost/describe/detail/cx_streq.hpp \
+  /opt/homebrew/include/boost/mp11/bind.hpp \
+  /opt/homebrew/include/boost/container_hash/detail/hash_tuple.hpp \
+  /opt/homebrew/include/boost/type_traits/enable_if.hpp \
+  /opt/homebrew/include/boost/container_hash/detail/hash_mix.hpp \
+  /opt/homebrew/include/boost/container_hash/detail/hash_range.hpp \
+  /opt/homebrew/include/boost/type_traits/conjunction.hpp \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk/usr/include/c++/v1/complex \
+  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk/usr/include/c++/v1/typeindex \
   /opt/homebrew/include/boost/type_traits/has_trivial_copy.hpp \
   /opt/homebrew/include/boost/type_traits/is_copy_constructible.hpp \
   /opt/homebrew/include/boost/type_traits/is_constructible.hpp \
@@ -1133,11 +1165,9 @@ tests/CMakeFiles/testGenerateTree.dir/testGenerateTree.cpp.o: \
   /opt/homebrew/include/boost/type_traits/is_default_constructible.hpp \
   /opt/homebrew/include/boost/type_traits/has_trivial_destructor.hpp \
   /opt/homebrew/include/boost/type_traits/composite_traits.hpp \
-  /opt/homebrew/include/boost/type_traits/is_union.hpp \
   /opt/homebrew/include/boost/ref.hpp \
   /opt/homebrew/include/boost/core/ref.hpp \
   /opt/homebrew/include/boost/type_traits/alignment_of.hpp \
-  /opt/homebrew/include/boost/type_traits/enable_if.hpp \
   /opt/homebrew/include/boost/function_equal.hpp \
   /opt/homebrew/include/boost/function/function_fwd.hpp \
   /opt/homebrew/include/boost/mem_fn.hpp \
@@ -1202,6 +1232,7 @@ tests/CMakeFiles/testGenerateTree.dir/testGenerateTree.cpp.o: \
   /Users/kerautre/EnCours/DGtal/src/DGtal/kernel/domains/HyperRectDomain.ih \
   /Users/kerautre/EnCours/DGtal/src/DGtal/kernel/sets/DigitalSetSelector.h \
   /Users/kerautre/EnCours/DGtal/src/DGtal/kernel/sets/DigitalSetByAssociativeContainer.h \
+  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk/usr/include/c++/v1/set \
   /Users/kerautre/EnCours/DGtal/src/DGtal/base/Clone.h \
   /Users/kerautre/EnCours/DGtal/src/DGtal/base/Alias.h \
   /Users/kerautre/EnCours/DGtal/src/DGtal/base/CSTLAssociativeContainer.h \
@@ -1319,7 +1350,6 @@ tests/CMakeFiles/testGenerateTree.dir/testGenerateTree.cpp.o: \
   /opt/homebrew/include/boost/tuple/detail/tuple_basic.hpp \
   /opt/homebrew/include/boost/type_traits/cv_traits.hpp \
   /opt/homebrew/include/boost/type_traits/add_cv.hpp \
-  /opt/homebrew/include/boost/type_traits/remove_volatile.hpp \
   /opt/homebrew/include/boost/utility/swap.hpp \
   /opt/homebrew/include/boost/pending/property.hpp \
   /opt/homebrew/include/boost/type_traits.hpp \
@@ -1330,7 +1360,6 @@ tests/CMakeFiles/testGenerateTree.dir/testGenerateTree.cpp.o: \
   /opt/homebrew/include/boost/type_traits/remove_bounds.hpp \
   /opt/homebrew/include/boost/type_traits/remove_extent.hpp \
   /opt/homebrew/include/boost/type_traits/detail/mp_defer.hpp \
-  /opt/homebrew/include/boost/type_traits/conjunction.hpp \
   /opt/homebrew/include/boost/type_traits/copy_cv.hpp \
   /opt/homebrew/include/boost/type_traits/copy_cv_ref.hpp \
   /opt/homebrew/include/boost/type_traits/copy_reference.hpp \
@@ -1571,6 +1600,7 @@ tests/CMakeFiles/testGenerateTree.dir/testGenerateTree.cpp.o: \
   /opt/homebrew/include/boost/shared_ptr.hpp \
   /opt/homebrew/include/boost/iostreams/detail/streambuf/chainbuf.hpp \
   /opt/homebrew/include/boost/iostreams/detail/translate_int_type.hpp \
+  /opt/homebrew/include/boost/noncopyable.hpp \
   /opt/homebrew/include/boost/iostreams/copy.hpp \
   /opt/homebrew/include/boost/iostreams/filter/zlib.hpp \
   /opt/homebrew/include/boost/iostreams/detail/config/auto_link.hpp \
@@ -1831,9 +1861,11 @@ tests/CMakeFiles/testGenerateTree.dir/testGenerateTree.cpp.o: \
   /opt/homebrew/include/boost/unordered/detail/set.hpp \
   /opt/homebrew/include/boost/unordered/detail/implementation.hpp \
   /opt/homebrew/include/boost/core/allocator_traits.hpp \
+  /opt/homebrew/include/boost/swap.hpp \
   /opt/homebrew/include/boost/unordered/detail/fca.hpp \
   /opt/homebrew/include/boost/unordered/detail/prime_fmod.hpp \
   /opt/homebrew/include/boost/core/empty_value.hpp \
+  /opt/homebrew/include/boost/unordered/detail/type_traits.hpp \
   /opt/homebrew/include/boost/unordered/detail/fwd.hpp \
   /opt/homebrew/include/boost/predef.h \
   /opt/homebrew/include/boost/predef/language.h \
@@ -1959,29 +1991,6 @@ tests/CMakeFiles/testGenerateTree.dir/testGenerateTree.cpp.o: \
   /opt/homebrew/include/boost/predef/hardware/simd/ppc/versions.h \
   /opt/homebrew/include/boost/predef/version.h \
   /opt/homebrew/include/boost/utility/addressof.hpp \
-  /opt/homebrew/include/boost/mp11/list.hpp \
-  /opt/homebrew/include/boost/mp11/integral.hpp \
-  /opt/homebrew/include/boost/mp11/version.hpp \
-  /opt/homebrew/include/boost/mp11/detail/mp_list.hpp \
-  /opt/homebrew/include/boost/mp11/detail/mp_is_list.hpp \
-  /opt/homebrew/include/boost/mp11/detail/mp_append.hpp \
-  /opt/homebrew/include/boost/mp11/utility.hpp \
-  /opt/homebrew/include/boost/mp11/detail/mp_fold.hpp \
-  /opt/homebrew/include/boost/mp11/detail/config.hpp \
-  /opt/homebrew/include/boost/mp11/detail/mp_front.hpp \
-  /opt/homebrew/include/boost/mp11/detail/mp_rename.hpp \
-  /opt/homebrew/include/boost/mp11/algorithm.hpp \
-  /opt/homebrew/include/boost/mp11/set.hpp \
-  /opt/homebrew/include/boost/mp11/function.hpp \
-  /opt/homebrew/include/boost/mp11/detail/mp_count.hpp \
-  /opt/homebrew/include/boost/mp11/detail/mp_plus.hpp \
-  /opt/homebrew/include/boost/mp11/detail/mp_min_element.hpp \
-  /opt/homebrew/include/boost/mp11/detail/mp_void.hpp \
-  /opt/homebrew/include/boost/mp11/detail/mp_copy_if.hpp \
-  /opt/homebrew/include/boost/mp11/detail/mp_remove_if.hpp \
-  /opt/homebrew/include/boost/mp11/detail/mp_map_find.hpp \
-  /opt/homebrew/include/boost/mp11/detail/mp_with_index.hpp \
-  /opt/homebrew/include/boost/mp11/integer_sequence.hpp \
   /opt/homebrew/include/boost/unordered/unordered_set_fwd.hpp \
   /opt/homebrew/include/boost/functional/hash_fwd.hpp \
   /opt/homebrew/include/boost/unordered_map.hpp \
@@ -2026,6 +2035,119 @@ tests/CMakeFiles/testGenerateTree.dir/testGenerateTree.cpp.o: \
   /Users/kerautre/EnCours/DGtal/src/DGtal/images/ImageSelector.h \
   /Users/kerautre/EnCours/DGtal/src/DGtal/images/ImageContainerBySTLMap.h \
   /Users/kerautre/EnCours/DGtal/src/DGtal/images/ImageContainerBySTLMap.ih \
+  /Users/kerautre/EnCours/DGtal/src/DGtal/images/ImageContainerByITKImage.h \
+  /Users/kerautre/Dev/InsightToolkit-5.2.1/Modules/Core/Common/include/itkImage.h \
+  /Users/kerautre/Dev/InsightToolkit-5.2.1/Modules/Core/Common/include/itkImageRegion.h \
+  /Users/kerautre/Dev/InsightToolkit-5.2.1/Modules/Core/Common/include/itkRegion.h \
+  /Users/kerautre/Dev/InsightToolkit-5.2.1/Modules/Core/Common/include/itkObject.h \
+  /Users/kerautre/Dev/InsightToolkit-5.2.1/Modules/Core/Common/include/itkLightObject.h \
+  /Users/kerautre/Dev/InsightToolkit-5.2.1/Modules/Core/Common/include/itkMacro.h \
+  /Users/kerautre/Dev/InsightToolkit-5.2.1/Modules/Core/Common/include/itkWin32Header.h \
+  /Users/kerautre/Dev/InsightToolkit-5.2.1/build/Modules/Core/Common/itkConfigure.h \
+  /Users/kerautre/Dev/InsightToolkit-5.2.1/build/Modules/Core/Common/itk_compiler_detection.h \
+  /Users/kerautre/Dev/InsightToolkit-5.2.1/build/Modules/Core/Common/compilers/ITK_COMPILER_INFO_AppleClang_CXX.h \
+  /Users/kerautre/Dev/InsightToolkit-5.2.1/build/Modules/Core/Common/ITKCommonExport.h \
+  /Users/kerautre/Dev/InsightToolkit-5.2.1/Modules/Core/Common/include/itkExceptionObject.h \
+  /Users/kerautre/Dev/InsightToolkit-5.2.1/Modules/Core/Common/include/itkSmartPointer.h \
+  /Users/kerautre/Dev/InsightToolkit-5.2.1/Modules/Core/Common/include/itkTimeStamp.h \
+  /Users/kerautre/Dev/InsightToolkit-5.2.1/Modules/Core/Common/include/itkIntTypes.h \
+  /Users/kerautre/Dev/InsightToolkit-5.2.1/Modules/Core/Common/include/itkSingletonMacro.h \
+  /Users/kerautre/Dev/InsightToolkit-5.2.1/Modules/Core/Common/include/itkIndent.h \
+  /Users/kerautre/Dev/InsightToolkit-5.2.1/Modules/Core/Common/include/itkEventObject.h \
+  /Users/kerautre/Dev/InsightToolkit-5.2.1/Modules/Core/Common/include/itkMetaDataDictionary.h \
+  /Users/kerautre/Dev/InsightToolkit-5.2.1/Modules/Core/Common/include/itkMetaDataObjectBase.h \
+  /Users/kerautre/Dev/InsightToolkit-5.2.1/Modules/Core/Common/include/itkCommonEnums.h \
+  /Users/kerautre/Dev/InsightToolkit-5.2.1/Modules/Core/Common/include/itkSize.h \
+  /Users/kerautre/Dev/InsightToolkit-5.2.1/Modules/Core/Common/include/itkContinuousIndex.h \
+  /Users/kerautre/Dev/InsightToolkit-5.2.1/Modules/Core/Common/include/itkPoint.h \
+  /Users/kerautre/Dev/InsightToolkit-5.2.1/Modules/Core/Common/include/itkNumericTraits.h \
+  /Users/kerautre/Dev/InsightToolkit-5.2.1/Modules/Core/Common/include/itkFixedArray.h \
+  /Users/kerautre/Dev/InsightToolkit-5.2.1/Modules/Core/Common/include/itkFixedArray.hxx \
+  /Users/kerautre/Dev/InsightToolkit-5.2.1/Modules/Core/Common/include/itkNumericTraitsFixedArrayPixel.h \
+  /Users/kerautre/Dev/InsightToolkit-5.2.1/Modules/Core/Common/include/itkVector.h \
+  /Users/kerautre/Dev/InsightToolkit-5.2.1/Modules/ThirdParty/VNL/src/vxl/core/vnl/vnl_vector_ref.h \
+  /Users/kerautre/Dev/InsightToolkit-5.2.1/Modules/ThirdParty/VNL/src/vxl/core/vnl/vnl_vector.h \
+  /Users/kerautre/Dev/InsightToolkit-5.2.1/Modules/ThirdParty/VNL/src/vxl/core/vnl/vnl_error.h \
+  /Users/kerautre/Dev/InsightToolkit-5.2.1/build/Modules/ThirdParty/VNL/src/vxl/core/vnl/vnl_export.h \
+  /Users/kerautre/Dev/InsightToolkit-5.2.1/build/Modules/ThirdParty/VNL/src/vxl/vcl/vcl_compiler.h \
+  /Users/kerautre/Dev/InsightToolkit-5.2.1/Modules/ThirdParty/VNL/src/vxl/core/vnl/vnl_c_vector.h \
+  /Users/kerautre/Dev/InsightToolkit-5.2.1/Modules/ThirdParty/VNL/src/vxl/core/vnl/vnl_numeric_traits.h \
+  /Users/kerautre/Dev/InsightToolkit-5.2.1/build/Modules/ThirdParty/VNL/src/vxl/core/vxl_config.h \
+  /Users/kerautre/Dev/InsightToolkit-5.2.1/build/Modules/ThirdParty/VNL/src/vxl/core/vnl/vnl_config.h \
+  /Users/kerautre/Dev/InsightToolkit-5.2.1/Modules/ThirdParty/VNL/src/vxl/core/vnl/vnl_sse.h \
+  /Users/kerautre/Dev/InsightToolkit-5.2.1/Modules/ThirdParty/VNL/src/vxl/vcl/vcl_compiler_detection.h \
+  /Users/kerautre/Dev/InsightToolkit-5.2.1/Modules/ThirdParty/VNL/src/vxl/vcl/compilers/VXL_COMPILER_INFO_AppleClang_CXX.h \
+  /Users/kerautre/Dev/InsightToolkit-5.2.1/Modules/ThirdParty/VNL/src/vxl/core/vnl/vnl_alloc.h \
+  /Users/kerautre/Dev/InsightToolkit-5.2.1/Modules/Core/Common/include/itkVector.hxx \
+  /Users/kerautre/Dev/InsightToolkit-5.2.1/Modules/Core/Common/include/itkMath.h \
+  /Users/kerautre/Dev/InsightToolkit-5.2.1/Modules/Core/Common/include/itkMathDetail.h \
+  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk/usr/include/c++/v1/cfenv \
+  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk/usr/include/c++/v1/fenv.h \
+  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk/usr/include/fenv.h \
+  /Users/kerautre/Dev/InsightToolkit-5.2.1/Modules/Core/Common/include/itkConceptChecking.h \
+  /Users/kerautre/Dev/InsightToolkit-5.2.1/Modules/Core/Common/include/itkPixelTraits.h \
+  /Users/kerautre/Dev/InsightToolkit-5.2.1/Modules/ThirdParty/VNL/src/vxl/core/vnl/vnl_math.h \
+  /Users/kerautre/Dev/InsightToolkit-5.2.1/Modules/ThirdParty/VNL/src/vxl/core/vnl/dll.h \
+  /Users/kerautre/Dev/InsightToolkit-5.2.1/Modules/ThirdParty/VNL/src/vxl/core/vxl_version.h \
+  /Users/kerautre/Dev/InsightToolkit-5.2.1/Modules/Core/Common/include/itkNumericTraitsVectorPixel.h \
+  /Users/kerautre/Dev/InsightToolkit-5.2.1/Modules/Core/Common/include/itkPoint.hxx \
+  /Users/kerautre/Dev/InsightToolkit-5.2.1/Modules/Core/Common/include/itkNumericTraitsPointPixel.h \
+  /Users/kerautre/Dev/InsightToolkit-5.2.1/Modules/Core/Common/include/itkIndex.h \
+  /Users/kerautre/Dev/InsightToolkit-5.2.1/Modules/Core/Common/include/itkOffset.h \
+  /Users/kerautre/Dev/InsightToolkit-5.2.1/Modules/Core/Common/include/itkImageRegion.hxx \
+  /Users/kerautre/Dev/InsightToolkit-5.2.1/Modules/Core/Common/include/itkImportImageContainer.h \
+  /Users/kerautre/Dev/InsightToolkit-5.2.1/Modules/Core/Common/include/itkObjectFactory.h \
+  /Users/kerautre/Dev/InsightToolkit-5.2.1/Modules/Core/Common/include/itkObjectFactoryBase.h \
+  /Users/kerautre/Dev/InsightToolkit-5.2.1/Modules/Core/Common/include/itkCreateObjectFunction.h \
+  /Users/kerautre/Dev/InsightToolkit-5.2.1/Modules/Core/Common/include/itkImportImageContainer.hxx \
+  /Users/kerautre/Dev/InsightToolkit-5.2.1/Modules/Core/Common/include/itkDefaultPixelAccessor.h \
+  /Users/kerautre/Dev/InsightToolkit-5.2.1/Modules/Core/Common/include/itkDefaultPixelAccessorFunctor.h \
+  /Users/kerautre/Dev/InsightToolkit-5.2.1/Modules/Core/Common/include/itkWeakPointer.h \
+  /Users/kerautre/Dev/InsightToolkit-5.2.1/Modules/Core/Common/include/itkNeighborhoodAccessorFunctor.h \
+  /Users/kerautre/Dev/InsightToolkit-5.2.1/Modules/Core/Common/include/itkImageBoundaryCondition.h \
+  /Users/kerautre/Dev/InsightToolkit-5.2.1/Modules/Core/Common/include/itkNeighborhood.h \
+  /Users/kerautre/Dev/InsightToolkit-5.2.1/Modules/Core/Common/include/itkNeighborhoodAllocator.h \
+  /Users/kerautre/Dev/InsightToolkit-5.2.1/Modules/Core/Common/include/itkSliceIterator.h \
+  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk/usr/include/c++/v1/valarray \
+  /Users/kerautre/Dev/InsightToolkit-5.2.1/Modules/Core/Common/include/itkNeighborhood.hxx \
+  /Users/kerautre/Dev/InsightToolkit-5.2.1/Modules/Core/Common/include/itkImageBase.h \
+  /Users/kerautre/Dev/InsightToolkit-5.2.1/Modules/Core/Common/include/itkDataObject.h \
+  /Users/kerautre/Dev/InsightToolkit-5.2.1/Modules/Core/Common/include/itkRealTimeStamp.h \
+  /Users/kerautre/Dev/InsightToolkit-5.2.1/Modules/Core/Common/include/itkRealTimeInterval.h \
+  /Users/kerautre/Dev/InsightToolkit-5.2.1/Modules/Core/Common/include/itkMatrix.h \
+  /Users/kerautre/Dev/InsightToolkit-5.2.1/Modules/Core/Common/include/itkCovariantVector.h \
+  /Users/kerautre/Dev/InsightToolkit-5.2.1/Modules/Core/Common/include/itkNumericTraitsCovariantVectorPixel.h \
+  /Users/kerautre/Dev/InsightToolkit-5.2.1/Modules/Core/Common/include/itkCovariantVector.hxx \
+  /Users/kerautre/Dev/InsightToolkit-5.2.1/Modules/ThirdParty/VNL/src/vxl/core/vnl/vnl_matrix_fixed.hxx \
+  /Users/kerautre/Dev/InsightToolkit-5.2.1/Modules/ThirdParty/VNL/src/vxl/core/vnl/vnl_matrix_fixed.h \
+  /Users/kerautre/Dev/InsightToolkit-5.2.1/Modules/ThirdParty/VNL/src/vxl/core/vnl/vnl_matrix.h \
+  /Users/kerautre/Dev/InsightToolkit-5.2.1/Modules/ThirdParty/VNL/src/vxl/core/vnl/vnl_matrix_ref.h \
+  /Users/kerautre/Dev/InsightToolkit-5.2.1/Modules/ThirdParty/VNL/src/vxl/core/vnl/vnl_vector_fixed.h \
+  /Users/kerautre/Dev/InsightToolkit-5.2.1/Modules/ThirdParty/VNL/src/vxl/core/vnl/vnl_complex.h \
+  /Users/kerautre/Dev/InsightToolkit-5.2.1/Modules/ThirdParty/VNL/src/vxl/core/vnl/vnl_transpose.h \
+  /Users/kerautre/Dev/InsightToolkit-5.2.1/Modules/ThirdParty/VNL/src/vxl/core/vnl/vnl_fastops.h \
+  /Users/kerautre/Dev/InsightToolkit-5.2.1/Modules/ThirdParty/VNL/src/vxl/core/vnl/algo/vnl_matrix_inverse.h \
+  /Users/kerautre/Dev/InsightToolkit-5.2.1/Modules/ThirdParty/VNL/src/vxl/core/vnl/algo/vnl_svd.h \
+  /Users/kerautre/Dev/InsightToolkit-5.2.1/Modules/ThirdParty/VNL/src/vxl/core/vnl/vnl_diag_matrix.h \
+  /Users/kerautre/Dev/InsightToolkit-5.2.1/build/Modules/ThirdParty/VNL/src/vxl/core/vnl/algo/vnl_algo_export.h \
+  /Users/kerautre/Dev/InsightToolkit-5.2.1/Modules/ThirdParty/VNL/src/vxl/core/vnl/algo/vnl_determinant.h \
+  /Users/kerautre/Dev/InsightToolkit-5.2.1/Modules/Core/Common/include/itkMatrix.hxx \
+  /Users/kerautre/Dev/InsightToolkit-5.2.1/Modules/Core/Common/include/itkImageHelper.h \
+  /Users/kerautre/Dev/InsightToolkit-5.2.1/Modules/Core/Common/include/itkFloatTypes.h \
+  /Users/kerautre/Dev/InsightToolkit-5.2.1/Modules/Core/Common/include/itkImageBase.hxx \
+  /Users/kerautre/Dev/InsightToolkit-5.2.1/Modules/Core/Common/include/itkProcessObject.h \
+  /Users/kerautre/Dev/InsightToolkit-5.2.1/Modules/Core/Common/include/itkThreadSupport.h \
+  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk/usr/include/c++/v1/thread \
+  /Users/kerautre/Dev/InsightToolkit-5.2.1/Modules/Core/Common/include/itkSpatialOrientation.h \
+  /Users/kerautre/Dev/InsightToolkit-5.2.1/Modules/Core/Common/include/itkImage.hxx \
+  /Users/kerautre/Dev/InsightToolkit-5.2.1/Modules/Core/Common/include/itkImageRegionConstIterator.h \
+  /Users/kerautre/Dev/InsightToolkit-5.2.1/Modules/Core/Common/include/itkImageIterator.h \
+  /Users/kerautre/Dev/InsightToolkit-5.2.1/Modules/Core/Common/include/itkImageConstIterator.h \
+  /Users/kerautre/Dev/InsightToolkit-5.2.1/Modules/Core/Common/include/itkImageIterator.hxx \
+  /Users/kerautre/Dev/InsightToolkit-5.2.1/Modules/Core/Common/include/itkImageRegionConstIterator.hxx \
+  /Users/kerautre/Dev/InsightToolkit-5.2.1/Modules/Core/Common/include/itkImageRegionIterator.h \
+  /Users/kerautre/Dev/InsightToolkit-5.2.1/Modules/Core/Common/include/itkImageRegionIterator.hxx \
+  /Users/kerautre/EnCours/DGtal/src/DGtal/images/ImageContainerByITKImage.ih \
   /Users/kerautre/EnCours/DGtal/src/DGtal/images//ImageSelector.ih \
   /Users/kerautre/EnCours/LiverCCO/helpers/GeomHelpers.h \
   /Users/kerautre/EnCours/DGtal/src/DGtal/images/IntervalForegroundPredicate.h \
@@ -2336,6 +2458,90 @@ tests/CMakeFiles/testGenerateTree.dir/testGenerateTree.cpp.o: \
   /Users/kerautre/EnCours/DGtal/src/DGtal/io/readers/STBReader.h \
   /Users/kerautre/EnCours/DGtal/src/DGtal/io/readers//STBReader.ih \
   /Users/kerautre/EnCours/DGtal/src/stb/stb_image.h \
+  /Users/kerautre/EnCours/DGtal/src/DGtal/io/readers/DicomReader.h \
+  /Users/kerautre/EnCours/DGtal/src/DGtal/io/readers/DicomReader.ih \
+  /Users/kerautre/EnCours/DGtal/src/DGtal/images/ConstImageAdapter.h \
+  /Users/kerautre/EnCours/DGtal/src/DGtal/images/ConstImageAdapter.ih \
+  /Users/kerautre/Dev/InsightToolkit-5.2.1/Modules/IO/ImageBase/include/itkImageSeriesReader.h \
+  /Users/kerautre/Dev/InsightToolkit-5.2.1/build/Modules/Core/Common/ITKIOImageBaseExport.h \
+  /Users/kerautre/Dev/InsightToolkit-5.2.1/Modules/IO/ImageBase/include/itkImageFileReader.h \
+  /Users/kerautre/Dev/InsightToolkit-5.2.1/Modules/IO/ImageBase/include/itkImageFileReaderException.h \
+  /Users/kerautre/Dev/InsightToolkit-5.2.1/Modules/IO/ImageBase/include/itkImageIOBase.h \
+  /Users/kerautre/Dev/InsightToolkit-5.2.1/build/Modules/IO/ImageBase/itkIOConfigure.h \
+  /Users/kerautre/Dev/InsightToolkit-5.2.1/Modules/Core/Common/include/itkLightProcessObject.h \
+  /Users/kerautre/Dev/InsightToolkit-5.2.1/Modules/Core/Common/include/itkImageIORegion.h \
+  /Users/kerautre/Dev/InsightToolkit-5.2.1/Modules/Core/Common/include/itkRGBPixel.h \
+  /Users/kerautre/Dev/InsightToolkit-5.2.1/Modules/Core/Common/include/itkNumericTraitsRGBPixel.h \
+  /Users/kerautre/Dev/InsightToolkit-5.2.1/Modules/Core/Common/include/itkRGBPixel.hxx \
+  /Users/kerautre/Dev/InsightToolkit-5.2.1/Modules/Core/Common/include/itkRGBAPixel.h \
+  /Users/kerautre/Dev/InsightToolkit-5.2.1/Modules/Core/Common/include/itkNumericTraitsRGBAPixel.h \
+  /Users/kerautre/Dev/InsightToolkit-5.2.1/Modules/Core/Common/include/itkRGBAPixel.hxx \
+  /Users/kerautre/Dev/InsightToolkit-5.2.1/Modules/Core/Common/include/itkSymmetricSecondRankTensor.h \
+  /Users/kerautre/Dev/InsightToolkit-5.2.1/Modules/Core/Common/include/itkSymmetricEigenAnalysis.h \
+  /Users/kerautre/Dev/InsightToolkit-5.2.1/build/Modules/ThirdParty/Eigen3/src/itk_eigen.h \
+  /Users/kerautre/Dev/InsightToolkit-5.2.1/Modules/ThirdParty/Eigen3/src/itkeigen/../itkeigen/Eigen/Eigenvalues \
+  /Users/kerautre/Dev/InsightToolkit-5.2.1/Modules/Core/Common/include/itkSymmetricEigenAnalysis.hxx \
+  /Users/kerautre/Dev/InsightToolkit-5.2.1/Modules/Core/Common/include/itkNumericTraitsTensorPixel.h \
+  /Users/kerautre/Dev/InsightToolkit-5.2.1/Modules/Core/Common/include/itkSymmetricSecondRankTensor.hxx \
+  /Users/kerautre/Dev/InsightToolkit-5.2.1/Modules/Core/Common/include/itkDiffusionTensor3D.h \
+  /Users/kerautre/Dev/InsightToolkit-5.2.1/Modules/Core/Common/include/itkNumericTraitsDiffusionTensor3DPixel.h \
+  /Users/kerautre/Dev/InsightToolkit-5.2.1/Modules/Core/Common/include/itkDiffusionTensor3D.hxx \
+  /Users/kerautre/Dev/InsightToolkit-5.2.1/Modules/Core/Common/include/itkArray.h \
+  /Users/kerautre/Dev/InsightToolkit-5.2.1/Modules/Core/Common/include/itkArray.hxx \
+  /Users/kerautre/Dev/InsightToolkit-5.2.1/Modules/Core/Common/include/itkNumericTraitsArrayPixel.h \
+  /Users/kerautre/Dev/InsightToolkit-5.2.1/Modules/Core/Common/include/itkVariableSizeMatrix.h \
+  /Users/kerautre/Dev/InsightToolkit-5.2.1/Modules/Core/Common/include/itkVariableSizeMatrix.hxx \
+  /Users/kerautre/Dev/InsightToolkit-5.2.1/Modules/Core/Common/include/itkImageRegionSplitterBase.h \
+  /Users/kerautre/Dev/InsightToolkit-5.2.1/Modules/Core/Common/include/itkImageSource.h \
+  /Users/kerautre/Dev/InsightToolkit-5.2.1/Modules/Core/Common/include/itkImageSourceCommon.h \
+  /Users/kerautre/Dev/InsightToolkit-5.2.1/Modules/Core/Common/include/itkImageSource.hxx \
+  /Users/kerautre/Dev/InsightToolkit-5.2.1/Modules/Core/Common/include/itkOutputDataObjectIterator.h \
+  /Users/kerautre/Dev/InsightToolkit-5.2.1/Modules/Core/Common/include/itkDataObjectIterator.h \
+  /Users/kerautre/Dev/InsightToolkit-5.2.1/Modules/Core/Common/include/itkMultiThreaderBase.h \
+  /Users/kerautre/Dev/InsightToolkit-5.2.1/Modules/Core/Common/include/itkProgressReporter.h \
+  /Users/kerautre/Dev/InsightToolkit-5.2.1/Modules/Core/Common/include/itkDefaultConvertPixelTraits.h \
+  /Users/kerautre/Dev/InsightToolkit-5.2.1/Modules/Core/Common/include/itkVariableLengthVector.h \
+  /Users/kerautre/Dev/InsightToolkit-5.2.1/Modules/Core/Common/include/itkStaticAssert.h \
+  /Users/kerautre/Dev/InsightToolkit-5.2.1/Modules/Core/Common/include/itkMetaProgrammingLibrary.h \
+  /Users/kerautre/Dev/InsightToolkit-5.2.1/Modules/Core/Common/include/itkEnableIf.h \
+  /Users/kerautre/Dev/InsightToolkit-5.2.1/Modules/Core/Common/include/itkIsBaseOf.h \
+  /Users/kerautre/Dev/InsightToolkit-5.2.1/Modules/Core/Common/include/itkIsConvertible.h \
+  /Users/kerautre/Dev/InsightToolkit-5.2.1/Modules/Core/Common/include/itkIsSame.h \
+  /Users/kerautre/Dev/InsightToolkit-5.2.1/Modules/Core/Common/include/itkIsNumber.h \
+  /Users/kerautre/Dev/InsightToolkit-5.2.1/Modules/Core/Common/include/itkPromoteType.h \
+  /Users/kerautre/Dev/InsightToolkit-5.2.1/Modules/Core/Common/include/itkBinaryOperationConcept.h \
+  /Users/kerautre/Dev/InsightToolkit-5.2.1/Modules/Core/Common/include/itkNumericTraitsVariableLengthVectorPixel.h \
+  /Users/kerautre/Dev/InsightToolkit-5.2.1/Modules/Core/Common/include/itkVariableLengthVector.hxx \
+  /Users/kerautre/Dev/InsightToolkit-5.2.1/Modules/Core/Common/include/itkSimpleDataObjectDecorator.h \
+  /Users/kerautre/Dev/InsightToolkit-5.2.1/Modules/Core/Common/include/itkSimpleDataObjectDecorator.hxx \
+  /Users/kerautre/Dev/InsightToolkit-5.2.1/Modules/IO/ImageBase/include/itkImageFileReader.hxx \
+  /Users/kerautre/Dev/InsightToolkit-5.2.1/Modules/IO/ImageBase/include/itkImageIOFactory.h \
+  /Users/kerautre/Dev/InsightToolkit-5.2.1/Modules/IO/ImageBase/include/itkConvertPixelBuffer.h \
+  /Users/kerautre/Dev/InsightToolkit-5.2.1/Modules/IO/ImageBase/include/itkConvertPixelBuffer.hxx \
+  /Users/kerautre/Dev/InsightToolkit-5.2.1/Modules/Core/Common/include/itkVectorImage.h \
+  /Users/kerautre/Dev/InsightToolkit-5.2.1/Modules/Core/Common/include/itkDefaultVectorPixelAccessor.h \
+  /Users/kerautre/Dev/InsightToolkit-5.2.1/Modules/Core/Common/include/itkDefaultVectorPixelAccessorFunctor.h \
+  /Users/kerautre/Dev/InsightToolkit-5.2.1/Modules/Core/Common/include/itkVectorImageNeighborhoodAccessorFunctor.h \
+  /Users/kerautre/Dev/InsightToolkit-5.2.1/Modules/Core/Common/include/itkVectorImage.hxx \
+  /Users/kerautre/Dev/InsightToolkit-5.2.1/Modules/Core/Common/include/itkMetaDataObject.h \
+  /Users/kerautre/Dev/InsightToolkit-5.2.1/Modules/Core/Common/include/itkMetaDataObject.hxx \
+  /Users/kerautre/Dev/InsightToolkit-5.2.1/build/Modules/ThirdParty/KWSys/src/itksys/SystemTools.hxx \
+  /Users/kerautre/Dev/InsightToolkit-5.2.1/build/Modules/ThirdParty/KWSys/src/itksys/Configure.hxx \
+  /Users/kerautre/Dev/InsightToolkit-5.2.1/build/Modules/ThirdParty/KWSys/src/itksys/Configure.h \
+  /Users/kerautre/EnCours/LiverCCO/build/ITKFactoryRegistration/itkImageIOFactoryRegisterManager.h \
+  /Users/kerautre/Dev/InsightToolkit-5.2.1/Modules/IO/ImageBase/include/itkImageSeriesReader.hxx \
+  /Users/kerautre/Dev/InsightToolkit-5.2.1/Modules/Core/Common/include/itkImageAlgorithm.h \
+  /Users/kerautre/Dev/InsightToolkit-5.2.1/Modules/Core/Common/include/itkImageAlgorithm.hxx \
+  /Users/kerautre/Dev/InsightToolkit-5.2.1/Modules/Core/Common/include/itkImageScanlineIterator.h \
+  /Users/kerautre/Dev/InsightToolkit-5.2.1/Modules/Core/Common/include/itkImageScanlineConstIterator.h \
+  /Users/kerautre/Dev/InsightToolkit-5.2.1/Modules/Core/Common/include/itkImageScanlineConstIterator.hxx \
+  /Users/kerautre/Dev/InsightToolkit-5.2.1/Modules/Core/Common/include/itkImageScanlineIterator.hxx \
+  /Users/kerautre/Dev/InsightToolkit-5.2.1/Modules/IO/GDCM/include/itkGDCMImageIO.h \
+  /Users/kerautre/Dev/InsightToolkit-5.2.1/build/Modules/Core/Common/ITKIOGDCMExport.h \
+  /Users/kerautre/Dev/InsightToolkit-5.2.1/Modules/IO/GDCM/include/itkGDCMSeriesFileNames.h \
+  /Users/kerautre/EnCours/DGtal/src/DGtal/io/readers/ITKReader.h \
+  /Users/kerautre/EnCours/DGtal/src/DGtal/io/ITKIOTrait.h \
+  /Users/kerautre/EnCours/DGtal/src/DGtal/io/readers/ITKReader.ih \
   /Users/kerautre/EnCours/DGtal/src/DGtal/io/readers/GenericReader.ih \
   /Users/kerautre/EnCours/DGtal/src/DGtal/images/ArrayImageIterator.h \
   /Users/kerautre/EnCours/DGtal/src/DGtal/images/ArrayImageIterator.ih \
