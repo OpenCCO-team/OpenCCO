@@ -1,0 +1,2390 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXAggregateTarget section */
+		851849591C8341498A8DDD46 /* ALL_BUILD */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = D3F3891377E34AB29705C012 /* Build configuration list for PBXAggregateTarget "ALL_BUILD" */;
+			buildPhases = (
+				BFCB85084245998FE11D7C94 /* Generate CMakeFiles/ALL_BUILD */,
+			);
+			dependencies = (
+				2191A880B76648B097862E40 /* PBXTargetDependency */,
+				8236D89EC0C448E38BC46682 /* PBXTargetDependency */,
+				78BAC2E3A50346FA9514831A /* PBXTargetDependency */,
+				427A9DD7495946D1A9205FE5 /* PBXTargetDependency */,
+				04EF388E485341B8BF4C55EF /* PBXTargetDependency */,
+				158839B6460A44D39C2088F2 /* PBXTargetDependency */,
+				0DD8C922D76B4D4EB6B56CFB /* PBXTargetDependency */,
+				B82B9F5E44B6419D85D8447A /* PBXTargetDependency */,
+				F360010FB04741D29EA8CBDA /* PBXTargetDependency */,
+			);
+			name = ALL_BUILD;
+			productName = ALL_BUILD;
+		};
+		AF338188C546422CA6DA761F /* ZERO_CHECK */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = 69D392A109EA4A98815D5BE1 /* Build configuration list for PBXAggregateTarget "ZERO_CHECK" */;
+			buildPhases = (
+				B2B02323B0A0137D73B05360 /* Generate CMakeFiles/ZERO_CHECK */,
+			);
+			dependencies = (
+			);
+			name = ZERO_CHECK;
+			productName = ZERO_CHECK;
+		};
+/* End PBXAggregateTarget section */
+
+/* Begin PBXBuildFile section */
+		01EBC4C979EC40BEAFF877BB /* /Users/kerautre/EnCours/LiverCCO/bin/CMakeLists.txt */ = {isa = PBXBuildFile; fileRef = F57BDF5ADC82473FA9951A10 /* /Users/kerautre/EnCours/LiverCCO/bin/CMakeLists.txt */; };
+		031BDA49B7414DD9B813F709 /* /Users/kerautre/EnCours/LiverCCO/helpers/ConstructionHelpers.h */ = {isa = PBXBuildFile; fileRef = 7172E62CB90843CC9BB876EC /* /Users/kerautre/EnCours/LiverCCO/helpers/ConstructionHelpers.h */; };
+		0665A25F14D942668F3A5F67 /* /Users/kerautre/EnCours/LiverCCO/helpers/XmlHelpers.h */ = {isa = PBXBuildFile; fileRef = 5EDBB25CCAEE4B05A83BE4DC /* /Users/kerautre/EnCours/LiverCCO/helpers/XmlHelpers.h */; };
+		0713E39BE3F54B46BE4C9385 /* /Users/kerautre/EnCours/LiverCCO/tests/CMakeLists.txt */ = {isa = PBXBuildFile; fileRef = 17369284585B43FBA2EEDB37 /* /Users/kerautre/EnCours/LiverCCO/tests/CMakeLists.txt */; };
+		0A6D7BFBB0C94EED83822035 /* /opt/homebrew/opt/qt@5/lib/QtGui.framework */ = {isa = PBXBuildFile; fileRef = 36C938AA5C4D43719E9E4AFF /* /opt/homebrew/opt/qt@5/lib/QtGui.framework */; };
+		0A91FA011C9246BA84873979 /* /Users/kerautre/EnCours/LiverCCO/tests/testSchreiner.cpp */ = {isa = PBXBuildFile; fileRef = 82E55D26DC664AD4845B9949 /* /Users/kerautre/EnCours/LiverCCO/tests/testSchreiner.cpp */; };
+		0EDB1CB2BEB246489C89F3AF /* /Users/kerautre/EnCours/LiverCCO/base/CoronaryArteryTree.ih */ = {isa = PBXBuildFile; fileRef = 8AA30DC3BEFD4A9BB9CB98CE /* /Users/kerautre/EnCours/LiverCCO/base/CoronaryArteryTree.ih */; };
+		137A6128613A42448A09C006 /* /Users/kerautre/EnCours/LiverCCO/helpers/XmlHelpers.h */ = {isa = PBXBuildFile; fileRef = E299C72B36584D98A0DFFB2F /* /Users/kerautre/EnCours/LiverCCO/helpers/XmlHelpers.h */; };
+		1421D4E09CC747C8A3ED818C /* /Users/kerautre/EnCours/LiverCCO/base/CoronaryArteryTree.h */ = {isa = PBXBuildFile; fileRef = 629D804501844989A56CFE11 /* /Users/kerautre/EnCours/LiverCCO/base/CoronaryArteryTree.h */; };
+		16A29EDC29AD4429B2F83055 /* /Users/kerautre/EnCours/LiverCCO/helpers/ConstructionHelpers.h */ = {isa = PBXBuildFile; fileRef = A4541608F93E4A26BFA3067B /* /Users/kerautre/EnCours/LiverCCO/helpers/ConstructionHelpers.h */; };
+		237705949567490593F92389 /* /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk/System/Library/Frameworks/OpenGL.framework */ = {isa = PBXBuildFile; fileRef = 8286F5D821E64934B63F7B07 /* /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk/System/Library/Frameworks/OpenGL.framework */; };
+		26450B69357E4636ACCFA0EF /* /Users/kerautre/EnCours/LiverCCO/base/CoronaryArteryTree.ih */ = {isa = PBXBuildFile; fileRef = 7E80DABE1DBF46178D43AA25 /* /Users/kerautre/EnCours/LiverCCO/base/CoronaryArteryTree.ih */; };
+		26977D65FA1E41C78BEC09CF /* /Users/kerautre/EnCours/LiverCCO/base/CoronaryArteryTree.ih */ = {isa = PBXBuildFile; fileRef = CB837A50193D4E9289B3C661 /* /Users/kerautre/EnCours/LiverCCO/base/CoronaryArteryTree.ih */; };
+		29A8C2CF262E4A2EAC9BA50B /* /Users/kerautre/EnCours/LiverCCO/helpers/XmlHelpers.h */ = {isa = PBXBuildFile; fileRef = 989B8EEE28734291BA82FD23 /* /Users/kerautre/EnCours/LiverCCO/helpers/XmlHelpers.h */; };
+		2D06EEC44C6C45689B6B5CC1 /* /Users/kerautre/EnCours/LiverCCO/helpers/XmlHelpers.h */ = {isa = PBXBuildFile; fileRef = 5259B600A677404390264CA8 /* /Users/kerautre/EnCours/LiverCCO/helpers/XmlHelpers.h */; };
+		2E0F2102E79049C0879F018E /* /Users/kerautre/EnCours/LiverCCO/base/CoronaryArteryTree.h */ = {isa = PBXBuildFile; fileRef = BDE40F30C1444C50912B3537 /* /Users/kerautre/EnCours/LiverCCO/base/CoronaryArteryTree.h */; };
+		30A85632C0F74E5481B90E67 /* /Users/kerautre/EnCours/LiverCCO/tests/CMakeLists.txt */ = {isa = PBXBuildFile; fileRef = D72916F344964EAE888D0581 /* /Users/kerautre/EnCours/LiverCCO/tests/CMakeLists.txt */; };
+		35586D01A91B491F80527BB3 /* /Users/kerautre/EnCours/LiverCCO/helpers/ConstructionHelpers.h */ = {isa = PBXBuildFile; fileRef = FFB3872FEDCB438E83E9461B /* /Users/kerautre/EnCours/LiverCCO/helpers/ConstructionHelpers.h */; };
+		3794DCD134C34E0C99880002 /* /Users/kerautre/EnCours/LiverCCO/helpers/GeomHelpers.h */ = {isa = PBXBuildFile; fileRef = C3E5759EEDF94D95958B27D5 /* /Users/kerautre/EnCours/LiverCCO/helpers/GeomHelpers.h */; };
+		3C5BEAFD8B02438E91CD0543 /* /Users/kerautre/EnCours/LiverCCO/helpers/GeomHelpers.h */ = {isa = PBXBuildFile; fileRef = 9FDAD81CA2B54E6D833E0219 /* /Users/kerautre/EnCours/LiverCCO/helpers/GeomHelpers.h */; };
+		43D6CFF2FD45476AA8DD2405 /* /Users/kerautre/EnCours/LiverCCO/tools/CMakeLists.txt */ = {isa = PBXBuildFile; fileRef = 502F0E3194674EB3A79B9D1E /* /Users/kerautre/EnCours/LiverCCO/tools/CMakeLists.txt */; };
+		4438E77FB8524631A0A9789D /* /opt/homebrew/opt/qt@5/lib/QtCore.framework */ = {isa = PBXBuildFile; fileRef = 31EC8C3ECEDF43ACA1F9E65A /* /opt/homebrew/opt/qt@5/lib/QtCore.framework */; };
+		499EAB39E5A44E9DA72F6A57 /* /Users/kerautre/EnCours/LiverCCO/helpers/ConstructionHelpers.h */ = {isa = PBXBuildFile; fileRef = 0F33D577CB774DD79059518D /* /Users/kerautre/EnCours/LiverCCO/helpers/ConstructionHelpers.h */; };
+		532310A792E04E11B445CADC /* /Users/kerautre/EnCours/LiverCCO/tests/testKamiya.cpp */ = {isa = PBXBuildFile; fileRef = 2ADC0B64D0D1489E8310A63F /* /Users/kerautre/EnCours/LiverCCO/tests/testKamiya.cpp */; };
+		57C1388287764920A1D59FAC /* /Users/kerautre/EnCours/LiverCCO/tools/mergeObj.cpp */ = {isa = PBXBuildFile; fileRef = 000D88474A6547D68B67FD7E /* /Users/kerautre/EnCours/LiverCCO/tools/mergeObj.cpp */; };
+		5A42C0042C334EC6BB8B56BF /* /Users/kerautre/EnCours/LiverCCO/helpers/GeomHelpers.h */ = {isa = PBXBuildFile; fileRef = 80AC360B5FE148A19626D708 /* /Users/kerautre/EnCours/LiverCCO/helpers/GeomHelpers.h */; };
+		5DAAEEB983BF407E8552C6A5 /* /Users/kerautre/EnCours/LiverCCO/helpers/GeomHelpers.h */ = {isa = PBXBuildFile; fileRef = EFD24B9A39324D71881081DA /* /Users/kerautre/EnCours/LiverCCO/helpers/GeomHelpers.h */; };
+		6404DD4E492949179561203E /* /Users/kerautre/EnCours/LiverCCO/helpers/XmlHelpers.h */ = {isa = PBXBuildFile; fileRef = 3644F65479B04CB7ADEED82A /* /Users/kerautre/EnCours/LiverCCO/helpers/XmlHelpers.h */; };
+		64A1F071A17047FCA90868E7 /* /Library/Frameworks/qglviewer.framework */ = {isa = PBXBuildFile; fileRef = 665793B6C5904259A68C1233 /* /Library/Frameworks/qglviewer.framework */; };
+		68205DFB99C7420B8DD1F39F /* /opt/homebrew/opt/qt@5/lib/QtWidgets.framework */ = {isa = PBXBuildFile; fileRef = 627844134CD24E3492B1E6B2 /* /opt/homebrew/opt/qt@5/lib/QtWidgets.framework */; };
+		7316997BC4B44401AC648BEB /* /Users/kerautre/EnCours/LiverCCO/base/CoronaryArteryTree.ih */ = {isa = PBXBuildFile; fileRef = D77C589C0FF347619240BCE9 /* /Users/kerautre/EnCours/LiverCCO/base/CoronaryArteryTree.ih */; };
+		795BC4094E264060963B312F /* /Users/kerautre/EnCours/LiverCCO/helpers/ConstructionHelpers.h */ = {isa = PBXBuildFile; fileRef = D6ED3C7A1B0B443289536939 /* /Users/kerautre/EnCours/LiverCCO/helpers/ConstructionHelpers.h */; };
+		7BC8C43D048F411CBD70E696 /* /Users/kerautre/EnCours/LiverCCO/base/CoronaryArteryTree.ih */ = {isa = PBXBuildFile; fileRef = C586E07E300D48A883F37BD9 /* /Users/kerautre/EnCours/LiverCCO/base/CoronaryArteryTree.ih */; };
+		7C622F9D10B94B4680D67DA8 /* /Users/kerautre/EnCours/LiverCCO/base/CoronaryArteryTree.ih */ = {isa = PBXBuildFile; fileRef = 23EBB9FECA144C86B65CA05A /* /Users/kerautre/EnCours/LiverCCO/base/CoronaryArteryTree.ih */; };
+		7ECC4D262A0543BA879FA99F /* /Users/kerautre/EnCours/LiverCCO/base/CoronaryArteryTree.h */ = {isa = PBXBuildFile; fileRef = A2DD8B14DAD343DBB2A701DB /* /Users/kerautre/EnCours/LiverCCO/base/CoronaryArteryTree.h */; };
+		7EFBA44420A54ADFA751C83A /* /Users/kerautre/EnCours/LiverCCO/tests/testGenerateTree.cpp */ = {isa = PBXBuildFile; fileRef = E80F230CBDA64DA8AF179A35 /* /Users/kerautre/EnCours/LiverCCO/tests/testGenerateTree.cpp */; };
+		857CBD06E3A04E9391B82A78 /* /Users/kerautre/EnCours/LiverCCO/helpers/ConstructionHelpers.h */ = {isa = PBXBuildFile; fileRef = 803CE8BB256B441BAB5D2528 /* /Users/kerautre/EnCours/LiverCCO/helpers/ConstructionHelpers.h */; };
+		8730524A4F93431E8B33A66D /* /Users/kerautre/EnCours/LiverCCO/base/CoronaryArteryTree.ih */ = {isa = PBXBuildFile; fileRef = 485C9AB213AD4577BCD4183A /* /Users/kerautre/EnCours/LiverCCO/base/CoronaryArteryTree.ih */; };
+		8D0631E028174FB3B0BB0E4F /* /Users/kerautre/EnCours/LiverCCO/base/CoronaryArteryTree.h */ = {isa = PBXBuildFile; fileRef = B457C3C84DBC4981B381DB97 /* /Users/kerautre/EnCours/LiverCCO/base/CoronaryArteryTree.h */; };
+		915E8D8466B444FA8E059160 /* /Users/kerautre/EnCours/LiverCCO/base/CoronaryArteryTree.h */ = {isa = PBXBuildFile; fileRef = 3DA8785526BF49ABAB88439A /* /Users/kerautre/EnCours/LiverCCO/base/CoronaryArteryTree.h */; };
+		9407FC3C725D45E9A451FEDA /* /Users/kerautre/EnCours/LiverCCO/tests/CMakeLists.txt */ = {isa = PBXBuildFile; fileRef = C91D3408E87C4521901FF170 /* /Users/kerautre/EnCours/LiverCCO/tests/CMakeLists.txt */; };
+		970F3F32A04E4080B1893653 /* /Users/kerautre/EnCours/LiverCCO/helpers/ConstructionHelpers.h */ = {isa = PBXBuildFile; fileRef = 4F70B538E96B46308D0D5488 /* /Users/kerautre/EnCours/LiverCCO/helpers/ConstructionHelpers.h */; };
+		97A14DD034234231830BF57C /* /Users/kerautre/EnCours/LiverCCO/helpers/XmlHelpers.h */ = {isa = PBXBuildFile; fileRef = 0E3CD03C9AD24CAA90FD2218 /* /Users/kerautre/EnCours/LiverCCO/helpers/XmlHelpers.h */; };
+		9EFF9159D7A74872A493E6D0 /* /Users/kerautre/EnCours/LiverCCO/tests/testGeom.cpp */ = {isa = PBXBuildFile; fileRef = B4ADCC06CE144B30AEE2FF15 /* /Users/kerautre/EnCours/LiverCCO/tests/testGeom.cpp */; };
+		A9538A28E60044C0B192F4F9 /* /Users/kerautre/EnCours/LiverCCO/base/CoronaryArteryTree.h */ = {isa = PBXBuildFile; fileRef = 67FB774D2415441A80D412D5 /* /Users/kerautre/EnCours/LiverCCO/base/CoronaryArteryTree.h */; };
+		AE1D4D53A0BE4DD7BD5799D5 /* /Users/kerautre/EnCours/LiverCCO/bin/generateTree2D.cpp */ = {isa = PBXBuildFile; fileRef = B464F0530BA342C890EB6DD0 /* /Users/kerautre/EnCours/LiverCCO/bin/generateTree2D.cpp */; };
+		AFA18C8AC6E54E86AC786A53 /* /Users/kerautre/EnCours/LiverCCO/helpers/XmlHelpers.h */ = {isa = PBXBuildFile; fileRef = 83CCAB8A87064694BE2ED9D2 /* /Users/kerautre/EnCours/LiverCCO/helpers/XmlHelpers.h */; };
+		B99BDBBA402D48C581E36180 /* /Users/kerautre/EnCours/LiverCCO/tools/CMakeLists.txt */ = {isa = PBXBuildFile; fileRef = C8FC95E731E048DA8D59D621 /* /Users/kerautre/EnCours/LiverCCO/tools/CMakeLists.txt */; };
+		C8C0DA3F4E0C47DD95F5D0B2 /* /Users/kerautre/EnCours/LiverCCO/helpers/GeomHelpers.h */ = {isa = PBXBuildFile; fileRef = CCF0E15EA2EA4A4E9A4D13B6 /* /Users/kerautre/EnCours/LiverCCO/helpers/GeomHelpers.h */; };
+		CBD61D9A74B1430382E6C9DF /* /Users/kerautre/EnCours/LiverCCO/helpers/GeomHelpers.h */ = {isa = PBXBuildFile; fileRef = DA594E497EEB4104AFA1B65C /* /Users/kerautre/EnCours/LiverCCO/helpers/GeomHelpers.h */; };
+		CF38FF6369A44B5BBD2D1F58 /* /Users/kerautre/EnCours/LiverCCO/bin/generateTree3D.cpp */ = {isa = PBXBuildFile; fileRef = 801307EB86FB4E1A950CF9CD /* /Users/kerautre/EnCours/LiverCCO/bin/generateTree3D.cpp */; };
+		D5E9EFF4B50A426B9EEC5180 /* /Users/kerautre/EnCours/LiverCCO/tools/generateTestDomain.cpp */ = {isa = PBXBuildFile; fileRef = F8C23A775FEF47B98F8B0836 /* /Users/kerautre/EnCours/LiverCCO/tools/generateTestDomain.cpp */; };
+		DCC507C858584538A7B569E8 /* /Users/kerautre/EnCours/LiverCCO/helpers/GeomHelpers.h */ = {isa = PBXBuildFile; fileRef = CE23B4A6F97E4CD28C8F873A /* /Users/kerautre/EnCours/LiverCCO/helpers/GeomHelpers.h */; };
+		DDA858B3B88243FBA4F04E65 /* /opt/homebrew/opt/qt@5/lib/QtOpenGL.framework */ = {isa = PBXBuildFile; fileRef = 7AF410473FCD4E359DB480E5 /* /opt/homebrew/opt/qt@5/lib/QtOpenGL.framework */; };
+		E481F2C8231643EFBF96C5BC /* /Users/kerautre/EnCours/LiverCCO/helpers/ConstructionHelpers.h */ = {isa = PBXBuildFile; fileRef = ECB6D52797E843EA88FE4D1D /* /Users/kerautre/EnCours/LiverCCO/helpers/ConstructionHelpers.h */; };
+		E4DDF2B7DE3F471FA996CCFA /* /Users/kerautre/EnCours/LiverCCO/base/CoronaryArteryTree.ih */ = {isa = PBXBuildFile; fileRef = 02868205854F47B2B54F9388 /* /Users/kerautre/EnCours/LiverCCO/base/CoronaryArteryTree.ih */; };
+		E8368649014446B28FFE6F38 /* /Users/kerautre/EnCours/LiverCCO/bin/CMakeLists.txt */ = {isa = PBXBuildFile; fileRef = 4577CB39F85040AE9F6AC00C /* /Users/kerautre/EnCours/LiverCCO/bin/CMakeLists.txt */; };
+		E9FE6F8A0BAB48EFBAC65CA3 /* /Users/kerautre/EnCours/LiverCCO/base/CoronaryArteryTree.h */ = {isa = PBXBuildFile; fileRef = E6D925FD5C8547B595C53A7D /* /Users/kerautre/EnCours/LiverCCO/base/CoronaryArteryTree.h */; };
+		ED5956AA5A274FFA8E7908FF /* /Users/kerautre/EnCours/LiverCCO/base/CoronaryArteryTree.h */ = {isa = PBXBuildFile; fileRef = 47896A070C66494B93BDCF4B /* /Users/kerautre/EnCours/LiverCCO/base/CoronaryArteryTree.h */; };
+		F4EBD636F82447BABA7CBF5B /* /opt/homebrew/opt/qt@5/lib/QtXml.framework */ = {isa = PBXBuildFile; fileRef = 245E8D617DAB410B9C00402C /* /opt/homebrew/opt/qt@5/lib/QtXml.framework */; };
+		FDD1C85AC7724172B44EA00F /* /Users/kerautre/EnCours/LiverCCO/helpers/GeomHelpers.h */ = {isa = PBXBuildFile; fileRef = 1A9C29547DB24C12BA0462F9 /* /Users/kerautre/EnCours/LiverCCO/helpers/GeomHelpers.h */; };
+		FED73040BC124FAEAC28B436 /* /Users/kerautre/EnCours/LiverCCO/tests/CMakeLists.txt */ = {isa = PBXBuildFile; fileRef = 4E07683CE0E34E1584A48F9D /* /Users/kerautre/EnCours/LiverCCO/tests/CMakeLists.txt */; };
+		FF5E248A267444629C78B51A /* /Users/kerautre/EnCours/LiverCCO/helpers/XmlHelpers.h */ = {isa = PBXBuildFile; fileRef = F8E57350716A49D6B9684F95 /* /Users/kerautre/EnCours/LiverCCO/helpers/XmlHelpers.h */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXBuildStyle section */
+		0B59B9146A1745918B7CBEE0 /* MinSizeRel */ = {
+			isa = PBXBuildStyle;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+			};
+			name = MinSizeRel;
+		};
+		52D2092732E84446889A51B3 /* Debug */ = {
+			isa = PBXBuildStyle;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+			};
+			name = Debug;
+		};
+		680B89829B0D404A957DC72C /* RelWithDebInfo */ = {
+			isa = PBXBuildStyle;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+			};
+			name = RelWithDebInfo;
+		};
+		8736C0912C1F4C3996DA72F8 /* Release */ = {
+			isa = PBXBuildStyle;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+			};
+			name = Release;
+		};
+/* End PBXBuildStyle section */
+
+/* Begin PBXContainerItemProxy section */
+		0A3D89A6D3894FF9AB36969F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 34EBAF870A924990A2B5811B /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = AF338188C546422CA6DA761F;
+			remoteInfo = ZERO_CHECK;
+		};
+		0E2A252FF0494C0AB6D96822 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 34EBAF870A924990A2B5811B /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = AF338188C546422CA6DA761F;
+			remoteInfo = ZERO_CHECK;
+		};
+		304EB7823422475F924A7428 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 34EBAF870A924990A2B5811B /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = AF338188C546422CA6DA761F;
+			remoteInfo = ZERO_CHECK;
+		};
+		39DA78FF5B114903AF6DF7CA /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 34EBAF870A924990A2B5811B /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 965FE503145F40B68138D0FA;
+			remoteInfo = testSchreiner;
+		};
+		3A84C4F660464123A740F540 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 34EBAF870A924990A2B5811B /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = AF338188C546422CA6DA761F;
+			remoteInfo = ZERO_CHECK;
+		};
+		46AF60D35C0A4AC2AE314080 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 34EBAF870A924990A2B5811B /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 18820F9816174783B014968A;
+			remoteInfo = generateTree2D;
+		};
+		4895F647DA7B4659AEA014D4 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 34EBAF870A924990A2B5811B /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = AF338188C546422CA6DA761F;
+			remoteInfo = ZERO_CHECK;
+		};
+		5C31B4047C5145A382A4D106 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 34EBAF870A924990A2B5811B /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 11B04072206847DAB9C7B52C;
+			remoteInfo = generateTree3D;
+		};
+		5FCF2E70075647C29421A0F6 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 34EBAF870A924990A2B5811B /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = AF338188C546422CA6DA761F;
+			remoteInfo = ZERO_CHECK;
+		};
+		6F21402DFE7A440BA5ED69E1 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 34EBAF870A924990A2B5811B /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = AF338188C546422CA6DA761F;
+			remoteInfo = ZERO_CHECK;
+		};
+		7269DB612040437884C18201 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 34EBAF870A924990A2B5811B /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 8CC1BCB163354FDEBC944829;
+			remoteInfo = mergeObj;
+		};
+		8EBACB3CFE954628AEC63FFD /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 34EBAF870A924990A2B5811B /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = ECBABBBDDDFE4EEF9E0F14FC;
+			remoteInfo = testGenerateTree;
+		};
+		B4402E5347194DC59C68C376 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 34EBAF870A924990A2B5811B /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 7D5990F829914227925C9466;
+			remoteInfo = generateTestDomain;
+		};
+		C3F900B66A3E4BDA8FCE8199 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 34EBAF870A924990A2B5811B /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = AF338188C546422CA6DA761F;
+			remoteInfo = ZERO_CHECK;
+		};
+		D5D6972A803241D5BFD641F6 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 34EBAF870A924990A2B5811B /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 042339FCD53E47FD9C5BF29D;
+			remoteInfo = testKamiya;
+		};
+		E2057E879873478C9374D6D9 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 34EBAF870A924990A2B5811B /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 1A7DD1C32B384BA78716ED69;
+			remoteInfo = testGeom;
+		};
+		F955571A6BE946658F691476 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 34EBAF870A924990A2B5811B /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = AF338188C546422CA6DA761F;
+			remoteInfo = ZERO_CHECK;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		000D88474A6547D68B67FD7E /* /Users/kerautre/EnCours/LiverCCO/tools/mergeObj.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 4; name = mergeObj.cpp; path = tools/mergeObj.cpp; sourceTree = SOURCE_ROOT; };
+		02868205854F47B2B54F9388 /* /Users/kerautre/EnCours/LiverCCO/base/CoronaryArteryTree.ih */ = {isa = PBXFileReference; explicitFileType = sourcecode; fileEncoding = 4; name = CoronaryArteryTree.ih; path = base/CoronaryArteryTree.ih; sourceTree = SOURCE_ROOT; };
+		0E3CD03C9AD24CAA90FD2218 /* /Users/kerautre/EnCours/LiverCCO/helpers/XmlHelpers.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 4; name = XmlHelpers.h; path = helpers/XmlHelpers.h; sourceTree = SOURCE_ROOT; };
+		0F33D577CB774DD79059518D /* /Users/kerautre/EnCours/LiverCCO/helpers/ConstructionHelpers.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 4; name = ConstructionHelpers.h; path = helpers/ConstructionHelpers.h; sourceTree = SOURCE_ROOT; };
+		17369284585B43FBA2EEDB37 /* /Users/kerautre/EnCours/LiverCCO/tests/CMakeLists.txt */ = {isa = PBXFileReference; explicitFileType = sourcecode.text; fileEncoding = 4; name = CMakeLists.txt; path = tests/CMakeLists.txt; sourceTree = SOURCE_ROOT; };
+		1A9C29547DB24C12BA0462F9 /* /Users/kerautre/EnCours/LiverCCO/helpers/GeomHelpers.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 4; name = GeomHelpers.h; path = helpers/GeomHelpers.h; sourceTree = SOURCE_ROOT; };
+		23EBB9FECA144C86B65CA05A /* /Users/kerautre/EnCours/LiverCCO/base/CoronaryArteryTree.ih */ = {isa = PBXFileReference; explicitFileType = sourcecode; fileEncoding = 4; name = CoronaryArteryTree.ih; path = base/CoronaryArteryTree.ih; sourceTree = SOURCE_ROOT; };
+		245E8D617DAB410B9C00402C /* /opt/homebrew/opt/qt@5/lib/QtXml.framework */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = wrapper.framework; name = QtXml.framework; path = "/opt/homebrew/opt/qt@5/lib/QtXml.framework"; sourceTree = "<absolute>"; };
+		2ADC0B64D0D1489E8310A63F /* /Users/kerautre/EnCours/LiverCCO/tests/testKamiya.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 4; name = testKamiya.cpp; path = tests/testKamiya.cpp; sourceTree = SOURCE_ROOT; };
+		30E0806FA0134422A9E0FBCE /* generateTree2D */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; path = generateTree2D; sourceTree = BUILT_PRODUCTS_DIR; };
+		31EC8C3ECEDF43ACA1F9E65A /* /opt/homebrew/opt/qt@5/lib/QtCore.framework */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = wrapper.framework; name = QtCore.framework; path = "/opt/homebrew/opt/qt@5/lib/QtCore.framework"; sourceTree = "<absolute>"; };
+		3644F65479B04CB7ADEED82A /* /Users/kerautre/EnCours/LiverCCO/helpers/XmlHelpers.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 4; name = XmlHelpers.h; path = helpers/XmlHelpers.h; sourceTree = SOURCE_ROOT; };
+		36C938AA5C4D43719E9E4AFF /* /opt/homebrew/opt/qt@5/lib/QtGui.framework */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = wrapper.framework; name = QtGui.framework; path = "/opt/homebrew/opt/qt@5/lib/QtGui.framework"; sourceTree = "<absolute>"; };
+		3DA8785526BF49ABAB88439A /* /Users/kerautre/EnCours/LiverCCO/base/CoronaryArteryTree.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 4; name = CoronaryArteryTree.h; path = base/CoronaryArteryTree.h; sourceTree = SOURCE_ROOT; };
+		4577CB39F85040AE9F6AC00C /* /Users/kerautre/EnCours/LiverCCO/bin/CMakeLists.txt */ = {isa = PBXFileReference; explicitFileType = sourcecode.text; fileEncoding = 4; name = CMakeLists.txt; path = bin/CMakeLists.txt; sourceTree = SOURCE_ROOT; };
+		47896A070C66494B93BDCF4B /* /Users/kerautre/EnCours/LiverCCO/base/CoronaryArteryTree.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 4; name = CoronaryArteryTree.h; path = base/CoronaryArteryTree.h; sourceTree = SOURCE_ROOT; };
+		485C9AB213AD4577BCD4183A /* /Users/kerautre/EnCours/LiverCCO/base/CoronaryArteryTree.ih */ = {isa = PBXFileReference; explicitFileType = sourcecode; fileEncoding = 4; name = CoronaryArteryTree.ih; path = base/CoronaryArteryTree.ih; sourceTree = SOURCE_ROOT; };
+		4E07683CE0E34E1584A48F9D /* /Users/kerautre/EnCours/LiverCCO/tests/CMakeLists.txt */ = {isa = PBXFileReference; explicitFileType = sourcecode.text; fileEncoding = 4; name = CMakeLists.txt; path = tests/CMakeLists.txt; sourceTree = SOURCE_ROOT; };
+		4F70B538E96B46308D0D5488 /* /Users/kerautre/EnCours/LiverCCO/helpers/ConstructionHelpers.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 4; name = ConstructionHelpers.h; path = helpers/ConstructionHelpers.h; sourceTree = SOURCE_ROOT; };
+		502F0E3194674EB3A79B9D1E /* /Users/kerautre/EnCours/LiverCCO/tools/CMakeLists.txt */ = {isa = PBXFileReference; explicitFileType = sourcecode.text; fileEncoding = 4; name = CMakeLists.txt; path = tools/CMakeLists.txt; sourceTree = SOURCE_ROOT; };
+		5259B600A677404390264CA8 /* /Users/kerautre/EnCours/LiverCCO/helpers/XmlHelpers.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 4; name = XmlHelpers.h; path = helpers/XmlHelpers.h; sourceTree = SOURCE_ROOT; };
+		5982F7545CF6410FA2F933BF /* testGenerateTree */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; path = testGenerateTree; sourceTree = BUILT_PRODUCTS_DIR; };
+		5EDBB25CCAEE4B05A83BE4DC /* /Users/kerautre/EnCours/LiverCCO/helpers/XmlHelpers.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 4; name = XmlHelpers.h; path = helpers/XmlHelpers.h; sourceTree = SOURCE_ROOT; };
+		627844134CD24E3492B1E6B2 /* /opt/homebrew/opt/qt@5/lib/QtWidgets.framework */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = wrapper.framework; name = QtWidgets.framework; path = "/opt/homebrew/opt/qt@5/lib/QtWidgets.framework"; sourceTree = "<absolute>"; };
+		629D804501844989A56CFE11 /* /Users/kerautre/EnCours/LiverCCO/base/CoronaryArteryTree.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 4; name = CoronaryArteryTree.h; path = base/CoronaryArteryTree.h; sourceTree = SOURCE_ROOT; };
+		665793B6C5904259A68C1233 /* /Library/Frameworks/qglviewer.framework */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = wrapper.framework; name = qglviewer.framework; path = /Library/Frameworks/qglviewer.framework; sourceTree = "<absolute>"; };
+		67FB774D2415441A80D412D5 /* /Users/kerautre/EnCours/LiverCCO/base/CoronaryArteryTree.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 4; name = CoronaryArteryTree.h; path = base/CoronaryArteryTree.h; sourceTree = SOURCE_ROOT; };
+		7172E62CB90843CC9BB876EC /* /Users/kerautre/EnCours/LiverCCO/helpers/ConstructionHelpers.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 4; name = ConstructionHelpers.h; path = helpers/ConstructionHelpers.h; sourceTree = SOURCE_ROOT; };
+		7AF410473FCD4E359DB480E5 /* /opt/homebrew/opt/qt@5/lib/QtOpenGL.framework */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = wrapper.framework; name = QtOpenGL.framework; path = "/opt/homebrew/opt/qt@5/lib/QtOpenGL.framework"; sourceTree = "<absolute>"; };
+		7E80DABE1DBF46178D43AA25 /* /Users/kerautre/EnCours/LiverCCO/base/CoronaryArteryTree.ih */ = {isa = PBXFileReference; explicitFileType = sourcecode; fileEncoding = 4; name = CoronaryArteryTree.ih; path = base/CoronaryArteryTree.ih; sourceTree = SOURCE_ROOT; };
+		801307EB86FB4E1A950CF9CD /* /Users/kerautre/EnCours/LiverCCO/bin/generateTree3D.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 4; name = generateTree3D.cpp; path = bin/generateTree3D.cpp; sourceTree = SOURCE_ROOT; };
+		803CE8BB256B441BAB5D2528 /* /Users/kerautre/EnCours/LiverCCO/helpers/ConstructionHelpers.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 4; name = ConstructionHelpers.h; path = helpers/ConstructionHelpers.h; sourceTree = SOURCE_ROOT; };
+		80AC360B5FE148A19626D708 /* /Users/kerautre/EnCours/LiverCCO/helpers/GeomHelpers.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 4; name = GeomHelpers.h; path = helpers/GeomHelpers.h; sourceTree = SOURCE_ROOT; };
+		8286F5D821E64934B63F7B07 /* /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk/System/Library/Frameworks/OpenGL.framework */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk/System/Library/Frameworks/OpenGL.framework; sourceTree = "<absolute>"; };
+		82E55D26DC664AD4845B9949 /* /Users/kerautre/EnCours/LiverCCO/tests/testSchreiner.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 4; name = testSchreiner.cpp; path = tests/testSchreiner.cpp; sourceTree = SOURCE_ROOT; };
+		83CCAB8A87064694BE2ED9D2 /* /Users/kerautre/EnCours/LiverCCO/helpers/XmlHelpers.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 4; name = XmlHelpers.h; path = helpers/XmlHelpers.h; sourceTree = SOURCE_ROOT; };
+		8AA30DC3BEFD4A9BB9CB98CE /* /Users/kerautre/EnCours/LiverCCO/base/CoronaryArteryTree.ih */ = {isa = PBXFileReference; explicitFileType = sourcecode; fileEncoding = 4; name = CoronaryArteryTree.ih; path = base/CoronaryArteryTree.ih; sourceTree = SOURCE_ROOT; };
+		8B4256B19A4E40758107EE17 /* /Users/kerautre/EnCours/LiverCCO/CMakeLists.txt */ = {isa = PBXFileReference; explicitFileType = sourcecode.text; fileEncoding = 4; name = CMakeLists.txt; path = CMakeLists.txt; sourceTree = SOURCE_ROOT; };
+		95B07534530F4DB2863BC81C /* testSchreiner */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; path = testSchreiner; sourceTree = BUILT_PRODUCTS_DIR; };
+		989B8EEE28734291BA82FD23 /* /Users/kerautre/EnCours/LiverCCO/helpers/XmlHelpers.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 4; name = XmlHelpers.h; path = helpers/XmlHelpers.h; sourceTree = SOURCE_ROOT; };
+		99BCB59909064CF992FF7150 /* testKamiya */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; path = testKamiya; sourceTree = BUILT_PRODUCTS_DIR; };
+		9FDAD81CA2B54E6D833E0219 /* /Users/kerautre/EnCours/LiverCCO/helpers/GeomHelpers.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 4; name = GeomHelpers.h; path = helpers/GeomHelpers.h; sourceTree = SOURCE_ROOT; };
+		A2DD8B14DAD343DBB2A701DB /* /Users/kerautre/EnCours/LiverCCO/base/CoronaryArteryTree.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 4; name = CoronaryArteryTree.h; path = base/CoronaryArteryTree.h; sourceTree = SOURCE_ROOT; };
+		A4541608F93E4A26BFA3067B /* /Users/kerautre/EnCours/LiverCCO/helpers/ConstructionHelpers.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 4; name = ConstructionHelpers.h; path = helpers/ConstructionHelpers.h; sourceTree = SOURCE_ROOT; };
+		AC50275B1A6B4766BD40CF30 /* generateTestDomain */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; path = generateTestDomain; sourceTree = BUILT_PRODUCTS_DIR; };
+		B457C3C84DBC4981B381DB97 /* /Users/kerautre/EnCours/LiverCCO/base/CoronaryArteryTree.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 4; name = CoronaryArteryTree.h; path = base/CoronaryArteryTree.h; sourceTree = SOURCE_ROOT; };
+		B464F0530BA342C890EB6DD0 /* /Users/kerautre/EnCours/LiverCCO/bin/generateTree2D.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 4; name = generateTree2D.cpp; path = bin/generateTree2D.cpp; sourceTree = SOURCE_ROOT; };
+		B4ADCC06CE144B30AEE2FF15 /* /Users/kerautre/EnCours/LiverCCO/tests/testGeom.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 4; name = testGeom.cpp; path = tests/testGeom.cpp; sourceTree = SOURCE_ROOT; };
+		BA0E520FA8304C1399E5F8EE /* generateTree3D */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; path = generateTree3D; sourceTree = BUILT_PRODUCTS_DIR; };
+		BDE40F30C1444C50912B3537 /* /Users/kerautre/EnCours/LiverCCO/base/CoronaryArteryTree.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 4; name = CoronaryArteryTree.h; path = base/CoronaryArteryTree.h; sourceTree = SOURCE_ROOT; };
+		C3E5759EEDF94D95958B27D5 /* /Users/kerautre/EnCours/LiverCCO/helpers/GeomHelpers.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 4; name = GeomHelpers.h; path = helpers/GeomHelpers.h; sourceTree = SOURCE_ROOT; };
+		C586E07E300D48A883F37BD9 /* /Users/kerautre/EnCours/LiverCCO/base/CoronaryArteryTree.ih */ = {isa = PBXFileReference; explicitFileType = sourcecode; fileEncoding = 4; name = CoronaryArteryTree.ih; path = base/CoronaryArteryTree.ih; sourceTree = SOURCE_ROOT; };
+		C8FC95E731E048DA8D59D621 /* /Users/kerautre/EnCours/LiverCCO/tools/CMakeLists.txt */ = {isa = PBXFileReference; explicitFileType = sourcecode.text; fileEncoding = 4; name = CMakeLists.txt; path = tools/CMakeLists.txt; sourceTree = SOURCE_ROOT; };
+		C91D3408E87C4521901FF170 /* /Users/kerautre/EnCours/LiverCCO/tests/CMakeLists.txt */ = {isa = PBXFileReference; explicitFileType = sourcecode.text; fileEncoding = 4; name = CMakeLists.txt; path = tests/CMakeLists.txt; sourceTree = SOURCE_ROOT; };
+		CB837A50193D4E9289B3C661 /* /Users/kerautre/EnCours/LiverCCO/base/CoronaryArteryTree.ih */ = {isa = PBXFileReference; explicitFileType = sourcecode; fileEncoding = 4; name = CoronaryArteryTree.ih; path = base/CoronaryArteryTree.ih; sourceTree = SOURCE_ROOT; };
+		CCF0E15EA2EA4A4E9A4D13B6 /* /Users/kerautre/EnCours/LiverCCO/helpers/GeomHelpers.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 4; name = GeomHelpers.h; path = helpers/GeomHelpers.h; sourceTree = SOURCE_ROOT; };
+		CE23B4A6F97E4CD28C8F873A /* /Users/kerautre/EnCours/LiverCCO/helpers/GeomHelpers.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 4; name = GeomHelpers.h; path = helpers/GeomHelpers.h; sourceTree = SOURCE_ROOT; };
+		D6ED3C7A1B0B443289536939 /* /Users/kerautre/EnCours/LiverCCO/helpers/ConstructionHelpers.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 4; name = ConstructionHelpers.h; path = helpers/ConstructionHelpers.h; sourceTree = SOURCE_ROOT; };
+		D72916F344964EAE888D0581 /* /Users/kerautre/EnCours/LiverCCO/tests/CMakeLists.txt */ = {isa = PBXFileReference; explicitFileType = sourcecode.text; fileEncoding = 4; name = CMakeLists.txt; path = tests/CMakeLists.txt; sourceTree = SOURCE_ROOT; };
+		D77C589C0FF347619240BCE9 /* /Users/kerautre/EnCours/LiverCCO/base/CoronaryArteryTree.ih */ = {isa = PBXFileReference; explicitFileType = sourcecode; fileEncoding = 4; name = CoronaryArteryTree.ih; path = base/CoronaryArteryTree.ih; sourceTree = SOURCE_ROOT; };
+		DA594E497EEB4104AFA1B65C /* /Users/kerautre/EnCours/LiverCCO/helpers/GeomHelpers.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 4; name = GeomHelpers.h; path = helpers/GeomHelpers.h; sourceTree = SOURCE_ROOT; };
+		E299C72B36584D98A0DFFB2F /* /Users/kerautre/EnCours/LiverCCO/helpers/XmlHelpers.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 4; name = XmlHelpers.h; path = helpers/XmlHelpers.h; sourceTree = SOURCE_ROOT; };
+		E699862C05EE4B2FA7DB3DE2 /* mergeObj */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; path = mergeObj; sourceTree = BUILT_PRODUCTS_DIR; };
+		E6D925FD5C8547B595C53A7D /* /Users/kerautre/EnCours/LiverCCO/base/CoronaryArteryTree.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 4; name = CoronaryArteryTree.h; path = base/CoronaryArteryTree.h; sourceTree = SOURCE_ROOT; };
+		E80F230CBDA64DA8AF179A35 /* /Users/kerautre/EnCours/LiverCCO/tests/testGenerateTree.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 4; name = testGenerateTree.cpp; path = tests/testGenerateTree.cpp; sourceTree = SOURCE_ROOT; };
+		ECB6D52797E843EA88FE4D1D /* /Users/kerautre/EnCours/LiverCCO/helpers/ConstructionHelpers.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 4; name = ConstructionHelpers.h; path = helpers/ConstructionHelpers.h; sourceTree = SOURCE_ROOT; };
+		EDC2889D725F4C9E9A392AB2 /* testGeom */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; path = testGeom; sourceTree = BUILT_PRODUCTS_DIR; };
+		EFD24B9A39324D71881081DA /* /Users/kerautre/EnCours/LiverCCO/helpers/GeomHelpers.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 4; name = GeomHelpers.h; path = helpers/GeomHelpers.h; sourceTree = SOURCE_ROOT; };
+		F57BDF5ADC82473FA9951A10 /* /Users/kerautre/EnCours/LiverCCO/bin/CMakeLists.txt */ = {isa = PBXFileReference; explicitFileType = sourcecode.text; fileEncoding = 4; name = CMakeLists.txt; path = bin/CMakeLists.txt; sourceTree = SOURCE_ROOT; };
+		F8C23A775FEF47B98F8B0836 /* /Users/kerautre/EnCours/LiverCCO/tools/generateTestDomain.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 4; name = generateTestDomain.cpp; path = tools/generateTestDomain.cpp; sourceTree = SOURCE_ROOT; };
+		F8E57350716A49D6B9684F95 /* /Users/kerautre/EnCours/LiverCCO/helpers/XmlHelpers.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 4; name = XmlHelpers.h; path = helpers/XmlHelpers.h; sourceTree = SOURCE_ROOT; };
+		FFB3872FEDCB438E83E9461B /* /Users/kerautre/EnCours/LiverCCO/helpers/ConstructionHelpers.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 4; name = ConstructionHelpers.h; path = helpers/ConstructionHelpers.h; sourceTree = SOURCE_ROOT; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		19DEF04D0C044FBA9BCF92FD /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		25565B4F1C474207AC5DDD0F /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		297060B2CF4F4D9AAAE49284 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		4385AA9DDDB2412CB43AE3E4 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		55E559D38E594A818424EB80 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		862DE684DF094C19AE726C51 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BC169AE17D0B4E69A5587A03 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E270D25F98AD4D619F140650 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		03C46A7E0A064AD0AD7A277B /* generateTree3D */ = {
+			isa = PBXGroup;
+			children = (
+				519A50B058FD429D9F2D685A /* Source Files */,
+				22ADA2811EEF45F29B39037C /* Header Files */,
+				D77C589C0FF347619240BCE9 /* /Users/kerautre/EnCours/LiverCCO/base/CoronaryArteryTree.ih */,
+				4577CB39F85040AE9F6AC00C /* /Users/kerautre/EnCours/LiverCCO/bin/CMakeLists.txt */,
+			);
+			name = generateTree3D;
+			sourceTree = "<group>";
+		};
+		0B625B13E63F488BB028F101 /* Header Files */ = {
+			isa = PBXGroup;
+			children = (
+				3DA8785526BF49ABAB88439A /* /Users/kerautre/EnCours/LiverCCO/base/CoronaryArteryTree.h */,
+				803CE8BB256B441BAB5D2528 /* /Users/kerautre/EnCours/LiverCCO/helpers/ConstructionHelpers.h */,
+				EFD24B9A39324D71881081DA /* /Users/kerautre/EnCours/LiverCCO/helpers/GeomHelpers.h */,
+				E299C72B36584D98A0DFFB2F /* /Users/kerautre/EnCours/LiverCCO/helpers/XmlHelpers.h */,
+			);
+			name = "Header Files";
+			sourceTree = "<group>";
+		};
+		22ADA2811EEF45F29B39037C /* Header Files */ = {
+			isa = PBXGroup;
+			children = (
+				629D804501844989A56CFE11 /* /Users/kerautre/EnCours/LiverCCO/base/CoronaryArteryTree.h */,
+				0F33D577CB774DD79059518D /* /Users/kerautre/EnCours/LiverCCO/helpers/ConstructionHelpers.h */,
+				DA594E497EEB4104AFA1B65C /* /Users/kerautre/EnCours/LiverCCO/helpers/GeomHelpers.h */,
+				989B8EEE28734291BA82FD23 /* /Users/kerautre/EnCours/LiverCCO/helpers/XmlHelpers.h */,
+			);
+			name = "Header Files";
+			sourceTree = "<group>";
+		};
+		398C8FD5F930419C94A6A57A /* Header Files */ = {
+			isa = PBXGroup;
+			children = (
+				67FB774D2415441A80D412D5 /* /Users/kerautre/EnCours/LiverCCO/base/CoronaryArteryTree.h */,
+				7172E62CB90843CC9BB876EC /* /Users/kerautre/EnCours/LiverCCO/helpers/ConstructionHelpers.h */,
+				80AC360B5FE148A19626D708 /* /Users/kerautre/EnCours/LiverCCO/helpers/GeomHelpers.h */,
+				0E3CD03C9AD24CAA90FD2218 /* /Users/kerautre/EnCours/LiverCCO/helpers/XmlHelpers.h */,
+			);
+			name = "Header Files";
+			sourceTree = "<group>";
+		};
+		3C037B56EF0749D9A88EEBC9 /* CMake Rules */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = "CMake Rules";
+			sourceTree = "<group>";
+		};
+		409AF49F14F045EEA169D2C4 /* mergeObj */ = {
+			isa = PBXGroup;
+			children = (
+				8E82206C3BCC4CC88C70BC0D /* Source Files */,
+				398C8FD5F930419C94A6A57A /* Header Files */,
+				485C9AB213AD4577BCD4183A /* /Users/kerautre/EnCours/LiverCCO/base/CoronaryArteryTree.ih */,
+				C8FC95E731E048DA8D59D621 /* /Users/kerautre/EnCours/LiverCCO/tools/CMakeLists.txt */,
+			);
+			name = mergeObj;
+			sourceTree = "<group>";
+		};
+		42A4A28552A245BFAAB743C6 /* testGenerateTree */ = {
+			isa = PBXGroup;
+			children = (
+				C5D7AE0B1D884FB5B781E568 /* Source Files */,
+				8A231116AB9A4D0BB218F14A /* Header Files */,
+				8AA30DC3BEFD4A9BB9CB98CE /* /Users/kerautre/EnCours/LiverCCO/base/CoronaryArteryTree.ih */,
+				C91D3408E87C4521901FF170 /* /Users/kerautre/EnCours/LiverCCO/tests/CMakeLists.txt */,
+			);
+			name = testGenerateTree;
+			sourceTree = "<group>";
+		};
+		4A4E1BC884284BA5A9668575 /* testGeom */ = {
+			isa = PBXGroup;
+			children = (
+				746940982C614B16900DA5D4 /* Source Files */,
+				E0D23457346E4B9D8D73F2D3 /* Header Files */,
+				7E80DABE1DBF46178D43AA25 /* /Users/kerautre/EnCours/LiverCCO/base/CoronaryArteryTree.ih */,
+				17369284585B43FBA2EEDB37 /* /Users/kerautre/EnCours/LiverCCO/tests/CMakeLists.txt */,
+			);
+			name = testGeom;
+			sourceTree = "<group>";
+		};
+		4BB98F3EBC2445D4B7ABA649 /* Header Files */ = {
+			isa = PBXGroup;
+			children = (
+				47896A070C66494B93BDCF4B /* /Users/kerautre/EnCours/LiverCCO/base/CoronaryArteryTree.h */,
+				ECB6D52797E843EA88FE4D1D /* /Users/kerautre/EnCours/LiverCCO/helpers/ConstructionHelpers.h */,
+				CE23B4A6F97E4CD28C8F873A /* /Users/kerautre/EnCours/LiverCCO/helpers/GeomHelpers.h */,
+				5EDBB25CCAEE4B05A83BE4DC /* /Users/kerautre/EnCours/LiverCCO/helpers/XmlHelpers.h */,
+			);
+			name = "Header Files";
+			sourceTree = "<group>";
+		};
+		519A50B058FD429D9F2D685A /* Source Files */ = {
+			isa = PBXGroup;
+			children = (
+				801307EB86FB4E1A950CF9CD /* /Users/kerautre/EnCours/LiverCCO/bin/generateTree3D.cpp */,
+			);
+			name = "Source Files";
+			sourceTree = "<group>";
+		};
+		53E6AD91DF7746738EF2575B /* Source Files */ = {
+			isa = PBXGroup;
+			children = (
+				2ADC0B64D0D1489E8310A63F /* /Users/kerautre/EnCours/LiverCCO/tests/testKamiya.cpp */,
+			);
+			name = "Source Files";
+			sourceTree = "<group>";
+		};
+		6F85D6D8A28C4702AC6FAE0A /* generateTree2D */ = {
+			isa = PBXGroup;
+			children = (
+				E6D3D4C2DE0F46CDA8B4BCD3 /* Source Files */,
+				4BB98F3EBC2445D4B7ABA649 /* Header Files */,
+				02868205854F47B2B54F9388 /* /Users/kerautre/EnCours/LiverCCO/base/CoronaryArteryTree.ih */,
+				F57BDF5ADC82473FA9951A10 /* /Users/kerautre/EnCours/LiverCCO/bin/CMakeLists.txt */,
+			);
+			name = generateTree2D;
+			sourceTree = "<group>";
+		};
+		746940982C614B16900DA5D4 /* Source Files */ = {
+			isa = PBXGroup;
+			children = (
+				B4ADCC06CE144B30AEE2FF15 /* /Users/kerautre/EnCours/LiverCCO/tests/testGeom.cpp */,
+			);
+			name = "Source Files";
+			sourceTree = "<group>";
+		};
+		7786DF31F8C04F279515BE52 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				7AF410473FCD4E359DB480E5 /* /opt/homebrew/opt/qt@5/lib/QtOpenGL.framework */,
+				627844134CD24E3492B1E6B2 /* /opt/homebrew/opt/qt@5/lib/QtWidgets.framework */,
+				36C938AA5C4D43719E9E4AFF /* /opt/homebrew/opt/qt@5/lib/QtGui.framework */,
+				245E8D617DAB410B9C00402C /* /opt/homebrew/opt/qt@5/lib/QtXml.framework */,
+				31EC8C3ECEDF43ACA1F9E65A /* /opt/homebrew/opt/qt@5/lib/QtCore.framework */,
+				665793B6C5904259A68C1233 /* /Library/Frameworks/qglviewer.framework */,
+				8286F5D821E64934B63F7B07 /* /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk/System/Library/Frameworks/OpenGL.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		85FF16203AEC40379A70EC2D /* generateTestDomain */ = {
+			isa = PBXGroup;
+			children = (
+				E23AAB70F1A2475981194F33 /* Source Files */,
+				B328C0266365443290AE992C /* Header Files */,
+				23EBB9FECA144C86B65CA05A /* /Users/kerautre/EnCours/LiverCCO/base/CoronaryArteryTree.ih */,
+				502F0E3194674EB3A79B9D1E /* /Users/kerautre/EnCours/LiverCCO/tools/CMakeLists.txt */,
+			);
+			name = generateTestDomain;
+			sourceTree = "<group>";
+		};
+		8A231116AB9A4D0BB218F14A /* Header Files */ = {
+			isa = PBXGroup;
+			children = (
+				B457C3C84DBC4981B381DB97 /* /Users/kerautre/EnCours/LiverCCO/base/CoronaryArteryTree.h */,
+				FFB3872FEDCB438E83E9461B /* /Users/kerautre/EnCours/LiverCCO/helpers/ConstructionHelpers.h */,
+				CCF0E15EA2EA4A4E9A4D13B6 /* /Users/kerautre/EnCours/LiverCCO/helpers/GeomHelpers.h */,
+				3644F65479B04CB7ADEED82A /* /Users/kerautre/EnCours/LiverCCO/helpers/XmlHelpers.h */,
+			);
+			name = "Header Files";
+			sourceTree = "<group>";
+		};
+		8E82206C3BCC4CC88C70BC0D /* Source Files */ = {
+			isa = PBXGroup;
+			children = (
+				000D88474A6547D68B67FD7E /* /Users/kerautre/EnCours/LiverCCO/tools/mergeObj.cpp */,
+			);
+			name = "Source Files";
+			sourceTree = "<group>";
+		};
+		95DDD676431C4B028976FD78 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				AC50275B1A6B4766BD40CF30 /* generateTestDomain */,
+				30E0806FA0134422A9E0FBCE /* generateTree2D */,
+				BA0E520FA8304C1399E5F8EE /* generateTree3D */,
+				E699862C05EE4B2FA7DB3DE2 /* mergeObj */,
+				5982F7545CF6410FA2F933BF /* testGenerateTree */,
+				EDC2889D725F4C9E9A392AB2 /* testGeom */,
+				99BCB59909064CF992FF7150 /* testKamiya */,
+				95B07534530F4DB2863BC81C /* testSchreiner */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		9FD7EAA8513143B1BE1FBECA /* testKamiya */ = {
+			isa = PBXGroup;
+			children = (
+				53E6AD91DF7746738EF2575B /* Source Files */,
+				F6E1C00C18E14D2EA258C758 /* Header Files */,
+				C586E07E300D48A883F37BD9 /* /Users/kerautre/EnCours/LiverCCO/base/CoronaryArteryTree.ih */,
+				D72916F344964EAE888D0581 /* /Users/kerautre/EnCours/LiverCCO/tests/CMakeLists.txt */,
+			);
+			name = testKamiya;
+			sourceTree = "<group>";
+		};
+		B328C0266365443290AE992C /* Header Files */ = {
+			isa = PBXGroup;
+			children = (
+				E6D925FD5C8547B595C53A7D /* /Users/kerautre/EnCours/LiverCCO/base/CoronaryArteryTree.h */,
+				D6ED3C7A1B0B443289536939 /* /Users/kerautre/EnCours/LiverCCO/helpers/ConstructionHelpers.h */,
+				9FDAD81CA2B54E6D833E0219 /* /Users/kerautre/EnCours/LiverCCO/helpers/GeomHelpers.h */,
+				F8E57350716A49D6B9684F95 /* /Users/kerautre/EnCours/LiverCCO/helpers/XmlHelpers.h */,
+			);
+			name = "Header Files";
+			sourceTree = "<group>";
+		};
+		BF5649B6AD8A4EA3A91A5C20 = {
+			isa = PBXGroup;
+			children = (
+				DF2474F238874DB4B1C2BB42 /* ALL_BUILD */,
+				42A4A28552A245BFAAB743C6 /* testGenerateTree */,
+				4A4E1BC884284BA5A9668575 /* testGeom */,
+				9FD7EAA8513143B1BE1FBECA /* testKamiya */,
+				D5F53BCE9E0F4CD1913C340F /* testSchreiner */,
+				6F85D6D8A28C4702AC6FAE0A /* generateTree2D */,
+				03C46A7E0A064AD0AD7A277B /* generateTree3D */,
+				85FF16203AEC40379A70EC2D /* generateTestDomain */,
+				409AF49F14F045EEA169D2C4 /* mergeObj */,
+				95DDD676431C4B028976FD78 /* Products */,
+				7786DF31F8C04F279515BE52 /* Frameworks */,
+			);
+			sourceTree = "<group>";
+		};
+		C5D7AE0B1D884FB5B781E568 /* Source Files */ = {
+			isa = PBXGroup;
+			children = (
+				E80F230CBDA64DA8AF179A35 /* /Users/kerautre/EnCours/LiverCCO/tests/testGenerateTree.cpp */,
+			);
+			name = "Source Files";
+			sourceTree = "<group>";
+		};
+		D5F53BCE9E0F4CD1913C340F /* testSchreiner */ = {
+			isa = PBXGroup;
+			children = (
+				D6D09EE965E34612A07B380C /* Source Files */,
+				0B625B13E63F488BB028F101 /* Header Files */,
+				CB837A50193D4E9289B3C661 /* /Users/kerautre/EnCours/LiverCCO/base/CoronaryArteryTree.ih */,
+				4E07683CE0E34E1584A48F9D /* /Users/kerautre/EnCours/LiverCCO/tests/CMakeLists.txt */,
+			);
+			name = testSchreiner;
+			sourceTree = "<group>";
+		};
+		D6D09EE965E34612A07B380C /* Source Files */ = {
+			isa = PBXGroup;
+			children = (
+				82E55D26DC664AD4845B9949 /* /Users/kerautre/EnCours/LiverCCO/tests/testSchreiner.cpp */,
+			);
+			name = "Source Files";
+			sourceTree = "<group>";
+		};
+		DF2474F238874DB4B1C2BB42 /* ALL_BUILD */ = {
+			isa = PBXGroup;
+			children = (
+				3C037B56EF0749D9A88EEBC9 /* CMake Rules */,
+				8B4256B19A4E40758107EE17 /* /Users/kerautre/EnCours/LiverCCO/CMakeLists.txt */,
+			);
+			name = ALL_BUILD;
+			sourceTree = "<group>";
+		};
+		E0D23457346E4B9D8D73F2D3 /* Header Files */ = {
+			isa = PBXGroup;
+			children = (
+				BDE40F30C1444C50912B3537 /* /Users/kerautre/EnCours/LiverCCO/base/CoronaryArteryTree.h */,
+				4F70B538E96B46308D0D5488 /* /Users/kerautre/EnCours/LiverCCO/helpers/ConstructionHelpers.h */,
+				1A9C29547DB24C12BA0462F9 /* /Users/kerautre/EnCours/LiverCCO/helpers/GeomHelpers.h */,
+				83CCAB8A87064694BE2ED9D2 /* /Users/kerautre/EnCours/LiverCCO/helpers/XmlHelpers.h */,
+			);
+			name = "Header Files";
+			sourceTree = "<group>";
+		};
+		E23AAB70F1A2475981194F33 /* Source Files */ = {
+			isa = PBXGroup;
+			children = (
+				F8C23A775FEF47B98F8B0836 /* /Users/kerautre/EnCours/LiverCCO/tools/generateTestDomain.cpp */,
+			);
+			name = "Source Files";
+			sourceTree = "<group>";
+		};
+		E6D3D4C2DE0F46CDA8B4BCD3 /* Source Files */ = {
+			isa = PBXGroup;
+			children = (
+				B464F0530BA342C890EB6DD0 /* /Users/kerautre/EnCours/LiverCCO/bin/generateTree2D.cpp */,
+			);
+			name = "Source Files";
+			sourceTree = "<group>";
+		};
+		F6E1C00C18E14D2EA258C758 /* Header Files */ = {
+			isa = PBXGroup;
+			children = (
+				A2DD8B14DAD343DBB2A701DB /* /Users/kerautre/EnCours/LiverCCO/base/CoronaryArteryTree.h */,
+				A4541608F93E4A26BFA3067B /* /Users/kerautre/EnCours/LiverCCO/helpers/ConstructionHelpers.h */,
+				C3E5759EEDF94D95958B27D5 /* /Users/kerautre/EnCours/LiverCCO/helpers/GeomHelpers.h */,
+				5259B600A677404390264CA8 /* /Users/kerautre/EnCours/LiverCCO/helpers/XmlHelpers.h */,
+			);
+			name = "Header Files";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		042339FCD53E47FD9C5BF29D /* testKamiya */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 68BDCEE5299F4751945AF758 /* Build configuration list for PBXNativeTarget "testKamiya" */;
+			buildPhases = (
+				490D3AC628444D35B3590B22 /* Sources */,
+				19DEF04D0C044FBA9BCF92FD /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				6C027104734C4516A8DB08DD /* PBXTargetDependency */,
+			);
+			name = testKamiya;
+			productName = testKamiya;
+			productReference = 99BCB59909064CF992FF7150 /* testKamiya */;
+			productType = "com.apple.product-type.tool";
+		};
+		11B04072206847DAB9C7B52C /* generateTree3D */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 1B6A79E669E04F3DBD771895 /* Build configuration list for PBXNativeTarget "generateTree3D" */;
+			buildPhases = (
+				B496A0B972E040F88A1E2C63 /* Sources */,
+				25565B4F1C474207AC5DDD0F /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				89904F922403411595710F94 /* PBXTargetDependency */,
+			);
+			name = generateTree3D;
+			productName = generateTree3D;
+			productReference = BA0E520FA8304C1399E5F8EE /* generateTree3D */;
+			productType = "com.apple.product-type.tool";
+		};
+		18820F9816174783B014968A /* generateTree2D */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 3A232A37765C47FBA20FEF3F /* Build configuration list for PBXNativeTarget "generateTree2D" */;
+			buildPhases = (
+				735E7B7813B44618B1899574 /* Sources */,
+				55E559D38E594A818424EB80 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				B71CCA87A3774BA09CDD8321 /* PBXTargetDependency */,
+			);
+			name = generateTree2D;
+			productName = generateTree2D;
+			productReference = 30E0806FA0134422A9E0FBCE /* generateTree2D */;
+			productType = "com.apple.product-type.tool";
+		};
+		1A7DD1C32B384BA78716ED69 /* testGeom */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = A958989A4018481995E56AF4 /* Build configuration list for PBXNativeTarget "testGeom" */;
+			buildPhases = (
+				44A6F516BF854480A3DC7D48 /* Sources */,
+				297060B2CF4F4D9AAAE49284 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				320C7C1C16D24F1AB4B24035 /* PBXTargetDependency */,
+			);
+			name = testGeom;
+			productName = testGeom;
+			productReference = EDC2889D725F4C9E9A392AB2 /* testGeom */;
+			productType = "com.apple.product-type.tool";
+		};
+		7D5990F829914227925C9466 /* generateTestDomain */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = B1F41F521F8A47A49E3038C7 /* Build configuration list for PBXNativeTarget "generateTestDomain" */;
+			buildPhases = (
+				A3789869DFAF47A69C7F093E /* Sources */,
+				BC169AE17D0B4E69A5587A03 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				067DE4368644423E9D58C24F /* PBXTargetDependency */,
+			);
+			name = generateTestDomain;
+			productName = generateTestDomain;
+			productReference = AC50275B1A6B4766BD40CF30 /* generateTestDomain */;
+			productType = "com.apple.product-type.tool";
+		};
+		8CC1BCB163354FDEBC944829 /* mergeObj */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 31896C1B6EC0429493DF0A34 /* Build configuration list for PBXNativeTarget "mergeObj" */;
+			buildPhases = (
+				428D9145963547B185ECBCE6 /* Sources */,
+				4385AA9DDDB2412CB43AE3E4 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				6E5C37549A804BD2A7489B5B /* PBXTargetDependency */,
+			);
+			name = mergeObj;
+			productName = mergeObj;
+			productReference = E699862C05EE4B2FA7DB3DE2 /* mergeObj */;
+			productType = "com.apple.product-type.tool";
+		};
+		965FE503145F40B68138D0FA /* testSchreiner */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 0A1A037D910946DFA093BFD2 /* Build configuration list for PBXNativeTarget "testSchreiner" */;
+			buildPhases = (
+				9425F59747F8452F99277019 /* Sources */,
+				862DE684DF094C19AE726C51 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				E23ED94B61614722B4389072 /* PBXTargetDependency */,
+			);
+			name = testSchreiner;
+			productName = testSchreiner;
+			productReference = 95B07534530F4DB2863BC81C /* testSchreiner */;
+			productType = "com.apple.product-type.tool";
+		};
+		ECBABBBDDDFE4EEF9E0F14FC /* testGenerateTree */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = B8F709C388C541C9AB166C08 /* Build configuration list for PBXNativeTarget "testGenerateTree" */;
+			buildPhases = (
+				17EC353A245645A697BC567D /* Sources */,
+				E270D25F98AD4D619F140650 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				B6F2453AB7364D43A58C6087 /* PBXTargetDependency */,
+			);
+			name = testGenerateTree;
+			productName = testGenerateTree;
+			productReference = 5982F7545CF6410FA2F933BF /* testGenerateTree */;
+			productType = "com.apple.product-type.tool";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		34EBAF870A924990A2B5811B /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = YES;
+				LastUpgradeCheck = 1420;
+			};
+			buildConfigurationList = 1F48AF80CF934CA5A0A1A078 /* Build configuration list for PBXProject "CCO_Implementation" */;
+			buildSettings = {
+			};
+			buildStyles = (
+				52D2092732E84446889A51B3 /* Debug */,
+				8736C0912C1F4C3996DA72F8 /* Release */,
+				0B59B9146A1745918B7CBEE0 /* MinSizeRel */,
+				680B89829B0D404A957DC72C /* RelWithDebInfo */,
+			);
+			compatibilityVersion = "Xcode 3.2";
+			hasScannedForEncodings = 0;
+			mainGroup = BF5649B6AD8A4EA3A91A5C20;
+			projectDirPath = /Users/kerautre/EnCours/LiverCCO;
+			projectRoot = "";
+			targets = (
+				851849591C8341498A8DDD46 /* ALL_BUILD */,
+				AF338188C546422CA6DA761F /* ZERO_CHECK */,
+				7D5990F829914227925C9466 /* generateTestDomain */,
+				18820F9816174783B014968A /* generateTree2D */,
+				11B04072206847DAB9C7B52C /* generateTree3D */,
+				8CC1BCB163354FDEBC944829 /* mergeObj */,
+				ECBABBBDDDFE4EEF9E0F14FC /* testGenerateTree */,
+				1A7DD1C32B384BA78716ED69 /* testGeom */,
+				042339FCD53E47FD9C5BF29D /* testKamiya */,
+				965FE503145F40B68138D0FA /* testSchreiner */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		3C0110FC8322DE7E50886E21 = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# shell script goes here
+exit 0";
+			showEnvVarsInLog = 0;
+		};
+		9B50530E35CC49C82C2FACCF = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# shell script goes here
+exit 0";
+			showEnvVarsInLog = 0;
+		};
+		B2B02323B0A0137D73B05360 /* Generate CMakeFiles/ZERO_CHECK */ = {
+			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Generate CMakeFiles/ZERO_CHECK";
+			outputPaths = (
+/Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/ZERO_CHECK			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "set -e
+if test \"$CONFIGURATION\" = \"Debug\"; then :
+  cd /Users/kerautre/EnCours/LiverCCO/buildXcode
+  make -f /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeScripts/ReRunCMake.make
+fi
+if test \"$CONFIGURATION\" = \"Release\"; then :
+  cd /Users/kerautre/EnCours/LiverCCO/buildXcode
+  make -f /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeScripts/ReRunCMake.make
+fi
+if test \"$CONFIGURATION\" = \"MinSizeRel\"; then :
+  cd /Users/kerautre/EnCours/LiverCCO/buildXcode
+  make -f /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeScripts/ReRunCMake.make
+fi
+if test \"$CONFIGURATION\" = \"RelWithDebInfo\"; then :
+  cd /Users/kerautre/EnCours/LiverCCO/buildXcode
+  make -f /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeScripts/ReRunCMake.make
+fi
+";
+			showEnvVarsInLog = 0;
+		};
+		BFCB85084245998FE11D7C94 /* Generate CMakeFiles/ALL_BUILD */ = {
+			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Generate CMakeFiles/ALL_BUILD";
+			outputPaths = (
+/Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/ALL_BUILD			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "set -e
+if test \"$CONFIGURATION\" = \"Debug\"; then :
+  cd /Users/kerautre/EnCours/LiverCCO/buildXcode
+  echo Build\\ all\\ projects
+fi
+if test \"$CONFIGURATION\" = \"Release\"; then :
+  cd /Users/kerautre/EnCours/LiverCCO/buildXcode
+  echo Build\\ all\\ projects
+fi
+if test \"$CONFIGURATION\" = \"MinSizeRel\"; then :
+  cd /Users/kerautre/EnCours/LiverCCO/buildXcode
+  echo Build\\ all\\ projects
+fi
+if test \"$CONFIGURATION\" = \"RelWithDebInfo\"; then :
+  cd /Users/kerautre/EnCours/LiverCCO/buildXcode
+  echo Build\\ all\\ projects
+fi
+";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		17EC353A245645A697BC567D /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7EFBA44420A54ADFA751C83A /* /Users/kerautre/EnCours/LiverCCO/tests/testGenerateTree.cpp */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		428D9145963547B185ECBCE6 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				57C1388287764920A1D59FAC /* /Users/kerautre/EnCours/LiverCCO/tools/mergeObj.cpp */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		44A6F516BF854480A3DC7D48 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9EFF9159D7A74872A493E6D0 /* /Users/kerautre/EnCours/LiverCCO/tests/testGeom.cpp */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		490D3AC628444D35B3590B22 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				532310A792E04E11B445CADC /* /Users/kerautre/EnCours/LiverCCO/tests/testKamiya.cpp */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		735E7B7813B44618B1899574 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AE1D4D53A0BE4DD7BD5799D5 /* /Users/kerautre/EnCours/LiverCCO/bin/generateTree2D.cpp */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		9425F59747F8452F99277019 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0A91FA011C9246BA84873979 /* /Users/kerautre/EnCours/LiverCCO/tests/testSchreiner.cpp */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A3789869DFAF47A69C7F093E /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D5E9EFF4B50A426B9EEC5180 /* /Users/kerautre/EnCours/LiverCCO/tools/generateTestDomain.cpp */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		B496A0B972E040F88A1E2C63 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				CF38FF6369A44B5BBD2D1F58 /* /Users/kerautre/EnCours/LiverCCO/bin/generateTree3D.cpp */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		04EF388E485341B8BF4C55EF /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 965FE503145F40B68138D0FA /* testSchreiner */;
+			targetProxy = 39DA78FF5B114903AF6DF7CA /* PBXContainerItemProxy */;
+		};
+		067DE4368644423E9D58C24F /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = AF338188C546422CA6DA761F /* ZERO_CHECK */;
+			targetProxy = 4895F647DA7B4659AEA014D4 /* PBXContainerItemProxy */;
+		};
+		0DD8C922D76B4D4EB6B56CFB /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 11B04072206847DAB9C7B52C /* generateTree3D */;
+			targetProxy = 5C31B4047C5145A382A4D106 /* PBXContainerItemProxy */;
+		};
+		158839B6460A44D39C2088F2 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 18820F9816174783B014968A /* generateTree2D */;
+			targetProxy = 46AF60D35C0A4AC2AE314080 /* PBXContainerItemProxy */;
+		};
+		2191A880B76648B097862E40 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = AF338188C546422CA6DA761F /* ZERO_CHECK */;
+			targetProxy = 5FCF2E70075647C29421A0F6 /* PBXContainerItemProxy */;
+		};
+		320C7C1C16D24F1AB4B24035 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = AF338188C546422CA6DA761F /* ZERO_CHECK */;
+			targetProxy = 6F21402DFE7A440BA5ED69E1 /* PBXContainerItemProxy */;
+		};
+		427A9DD7495946D1A9205FE5 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 042339FCD53E47FD9C5BF29D /* testKamiya */;
+			targetProxy = D5D6972A803241D5BFD641F6 /* PBXContainerItemProxy */;
+		};
+		6C027104734C4516A8DB08DD /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = AF338188C546422CA6DA761F /* ZERO_CHECK */;
+			targetProxy = 0A3D89A6D3894FF9AB36969F /* PBXContainerItemProxy */;
+		};
+		6E5C37549A804BD2A7489B5B /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = AF338188C546422CA6DA761F /* ZERO_CHECK */;
+			targetProxy = 304EB7823422475F924A7428 /* PBXContainerItemProxy */;
+		};
+		78BAC2E3A50346FA9514831A /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 1A7DD1C32B384BA78716ED69 /* testGeom */;
+			targetProxy = E2057E879873478C9374D6D9 /* PBXContainerItemProxy */;
+		};
+		8236D89EC0C448E38BC46682 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = ECBABBBDDDFE4EEF9E0F14FC /* testGenerateTree */;
+			targetProxy = 8EBACB3CFE954628AEC63FFD /* PBXContainerItemProxy */;
+		};
+		89904F922403411595710F94 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = AF338188C546422CA6DA761F /* ZERO_CHECK */;
+			targetProxy = 0E2A252FF0494C0AB6D96822 /* PBXContainerItemProxy */;
+		};
+		B6F2453AB7364D43A58C6087 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = AF338188C546422CA6DA761F /* ZERO_CHECK */;
+			targetProxy = 3A84C4F660464123A740F540 /* PBXContainerItemProxy */;
+		};
+		B71CCA87A3774BA09CDD8321 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = AF338188C546422CA6DA761F /* ZERO_CHECK */;
+			targetProxy = F955571A6BE946658F691476 /* PBXContainerItemProxy */;
+		};
+		B82B9F5E44B6419D85D8447A /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 7D5990F829914227925C9466 /* generateTestDomain */;
+			targetProxy = B4402E5347194DC59C68C376 /* PBXContainerItemProxy */;
+		};
+		E23ED94B61614722B4389072 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = AF338188C546422CA6DA761F /* ZERO_CHECK */;
+			targetProxy = C3F900B66A3E4BDA8FCE8199 /* PBXContainerItemProxy */;
+		};
+		F360010FB04741D29EA8CBDA /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 8CC1BCB163354FDEBC944829 /* mergeObj */;
+			targetProxy = 7269DB612040437884C18201 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		01D44A0130284700969A9733 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = arm64;
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'","$(inherited)");
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				INSTALL_PATH = "";
+				ONLY_ACTIVE_ARCH = NO;
+				OTHER_LDFLAGS = ("","$(inherited)");
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = ALL_BUILD;
+				SECTORDER_FLAGS = "";
+				SYMROOT = /Users/kerautre/EnCours/LiverCCO/buildXcode;
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("$(inherited)");
+			};
+			name = Release;
+		};
+		06E441B0BCF6400986A51A67 /* MinSizeRel */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = arm64;
+				COMBINE_HIDPI_IMAGES = YES;
+				EXECUTABLE_PREFIX = "";
+				EXECUTABLE_SUFFIX = "";
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = s;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'",GLOG_CUSTOM_PREFIX_SUPPORT,"'GFLAGS_IS_A_DLL=0'",BOOST_ALL_NO_LIB,"'WITH_EIGEN=true'",WITH_QT5,WITH_VISU3D_QGLVIEWER,UNIX,APPLE,QT_WIDGETS_LIB,QT_GUI_LIB,QT_CORE_LIB,QT_NO_DEBUG,QT_OPENGL_LIB,QT_XML_LIB,"$(inherited)");
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				HEADER_SEARCH_PATHS = (/Users/kerautre/EnCours/LiverCCO/ext,/Users/kerautre/EnCours/LiverCCO/helpers,/Users/kerautre/EnCours/LiverCCO/base,"$(inherited)");
+				INSTALL_PATH = "";
+				LD_RUNPATH_SEARCH_PATHS = (/opt/homebrew/lib,"$(inherited)");
+				ONLY_ACTIVE_ARCH = NO;
+				OTHER_CPLUSPLUSFLAGS = "    -DNDEBUG -fPIC '-std=gnu++14' ";
+				OTHER_LDFLAGS = ("-L/opt/homebrew/opt/qt@5/lib -Wl,-search_paths_first -Wl,-headerpad_max_install_names",/opt/homebrew/lib/libceres.2.1.0.dylib,/Users/kerautre/EnCours/DGtal/build/libDGtal.a,/opt/homebrew/lib/libglog.0.6.0.dylib,/opt/homebrew/lib/libgflags.2.2.2.dylib,/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk/usr/lib/libz.tbd,"-F /opt/homebrew/opt/qt@5/lib","-Xlinker -framework -Xlinker QtOpenGL","-Xlinker -framework -Xlinker QtWidgets","-Xlinker -framework -Xlinker QtGui","-Xlinker -framework -Xlinker QtXml","-Xlinker -framework -Xlinker QtCore","-Xlinker -framework -Xlinker qglviewer","-Xlinker -framework -Xlinker OpenGL","$(inherited)");
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = testGenerateTree;
+				SECTORDER_FLAGS = "";
+				SYMROOT = /Users/kerautre/EnCours/LiverCCO/buildXcode/tests;
+				SYSTEM_FRAMEWORK_SEARCH_PATHS = (/Library/Frameworks,/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk/System/Library/Frameworks,"/opt/homebrew/opt/qt@5/lib","$(inherited)");
+				SYSTEM_HEADER_SEARCH_PATHS = (/Users/kerautre/EnCours/DGtal/src,/Users/kerautre/EnCours/DGtal/build/src,/opt/homebrew/include,/opt/homebrew/include/eigen3,"/opt/homebrew/opt/qt@5/lib/QtWidgets.framework/Headers","/opt/homebrew/opt/qt@5/lib/QtGui.framework/Headers",/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk/System/Library/Frameworks/OpenGL.framework/Headers,"/opt/homebrew/opt/qt@5/lib/QtCore.framework/Headers","/opt/homebrew/opt/qt@5/./mkspecs/macx-clang-arm64","/opt/homebrew/opt/qt@5/lib/QtOpenGL.framework/Headers","/opt/homebrew/opt/qt@5/lib/QtXml.framework/Headers","$(inherited)");
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("$(inherited)");
+			};
+			name = MinSizeRel;
+		};
+		178254788B46429480B94F20 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = arm64;
+				COMBINE_HIDPI_IMAGES = YES;
+				EXECUTABLE_PREFIX = "";
+				EXECUTABLE_SUFFIX = "";
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'",GLOG_CUSTOM_PREFIX_SUPPORT,"'GFLAGS_IS_A_DLL=0'",BOOST_ALL_NO_LIB,"'WITH_EIGEN=true'",WITH_QT5,WITH_VISU3D_QGLVIEWER,UNIX,APPLE,QT_WIDGETS_LIB,QT_GUI_LIB,QT_CORE_LIB,QT_OPENGL_LIB,QT_XML_LIB,"$(inherited)");
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				HEADER_SEARCH_PATHS = (/Users/kerautre/EnCours/LiverCCO/ext,/Users/kerautre/EnCours/LiverCCO/helpers,/Users/kerautre/EnCours/LiverCCO/base,"$(inherited)");
+				INSTALL_PATH = "";
+				LD_RUNPATH_SEARCH_PATHS = (/opt/homebrew/lib,"$(inherited)");
+				ONLY_ACTIVE_ARCH = NO;
+				OTHER_CPLUSPLUSFLAGS = "   -fPIC '-std=gnu++14' ";
+				OTHER_LDFLAGS = ("-L/opt/homebrew/opt/qt@5/lib -Wl,-search_paths_first -Wl,-headerpad_max_install_names",/opt/homebrew/lib/libceres.2.1.0.dylib,/Users/kerautre/EnCours/DGtal/build/libDGtal.a,/opt/homebrew/lib/libglog.0.6.0.dylib,/opt/homebrew/lib/libgflags.2.2.2.dylib,/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk/usr/lib/libz.tbd,"-F /opt/homebrew/opt/qt@5/lib","-Xlinker -framework -Xlinker QtOpenGL","-Xlinker -framework -Xlinker QtWidgets","-Xlinker -framework -Xlinker QtGui","-Xlinker -framework -Xlinker QtXml","-Xlinker -framework -Xlinker QtCore","-Xlinker -framework -Xlinker qglviewer","-Xlinker -framework -Xlinker OpenGL","$(inherited)");
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = testGenerateTree;
+				SECTORDER_FLAGS = "";
+				SYMROOT = /Users/kerautre/EnCours/LiverCCO/buildXcode/tests;
+				SYSTEM_FRAMEWORK_SEARCH_PATHS = (/Library/Frameworks,/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk/System/Library/Frameworks,"/opt/homebrew/opt/qt@5/lib","$(inherited)");
+				SYSTEM_HEADER_SEARCH_PATHS = (/Users/kerautre/EnCours/DGtal/src,/Users/kerautre/EnCours/DGtal/build/src,/opt/homebrew/include,/opt/homebrew/include/eigen3,"/opt/homebrew/opt/qt@5/lib/QtWidgets.framework/Headers","/opt/homebrew/opt/qt@5/lib/QtGui.framework/Headers",/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk/System/Library/Frameworks/OpenGL.framework/Headers,"/opt/homebrew/opt/qt@5/lib/QtCore.framework/Headers","/opt/homebrew/opt/qt@5/./mkspecs/macx-clang-arm64","/opt/homebrew/opt/qt@5/lib/QtOpenGL.framework/Headers","/opt/homebrew/opt/qt@5/lib/QtXml.framework/Headers","$(inherited)");
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("$(inherited)");
+			};
+			name = Debug;
+		};
+		1997A0FDD6AF42B49E0A74B9 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = arm64;
+				COMBINE_HIDPI_IMAGES = YES;
+				EXECUTABLE_PREFIX = "";
+				EXECUTABLE_SUFFIX = "";
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'",GLOG_CUSTOM_PREFIX_SUPPORT,"'GFLAGS_IS_A_DLL=0'",BOOST_ALL_NO_LIB,"'WITH_EIGEN=true'",WITH_QT5,WITH_VISU3D_QGLVIEWER,UNIX,APPLE,QT_WIDGETS_LIB,QT_GUI_LIB,QT_CORE_LIB,QT_OPENGL_LIB,QT_XML_LIB,"$(inherited)");
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				HEADER_SEARCH_PATHS = (/Users/kerautre/EnCours/LiverCCO/ext,/Users/kerautre/EnCours/LiverCCO/helpers,/Users/kerautre/EnCours/LiverCCO/base,"$(inherited)");
+				INSTALL_PATH = "";
+				LD_RUNPATH_SEARCH_PATHS = (/opt/homebrew/lib,"$(inherited)");
+				ONLY_ACTIVE_ARCH = NO;
+				OTHER_CPLUSPLUSFLAGS = "   -fPIC '-std=gnu++14' ";
+				OTHER_LDFLAGS = ("-L/opt/homebrew/opt/qt@5/lib -Wl,-search_paths_first -Wl,-headerpad_max_install_names",/opt/homebrew/lib/libceres.2.1.0.dylib,/Users/kerautre/EnCours/DGtal/build/libDGtal.a,/opt/homebrew/lib/libglog.0.6.0.dylib,/opt/homebrew/lib/libgflags.2.2.2.dylib,/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk/usr/lib/libz.tbd,"-F /opt/homebrew/opt/qt@5/lib","-Xlinker -framework -Xlinker QtOpenGL","-Xlinker -framework -Xlinker QtWidgets","-Xlinker -framework -Xlinker QtGui","-Xlinker -framework -Xlinker QtXml","-Xlinker -framework -Xlinker QtCore","-Xlinker -framework -Xlinker qglviewer","-Xlinker -framework -Xlinker OpenGL","$(inherited)");
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = generateTree2D;
+				SECTORDER_FLAGS = "";
+				SYMROOT = /Users/kerautre/EnCours/LiverCCO/buildXcode/bin;
+				SYSTEM_FRAMEWORK_SEARCH_PATHS = (/Library/Frameworks,/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk/System/Library/Frameworks,"/opt/homebrew/opt/qt@5/lib","$(inherited)");
+				SYSTEM_HEADER_SEARCH_PATHS = (/Users/kerautre/EnCours/DGtal/src,/Users/kerautre/EnCours/DGtal/build/src,/opt/homebrew/include,/opt/homebrew/include/eigen3,"/opt/homebrew/opt/qt@5/lib/QtWidgets.framework/Headers","/opt/homebrew/opt/qt@5/lib/QtGui.framework/Headers",/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk/System/Library/Frameworks/OpenGL.framework/Headers,"/opt/homebrew/opt/qt@5/lib/QtCore.framework/Headers","/opt/homebrew/opt/qt@5/./mkspecs/macx-clang-arm64","/opt/homebrew/opt/qt@5/lib/QtOpenGL.framework/Headers","/opt/homebrew/opt/qt@5/lib/QtXml.framework/Headers","$(inherited)");
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("$(inherited)");
+			};
+			name = Debug;
+		};
+		27D728CE87E84BE7A3D530FE /* MinSizeRel */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = arm64;
+				COMBINE_HIDPI_IMAGES = YES;
+				EXECUTABLE_PREFIX = "";
+				EXECUTABLE_SUFFIX = "";
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = s;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'",GLOG_CUSTOM_PREFIX_SUPPORT,"'GFLAGS_IS_A_DLL=0'",BOOST_ALL_NO_LIB,"'WITH_EIGEN=true'",WITH_QT5,WITH_VISU3D_QGLVIEWER,UNIX,APPLE,QT_WIDGETS_LIB,QT_GUI_LIB,QT_CORE_LIB,QT_NO_DEBUG,QT_OPENGL_LIB,QT_XML_LIB,"$(inherited)");
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				HEADER_SEARCH_PATHS = (/Users/kerautre/EnCours/LiverCCO/ext,/Users/kerautre/EnCours/LiverCCO/helpers,/Users/kerautre/EnCours/LiverCCO/base,"$(inherited)");
+				INSTALL_PATH = "";
+				LD_RUNPATH_SEARCH_PATHS = (/opt/homebrew/lib,"$(inherited)");
+				ONLY_ACTIVE_ARCH = NO;
+				OTHER_CPLUSPLUSFLAGS = "    -DNDEBUG -fPIC '-std=gnu++14' ";
+				OTHER_LDFLAGS = ("-L/opt/homebrew/opt/qt@5/lib -Wl,-search_paths_first -Wl,-headerpad_max_install_names",/opt/homebrew/lib/libceres.2.1.0.dylib,/Users/kerautre/EnCours/DGtal/build/libDGtal.a,/opt/homebrew/lib/libglog.0.6.0.dylib,/opt/homebrew/lib/libgflags.2.2.2.dylib,/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk/usr/lib/libz.tbd,"-F /opt/homebrew/opt/qt@5/lib","-Xlinker -framework -Xlinker QtOpenGL","-Xlinker -framework -Xlinker QtWidgets","-Xlinker -framework -Xlinker QtGui","-Xlinker -framework -Xlinker QtXml","-Xlinker -framework -Xlinker QtCore","-Xlinker -framework -Xlinker qglviewer","-Xlinker -framework -Xlinker OpenGL","$(inherited)");
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = generateTree3D;
+				SECTORDER_FLAGS = "";
+				SYMROOT = /Users/kerautre/EnCours/LiverCCO/buildXcode/bin;
+				SYSTEM_FRAMEWORK_SEARCH_PATHS = (/Library/Frameworks,/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk/System/Library/Frameworks,"/opt/homebrew/opt/qt@5/lib","$(inherited)");
+				SYSTEM_HEADER_SEARCH_PATHS = (/Users/kerautre/EnCours/DGtal/src,/Users/kerautre/EnCours/DGtal/build/src,/opt/homebrew/include,/opt/homebrew/include/eigen3,"/opt/homebrew/opt/qt@5/lib/QtWidgets.framework/Headers","/opt/homebrew/opt/qt@5/lib/QtGui.framework/Headers",/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk/System/Library/Frameworks/OpenGL.framework/Headers,"/opt/homebrew/opt/qt@5/lib/QtCore.framework/Headers","/opt/homebrew/opt/qt@5/./mkspecs/macx-clang-arm64","/opt/homebrew/opt/qt@5/lib/QtOpenGL.framework/Headers","/opt/homebrew/opt/qt@5/lib/QtXml.framework/Headers","$(inherited)");
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("$(inherited)");
+			};
+			name = MinSizeRel;
+		};
+		29A8EF6B710D41D88DBA648F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = arm64;
+				COMBINE_HIDPI_IMAGES = YES;
+				EXECUTABLE_PREFIX = "";
+				EXECUTABLE_SUFFIX = "";
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 3;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'",GLOG_CUSTOM_PREFIX_SUPPORT,"'GFLAGS_IS_A_DLL=0'",BOOST_ALL_NO_LIB,"'WITH_EIGEN=true'",WITH_QT5,WITH_VISU3D_QGLVIEWER,UNIX,APPLE,QT_WIDGETS_LIB,QT_GUI_LIB,QT_CORE_LIB,QT_NO_DEBUG,QT_OPENGL_LIB,QT_XML_LIB,"$(inherited)");
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				HEADER_SEARCH_PATHS = (/Users/kerautre/EnCours/LiverCCO/ext,/Users/kerautre/EnCours/LiverCCO/helpers,/Users/kerautre/EnCours/LiverCCO/base,"$(inherited)");
+				INSTALL_PATH = "";
+				LD_RUNPATH_SEARCH_PATHS = (/opt/homebrew/lib,"$(inherited)");
+				ONLY_ACTIVE_ARCH = NO;
+				OTHER_CPLUSPLUSFLAGS = "    -DNDEBUG -fPIC '-std=gnu++14' ";
+				OTHER_LDFLAGS = ("-L/opt/homebrew/opt/qt@5/lib -Wl,-search_paths_first -Wl,-headerpad_max_install_names",/opt/homebrew/lib/libceres.2.1.0.dylib,/Users/kerautre/EnCours/DGtal/build/libDGtal.a,/opt/homebrew/lib/libglog.0.6.0.dylib,/opt/homebrew/lib/libgflags.2.2.2.dylib,/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk/usr/lib/libz.tbd,"-F /opt/homebrew/opt/qt@5/lib","-Xlinker -framework -Xlinker QtOpenGL","-Xlinker -framework -Xlinker QtWidgets","-Xlinker -framework -Xlinker QtGui","-Xlinker -framework -Xlinker QtXml","-Xlinker -framework -Xlinker QtCore","-Xlinker -framework -Xlinker qglviewer","-Xlinker -framework -Xlinker OpenGL","$(inherited)");
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = testSchreiner;
+				SECTORDER_FLAGS = "";
+				SYMROOT = /Users/kerautre/EnCours/LiverCCO/buildXcode/tests;
+				SYSTEM_FRAMEWORK_SEARCH_PATHS = (/Library/Frameworks,/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk/System/Library/Frameworks,"/opt/homebrew/opt/qt@5/lib","$(inherited)");
+				SYSTEM_HEADER_SEARCH_PATHS = (/Users/kerautre/EnCours/DGtal/src,/Users/kerautre/EnCours/DGtal/build/src,/opt/homebrew/include,/opt/homebrew/include/eigen3,"/opt/homebrew/opt/qt@5/lib/QtWidgets.framework/Headers","/opt/homebrew/opt/qt@5/lib/QtGui.framework/Headers",/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk/System/Library/Frameworks/OpenGL.framework/Headers,"/opt/homebrew/opt/qt@5/lib/QtCore.framework/Headers","/opt/homebrew/opt/qt@5/./mkspecs/macx-clang-arm64","/opt/homebrew/opt/qt@5/lib/QtOpenGL.framework/Headers","/opt/homebrew/opt/qt@5/lib/QtXml.framework/Headers","$(inherited)");
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("$(inherited)");
+			};
+			name = Release;
+		};
+		2C574592AD7040A986D71972 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = arm64;
+				COMBINE_HIDPI_IMAGES = YES;
+				EXECUTABLE_PREFIX = "";
+				EXECUTABLE_SUFFIX = "";
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'",BOOST_ALL_NO_LIB,"'WITH_EIGEN=true'",WITH_QT5,WITH_VISU3D_QGLVIEWER,UNIX,APPLE,QT_WIDGETS_LIB,QT_GUI_LIB,QT_CORE_LIB,QT_OPENGL_LIB,QT_XML_LIB,"$(inherited)");
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				HEADER_SEARCH_PATHS = (/Users/kerautre/EnCours/LiverCCO/ext,/Users/kerautre/EnCours/LiverCCO/helpers,/Users/kerautre/EnCours/LiverCCO/base,"$(inherited)");
+				INSTALL_PATH = "";
+				ONLY_ACTIVE_ARCH = NO;
+				OTHER_CPLUSPLUSFLAGS = "   -fPIC '-std=gnu++11' ";
+				OTHER_LDFLAGS = ("-L/opt/homebrew/opt/qt@5/lib -Wl,-search_paths_first -Wl,-headerpad_max_install_names",/Users/kerautre/EnCours/DGtal/build/libDGtal.a,/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk/usr/lib/libz.tbd,"-F /opt/homebrew/opt/qt@5/lib","-Xlinker -framework -Xlinker QtOpenGL","-Xlinker -framework -Xlinker QtWidgets","-Xlinker -framework -Xlinker QtGui","-Xlinker -framework -Xlinker QtXml","-Xlinker -framework -Xlinker QtCore","-Xlinker -framework -Xlinker qglviewer","-Xlinker -framework -Xlinker OpenGL","$(inherited)");
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = generateTestDomain;
+				SECTORDER_FLAGS = "";
+				SYMROOT = /Users/kerautre/EnCours/LiverCCO/buildXcode/tools;
+				SYSTEM_FRAMEWORK_SEARCH_PATHS = (/Library/Frameworks,/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk/System/Library/Frameworks,"/opt/homebrew/opt/qt@5/lib","$(inherited)");
+				SYSTEM_HEADER_SEARCH_PATHS = (/Users/kerautre/EnCours/DGtal/src,/Users/kerautre/EnCours/DGtal/build/src,/opt/homebrew/include,"/opt/homebrew/opt/qt@5/lib/QtWidgets.framework/Headers","/opt/homebrew/opt/qt@5/lib/QtGui.framework/Headers",/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk/System/Library/Frameworks/OpenGL.framework/Headers,"/opt/homebrew/opt/qt@5/lib/QtCore.framework/Headers","/opt/homebrew/opt/qt@5/./mkspecs/macx-clang-arm64","/opt/homebrew/opt/qt@5/lib/QtOpenGL.framework/Headers","/opt/homebrew/opt/qt@5/lib/QtXml.framework/Headers",/opt/homebrew/include/eigen3,"$(inherited)");
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("$(inherited)");
+			};
+			name = Debug;
+		};
+		2F74E2D213D142B489E8CD79 /* RelWithDebInfo */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = arm64;
+				COMBINE_HIDPI_IMAGES = YES;
+				EXECUTABLE_PREFIX = "";
+				EXECUTABLE_SUFFIX = "";
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 2;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'",GLOG_CUSTOM_PREFIX_SUPPORT,"'GFLAGS_IS_A_DLL=0'",BOOST_ALL_NO_LIB,"'WITH_EIGEN=true'",WITH_QT5,WITH_VISU3D_QGLVIEWER,UNIX,APPLE,QT_WIDGETS_LIB,QT_GUI_LIB,QT_CORE_LIB,QT_NO_DEBUG,QT_OPENGL_LIB,QT_XML_LIB,"$(inherited)");
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				HEADER_SEARCH_PATHS = (/Users/kerautre/EnCours/LiverCCO/ext,/Users/kerautre/EnCours/LiverCCO/helpers,/Users/kerautre/EnCours/LiverCCO/base,"$(inherited)");
+				INSTALL_PATH = "";
+				LD_RUNPATH_SEARCH_PATHS = (/opt/homebrew/lib,"$(inherited)");
+				ONLY_ACTIVE_ARCH = NO;
+				OTHER_CPLUSPLUSFLAGS = "       -DNDEBUG -fPIC '-std=gnu++14' ";
+				OTHER_LDFLAGS = ("-L/opt/homebrew/opt/qt@5/lib -Wl,-search_paths_first -Wl,-headerpad_max_install_names",/opt/homebrew/lib/libceres.2.1.0.dylib,/Users/kerautre/EnCours/DGtal/build/libDGtal.a,/opt/homebrew/lib/libglog.0.6.0.dylib,/opt/homebrew/lib/libgflags.2.2.2.dylib,/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk/usr/lib/libz.tbd,"-F /opt/homebrew/opt/qt@5/lib","-Xlinker -framework -Xlinker QtOpenGL","-Xlinker -framework -Xlinker QtWidgets","-Xlinker -framework -Xlinker QtGui","-Xlinker -framework -Xlinker QtXml","-Xlinker -framework -Xlinker QtCore","-Xlinker -framework -Xlinker qglviewer","-Xlinker -framework -Xlinker OpenGL","$(inherited)");
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = testKamiya;
+				SECTORDER_FLAGS = "";
+				SYMROOT = /Users/kerautre/EnCours/LiverCCO/buildXcode/tests;
+				SYSTEM_FRAMEWORK_SEARCH_PATHS = (/Library/Frameworks,/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk/System/Library/Frameworks,"/opt/homebrew/opt/qt@5/lib","$(inherited)");
+				SYSTEM_HEADER_SEARCH_PATHS = (/Users/kerautre/EnCours/DGtal/src,/Users/kerautre/EnCours/DGtal/build/src,/opt/homebrew/include,/opt/homebrew/include/eigen3,"/opt/homebrew/opt/qt@5/lib/QtWidgets.framework/Headers","/opt/homebrew/opt/qt@5/lib/QtGui.framework/Headers",/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk/System/Library/Frameworks/OpenGL.framework/Headers,"/opt/homebrew/opt/qt@5/lib/QtCore.framework/Headers","/opt/homebrew/opt/qt@5/./mkspecs/macx-clang-arm64","/opt/homebrew/opt/qt@5/lib/QtOpenGL.framework/Headers","/opt/homebrew/opt/qt@5/lib/QtXml.framework/Headers","$(inherited)");
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("$(inherited)");
+			};
+			name = RelWithDebInfo;
+		};
+		374CAC2BCD7348EAAEB44F3D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = arm64;
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'","$(inherited)");
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				INSTALL_PATH = "";
+				ONLY_ACTIVE_ARCH = NO;
+				OTHER_LDFLAGS = ("","$(inherited)");
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = ALL_BUILD;
+				SECTORDER_FLAGS = "";
+				SYMROOT = /Users/kerautre/EnCours/LiverCCO/buildXcode;
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("$(inherited)");
+			};
+			name = Debug;
+		};
+		41A56128AB05458DB65414D4 /* MinSizeRel */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = arm64;
+				COMBINE_HIDPI_IMAGES = YES;
+				EXECUTABLE_PREFIX = "";
+				EXECUTABLE_SUFFIX = "";
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = s;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'",BOOST_ALL_NO_LIB,"'WITH_EIGEN=true'",WITH_QT5,WITH_VISU3D_QGLVIEWER,UNIX,APPLE,QT_WIDGETS_LIB,QT_GUI_LIB,QT_CORE_LIB,QT_NO_DEBUG,QT_OPENGL_LIB,QT_XML_LIB,"$(inherited)");
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				HEADER_SEARCH_PATHS = (/Users/kerautre/EnCours/LiverCCO/ext,/Users/kerautre/EnCours/LiverCCO/helpers,/Users/kerautre/EnCours/LiverCCO/base,"$(inherited)");
+				INSTALL_PATH = "";
+				ONLY_ACTIVE_ARCH = NO;
+				OTHER_CPLUSPLUSFLAGS = "    -DNDEBUG -fPIC '-std=gnu++11' ";
+				OTHER_LDFLAGS = ("-L/opt/homebrew/opt/qt@5/lib -Wl,-search_paths_first -Wl,-headerpad_max_install_names",/Users/kerautre/EnCours/DGtal/build/libDGtal.a,/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk/usr/lib/libz.tbd,"-F /opt/homebrew/opt/qt@5/lib","-Xlinker -framework -Xlinker QtOpenGL","-Xlinker -framework -Xlinker QtWidgets","-Xlinker -framework -Xlinker QtGui","-Xlinker -framework -Xlinker QtXml","-Xlinker -framework -Xlinker QtCore","-Xlinker -framework -Xlinker qglviewer","-Xlinker -framework -Xlinker OpenGL","$(inherited)");
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = generateTestDomain;
+				SECTORDER_FLAGS = "";
+				SYMROOT = /Users/kerautre/EnCours/LiverCCO/buildXcode/tools;
+				SYSTEM_FRAMEWORK_SEARCH_PATHS = (/Library/Frameworks,/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk/System/Library/Frameworks,"/opt/homebrew/opt/qt@5/lib","$(inherited)");
+				SYSTEM_HEADER_SEARCH_PATHS = (/Users/kerautre/EnCours/DGtal/src,/Users/kerautre/EnCours/DGtal/build/src,/opt/homebrew/include,"/opt/homebrew/opt/qt@5/lib/QtWidgets.framework/Headers","/opt/homebrew/opt/qt@5/lib/QtGui.framework/Headers",/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk/System/Library/Frameworks/OpenGL.framework/Headers,"/opt/homebrew/opt/qt@5/lib/QtCore.framework/Headers","/opt/homebrew/opt/qt@5/./mkspecs/macx-clang-arm64","/opt/homebrew/opt/qt@5/lib/QtOpenGL.framework/Headers","/opt/homebrew/opt/qt@5/lib/QtXml.framework/Headers",/opt/homebrew/include/eigen3,"$(inherited)");
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("$(inherited)");
+			};
+			name = MinSizeRel;
+		};
+		441FF392A7524E23AB7595D9 /* RelWithDebInfo */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = arm64;
+				COMBINE_HIDPI_IMAGES = YES;
+				EXECUTABLE_PREFIX = "";
+				EXECUTABLE_SUFFIX = "";
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 2;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'",BOOST_ALL_NO_LIB,"'WITH_EIGEN=true'",WITH_QT5,WITH_VISU3D_QGLVIEWER,UNIX,APPLE,QT_WIDGETS_LIB,QT_GUI_LIB,QT_CORE_LIB,QT_NO_DEBUG,QT_OPENGL_LIB,QT_XML_LIB,"$(inherited)");
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				HEADER_SEARCH_PATHS = (/Users/kerautre/EnCours/LiverCCO/ext,/Users/kerautre/EnCours/LiverCCO/helpers,/Users/kerautre/EnCours/LiverCCO/base,"$(inherited)");
+				INSTALL_PATH = "";
+				ONLY_ACTIVE_ARCH = NO;
+				OTHER_CPLUSPLUSFLAGS = "       -DNDEBUG -fPIC '-std=gnu++11' ";
+				OTHER_LDFLAGS = ("-L/opt/homebrew/opt/qt@5/lib -Wl,-search_paths_first -Wl,-headerpad_max_install_names",/Users/kerautre/EnCours/DGtal/build/libDGtal.a,/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk/usr/lib/libz.tbd,"-F /opt/homebrew/opt/qt@5/lib","-Xlinker -framework -Xlinker QtOpenGL","-Xlinker -framework -Xlinker QtWidgets","-Xlinker -framework -Xlinker QtGui","-Xlinker -framework -Xlinker QtXml","-Xlinker -framework -Xlinker QtCore","-Xlinker -framework -Xlinker qglviewer","-Xlinker -framework -Xlinker OpenGL","$(inherited)");
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = mergeObj;
+				SECTORDER_FLAGS = "";
+				SYMROOT = /Users/kerautre/EnCours/LiverCCO/buildXcode/tools;
+				SYSTEM_FRAMEWORK_SEARCH_PATHS = (/Library/Frameworks,/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk/System/Library/Frameworks,"/opt/homebrew/opt/qt@5/lib","$(inherited)");
+				SYSTEM_HEADER_SEARCH_PATHS = (/Users/kerautre/EnCours/DGtal/src,/Users/kerautre/EnCours/DGtal/build/src,/opt/homebrew/include,"/opt/homebrew/opt/qt@5/lib/QtWidgets.framework/Headers","/opt/homebrew/opt/qt@5/lib/QtGui.framework/Headers",/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk/System/Library/Frameworks/OpenGL.framework/Headers,"/opt/homebrew/opt/qt@5/lib/QtCore.framework/Headers","/opt/homebrew/opt/qt@5/./mkspecs/macx-clang-arm64","/opt/homebrew/opt/qt@5/lib/QtOpenGL.framework/Headers","/opt/homebrew/opt/qt@5/lib/QtXml.framework/Headers",/opt/homebrew/include/eigen3,"$(inherited)");
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("$(inherited)");
+			};
+			name = RelWithDebInfo;
+		};
+		4614FB59F5C744E28E22B5D9 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = arm64;
+				SDKROOT = /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk;
+				SYMROOT = /Users/kerautre/EnCours/LiverCCO/buildXcode/build;
+			};
+			name = Release;
+		};
+		54B6BB349A0D4577B0AC5C29 /* MinSizeRel */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = arm64;
+				SDKROOT = /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk;
+				SYMROOT = /Users/kerautre/EnCours/LiverCCO/buildXcode/build;
+			};
+			name = MinSizeRel;
+		};
+		54F5C51CB59C4A2CB3EA5D79 /* MinSizeRel */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = arm64;
+				COMBINE_HIDPI_IMAGES = YES;
+				EXECUTABLE_PREFIX = "";
+				EXECUTABLE_SUFFIX = "";
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = s;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'",GLOG_CUSTOM_PREFIX_SUPPORT,"'GFLAGS_IS_A_DLL=0'",BOOST_ALL_NO_LIB,"'WITH_EIGEN=true'",WITH_QT5,WITH_VISU3D_QGLVIEWER,UNIX,APPLE,QT_WIDGETS_LIB,QT_GUI_LIB,QT_CORE_LIB,QT_NO_DEBUG,QT_OPENGL_LIB,QT_XML_LIB,"$(inherited)");
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				HEADER_SEARCH_PATHS = (/Users/kerautre/EnCours/LiverCCO/ext,/Users/kerautre/EnCours/LiverCCO/helpers,/Users/kerautre/EnCours/LiverCCO/base,"$(inherited)");
+				INSTALL_PATH = "";
+				LD_RUNPATH_SEARCH_PATHS = (/opt/homebrew/lib,"$(inherited)");
+				ONLY_ACTIVE_ARCH = NO;
+				OTHER_CPLUSPLUSFLAGS = "    -DNDEBUG -fPIC '-std=gnu++14' ";
+				OTHER_LDFLAGS = ("-L/opt/homebrew/opt/qt@5/lib -Wl,-search_paths_first -Wl,-headerpad_max_install_names",/opt/homebrew/lib/libceres.2.1.0.dylib,/Users/kerautre/EnCours/DGtal/build/libDGtal.a,/opt/homebrew/lib/libglog.0.6.0.dylib,/opt/homebrew/lib/libgflags.2.2.2.dylib,/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk/usr/lib/libz.tbd,"-F /opt/homebrew/opt/qt@5/lib","-Xlinker -framework -Xlinker QtOpenGL","-Xlinker -framework -Xlinker QtWidgets","-Xlinker -framework -Xlinker QtGui","-Xlinker -framework -Xlinker QtXml","-Xlinker -framework -Xlinker QtCore","-Xlinker -framework -Xlinker qglviewer","-Xlinker -framework -Xlinker OpenGL","$(inherited)");
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = generateTree2D;
+				SECTORDER_FLAGS = "";
+				SYMROOT = /Users/kerautre/EnCours/LiverCCO/buildXcode/bin;
+				SYSTEM_FRAMEWORK_SEARCH_PATHS = (/Library/Frameworks,/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk/System/Library/Frameworks,"/opt/homebrew/opt/qt@5/lib","$(inherited)");
+				SYSTEM_HEADER_SEARCH_PATHS = (/Users/kerautre/EnCours/DGtal/src,/Users/kerautre/EnCours/DGtal/build/src,/opt/homebrew/include,/opt/homebrew/include/eigen3,"/opt/homebrew/opt/qt@5/lib/QtWidgets.framework/Headers","/opt/homebrew/opt/qt@5/lib/QtGui.framework/Headers",/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk/System/Library/Frameworks/OpenGL.framework/Headers,"/opt/homebrew/opt/qt@5/lib/QtCore.framework/Headers","/opt/homebrew/opt/qt@5/./mkspecs/macx-clang-arm64","/opt/homebrew/opt/qt@5/lib/QtOpenGL.framework/Headers","/opt/homebrew/opt/qt@5/lib/QtXml.framework/Headers","$(inherited)");
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("$(inherited)");
+			};
+			name = MinSizeRel;
+		};
+		57E41202BF0D42B982E2AA7A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = arm64;
+				COMBINE_HIDPI_IMAGES = YES;
+				EXECUTABLE_PREFIX = "";
+				EXECUTABLE_SUFFIX = "";
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 3;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'",BOOST_ALL_NO_LIB,"'WITH_EIGEN=true'",WITH_QT5,WITH_VISU3D_QGLVIEWER,UNIX,APPLE,QT_WIDGETS_LIB,QT_GUI_LIB,QT_CORE_LIB,QT_NO_DEBUG,QT_OPENGL_LIB,QT_XML_LIB,"$(inherited)");
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				HEADER_SEARCH_PATHS = (/Users/kerautre/EnCours/LiverCCO/ext,/Users/kerautre/EnCours/LiverCCO/helpers,/Users/kerautre/EnCours/LiverCCO/base,"$(inherited)");
+				INSTALL_PATH = "";
+				ONLY_ACTIVE_ARCH = NO;
+				OTHER_CPLUSPLUSFLAGS = "    -DNDEBUG -fPIC '-std=gnu++11' ";
+				OTHER_LDFLAGS = ("-L/opt/homebrew/opt/qt@5/lib -Wl,-search_paths_first -Wl,-headerpad_max_install_names",/Users/kerautre/EnCours/DGtal/build/libDGtal.a,/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk/usr/lib/libz.tbd,"-F /opt/homebrew/opt/qt@5/lib","-Xlinker -framework -Xlinker QtOpenGL","-Xlinker -framework -Xlinker QtWidgets","-Xlinker -framework -Xlinker QtGui","-Xlinker -framework -Xlinker QtXml","-Xlinker -framework -Xlinker QtCore","-Xlinker -framework -Xlinker qglviewer","-Xlinker -framework -Xlinker OpenGL","$(inherited)");
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = mergeObj;
+				SECTORDER_FLAGS = "";
+				SYMROOT = /Users/kerautre/EnCours/LiverCCO/buildXcode/tools;
+				SYSTEM_FRAMEWORK_SEARCH_PATHS = (/Library/Frameworks,/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk/System/Library/Frameworks,"/opt/homebrew/opt/qt@5/lib","$(inherited)");
+				SYSTEM_HEADER_SEARCH_PATHS = (/Users/kerautre/EnCours/DGtal/src,/Users/kerautre/EnCours/DGtal/build/src,/opt/homebrew/include,"/opt/homebrew/opt/qt@5/lib/QtWidgets.framework/Headers","/opt/homebrew/opt/qt@5/lib/QtGui.framework/Headers",/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk/System/Library/Frameworks/OpenGL.framework/Headers,"/opt/homebrew/opt/qt@5/lib/QtCore.framework/Headers","/opt/homebrew/opt/qt@5/./mkspecs/macx-clang-arm64","/opt/homebrew/opt/qt@5/lib/QtOpenGL.framework/Headers","/opt/homebrew/opt/qt@5/lib/QtXml.framework/Headers",/opt/homebrew/include/eigen3,"$(inherited)");
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("$(inherited)");
+			};
+			name = Release;
+		};
+		64410941A4A94A398A996BC6 /* MinSizeRel */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = arm64;
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'","$(inherited)");
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				INSTALL_PATH = "";
+				ONLY_ACTIVE_ARCH = NO;
+				OTHER_LDFLAGS = ("","$(inherited)");
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = ZERO_CHECK;
+				SECTORDER_FLAGS = "";
+				SYMROOT = /Users/kerautre/EnCours/LiverCCO/buildXcode;
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("$(inherited)");
+			};
+			name = MinSizeRel;
+		};
+		66735933FC87458A83761C7A /* RelWithDebInfo */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = arm64;
+				COMBINE_HIDPI_IMAGES = YES;
+				EXECUTABLE_PREFIX = "";
+				EXECUTABLE_SUFFIX = "";
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 2;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'",GLOG_CUSTOM_PREFIX_SUPPORT,"'GFLAGS_IS_A_DLL=0'",BOOST_ALL_NO_LIB,"'WITH_EIGEN=true'",WITH_QT5,WITH_VISU3D_QGLVIEWER,UNIX,APPLE,QT_WIDGETS_LIB,QT_GUI_LIB,QT_CORE_LIB,QT_NO_DEBUG,QT_OPENGL_LIB,QT_XML_LIB,"$(inherited)");
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				HEADER_SEARCH_PATHS = (/Users/kerautre/EnCours/LiverCCO/ext,/Users/kerautre/EnCours/LiverCCO/helpers,/Users/kerautre/EnCours/LiverCCO/base,"$(inherited)");
+				INSTALL_PATH = "";
+				LD_RUNPATH_SEARCH_PATHS = (/opt/homebrew/lib,"$(inherited)");
+				ONLY_ACTIVE_ARCH = NO;
+				OTHER_CPLUSPLUSFLAGS = "       -DNDEBUG -fPIC '-std=gnu++14' ";
+				OTHER_LDFLAGS = ("-L/opt/homebrew/opt/qt@5/lib -Wl,-search_paths_first -Wl,-headerpad_max_install_names",/opt/homebrew/lib/libceres.2.1.0.dylib,/Users/kerautre/EnCours/DGtal/build/libDGtal.a,/opt/homebrew/lib/libglog.0.6.0.dylib,/opt/homebrew/lib/libgflags.2.2.2.dylib,/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk/usr/lib/libz.tbd,"-F /opt/homebrew/opt/qt@5/lib","-Xlinker -framework -Xlinker QtOpenGL","-Xlinker -framework -Xlinker QtWidgets","-Xlinker -framework -Xlinker QtGui","-Xlinker -framework -Xlinker QtXml","-Xlinker -framework -Xlinker QtCore","-Xlinker -framework -Xlinker qglviewer","-Xlinker -framework -Xlinker OpenGL","$(inherited)");
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = testGenerateTree;
+				SECTORDER_FLAGS = "";
+				SYMROOT = /Users/kerautre/EnCours/LiverCCO/buildXcode/tests;
+				SYSTEM_FRAMEWORK_SEARCH_PATHS = (/Library/Frameworks,/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk/System/Library/Frameworks,"/opt/homebrew/opt/qt@5/lib","$(inherited)");
+				SYSTEM_HEADER_SEARCH_PATHS = (/Users/kerautre/EnCours/DGtal/src,/Users/kerautre/EnCours/DGtal/build/src,/opt/homebrew/include,/opt/homebrew/include/eigen3,"/opt/homebrew/opt/qt@5/lib/QtWidgets.framework/Headers","/opt/homebrew/opt/qt@5/lib/QtGui.framework/Headers",/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk/System/Library/Frameworks/OpenGL.framework/Headers,"/opt/homebrew/opt/qt@5/lib/QtCore.framework/Headers","/opt/homebrew/opt/qt@5/./mkspecs/macx-clang-arm64","/opt/homebrew/opt/qt@5/lib/QtOpenGL.framework/Headers","/opt/homebrew/opt/qt@5/lib/QtXml.framework/Headers","$(inherited)");
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("$(inherited)");
+			};
+			name = RelWithDebInfo;
+		};
+		66F79EF55AC44CD7B52A097D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = arm64;
+				SDKROOT = /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk;
+				SYMROOT = /Users/kerautre/EnCours/LiverCCO/buildXcode/build;
+			};
+			name = Debug;
+		};
+		68FC0B2DAA5046C38709C331 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = arm64;
+				COMBINE_HIDPI_IMAGES = YES;
+				EXECUTABLE_PREFIX = "";
+				EXECUTABLE_SUFFIX = "";
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'",GLOG_CUSTOM_PREFIX_SUPPORT,"'GFLAGS_IS_A_DLL=0'",BOOST_ALL_NO_LIB,"'WITH_EIGEN=true'",WITH_QT5,WITH_VISU3D_QGLVIEWER,UNIX,APPLE,QT_WIDGETS_LIB,QT_GUI_LIB,QT_CORE_LIB,QT_OPENGL_LIB,QT_XML_LIB,"$(inherited)");
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				HEADER_SEARCH_PATHS = (/Users/kerautre/EnCours/LiverCCO/ext,/Users/kerautre/EnCours/LiverCCO/helpers,/Users/kerautre/EnCours/LiverCCO/base,"$(inherited)");
+				INSTALL_PATH = "";
+				LD_RUNPATH_SEARCH_PATHS = (/opt/homebrew/lib,"$(inherited)");
+				ONLY_ACTIVE_ARCH = NO;
+				OTHER_CPLUSPLUSFLAGS = "   -fPIC '-std=gnu++14' ";
+				OTHER_LDFLAGS = ("-L/opt/homebrew/opt/qt@5/lib -Wl,-search_paths_first -Wl,-headerpad_max_install_names",/opt/homebrew/lib/libceres.2.1.0.dylib,/Users/kerautre/EnCours/DGtal/build/libDGtal.a,/opt/homebrew/lib/libglog.0.6.0.dylib,/opt/homebrew/lib/libgflags.2.2.2.dylib,/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk/usr/lib/libz.tbd,"-F /opt/homebrew/opt/qt@5/lib","-Xlinker -framework -Xlinker QtOpenGL","-Xlinker -framework -Xlinker QtWidgets","-Xlinker -framework -Xlinker QtGui","-Xlinker -framework -Xlinker QtXml","-Xlinker -framework -Xlinker QtCore","-Xlinker -framework -Xlinker qglviewer","-Xlinker -framework -Xlinker OpenGL","$(inherited)");
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = testSchreiner;
+				SECTORDER_FLAGS = "";
+				SYMROOT = /Users/kerautre/EnCours/LiverCCO/buildXcode/tests;
+				SYSTEM_FRAMEWORK_SEARCH_PATHS = (/Library/Frameworks,/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk/System/Library/Frameworks,"/opt/homebrew/opt/qt@5/lib","$(inherited)");
+				SYSTEM_HEADER_SEARCH_PATHS = (/Users/kerautre/EnCours/DGtal/src,/Users/kerautre/EnCours/DGtal/build/src,/opt/homebrew/include,/opt/homebrew/include/eigen3,"/opt/homebrew/opt/qt@5/lib/QtWidgets.framework/Headers","/opt/homebrew/opt/qt@5/lib/QtGui.framework/Headers",/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk/System/Library/Frameworks/OpenGL.framework/Headers,"/opt/homebrew/opt/qt@5/lib/QtCore.framework/Headers","/opt/homebrew/opt/qt@5/./mkspecs/macx-clang-arm64","/opt/homebrew/opt/qt@5/lib/QtOpenGL.framework/Headers","/opt/homebrew/opt/qt@5/lib/QtXml.framework/Headers","$(inherited)");
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("$(inherited)");
+			};
+			name = Debug;
+		};
+		73BF779F84564E6CAF746E96 /* RelWithDebInfo */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = arm64;
+				COMBINE_HIDPI_IMAGES = YES;
+				EXECUTABLE_PREFIX = "";
+				EXECUTABLE_SUFFIX = "";
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 2;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'",GLOG_CUSTOM_PREFIX_SUPPORT,"'GFLAGS_IS_A_DLL=0'",BOOST_ALL_NO_LIB,"'WITH_EIGEN=true'",WITH_QT5,WITH_VISU3D_QGLVIEWER,UNIX,APPLE,QT_WIDGETS_LIB,QT_GUI_LIB,QT_CORE_LIB,QT_NO_DEBUG,QT_OPENGL_LIB,QT_XML_LIB,"$(inherited)");
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				HEADER_SEARCH_PATHS = (/Users/kerautre/EnCours/LiverCCO/ext,/Users/kerautre/EnCours/LiverCCO/helpers,/Users/kerautre/EnCours/LiverCCO/base,"$(inherited)");
+				INSTALL_PATH = "";
+				LD_RUNPATH_SEARCH_PATHS = (/opt/homebrew/lib,"$(inherited)");
+				ONLY_ACTIVE_ARCH = NO;
+				OTHER_CPLUSPLUSFLAGS = "       -DNDEBUG -fPIC '-std=gnu++14' ";
+				OTHER_LDFLAGS = ("-L/opt/homebrew/opt/qt@5/lib -Wl,-search_paths_first -Wl,-headerpad_max_install_names",/opt/homebrew/lib/libceres.2.1.0.dylib,/Users/kerautre/EnCours/DGtal/build/libDGtal.a,/opt/homebrew/lib/libglog.0.6.0.dylib,/opt/homebrew/lib/libgflags.2.2.2.dylib,/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk/usr/lib/libz.tbd,"-F /opt/homebrew/opt/qt@5/lib","-Xlinker -framework -Xlinker QtOpenGL","-Xlinker -framework -Xlinker QtWidgets","-Xlinker -framework -Xlinker QtGui","-Xlinker -framework -Xlinker QtXml","-Xlinker -framework -Xlinker QtCore","-Xlinker -framework -Xlinker qglviewer","-Xlinker -framework -Xlinker OpenGL","$(inherited)");
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = generateTree3D;
+				SECTORDER_FLAGS = "";
+				SYMROOT = /Users/kerautre/EnCours/LiverCCO/buildXcode/bin;
+				SYSTEM_FRAMEWORK_SEARCH_PATHS = (/Library/Frameworks,/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk/System/Library/Frameworks,"/opt/homebrew/opt/qt@5/lib","$(inherited)");
+				SYSTEM_HEADER_SEARCH_PATHS = (/Users/kerautre/EnCours/DGtal/src,/Users/kerautre/EnCours/DGtal/build/src,/opt/homebrew/include,/opt/homebrew/include/eigen3,"/opt/homebrew/opt/qt@5/lib/QtWidgets.framework/Headers","/opt/homebrew/opt/qt@5/lib/QtGui.framework/Headers",/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk/System/Library/Frameworks/OpenGL.framework/Headers,"/opt/homebrew/opt/qt@5/lib/QtCore.framework/Headers","/opt/homebrew/opt/qt@5/./mkspecs/macx-clang-arm64","/opt/homebrew/opt/qt@5/lib/QtOpenGL.framework/Headers","/opt/homebrew/opt/qt@5/lib/QtXml.framework/Headers","$(inherited)");
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("$(inherited)");
+			};
+			name = RelWithDebInfo;
+		};
+		7904D5C5FB3745CC82394FF6 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = arm64;
+				COMBINE_HIDPI_IMAGES = YES;
+				EXECUTABLE_PREFIX = "";
+				EXECUTABLE_SUFFIX = "";
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'",BOOST_ALL_NO_LIB,"'WITH_EIGEN=true'",WITH_QT5,WITH_VISU3D_QGLVIEWER,UNIX,APPLE,QT_WIDGETS_LIB,QT_GUI_LIB,QT_CORE_LIB,QT_OPENGL_LIB,QT_XML_LIB,"$(inherited)");
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				HEADER_SEARCH_PATHS = (/Users/kerautre/EnCours/LiverCCO/ext,/Users/kerautre/EnCours/LiverCCO/helpers,/Users/kerautre/EnCours/LiverCCO/base,"$(inherited)");
+				INSTALL_PATH = "";
+				ONLY_ACTIVE_ARCH = NO;
+				OTHER_CPLUSPLUSFLAGS = "   -fPIC '-std=gnu++11' ";
+				OTHER_LDFLAGS = ("-L/opt/homebrew/opt/qt@5/lib -Wl,-search_paths_first -Wl,-headerpad_max_install_names",/Users/kerautre/EnCours/DGtal/build/libDGtal.a,/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk/usr/lib/libz.tbd,"-F /opt/homebrew/opt/qt@5/lib","-Xlinker -framework -Xlinker QtOpenGL","-Xlinker -framework -Xlinker QtWidgets","-Xlinker -framework -Xlinker QtGui","-Xlinker -framework -Xlinker QtXml","-Xlinker -framework -Xlinker QtCore","-Xlinker -framework -Xlinker qglviewer","-Xlinker -framework -Xlinker OpenGL","$(inherited)");
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = mergeObj;
+				SECTORDER_FLAGS = "";
+				SYMROOT = /Users/kerautre/EnCours/LiverCCO/buildXcode/tools;
+				SYSTEM_FRAMEWORK_SEARCH_PATHS = (/Library/Frameworks,/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk/System/Library/Frameworks,"/opt/homebrew/opt/qt@5/lib","$(inherited)");
+				SYSTEM_HEADER_SEARCH_PATHS = (/Users/kerautre/EnCours/DGtal/src,/Users/kerautre/EnCours/DGtal/build/src,/opt/homebrew/include,"/opt/homebrew/opt/qt@5/lib/QtWidgets.framework/Headers","/opt/homebrew/opt/qt@5/lib/QtGui.framework/Headers",/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk/System/Library/Frameworks/OpenGL.framework/Headers,"/opt/homebrew/opt/qt@5/lib/QtCore.framework/Headers","/opt/homebrew/opt/qt@5/./mkspecs/macx-clang-arm64","/opt/homebrew/opt/qt@5/lib/QtOpenGL.framework/Headers","/opt/homebrew/opt/qt@5/lib/QtXml.framework/Headers",/opt/homebrew/include/eigen3,"$(inherited)");
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("$(inherited)");
+			};
+			name = Debug;
+		};
+		79A4C00795194CC48FCDCEAB /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = arm64;
+				COMBINE_HIDPI_IMAGES = YES;
+				EXECUTABLE_PREFIX = "";
+				EXECUTABLE_SUFFIX = "";
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 3;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'","'SAMPLE_DIR=\"/Users/kerautre/EnCours/LiverCCO/samples/\"'",GLOG_CUSTOM_PREFIX_SUPPORT,"'GFLAGS_IS_A_DLL=0'",BOOST_ALL_NO_LIB,"'WITH_EIGEN=true'",WITH_QT5,WITH_VISU3D_QGLVIEWER,UNIX,APPLE,QT_WIDGETS_LIB,QT_GUI_LIB,QT_CORE_LIB,QT_NO_DEBUG,QT_OPENGL_LIB,QT_XML_LIB,"$(inherited)");
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				HEADER_SEARCH_PATHS = (/Users/kerautre/EnCours/LiverCCO/ext,/Users/kerautre/EnCours/LiverCCO/helpers,/Users/kerautre/EnCours/LiverCCO/base,"$(inherited)");
+				INSTALL_PATH = "";
+				LD_RUNPATH_SEARCH_PATHS = (/opt/homebrew/lib,"$(inherited)");
+				ONLY_ACTIVE_ARCH = NO;
+				OTHER_CPLUSPLUSFLAGS = "    -DNDEBUG -fPIC '-std=gnu++14' ";
+				OTHER_LDFLAGS = ("-L/opt/homebrew/opt/qt@5/lib -Wl,-search_paths_first -Wl,-headerpad_max_install_names",/opt/homebrew/lib/libceres.2.1.0.dylib,/Users/kerautre/EnCours/DGtal/build/libDGtal.a,/opt/homebrew/lib/libglog.0.6.0.dylib,/opt/homebrew/lib/libgflags.2.2.2.dylib,/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk/usr/lib/libz.tbd,"-F /opt/homebrew/opt/qt@5/lib","-Xlinker -framework -Xlinker QtOpenGL","-Xlinker -framework -Xlinker QtWidgets","-Xlinker -framework -Xlinker QtGui","-Xlinker -framework -Xlinker QtXml","-Xlinker -framework -Xlinker QtCore","-Xlinker -framework -Xlinker qglviewer","-Xlinker -framework -Xlinker OpenGL","$(inherited)");
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = testGeom;
+				SECTORDER_FLAGS = "";
+				SYMROOT = /Users/kerautre/EnCours/LiverCCO/buildXcode/tests;
+				SYSTEM_FRAMEWORK_SEARCH_PATHS = (/Library/Frameworks,/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk/System/Library/Frameworks,"/opt/homebrew/opt/qt@5/lib","$(inherited)");
+				SYSTEM_HEADER_SEARCH_PATHS = (/Users/kerautre/EnCours/DGtal/src,/Users/kerautre/EnCours/DGtal/build/src,/opt/homebrew/include,/opt/homebrew/include/eigen3,"/opt/homebrew/opt/qt@5/lib/QtWidgets.framework/Headers","/opt/homebrew/opt/qt@5/lib/QtGui.framework/Headers",/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk/System/Library/Frameworks/OpenGL.framework/Headers,"/opt/homebrew/opt/qt@5/lib/QtCore.framework/Headers","/opt/homebrew/opt/qt@5/./mkspecs/macx-clang-arm64","/opt/homebrew/opt/qt@5/lib/QtOpenGL.framework/Headers","/opt/homebrew/opt/qt@5/lib/QtXml.framework/Headers","$(inherited)");
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("$(inherited)");
+			};
+			name = Release;
+		};
+		7CFA239190AB40FCB215544E /* MinSizeRel */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = arm64;
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'","$(inherited)");
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				INSTALL_PATH = "";
+				ONLY_ACTIVE_ARCH = NO;
+				OTHER_LDFLAGS = ("","$(inherited)");
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = ALL_BUILD;
+				SECTORDER_FLAGS = "";
+				SYMROOT = /Users/kerautre/EnCours/LiverCCO/buildXcode;
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("$(inherited)");
+			};
+			name = MinSizeRel;
+		};
+		867C81997E164C76B66B518D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = arm64;
+				COMBINE_HIDPI_IMAGES = YES;
+				EXECUTABLE_PREFIX = "";
+				EXECUTABLE_SUFFIX = "";
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 3;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'",BOOST_ALL_NO_LIB,"'WITH_EIGEN=true'",WITH_QT5,WITH_VISU3D_QGLVIEWER,UNIX,APPLE,QT_WIDGETS_LIB,QT_GUI_LIB,QT_CORE_LIB,QT_NO_DEBUG,QT_OPENGL_LIB,QT_XML_LIB,"$(inherited)");
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				HEADER_SEARCH_PATHS = (/Users/kerautre/EnCours/LiverCCO/ext,/Users/kerautre/EnCours/LiverCCO/helpers,/Users/kerautre/EnCours/LiverCCO/base,"$(inherited)");
+				INSTALL_PATH = "";
+				ONLY_ACTIVE_ARCH = NO;
+				OTHER_CPLUSPLUSFLAGS = "    -DNDEBUG -fPIC '-std=gnu++11' ";
+				OTHER_LDFLAGS = ("-L/opt/homebrew/opt/qt@5/lib -Wl,-search_paths_first -Wl,-headerpad_max_install_names",/Users/kerautre/EnCours/DGtal/build/libDGtal.a,/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk/usr/lib/libz.tbd,"-F /opt/homebrew/opt/qt@5/lib","-Xlinker -framework -Xlinker QtOpenGL","-Xlinker -framework -Xlinker QtWidgets","-Xlinker -framework -Xlinker QtGui","-Xlinker -framework -Xlinker QtXml","-Xlinker -framework -Xlinker QtCore","-Xlinker -framework -Xlinker qglviewer","-Xlinker -framework -Xlinker OpenGL","$(inherited)");
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = generateTestDomain;
+				SECTORDER_FLAGS = "";
+				SYMROOT = /Users/kerautre/EnCours/LiverCCO/buildXcode/tools;
+				SYSTEM_FRAMEWORK_SEARCH_PATHS = (/Library/Frameworks,/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk/System/Library/Frameworks,"/opt/homebrew/opt/qt@5/lib","$(inherited)");
+				SYSTEM_HEADER_SEARCH_PATHS = (/Users/kerautre/EnCours/DGtal/src,/Users/kerautre/EnCours/DGtal/build/src,/opt/homebrew/include,"/opt/homebrew/opt/qt@5/lib/QtWidgets.framework/Headers","/opt/homebrew/opt/qt@5/lib/QtGui.framework/Headers",/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk/System/Library/Frameworks/OpenGL.framework/Headers,"/opt/homebrew/opt/qt@5/lib/QtCore.framework/Headers","/opt/homebrew/opt/qt@5/./mkspecs/macx-clang-arm64","/opt/homebrew/opt/qt@5/lib/QtOpenGL.framework/Headers","/opt/homebrew/opt/qt@5/lib/QtXml.framework/Headers",/opt/homebrew/include/eigen3,"$(inherited)");
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("$(inherited)");
+			};
+			name = Release;
+		};
+		8C288EE7BCF54A7EAE9F63D7 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = arm64;
+				COMBINE_HIDPI_IMAGES = YES;
+				EXECUTABLE_PREFIX = "";
+				EXECUTABLE_SUFFIX = "";
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'",GLOG_CUSTOM_PREFIX_SUPPORT,"'GFLAGS_IS_A_DLL=0'",BOOST_ALL_NO_LIB,"'WITH_EIGEN=true'",WITH_QT5,WITH_VISU3D_QGLVIEWER,UNIX,APPLE,QT_WIDGETS_LIB,QT_GUI_LIB,QT_CORE_LIB,QT_OPENGL_LIB,QT_XML_LIB,"$(inherited)");
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				HEADER_SEARCH_PATHS = (/Users/kerautre/EnCours/LiverCCO/ext,/Users/kerautre/EnCours/LiverCCO/helpers,/Users/kerautre/EnCours/LiverCCO/base,"$(inherited)");
+				INSTALL_PATH = "";
+				LD_RUNPATH_SEARCH_PATHS = (/opt/homebrew/lib,"$(inherited)");
+				ONLY_ACTIVE_ARCH = NO;
+				OTHER_CPLUSPLUSFLAGS = "   -fPIC '-std=gnu++14' ";
+				OTHER_LDFLAGS = ("-L/opt/homebrew/opt/qt@5/lib -Wl,-search_paths_first -Wl,-headerpad_max_install_names",/opt/homebrew/lib/libceres.2.1.0.dylib,/Users/kerautre/EnCours/DGtal/build/libDGtal.a,/opt/homebrew/lib/libglog.0.6.0.dylib,/opt/homebrew/lib/libgflags.2.2.2.dylib,/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk/usr/lib/libz.tbd,"-F /opt/homebrew/opt/qt@5/lib","-Xlinker -framework -Xlinker QtOpenGL","-Xlinker -framework -Xlinker QtWidgets","-Xlinker -framework -Xlinker QtGui","-Xlinker -framework -Xlinker QtXml","-Xlinker -framework -Xlinker QtCore","-Xlinker -framework -Xlinker qglviewer","-Xlinker -framework -Xlinker OpenGL","$(inherited)");
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = testKamiya;
+				SECTORDER_FLAGS = "";
+				SYMROOT = /Users/kerautre/EnCours/LiverCCO/buildXcode/tests;
+				SYSTEM_FRAMEWORK_SEARCH_PATHS = (/Library/Frameworks,/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk/System/Library/Frameworks,"/opt/homebrew/opt/qt@5/lib","$(inherited)");
+				SYSTEM_HEADER_SEARCH_PATHS = (/Users/kerautre/EnCours/DGtal/src,/Users/kerautre/EnCours/DGtal/build/src,/opt/homebrew/include,/opt/homebrew/include/eigen3,"/opt/homebrew/opt/qt@5/lib/QtWidgets.framework/Headers","/opt/homebrew/opt/qt@5/lib/QtGui.framework/Headers",/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk/System/Library/Frameworks/OpenGL.framework/Headers,"/opt/homebrew/opt/qt@5/lib/QtCore.framework/Headers","/opt/homebrew/opt/qt@5/./mkspecs/macx-clang-arm64","/opt/homebrew/opt/qt@5/lib/QtOpenGL.framework/Headers","/opt/homebrew/opt/qt@5/lib/QtXml.framework/Headers","$(inherited)");
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("$(inherited)");
+			};
+			name = Debug;
+		};
+		94F25D08107B48D68F4DBA75 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = arm64;
+				COMBINE_HIDPI_IMAGES = YES;
+				EXECUTABLE_PREFIX = "";
+				EXECUTABLE_SUFFIX = "";
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 3;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'",GLOG_CUSTOM_PREFIX_SUPPORT,"'GFLAGS_IS_A_DLL=0'",BOOST_ALL_NO_LIB,"'WITH_EIGEN=true'",WITH_QT5,WITH_VISU3D_QGLVIEWER,UNIX,APPLE,QT_WIDGETS_LIB,QT_GUI_LIB,QT_CORE_LIB,QT_NO_DEBUG,QT_OPENGL_LIB,QT_XML_LIB,"$(inherited)");
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				HEADER_SEARCH_PATHS = (/Users/kerautre/EnCours/LiverCCO/ext,/Users/kerautre/EnCours/LiverCCO/helpers,/Users/kerautre/EnCours/LiverCCO/base,"$(inherited)");
+				INSTALL_PATH = "";
+				LD_RUNPATH_SEARCH_PATHS = (/opt/homebrew/lib,"$(inherited)");
+				ONLY_ACTIVE_ARCH = NO;
+				OTHER_CPLUSPLUSFLAGS = "    -DNDEBUG -fPIC '-std=gnu++14' ";
+				OTHER_LDFLAGS = ("-L/opt/homebrew/opt/qt@5/lib -Wl,-search_paths_first -Wl,-headerpad_max_install_names",/opt/homebrew/lib/libceres.2.1.0.dylib,/Users/kerautre/EnCours/DGtal/build/libDGtal.a,/opt/homebrew/lib/libglog.0.6.0.dylib,/opt/homebrew/lib/libgflags.2.2.2.dylib,/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk/usr/lib/libz.tbd,"-F /opt/homebrew/opt/qt@5/lib","-Xlinker -framework -Xlinker QtOpenGL","-Xlinker -framework -Xlinker QtWidgets","-Xlinker -framework -Xlinker QtGui","-Xlinker -framework -Xlinker QtXml","-Xlinker -framework -Xlinker QtCore","-Xlinker -framework -Xlinker qglviewer","-Xlinker -framework -Xlinker OpenGL","$(inherited)");
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = testGenerateTree;
+				SECTORDER_FLAGS = "";
+				SYMROOT = /Users/kerautre/EnCours/LiverCCO/buildXcode/tests;
+				SYSTEM_FRAMEWORK_SEARCH_PATHS = (/Library/Frameworks,/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk/System/Library/Frameworks,"/opt/homebrew/opt/qt@5/lib","$(inherited)");
+				SYSTEM_HEADER_SEARCH_PATHS = (/Users/kerautre/EnCours/DGtal/src,/Users/kerautre/EnCours/DGtal/build/src,/opt/homebrew/include,/opt/homebrew/include/eigen3,"/opt/homebrew/opt/qt@5/lib/QtWidgets.framework/Headers","/opt/homebrew/opt/qt@5/lib/QtGui.framework/Headers",/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk/System/Library/Frameworks/OpenGL.framework/Headers,"/opt/homebrew/opt/qt@5/lib/QtCore.framework/Headers","/opt/homebrew/opt/qt@5/./mkspecs/macx-clang-arm64","/opt/homebrew/opt/qt@5/lib/QtOpenGL.framework/Headers","/opt/homebrew/opt/qt@5/lib/QtXml.framework/Headers","$(inherited)");
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("$(inherited)");
+			};
+			name = Release;
+		};
+		9952B8C9AB3940778BE80917 /* RelWithDebInfo */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = arm64;
+				COMBINE_HIDPI_IMAGES = YES;
+				EXECUTABLE_PREFIX = "";
+				EXECUTABLE_SUFFIX = "";
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 2;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'","'SAMPLE_DIR=\"/Users/kerautre/EnCours/LiverCCO/samples/\"'",GLOG_CUSTOM_PREFIX_SUPPORT,"'GFLAGS_IS_A_DLL=0'",BOOST_ALL_NO_LIB,"'WITH_EIGEN=true'",WITH_QT5,WITH_VISU3D_QGLVIEWER,UNIX,APPLE,QT_WIDGETS_LIB,QT_GUI_LIB,QT_CORE_LIB,QT_NO_DEBUG,QT_OPENGL_LIB,QT_XML_LIB,"$(inherited)");
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				HEADER_SEARCH_PATHS = (/Users/kerautre/EnCours/LiverCCO/ext,/Users/kerautre/EnCours/LiverCCO/helpers,/Users/kerautre/EnCours/LiverCCO/base,"$(inherited)");
+				INSTALL_PATH = "";
+				LD_RUNPATH_SEARCH_PATHS = (/opt/homebrew/lib,"$(inherited)");
+				ONLY_ACTIVE_ARCH = NO;
+				OTHER_CPLUSPLUSFLAGS = "       -DNDEBUG -fPIC '-std=gnu++14' ";
+				OTHER_LDFLAGS = ("-L/opt/homebrew/opt/qt@5/lib -Wl,-search_paths_first -Wl,-headerpad_max_install_names",/opt/homebrew/lib/libceres.2.1.0.dylib,/Users/kerautre/EnCours/DGtal/build/libDGtal.a,/opt/homebrew/lib/libglog.0.6.0.dylib,/opt/homebrew/lib/libgflags.2.2.2.dylib,/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk/usr/lib/libz.tbd,"-F /opt/homebrew/opt/qt@5/lib","-Xlinker -framework -Xlinker QtOpenGL","-Xlinker -framework -Xlinker QtWidgets","-Xlinker -framework -Xlinker QtGui","-Xlinker -framework -Xlinker QtXml","-Xlinker -framework -Xlinker QtCore","-Xlinker -framework -Xlinker qglviewer","-Xlinker -framework -Xlinker OpenGL","$(inherited)");
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = testGeom;
+				SECTORDER_FLAGS = "";
+				SYMROOT = /Users/kerautre/EnCours/LiverCCO/buildXcode/tests;
+				SYSTEM_FRAMEWORK_SEARCH_PATHS = (/Library/Frameworks,/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk/System/Library/Frameworks,"/opt/homebrew/opt/qt@5/lib","$(inherited)");
+				SYSTEM_HEADER_SEARCH_PATHS = (/Users/kerautre/EnCours/DGtal/src,/Users/kerautre/EnCours/DGtal/build/src,/opt/homebrew/include,/opt/homebrew/include/eigen3,"/opt/homebrew/opt/qt@5/lib/QtWidgets.framework/Headers","/opt/homebrew/opt/qt@5/lib/QtGui.framework/Headers",/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk/System/Library/Frameworks/OpenGL.framework/Headers,"/opt/homebrew/opt/qt@5/lib/QtCore.framework/Headers","/opt/homebrew/opt/qt@5/./mkspecs/macx-clang-arm64","/opt/homebrew/opt/qt@5/lib/QtOpenGL.framework/Headers","/opt/homebrew/opt/qt@5/lib/QtXml.framework/Headers","$(inherited)");
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("$(inherited)");
+			};
+			name = RelWithDebInfo;
+		};
+		9DB46EF036D74B22ABA4DD5C /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = arm64;
+				COMBINE_HIDPI_IMAGES = YES;
+				EXECUTABLE_PREFIX = "";
+				EXECUTABLE_SUFFIX = "";
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 3;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'",GLOG_CUSTOM_PREFIX_SUPPORT,"'GFLAGS_IS_A_DLL=0'",BOOST_ALL_NO_LIB,"'WITH_EIGEN=true'",WITH_QT5,WITH_VISU3D_QGLVIEWER,UNIX,APPLE,QT_WIDGETS_LIB,QT_GUI_LIB,QT_CORE_LIB,QT_NO_DEBUG,QT_OPENGL_LIB,QT_XML_LIB,"$(inherited)");
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				HEADER_SEARCH_PATHS = (/Users/kerautre/EnCours/LiverCCO/ext,/Users/kerautre/EnCours/LiverCCO/helpers,/Users/kerautre/EnCours/LiverCCO/base,"$(inherited)");
+				INSTALL_PATH = "";
+				LD_RUNPATH_SEARCH_PATHS = (/opt/homebrew/lib,"$(inherited)");
+				ONLY_ACTIVE_ARCH = NO;
+				OTHER_CPLUSPLUSFLAGS = "    -DNDEBUG -fPIC '-std=gnu++14' ";
+				OTHER_LDFLAGS = ("-L/opt/homebrew/opt/qt@5/lib -Wl,-search_paths_first -Wl,-headerpad_max_install_names",/opt/homebrew/lib/libceres.2.1.0.dylib,/Users/kerautre/EnCours/DGtal/build/libDGtal.a,/opt/homebrew/lib/libglog.0.6.0.dylib,/opt/homebrew/lib/libgflags.2.2.2.dylib,/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk/usr/lib/libz.tbd,"-F /opt/homebrew/opt/qt@5/lib","-Xlinker -framework -Xlinker QtOpenGL","-Xlinker -framework -Xlinker QtWidgets","-Xlinker -framework -Xlinker QtGui","-Xlinker -framework -Xlinker QtXml","-Xlinker -framework -Xlinker QtCore","-Xlinker -framework -Xlinker qglviewer","-Xlinker -framework -Xlinker OpenGL","$(inherited)");
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = generateTree3D;
+				SECTORDER_FLAGS = "";
+				SYMROOT = /Users/kerautre/EnCours/LiverCCO/buildXcode/bin;
+				SYSTEM_FRAMEWORK_SEARCH_PATHS = (/Library/Frameworks,/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk/System/Library/Frameworks,"/opt/homebrew/opt/qt@5/lib","$(inherited)");
+				SYSTEM_HEADER_SEARCH_PATHS = (/Users/kerautre/EnCours/DGtal/src,/Users/kerautre/EnCours/DGtal/build/src,/opt/homebrew/include,/opt/homebrew/include/eigen3,"/opt/homebrew/opt/qt@5/lib/QtWidgets.framework/Headers","/opt/homebrew/opt/qt@5/lib/QtGui.framework/Headers",/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk/System/Library/Frameworks/OpenGL.framework/Headers,"/opt/homebrew/opt/qt@5/lib/QtCore.framework/Headers","/opt/homebrew/opt/qt@5/./mkspecs/macx-clang-arm64","/opt/homebrew/opt/qt@5/lib/QtOpenGL.framework/Headers","/opt/homebrew/opt/qt@5/lib/QtXml.framework/Headers","$(inherited)");
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("$(inherited)");
+			};
+			name = Release;
+		};
+		9FD6ADF10EC545B88902ED02 /* MinSizeRel */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = arm64;
+				COMBINE_HIDPI_IMAGES = YES;
+				EXECUTABLE_PREFIX = "";
+				EXECUTABLE_SUFFIX = "";
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = s;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'",GLOG_CUSTOM_PREFIX_SUPPORT,"'GFLAGS_IS_A_DLL=0'",BOOST_ALL_NO_LIB,"'WITH_EIGEN=true'",WITH_QT5,WITH_VISU3D_QGLVIEWER,UNIX,APPLE,QT_WIDGETS_LIB,QT_GUI_LIB,QT_CORE_LIB,QT_NO_DEBUG,QT_OPENGL_LIB,QT_XML_LIB,"$(inherited)");
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				HEADER_SEARCH_PATHS = (/Users/kerautre/EnCours/LiverCCO/ext,/Users/kerautre/EnCours/LiverCCO/helpers,/Users/kerautre/EnCours/LiverCCO/base,"$(inherited)");
+				INSTALL_PATH = "";
+				LD_RUNPATH_SEARCH_PATHS = (/opt/homebrew/lib,"$(inherited)");
+				ONLY_ACTIVE_ARCH = NO;
+				OTHER_CPLUSPLUSFLAGS = "    -DNDEBUG -fPIC '-std=gnu++14' ";
+				OTHER_LDFLAGS = ("-L/opt/homebrew/opt/qt@5/lib -Wl,-search_paths_first -Wl,-headerpad_max_install_names",/opt/homebrew/lib/libceres.2.1.0.dylib,/Users/kerautre/EnCours/DGtal/build/libDGtal.a,/opt/homebrew/lib/libglog.0.6.0.dylib,/opt/homebrew/lib/libgflags.2.2.2.dylib,/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk/usr/lib/libz.tbd,"-F /opt/homebrew/opt/qt@5/lib","-Xlinker -framework -Xlinker QtOpenGL","-Xlinker -framework -Xlinker QtWidgets","-Xlinker -framework -Xlinker QtGui","-Xlinker -framework -Xlinker QtXml","-Xlinker -framework -Xlinker QtCore","-Xlinker -framework -Xlinker qglviewer","-Xlinker -framework -Xlinker OpenGL","$(inherited)");
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = testKamiya;
+				SECTORDER_FLAGS = "";
+				SYMROOT = /Users/kerautre/EnCours/LiverCCO/buildXcode/tests;
+				SYSTEM_FRAMEWORK_SEARCH_PATHS = (/Library/Frameworks,/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk/System/Library/Frameworks,"/opt/homebrew/opt/qt@5/lib","$(inherited)");
+				SYSTEM_HEADER_SEARCH_PATHS = (/Users/kerautre/EnCours/DGtal/src,/Users/kerautre/EnCours/DGtal/build/src,/opt/homebrew/include,/opt/homebrew/include/eigen3,"/opt/homebrew/opt/qt@5/lib/QtWidgets.framework/Headers","/opt/homebrew/opt/qt@5/lib/QtGui.framework/Headers",/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk/System/Library/Frameworks/OpenGL.framework/Headers,"/opt/homebrew/opt/qt@5/lib/QtCore.framework/Headers","/opt/homebrew/opt/qt@5/./mkspecs/macx-clang-arm64","/opt/homebrew/opt/qt@5/lib/QtOpenGL.framework/Headers","/opt/homebrew/opt/qt@5/lib/QtXml.framework/Headers","$(inherited)");
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("$(inherited)");
+			};
+			name = MinSizeRel;
+		};
+		A2D16FB0A2A34D80978DFD84 /* MinSizeRel */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = arm64;
+				COMBINE_HIDPI_IMAGES = YES;
+				EXECUTABLE_PREFIX = "";
+				EXECUTABLE_SUFFIX = "";
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = s;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'",GLOG_CUSTOM_PREFIX_SUPPORT,"'GFLAGS_IS_A_DLL=0'",BOOST_ALL_NO_LIB,"'WITH_EIGEN=true'",WITH_QT5,WITH_VISU3D_QGLVIEWER,UNIX,APPLE,QT_WIDGETS_LIB,QT_GUI_LIB,QT_CORE_LIB,QT_NO_DEBUG,QT_OPENGL_LIB,QT_XML_LIB,"$(inherited)");
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				HEADER_SEARCH_PATHS = (/Users/kerautre/EnCours/LiverCCO/ext,/Users/kerautre/EnCours/LiverCCO/helpers,/Users/kerautre/EnCours/LiverCCO/base,"$(inherited)");
+				INSTALL_PATH = "";
+				LD_RUNPATH_SEARCH_PATHS = (/opt/homebrew/lib,"$(inherited)");
+				ONLY_ACTIVE_ARCH = NO;
+				OTHER_CPLUSPLUSFLAGS = "    -DNDEBUG -fPIC '-std=gnu++14' ";
+				OTHER_LDFLAGS = ("-L/opt/homebrew/opt/qt@5/lib -Wl,-search_paths_first -Wl,-headerpad_max_install_names",/opt/homebrew/lib/libceres.2.1.0.dylib,/Users/kerautre/EnCours/DGtal/build/libDGtal.a,/opt/homebrew/lib/libglog.0.6.0.dylib,/opt/homebrew/lib/libgflags.2.2.2.dylib,/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk/usr/lib/libz.tbd,"-F /opt/homebrew/opt/qt@5/lib","-Xlinker -framework -Xlinker QtOpenGL","-Xlinker -framework -Xlinker QtWidgets","-Xlinker -framework -Xlinker QtGui","-Xlinker -framework -Xlinker QtXml","-Xlinker -framework -Xlinker QtCore","-Xlinker -framework -Xlinker qglviewer","-Xlinker -framework -Xlinker OpenGL","$(inherited)");
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = testSchreiner;
+				SECTORDER_FLAGS = "";
+				SYMROOT = /Users/kerautre/EnCours/LiverCCO/buildXcode/tests;
+				SYSTEM_FRAMEWORK_SEARCH_PATHS = (/Library/Frameworks,/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk/System/Library/Frameworks,"/opt/homebrew/opt/qt@5/lib","$(inherited)");
+				SYSTEM_HEADER_SEARCH_PATHS = (/Users/kerautre/EnCours/DGtal/src,/Users/kerautre/EnCours/DGtal/build/src,/opt/homebrew/include,/opt/homebrew/include/eigen3,"/opt/homebrew/opt/qt@5/lib/QtWidgets.framework/Headers","/opt/homebrew/opt/qt@5/lib/QtGui.framework/Headers",/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk/System/Library/Frameworks/OpenGL.framework/Headers,"/opt/homebrew/opt/qt@5/lib/QtCore.framework/Headers","/opt/homebrew/opt/qt@5/./mkspecs/macx-clang-arm64","/opt/homebrew/opt/qt@5/lib/QtOpenGL.framework/Headers","/opt/homebrew/opt/qt@5/lib/QtXml.framework/Headers","$(inherited)");
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("$(inherited)");
+			};
+			name = MinSizeRel;
+		};
+		A57C4A674B8944749F9991A8 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = arm64;
+				COMBINE_HIDPI_IMAGES = YES;
+				EXECUTABLE_PREFIX = "";
+				EXECUTABLE_SUFFIX = "";
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 3;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'",GLOG_CUSTOM_PREFIX_SUPPORT,"'GFLAGS_IS_A_DLL=0'",BOOST_ALL_NO_LIB,"'WITH_EIGEN=true'",WITH_QT5,WITH_VISU3D_QGLVIEWER,UNIX,APPLE,QT_WIDGETS_LIB,QT_GUI_LIB,QT_CORE_LIB,QT_NO_DEBUG,QT_OPENGL_LIB,QT_XML_LIB,"$(inherited)");
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				HEADER_SEARCH_PATHS = (/Users/kerautre/EnCours/LiverCCO/ext,/Users/kerautre/EnCours/LiverCCO/helpers,/Users/kerautre/EnCours/LiverCCO/base,"$(inherited)");
+				INSTALL_PATH = "";
+				LD_RUNPATH_SEARCH_PATHS = (/opt/homebrew/lib,"$(inherited)");
+				ONLY_ACTIVE_ARCH = NO;
+				OTHER_CPLUSPLUSFLAGS = "    -DNDEBUG -fPIC '-std=gnu++14' ";
+				OTHER_LDFLAGS = ("-L/opt/homebrew/opt/qt@5/lib -Wl,-search_paths_first -Wl,-headerpad_max_install_names",/opt/homebrew/lib/libceres.2.1.0.dylib,/Users/kerautre/EnCours/DGtal/build/libDGtal.a,/opt/homebrew/lib/libglog.0.6.0.dylib,/opt/homebrew/lib/libgflags.2.2.2.dylib,/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk/usr/lib/libz.tbd,"-F /opt/homebrew/opt/qt@5/lib","-Xlinker -framework -Xlinker QtOpenGL","-Xlinker -framework -Xlinker QtWidgets","-Xlinker -framework -Xlinker QtGui","-Xlinker -framework -Xlinker QtXml","-Xlinker -framework -Xlinker QtCore","-Xlinker -framework -Xlinker qglviewer","-Xlinker -framework -Xlinker OpenGL","$(inherited)");
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = generateTree2D;
+				SECTORDER_FLAGS = "";
+				SYMROOT = /Users/kerautre/EnCours/LiverCCO/buildXcode/bin;
+				SYSTEM_FRAMEWORK_SEARCH_PATHS = (/Library/Frameworks,/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk/System/Library/Frameworks,"/opt/homebrew/opt/qt@5/lib","$(inherited)");
+				SYSTEM_HEADER_SEARCH_PATHS = (/Users/kerautre/EnCours/DGtal/src,/Users/kerautre/EnCours/DGtal/build/src,/opt/homebrew/include,/opt/homebrew/include/eigen3,"/opt/homebrew/opt/qt@5/lib/QtWidgets.framework/Headers","/opt/homebrew/opt/qt@5/lib/QtGui.framework/Headers",/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk/System/Library/Frameworks/OpenGL.framework/Headers,"/opt/homebrew/opt/qt@5/lib/QtCore.framework/Headers","/opt/homebrew/opt/qt@5/./mkspecs/macx-clang-arm64","/opt/homebrew/opt/qt@5/lib/QtOpenGL.framework/Headers","/opt/homebrew/opt/qt@5/lib/QtXml.framework/Headers","$(inherited)");
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("$(inherited)");
+			};
+			name = Release;
+		};
+		B9710CF863ED4676A152AD00 /* RelWithDebInfo */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = arm64;
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'","$(inherited)");
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				INSTALL_PATH = "";
+				ONLY_ACTIVE_ARCH = NO;
+				OTHER_LDFLAGS = ("","$(inherited)");
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = ZERO_CHECK;
+				SECTORDER_FLAGS = "";
+				SYMROOT = /Users/kerautre/EnCours/LiverCCO/buildXcode;
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("$(inherited)");
+			};
+			name = RelWithDebInfo;
+		};
+		C19CA6652809455BBA71170D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = arm64;
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'","$(inherited)");
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				INSTALL_PATH = "";
+				ONLY_ACTIVE_ARCH = NO;
+				OTHER_LDFLAGS = ("","$(inherited)");
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = ZERO_CHECK;
+				SECTORDER_FLAGS = "";
+				SYMROOT = /Users/kerautre/EnCours/LiverCCO/buildXcode;
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("$(inherited)");
+			};
+			name = Debug;
+		};
+		C8D2590BFE1B44FDA3B4F4E4 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = arm64;
+				COMBINE_HIDPI_IMAGES = YES;
+				EXECUTABLE_PREFIX = "";
+				EXECUTABLE_SUFFIX = "";
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 3;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'",GLOG_CUSTOM_PREFIX_SUPPORT,"'GFLAGS_IS_A_DLL=0'",BOOST_ALL_NO_LIB,"'WITH_EIGEN=true'",WITH_QT5,WITH_VISU3D_QGLVIEWER,UNIX,APPLE,QT_WIDGETS_LIB,QT_GUI_LIB,QT_CORE_LIB,QT_NO_DEBUG,QT_OPENGL_LIB,QT_XML_LIB,"$(inherited)");
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				HEADER_SEARCH_PATHS = (/Users/kerautre/EnCours/LiverCCO/ext,/Users/kerautre/EnCours/LiverCCO/helpers,/Users/kerautre/EnCours/LiverCCO/base,"$(inherited)");
+				INSTALL_PATH = "";
+				LD_RUNPATH_SEARCH_PATHS = (/opt/homebrew/lib,"$(inherited)");
+				ONLY_ACTIVE_ARCH = NO;
+				OTHER_CPLUSPLUSFLAGS = "    -DNDEBUG -fPIC '-std=gnu++14' ";
+				OTHER_LDFLAGS = ("-L/opt/homebrew/opt/qt@5/lib -Wl,-search_paths_first -Wl,-headerpad_max_install_names",/opt/homebrew/lib/libceres.2.1.0.dylib,/Users/kerautre/EnCours/DGtal/build/libDGtal.a,/opt/homebrew/lib/libglog.0.6.0.dylib,/opt/homebrew/lib/libgflags.2.2.2.dylib,/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk/usr/lib/libz.tbd,"-F /opt/homebrew/opt/qt@5/lib","-Xlinker -framework -Xlinker QtOpenGL","-Xlinker -framework -Xlinker QtWidgets","-Xlinker -framework -Xlinker QtGui","-Xlinker -framework -Xlinker QtXml","-Xlinker -framework -Xlinker QtCore","-Xlinker -framework -Xlinker qglviewer","-Xlinker -framework -Xlinker OpenGL","$(inherited)");
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = testKamiya;
+				SECTORDER_FLAGS = "";
+				SYMROOT = /Users/kerautre/EnCours/LiverCCO/buildXcode/tests;
+				SYSTEM_FRAMEWORK_SEARCH_PATHS = (/Library/Frameworks,/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk/System/Library/Frameworks,"/opt/homebrew/opt/qt@5/lib","$(inherited)");
+				SYSTEM_HEADER_SEARCH_PATHS = (/Users/kerautre/EnCours/DGtal/src,/Users/kerautre/EnCours/DGtal/build/src,/opt/homebrew/include,/opt/homebrew/include/eigen3,"/opt/homebrew/opt/qt@5/lib/QtWidgets.framework/Headers","/opt/homebrew/opt/qt@5/lib/QtGui.framework/Headers",/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk/System/Library/Frameworks/OpenGL.framework/Headers,"/opt/homebrew/opt/qt@5/lib/QtCore.framework/Headers","/opt/homebrew/opt/qt@5/./mkspecs/macx-clang-arm64","/opt/homebrew/opt/qt@5/lib/QtOpenGL.framework/Headers","/opt/homebrew/opt/qt@5/lib/QtXml.framework/Headers","$(inherited)");
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("$(inherited)");
+			};
+			name = Release;
+		};
+		CA498897D73C4DFE82048ACA /* RelWithDebInfo */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = arm64;
+				SDKROOT = /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk;
+				SYMROOT = /Users/kerautre/EnCours/LiverCCO/buildXcode/build;
+			};
+			name = RelWithDebInfo;
+		};
+		CE48219C2F0849E4B62D6C3B /* MinSizeRel */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = arm64;
+				COMBINE_HIDPI_IMAGES = YES;
+				EXECUTABLE_PREFIX = "";
+				EXECUTABLE_SUFFIX = "";
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = s;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'",BOOST_ALL_NO_LIB,"'WITH_EIGEN=true'",WITH_QT5,WITH_VISU3D_QGLVIEWER,UNIX,APPLE,QT_WIDGETS_LIB,QT_GUI_LIB,QT_CORE_LIB,QT_NO_DEBUG,QT_OPENGL_LIB,QT_XML_LIB,"$(inherited)");
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				HEADER_SEARCH_PATHS = (/Users/kerautre/EnCours/LiverCCO/ext,/Users/kerautre/EnCours/LiverCCO/helpers,/Users/kerautre/EnCours/LiverCCO/base,"$(inherited)");
+				INSTALL_PATH = "";
+				ONLY_ACTIVE_ARCH = NO;
+				OTHER_CPLUSPLUSFLAGS = "    -DNDEBUG -fPIC '-std=gnu++11' ";
+				OTHER_LDFLAGS = ("-L/opt/homebrew/opt/qt@5/lib -Wl,-search_paths_first -Wl,-headerpad_max_install_names",/Users/kerautre/EnCours/DGtal/build/libDGtal.a,/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk/usr/lib/libz.tbd,"-F /opt/homebrew/opt/qt@5/lib","-Xlinker -framework -Xlinker QtOpenGL","-Xlinker -framework -Xlinker QtWidgets","-Xlinker -framework -Xlinker QtGui","-Xlinker -framework -Xlinker QtXml","-Xlinker -framework -Xlinker QtCore","-Xlinker -framework -Xlinker qglviewer","-Xlinker -framework -Xlinker OpenGL","$(inherited)");
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = mergeObj;
+				SECTORDER_FLAGS = "";
+				SYMROOT = /Users/kerautre/EnCours/LiverCCO/buildXcode/tools;
+				SYSTEM_FRAMEWORK_SEARCH_PATHS = (/Library/Frameworks,/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk/System/Library/Frameworks,"/opt/homebrew/opt/qt@5/lib","$(inherited)");
+				SYSTEM_HEADER_SEARCH_PATHS = (/Users/kerautre/EnCours/DGtal/src,/Users/kerautre/EnCours/DGtal/build/src,/opt/homebrew/include,"/opt/homebrew/opt/qt@5/lib/QtWidgets.framework/Headers","/opt/homebrew/opt/qt@5/lib/QtGui.framework/Headers",/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk/System/Library/Frameworks/OpenGL.framework/Headers,"/opt/homebrew/opt/qt@5/lib/QtCore.framework/Headers","/opt/homebrew/opt/qt@5/./mkspecs/macx-clang-arm64","/opt/homebrew/opt/qt@5/lib/QtOpenGL.framework/Headers","/opt/homebrew/opt/qt@5/lib/QtXml.framework/Headers",/opt/homebrew/include/eigen3,"$(inherited)");
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("$(inherited)");
+			};
+			name = MinSizeRel;
+		};
+		D172FC5A4D2C43999CBAB614 /* RelWithDebInfo */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = arm64;
+				COMBINE_HIDPI_IMAGES = YES;
+				EXECUTABLE_PREFIX = "";
+				EXECUTABLE_SUFFIX = "";
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 2;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'",GLOG_CUSTOM_PREFIX_SUPPORT,"'GFLAGS_IS_A_DLL=0'",BOOST_ALL_NO_LIB,"'WITH_EIGEN=true'",WITH_QT5,WITH_VISU3D_QGLVIEWER,UNIX,APPLE,QT_WIDGETS_LIB,QT_GUI_LIB,QT_CORE_LIB,QT_NO_DEBUG,QT_OPENGL_LIB,QT_XML_LIB,"$(inherited)");
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				HEADER_SEARCH_PATHS = (/Users/kerautre/EnCours/LiverCCO/ext,/Users/kerautre/EnCours/LiverCCO/helpers,/Users/kerautre/EnCours/LiverCCO/base,"$(inherited)");
+				INSTALL_PATH = "";
+				LD_RUNPATH_SEARCH_PATHS = (/opt/homebrew/lib,"$(inherited)");
+				ONLY_ACTIVE_ARCH = NO;
+				OTHER_CPLUSPLUSFLAGS = "       -DNDEBUG -fPIC '-std=gnu++14' ";
+				OTHER_LDFLAGS = ("-L/opt/homebrew/opt/qt@5/lib -Wl,-search_paths_first -Wl,-headerpad_max_install_names",/opt/homebrew/lib/libceres.2.1.0.dylib,/Users/kerautre/EnCours/DGtal/build/libDGtal.a,/opt/homebrew/lib/libglog.0.6.0.dylib,/opt/homebrew/lib/libgflags.2.2.2.dylib,/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk/usr/lib/libz.tbd,"-F /opt/homebrew/opt/qt@5/lib","-Xlinker -framework -Xlinker QtOpenGL","-Xlinker -framework -Xlinker QtWidgets","-Xlinker -framework -Xlinker QtGui","-Xlinker -framework -Xlinker QtXml","-Xlinker -framework -Xlinker QtCore","-Xlinker -framework -Xlinker qglviewer","-Xlinker -framework -Xlinker OpenGL","$(inherited)");
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = testSchreiner;
+				SECTORDER_FLAGS = "";
+				SYMROOT = /Users/kerautre/EnCours/LiverCCO/buildXcode/tests;
+				SYSTEM_FRAMEWORK_SEARCH_PATHS = (/Library/Frameworks,/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk/System/Library/Frameworks,"/opt/homebrew/opt/qt@5/lib","$(inherited)");
+				SYSTEM_HEADER_SEARCH_PATHS = (/Users/kerautre/EnCours/DGtal/src,/Users/kerautre/EnCours/DGtal/build/src,/opt/homebrew/include,/opt/homebrew/include/eigen3,"/opt/homebrew/opt/qt@5/lib/QtWidgets.framework/Headers","/opt/homebrew/opt/qt@5/lib/QtGui.framework/Headers",/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk/System/Library/Frameworks/OpenGL.framework/Headers,"/opt/homebrew/opt/qt@5/lib/QtCore.framework/Headers","/opt/homebrew/opt/qt@5/./mkspecs/macx-clang-arm64","/opt/homebrew/opt/qt@5/lib/QtOpenGL.framework/Headers","/opt/homebrew/opt/qt@5/lib/QtXml.framework/Headers","$(inherited)");
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("$(inherited)");
+			};
+			name = RelWithDebInfo;
+		};
+		D2BC0687B79E4DB79AF9280E /* RelWithDebInfo */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = arm64;
+				COMBINE_HIDPI_IMAGES = YES;
+				EXECUTABLE_PREFIX = "";
+				EXECUTABLE_SUFFIX = "";
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 2;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'",BOOST_ALL_NO_LIB,"'WITH_EIGEN=true'",WITH_QT5,WITH_VISU3D_QGLVIEWER,UNIX,APPLE,QT_WIDGETS_LIB,QT_GUI_LIB,QT_CORE_LIB,QT_NO_DEBUG,QT_OPENGL_LIB,QT_XML_LIB,"$(inherited)");
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				HEADER_SEARCH_PATHS = (/Users/kerautre/EnCours/LiverCCO/ext,/Users/kerautre/EnCours/LiverCCO/helpers,/Users/kerautre/EnCours/LiverCCO/base,"$(inherited)");
+				INSTALL_PATH = "";
+				ONLY_ACTIVE_ARCH = NO;
+				OTHER_CPLUSPLUSFLAGS = "       -DNDEBUG -fPIC '-std=gnu++11' ";
+				OTHER_LDFLAGS = ("-L/opt/homebrew/opt/qt@5/lib -Wl,-search_paths_first -Wl,-headerpad_max_install_names",/Users/kerautre/EnCours/DGtal/build/libDGtal.a,/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk/usr/lib/libz.tbd,"-F /opt/homebrew/opt/qt@5/lib","-Xlinker -framework -Xlinker QtOpenGL","-Xlinker -framework -Xlinker QtWidgets","-Xlinker -framework -Xlinker QtGui","-Xlinker -framework -Xlinker QtXml","-Xlinker -framework -Xlinker QtCore","-Xlinker -framework -Xlinker qglviewer","-Xlinker -framework -Xlinker OpenGL","$(inherited)");
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = generateTestDomain;
+				SECTORDER_FLAGS = "";
+				SYMROOT = /Users/kerautre/EnCours/LiverCCO/buildXcode/tools;
+				SYSTEM_FRAMEWORK_SEARCH_PATHS = (/Library/Frameworks,/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk/System/Library/Frameworks,"/opt/homebrew/opt/qt@5/lib","$(inherited)");
+				SYSTEM_HEADER_SEARCH_PATHS = (/Users/kerautre/EnCours/DGtal/src,/Users/kerautre/EnCours/DGtal/build/src,/opt/homebrew/include,"/opt/homebrew/opt/qt@5/lib/QtWidgets.framework/Headers","/opt/homebrew/opt/qt@5/lib/QtGui.framework/Headers",/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk/System/Library/Frameworks/OpenGL.framework/Headers,"/opt/homebrew/opt/qt@5/lib/QtCore.framework/Headers","/opt/homebrew/opt/qt@5/./mkspecs/macx-clang-arm64","/opt/homebrew/opt/qt@5/lib/QtOpenGL.framework/Headers","/opt/homebrew/opt/qt@5/lib/QtXml.framework/Headers",/opt/homebrew/include/eigen3,"$(inherited)");
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("$(inherited)");
+			};
+			name = RelWithDebInfo;
+		};
+		DADDA1A730FE437A873A55F9 /* MinSizeRel */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = arm64;
+				COMBINE_HIDPI_IMAGES = YES;
+				EXECUTABLE_PREFIX = "";
+				EXECUTABLE_SUFFIX = "";
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = s;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'","'SAMPLE_DIR=\"/Users/kerautre/EnCours/LiverCCO/samples/\"'",GLOG_CUSTOM_PREFIX_SUPPORT,"'GFLAGS_IS_A_DLL=0'",BOOST_ALL_NO_LIB,"'WITH_EIGEN=true'",WITH_QT5,WITH_VISU3D_QGLVIEWER,UNIX,APPLE,QT_WIDGETS_LIB,QT_GUI_LIB,QT_CORE_LIB,QT_NO_DEBUG,QT_OPENGL_LIB,QT_XML_LIB,"$(inherited)");
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				HEADER_SEARCH_PATHS = (/Users/kerautre/EnCours/LiverCCO/ext,/Users/kerautre/EnCours/LiverCCO/helpers,/Users/kerautre/EnCours/LiverCCO/base,"$(inherited)");
+				INSTALL_PATH = "";
+				LD_RUNPATH_SEARCH_PATHS = (/opt/homebrew/lib,"$(inherited)");
+				ONLY_ACTIVE_ARCH = NO;
+				OTHER_CPLUSPLUSFLAGS = "    -DNDEBUG -fPIC '-std=gnu++14' ";
+				OTHER_LDFLAGS = ("-L/opt/homebrew/opt/qt@5/lib -Wl,-search_paths_first -Wl,-headerpad_max_install_names",/opt/homebrew/lib/libceres.2.1.0.dylib,/Users/kerautre/EnCours/DGtal/build/libDGtal.a,/opt/homebrew/lib/libglog.0.6.0.dylib,/opt/homebrew/lib/libgflags.2.2.2.dylib,/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk/usr/lib/libz.tbd,"-F /opt/homebrew/opt/qt@5/lib","-Xlinker -framework -Xlinker QtOpenGL","-Xlinker -framework -Xlinker QtWidgets","-Xlinker -framework -Xlinker QtGui","-Xlinker -framework -Xlinker QtXml","-Xlinker -framework -Xlinker QtCore","-Xlinker -framework -Xlinker qglviewer","-Xlinker -framework -Xlinker OpenGL","$(inherited)");
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = testGeom;
+				SECTORDER_FLAGS = "";
+				SYMROOT = /Users/kerautre/EnCours/LiverCCO/buildXcode/tests;
+				SYSTEM_FRAMEWORK_SEARCH_PATHS = (/Library/Frameworks,/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk/System/Library/Frameworks,"/opt/homebrew/opt/qt@5/lib","$(inherited)");
+				SYSTEM_HEADER_SEARCH_PATHS = (/Users/kerautre/EnCours/DGtal/src,/Users/kerautre/EnCours/DGtal/build/src,/opt/homebrew/include,/opt/homebrew/include/eigen3,"/opt/homebrew/opt/qt@5/lib/QtWidgets.framework/Headers","/opt/homebrew/opt/qt@5/lib/QtGui.framework/Headers",/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk/System/Library/Frameworks/OpenGL.framework/Headers,"/opt/homebrew/opt/qt@5/lib/QtCore.framework/Headers","/opt/homebrew/opt/qt@5/./mkspecs/macx-clang-arm64","/opt/homebrew/opt/qt@5/lib/QtOpenGL.framework/Headers","/opt/homebrew/opt/qt@5/lib/QtXml.framework/Headers","$(inherited)");
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("$(inherited)");
+			};
+			name = MinSizeRel;
+		};
+		E64C46C5EBEE4DC08DFA9F27 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = arm64;
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'","$(inherited)");
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				INSTALL_PATH = "";
+				ONLY_ACTIVE_ARCH = NO;
+				OTHER_LDFLAGS = ("","$(inherited)");
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = ZERO_CHECK;
+				SECTORDER_FLAGS = "";
+				SYMROOT = /Users/kerautre/EnCours/LiverCCO/buildXcode;
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("$(inherited)");
+			};
+			name = Release;
+		};
+		F016C7BC8B7A4341A895526C /* RelWithDebInfo */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = arm64;
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'","$(inherited)");
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				INSTALL_PATH = "";
+				ONLY_ACTIVE_ARCH = NO;
+				OTHER_LDFLAGS = ("","$(inherited)");
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = ALL_BUILD;
+				SECTORDER_FLAGS = "";
+				SYMROOT = /Users/kerautre/EnCours/LiverCCO/buildXcode;
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("$(inherited)");
+			};
+			name = RelWithDebInfo;
+		};
+		FA59F170642B4BC68F6E48CA /* RelWithDebInfo */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = arm64;
+				COMBINE_HIDPI_IMAGES = YES;
+				EXECUTABLE_PREFIX = "";
+				EXECUTABLE_SUFFIX = "";
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 2;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'",GLOG_CUSTOM_PREFIX_SUPPORT,"'GFLAGS_IS_A_DLL=0'",BOOST_ALL_NO_LIB,"'WITH_EIGEN=true'",WITH_QT5,WITH_VISU3D_QGLVIEWER,UNIX,APPLE,QT_WIDGETS_LIB,QT_GUI_LIB,QT_CORE_LIB,QT_NO_DEBUG,QT_OPENGL_LIB,QT_XML_LIB,"$(inherited)");
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				HEADER_SEARCH_PATHS = (/Users/kerautre/EnCours/LiverCCO/ext,/Users/kerautre/EnCours/LiverCCO/helpers,/Users/kerautre/EnCours/LiverCCO/base,"$(inherited)");
+				INSTALL_PATH = "";
+				LD_RUNPATH_SEARCH_PATHS = (/opt/homebrew/lib,"$(inherited)");
+				ONLY_ACTIVE_ARCH = NO;
+				OTHER_CPLUSPLUSFLAGS = "       -DNDEBUG -fPIC '-std=gnu++14' ";
+				OTHER_LDFLAGS = ("-L/opt/homebrew/opt/qt@5/lib -Wl,-search_paths_first -Wl,-headerpad_max_install_names",/opt/homebrew/lib/libceres.2.1.0.dylib,/Users/kerautre/EnCours/DGtal/build/libDGtal.a,/opt/homebrew/lib/libglog.0.6.0.dylib,/opt/homebrew/lib/libgflags.2.2.2.dylib,/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk/usr/lib/libz.tbd,"-F /opt/homebrew/opt/qt@5/lib","-Xlinker -framework -Xlinker QtOpenGL","-Xlinker -framework -Xlinker QtWidgets","-Xlinker -framework -Xlinker QtGui","-Xlinker -framework -Xlinker QtXml","-Xlinker -framework -Xlinker QtCore","-Xlinker -framework -Xlinker qglviewer","-Xlinker -framework -Xlinker OpenGL","$(inherited)");
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = generateTree2D;
+				SECTORDER_FLAGS = "";
+				SYMROOT = /Users/kerautre/EnCours/LiverCCO/buildXcode/bin;
+				SYSTEM_FRAMEWORK_SEARCH_PATHS = (/Library/Frameworks,/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk/System/Library/Frameworks,"/opt/homebrew/opt/qt@5/lib","$(inherited)");
+				SYSTEM_HEADER_SEARCH_PATHS = (/Users/kerautre/EnCours/DGtal/src,/Users/kerautre/EnCours/DGtal/build/src,/opt/homebrew/include,/opt/homebrew/include/eigen3,"/opt/homebrew/opt/qt@5/lib/QtWidgets.framework/Headers","/opt/homebrew/opt/qt@5/lib/QtGui.framework/Headers",/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk/System/Library/Frameworks/OpenGL.framework/Headers,"/opt/homebrew/opt/qt@5/lib/QtCore.framework/Headers","/opt/homebrew/opt/qt@5/./mkspecs/macx-clang-arm64","/opt/homebrew/opt/qt@5/lib/QtOpenGL.framework/Headers","/opt/homebrew/opt/qt@5/lib/QtXml.framework/Headers","$(inherited)");
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("$(inherited)");
+			};
+			name = RelWithDebInfo;
+		};
+		FC05C2FD5B5941A596AC885D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = arm64;
+				COMBINE_HIDPI_IMAGES = YES;
+				EXECUTABLE_PREFIX = "";
+				EXECUTABLE_SUFFIX = "";
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'","'SAMPLE_DIR=\"/Users/kerautre/EnCours/LiverCCO/samples/\"'",GLOG_CUSTOM_PREFIX_SUPPORT,"'GFLAGS_IS_A_DLL=0'",BOOST_ALL_NO_LIB,"'WITH_EIGEN=true'",WITH_QT5,WITH_VISU3D_QGLVIEWER,UNIX,APPLE,QT_WIDGETS_LIB,QT_GUI_LIB,QT_CORE_LIB,QT_OPENGL_LIB,QT_XML_LIB,"$(inherited)");
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				HEADER_SEARCH_PATHS = (/Users/kerautre/EnCours/LiverCCO/ext,/Users/kerautre/EnCours/LiverCCO/helpers,/Users/kerautre/EnCours/LiverCCO/base,"$(inherited)");
+				INSTALL_PATH = "";
+				LD_RUNPATH_SEARCH_PATHS = (/opt/homebrew/lib,"$(inherited)");
+				ONLY_ACTIVE_ARCH = NO;
+				OTHER_CPLUSPLUSFLAGS = "   -fPIC '-std=gnu++14' ";
+				OTHER_LDFLAGS = ("-L/opt/homebrew/opt/qt@5/lib -Wl,-search_paths_first -Wl,-headerpad_max_install_names",/opt/homebrew/lib/libceres.2.1.0.dylib,/Users/kerautre/EnCours/DGtal/build/libDGtal.a,/opt/homebrew/lib/libglog.0.6.0.dylib,/opt/homebrew/lib/libgflags.2.2.2.dylib,/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk/usr/lib/libz.tbd,"-F /opt/homebrew/opt/qt@5/lib","-Xlinker -framework -Xlinker QtOpenGL","-Xlinker -framework -Xlinker QtWidgets","-Xlinker -framework -Xlinker QtGui","-Xlinker -framework -Xlinker QtXml","-Xlinker -framework -Xlinker QtCore","-Xlinker -framework -Xlinker qglviewer","-Xlinker -framework -Xlinker OpenGL","$(inherited)");
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = testGeom;
+				SECTORDER_FLAGS = "";
+				SYMROOT = /Users/kerautre/EnCours/LiverCCO/buildXcode/tests;
+				SYSTEM_FRAMEWORK_SEARCH_PATHS = (/Library/Frameworks,/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk/System/Library/Frameworks,"/opt/homebrew/opt/qt@5/lib","$(inherited)");
+				SYSTEM_HEADER_SEARCH_PATHS = (/Users/kerautre/EnCours/DGtal/src,/Users/kerautre/EnCours/DGtal/build/src,/opt/homebrew/include,/opt/homebrew/include/eigen3,"/opt/homebrew/opt/qt@5/lib/QtWidgets.framework/Headers","/opt/homebrew/opt/qt@5/lib/QtGui.framework/Headers",/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk/System/Library/Frameworks/OpenGL.framework/Headers,"/opt/homebrew/opt/qt@5/lib/QtCore.framework/Headers","/opt/homebrew/opt/qt@5/./mkspecs/macx-clang-arm64","/opt/homebrew/opt/qt@5/lib/QtOpenGL.framework/Headers","/opt/homebrew/opt/qt@5/lib/QtXml.framework/Headers","$(inherited)");
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("$(inherited)");
+			};
+			name = Debug;
+		};
+		FDE02442553641F4A7856959 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = arm64;
+				COMBINE_HIDPI_IMAGES = YES;
+				EXECUTABLE_PREFIX = "";
+				EXECUTABLE_SUFFIX = "";
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'",GLOG_CUSTOM_PREFIX_SUPPORT,"'GFLAGS_IS_A_DLL=0'",BOOST_ALL_NO_LIB,"'WITH_EIGEN=true'",WITH_QT5,WITH_VISU3D_QGLVIEWER,UNIX,APPLE,QT_WIDGETS_LIB,QT_GUI_LIB,QT_CORE_LIB,QT_OPENGL_LIB,QT_XML_LIB,"$(inherited)");
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				HEADER_SEARCH_PATHS = (/Users/kerautre/EnCours/LiverCCO/ext,/Users/kerautre/EnCours/LiverCCO/helpers,/Users/kerautre/EnCours/LiverCCO/base,"$(inherited)");
+				INSTALL_PATH = "";
+				LD_RUNPATH_SEARCH_PATHS = (/opt/homebrew/lib,"$(inherited)");
+				ONLY_ACTIVE_ARCH = NO;
+				OTHER_CPLUSPLUSFLAGS = "   -fPIC '-std=gnu++14' ";
+				OTHER_LDFLAGS = ("-L/opt/homebrew/opt/qt@5/lib -Wl,-search_paths_first -Wl,-headerpad_max_install_names",/opt/homebrew/lib/libceres.2.1.0.dylib,/Users/kerautre/EnCours/DGtal/build/libDGtal.a,/opt/homebrew/lib/libglog.0.6.0.dylib,/opt/homebrew/lib/libgflags.2.2.2.dylib,/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk/usr/lib/libz.tbd,"-F /opt/homebrew/opt/qt@5/lib","-Xlinker -framework -Xlinker QtOpenGL","-Xlinker -framework -Xlinker QtWidgets","-Xlinker -framework -Xlinker QtGui","-Xlinker -framework -Xlinker QtXml","-Xlinker -framework -Xlinker QtCore","-Xlinker -framework -Xlinker qglviewer","-Xlinker -framework -Xlinker OpenGL","$(inherited)");
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = generateTree3D;
+				SECTORDER_FLAGS = "";
+				SYMROOT = /Users/kerautre/EnCours/LiverCCO/buildXcode/bin;
+				SYSTEM_FRAMEWORK_SEARCH_PATHS = (/Library/Frameworks,/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk/System/Library/Frameworks,"/opt/homebrew/opt/qt@5/lib","$(inherited)");
+				SYSTEM_HEADER_SEARCH_PATHS = (/Users/kerautre/EnCours/DGtal/src,/Users/kerautre/EnCours/DGtal/build/src,/opt/homebrew/include,/opt/homebrew/include/eigen3,"/opt/homebrew/opt/qt@5/lib/QtWidgets.framework/Headers","/opt/homebrew/opt/qt@5/lib/QtGui.framework/Headers",/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk/System/Library/Frameworks/OpenGL.framework/Headers,"/opt/homebrew/opt/qt@5/lib/QtCore.framework/Headers","/opt/homebrew/opt/qt@5/./mkspecs/macx-clang-arm64","/opt/homebrew/opt/qt@5/lib/QtOpenGL.framework/Headers","/opt/homebrew/opt/qt@5/lib/QtXml.framework/Headers","$(inherited)");
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("$(inherited)");
+			};
+			name = Debug;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		0A1A037D910946DFA093BFD2 /* Build configuration list for PBXNativeTarget "testSchreiner" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				68FC0B2DAA5046C38709C331 /* Debug */,
+				29A8EF6B710D41D88DBA648F /* Release */,
+				A2D16FB0A2A34D80978DFD84 /* MinSizeRel */,
+				D172FC5A4D2C43999CBAB614 /* RelWithDebInfo */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		1B6A79E669E04F3DBD771895 /* Build configuration list for PBXNativeTarget "generateTree3D" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				FDE02442553641F4A7856959 /* Debug */,
+				9DB46EF036D74B22ABA4DD5C /* Release */,
+				27D728CE87E84BE7A3D530FE /* MinSizeRel */,
+				73BF779F84564E6CAF746E96 /* RelWithDebInfo */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		1F48AF80CF934CA5A0A1A078 /* Build configuration list for PBXProject "CCO_Implementation" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				66F79EF55AC44CD7B52A097D /* Debug */,
+				4614FB59F5C744E28E22B5D9 /* Release */,
+				54B6BB349A0D4577B0AC5C29 /* MinSizeRel */,
+				CA498897D73C4DFE82048ACA /* RelWithDebInfo */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		31896C1B6EC0429493DF0A34 /* Build configuration list for PBXNativeTarget "mergeObj" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				7904D5C5FB3745CC82394FF6 /* Debug */,
+				57E41202BF0D42B982E2AA7A /* Release */,
+				CE48219C2F0849E4B62D6C3B /* MinSizeRel */,
+				441FF392A7524E23AB7595D9 /* RelWithDebInfo */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		3A232A37765C47FBA20FEF3F /* Build configuration list for PBXNativeTarget "generateTree2D" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1997A0FDD6AF42B49E0A74B9 /* Debug */,
+				A57C4A674B8944749F9991A8 /* Release */,
+				54F5C51CB59C4A2CB3EA5D79 /* MinSizeRel */,
+				FA59F170642B4BC68F6E48CA /* RelWithDebInfo */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		68BDCEE5299F4751945AF758 /* Build configuration list for PBXNativeTarget "testKamiya" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				8C288EE7BCF54A7EAE9F63D7 /* Debug */,
+				C8D2590BFE1B44FDA3B4F4E4 /* Release */,
+				9FD6ADF10EC545B88902ED02 /* MinSizeRel */,
+				2F74E2D213D142B489E8CD79 /* RelWithDebInfo */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		69D392A109EA4A98815D5BE1 /* Build configuration list for PBXAggregateTarget "ZERO_CHECK" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C19CA6652809455BBA71170D /* Debug */,
+				E64C46C5EBEE4DC08DFA9F27 /* Release */,
+				64410941A4A94A398A996BC6 /* MinSizeRel */,
+				B9710CF863ED4676A152AD00 /* RelWithDebInfo */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		A958989A4018481995E56AF4 /* Build configuration list for PBXNativeTarget "testGeom" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				FC05C2FD5B5941A596AC885D /* Debug */,
+				79A4C00795194CC48FCDCEAB /* Release */,
+				DADDA1A730FE437A873A55F9 /* MinSizeRel */,
+				9952B8C9AB3940778BE80917 /* RelWithDebInfo */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		B1F41F521F8A47A49E3038C7 /* Build configuration list for PBXNativeTarget "generateTestDomain" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				2C574592AD7040A986D71972 /* Debug */,
+				867C81997E164C76B66B518D /* Release */,
+				41A56128AB05458DB65414D4 /* MinSizeRel */,
+				D2BC0687B79E4DB79AF9280E /* RelWithDebInfo */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		B8F709C388C541C9AB166C08 /* Build configuration list for PBXNativeTarget "testGenerateTree" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				178254788B46429480B94F20 /* Debug */,
+				94F25D08107B48D68F4DBA75 /* Release */,
+				06E441B0BCF6400986A51A67 /* MinSizeRel */,
+				66735933FC87458A83761C7A /* RelWithDebInfo */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		D3F3891377E34AB29705C012 /* Build configuration list for PBXAggregateTarget "ALL_BUILD" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				374CAC2BCD7348EAAEB44F3D /* Debug */,
+				01D44A0130284700969A9733 /* Release */,
+				7CFA239190AB40FCB215544E /* MinSizeRel */,
+				F016C7BC8B7A4341A895526C /* RelWithDebInfo */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 34EBAF870A924990A2B5811B /* Project object */;
+}

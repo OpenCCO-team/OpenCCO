@@ -1,0 +1,129 @@
+Determining if the function sgemm_ exists failed with the following output:
+Change Dir: /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp
+
+Run Build Command(s):/usr/bin/xcodebuild -project CMAKE_TRY_COMPILE.xcodeproj build -target cmTC_a88bb -parallelizeTargets -configuration Debug -hideShellScriptEnvironment && 2022-12-20 11:17:29.249 xcodebuild[83451:2339446]  DVTErrorPresenter: Unable to load simulator devices.
+Domain: DVTCoreSimulatorAdditionsErrorDomain
+Code: 3
+Failure Reason: The version of the CoreSimulator framework installed on this Mac is out-of-date and not supported by this version of Xcode.
+Recovery Suggestion: Please ensure that you have installed all available updates to your Mac's software, and that you are running the most recent version of Xcode supported by macOS.
+--
+CoreSimulator is out of date. Current version (857.13.0) is older than build version (857.14.0).
+Domain: DVTCoreSimulatorAdditionsErrorDomain
+Code: 3
+--
+2022-12-20 11:17:29.250 xcodebuild[83451:2339446]  iOSSimulator: [SimServiceContext sharedServiceContextForDeveloperDir:error:] returned nil (Error Domain=DVTCoreSimulatorAdditionsErrorDomain Code=3 "CoreSimulator is out of date. Current version (857.13.0) is older than build version (857.14.0)." UserInfo={NSLocalizedDescription=CoreSimulator is out of date. Current version (857.13.0) is older than build version (857.14.0).}). Simulator device support disabled.
+Command line invocation:
+    /Applications/Xcode.app/Contents/Developer/usr/bin/xcodebuild -project CMAKE_TRY_COMPILE.xcodeproj build -target cmTC_a88bb -parallelizeTargets -configuration Debug -hideShellScriptEnvironment
+
+User defaults from command line:
+    HideShellScriptEnvironment = YES
+    IDEPackageSupportUseBuiltinSCM = YES
+
+Computing target dependency graph and provisioning inputs
+
+Create build description
+Build description signature: 128574ebc0ba9e70388c2b050a64f81e
+Build description path: /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/build/XCBuildData/128574ebc0ba9e70388c2b050a64f81e-desc.xcbuild
+
+note: Building targets in dependency order
+CreateBuildDirectory /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp
+    cd /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/CMAKE_TRY_COMPILE.xcodeproj
+    builtin-create-build-directory /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp
+
+CreateBuildDirectory /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/EagerLinkingTBDs
+    cd /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/CMAKE_TRY_COMPILE.xcodeproj
+    builtin-create-build-directory /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/EagerLinkingTBDs
+
+CreateBuildDirectory /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/Debug
+    cd /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/CMAKE_TRY_COMPILE.xcodeproj
+    builtin-create-build-directory /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/Debug
+
+CompileC /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/CMAKE_TRY_COMPILE.build/Debug/cmTC_a88bb.build/Objects-normal/arm64/CheckFunctionExists.o /opt/homebrew/Cellar/cmake/3.24.1/share/cmake/Modules/CheckFunctionExists.c normal arm64 c com.apple.compilers.llvm.clang.1_0.compiler (in target 'cmTC_a88bb' from project 'CMAKE_TRY_COMPILE')
+    cd /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp
+    /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -x c -target arm64-apple-macos13.1 -fmessage-length\=0 -fdiagnostics-show-note-include-stack -fmacro-backtrace-limit\=0 -Wno-trigraphs -fpascal-strings -O0 -Wno-missing-field-initializers -Wno-missing-prototypes -Wno-return-type -Wno-missing-braces -Wparentheses -Wswitch -Wno-unused-function -Wno-unused-label -Wno-unused-parameter -Wno-unused-variable -Wunused-value -Wno-empty-body -Wno-uninitialized -Wno-unknown-pragmas -Wno-shadow -Wno-four-char-constants -Wno-conversion -Wno-constant-conversion -Wno-int-conversion -Wno-bool-conversion -Wno-enum-conversion -Wno-float-conversion -Wno-non-literal-null-conversion -Wno-objc-literal-conversion -Wshorten-64-to-32 -Wpointer-sign -Wno-newline-eof -Wno-implicit-fallthrough -DCMAKE_INTDIR\=\"Debug\" -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk -fstrict-aliasing -Wdeprecated-declarations -g -Wno-sign-conversion -Wno-infinite-recursion -Wno-comma -Wno-block-capture-autoreleasing -Wno-strict-prototypes -Wno-semicolon-before-method-body -I/Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/Debug/include -I/Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/CMAKE_TRY_COMPILE.build/Debug/cmTC_a88bb.build/DerivedSources-normal/arm64 -I/Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/CMAKE_TRY_COMPILE.build/Debug/cmTC_a88bb.build/DerivedSources/arm64 -I/Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/CMAKE_TRY_COMPILE.build/Debug/cmTC_a88bb.build/DerivedSources -F/Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/Debug -DCHECK_FUNCTION_EXISTS\=sgemm_ -MMD -MT dependencies -MF /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/CMAKE_TRY_COMPILE.build/Debug/cmTC_a88bb.build/Objects-normal/arm64/CheckFunctionExists.d --serialize-diagnostics /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/CMAKE_TRY_COMPILE.build/Debug/cmTC_a88bb.build/Objects-normal/arm64/CheckFunctionExists.dia -c /opt/homebrew/Cellar/cmake/3.24.1/share/cmake/Modules/CheckFunctionExists.c -o /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/CMAKE_TRY_COMPILE.build/Debug/cmTC_a88bb.build/Objects-normal/arm64/CheckFunctionExists.o
+
+WriteAuxiliaryFile /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/CMAKE_TRY_COMPILE.build/Debug/cmTC_a88bb.build/Objects-normal/arm64/cmTC_a88bb.LinkFileList (in target 'cmTC_a88bb' from project 'CMAKE_TRY_COMPILE')
+    cd /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp
+    write-file /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/CMAKE_TRY_COMPILE.build/Debug/cmTC_a88bb.build/Objects-normal/arm64/cmTC_a88bb.LinkFileList
+
+Ld /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/Debug/cmTC_a88bb normal (in target 'cmTC_a88bb' from project 'CMAKE_TRY_COMPILE')
+    cd /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp
+    /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -target arm64-apple-macos13.1 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk -L/Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/EagerLinkingTBDs -L/Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/Debug -F/Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/EagerLinkingTBDs -F/Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/Debug -filelist /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/CMAKE_TRY_COMPILE.build/Debug/cmTC_a88bb.build/Objects-normal/arm64/cmTC_a88bb.LinkFileList -Xlinker -object_path_lto -Xlinker /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/CMAKE_TRY_COMPILE.build/Debug/cmTC_a88bb.build/Objects-normal/arm64/cmTC_a88bb_lto.o -Xlinker -no_deduplicate -L/opt/homebrew/opt/qt@5/lib -Wl,-search_paths_first -Wl,-headerpad_max_install_names -Xlinker -dependency_info -Xlinker /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/CMAKE_TRY_COMPILE.build/Debug/cmTC_a88bb.build/Objects-normal/arm64/cmTC_a88bb_dependency_info.dat -o /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/Debug/cmTC_a88bb
+Undefined symbols for architecture arm64:
+  "_sgemm_", referenced from:
+      _main in CheckFunctionExists.o
+ld: symbol(s) not found for architecture arm64
+clang: error: linker command failed with exit code 1 (use -v to see invocation)
+
+** BUILD FAILED **
+
+
+The following build commands failed:
+	Ld /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/Debug/cmTC_a88bb normal (in target 'cmTC_a88bb' from project 'CMAKE_TRY_COMPILE')
+(1 failure)
+
+
+
+Determining if the function shm_open exists in the rt failed with the following output:
+Change Dir: /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp
+
+Run Build Command(s):/usr/bin/xcodebuild -project CMAKE_TRY_COMPILE.xcodeproj build -target cmTC_69af2 -parallelizeTargets -configuration Debug -hideShellScriptEnvironment && 2022-12-20 11:17:32.748 xcodebuild[83490:2339794]  DVTErrorPresenter: Unable to load simulator devices.
+Domain: DVTCoreSimulatorAdditionsErrorDomain
+Code: 3
+Failure Reason: The version of the CoreSimulator framework installed on this Mac is out-of-date and not supported by this version of Xcode.
+Recovery Suggestion: Please ensure that you have installed all available updates to your Mac's software, and that you are running the most recent version of Xcode supported by macOS.
+--
+CoreSimulator is out of date. Current version (857.13.0) is older than build version (857.14.0).
+Domain: DVTCoreSimulatorAdditionsErrorDomain
+Code: 3
+--
+2022-12-20 11:17:32.748 xcodebuild[83490:2339794]  iOSSimulator: [SimServiceContext sharedServiceContextForDeveloperDir:error:] returned nil (Error Domain=DVTCoreSimulatorAdditionsErrorDomain Code=3 "CoreSimulator is out of date. Current version (857.13.0) is older than build version (857.14.0)." UserInfo={NSLocalizedDescription=CoreSimulator is out of date. Current version (857.13.0) is older than build version (857.14.0).}). Simulator device support disabled.
+Command line invocation:
+    /Applications/Xcode.app/Contents/Developer/usr/bin/xcodebuild -project CMAKE_TRY_COMPILE.xcodeproj build -target cmTC_69af2 -parallelizeTargets -configuration Debug -hideShellScriptEnvironment
+
+User defaults from command line:
+    HideShellScriptEnvironment = YES
+    IDEPackageSupportUseBuiltinSCM = YES
+
+Computing target dependency graph and provisioning inputs
+
+Create build description
+Build description signature: c36007d212c21346ae5a9c1c02d39113
+Build description path: /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/build/XCBuildData/c36007d212c21346ae5a9c1c02d39113-desc.xcbuild
+
+note: Building targets in dependency order
+CreateBuildDirectory /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp
+    cd /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/CMAKE_TRY_COMPILE.xcodeproj
+    builtin-create-build-directory /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp
+
+CreateBuildDirectory /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/EagerLinkingTBDs
+    cd /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/CMAKE_TRY_COMPILE.xcodeproj
+    builtin-create-build-directory /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/EagerLinkingTBDs
+
+CreateBuildDirectory /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/Debug
+    cd /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/CMAKE_TRY_COMPILE.xcodeproj
+    builtin-create-build-directory /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/Debug
+
+CompileC /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/CMAKE_TRY_COMPILE.build/Debug/cmTC_69af2.build/Objects-normal/arm64/CheckFunctionExists.o /opt/homebrew/Cellar/cmake/3.24.1/share/cmake/Modules/CheckFunctionExists.c normal arm64 c com.apple.compilers.llvm.clang.1_0.compiler (in target 'cmTC_69af2' from project 'CMAKE_TRY_COMPILE')
+    cd /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp
+    /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -x c -target arm64-apple-macos13.1 -fmessage-length\=0 -fdiagnostics-show-note-include-stack -fmacro-backtrace-limit\=0 -Wno-trigraphs -fpascal-strings -O0 -Wno-missing-field-initializers -Wno-missing-prototypes -Wno-return-type -Wno-missing-braces -Wparentheses -Wswitch -Wno-unused-function -Wno-unused-label -Wno-unused-parameter -Wno-unused-variable -Wunused-value -Wno-empty-body -Wno-uninitialized -Wno-unknown-pragmas -Wno-shadow -Wno-four-char-constants -Wno-conversion -Wno-constant-conversion -Wno-int-conversion -Wno-bool-conversion -Wno-enum-conversion -Wno-float-conversion -Wno-non-literal-null-conversion -Wno-objc-literal-conversion -Wshorten-64-to-32 -Wpointer-sign -Wno-newline-eof -Wno-implicit-fallthrough -DCMAKE_INTDIR\=\"Debug\" -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk -fstrict-aliasing -Wdeprecated-declarations -g -Wno-sign-conversion -Wno-infinite-recursion -Wno-comma -Wno-block-capture-autoreleasing -Wno-strict-prototypes -Wno-semicolon-before-method-body -I/Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/Debug/include -I/Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/CMAKE_TRY_COMPILE.build/Debug/cmTC_69af2.build/DerivedSources-normal/arm64 -I/Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/CMAKE_TRY_COMPILE.build/Debug/cmTC_69af2.build/DerivedSources/arm64 -I/Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/CMAKE_TRY_COMPILE.build/Debug/cmTC_69af2.build/DerivedSources -F/Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/Debug -DCHECK_FUNCTION_EXISTS\=shm_open -MMD -MT dependencies -MF /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/CMAKE_TRY_COMPILE.build/Debug/cmTC_69af2.build/Objects-normal/arm64/CheckFunctionExists.d --serialize-diagnostics /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/CMAKE_TRY_COMPILE.build/Debug/cmTC_69af2.build/Objects-normal/arm64/CheckFunctionExists.dia -c /opt/homebrew/Cellar/cmake/3.24.1/share/cmake/Modules/CheckFunctionExists.c -o /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/CMAKE_TRY_COMPILE.build/Debug/cmTC_69af2.build/Objects-normal/arm64/CheckFunctionExists.o
+
+WriteAuxiliaryFile /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/CMAKE_TRY_COMPILE.build/Debug/cmTC_69af2.build/Objects-normal/arm64/cmTC_69af2.LinkFileList (in target 'cmTC_69af2' from project 'CMAKE_TRY_COMPILE')
+    cd /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp
+    write-file /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/CMAKE_TRY_COMPILE.build/Debug/cmTC_69af2.build/Objects-normal/arm64/cmTC_69af2.LinkFileList
+
+Ld /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/Debug/cmTC_69af2 normal (in target 'cmTC_69af2' from project 'CMAKE_TRY_COMPILE')
+    cd /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp
+    /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -target arm64-apple-macos13.1 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk -L/Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/EagerLinkingTBDs -L/Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/Debug -F/Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/EagerLinkingTBDs -F/Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/Debug -filelist /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/CMAKE_TRY_COMPILE.build/Debug/cmTC_69af2.build/Objects-normal/arm64/cmTC_69af2.LinkFileList -Xlinker -object_path_lto -Xlinker /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/CMAKE_TRY_COMPILE.build/Debug/cmTC_69af2.build/Objects-normal/arm64/cmTC_69af2_lto.o -Xlinker -no_deduplicate -L/opt/homebrew/opt/qt@5/lib -Wl,-search_paths_first -Wl,-headerpad_max_install_names -lrt -Xlinker -dependency_info -Xlinker /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/CMAKE_TRY_COMPILE.build/Debug/cmTC_69af2.build/Objects-normal/arm64/cmTC_69af2_dependency_info.dat -o /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/Debug/cmTC_69af2
+ld: library not found for -lrt
+clang: error: linker command failed with exit code 1 (use -v to see invocation)
+
+** BUILD FAILED **
+
+
+The following build commands failed:
+	Ld /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/Debug/cmTC_69af2 normal (in target 'cmTC_69af2' from project 'CMAKE_TRY_COMPILE')
+(1 failure)
+
+
+

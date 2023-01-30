@@ -1,0 +1,951 @@
+The system is: Darwin - 22.2.0 - arm64
+Compiling the C compiler identification source file "CMakeCCompilerId.c" succeeded.
+Compiler:  
+Build flags: 
+Id flags:  
+
+The output was:
+0
+Command line invocation:
+    /Applications/Xcode.app/Contents/Developer/usr/bin/xcodebuild
+
+User defaults from command line:
+    IDEPackageSupportUseBuiltinSCM = YES
+
+2022-12-20 11:17:18.015 xcodebuild[83378:2338684]  DVTErrorPresenter: Unable to load simulator devices.
+Domain: DVTCoreSimulatorAdditionsErrorDomain
+Code: 3
+Failure Reason: The version of the CoreSimulator framework installed on this Mac is out-of-date and not supported by this version of Xcode.
+Recovery Suggestion: Please ensure that you have installed all available updates to your Mac's software, and that you are running the most recent version of Xcode supported by macOS.
+--
+CoreSimulator is out of date. Current version (857.13.0) is older than build version (857.14.0).
+Domain: DVTCoreSimulatorAdditionsErrorDomain
+Code: 3
+--
+2022-12-20 11:17:18.015 xcodebuild[83378:2338684]  iOSSimulator: [SimServiceContext sharedServiceContextForDeveloperDir:error:] returned nil (Error Domain=DVTCoreSimulatorAdditionsErrorDomain Code=3 "CoreSimulator is out of date. Current version (857.13.0) is older than build version (857.14.0)." UserInfo={NSLocalizedDescription=CoreSimulator is out of date. Current version (857.13.0) is older than build version (857.14.0).}). Simulator device support disabled.
+Computing target dependency graph and provisioning inputs
+
+Create build description
+Build description signature: ae5cc1035b284ca6aa0f936179139d41
+Build description path: /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/3.24.1/CompilerIdC/./XCBuildData/ae5cc1035b284ca6aa0f936179139d41-desc.xcbuild
+
+warning: Building targets in manual order is deprecated - check "Parallelize build for command-line builds" in the project editor, or set DISABLE_MANUAL_TARGET_ORDER_BUILD_WARNING in any of the targets in the current build to suppress this warning
+CreateBuildDirectory /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/3.24.1/CompilerIdC
+    cd /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/3.24.1/CompilerIdC/CompilerIdC.xcodeproj
+    builtin-create-build-directory /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/3.24.1/CompilerIdC
+
+CreateBuildDirectory /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/3.24.1/CompilerIdC/EagerLinkingTBDs
+    cd /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/3.24.1/CompilerIdC/CompilerIdC.xcodeproj
+    builtin-create-build-directory /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/3.24.1/CompilerIdC/EagerLinkingTBDs
+
+warning: Traditional headermap style is no longer supported; please migrate to using separate headermaps and set 'ALWAYS_SEARCH_USER_PATHS' to NO. (in target 'CompilerIdC' from project 'CompilerIdC')
+note: Run script build phase 'Run Script' will be run during every build because the option to run the script phase "Based on dependency analysis" is unchecked. (in target 'CompilerIdC' from project 'CompilerIdC')
+WriteAuxiliaryFile /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/3.24.1/CompilerIdC/CompilerIdC.build/Debug/CompilerIdC.build/DerivedSources/Entitlements.plist (in target 'CompilerIdC' from project 'CompilerIdC')
+    cd /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/3.24.1/CompilerIdC
+    write-file /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/3.24.1/CompilerIdC/CompilerIdC.build/Debug/CompilerIdC.build/DerivedSources/Entitlements.plist
+
+ProcessProductPackaging "" /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/3.24.1/CompilerIdC/CompilerIdC.build/Debug/CompilerIdC.build/CompilerIdC.xcent (in target 'CompilerIdC' from project 'CompilerIdC')
+    cd /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/3.24.1/CompilerIdC
+    
+    Entitlements:
+    
+    {
+    "com.apple.application-identifier" = "";
+    "com.apple.security.get-task-allow" = 1;
+}
+    
+    builtin-productPackagingUtility -entitlements -format xml -o /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/3.24.1/CompilerIdC/CompilerIdC.build/Debug/CompilerIdC.build/CompilerIdC.xcent
+
+ProcessProductPackagingDER /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/3.24.1/CompilerIdC/CompilerIdC.build/Debug/CompilerIdC.build/CompilerIdC.xcent /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/3.24.1/CompilerIdC/CompilerIdC.build/Debug/CompilerIdC.build/CompilerIdC.xcent.der (in target 'CompilerIdC' from project 'CompilerIdC')
+    cd /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/3.24.1/CompilerIdC
+    /usr/bin/derq query -f xml -i /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/3.24.1/CompilerIdC/CompilerIdC.build/Debug/CompilerIdC.build/CompilerIdC.xcent -o /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/3.24.1/CompilerIdC/CompilerIdC.build/Debug/CompilerIdC.build/CompilerIdC.xcent.der --raw
+
+WriteAuxiliaryFile /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/3.24.1/CompilerIdC/CompilerIdC.build/Debug/CompilerIdC.build/all-product-headers.yaml (in target 'CompilerIdC' from project 'CompilerIdC')
+    cd /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/3.24.1/CompilerIdC
+    write-file /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/3.24.1/CompilerIdC/CompilerIdC.build/Debug/CompilerIdC.build/all-product-headers.yaml
+
+WriteAuxiliaryFile /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/3.24.1/CompilerIdC/CompilerIdC.build/Debug/CompilerIdC.build/CompilerIdC.hmap (in target 'CompilerIdC' from project 'CompilerIdC')
+    cd /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/3.24.1/CompilerIdC
+    write-file /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/3.24.1/CompilerIdC/CompilerIdC.build/Debug/CompilerIdC.build/CompilerIdC.hmap
+
+WriteAuxiliaryFile /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/3.24.1/CompilerIdC/CompilerIdC.build/Debug/CompilerIdC.build/CompilerIdC-project-headers.hmap (in target 'CompilerIdC' from project 'CompilerIdC')
+    cd /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/3.24.1/CompilerIdC
+    write-file /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/3.24.1/CompilerIdC/CompilerIdC.build/Debug/CompilerIdC.build/CompilerIdC-project-headers.hmap
+
+WriteAuxiliaryFile /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/3.24.1/CompilerIdC/CompilerIdC.build/Debug/CompilerIdC.build/CompilerIdC-own-target-headers.hmap (in target 'CompilerIdC' from project 'CompilerIdC')
+    cd /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/3.24.1/CompilerIdC
+    write-file /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/3.24.1/CompilerIdC/CompilerIdC.build/Debug/CompilerIdC.build/CompilerIdC-own-target-headers.hmap
+
+WriteAuxiliaryFile /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/3.24.1/CompilerIdC/CompilerIdC.build/Debug/CompilerIdC.build/CompilerIdC-all-target-headers.hmap (in target 'CompilerIdC' from project 'CompilerIdC')
+    cd /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/3.24.1/CompilerIdC
+    write-file /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/3.24.1/CompilerIdC/CompilerIdC.build/Debug/CompilerIdC.build/CompilerIdC-all-target-headers.hmap
+
+WriteAuxiliaryFile /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/3.24.1/CompilerIdC/CompilerIdC.build/Debug/CompilerIdC.build/CompilerIdC-all-non-framework-target-headers.hmap (in target 'CompilerIdC' from project 'CompilerIdC')
+    cd /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/3.24.1/CompilerIdC
+    write-file /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/3.24.1/CompilerIdC/CompilerIdC.build/Debug/CompilerIdC.build/CompilerIdC-all-non-framework-target-headers.hmap
+
+WriteAuxiliaryFile /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/3.24.1/CompilerIdC/CompilerIdC.build/Debug/CompilerIdC.build/CompilerIdC-generated-files.hmap (in target 'CompilerIdC' from project 'CompilerIdC')
+    cd /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/3.24.1/CompilerIdC
+    write-file /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/3.24.1/CompilerIdC/CompilerIdC.build/Debug/CompilerIdC.build/CompilerIdC-generated-files.hmap
+
+CompileC /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/3.24.1/CompilerIdC/CompilerIdC.build/Debug/CompilerIdC.build/Objects-normal/arm64/CMakeCCompilerId.o /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/3.24.1/CompilerIdC/CMakeCCompilerId.c normal arm64 c com.apple.compilers.llvm.clang.1_0.compiler (in target 'CompilerIdC' from project 'CompilerIdC')
+    cd /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/3.24.1/CompilerIdC
+    /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -x c -target arm64-apple-macos13.1 -fmessage-length\=0 -fdiagnostics-show-note-include-stack -fmacro-backtrace-limit\=0 -Wno-trigraphs -fpascal-strings -Os -Wno-missing-field-initializers -Wno-missing-prototypes -Wno-return-type -Wno-missing-braces -Wparentheses -Wswitch -Wno-unused-function -Wno-unused-label -Wno-unused-parameter -Wno-unused-variable -Wunused-value -Wno-empty-body -Wno-uninitialized -Wno-unknown-pragmas -Wno-shadow -Wno-four-char-constants -Wno-conversion -Wno-constant-conversion -Wno-int-conversion -Wno-bool-conversion -Wno-enum-conversion -Wno-float-conversion -Wno-non-literal-null-conversion -Wno-objc-literal-conversion -Wshorten-64-to-32 -Wpointer-sign -Wno-newline-eof -Wno-implicit-fallthrough -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk -fstrict-aliasing -Wdeprecated-declarations -g -fvisibility\=hidden -Wno-sign-conversion -Wno-infinite-recursion -Wno-comma -Wno-block-capture-autoreleasing -Wno-strict-prototypes -Wno-semicolon-before-method-body -iquote /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/3.24.1/CompilerIdC/CompilerIdC.build/Debug/CompilerIdC.build/CompilerIdC-generated-files.hmap -I/Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/3.24.1/CompilerIdC/CompilerIdC.build/Debug/CompilerIdC.build/CompilerIdC-own-target-headers.hmap -I/Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/3.24.1/CompilerIdC/CompilerIdC.build/Debug/CompilerIdC.build/CompilerIdC-all-target-headers.hmap -iquote /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/3.24.1/CompilerIdC/CompilerIdC.build/Debug/CompilerIdC.build/CompilerIdC-project-headers.hmap -I/Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/3.24.1/CompilerIdC/include -I/Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/3.24.1/CompilerIdC/CompilerIdC.build/Debug/CompilerIdC.build/DerivedSources-normal/arm64 -I/Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/3.24.1/CompilerIdC/CompilerIdC.build/Debug/CompilerIdC.build/DerivedSources/arm64 -I/Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/3.24.1/CompilerIdC/CompilerIdC.build/Debug/CompilerIdC.build/DerivedSources -F/Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/3.24.1/CompilerIdC -MMD -MT dependencies -MF /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/3.24.1/CompilerIdC/CompilerIdC.build/Debug/CompilerIdC.build/Objects-normal/arm64/CMakeCCompilerId.d --serialize-diagnostics /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/3.24.1/CompilerIdC/CompilerIdC.build/Debug/CompilerIdC.build/Objects-normal/arm64/CMakeCCompilerId.dia -c /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/3.24.1/CompilerIdC/CMakeCCompilerId.c -o /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/3.24.1/CompilerIdC/CompilerIdC.build/Debug/CompilerIdC.build/Objects-normal/arm64/CMakeCCompilerId.o
+
+WriteAuxiliaryFile /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/3.24.1/CompilerIdC/CompilerIdC.build/Debug/CompilerIdC.build/Objects-normal/arm64/CompilerIdC.LinkFileList (in target 'CompilerIdC' from project 'CompilerIdC')
+    cd /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/3.24.1/CompilerIdC
+    write-file /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/3.24.1/CompilerIdC/CompilerIdC.build/Debug/CompilerIdC.build/Objects-normal/arm64/CompilerIdC.LinkFileList
+
+Ld /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/3.24.1/CompilerIdC/CompilerIdC normal (in target 'CompilerIdC' from project 'CompilerIdC')
+    cd /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/3.24.1/CompilerIdC
+    /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -target arm64-apple-macos13.1 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk -L/Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/3.24.1/CompilerIdC/EagerLinkingTBDs -L/Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/3.24.1/CompilerIdC -F/Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/3.24.1/CompilerIdC/EagerLinkingTBDs -F/Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/3.24.1/CompilerIdC -filelist /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/3.24.1/CompilerIdC/CompilerIdC.build/Debug/CompilerIdC.build/Objects-normal/arm64/CompilerIdC.LinkFileList -Xlinker -object_path_lto -Xlinker /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/3.24.1/CompilerIdC/CompilerIdC.build/Debug/CompilerIdC.build/Objects-normal/arm64/CompilerIdC_lto.o -Xlinker -no_adhoc_codesign -Xlinker -dependency_info -Xlinker /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/3.24.1/CompilerIdC/CompilerIdC.build/Debug/CompilerIdC.build/Objects-normal/arm64/CompilerIdC_dependency_info.dat -o /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/3.24.1/CompilerIdC/CompilerIdC
+
+WriteAuxiliaryFile /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/3.24.1/CompilerIdC/CompilerIdC.build/Debug/CompilerIdC.build/Script-2C8FEB8E15DC1A1A00E56A5D.sh (in target 'CompilerIdC' from project 'CompilerIdC')
+    cd /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/3.24.1/CompilerIdC
+    write-file /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/3.24.1/CompilerIdC/CompilerIdC.build/Debug/CompilerIdC.build/Script-2C8FEB8E15DC1A1A00E56A5D.sh
+
+PhaseScriptExecution Run\ Script /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/3.24.1/CompilerIdC/CompilerIdC.build/Debug/CompilerIdC.build/Script-2C8FEB8E15DC1A1A00E56A5D.sh (in target 'CompilerIdC' from project 'CompilerIdC')
+    cd /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/3.24.1/CompilerIdC
+    /bin/sh -c /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/3.24.1/CompilerIdC/CompilerIdC.build/Debug/CompilerIdC.build/Script-2C8FEB8E15DC1A1A00E56A5D.sh
+GCC_VERSION=com.apple.compilers.llvm.clang.1_0
+ARCHS=arm64
+
+CodeSign /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/3.24.1/CompilerIdC/CompilerIdC (in target 'CompilerIdC' from project 'CompilerIdC')
+    cd /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/3.24.1/CompilerIdC
+    
+    Signing Identity:     "-"
+    
+    /usr/bin/codesign --force --sign - --entitlements /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/3.24.1/CompilerIdC/CompilerIdC.build/Debug/CompilerIdC.build/CompilerIdC.xcent --timestamp\=none --generate-entitlement-der /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/3.24.1/CompilerIdC/CompilerIdC
+
+RegisterExecutionPolicyException /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/3.24.1/CompilerIdC/CompilerIdC (in target 'CompilerIdC' from project 'CompilerIdC')
+    cd /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/3.24.1/CompilerIdC
+    builtin-RegisterExecutionPolicyException /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/3.24.1/CompilerIdC/CompilerIdC
+
+** BUILD SUCCEEDED **
+
+
+
+Compilation of the C compiler identification source "CMakeCCompilerId.c" produced "CompilerIdC"
+
+The C compiler identification is AppleClang, found in "/Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/3.24.1/CompilerIdC/CompilerIdC"
+
+Compiling the CXX compiler identification source file "CMakeCXXCompilerId.cpp" succeeded.
+Compiler:  
+Build flags: 
+Id flags:  
+
+The output was:
+0
+2022-12-20 11:17:24.870 xcodebuild[83392:2338857]  DVTErrorPresenter: Unable to load simulator devices.
+Domain: DVTCoreSimulatorAdditionsErrorDomain
+Code: 3
+Failure Reason: The version of the CoreSimulator framework installed on this Mac is out-of-date and not supported by this version of Xcode.
+Recovery Suggestion: Please ensure that you have installed all available updates to your Mac's software, and that you are running the most recent version of Xcode supported by macOS.
+--
+CoreSimulator is out of date. Current version (857.13.0) is older than build version (857.14.0).
+Domain: DVTCoreSimulatorAdditionsErrorDomain
+Code: 3
+--
+2022-12-20 11:17:24.870 xcodebuild[83392:2338857]  iOSSimulator: [SimServiceContext sharedServiceContextForDeveloperDir:error:] returned nil (Error Domain=DVTCoreSimulatorAdditionsErrorDomain Code=3 "CoreSimulator is out of date. Current version (857.13.0) is older than build version (857.14.0)." UserInfo={NSLocalizedDescription=CoreSimulator is out of date. Current version (857.13.0) is older than build version (857.14.0).}). Simulator device support disabled.
+Command line invocation:
+    /Applications/Xcode.app/Contents/Developer/usr/bin/xcodebuild
+
+User defaults from command line:
+    IDEPackageSupportUseBuiltinSCM = YES
+
+Computing target dependency graph and provisioning inputs
+
+Create build description
+Build description signature: 4d7a96d07469d8a1a9c91bc8d59125e9
+Build description path: /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/3.24.1/CompilerIdCXX/./XCBuildData/4d7a96d07469d8a1a9c91bc8d59125e9-desc.xcbuild
+
+warning: Building targets in manual order is deprecated - check "Parallelize build for command-line builds" in the project editor, or set DISABLE_MANUAL_TARGET_ORDER_BUILD_WARNING in any of the targets in the current build to suppress this warning
+CreateBuildDirectory /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/3.24.1/CompilerIdCXX
+    cd /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/3.24.1/CompilerIdCXX/CompilerIdCXX.xcodeproj
+    builtin-create-build-directory /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/3.24.1/CompilerIdCXX
+
+CreateBuildDirectory /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/3.24.1/CompilerIdCXX/EagerLinkingTBDs
+    cd /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/3.24.1/CompilerIdCXX/CompilerIdCXX.xcodeproj
+    builtin-create-build-directory /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/3.24.1/CompilerIdCXX/EagerLinkingTBDs
+
+warning: Traditional headermap style is no longer supported; please migrate to using separate headermaps and set 'ALWAYS_SEARCH_USER_PATHS' to NO. (in target 'CompilerIdCXX' from project 'CompilerIdCXX')
+note: Run script build phase 'Run Script' will be run during every build because the option to run the script phase "Based on dependency analysis" is unchecked. (in target 'CompilerIdCXX' from project 'CompilerIdCXX')
+WriteAuxiliaryFile /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/3.24.1/CompilerIdCXX/CompilerIdCXX.build/Debug/CompilerIdCXX.build/DerivedSources/Entitlements.plist (in target 'CompilerIdCXX' from project 'CompilerIdCXX')
+    cd /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/3.24.1/CompilerIdCXX
+    write-file /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/3.24.1/CompilerIdCXX/CompilerIdCXX.build/Debug/CompilerIdCXX.build/DerivedSources/Entitlements.plist
+
+ProcessProductPackaging "" /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/3.24.1/CompilerIdCXX/CompilerIdCXX.build/Debug/CompilerIdCXX.build/CompilerIdCXX.xcent (in target 'CompilerIdCXX' from project 'CompilerIdCXX')
+    cd /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/3.24.1/CompilerIdCXX
+    
+    Entitlements:
+    
+    {
+    "com.apple.application-identifier" = "";
+    "com.apple.security.get-task-allow" = 1;
+}
+    
+    builtin-productPackagingUtility -entitlements -format xml -o /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/3.24.1/CompilerIdCXX/CompilerIdCXX.build/Debug/CompilerIdCXX.build/CompilerIdCXX.xcent
+
+ProcessProductPackagingDER /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/3.24.1/CompilerIdCXX/CompilerIdCXX.build/Debug/CompilerIdCXX.build/CompilerIdCXX.xcent /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/3.24.1/CompilerIdCXX/CompilerIdCXX.build/Debug/CompilerIdCXX.build/CompilerIdCXX.xcent.der (in target 'CompilerIdCXX' from project 'CompilerIdCXX')
+    cd /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/3.24.1/CompilerIdCXX
+    /usr/bin/derq query -f xml -i /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/3.24.1/CompilerIdCXX/CompilerIdCXX.build/Debug/CompilerIdCXX.build/CompilerIdCXX.xcent -o /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/3.24.1/CompilerIdCXX/CompilerIdCXX.build/Debug/CompilerIdCXX.build/CompilerIdCXX.xcent.der --raw
+
+WriteAuxiliaryFile /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/3.24.1/CompilerIdCXX/CompilerIdCXX.build/Debug/CompilerIdCXX.build/all-product-headers.yaml (in target 'CompilerIdCXX' from project 'CompilerIdCXX')
+    cd /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/3.24.1/CompilerIdCXX
+    write-file /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/3.24.1/CompilerIdCXX/CompilerIdCXX.build/Debug/CompilerIdCXX.build/all-product-headers.yaml
+
+WriteAuxiliaryFile /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/3.24.1/CompilerIdCXX/CompilerIdCXX.build/Debug/CompilerIdCXX.build/CompilerIdCXX.hmap (in target 'CompilerIdCXX' from project 'CompilerIdCXX')
+    cd /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/3.24.1/CompilerIdCXX
+    write-file /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/3.24.1/CompilerIdCXX/CompilerIdCXX.build/Debug/CompilerIdCXX.build/CompilerIdCXX.hmap
+
+WriteAuxiliaryFile /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/3.24.1/CompilerIdCXX/CompilerIdCXX.build/Debug/CompilerIdCXX.build/CompilerIdCXX-own-target-headers.hmap (in target 'CompilerIdCXX' from project 'CompilerIdCXX')
+    cd /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/3.24.1/CompilerIdCXX
+    write-file /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/3.24.1/CompilerIdCXX/CompilerIdCXX.build/Debug/CompilerIdCXX.build/CompilerIdCXX-own-target-headers.hmap
+
+WriteAuxiliaryFile /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/3.24.1/CompilerIdCXX/CompilerIdCXX.build/Debug/CompilerIdCXX.build/CompilerIdCXX-project-headers.hmap (in target 'CompilerIdCXX' from project 'CompilerIdCXX')
+    cd /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/3.24.1/CompilerIdCXX
+    write-file /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/3.24.1/CompilerIdCXX/CompilerIdCXX.build/Debug/CompilerIdCXX.build/CompilerIdCXX-project-headers.hmap
+
+WriteAuxiliaryFile /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/3.24.1/CompilerIdCXX/CompilerIdCXX.build/Debug/CompilerIdCXX.build/CompilerIdCXX-generated-files.hmap (in target 'CompilerIdCXX' from project 'CompilerIdCXX')
+    cd /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/3.24.1/CompilerIdCXX
+    write-file /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/3.24.1/CompilerIdCXX/CompilerIdCXX.build/Debug/CompilerIdCXX.build/CompilerIdCXX-generated-files.hmap
+
+WriteAuxiliaryFile /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/3.24.1/CompilerIdCXX/CompilerIdCXX.build/Debug/CompilerIdCXX.build/CompilerIdCXX-all-target-headers.hmap (in target 'CompilerIdCXX' from project 'CompilerIdCXX')
+    cd /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/3.24.1/CompilerIdCXX
+    write-file /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/3.24.1/CompilerIdCXX/CompilerIdCXX.build/Debug/CompilerIdCXX.build/CompilerIdCXX-all-target-headers.hmap
+
+WriteAuxiliaryFile /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/3.24.1/CompilerIdCXX/CompilerIdCXX.build/Debug/CompilerIdCXX.build/CompilerIdCXX-all-non-framework-target-headers.hmap (in target 'CompilerIdCXX' from project 'CompilerIdCXX')
+    cd /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/3.24.1/CompilerIdCXX
+    write-file /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/3.24.1/CompilerIdCXX/CompilerIdCXX.build/Debug/CompilerIdCXX.build/CompilerIdCXX-all-non-framework-target-headers.hmap
+
+WriteAuxiliaryFile /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/3.24.1/CompilerIdCXX/CompilerIdCXX.build/Debug/CompilerIdCXX.build/Objects-normal/arm64/CompilerIdCXX.LinkFileList (in target 'CompilerIdCXX' from project 'CompilerIdCXX')
+    cd /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/3.24.1/CompilerIdCXX
+    write-file /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/3.24.1/CompilerIdCXX/CompilerIdCXX.build/Debug/CompilerIdCXX.build/Objects-normal/arm64/CompilerIdCXX.LinkFileList
+
+CompileC /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/3.24.1/CompilerIdCXX/CompilerIdCXX.build/Debug/CompilerIdCXX.build/Objects-normal/arm64/CMakeCXXCompilerId.o /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/3.24.1/CompilerIdCXX/CMakeCXXCompilerId.cpp normal arm64 c++ com.apple.compilers.llvm.clang.1_0.compiler (in target 'CompilerIdCXX' from project 'CompilerIdCXX')
+    cd /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/3.24.1/CompilerIdCXX
+    /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -x c++ -target arm64-apple-macos13.1 -fmessage-length\=0 -fdiagnostics-show-note-include-stack -fmacro-backtrace-limit\=0 -Wno-trigraphs -fpascal-strings -Os -Wno-missing-field-initializers -Wno-missing-prototypes -Wno-return-type -Wno-non-virtual-dtor -Wno-overloaded-virtual -Wno-exit-time-destructors -Wno-missing-braces -Wparentheses -Wswitch -Wno-unused-function -Wno-unused-label -Wno-unused-parameter -Wno-unused-variable -Wunused-value -Wno-empty-body -Wno-uninitialized -Wno-unknown-pragmas -Wno-shadow -Wno-four-char-constants -Wno-conversion -Wno-constant-conversion -Wno-int-conversion -Wno-bool-conversion -Wno-enum-conversion -Wno-float-conversion -Wno-non-literal-null-conversion -Wno-objc-literal-conversion -Wshorten-64-to-32 -Wno-newline-eof -Wno-c++11-extensions -Wno-implicit-fallthrough -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk -fstrict-aliasing -Wdeprecated-declarations -Winvalid-offsetof -g -fvisibility\=hidden -fvisibility-inlines-hidden -Wno-sign-conversion -Wno-infinite-recursion -Wno-move -Wno-comma -Wno-block-capture-autoreleasing -Wno-strict-prototypes -Wno-range-loop-analysis -Wno-semicolon-before-method-body -iquote /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/3.24.1/CompilerIdCXX/CompilerIdCXX.build/Debug/CompilerIdCXX.build/CompilerIdCXX-generated-files.hmap -I/Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/3.24.1/CompilerIdCXX/CompilerIdCXX.build/Debug/CompilerIdCXX.build/CompilerIdCXX-own-target-headers.hmap -I/Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/3.24.1/CompilerIdCXX/CompilerIdCXX.build/Debug/CompilerIdCXX.build/CompilerIdCXX-all-target-headers.hmap -iquote /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/3.24.1/CompilerIdCXX/CompilerIdCXX.build/Debug/CompilerIdCXX.build/CompilerIdCXX-project-headers.hmap -I/Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/3.24.1/CompilerIdCXX/include -I/Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/3.24.1/CompilerIdCXX/CompilerIdCXX.build/Debug/CompilerIdCXX.build/DerivedSources-normal/arm64 -I/Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/3.24.1/CompilerIdCXX/CompilerIdCXX.build/Debug/CompilerIdCXX.build/DerivedSources/arm64 -I/Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/3.24.1/CompilerIdCXX/CompilerIdCXX.build/Debug/CompilerIdCXX.build/DerivedSources -F/Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/3.24.1/CompilerIdCXX -MMD -MT dependencies -MF /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/3.24.1/CompilerIdCXX/CompilerIdCXX.build/Debug/CompilerIdCXX.build/Objects-normal/arm64/CMakeCXXCompilerId.d --serialize-diagnostics /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/3.24.1/CompilerIdCXX/CompilerIdCXX.build/Debug/CompilerIdCXX.build/Objects-normal/arm64/CMakeCXXCompilerId.dia -c /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/3.24.1/CompilerIdCXX/CMakeCXXCompilerId.cpp -o /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/3.24.1/CompilerIdCXX/CompilerIdCXX.build/Debug/CompilerIdCXX.build/Objects-normal/arm64/CMakeCXXCompilerId.o
+
+Ld /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/3.24.1/CompilerIdCXX/CompilerIdCXX normal (in target 'CompilerIdCXX' from project 'CompilerIdCXX')
+    cd /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/3.24.1/CompilerIdCXX
+    /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang++ -target arm64-apple-macos13.1 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk -L/Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/3.24.1/CompilerIdCXX/EagerLinkingTBDs -L/Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/3.24.1/CompilerIdCXX -F/Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/3.24.1/CompilerIdCXX/EagerLinkingTBDs -F/Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/3.24.1/CompilerIdCXX -filelist /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/3.24.1/CompilerIdCXX/CompilerIdCXX.build/Debug/CompilerIdCXX.build/Objects-normal/arm64/CompilerIdCXX.LinkFileList -Xlinker -object_path_lto -Xlinker /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/3.24.1/CompilerIdCXX/CompilerIdCXX.build/Debug/CompilerIdCXX.build/Objects-normal/arm64/CompilerIdCXX_lto.o -Xlinker -no_adhoc_codesign -Xlinker -dependency_info -Xlinker /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/3.24.1/CompilerIdCXX/CompilerIdCXX.build/Debug/CompilerIdCXX.build/Objects-normal/arm64/CompilerIdCXX_dependency_info.dat -o /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/3.24.1/CompilerIdCXX/CompilerIdCXX
+
+WriteAuxiliaryFile /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/3.24.1/CompilerIdCXX/CompilerIdCXX.build/Debug/CompilerIdCXX.build/Script-2C8FEB8E15DC1A1A00E56A5D.sh (in target 'CompilerIdCXX' from project 'CompilerIdCXX')
+    cd /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/3.24.1/CompilerIdCXX
+    write-file /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/3.24.1/CompilerIdCXX/CompilerIdCXX.build/Debug/CompilerIdCXX.build/Script-2C8FEB8E15DC1A1A00E56A5D.sh
+
+PhaseScriptExecution Run\ Script /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/3.24.1/CompilerIdCXX/CompilerIdCXX.build/Debug/CompilerIdCXX.build/Script-2C8FEB8E15DC1A1A00E56A5D.sh (in target 'CompilerIdCXX' from project 'CompilerIdCXX')
+    cd /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/3.24.1/CompilerIdCXX
+    /bin/sh -c /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/3.24.1/CompilerIdCXX/CompilerIdCXX.build/Debug/CompilerIdCXX.build/Script-2C8FEB8E15DC1A1A00E56A5D.sh
+GCC_VERSION=com.apple.compilers.llvm.clang.1_0
+ARCHS=arm64
+
+CodeSign /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/3.24.1/CompilerIdCXX/CompilerIdCXX (in target 'CompilerIdCXX' from project 'CompilerIdCXX')
+    cd /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/3.24.1/CompilerIdCXX
+    
+    Signing Identity:     "-"
+    
+    /usr/bin/codesign --force --sign - --entitlements /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/3.24.1/CompilerIdCXX/CompilerIdCXX.build/Debug/CompilerIdCXX.build/CompilerIdCXX.xcent --timestamp\=none --generate-entitlement-der /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/3.24.1/CompilerIdCXX/CompilerIdCXX
+
+RegisterExecutionPolicyException /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/3.24.1/CompilerIdCXX/CompilerIdCXX (in target 'CompilerIdCXX' from project 'CompilerIdCXX')
+    cd /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/3.24.1/CompilerIdCXX
+    builtin-RegisterExecutionPolicyException /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/3.24.1/CompilerIdCXX/CompilerIdCXX
+
+** BUILD SUCCEEDED **
+
+
+
+Compilation of the CXX compiler identification source "CMakeCXXCompilerId.cpp" produced "CompilerIdCXX"
+
+The CXX compiler identification is AppleClang, found in "/Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/3.24.1/CompilerIdCXX/CompilerIdCXX"
+
+Detecting C compiler ABI info compiled with the following output:
+Change Dir: /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp
+
+Run Build Command(s):/usr/bin/xcodebuild -project CMAKE_TRY_COMPILE.xcodeproj build -target cmTC_4a390 -parallelizeTargets -configuration Debug -hideShellScriptEnvironment && 2022-12-20 11:17:25.950 xcodebuild[83410:2339108]  DVTErrorPresenter: Unable to load simulator devices.
+Domain: DVTCoreSimulatorAdditionsErrorDomain
+Code: 3
+Failure Reason: The version of the CoreSimulator framework installed on this Mac is out-of-date and not supported by this version of Xcode.
+Recovery Suggestion: Please ensure that you have installed all available updates to your Mac's software, and that you are running the most recent version of Xcode supported by macOS.
+--
+CoreSimulator is out of date. Current version (857.13.0) is older than build version (857.14.0).
+Domain: DVTCoreSimulatorAdditionsErrorDomain
+Code: 3
+--
+2022-12-20 11:17:25.950 xcodebuild[83410:2339108]  iOSSimulator: [SimServiceContext sharedServiceContextForDeveloperDir:error:] returned nil (Error Domain=DVTCoreSimulatorAdditionsErrorDomain Code=3 "CoreSimulator is out of date. Current version (857.13.0) is older than build version (857.14.0)." UserInfo={NSLocalizedDescription=CoreSimulator is out of date. Current version (857.13.0) is older than build version (857.14.0).}). Simulator device support disabled.
+Command line invocation:
+    /Applications/Xcode.app/Contents/Developer/usr/bin/xcodebuild -project CMAKE_TRY_COMPILE.xcodeproj build -target cmTC_4a390 -parallelizeTargets -configuration Debug -hideShellScriptEnvironment
+
+User defaults from command line:
+    HideShellScriptEnvironment = YES
+    IDEPackageSupportUseBuiltinSCM = YES
+
+Computing target dependency graph and provisioning inputs
+
+Create build description
+Build description signature: 309e41fbb1430986897a6e07816f30fe
+Build description path: /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/build/XCBuildData/309e41fbb1430986897a6e07816f30fe-desc.xcbuild
+
+note: Building targets in dependency order
+CreateBuildDirectory /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp
+    cd /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/CMAKE_TRY_COMPILE.xcodeproj
+    builtin-create-build-directory /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp
+
+CreateBuildDirectory /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/EagerLinkingTBDs
+    cd /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/CMAKE_TRY_COMPILE.xcodeproj
+    builtin-create-build-directory /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/EagerLinkingTBDs
+
+CreateBuildDirectory /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/Debug
+    cd /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/CMAKE_TRY_COMPILE.xcodeproj
+    builtin-create-build-directory /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/Debug
+
+CompileC /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/CMAKE_TRY_COMPILE.build/Debug/cmTC_4a390.build/Objects-normal/arm64/CMakeCCompilerABI.o /opt/homebrew/Cellar/cmake/3.24.1/share/cmake/Modules/CMakeCCompilerABI.c normal arm64 c com.apple.compilers.llvm.clang.1_0.compiler (in target 'cmTC_4a390' from project 'CMAKE_TRY_COMPILE')
+    cd /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp
+    /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -x c -target arm64-apple-macos13.1 -fmessage-length\=0 -fdiagnostics-show-note-include-stack -fmacro-backtrace-limit\=0 -Wno-trigraphs -fpascal-strings -O0 -Wno-missing-field-initializers -Wno-missing-prototypes -Wno-return-type -Wno-missing-braces -Wparentheses -Wswitch -Wno-unused-function -Wno-unused-label -Wno-unused-parameter -Wno-unused-variable -Wunused-value -Wno-empty-body -Wno-uninitialized -Wno-unknown-pragmas -Wno-shadow -Wno-four-char-constants -Wno-conversion -Wno-constant-conversion -Wno-int-conversion -Wno-bool-conversion -Wno-enum-conversion -Wno-float-conversion -Wno-non-literal-null-conversion -Wno-objc-literal-conversion -Wshorten-64-to-32 -Wpointer-sign -Wno-newline-eof -Wno-implicit-fallthrough -DCMAKE_INTDIR\=\"Debug\" -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk -fstrict-aliasing -Wdeprecated-declarations -g -Wno-sign-conversion -Wno-infinite-recursion -Wno-comma -Wno-block-capture-autoreleasing -Wno-strict-prototypes -Wno-semicolon-before-method-body -I/Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/Debug/include -I/Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/CMAKE_TRY_COMPILE.build/Debug/cmTC_4a390.build/DerivedSources-normal/arm64 -I/Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/CMAKE_TRY_COMPILE.build/Debug/cmTC_4a390.build/DerivedSources/arm64 -I/Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/CMAKE_TRY_COMPILE.build/Debug/cmTC_4a390.build/DerivedSources -F/Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/Debug -v -Wl,-v -MMD -MT dependencies -MF /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/CMAKE_TRY_COMPILE.build/Debug/cmTC_4a390.build/Objects-normal/arm64/CMakeCCompilerABI.d --serialize-diagnostics /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/CMAKE_TRY_COMPILE.build/Debug/cmTC_4a390.build/Objects-normal/arm64/CMakeCCompilerABI.dia -c /opt/homebrew/Cellar/cmake/3.24.1/share/cmake/Modules/CMakeCCompilerABI.c -o /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/CMAKE_TRY_COMPILE.build/Debug/cmTC_4a390.build/Objects-normal/arm64/CMakeCCompilerABI.o
+Apple clang version 14.0.0 (clang-1400.0.29.202)
+Target: arm64-apple-macos13.1
+Thread model: posix
+InstalledDir: /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin
+clang: warning: -Wl,-v: 'linker' input unused [-Wunused-command-line-argument]
+ "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang" -cc1 -triple arm64-apple-macosx13.1.0 -Wundef-prefix=TARGET_OS_ -Wdeprecated-objc-isa-usage -Werror=deprecated-objc-isa-usage -Werror=implicit-function-declaration -emit-obj -mrelax-all --mrelax-relocations -disable-free -clear-ast-before-backend -disable-llvm-verifier -discard-value-names -main-file-name CMakeCCompilerABI.c -mrelocation-model pic -pic-level 2 -mframe-pointer=non-leaf -fno-strict-return -fno-rounding-math -funwind-tables=2 -fobjc-msgsend-selector-stubs -target-sdk-version=13.1 -fvisibility-inlines-hidden-static-local-var -target-cpu apple-m1 -target-feature +v8.5a -target-feature +fp-armv8 -target-feature +neon -target-feature +crc -target-feature +crypto -target-feature +dotprod -target-feature +fp16fml -target-feature +ras -target-feature +lse -target-feature +rdm -target-feature +rcpc -target-feature +zcm -target-feature +zcz -target-feature +fullfp16 -target-feature +sm4 -target-feature +sha3 -target-feature +sha2 -target-feature +aes -target-abi darwinpcs -fallow-half-arguments-and-returns -debug-info-kind=standalone -dwarf-version=4 -debugger-tuning=lldb -target-linker-version 820.1 -v -resource-dir /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/14.0.0 -dependency-file /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/CMAKE_TRY_COMPILE.build/Debug/cmTC_4a390.build/Objects-normal/arm64/CMakeCCompilerABI.d -skip-unused-modulemap-deps -MT dependencies -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk -D "CMAKE_INTDIR=\"Debug\"" -I /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/Debug/include -I /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/CMAKE_TRY_COMPILE.build/Debug/cmTC_4a390.build/DerivedSources-normal/arm64 -I /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/CMAKE_TRY_COMPILE.build/Debug/cmTC_4a390.build/DerivedSources/arm64 -I /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/CMAKE_TRY_COMPILE.build/Debug/cmTC_4a390.build/DerivedSources -F/Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/Debug -internal-isystem /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk/usr/local/include -internal-isystem /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/14.0.0/include -internal-externc-isystem /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk/usr/include -internal-externc-isystem /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include -O0 -Wno-trigraphs -Wno-missing-field-initializers -Wno-missing-prototypes -Wno-return-type -Wno-missing-braces -Wparentheses -Wswitch -Wno-unused-function -Wno-unused-label -Wno-unused-parameter -Wno-unused-variable -Wunused-value -Wno-empty-body -Wno-uninitialized -Wno-unknown-pragmas -Wno-shadow -Wno-four-char-constants -Wno-conversion -Wno-constant-conversion -Wno-int-conversion -Wno-bool-conversion -Wno-enum-conversion -Wno-float-conversion -Wno-non-literal-null-conversion -Wno-objc-literal-conversion -Wshorten-64-to-32 -Wpointer-sign -Wno-newline-eof -Wno-implicit-fallthrough -Wdeprecated-declarations -Wno-sign-conversion -Wno-infinite-recursion -Wno-comma -Wno-block-capture-autoreleasing -Wno-strict-prototypes -Wno-semicolon-before-method-body -Wno-reorder-init-list -Wno-implicit-int-float-conversion -Wno-c99-designator -Wno-final-dtor-non-final-class -Wno-extra-semi-stmt -Wno-misleading-indentation -Wno-quoted-include-in-framework-header -Wno-implicit-fallthrough -Wno-enum-enum-conversion -Wno-enum-float-conversion -Wno-elaborated-enum-base -Wno-reserved-identifier -Wno-gnu-folding-constant -Wno-cast-function-type -Wno-bitwise-instead-of-logical -fdebug-compilation-dir=/Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp -ferror-limit 19 -fmacro-backtrace-limit 0 -stack-protector 1 -fstack-check -mdarwin-stkchk-strong-link -fblocks -fencode-extended-block-signature -fregister-global-dtors-with-atexit -fgnuc-version=4.2.1 -fpascal-strings -fmax-type-align=16 -fcommon -fdiagnostics-show-note-include-stack -serialize-diagnostic-file /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/CMAKE_TRY_COMPILE.build/Debug/cmTC_4a390.build/Objects-normal/arm64/CMakeCCompilerABI.dia -clang-vendor-feature=+messageToSelfInClassMethodIdReturnType -clang-vendor-feature=+disableInferNewAvailabilityFromInit -clang-vendor-feature=+disableNonDependentMemberExprInCurrentInstantiation -fno-odr-hash-protocols -clang-vendor-feature=+enableAggressiveVLAFolding -clang-vendor-feature=+revert09abecef7bbf -clang-vendor-feature=+thisNoAlignAttr -clang-vendor-feature=+thisNoNullAttr -mllvm -disable-aligned-alloc-awareness=1 -D__GCC_HAVE_DWARF2_CFI_ASM=1 -o /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/CMAKE_TRY_COMPILE.build/Debug/cmTC_4a390.build/Objects-normal/arm64/CMakeCCompilerABI.o -x c /opt/homebrew/Cellar/cmake/3.24.1/share/cmake/Modules/CMakeCCompilerABI.c
+clang -cc1 version 14.0.0 (clang-1400.0.29.202) default target arm64-apple-darwin22.2.0
+ignoring nonexistent directory "/Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/Debug/include"
+ignoring nonexistent directory "/Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/CMAKE_TRY_COMPILE.build/Debug/cmTC_4a390.build/DerivedSources-normal/arm64"
+ignoring nonexistent directory "/Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/CMAKE_TRY_COMPILE.build/Debug/cmTC_4a390.build/DerivedSources/arm64"
+ignoring nonexistent directory "/Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/CMAKE_TRY_COMPILE.build/Debug/cmTC_4a390.build/DerivedSources"
+ignoring nonexistent directory "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk/usr/local/include"
+ignoring nonexistent directory "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk/Library/Frameworks"
+#include "..." search starts here:
+#include <...> search starts here:
+ /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/Debug (framework directory)
+ /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/14.0.0/include
+ /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk/usr/include
+ /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include
+ /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk/System/Library/Frameworks (framework directory)
+End of search list.
+
+WriteAuxiliaryFile /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/CMAKE_TRY_COMPILE.build/Debug/cmTC_4a390.build/Objects-normal/arm64/cmTC_4a390.LinkFileList (in target 'cmTC_4a390' from project 'CMAKE_TRY_COMPILE')
+    cd /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp
+    write-file /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/CMAKE_TRY_COMPILE.build/Debug/cmTC_4a390.build/Objects-normal/arm64/cmTC_4a390.LinkFileList
+
+Ld /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/Debug/cmTC_4a390 normal (in target 'cmTC_4a390' from project 'CMAKE_TRY_COMPILE')
+    cd /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp
+    /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -target arm64-apple-macos13.1 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk -L/Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/EagerLinkingTBDs -L/Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/Debug -F/Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/EagerLinkingTBDs -F/Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/Debug -filelist /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/CMAKE_TRY_COMPILE.build/Debug/cmTC_4a390.build/Objects-normal/arm64/cmTC_4a390.LinkFileList -Xlinker -object_path_lto -Xlinker /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/CMAKE_TRY_COMPILE.build/Debug/cmTC_4a390.build/Objects-normal/arm64/cmTC_4a390_lto.o -Xlinker -no_deduplicate -L/opt/homebrew/opt/qt@5/lib -v -Wl,-v -Wl,-search_paths_first -Wl,-headerpad_max_install_names -Xlinker -dependency_info -Xlinker /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/CMAKE_TRY_COMPILE.build/Debug/cmTC_4a390.build/Objects-normal/arm64/cmTC_4a390_dependency_info.dat -o /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/Debug/cmTC_4a390
+Apple clang version 14.0.0 (clang-1400.0.29.202)
+Target: arm64-apple-macos13.1
+Thread model: posix
+InstalledDir: /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin
+ "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/ld" -demangle -lto_library /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/libLTO.dylib -dynamic -arch arm64 -platform_version macos 13.1.0 13.1 -syslibroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk -o /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/Debug/cmTC_4a390 -L/Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/EagerLinkingTBDs -L/Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/Debug -L/opt/homebrew/opt/qt@5/lib -filelist /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/CMAKE_TRY_COMPILE.build/Debug/cmTC_4a390.build/Objects-normal/arm64/cmTC_4a390.LinkFileList -object_path_lto /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/CMAKE_TRY_COMPILE.build/Debug/cmTC_4a390.build/Objects-normal/arm64/cmTC_4a390_lto.o -no_deduplicate -v -search_paths_first -headerpad_max_install_names -dependency_info /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/CMAKE_TRY_COMPILE.build/Debug/cmTC_4a390.build/Objects-normal/arm64/cmTC_4a390_dependency_info.dat -lSystem /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/14.0.0/lib/darwin/libclang_rt.osx.a -F/Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/EagerLinkingTBDs -F/Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/Debug
+@(#)PROGRAM:ld  PROJECT:ld64-820.1
+BUILD 20:07:05 Nov  7 2022
+configured to support archs: armv6 armv7 armv7s arm64 arm64e arm64_32 i386 x86_64 x86_64h armv6m armv7k armv7m armv7em
+Library search paths:
+	/Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/EagerLinkingTBDs
+	/Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/Debug
+	/opt/homebrew/opt/qt@5/lib
+	/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk/usr/lib
+Framework search paths:
+	/Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/EagerLinkingTBDs
+	/Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/Debug
+	/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk/System/Library/Frameworks/
+
+RegisterExecutionPolicyException /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/Debug/cmTC_4a390 (in target 'cmTC_4a390' from project 'CMAKE_TRY_COMPILE')
+    cd /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp
+    builtin-RegisterExecutionPolicyException /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/Debug/cmTC_4a390
+
+** BUILD SUCCEEDED **
+
+
+
+
+Parsed C implicit include dir info from above output: rv=done
+  found start of include info
+  found start of implicit include info
+    add: [/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/14.0.0/include]
+    add: [/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk/usr/include]
+    add: [/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include]
+  end of search list found
+  collapse include dir [/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/14.0.0/include] ==> [/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/14.0.0/include]
+  collapse include dir [/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk/usr/include] ==> [/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk/usr/include]
+  collapse include dir [/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include] ==> [/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include]
+  implicit include dirs: [/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/14.0.0/include;/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk/usr/include;/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include]
+
+
+Parsed C implicit link information from above output:
+  link line regex: [^( *|.*[/\])(ld|CMAKE_LINK_STARTFILE-NOTFOUND|([^/\]+-)?ld|collect2)[^/\]*( |$)]
+  ignore line: [Change Dir: /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp]
+  ignore line: []
+  ignore line: [Run Build Command(s):/usr/bin/xcodebuild -project CMAKE_TRY_COMPILE.xcodeproj build -target cmTC_4a390 -parallelizeTargets -configuration Debug -hideShellScriptEnvironment && 2022-12-20 11:17:25.950 xcodebuild[83410:2339108]  DVTErrorPresenter: Unable to load simulator devices.]
+  ignore line: [Domain: DVTCoreSimulatorAdditionsErrorDomain]
+  ignore line: [Code: 3]
+  ignore line: [Failure Reason: The version of the CoreSimulator framework installed on this Mac is out-of-date and not supported by this version of Xcode.]
+  ignore line: [Recovery Suggestion: Please ensure that you have installed all available updates to your Mac's software  and that you are running the most recent version of Xcode supported by macOS.]
+  ignore line: [--]
+  ignore line: [CoreSimulator is out of date. Current version (857.13.0) is older than build version (857.14.0).]
+  ignore line: [Domain: DVTCoreSimulatorAdditionsErrorDomain]
+  ignore line: [Code: 3]
+  ignore line: [--]
+  ignore line: [2022-12-20 11:17:25.950 xcodebuild[83410:2339108]  iOSSimulator: [SimServiceContext sharedServiceContextForDeveloperDir:error:] returned nil (Error Domain=DVTCoreSimulatorAdditionsErrorDomain Code=3 "CoreSimulator is out of date. Current version (857.13.0) is older than build version (857.14.0)." UserInfo={NSLocalizedDescription=CoreSimulator is out of date. Current version (857.13.0) is older than build version (857.14.0).}). Simulator device support disabled.]
+  ignore line: [Command line invocation:]
+  ignore line: [    /Applications/Xcode.app/Contents/Developer/usr/bin/xcodebuild -project CMAKE_TRY_COMPILE.xcodeproj build -target cmTC_4a390 -parallelizeTargets -configuration Debug -hideShellScriptEnvironment]
+  ignore line: []
+  ignore line: [User defaults from command line:]
+  ignore line: [    HideShellScriptEnvironment = YES]
+  ignore line: [    IDEPackageSupportUseBuiltinSCM = YES]
+  ignore line: []
+  ignore line: [Computing target dependency graph and provisioning inputs]
+  ignore line: []
+  ignore line: [Create build description]
+  ignore line: [Build description signature: 309e41fbb1430986897a6e07816f30fe]
+  ignore line: [Build description path: /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/build/XCBuildData/309e41fbb1430986897a6e07816f30fe-desc.xcbuild]
+  ignore line: []
+  ignore line: [note: Building targets in dependency order]
+  ignore line: [CreateBuildDirectory /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp]
+  ignore line: [    cd /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/CMAKE_TRY_COMPILE.xcodeproj]
+  ignore line: [    builtin-create-build-directory /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp]
+  ignore line: []
+  ignore line: [CreateBuildDirectory /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/EagerLinkingTBDs]
+  ignore line: [    cd /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/CMAKE_TRY_COMPILE.xcodeproj]
+  ignore line: [    builtin-create-build-directory /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/EagerLinkingTBDs]
+  ignore line: []
+  ignore line: [CreateBuildDirectory /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/Debug]
+  ignore line: [    cd /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/CMAKE_TRY_COMPILE.xcodeproj]
+  ignore line: [    builtin-create-build-directory /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/Debug]
+  ignore line: []
+  ignore line: [CompileC /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/CMAKE_TRY_COMPILE.build/Debug/cmTC_4a390.build/Objects-normal/arm64/CMakeCCompilerABI.o /opt/homebrew/Cellar/cmake/3.24.1/share/cmake/Modules/CMakeCCompilerABI.c normal arm64 c com.apple.compilers.llvm.clang.1_0.compiler (in target 'cmTC_4a390' from project 'CMAKE_TRY_COMPILE')]
+  ignore line: [    cd /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp]
+  ignore line: [    /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -x c -target arm64-apple-macos13.1 -fmessage-length\=0 -fdiagnostics-show-note-include-stack -fmacro-backtrace-limit\=0 -Wno-trigraphs -fpascal-strings -O0 -Wno-missing-field-initializers -Wno-missing-prototypes -Wno-return-type -Wno-missing-braces -Wparentheses -Wswitch -Wno-unused-function -Wno-unused-label -Wno-unused-parameter -Wno-unused-variable -Wunused-value -Wno-empty-body -Wno-uninitialized -Wno-unknown-pragmas -Wno-shadow -Wno-four-char-constants -Wno-conversion -Wno-constant-conversion -Wno-int-conversion -Wno-bool-conversion -Wno-enum-conversion -Wno-float-conversion -Wno-non-literal-null-conversion -Wno-objc-literal-conversion -Wshorten-64-to-32 -Wpointer-sign -Wno-newline-eof -Wno-implicit-fallthrough -DCMAKE_INTDIR\=\"Debug\" -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk -fstrict-aliasing -Wdeprecated-declarations -g -Wno-sign-conversion -Wno-infinite-recursion -Wno-comma -Wno-block-capture-autoreleasing -Wno-strict-prototypes -Wno-semicolon-before-method-body -I/Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/Debug/include -I/Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/CMAKE_TRY_COMPILE.build/Debug/cmTC_4a390.build/DerivedSources-normal/arm64 -I/Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/CMAKE_TRY_COMPILE.build/Debug/cmTC_4a390.build/DerivedSources/arm64 -I/Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/CMAKE_TRY_COMPILE.build/Debug/cmTC_4a390.build/DerivedSources -F/Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/Debug -v -Wl -v -MMD -MT dependencies -MF /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/CMAKE_TRY_COMPILE.build/Debug/cmTC_4a390.build/Objects-normal/arm64/CMakeCCompilerABI.d --serialize-diagnostics /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/CMAKE_TRY_COMPILE.build/Debug/cmTC_4a390.build/Objects-normal/arm64/CMakeCCompilerABI.dia -c /opt/homebrew/Cellar/cmake/3.24.1/share/cmake/Modules/CMakeCCompilerABI.c -o /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/CMAKE_TRY_COMPILE.build/Debug/cmTC_4a390.build/Objects-normal/arm64/CMakeCCompilerABI.o]
+  ignore line: [Apple clang version 14.0.0 (clang-1400.0.29.202)]
+  ignore line: [Target: arm64-apple-macos13.1]
+  ignore line: [Thread model: posix]
+  ignore line: [InstalledDir: /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin]
+  ignore line: [clang: warning: -Wl -v: 'linker' input unused [-Wunused-command-line-argument]]
+  ignore line: [ "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang" -cc1 -triple arm64-apple-macosx13.1.0 -Wundef-prefix=TARGET_OS_ -Wdeprecated-objc-isa-usage -Werror=deprecated-objc-isa-usage -Werror=implicit-function-declaration -emit-obj -mrelax-all --mrelax-relocations -disable-free -clear-ast-before-backend -disable-llvm-verifier -discard-value-names -main-file-name CMakeCCompilerABI.c -mrelocation-model pic -pic-level 2 -mframe-pointer=non-leaf -fno-strict-return -fno-rounding-math -funwind-tables=2 -fobjc-msgsend-selector-stubs -target-sdk-version=13.1 -fvisibility-inlines-hidden-static-local-var -target-cpu apple-m1 -target-feature +v8.5a -target-feature +fp-armv8 -target-feature +neon -target-feature +crc -target-feature +crypto -target-feature +dotprod -target-feature +fp16fml -target-feature +ras -target-feature +lse -target-feature +rdm -target-feature +rcpc -target-feature +zcm -target-feature +zcz -target-feature +fullfp16 -target-feature +sm4 -target-feature +sha3 -target-feature +sha2 -target-feature +aes -target-abi darwinpcs -fallow-half-arguments-and-returns -debug-info-kind=standalone -dwarf-version=4 -debugger-tuning=lldb -target-linker-version 820.1 -v -resource-dir /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/14.0.0 -dependency-file /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/CMAKE_TRY_COMPILE.build/Debug/cmTC_4a390.build/Objects-normal/arm64/CMakeCCompilerABI.d -skip-unused-modulemap-deps -MT dependencies -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk -D "CMAKE_INTDIR=\"Debug\"" -I /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/Debug/include -I /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/CMAKE_TRY_COMPILE.build/Debug/cmTC_4a390.build/DerivedSources-normal/arm64 -I /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/CMAKE_TRY_COMPILE.build/Debug/cmTC_4a390.build/DerivedSources/arm64 -I /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/CMAKE_TRY_COMPILE.build/Debug/cmTC_4a390.build/DerivedSources -F/Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/Debug -internal-isystem /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk/usr/local/include -internal-isystem /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/14.0.0/include -internal-externc-isystem /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk/usr/include -internal-externc-isystem /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include -O0 -Wno-trigraphs -Wno-missing-field-initializers -Wno-missing-prototypes -Wno-return-type -Wno-missing-braces -Wparentheses -Wswitch -Wno-unused-function -Wno-unused-label -Wno-unused-parameter -Wno-unused-variable -Wunused-value -Wno-empty-body -Wno-uninitialized -Wno-unknown-pragmas -Wno-shadow -Wno-four-char-constants -Wno-conversion -Wno-constant-conversion -Wno-int-conversion -Wno-bool-conversion -Wno-enum-conversion -Wno-float-conversion -Wno-non-literal-null-conversion -Wno-objc-literal-conversion -Wshorten-64-to-32 -Wpointer-sign -Wno-newline-eof -Wno-implicit-fallthrough -Wdeprecated-declarations -Wno-sign-conversion -Wno-infinite-recursion -Wno-comma -Wno-block-capture-autoreleasing -Wno-strict-prototypes -Wno-semicolon-before-method-body -Wno-reorder-init-list -Wno-implicit-int-float-conversion -Wno-c99-designator -Wno-final-dtor-non-final-class -Wno-extra-semi-stmt -Wno-misleading-indentation -Wno-quoted-include-in-framework-header -Wno-implicit-fallthrough -Wno-enum-enum-conversion -Wno-enum-float-conversion -Wno-elaborated-enum-base -Wno-reserved-identifier -Wno-gnu-folding-constant -Wno-cast-function-type -Wno-bitwise-instead-of-logical -fdebug-compilation-dir=/Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp -ferror-limit 19 -fmacro-backtrace-limit 0 -stack-protector 1 -fstack-check -mdarwin-stkchk-strong-link -fblocks -fencode-extended-block-signature -fregister-global-dtors-with-atexit -fgnuc-version=4.2.1 -fpascal-strings -fmax-type-align=16 -fcommon -fdiagnostics-show-note-include-stack -serialize-diagnostic-file /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/CMAKE_TRY_COMPILE.build/Debug/cmTC_4a390.build/Objects-normal/arm64/CMakeCCompilerABI.dia -clang-vendor-feature=+messageToSelfInClassMethodIdReturnType -clang-vendor-feature=+disableInferNewAvailabilityFromInit -clang-vendor-feature=+disableNonDependentMemberExprInCurrentInstantiation -fno-odr-hash-protocols -clang-vendor-feature=+enableAggressiveVLAFolding -clang-vendor-feature=+revert09abecef7bbf -clang-vendor-feature=+thisNoAlignAttr -clang-vendor-feature=+thisNoNullAttr -mllvm -disable-aligned-alloc-awareness=1 -D__GCC_HAVE_DWARF2_CFI_ASM=1 -o /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/CMAKE_TRY_COMPILE.build/Debug/cmTC_4a390.build/Objects-normal/arm64/CMakeCCompilerABI.o -x c /opt/homebrew/Cellar/cmake/3.24.1/share/cmake/Modules/CMakeCCompilerABI.c]
+  ignore line: [clang -cc1 version 14.0.0 (clang-1400.0.29.202) default target arm64-apple-darwin22.2.0]
+  ignore line: [ignoring nonexistent directory "/Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/Debug/include"]
+  ignore line: [ignoring nonexistent directory "/Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/CMAKE_TRY_COMPILE.build/Debug/cmTC_4a390.build/DerivedSources-normal/arm64"]
+  ignore line: [ignoring nonexistent directory "/Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/CMAKE_TRY_COMPILE.build/Debug/cmTC_4a390.build/DerivedSources/arm64"]
+  ignore line: [ignoring nonexistent directory "/Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/CMAKE_TRY_COMPILE.build/Debug/cmTC_4a390.build/DerivedSources"]
+  ignore line: [ignoring nonexistent directory "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk/usr/local/include"]
+  ignore line: [ignoring nonexistent directory "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk/Library/Frameworks"]
+  ignore line: [#include "..." search starts here:]
+  ignore line: [#include <...> search starts here:]
+  ignore line: [ /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/Debug (framework directory)]
+  ignore line: [ /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/14.0.0/include]
+  ignore line: [ /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk/usr/include]
+  ignore line: [ /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include]
+  ignore line: [ /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk/System/Library/Frameworks (framework directory)]
+  ignore line: [End of search list.]
+  ignore line: []
+  ignore line: [WriteAuxiliaryFile /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/CMAKE_TRY_COMPILE.build/Debug/cmTC_4a390.build/Objects-normal/arm64/cmTC_4a390.LinkFileList (in target 'cmTC_4a390' from project 'CMAKE_TRY_COMPILE')]
+  ignore line: [    cd /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp]
+  ignore line: [    write-file /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/CMAKE_TRY_COMPILE.build/Debug/cmTC_4a390.build/Objects-normal/arm64/cmTC_4a390.LinkFileList]
+  ignore line: []
+  ignore line: [Ld /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/Debug/cmTC_4a390 normal (in target 'cmTC_4a390' from project 'CMAKE_TRY_COMPILE')]
+  ignore line: [    cd /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp]
+  ignore line: [    /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -target arm64-apple-macos13.1 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk -L/Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/EagerLinkingTBDs -L/Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/Debug -F/Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/EagerLinkingTBDs -F/Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/Debug -filelist /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/CMAKE_TRY_COMPILE.build/Debug/cmTC_4a390.build/Objects-normal/arm64/cmTC_4a390.LinkFileList -Xlinker -object_path_lto -Xlinker /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/CMAKE_TRY_COMPILE.build/Debug/cmTC_4a390.build/Objects-normal/arm64/cmTC_4a390_lto.o -Xlinker -no_deduplicate -L/opt/homebrew/opt/qt@5/lib -v -Wl -v -Wl -search_paths_first -Wl -headerpad_max_install_names -Xlinker -dependency_info -Xlinker /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/CMAKE_TRY_COMPILE.build/Debug/cmTC_4a390.build/Objects-normal/arm64/cmTC_4a390_dependency_info.dat -o /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/Debug/cmTC_4a390]
+  ignore line: [Apple clang version 14.0.0 (clang-1400.0.29.202)]
+  ignore line: [Target: arm64-apple-macos13.1]
+  ignore line: [Thread model: posix]
+  ignore line: [InstalledDir: /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin]
+  reduced line: [ "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/ld" -demangle -lto_library /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/libLTO.dylib -dynamic -arch arm64 -platform_version macos 13.1.0 13.1 -syslibroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk -o /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/Debug/cmTC_4a390 -L/Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/EagerLinkingTBDs -L/Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/Debug -L/opt/homebrew/opt/qt@5/lib -filelist /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/CMAKE_TRY_COMPILE.build/Debug/cmTC_4a390.build/Objects-normal/arm64/cmTC_4a390.LinkFileList -object_path_lto /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/CMAKE_TRY_COMPILE.build/Debug/cmTC_4a390.build/Objects-normal/arm64/cmTC_4a390_lto.o -no_deduplicate -v -search_paths_first -headerpad_max_install_names -dependency_info /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/CMAKE_TRY_COMPILE.build/Debug/cmTC_4a390.build/Objects-normal/arm64/cmTC_4a390_dependency_info.dat -lSystem /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/14.0.0/lib/darwin/libclang_rt.osx.a -F/Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/EagerLinkingTBDs -F/Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/Debug]
+            to: [ "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/ld" -demangle -lto_library /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/libLTO.dylib -dynamic -arch arm64 -platform_version macos 13.1.0 13.1 -syslibroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk -o /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/Debug/cmTC_4a390 -L/Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/Debug -L/opt/homebrew/opt/qt@5/lib -filelist /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/CMAKE_TRY_COMPILE.build/Debug/cmTC_4a390.build/Objects-normal/arm64/cmTC_4a390.LinkFileList -object_path_lto /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/CMAKE_TRY_COMPILE.build/Debug/cmTC_4a390.build/Objects-normal/arm64/cmTC_4a390_lto.o -no_deduplicate -v -search_paths_first -headerpad_max_install_names -dependency_info /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/CMAKE_TRY_COMPILE.build/Debug/cmTC_4a390.build/Objects-normal/arm64/cmTC_4a390_dependency_info.dat -lSystem /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/14.0.0/lib/darwin/libclang_rt.osx.a -F/Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/Debug]
+  link line: [ "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/ld" -demangle -lto_library /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/libLTO.dylib -dynamic -arch arm64 -platform_version macos 13.1.0 13.1 -syslibroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk -o /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/Debug/cmTC_4a390 -L/Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/Debug -L/opt/homebrew/opt/qt@5/lib -filelist /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/CMAKE_TRY_COMPILE.build/Debug/cmTC_4a390.build/Objects-normal/arm64/cmTC_4a390.LinkFileList -object_path_lto /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/CMAKE_TRY_COMPILE.build/Debug/cmTC_4a390.build/Objects-normal/arm64/cmTC_4a390_lto.o -no_deduplicate -v -search_paths_first -headerpad_max_install_names -dependency_info /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/CMAKE_TRY_COMPILE.build/Debug/cmTC_4a390.build/Objects-normal/arm64/cmTC_4a390_dependency_info.dat -lSystem /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/14.0.0/lib/darwin/libclang_rt.osx.a -F/Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/Debug]
+    arg [/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/ld] ==> ignore
+    arg [-demangle] ==> ignore
+    arg [-lto_library] ==> ignore, skip following value
+    arg [/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/libLTO.dylib] ==> skip value of -lto_library
+    arg [-dynamic] ==> ignore
+    arg [-arch] ==> ignore
+    arg [arm64] ==> ignore
+    arg [-platform_version] ==> ignore
+    arg [macos] ==> ignore
+    arg [13.1.0] ==> ignore
+    arg [13.1] ==> ignore
+    arg [-syslibroot] ==> ignore
+    arg [/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk] ==> ignore
+    arg [-o] ==> ignore
+    arg [/Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/Debug/cmTC_4a390] ==> ignore
+    arg [-L/Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/Debug] ==> dir [/Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/Debug]
+    arg [-L/opt/homebrew/opt/qt@5/lib] ==> dir [/opt/homebrew/opt/qt@5/lib]
+    arg [-filelist] ==> ignore
+    arg [/Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/CMAKE_TRY_COMPILE.build/Debug/cmTC_4a390.build/Objects-normal/arm64/cmTC_4a390.LinkFileList] ==> ignore
+    arg [-object_path_lto] ==> ignore
+    arg [/Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/CMAKE_TRY_COMPILE.build/Debug/cmTC_4a390.build/Objects-normal/arm64/cmTC_4a390_lto.o] ==> obj [/Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/CMAKE_TRY_COMPILE.build/Debug/cmTC_4a390.build/Objects-normal/arm64/cmTC_4a390_lto.o]
+    arg [-no_deduplicate] ==> ignore
+    arg [-v] ==> ignore
+    arg [-search_paths_first] ==> ignore
+    arg [-headerpad_max_install_names] ==> ignore
+    arg [-dependency_info] ==> ignore
+    arg [/Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/CMAKE_TRY_COMPILE.build/Debug/cmTC_4a390.build/Objects-normal/arm64/cmTC_4a390_dependency_info.dat] ==> ignore
+    arg [-lSystem] ==> lib [System]
+    arg [/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/14.0.0/lib/darwin/libclang_rt.osx.a] ==> lib [/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/14.0.0/lib/darwin/libclang_rt.osx.a]
+    arg [-F/Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/Debug] ==> ignore
+  Library search paths: [;/Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/EagerLinkingTBDs;/Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/Debug;/opt/homebrew/opt/qt@5/lib;/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk/usr/lib]
+  Framework search paths: [;/Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/EagerLinkingTBDs;/Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/Debug;/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk/System/Library/Frameworks/]
+  remove lib [System]
+  remove lib [/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/14.0.0/lib/darwin/libclang_rt.osx.a]
+  collapse library dir [/Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/Debug] ==> [/Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/Debug], skipping non-system directory
+  collapse library dir [/opt/homebrew/opt/qt@5/lib] ==> [/opt/homebrew/opt/qt@5/lib]
+  collapse library dir [/Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/EagerLinkingTBDs] ==> [/Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/EagerLinkingTBDs], skipping non-system directory
+  collapse library dir [/Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/Debug] ==> [/Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/Debug], skipping non-system directory
+  collapse library dir [/opt/homebrew/opt/qt@5/lib] ==> [/opt/homebrew/opt/qt@5/lib]
+  collapse library dir [/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk/usr/lib] ==> [/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk/usr/lib]
+  collapse framework dir [/Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/EagerLinkingTBDs] ==> [/Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/EagerLinkingTBDs], skipping non-system directory
+  collapse framework dir [/Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/Debug] ==> [/Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/Debug], skipping non-system directory
+  collapse framework dir [/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk/System/Library/Frameworks/] ==> [/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk/System/Library/Frameworks]
+  implicit libs: []
+  implicit objs: [/Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/CMAKE_TRY_COMPILE.build/Debug/cmTC_4a390.build/Objects-normal/arm64/cmTC_4a390_lto.o]
+  implicit dirs: [/opt/homebrew/opt/qt@5/lib;/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk/usr/lib]
+  implicit fwks: [/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk/System/Library/Frameworks]
+
+
+Detecting CXX compiler ABI info compiled with the following output:
+Change Dir: /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp
+
+Run Build Command(s):/usr/bin/xcodebuild -project CMAKE_TRY_COMPILE.xcodeproj build -target cmTC_6163a -parallelizeTargets -configuration Debug -hideShellScriptEnvironment && Command line invocation:
+    /Applications/Xcode.app/Contents/Developer/usr/bin/xcodebuild -project CMAKE_TRY_COMPILE.xcodeproj build -target cmTC_6163a -parallelizeTargets -configuration Debug -hideShellScriptEnvironment
+
+User defaults from command line:
+    HideShellScriptEnvironment = YES
+    IDEPackageSupportUseBuiltinSCM = YES
+
+2022-12-20 11:17:26.947 xcodebuild[83423:2339216]  DVTErrorPresenter: Unable to load simulator devices.
+Domain: DVTCoreSimulatorAdditionsErrorDomain
+Code: 3
+Failure Reason: The version of the CoreSimulator framework installed on this Mac is out-of-date and not supported by this version of Xcode.
+Recovery Suggestion: Please ensure that you have installed all available updates to your Mac's software, and that you are running the most recent version of Xcode supported by macOS.
+--
+CoreSimulator is out of date. Current version (857.13.0) is older than build version (857.14.0).
+Domain: DVTCoreSimulatorAdditionsErrorDomain
+Code: 3
+--
+2022-12-20 11:17:26.947 xcodebuild[83423:2339216]  iOSSimulator: [SimServiceContext sharedServiceContextForDeveloperDir:error:] returned nil (Error Domain=DVTCoreSimulatorAdditionsErrorDomain Code=3 "CoreSimulator is out of date. Current version (857.13.0) is older than build version (857.14.0)." UserInfo={NSLocalizedDescription=CoreSimulator is out of date. Current version (857.13.0) is older than build version (857.14.0).}). Simulator device support disabled.
+Computing target dependency graph and provisioning inputs
+
+Create build description
+Build description signature: 75db830084cabc639435187702129c30
+Build description path: /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/build/XCBuildData/75db830084cabc639435187702129c30-desc.xcbuild
+
+note: Building targets in dependency order
+CreateBuildDirectory /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp
+    cd /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/CMAKE_TRY_COMPILE.xcodeproj
+    builtin-create-build-directory /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp
+
+CreateBuildDirectory /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/EagerLinkingTBDs
+    cd /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/CMAKE_TRY_COMPILE.xcodeproj
+    builtin-create-build-directory /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/EagerLinkingTBDs
+
+CreateBuildDirectory /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/Debug
+    cd /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/CMAKE_TRY_COMPILE.xcodeproj
+    builtin-create-build-directory /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/Debug
+
+CompileC /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/CMAKE_TRY_COMPILE.build/Debug/cmTC_6163a.build/Objects-normal/arm64/CMakeCXXCompilerABI.o /opt/homebrew/Cellar/cmake/3.24.1/share/cmake/Modules/CMakeCXXCompilerABI.cpp normal arm64 c++ com.apple.compilers.llvm.clang.1_0.compiler (in target 'cmTC_6163a' from project 'CMAKE_TRY_COMPILE')
+    cd /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp
+    /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -x c++ -target arm64-apple-macos13.1 -fmessage-length\=0 -fdiagnostics-show-note-include-stack -fmacro-backtrace-limit\=0 -Wno-trigraphs -fpascal-strings -O0 -Wno-missing-field-initializers -Wno-missing-prototypes -Wno-return-type -Wno-non-virtual-dtor -Wno-overloaded-virtual -Wno-exit-time-destructors -Wno-missing-braces -Wparentheses -Wswitch -Wno-unused-function -Wno-unused-label -Wno-unused-parameter -Wno-unused-variable -Wunused-value -Wno-empty-body -Wno-uninitialized -Wno-unknown-pragmas -Wno-shadow -Wno-four-char-constants -Wno-conversion -Wno-constant-conversion -Wno-int-conversion -Wno-bool-conversion -Wno-enum-conversion -Wno-float-conversion -Wno-non-literal-null-conversion -Wno-objc-literal-conversion -Wshorten-64-to-32 -Wno-newline-eof -Wno-c++11-extensions -Wno-implicit-fallthrough -DCMAKE_INTDIR\=\"Debug\" -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk -fstrict-aliasing -Wdeprecated-declarations -Winvalid-offsetof -g -Wno-sign-conversion -Wno-infinite-recursion -Wno-move -Wno-comma -Wno-block-capture-autoreleasing -Wno-strict-prototypes -Wno-range-loop-analysis -Wno-semicolon-before-method-body -I/Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/Debug/include -I/Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/CMAKE_TRY_COMPILE.build/Debug/cmTC_6163a.build/DerivedSources-normal/arm64 -I/Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/CMAKE_TRY_COMPILE.build/Debug/cmTC_6163a.build/DerivedSources/arm64 -I/Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/CMAKE_TRY_COMPILE.build/Debug/cmTC_6163a.build/DerivedSources -F/Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/Debug -v -Wl,-v -MMD -MT dependencies -MF /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/CMAKE_TRY_COMPILE.build/Debug/cmTC_6163a.build/Objects-normal/arm64/CMakeCXXCompilerABI.d --serialize-diagnostics /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/CMAKE_TRY_COMPILE.build/Debug/cmTC_6163a.build/Objects-normal/arm64/CMakeCXXCompilerABI.dia -c /opt/homebrew/Cellar/cmake/3.24.1/share/cmake/Modules/CMakeCXXCompilerABI.cpp -o /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/CMAKE_TRY_COMPILE.build/Debug/cmTC_6163a.build/Objects-normal/arm64/CMakeCXXCompilerABI.o
+Apple clang version 14.0.0 (clang-1400.0.29.202)
+Target: arm64-apple-macos13.1
+Thread model: posix
+InstalledDir: /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin
+clang: warning: -Wl,-v: 'linker' input unused [-Wunused-command-line-argument]
+ "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang" -cc1 -triple arm64-apple-macosx13.1.0 -Wundef-prefix=TARGET_OS_ -Wdeprecated-objc-isa-usage -Werror=deprecated-objc-isa-usage -Werror=implicit-function-declaration -emit-obj -mrelax-all --mrelax-relocations -disable-free -clear-ast-before-backend -disable-llvm-verifier -discard-value-names -main-file-name CMakeCXXCompilerABI.cpp -mrelocation-model pic -pic-level 2 -mframe-pointer=non-leaf -fno-strict-return -fno-rounding-math -funwind-tables=2 -fobjc-msgsend-selector-stubs -target-sdk-version=13.1 -fvisibility-inlines-hidden-static-local-var -target-cpu apple-m1 -target-feature +v8.5a -target-feature +fp-armv8 -target-feature +neon -target-feature +crc -target-feature +crypto -target-feature +dotprod -target-feature +fp16fml -target-feature +ras -target-feature +lse -target-feature +rdm -target-feature +rcpc -target-feature +zcm -target-feature +zcz -target-feature +fullfp16 -target-feature +sm4 -target-feature +sha3 -target-feature +sha2 -target-feature +aes -target-abi darwinpcs -fallow-half-arguments-and-returns -debug-info-kind=standalone -dwarf-version=4 -debugger-tuning=lldb -target-linker-version 820.1 -v -resource-dir /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/14.0.0 -dependency-file /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/CMAKE_TRY_COMPILE.build/Debug/cmTC_6163a.build/Objects-normal/arm64/CMakeCXXCompilerABI.d -skip-unused-modulemap-deps -MT dependencies -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk -D "CMAKE_INTDIR=\"Debug\"" -I /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/Debug/include -I /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/CMAKE_TRY_COMPILE.build/Debug/cmTC_6163a.build/DerivedSources-normal/arm64 -I /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/CMAKE_TRY_COMPILE.build/Debug/cmTC_6163a.build/DerivedSources/arm64 -I /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/CMAKE_TRY_COMPILE.build/Debug/cmTC_6163a.build/DerivedSources -F/Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/Debug -stdlib=libc++ -internal-isystem /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk/usr/include/c++/v1 -internal-isystem /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk/usr/local/include -internal-isystem /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/14.0.0/include -internal-externc-isystem /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk/usr/include -internal-externc-isystem /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include -O0 -Wno-trigraphs -Wno-missing-field-initializers -Wno-missing-prototypes -Wno-return-type -Wno-non-virtual-dtor -Wno-overloaded-virtual -Wno-exit-time-destructors -Wno-missing-braces -Wparentheses -Wswitch -Wno-unused-function -Wno-unused-label -Wno-unused-parameter -Wno-unused-variable -Wunused-value -Wno-empty-body -Wno-uninitialized -Wno-unknown-pragmas -Wno-shadow -Wno-four-char-constants -Wno-conversion -Wno-constant-conversion -Wno-int-conversion -Wno-bool-conversion -Wno-enum-conversion -Wno-float-conversion -Wno-non-literal-null-conversion -Wno-objc-literal-conversion -Wshorten-64-to-32 -Wno-newline-eof -Wno-c++11-extensions -Wno-implicit-fallthrough -Wdeprecated-declarations -Winvalid-offsetof -Wno-sign-conversion -Wno-infinite-recursion -Wno-move -Wno-comma -Wno-block-capture-autoreleasing -Wno-strict-prototypes -Wno-range-loop-analysis -Wno-semicolon-before-method-body -Wno-reorder-init-list -Wno-implicit-int-float-conversion -Wno-c99-designator -Wno-final-dtor-non-final-class -Wno-extra-semi-stmt -Wno-misleading-indentation -Wno-quoted-include-in-framework-header -Wno-implicit-fallthrough -Wno-enum-enum-conversion -Wno-enum-float-conversion -Wno-elaborated-enum-base -Wno-reserved-identifier -Wno-gnu-folding-constant -Wno-cast-function-type -Wno-bitwise-instead-of-logical -fdeprecated-macro -fdebug-compilation-dir=/Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp -ferror-limit 19 -fmacro-backtrace-limit 0 -stack-protector 1 -fstack-check -mdarwin-stkchk-strong-link -fblocks -fencode-extended-block-signature -fregister-global-dtors-with-atexit -fgnuc-version=4.2.1 -fno-cxx-modules -fcxx-exceptions -fexceptions -fpascal-strings -fmax-type-align=16 -fcommon -fdiagnostics-show-note-include-stack -serialize-diagnostic-file /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/CMAKE_TRY_COMPILE.build/Debug/cmTC_6163a.build/Objects-normal/arm64/CMakeCXXCompilerABI.dia -clang-vendor-feature=+messageToSelfInClassMethodIdReturnType -clang-vendor-feature=+disableInferNewAvailabilityFromInit -clang-vendor-feature=+disableNonDependentMemberExprInCurrentInstantiation -fno-odr-hash-protocols -clang-vendor-feature=+enableAggressiveVLAFolding -clang-vendor-feature=+revert09abecef7bbf -clang-vendor-feature=+thisNoAlignAttr -clang-vendor-feature=+thisNoNullAttr -mllvm -disable-aligned-alloc-awareness=1 -D__GCC_HAVE_DWARF2_CFI_ASM=1 -o /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/CMAKE_TRY_COMPILE.build/Debug/cmTC_6163a.build/Objects-normal/arm64/CMakeCXXCompilerABI.o -x c++ /opt/homebrew/Cellar/cmake/3.24.1/share/cmake/Modules/CMakeCXXCompilerABI.cpp
+clang -cc1 version 14.0.0 (clang-1400.0.29.202) default target arm64-apple-darwin22.2.0
+ignoring nonexistent directory "/Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/Debug/include"
+ignoring nonexistent directory "/Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/CMAKE_TRY_COMPILE.build/Debug/cmTC_6163a.build/DerivedSources-normal/arm64"
+ignoring nonexistent directory "/Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/CMAKE_TRY_COMPILE.build/Debug/cmTC_6163a.build/DerivedSources/arm64"
+ignoring nonexistent directory "/Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/CMAKE_TRY_COMPILE.build/Debug/cmTC_6163a.build/DerivedSources"
+ignoring nonexistent directory "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk/usr/local/include"
+ignoring nonexistent directory "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk/Library/Frameworks"
+#include "..." search starts here:
+#include <...> search starts here:
+ /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/Debug (framework directory)
+ /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk/usr/include/c++/v1
+ /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/14.0.0/include
+ /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk/usr/include
+ /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include
+ /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk/System/Library/Frameworks (framework directory)
+End of search list.
+
+WriteAuxiliaryFile /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/CMAKE_TRY_COMPILE.build/Debug/cmTC_6163a.build/Objects-normal/arm64/cmTC_6163a.LinkFileList (in target 'cmTC_6163a' from project 'CMAKE_TRY_COMPILE')
+    cd /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp
+    write-file /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/CMAKE_TRY_COMPILE.build/Debug/cmTC_6163a.build/Objects-normal/arm64/cmTC_6163a.LinkFileList
+
+Ld /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/Debug/cmTC_6163a normal (in target 'cmTC_6163a' from project 'CMAKE_TRY_COMPILE')
+    cd /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp
+    /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang++ -target arm64-apple-macos13.1 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk -L/Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/EagerLinkingTBDs -L/Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/Debug -F/Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/EagerLinkingTBDs -F/Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/Debug -filelist /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/CMAKE_TRY_COMPILE.build/Debug/cmTC_6163a.build/Objects-normal/arm64/cmTC_6163a.LinkFileList -Xlinker -object_path_lto -Xlinker /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/CMAKE_TRY_COMPILE.build/Debug/cmTC_6163a.build/Objects-normal/arm64/cmTC_6163a_lto.o -Xlinker -no_deduplicate -L/opt/homebrew/opt/qt@5/lib -v -Wl,-v -Wl,-search_paths_first -Wl,-headerpad_max_install_names -Xlinker -dependency_info -Xlinker /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/CMAKE_TRY_COMPILE.build/Debug/cmTC_6163a.build/Objects-normal/arm64/cmTC_6163a_dependency_info.dat -o /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/Debug/cmTC_6163a
+Apple clang version 14.0.0 (clang-1400.0.29.202)
+Target: arm64-apple-macos13.1
+Thread model: posix
+InstalledDir: /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin
+ "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/ld" -demangle -lto_library /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/libLTO.dylib -dynamic -arch arm64 -platform_version macos 13.1.0 13.1 -syslibroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk -o /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/Debug/cmTC_6163a -L/Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/EagerLinkingTBDs -L/Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/Debug -L/opt/homebrew/opt/qt@5/lib -filelist /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/CMAKE_TRY_COMPILE.build/Debug/cmTC_6163a.build/Objects-normal/arm64/cmTC_6163a.LinkFileList -object_path_lto /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/CMAKE_TRY_COMPILE.build/Debug/cmTC_6163a.build/Objects-normal/arm64/cmTC_6163a_lto.o -no_deduplicate -v -search_paths_first -headerpad_max_install_names -dependency_info /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/CMAKE_TRY_COMPILE.build/Debug/cmTC_6163a.build/Objects-normal/arm64/cmTC_6163a_dependency_info.dat -lc++ -lSystem /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/14.0.0/lib/darwin/libclang_rt.osx.a -F/Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/EagerLinkingTBDs -F/Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/Debug
+@(#)PROGRAM:ld  PROJECT:ld64-820.1
+BUILD 20:07:05 Nov  7 2022
+configured to support archs: armv6 armv7 armv7s arm64 arm64e arm64_32 i386 x86_64 x86_64h armv6m armv7k armv7m armv7em
+Library search paths:
+	/Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/EagerLinkingTBDs
+	/Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/Debug
+	/opt/homebrew/opt/qt@5/lib
+	/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk/usr/lib
+Framework search paths:
+	/Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/EagerLinkingTBDs
+	/Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/Debug
+	/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk/System/Library/Frameworks/
+
+RegisterExecutionPolicyException /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/Debug/cmTC_6163a (in target 'cmTC_6163a' from project 'CMAKE_TRY_COMPILE')
+    cd /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp
+    builtin-RegisterExecutionPolicyException /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/Debug/cmTC_6163a
+
+** BUILD SUCCEEDED **
+
+
+
+
+Parsed CXX implicit include dir info from above output: rv=done
+  found start of include info
+  found start of implicit include info
+    add: [/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk/usr/include/c++/v1]
+    add: [/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/14.0.0/include]
+    add: [/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk/usr/include]
+    add: [/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include]
+  end of search list found
+  collapse include dir [/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk/usr/include/c++/v1] ==> [/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk/usr/include/c++/v1]
+  collapse include dir [/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/14.0.0/include] ==> [/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/14.0.0/include]
+  collapse include dir [/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk/usr/include] ==> [/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk/usr/include]
+  collapse include dir [/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include] ==> [/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include]
+  implicit include dirs: [/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk/usr/include/c++/v1;/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/14.0.0/include;/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk/usr/include;/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include]
+
+
+Parsed CXX implicit link information from above output:
+  link line regex: [^( *|.*[/\])(ld|CMAKE_LINK_STARTFILE-NOTFOUND|([^/\]+-)?ld|collect2)[^/\]*( |$)]
+  ignore line: [Change Dir: /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp]
+  ignore line: []
+  ignore line: [Run Build Command(s):/usr/bin/xcodebuild -project CMAKE_TRY_COMPILE.xcodeproj build -target cmTC_6163a -parallelizeTargets -configuration Debug -hideShellScriptEnvironment && Command line invocation:]
+  ignore line: [    /Applications/Xcode.app/Contents/Developer/usr/bin/xcodebuild -project CMAKE_TRY_COMPILE.xcodeproj build -target cmTC_6163a -parallelizeTargets -configuration Debug -hideShellScriptEnvironment]
+  ignore line: []
+  ignore line: [User defaults from command line:]
+  ignore line: [    HideShellScriptEnvironment = YES]
+  ignore line: [    IDEPackageSupportUseBuiltinSCM = YES]
+  ignore line: []
+  ignore line: [2022-12-20 11:17:26.947 xcodebuild[83423:2339216]  DVTErrorPresenter: Unable to load simulator devices.]
+  ignore line: [Domain: DVTCoreSimulatorAdditionsErrorDomain]
+  ignore line: [Code: 3]
+  ignore line: [Failure Reason: The version of the CoreSimulator framework installed on this Mac is out-of-date and not supported by this version of Xcode.]
+  ignore line: [Recovery Suggestion: Please ensure that you have installed all available updates to your Mac's software  and that you are running the most recent version of Xcode supported by macOS.]
+  ignore line: [--]
+  ignore line: [CoreSimulator is out of date. Current version (857.13.0) is older than build version (857.14.0).]
+  ignore line: [Domain: DVTCoreSimulatorAdditionsErrorDomain]
+  ignore line: [Code: 3]
+  ignore line: [--]
+  ignore line: [2022-12-20 11:17:26.947 xcodebuild[83423:2339216]  iOSSimulator: [SimServiceContext sharedServiceContextForDeveloperDir:error:] returned nil (Error Domain=DVTCoreSimulatorAdditionsErrorDomain Code=3 "CoreSimulator is out of date. Current version (857.13.0) is older than build version (857.14.0)." UserInfo={NSLocalizedDescription=CoreSimulator is out of date. Current version (857.13.0) is older than build version (857.14.0).}). Simulator device support disabled.]
+  ignore line: [Computing target dependency graph and provisioning inputs]
+  ignore line: []
+  ignore line: [Create build description]
+  ignore line: [Build description signature: 75db830084cabc639435187702129c30]
+  ignore line: [Build description path: /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/build/XCBuildData/75db830084cabc639435187702129c30-desc.xcbuild]
+  ignore line: []
+  ignore line: [note: Building targets in dependency order]
+  ignore line: [CreateBuildDirectory /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp]
+  ignore line: [    cd /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/CMAKE_TRY_COMPILE.xcodeproj]
+  ignore line: [    builtin-create-build-directory /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp]
+  ignore line: []
+  ignore line: [CreateBuildDirectory /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/EagerLinkingTBDs]
+  ignore line: [    cd /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/CMAKE_TRY_COMPILE.xcodeproj]
+  ignore line: [    builtin-create-build-directory /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/EagerLinkingTBDs]
+  ignore line: []
+  ignore line: [CreateBuildDirectory /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/Debug]
+  ignore line: [    cd /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/CMAKE_TRY_COMPILE.xcodeproj]
+  ignore line: [    builtin-create-build-directory /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/Debug]
+  ignore line: []
+  ignore line: [CompileC /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/CMAKE_TRY_COMPILE.build/Debug/cmTC_6163a.build/Objects-normal/arm64/CMakeCXXCompilerABI.o /opt/homebrew/Cellar/cmake/3.24.1/share/cmake/Modules/CMakeCXXCompilerABI.cpp normal arm64 c++ com.apple.compilers.llvm.clang.1_0.compiler (in target 'cmTC_6163a' from project 'CMAKE_TRY_COMPILE')]
+  ignore line: [    cd /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp]
+  ignore line: [    /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -x c++ -target arm64-apple-macos13.1 -fmessage-length\=0 -fdiagnostics-show-note-include-stack -fmacro-backtrace-limit\=0 -Wno-trigraphs -fpascal-strings -O0 -Wno-missing-field-initializers -Wno-missing-prototypes -Wno-return-type -Wno-non-virtual-dtor -Wno-overloaded-virtual -Wno-exit-time-destructors -Wno-missing-braces -Wparentheses -Wswitch -Wno-unused-function -Wno-unused-label -Wno-unused-parameter -Wno-unused-variable -Wunused-value -Wno-empty-body -Wno-uninitialized -Wno-unknown-pragmas -Wno-shadow -Wno-four-char-constants -Wno-conversion -Wno-constant-conversion -Wno-int-conversion -Wno-bool-conversion -Wno-enum-conversion -Wno-float-conversion -Wno-non-literal-null-conversion -Wno-objc-literal-conversion -Wshorten-64-to-32 -Wno-newline-eof -Wno-c++11-extensions -Wno-implicit-fallthrough -DCMAKE_INTDIR\=\"Debug\" -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk -fstrict-aliasing -Wdeprecated-declarations -Winvalid-offsetof -g -Wno-sign-conversion -Wno-infinite-recursion -Wno-move -Wno-comma -Wno-block-capture-autoreleasing -Wno-strict-prototypes -Wno-range-loop-analysis -Wno-semicolon-before-method-body -I/Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/Debug/include -I/Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/CMAKE_TRY_COMPILE.build/Debug/cmTC_6163a.build/DerivedSources-normal/arm64 -I/Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/CMAKE_TRY_COMPILE.build/Debug/cmTC_6163a.build/DerivedSources/arm64 -I/Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/CMAKE_TRY_COMPILE.build/Debug/cmTC_6163a.build/DerivedSources -F/Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/Debug -v -Wl -v -MMD -MT dependencies -MF /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/CMAKE_TRY_COMPILE.build/Debug/cmTC_6163a.build/Objects-normal/arm64/CMakeCXXCompilerABI.d --serialize-diagnostics /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/CMAKE_TRY_COMPILE.build/Debug/cmTC_6163a.build/Objects-normal/arm64/CMakeCXXCompilerABI.dia -c /opt/homebrew/Cellar/cmake/3.24.1/share/cmake/Modules/CMakeCXXCompilerABI.cpp -o /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/CMAKE_TRY_COMPILE.build/Debug/cmTC_6163a.build/Objects-normal/arm64/CMakeCXXCompilerABI.o]
+  ignore line: [Apple clang version 14.0.0 (clang-1400.0.29.202)]
+  ignore line: [Target: arm64-apple-macos13.1]
+  ignore line: [Thread model: posix]
+  ignore line: [InstalledDir: /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin]
+  ignore line: [clang: warning: -Wl -v: 'linker' input unused [-Wunused-command-line-argument]]
+  ignore line: [ "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang" -cc1 -triple arm64-apple-macosx13.1.0 -Wundef-prefix=TARGET_OS_ -Wdeprecated-objc-isa-usage -Werror=deprecated-objc-isa-usage -Werror=implicit-function-declaration -emit-obj -mrelax-all --mrelax-relocations -disable-free -clear-ast-before-backend -disable-llvm-verifier -discard-value-names -main-file-name CMakeCXXCompilerABI.cpp -mrelocation-model pic -pic-level 2 -mframe-pointer=non-leaf -fno-strict-return -fno-rounding-math -funwind-tables=2 -fobjc-msgsend-selector-stubs -target-sdk-version=13.1 -fvisibility-inlines-hidden-static-local-var -target-cpu apple-m1 -target-feature +v8.5a -target-feature +fp-armv8 -target-feature +neon -target-feature +crc -target-feature +crypto -target-feature +dotprod -target-feature +fp16fml -target-feature +ras -target-feature +lse -target-feature +rdm -target-feature +rcpc -target-feature +zcm -target-feature +zcz -target-feature +fullfp16 -target-feature +sm4 -target-feature +sha3 -target-feature +sha2 -target-feature +aes -target-abi darwinpcs -fallow-half-arguments-and-returns -debug-info-kind=standalone -dwarf-version=4 -debugger-tuning=lldb -target-linker-version 820.1 -v -resource-dir /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/14.0.0 -dependency-file /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/CMAKE_TRY_COMPILE.build/Debug/cmTC_6163a.build/Objects-normal/arm64/CMakeCXXCompilerABI.d -skip-unused-modulemap-deps -MT dependencies -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk -D "CMAKE_INTDIR=\"Debug\"" -I /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/Debug/include -I /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/CMAKE_TRY_COMPILE.build/Debug/cmTC_6163a.build/DerivedSources-normal/arm64 -I /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/CMAKE_TRY_COMPILE.build/Debug/cmTC_6163a.build/DerivedSources/arm64 -I /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/CMAKE_TRY_COMPILE.build/Debug/cmTC_6163a.build/DerivedSources -F/Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/Debug -stdlib=libc++ -internal-isystem /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk/usr/include/c++/v1 -internal-isystem /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk/usr/local/include -internal-isystem /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/14.0.0/include -internal-externc-isystem /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk/usr/include -internal-externc-isystem /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include -O0 -Wno-trigraphs -Wno-missing-field-initializers -Wno-missing-prototypes -Wno-return-type -Wno-non-virtual-dtor -Wno-overloaded-virtual -Wno-exit-time-destructors -Wno-missing-braces -Wparentheses -Wswitch -Wno-unused-function -Wno-unused-label -Wno-unused-parameter -Wno-unused-variable -Wunused-value -Wno-empty-body -Wno-uninitialized -Wno-unknown-pragmas -Wno-shadow -Wno-four-char-constants -Wno-conversion -Wno-constant-conversion -Wno-int-conversion -Wno-bool-conversion -Wno-enum-conversion -Wno-float-conversion -Wno-non-literal-null-conversion -Wno-objc-literal-conversion -Wshorten-64-to-32 -Wno-newline-eof -Wno-c++11-extensions -Wno-implicit-fallthrough -Wdeprecated-declarations -Winvalid-offsetof -Wno-sign-conversion -Wno-infinite-recursion -Wno-move -Wno-comma -Wno-block-capture-autoreleasing -Wno-strict-prototypes -Wno-range-loop-analysis -Wno-semicolon-before-method-body -Wno-reorder-init-list -Wno-implicit-int-float-conversion -Wno-c99-designator -Wno-final-dtor-non-final-class -Wno-extra-semi-stmt -Wno-misleading-indentation -Wno-quoted-include-in-framework-header -Wno-implicit-fallthrough -Wno-enum-enum-conversion -Wno-enum-float-conversion -Wno-elaborated-enum-base -Wno-reserved-identifier -Wno-gnu-folding-constant -Wno-cast-function-type -Wno-bitwise-instead-of-logical -fdeprecated-macro -fdebug-compilation-dir=/Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp -ferror-limit 19 -fmacro-backtrace-limit 0 -stack-protector 1 -fstack-check -mdarwin-stkchk-strong-link -fblocks -fencode-extended-block-signature -fregister-global-dtors-with-atexit -fgnuc-version=4.2.1 -fno-cxx-modules -fcxx-exceptions -fexceptions -fpascal-strings -fmax-type-align=16 -fcommon -fdiagnostics-show-note-include-stack -serialize-diagnostic-file /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/CMAKE_TRY_COMPILE.build/Debug/cmTC_6163a.build/Objects-normal/arm64/CMakeCXXCompilerABI.dia -clang-vendor-feature=+messageToSelfInClassMethodIdReturnType -clang-vendor-feature=+disableInferNewAvailabilityFromInit -clang-vendor-feature=+disableNonDependentMemberExprInCurrentInstantiation -fno-odr-hash-protocols -clang-vendor-feature=+enableAggressiveVLAFolding -clang-vendor-feature=+revert09abecef7bbf -clang-vendor-feature=+thisNoAlignAttr -clang-vendor-feature=+thisNoNullAttr -mllvm -disable-aligned-alloc-awareness=1 -D__GCC_HAVE_DWARF2_CFI_ASM=1 -o /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/CMAKE_TRY_COMPILE.build/Debug/cmTC_6163a.build/Objects-normal/arm64/CMakeCXXCompilerABI.o -x c++ /opt/homebrew/Cellar/cmake/3.24.1/share/cmake/Modules/CMakeCXXCompilerABI.cpp]
+  ignore line: [clang -cc1 version 14.0.0 (clang-1400.0.29.202) default target arm64-apple-darwin22.2.0]
+  ignore line: [ignoring nonexistent directory "/Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/Debug/include"]
+  ignore line: [ignoring nonexistent directory "/Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/CMAKE_TRY_COMPILE.build/Debug/cmTC_6163a.build/DerivedSources-normal/arm64"]
+  ignore line: [ignoring nonexistent directory "/Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/CMAKE_TRY_COMPILE.build/Debug/cmTC_6163a.build/DerivedSources/arm64"]
+  ignore line: [ignoring nonexistent directory "/Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/CMAKE_TRY_COMPILE.build/Debug/cmTC_6163a.build/DerivedSources"]
+  ignore line: [ignoring nonexistent directory "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk/usr/local/include"]
+  ignore line: [ignoring nonexistent directory "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk/Library/Frameworks"]
+  ignore line: [#include "..." search starts here:]
+  ignore line: [#include <...> search starts here:]
+  ignore line: [ /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/Debug (framework directory)]
+  ignore line: [ /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk/usr/include/c++/v1]
+  ignore line: [ /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/14.0.0/include]
+  ignore line: [ /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk/usr/include]
+  ignore line: [ /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include]
+  ignore line: [ /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk/System/Library/Frameworks (framework directory)]
+  ignore line: [End of search list.]
+  ignore line: []
+  ignore line: [WriteAuxiliaryFile /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/CMAKE_TRY_COMPILE.build/Debug/cmTC_6163a.build/Objects-normal/arm64/cmTC_6163a.LinkFileList (in target 'cmTC_6163a' from project 'CMAKE_TRY_COMPILE')]
+  ignore line: [    cd /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp]
+  ignore line: [    write-file /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/CMAKE_TRY_COMPILE.build/Debug/cmTC_6163a.build/Objects-normal/arm64/cmTC_6163a.LinkFileList]
+  ignore line: []
+  ignore line: [Ld /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/Debug/cmTC_6163a normal (in target 'cmTC_6163a' from project 'CMAKE_TRY_COMPILE')]
+  ignore line: [    cd /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp]
+  ignore line: [    /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang++ -target arm64-apple-macos13.1 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk -L/Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/EagerLinkingTBDs -L/Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/Debug -F/Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/EagerLinkingTBDs -F/Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/Debug -filelist /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/CMAKE_TRY_COMPILE.build/Debug/cmTC_6163a.build/Objects-normal/arm64/cmTC_6163a.LinkFileList -Xlinker -object_path_lto -Xlinker /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/CMAKE_TRY_COMPILE.build/Debug/cmTC_6163a.build/Objects-normal/arm64/cmTC_6163a_lto.o -Xlinker -no_deduplicate -L/opt/homebrew/opt/qt@5/lib -v -Wl -v -Wl -search_paths_first -Wl -headerpad_max_install_names -Xlinker -dependency_info -Xlinker /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/CMAKE_TRY_COMPILE.build/Debug/cmTC_6163a.build/Objects-normal/arm64/cmTC_6163a_dependency_info.dat -o /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/Debug/cmTC_6163a]
+  ignore line: [Apple clang version 14.0.0 (clang-1400.0.29.202)]
+  ignore line: [Target: arm64-apple-macos13.1]
+  ignore line: [Thread model: posix]
+  ignore line: [InstalledDir: /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin]
+  reduced line: [ "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/ld" -demangle -lto_library /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/libLTO.dylib -dynamic -arch arm64 -platform_version macos 13.1.0 13.1 -syslibroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk -o /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/Debug/cmTC_6163a -L/Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/EagerLinkingTBDs -L/Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/Debug -L/opt/homebrew/opt/qt@5/lib -filelist /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/CMAKE_TRY_COMPILE.build/Debug/cmTC_6163a.build/Objects-normal/arm64/cmTC_6163a.LinkFileList -object_path_lto /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/CMAKE_TRY_COMPILE.build/Debug/cmTC_6163a.build/Objects-normal/arm64/cmTC_6163a_lto.o -no_deduplicate -v -search_paths_first -headerpad_max_install_names -dependency_info /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/CMAKE_TRY_COMPILE.build/Debug/cmTC_6163a.build/Objects-normal/arm64/cmTC_6163a_dependency_info.dat -lc++ -lSystem /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/14.0.0/lib/darwin/libclang_rt.osx.a -F/Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/EagerLinkingTBDs -F/Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/Debug]
+            to: [ "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/ld" -demangle -lto_library /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/libLTO.dylib -dynamic -arch arm64 -platform_version macos 13.1.0 13.1 -syslibroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk -o /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/Debug/cmTC_6163a -L/Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/Debug -L/opt/homebrew/opt/qt@5/lib -filelist /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/CMAKE_TRY_COMPILE.build/Debug/cmTC_6163a.build/Objects-normal/arm64/cmTC_6163a.LinkFileList -object_path_lto /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/CMAKE_TRY_COMPILE.build/Debug/cmTC_6163a.build/Objects-normal/arm64/cmTC_6163a_lto.o -no_deduplicate -v -search_paths_first -headerpad_max_install_names -dependency_info /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/CMAKE_TRY_COMPILE.build/Debug/cmTC_6163a.build/Objects-normal/arm64/cmTC_6163a_dependency_info.dat -lc++ -lSystem /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/14.0.0/lib/darwin/libclang_rt.osx.a -F/Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/Debug]
+  link line: [ "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/ld" -demangle -lto_library /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/libLTO.dylib -dynamic -arch arm64 -platform_version macos 13.1.0 13.1 -syslibroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk -o /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/Debug/cmTC_6163a -L/Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/Debug -L/opt/homebrew/opt/qt@5/lib -filelist /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/CMAKE_TRY_COMPILE.build/Debug/cmTC_6163a.build/Objects-normal/arm64/cmTC_6163a.LinkFileList -object_path_lto /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/CMAKE_TRY_COMPILE.build/Debug/cmTC_6163a.build/Objects-normal/arm64/cmTC_6163a_lto.o -no_deduplicate -v -search_paths_first -headerpad_max_install_names -dependency_info /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/CMAKE_TRY_COMPILE.build/Debug/cmTC_6163a.build/Objects-normal/arm64/cmTC_6163a_dependency_info.dat -lc++ -lSystem /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/14.0.0/lib/darwin/libclang_rt.osx.a -F/Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/Debug]
+    arg [/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/ld] ==> ignore
+    arg [-demangle] ==> ignore
+    arg [-lto_library] ==> ignore, skip following value
+    arg [/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/libLTO.dylib] ==> skip value of -lto_library
+    arg [-dynamic] ==> ignore
+    arg [-arch] ==> ignore
+    arg [arm64] ==> ignore
+    arg [-platform_version] ==> ignore
+    arg [macos] ==> ignore
+    arg [13.1.0] ==> ignore
+    arg [13.1] ==> ignore
+    arg [-syslibroot] ==> ignore
+    arg [/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk] ==> ignore
+    arg [-o] ==> ignore
+    arg [/Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/Debug/cmTC_6163a] ==> ignore
+    arg [-L/Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/Debug] ==> dir [/Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/Debug]
+    arg [-L/opt/homebrew/opt/qt@5/lib] ==> dir [/opt/homebrew/opt/qt@5/lib]
+    arg [-filelist] ==> ignore
+    arg [/Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/CMAKE_TRY_COMPILE.build/Debug/cmTC_6163a.build/Objects-normal/arm64/cmTC_6163a.LinkFileList] ==> ignore
+    arg [-object_path_lto] ==> ignore
+    arg [/Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/CMAKE_TRY_COMPILE.build/Debug/cmTC_6163a.build/Objects-normal/arm64/cmTC_6163a_lto.o] ==> obj [/Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/CMAKE_TRY_COMPILE.build/Debug/cmTC_6163a.build/Objects-normal/arm64/cmTC_6163a_lto.o]
+    arg [-no_deduplicate] ==> ignore
+    arg [-v] ==> ignore
+    arg [-search_paths_first] ==> ignore
+    arg [-headerpad_max_install_names] ==> ignore
+    arg [-dependency_info] ==> ignore
+    arg [/Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/CMAKE_TRY_COMPILE.build/Debug/cmTC_6163a.build/Objects-normal/arm64/cmTC_6163a_dependency_info.dat] ==> ignore
+    arg [-lc++] ==> lib [c++]
+    arg [-lSystem] ==> lib [System]
+    arg [/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/14.0.0/lib/darwin/libclang_rt.osx.a] ==> lib [/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/14.0.0/lib/darwin/libclang_rt.osx.a]
+    arg [-F/Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/Debug] ==> ignore
+  Library search paths: [;/Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/EagerLinkingTBDs;/Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/Debug;/opt/homebrew/opt/qt@5/lib;/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk/usr/lib]
+  Framework search paths: [;/Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/EagerLinkingTBDs;/Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/Debug;/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk/System/Library/Frameworks/]
+  remove lib [System]
+  remove lib [/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/14.0.0/lib/darwin/libclang_rt.osx.a]
+  collapse library dir [/Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/Debug] ==> [/Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/Debug], skipping non-system directory
+  collapse library dir [/opt/homebrew/opt/qt@5/lib] ==> [/opt/homebrew/opt/qt@5/lib]
+  collapse library dir [/Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/EagerLinkingTBDs] ==> [/Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/EagerLinkingTBDs], skipping non-system directory
+  collapse library dir [/Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/Debug] ==> [/Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/Debug], skipping non-system directory
+  collapse library dir [/opt/homebrew/opt/qt@5/lib] ==> [/opt/homebrew/opt/qt@5/lib]
+  collapse library dir [/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk/usr/lib] ==> [/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk/usr/lib]
+  collapse framework dir [/Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/EagerLinkingTBDs] ==> [/Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/EagerLinkingTBDs], skipping non-system directory
+  collapse framework dir [/Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/Debug] ==> [/Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/Debug], skipping non-system directory
+  collapse framework dir [/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk/System/Library/Frameworks/] ==> [/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk/System/Library/Frameworks]
+  implicit libs: [c++]
+  implicit objs: [/Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/CMAKE_TRY_COMPILE.build/Debug/cmTC_6163a.build/Objects-normal/arm64/cmTC_6163a_lto.o]
+  implicit dirs: [/opt/homebrew/opt/qt@5/lib;/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk/usr/lib]
+  implicit fwks: [/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk/System/Library/Frameworks]
+
+
+Performing C SOURCE FILE Test CMAKE_HAVE_LIBC_PTHREAD succeeded with the following output:
+Change Dir: /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp
+
+Run Build Command(s):/usr/bin/xcodebuild -project CMAKE_TRY_COMPILE.xcodeproj build -target cmTC_60598 -parallelizeTargets -configuration Debug -hideShellScriptEnvironment && 2022-12-20 11:17:27.935 xcodebuild[83438:2339332]  DVTErrorPresenter: Unable to load simulator devices.
+Domain: DVTCoreSimulatorAdditionsErrorDomain
+Code: 3
+Failure Reason: The version of the CoreSimulator framework installed on this Mac is out-of-date and not supported by this version of Xcode.
+Recovery Suggestion: Please ensure that you have installed all available updates to your Mac's software, and that you are running the most recent version of Xcode supported by macOS.
+--
+CoreSimulator is out of date. Current version (857.13.0) is older than build version (857.14.0).
+Domain: DVTCoreSimulatorAdditionsErrorDomain
+Code: 3
+--
+2022-12-20 11:17:27.935 xcodebuild[83438:2339332]  iOSSimulator: [SimServiceContext sharedServiceContextForDeveloperDir:error:] returned nil (Error Domain=DVTCoreSimulatorAdditionsErrorDomain Code=3 "CoreSimulator is out of date. Current version (857.13.0) is older than build version (857.14.0)." UserInfo={NSLocalizedDescription=CoreSimulator is out of date. Current version (857.13.0) is older than build version (857.14.0).}). Simulator device support disabled.
+Command line invocation:
+    /Applications/Xcode.app/Contents/Developer/usr/bin/xcodebuild -project CMAKE_TRY_COMPILE.xcodeproj build -target cmTC_60598 -parallelizeTargets -configuration Debug -hideShellScriptEnvironment
+
+User defaults from command line:
+    HideShellScriptEnvironment = YES
+    IDEPackageSupportUseBuiltinSCM = YES
+
+Computing target dependency graph and provisioning inputs
+
+Create build description
+Build description signature: 5ae53040bc34c36aa05caeccd9a96c18
+Build description path: /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/build/XCBuildData/5ae53040bc34c36aa05caeccd9a96c18-desc.xcbuild
+
+note: Building targets in dependency order
+CreateBuildDirectory /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp
+    cd /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/CMAKE_TRY_COMPILE.xcodeproj
+    builtin-create-build-directory /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp
+
+CreateBuildDirectory /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/EagerLinkingTBDs
+    cd /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/CMAKE_TRY_COMPILE.xcodeproj
+    builtin-create-build-directory /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/EagerLinkingTBDs
+
+CreateBuildDirectory /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/Debug
+    cd /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/CMAKE_TRY_COMPILE.xcodeproj
+    builtin-create-build-directory /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/Debug
+
+CompileC /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/CMAKE_TRY_COMPILE.build/Debug/cmTC_60598.build/Objects-normal/arm64/src.o /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/src.c normal arm64 c com.apple.compilers.llvm.clang.1_0.compiler (in target 'cmTC_60598' from project 'CMAKE_TRY_COMPILE')
+    cd /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp
+    /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -x c -target arm64-apple-macos13.1 -fmessage-length\=0 -fdiagnostics-show-note-include-stack -fmacro-backtrace-limit\=0 -Wno-trigraphs -fpascal-strings -O0 -Wno-missing-field-initializers -Wno-missing-prototypes -Wno-return-type -Wno-missing-braces -Wparentheses -Wswitch -Wno-unused-function -Wno-unused-label -Wno-unused-parameter -Wno-unused-variable -Wunused-value -Wno-empty-body -Wno-uninitialized -Wno-unknown-pragmas -Wno-shadow -Wno-four-char-constants -Wno-conversion -Wno-constant-conversion -Wno-int-conversion -Wno-bool-conversion -Wno-enum-conversion -Wno-float-conversion -Wno-non-literal-null-conversion -Wno-objc-literal-conversion -Wshorten-64-to-32 -Wpointer-sign -Wno-newline-eof -Wno-implicit-fallthrough -DCMAKE_INTDIR\=\"Debug\" -DCMAKE_HAVE_LIBC_PTHREAD -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk -fstrict-aliasing -Wdeprecated-declarations -g -Wno-sign-conversion -Wno-infinite-recursion -Wno-comma -Wno-block-capture-autoreleasing -Wno-strict-prototypes -Wno-semicolon-before-method-body -I/Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/Debug/include -I/Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/CMAKE_TRY_COMPILE.build/Debug/cmTC_60598.build/DerivedSources-normal/arm64 -I/Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/CMAKE_TRY_COMPILE.build/Debug/cmTC_60598.build/DerivedSources/arm64 -I/Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/CMAKE_TRY_COMPILE.build/Debug/cmTC_60598.build/DerivedSources -F/Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/Debug -MMD -MT dependencies -MF /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/CMAKE_TRY_COMPILE.build/Debug/cmTC_60598.build/Objects-normal/arm64/src.d --serialize-diagnostics /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/CMAKE_TRY_COMPILE.build/Debug/cmTC_60598.build/Objects-normal/arm64/src.dia -c /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/src.c -o /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/CMAKE_TRY_COMPILE.build/Debug/cmTC_60598.build/Objects-normal/arm64/src.o
+
+WriteAuxiliaryFile /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/CMAKE_TRY_COMPILE.build/Debug/cmTC_60598.build/Objects-normal/arm64/cmTC_60598.LinkFileList (in target 'cmTC_60598' from project 'CMAKE_TRY_COMPILE')
+    cd /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp
+    write-file /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/CMAKE_TRY_COMPILE.build/Debug/cmTC_60598.build/Objects-normal/arm64/cmTC_60598.LinkFileList
+
+Ld /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/Debug/cmTC_60598 normal (in target 'cmTC_60598' from project 'CMAKE_TRY_COMPILE')
+    cd /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp
+    /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -target arm64-apple-macos13.1 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk -L/Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/EagerLinkingTBDs -L/Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/Debug -F/Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/EagerLinkingTBDs -F/Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/Debug -filelist /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/CMAKE_TRY_COMPILE.build/Debug/cmTC_60598.build/Objects-normal/arm64/cmTC_60598.LinkFileList -Xlinker -object_path_lto -Xlinker /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/CMAKE_TRY_COMPILE.build/Debug/cmTC_60598.build/Objects-normal/arm64/cmTC_60598_lto.o -Xlinker -no_deduplicate -L/opt/homebrew/opt/qt@5/lib -Wl,-search_paths_first -Wl,-headerpad_max_install_names -Xlinker -dependency_info -Xlinker /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/CMAKE_TRY_COMPILE.build/Debug/cmTC_60598.build/Objects-normal/arm64/cmTC_60598_dependency_info.dat -o /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/Debug/cmTC_60598
+
+RegisterExecutionPolicyException /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/Debug/cmTC_60598 (in target 'cmTC_60598' from project 'CMAKE_TRY_COMPILE')
+    cd /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp
+    builtin-RegisterExecutionPolicyException /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/Debug/cmTC_60598
+
+** BUILD SUCCEEDED **
+
+
+
+Source file was:
+#include <pthread.h>
+
+static void* test_func(void* data)
+{
+  return data;
+}
+
+int main(void)
+{
+  pthread_t thread;
+  pthread_create(&thread, NULL, test_func, NULL);
+  pthread_detach(thread);
+  pthread_cancel(thread);
+  pthread_join(thread, NULL);
+  pthread_atfork(NULL, NULL, NULL);
+  pthread_exit(NULL);
+
+  return 0;
+}
+
+Determining if the function dgemm_ exists passed with the following output:
+Change Dir: /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp
+
+Run Build Command(s):/usr/bin/xcodebuild -project CMAKE_TRY_COMPILE.xcodeproj build -target cmTC_22174 -parallelizeTargets -configuration Debug -hideShellScriptEnvironment && 2022-12-20 11:17:30.264 xcodebuild[83464:2339569]  DVTErrorPresenter: Unable to load simulator devices.
+Domain: DVTCoreSimulatorAdditionsErrorDomain
+Code: 3
+Failure Reason: The version of the CoreSimulator framework installed on this Mac is out-of-date and not supported by this version of Xcode.
+Recovery Suggestion: Please ensure that you have installed all available updates to your Mac's software, and that you are running the most recent version of Xcode supported by macOS.
+--
+CoreSimulator is out of date. Current version (857.13.0) is older than build version (857.14.0).
+Domain: DVTCoreSimulatorAdditionsErrorDomain
+Code: 3
+--
+2022-12-20 11:17:30.264 xcodebuild[83464:2339569]  iOSSimulator: [SimServiceContext sharedServiceContextForDeveloperDir:error:] returned nil (Error Domain=DVTCoreSimulatorAdditionsErrorDomain Code=3 "CoreSimulator is out of date. Current version (857.13.0) is older than build version (857.14.0)." UserInfo={NSLocalizedDescription=CoreSimulator is out of date. Current version (857.13.0) is older than build version (857.14.0).}). Simulator device support disabled.
+Command line invocation:
+    /Applications/Xcode.app/Contents/Developer/usr/bin/xcodebuild -project CMAKE_TRY_COMPILE.xcodeproj build -target cmTC_22174 -parallelizeTargets -configuration Debug -hideShellScriptEnvironment
+
+User defaults from command line:
+    HideShellScriptEnvironment = YES
+    IDEPackageSupportUseBuiltinSCM = YES
+
+Computing target dependency graph and provisioning inputs
+
+Create build description
+Build description signature: d1f15395c0b529cf0fad6ce1a2477f06
+Build description path: /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/build/XCBuildData/d1f15395c0b529cf0fad6ce1a2477f06-desc.xcbuild
+
+note: Building targets in dependency order
+CreateBuildDirectory /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp
+    cd /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/CMAKE_TRY_COMPILE.xcodeproj
+    builtin-create-build-directory /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp
+
+CreateBuildDirectory /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/Debug
+    cd /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/CMAKE_TRY_COMPILE.xcodeproj
+    builtin-create-build-directory /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/Debug
+
+CreateBuildDirectory /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/EagerLinkingTBDs
+    cd /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/CMAKE_TRY_COMPILE.xcodeproj
+    builtin-create-build-directory /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/EagerLinkingTBDs
+
+CompileC /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/CMAKE_TRY_COMPILE.build/Debug/cmTC_22174.build/Objects-normal/arm64/CheckFunctionExists.o /opt/homebrew/Cellar/cmake/3.24.1/share/cmake/Modules/CheckFunctionExists.c normal arm64 c com.apple.compilers.llvm.clang.1_0.compiler (in target 'cmTC_22174' from project 'CMAKE_TRY_COMPILE')
+    cd /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp
+    /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -x c -target arm64-apple-macos13.1 -fmessage-length\=0 -fdiagnostics-show-note-include-stack -fmacro-backtrace-limit\=0 -Wno-trigraphs -fpascal-strings -O0 -Wno-missing-field-initializers -Wno-missing-prototypes -Wno-return-type -Wno-missing-braces -Wparentheses -Wswitch -Wno-unused-function -Wno-unused-label -Wno-unused-parameter -Wno-unused-variable -Wunused-value -Wno-empty-body -Wno-uninitialized -Wno-unknown-pragmas -Wno-shadow -Wno-four-char-constants -Wno-conversion -Wno-constant-conversion -Wno-int-conversion -Wno-bool-conversion -Wno-enum-conversion -Wno-float-conversion -Wno-non-literal-null-conversion -Wno-objc-literal-conversion -Wshorten-64-to-32 -Wpointer-sign -Wno-newline-eof -Wno-implicit-fallthrough -DCMAKE_INTDIR\=\"Debug\" -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk -fstrict-aliasing -Wdeprecated-declarations -g -Wno-sign-conversion -Wno-infinite-recursion -Wno-comma -Wno-block-capture-autoreleasing -Wno-strict-prototypes -Wno-semicolon-before-method-body -I/Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/Debug/include -I/Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/CMAKE_TRY_COMPILE.build/Debug/cmTC_22174.build/DerivedSources-normal/arm64 -I/Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/CMAKE_TRY_COMPILE.build/Debug/cmTC_22174.build/DerivedSources/arm64 -I/Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/CMAKE_TRY_COMPILE.build/Debug/cmTC_22174.build/DerivedSources -F/Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/Debug -DCHECK_FUNCTION_EXISTS\=dgemm_ -MMD -MT dependencies -MF /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/CMAKE_TRY_COMPILE.build/Debug/cmTC_22174.build/Objects-normal/arm64/CheckFunctionExists.d --serialize-diagnostics /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/CMAKE_TRY_COMPILE.build/Debug/cmTC_22174.build/Objects-normal/arm64/CheckFunctionExists.dia -c /opt/homebrew/Cellar/cmake/3.24.1/share/cmake/Modules/CheckFunctionExists.c -o /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/CMAKE_TRY_COMPILE.build/Debug/cmTC_22174.build/Objects-normal/arm64/CheckFunctionExists.o
+
+WriteAuxiliaryFile /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/CMAKE_TRY_COMPILE.build/Debug/cmTC_22174.build/Objects-normal/arm64/cmTC_22174.LinkFileList (in target 'cmTC_22174' from project 'CMAKE_TRY_COMPILE')
+    cd /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp
+    write-file /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/CMAKE_TRY_COMPILE.build/Debug/cmTC_22174.build/Objects-normal/arm64/cmTC_22174.LinkFileList
+
+Ld /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/Debug/cmTC_22174 normal (in target 'cmTC_22174' from project 'CMAKE_TRY_COMPILE')
+    cd /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp
+    /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -target arm64-apple-macos13.1 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk -L/Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/EagerLinkingTBDs -L/Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/Debug -F/Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/EagerLinkingTBDs -F/Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/Debug -filelist /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/CMAKE_TRY_COMPILE.build/Debug/cmTC_22174.build/Objects-normal/arm64/cmTC_22174.LinkFileList -Xlinker -object_path_lto -Xlinker /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/CMAKE_TRY_COMPILE.build/Debug/cmTC_22174.build/Objects-normal/arm64/cmTC_22174_lto.o -Xlinker -no_deduplicate -L/opt/homebrew/opt/qt@5/lib -Wl,-search_paths_first -Wl,-headerpad_max_install_names -Xlinker -framework -Xlinker Accelerate -Xlinker -dependency_info -Xlinker /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/CMAKE_TRY_COMPILE.build/Debug/cmTC_22174.build/Objects-normal/arm64/cmTC_22174_dependency_info.dat -o /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/Debug/cmTC_22174
+
+RegisterExecutionPolicyException /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/Debug/cmTC_22174 (in target 'cmTC_22174' from project 'CMAKE_TRY_COMPILE')
+    cd /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp
+    builtin-RegisterExecutionPolicyException /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/Debug/cmTC_22174
+
+** BUILD SUCCEEDED **
+
+
+
+
+Determining if the function cheev_ exists passed with the following output:
+Change Dir: /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp
+
+Run Build Command(s):/usr/bin/xcodebuild -project CMAKE_TRY_COMPILE.xcodeproj build -target cmTC_51e5d -parallelizeTargets -configuration Debug -hideShellScriptEnvironment && 2022-12-20 11:17:31.306 xcodebuild[83477:2339676]  DVTErrorPresenter: Unable to load simulator devices.
+Domain: DVTCoreSimulatorAdditionsErrorDomain
+Code: 3
+Failure Reason: The version of the CoreSimulator framework installed on this Mac is out-of-date and not supported by this version of Xcode.
+Recovery Suggestion: Please ensure that you have installed all available updates to your Mac's software, and that you are running the most recent version of Xcode supported by macOS.
+--
+CoreSimulator is out of date. Current version (857.13.0) is older than build version (857.14.0).
+Domain: DVTCoreSimulatorAdditionsErrorDomain
+Code: 3
+--
+2022-12-20 11:17:31.306 xcodebuild[83477:2339676]  iOSSimulator: [SimServiceContext sharedServiceContextForDeveloperDir:error:] returned nil (Error Domain=DVTCoreSimulatorAdditionsErrorDomain Code=3 "CoreSimulator is out of date. Current version (857.13.0) is older than build version (857.14.0)." UserInfo={NSLocalizedDescription=CoreSimulator is out of date. Current version (857.13.0) is older than build version (857.14.0).}). Simulator device support disabled.
+Command line invocation:
+    /Applications/Xcode.app/Contents/Developer/usr/bin/xcodebuild -project CMAKE_TRY_COMPILE.xcodeproj build -target cmTC_51e5d -parallelizeTargets -configuration Debug -hideShellScriptEnvironment
+
+User defaults from command line:
+    HideShellScriptEnvironment = YES
+    IDEPackageSupportUseBuiltinSCM = YES
+
+Computing target dependency graph and provisioning inputs
+
+Create build description
+Build description signature: 030f4aaae5872c509f5610a1cad6c88e
+Build description path: /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/build/XCBuildData/030f4aaae5872c509f5610a1cad6c88e-desc.xcbuild
+
+note: Building targets in dependency order
+CreateBuildDirectory /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp
+    cd /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/CMAKE_TRY_COMPILE.xcodeproj
+    builtin-create-build-directory /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp
+
+CreateBuildDirectory /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/EagerLinkingTBDs
+    cd /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/CMAKE_TRY_COMPILE.xcodeproj
+    builtin-create-build-directory /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/EagerLinkingTBDs
+
+CreateBuildDirectory /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/Debug
+    cd /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/CMAKE_TRY_COMPILE.xcodeproj
+    builtin-create-build-directory /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/Debug
+
+WriteAuxiliaryFile /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/CMAKE_TRY_COMPILE.build/Debug/cmTC_51e5d.build/Objects-normal/arm64/cmTC_51e5d.LinkFileList (in target 'cmTC_51e5d' from project 'CMAKE_TRY_COMPILE')
+    cd /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp
+    write-file /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/CMAKE_TRY_COMPILE.build/Debug/cmTC_51e5d.build/Objects-normal/arm64/cmTC_51e5d.LinkFileList
+
+CompileC /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/CMAKE_TRY_COMPILE.build/Debug/cmTC_51e5d.build/Objects-normal/arm64/CheckFunctionExists.o /opt/homebrew/Cellar/cmake/3.24.1/share/cmake/Modules/CheckFunctionExists.c normal arm64 c com.apple.compilers.llvm.clang.1_0.compiler (in target 'cmTC_51e5d' from project 'CMAKE_TRY_COMPILE')
+    cd /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp
+    /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -x c -target arm64-apple-macos13.1 -fmessage-length\=0 -fdiagnostics-show-note-include-stack -fmacro-backtrace-limit\=0 -Wno-trigraphs -fpascal-strings -O0 -Wno-missing-field-initializers -Wno-missing-prototypes -Wno-return-type -Wno-missing-braces -Wparentheses -Wswitch -Wno-unused-function -Wno-unused-label -Wno-unused-parameter -Wno-unused-variable -Wunused-value -Wno-empty-body -Wno-uninitialized -Wno-unknown-pragmas -Wno-shadow -Wno-four-char-constants -Wno-conversion -Wno-constant-conversion -Wno-int-conversion -Wno-bool-conversion -Wno-enum-conversion -Wno-float-conversion -Wno-non-literal-null-conversion -Wno-objc-literal-conversion -Wshorten-64-to-32 -Wpointer-sign -Wno-newline-eof -Wno-implicit-fallthrough -DCMAKE_INTDIR\=\"Debug\" -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk -fstrict-aliasing -Wdeprecated-declarations -g -Wno-sign-conversion -Wno-infinite-recursion -Wno-comma -Wno-block-capture-autoreleasing -Wno-strict-prototypes -Wno-semicolon-before-method-body -I/Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/Debug/include -I/Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/CMAKE_TRY_COMPILE.build/Debug/cmTC_51e5d.build/DerivedSources-normal/arm64 -I/Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/CMAKE_TRY_COMPILE.build/Debug/cmTC_51e5d.build/DerivedSources/arm64 -I/Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/CMAKE_TRY_COMPILE.build/Debug/cmTC_51e5d.build/DerivedSources -F/Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/Debug -DCHECK_FUNCTION_EXISTS\=cheev_ -MMD -MT dependencies -MF /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/CMAKE_TRY_COMPILE.build/Debug/cmTC_51e5d.build/Objects-normal/arm64/CheckFunctionExists.d --serialize-diagnostics /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/CMAKE_TRY_COMPILE.build/Debug/cmTC_51e5d.build/Objects-normal/arm64/CheckFunctionExists.dia -c /opt/homebrew/Cellar/cmake/3.24.1/share/cmake/Modules/CheckFunctionExists.c -o /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/CMAKE_TRY_COMPILE.build/Debug/cmTC_51e5d.build/Objects-normal/arm64/CheckFunctionExists.o
+
+Ld /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/Debug/cmTC_51e5d normal (in target 'cmTC_51e5d' from project 'CMAKE_TRY_COMPILE')
+    cd /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp
+    /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -target arm64-apple-macos13.1 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk -L/Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/EagerLinkingTBDs -L/Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/Debug -F/Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/EagerLinkingTBDs -F/Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/Debug -filelist /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/CMAKE_TRY_COMPILE.build/Debug/cmTC_51e5d.build/Objects-normal/arm64/cmTC_51e5d.LinkFileList -Xlinker -object_path_lto -Xlinker /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/CMAKE_TRY_COMPILE.build/Debug/cmTC_51e5d.build/Objects-normal/arm64/cmTC_51e5d_lto.o -Xlinker -no_deduplicate -L/opt/homebrew/opt/qt@5/lib -Wl,-search_paths_first -Wl,-headerpad_max_install_names -Xlinker -framework -Xlinker Accelerate -lm -ldl -Xlinker -dependency_info -Xlinker /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/CMAKE_TRY_COMPILE.build/Debug/cmTC_51e5d.build/Objects-normal/arm64/cmTC_51e5d_dependency_info.dat -o /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/Debug/cmTC_51e5d
+
+RegisterExecutionPolicyException /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/Debug/cmTC_51e5d (in target 'cmTC_51e5d' from project 'CMAKE_TRY_COMPILE')
+    cd /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp
+    builtin-RegisterExecutionPolicyException /Users/kerautre/EnCours/LiverCCO/buildXcode/CMakeFiles/CMakeTmp/Debug/cmTC_51e5d
+
+** BUILD SUCCEEDED **
+
+
+
+
