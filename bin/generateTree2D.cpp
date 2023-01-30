@@ -12,7 +12,7 @@
 #include "GeomHelpers.h"
 #include "ConstructionHelpers.h"
 
-Miguel Colom <miguel.colom-barco@ens-paris-saclay.fr>, Daniel Lopresti <lopresti@cse.lehigh.edu>, Pascal Monasse <pascal.monasse@enpc.fr>, Jean-Michel Morel <moreljeanmichel@gmail.com>, "PERRET, Benjamin" <benjamin.perret@esiee.fr>, Hugues Talbot <hugues.talbot@centralesupelec.fr>, Burak Yildiz <b.yildiz@tudelft.nl>, "Adrien K." <krahenbuhl@unistra.fr>
+
 
 
 /**
@@ -55,7 +55,8 @@ int main(int argc, char *const *argv)
   }
   end = clock();
   printf ("Execution time: %0.8f sec\n", ((double) end - start)/CLOCKS_PER_SEC);
-
+  XMLHelpers::writeTreeToXml<2>(tree, "tree_2D.xml");
+  
   std::string filename;
   
   filename = "testCCO_"+std::to_string(nbTerm)+".eps";
