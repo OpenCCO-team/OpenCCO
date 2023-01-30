@@ -1,6 +1,0 @@
-#  MTL format
-# generated from MeshWriter from the DGTal library
-newmtl material_0
-Ka 0.12549 0.12549 0.12549
-Kd 0.901961 0.901961 0.901961
-Ks 1 1 1
