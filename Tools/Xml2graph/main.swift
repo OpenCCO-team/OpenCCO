@@ -5,6 +5,7 @@
 //  Created by Bertrand Kerautret on 10/06/2022.
 //
 
+
 import Foundation
 
 struct Vertex {
