@@ -10,6 +10,6 @@ endif()
 #set_target_properties(HiKit PROPERTIES
 #  INTERFACE_INCLUDE_DIRECTORIES ${CMAKE_CURRENT_BINARY_DIR})
 
-add_executable(xml2graph Xml2graph/main.swift)
-add_executable(graph2statBifRad  Graph2statBifRad/main.swift)
+add_executable(xml2graph SrcXml2graph/main.swift)
+add_executable(graph2statBifRad  SrcGraph2statBifRad/main.swift)
 #target_link_libraries(hello PRIVATE HiKit)

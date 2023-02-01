@@ -96,7 +96,6 @@ class FileVascuParse : NSObject, XMLParserDelegate {
     }
     if elementName == "float" && readRadius {
       foundCharacters = String(foundCharacters.filter { !" \n\t\r".contains($0) })
-
       myCurrentEdge?.radius = Double(foundCharacters)
       foundCharacters=""
       readRadius = false
@@ -162,7 +161,7 @@ for e in edges {
   }
 }
 for v in 0..<vertices.count {
-  content += "\(vertices[v].radius!*20)\n"
+  content += "\(vertices[v].radius!)\n"
 
 }
 
