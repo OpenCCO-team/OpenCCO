@@ -82,4 +82,4 @@ jobs:
        working-directory: ${{runner.workspace}}/build
        shell: bash
        # Execute the build.  You can specify a specific target with "--target <NAME>"
-       run: cmake . --config $BUILD_TYPE;  make generateTree2D generateTree3D mergeOb  
+       run: cmake .  $BUILD_TYPE;  make generateTree2D generateTree3D mergeOb  
