@@ -51,7 +51,6 @@ int main(int argc, char **argv)
   app.add_option("--organDomain,-d", nameImgDom, "Define the organ domain using a mask image (organ=255).");
   app.add_option("-o,--outputName", outputMeshName, "Output the 3D mesh", true);
   app.add_option("-e,--export", exportDatName, "Output the 3D mesh", true);
- // app.add_option("-g,--eportGraph", exportGraphBaseName,"export the generated vessels as graph using 3 files: x_vertex.dat, x_edges.dat, x_raduis.dat where x is the basename.")
   app.add_option("-x,--exportXML", exportXMLName, "Output the 3D mesh as xml file", true);
 
 #ifdef WITH_VISU3D_QGLVIEWER
