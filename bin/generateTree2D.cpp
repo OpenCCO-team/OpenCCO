@@ -13,7 +13,7 @@
 #include "GeomHelpers.h"
 #include "ConstructionHelpers.h"
 
-
+#include "XmlHelpers.h"
 
 
 /**
