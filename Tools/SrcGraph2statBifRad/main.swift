@@ -215,9 +215,11 @@ for v in vertex {
 let url = URL( fileURLWithPath: radiusStatFile )
 var content = ""
 content += "# Mean Variance nbElements \n"
-for i in 0...bifLevelMax {
+
+// Starting from level 1 since the root is by definition not associated to any segment
+for i in 1...bifLevelMax {
  let meanEsp = getMeanVariance(t: tabRadiusBif[i])
-    content += "\(i) \(meanEsp.0) \(meanEsp.1)  \(tabRadiusBif[i].count) \n"
+    content += "\(i-1) \(meanEsp.0) \(meanEsp.1)  \(tabRadiusBif[i].count) \n"
 }
 
 try! content.write(to: url, atomically: true, encoding: .utf8)
