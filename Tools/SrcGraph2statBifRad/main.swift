@@ -1,6 +1,6 @@
 //
 //  main.swift
-//  graphHierarchieStat
+//  Graph2statBifRad
 //
 //  Created by Bertrand Kerautret on 30/01/2023.
 //
@@ -119,9 +119,13 @@ func getMeanVariance(t: [Double]) -> (Double, Double) {
     return (mean, variance)
 }
 
+func usage(){
+    print("Command line args: \(CommandLine.arguments[0]) nodesFile edgeFile radiusStatFile resultFile")
+}
+
 
 if CommandLine.arguments.count < 5 {
-    print("Command line args: \(CommandLine.arguments[0]) nodesFile edgeFile radiusStatFile")
+    usage()
     exit(1)
 }
 
@@ -150,6 +154,7 @@ print("[done]: \(radius.count)")
 for v in vertex {
     if let i = v.id {
         vertex[i].radius = radius[i]
+        vertex[i].bifLevel = -1
     }
 }
 
@@ -157,36 +162,24 @@ for v in vertex {
 // Updating for each vertex, the childs 1 and 2 from the edges
 for e in edges {
     if let vA = e.idA, let vB = e.idB {
-        if vA < vB {
-            if vertex[vA].children1 == nil {
-                vertex[vA].children1 = vB
-            }else {
-                vertex[vA].children2 = vB
-            }
-            vertex[vB].parent =  vA
-        }else
-        {
-            if vertex[vB].children1 == nil {
-                vertex[vB].children1 = vA
-             }else {
-                vertex[vB].children2 = vA
-             }
-            vertex[vA].parent =  vB
+        if vertex[vA].children1 == nil {
+            vertex[vA].children1 = vB
+        }else {
+            vertex[vA].children2 = vB
         }
+        vertex[vB].parent =  vA
     }
 }
 
-
 // Update for each vertex its bifurcation level
 var listTraite: [Int] = [0]
-var currentDepth = 0
 while !listTraite.isEmpty
 {
     let s = listTraite.removeLast()
     if let p = vertex[s].parent  {
         vertex[s].bifLevel = vertex[p].bifLevel + 1
     }else {
-        vertex[s].bifLevel = 0
+       vertex[s].bifLevel = 0
     }
     if let c = vertex[s].children1 {
         listTraite.append(c)
@@ -194,15 +187,11 @@ while !listTraite.isEmpty
     if let c = vertex[s].children2 {
         listTraite.append(c)
     }
-    currentDepth += 1
 }
 
-// display to check
-//for var v in vertex {
- //   print("vertex num: \(v.id) biuf level: \(v.bifLevel) rad: \(v.radius)")
-//}
-var bifLevelMax = 0
 
+
+var bifLevelMax = 0
 for v in vertex {
     if v.bifLevel > bifLevelMax {
         bifLevelMax = v.bifLevel
@@ -210,11 +199,12 @@ for v in vertex {
 }
 
 
+// Initialisation of the tab representing for each bifurcation level le tabular of radius of the edges.
 var tabRadiusBif = [[Double]]()
-
 for _ in 0...bifLevelMax {
     tabRadiusBif.append([Double]())
 }
+
 // Filling tab radius
 for v in vertex {
     if let r = v.radius {
@@ -224,9 +214,10 @@ for v in vertex {
 
 let url = URL( fileURLWithPath: radiusStatFile )
 var content = ""
+content += "# Mean Variance nbElements \n"
 for i in 0...bifLevelMax {
  let meanEsp = getMeanVariance(t: tabRadiusBif[i])
-    content += "\(i) \(meanEsp.0) \(meanEsp.1) \n"
+    content += "\(i) \(meanEsp.0) \(meanEsp.1)  \(tabRadiusBif[i].count) \n"
 }
 
 try! content.write(to: url, atomically: true, encoding: .utf8)
