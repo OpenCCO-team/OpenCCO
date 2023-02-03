@@ -36,7 +36,7 @@ then
   echo "-----Generating 3D ---------------------"
   echo "----------------------------------------"
 
-  ${EXEC3D} -n ${NBTERM} -a ${APERF}  -o result.obj
+  ${EXEC3D} -n ${NBTERM} -a ${APERF}  -o result.obj -x graphExport.xml
   cat stderr.txt
   key=$(basename $(pwd))
   demo_id=$(basename $(dirname $(pwd)))
