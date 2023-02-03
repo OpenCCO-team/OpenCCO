@@ -2,9 +2,9 @@ name: CI (linux/macOS)
 
 on:
   push:
-    branches: [ master ]
+    branches: [ main ]
   pull_request:
-    branches: [ master ]
+    branches: [ main ]
 
 env:
   # Customize the CMake build type here (Release, Debug, RelWithDebInfo, etc.)
@@ -18,7 +18,7 @@ jobs:
     strategy:
       fail-fast: true
       matrix:
-        os: [ubuntu-latest, macOS-latest]
+        os: [macOS-latest]
 
     steps:
 
@@ -30,12 +30,12 @@ jobs:
        if: matrix.os == 'ubuntu-latest'
        run: | 
            sudo apt-get update
-           sudo apt-get install zsh libqglviewer-dev-qt5 libboost-dev libeigen3-dev ninja-build libhdf5-serial-dev libboost-dev libcairo2-dev libceres-dev libceres1 libgmp-dev libgraphicsmagick++1-dev 
+           sudo apt-get install zsh libqglviewer-dev-qt5 libboost-dev libeigen3-dev ninja-build libhdf5-serial-dev libboost-dev libcairo2-dev libgmp-dev libgraphicsmagick++1-dev 
 
 
      - name: Install macOS deps
        if: matrix.os == 'macOS-latest'
-       run: brew install boost ninja eigen gmp
+       run: brew install boost ninja eigen gmp ceres-solver
 
      - name: Create Build Environment
        run: cmake -E make_directory ${{runner.workspace}}/build
@@ -82,7 +82,5 @@ jobs:
        working-directory: ${{runner.workspace}}/build
        shell: bash
        # Execute the build.  You can specify a specific target with "--target <NAME>"
-       run: cmake . --config $BUILD_TYPE;  make generateTree2D generateTree3D mergeOb  
-       
-       
-       
+       run: cmake --build . --config $BUILD_TYPE  
+
