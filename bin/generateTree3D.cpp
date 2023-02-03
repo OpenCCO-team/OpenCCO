@@ -17,6 +17,7 @@
 #include "GeomHelpers.h"
 #include "ConstructionHelpers.h"
 #include "XmlHelpers.h"
+
 #ifdef WITH_VISU3D_QGLVIEWER
 #include "DGtal/io/viewers/Viewer3D.h"
 #endif
@@ -42,13 +43,15 @@ int main(int argc, char **argv)
   std::string nameImgDom {""};
   std::string outputMeshName {"result.off"};
   std::string exportDatName {""};
-
+  std::string exportXMLName {""};
+    
   std::vector<int> postInitV {-1,-1};
   app.add_option("-n,--nbTerm,1", nbTerm, "Set the number of terminal segments.", true);
   app.add_option("-a,--aPerf,2", aPerf, "The value of the input parameter A perfusion.", true);
   app.add_option("--organDomain,-d", nameImgDom, "Define the organ domain using a mask image (organ=255).");
   app.add_option("-o,--outputName", outputMeshName, "Output the 3D mesh", true);
   app.add_option("-e,--export", exportDatName, "Output the 3D mesh", true);
+  app.add_option("-x,--exportXML", exportXMLName, "Output the 3D mesh as xml file", true);
 
 #ifdef WITH_VISU3D_QGLVIEWER
   app.add_flag("--view", display3D, "display 3D view using QGLViewer");
@@ -149,6 +152,8 @@ int main(int argc, char **argv)
     }
     fout.close();
   }
-    
+    if (exportXMLName != ""){
+        XMLHelpers::writeTreeToXml<3>(tree, exportXMLName.c_str());
+    }
   return EXIT_SUCCESS;
 }

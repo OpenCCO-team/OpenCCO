@@ -7,12 +7,13 @@
 #include "DGtal/helpers/StdDefs.h"
 
 #include "CLI11.hpp"
+#include "XmlHelpers.h"
 
 #include "CoronaryArteryTree.h"
 #include "GeomHelpers.h"
 #include "ConstructionHelpers.h"
 
-
+#include "XmlHelpers.h"
 
 
 /**

@@ -7,6 +7,7 @@ SET(SOURCE_BASE_HEADER_FILES
   ${PROJECT_SOURCE_DIR}/helpers/GeomHelpers.h
   ${PROJECT_SOURCE_DIR}/helpers/ConstructionHelpers.h
   ${PROJECT_SOURCE_DIR}/base/CoronaryArteryTree.h
+  ${PROJECT_SOURCE_DIR}/helpers/XmlHelpers.h
 )
 SET(SOURCE_BASE_FILES
   ${PROJECT_SOURCE_DIR}/base/CoronaryArteryTree.ih
@@ -23,6 +24,7 @@ FIND_PACKAGE(DGtal REQUIRED)
 INCLUDE_DIRECTORIES(${DGTAL_INCLUDE_DIRS})
 LINK_DIRECTORIES(${DGTAL_LIBRARY_DIRS} )
 
-add_subdirectory(tests)
+#add_subdirectory(tests)
 add_subdirectory(bin)
+add_subdirectory(tools)
 

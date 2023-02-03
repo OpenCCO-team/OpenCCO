@@ -103,21 +103,21 @@ generateRandomPtOnDisk(const DGtal::PointVector<3, double> &ptCenter, double r)
   return DGtal::PointVector<3, double>(x+ptCenter[0], y+ptCenter[1], z+ptCenter[2]);
 }
 
-template<typename TPoint, typename TImage, typename TImageDist>
+template<typename TImage, typename TImageDist>
 inline
-TPoint
-generateRandomPtOnImageDomain(const TImage &image, unsigned int fgTh,
+DGtal::Z2i::Point
+generateRandomPtOnImageDomain2D(const TImage &image, unsigned int fgTh,
                               const TImageDist &imageDistance,
                               unsigned int nbTry = 100)
 {
   bool found = false;
   unsigned int x = 0;
   unsigned int y = 0;
-  TPoint pMin = image.domain().lowerBound();
-  TPoint pMax = image.domain().upperBound();
+  DGtal::Z2i::Point pMin = image.domain().lowerBound();
+  DGtal::Z2i::Point pMax = image.domain().upperBound();
   int dx = pMax[0] - pMin[0];
   int dy = pMax[1] - pMin[1];
-  DGtal::PointVector<TPoint::dimension, int > pCand;
+  DGtal::PointVector<2, int > pCand;
   unsigned int n = 0;
   while(!found && n < nbTry){
     x =  rand()%dx;
@@ -134,6 +134,43 @@ generateRandomPtOnImageDomain(const TImage &image, unsigned int fgTh,
 }
 
 
+template<typename TImage, typename TImageDist>
+inline
+DGtal::Z3i::Point
+generateRandomPtOnImageDomain3D(const TImage &image, unsigned int fgTh,
+                              const TImageDist &imageDistance,
+                              unsigned int nbTry = 100)
+{
+  bool found = false;
+  unsigned int x = 0;
+  unsigned int y = 0;
+  unsigned int z = 0;
+
+  DGtal::Z3i::Point pMin = image.domain().lowerBound();
+  DGtal::Z3i::Point pMax = image.domain().upperBound();
+
+  int dx = pMax[0] - pMin[0];
+  int dy = pMax[1] - pMin[1];
+  int dz = pMax[2] - pMin[2];
+
+  DGtal::PointVector<3, int > pCand;
+  unsigned int n = 0;
+  while(!found && n < nbTry){
+    x =  rand()%dx;
+    y =  rand()%dy;
+    z =  rand()%dz;
+
+    pCand[0] = static_cast<int>(pMin[0] +x);
+    pCand[1] = static_cast<int>(pMin[1] +y);
+    pCand[2] = static_cast<int>(pMin[2] +z);
+    found = image(pCand)>=fgTh && abs(imageDistance(pCand)) >= 10.0;
+    n++;
+  }
+  if (n >= nbTry){
+    for(auto p : image.domain()){if (image(p)>=fgTh && abs(imageDistance(p)) >= 10.0 ) return p;}
+  }
+  return pCand;
+}
 
 /**
  * Check if the segment defined by two points intersect the domain.
@@ -156,10 +193,13 @@ checkNoIntersectDomain(const TImage &image, unsigned int fgTh,
   }
   DGtal::PointVector<TPoint::dimension, double> dir = pt2 - pt1;
   dir /= dir.norm();
-  DGtal::PointVector<TPoint::dimension, double>  p (pt1[0], pt1[1]);
+  DGtal::PointVector<TPoint::dimension, double>  p;
+  for(unsigned int i=0; i<TPoint::dimension; i++ ){p[i]=pt1[i];}
   for (unsigned int i = 0; i<(pt2 - pt1).norm(); i++){
     DGtal::PointVector<TPoint::dimension, double>  p = pt1+dir*i;
-    if (image(TPoint(static_cast<int>(p[0]),static_cast<int>(p[1]) )) < fgTh)
+    TPoint pI;
+    for(unsigned int i=0; i<TPoint::dimension; i++ ){pI[i]=static_cast<int>(p[i]);}
+    if (image(pI) < fgTh)
       return false;
   }
   
@@ -268,6 +308,29 @@ pointsOnCircle(const TPoint & ptCenter,
   DGtal::Z2i::Domain domainShape = digShape.getDomain();
   DGtal::Z2i::DigitalSet aSet( domainShape );
   DGtal::Shapes<DGtal::Z2i::Domain>::digitalShaper( aSet, digShape );
+  return aSet;
+}
+
+
+template<typename TPoint>
+inline
+DGtal::Z3i::DigitalSet
+pointsOnBall(const TPoint & ptCenter,
+               double radius)
+{
+  typedef DGtal::ImplicitBall< DGtal::Z3i::Space > MyBall;
+  MyBall disk( ptCenter, radius-0.5 );
+  MyBall diskDilate( ptCenter, radius+0.5 );
+  typedef DGtal::EuclideanShapesCSG< MyBall, MyBall > Minus;
+  Minus border ( diskDilate );
+  border.minus( disk );
+  typedef DGtal::GaussDigitizer< DGtal::Z3i::Space, Minus > MyGaussDigitizer;
+  MyGaussDigitizer digShape;
+  digShape.attach( border );
+  digShape.init( border.getLowerBound(), border.getUpperBound(), 1 );
+  DGtal::Z3i::Domain domainShape = digShape.getDomain();
+  DGtal::Z3i::DigitalSet aSet( domainShape );
+  DGtal::Shapes<DGtal::Z3i::Domain>::digitalShaper( aSet, digShape );
   return aSet;
 }
 
