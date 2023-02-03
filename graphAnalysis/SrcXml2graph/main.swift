@@ -7,6 +7,7 @@
 
 
 import Foundation
+import FoundationXML
 
 struct Vertex {
     var id: String? = nil
