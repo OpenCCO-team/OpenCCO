@@ -82,7 +82,7 @@ jobs:
        shell: bash
        working-directory: ${{runner.workspace}}/build
        # Execute the build.  You can specify a specific target with "--target <NAME>"
-       run: ls -la ; rm CMakeCache.txt ; cmake --build . --config $BUILD_TYPE  --target generateTree2D generateTree3D 
+       run: ls -la ; rm CMakeCache.txt ; rm -rf CMakeFiles;  cmake --build . --config $BUILD_TYPE  --target generateTree2D generateTree3D 
 
        
        
