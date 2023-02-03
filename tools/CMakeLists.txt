@@ -1,10 +1,15 @@
-SET(TOOLS_SRC
-   generateTestDomain
-   mergeObj
-)
+cmake_minimum_required(VERSION 3.15.1)
 
-FOREACH(FILE ${TOOLS_SRC})
-  add_executable(${FILE} ${FILE}.cpp ${SOURCE_BASE_FILES} ${SOURCE_BASE_HEADER_FILES} )
-  target_link_libraries (${FILE}  ${DGTAL_LIBRARIES} )
-ENDFOREACH(FILE)
+project(CompTools LANGUAGES Swift)
 
+if(CMAKE_SYSTEM_NAME STREQUAL Windows OR CMAKE_SYSTEM_NAME STREQUAL Darwin)
+  option(BUILD_SHARED_LIBS "Build shared libraries by default" YES)
+endif()
+
+#add_library(HiKit hikit.swift)
+#set_target_properties(HiKit PROPERTIES
+#  INTERFACE_INCLUDE_DIRECTORIES ${CMAKE_CURRENT_BINARY_DIR})
+
+add_executable(xml2graph SrcXml2graph/main.swift)
+add_executable(graph2statBifRad  SrcGraph2statBifRad/main.swift)
+#target_link_libraries(hello PRIVATE HiKit)
