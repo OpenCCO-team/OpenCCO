@@ -27,15 +27,15 @@ jobs:
           fetch-depth: 10
           
      - name: Install linux deps
-       if: matrix.os == 'ubuntu-20.04'
+       if: matrix.os == 'ubuntu-latest'
        run: | 
            sudo apt-get update
-           sudo apt-get install zsh libqglviewer-dev-qt5 libboost-dev libeigen3-dev ninja-build libhdf5-serial-dev libboost-dev libcairo2-dev libceres-dev libceres1 libgraphicsmagick++1-dev 
+           sudo apt-get install zsh libqglviewer-dev-qt5 libboost-dev libeigen3-dev ninja-build libhdf5-serial-dev libboost-dev libcairo2-dev libgmp-dev libgraphicsmagick++1-dev 
 
 
      - name: Install macOS deps
        if: matrix.os == 'macOS-latest'
-       run: brew install ceres-solver boost ninja eigen gmp
+       run: brew install boost ninja eigen gmp ceres-solver
 
      - name: Create Build Environment
        run: cmake -E make_directory ${{runner.workspace}}/build
@@ -79,10 +79,8 @@ jobs:
        run: cmake $GITHUB_WORKSPACE  -DDGtal_DIR=${{runner.workspace}}/build/DGtal/buildDGtal -DCMAKE_BUILD_TYPE=$BUILD_TYPE $CONFIG_GLOBAL  $CONFIG_MAC -G Ninja
               
      - name: Build
-       shell: bash
        working-directory: ${{runner.workspace}}/build
+       shell: bash
        # Execute the build.  You can specify a specific target with "--target <NAME>"
-       run: ls -la ; rm CMakeCache.txt ; rm -rf CMakeFiles;  cmake --build . --config $BUILD_TYPE  --target generateTree2D generateTree3D 
+       run: cmake --build . --config $BUILD_TYPE  
 
-       
-       
