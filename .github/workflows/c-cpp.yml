@@ -79,8 +79,8 @@ jobs:
        run: cmake $GITHUB_WORKSPACE  -DDGtal_DIR=${{runner.workspace}}/build/DGtal/buildDGtal -DCMAKE_BUILD_TYPE=$BUILD_TYPE $CONFIG_GLOBAL  $CONFIG_MAC -G Ninja
               
      - name: Build
-       working-directory: ${{runner.workspace}}/build
        shell: bash
+       working-directory: ${{runner.workspace}}/build
        # Execute the build.  You can specify a specific target with "--target <NAME>"
        run: ls -la ; rm CMakeCache.txt ; cmake --build . --config $BUILD_TYPE  --target generateTree2D generateTree3D 
 
