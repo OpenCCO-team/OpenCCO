@@ -56,7 +56,7 @@ then
   echo "-----Generating 3D  Dom-----------------"
   echo "----------------------------------------"
   ls -la
-  ${EXEC3D} -n ${NBTERM} -a ${APERF} -d $INPUT3DDom -o resultVessel.obj
+  ${EXEC3D} -n ${NBTERM} -a ${APERF} -d $INPUT3DDom -o resultVessel.obj -x graphExport.xml
   volBoundary2obj $INPUT3DDom liver05Domain.obj
   mergeObj resultVessel.obj liver05Domain.obj result.obj --nameGrp1  vessel --nameGrp2  liver  --materialOne 0.7 0.2 0.2 1.0 --materialTwo +0.4  0.4 0.5 0.2 
   cat stderr.txt
