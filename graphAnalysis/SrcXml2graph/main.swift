@@ -6,9 +6,10 @@
 //
 
 
+
 import Foundation
-#if swift(<5.1)
-import FoundationXML
+#if canImport(FoundationXML)
+ import FoundationXML
 #endif
 
 struct Vertex {
