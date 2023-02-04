@@ -77,5 +77,5 @@ fi
   graph2statBifRad vertex.txt edges.txt radius.txt stat.dat
   gnuplot plotStatRadius.plt
   convert statRadiusBifLevel.pdf statRadiusBifLevel.png
-  
+  ls -la
   cat $PLOTFILE
