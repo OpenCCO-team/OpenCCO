@@ -79,3 +79,5 @@ fi
   convert statRadiusBifLevel.pdf statRadiusBifLevel.png
   ls -la
   cat $PLOTFILE
+  more stderr.txt
+  more stdout.txt
