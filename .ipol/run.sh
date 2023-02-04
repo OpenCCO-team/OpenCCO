@@ -73,6 +73,9 @@ fi
   echo "----------------------------------------"
   echo "-----Generating Stat Radius Curves -----"
   echo "----------------------------------------"
-
-
+  xml2graph graphExport.xml
+  graph2statBifRad vertex.txt edges.txt radius.txt stat.dat
+  gnuplot plotStatRadius.plt
+  convert statRadiusBifLevel.pdf statRadiusBifLevel.png
+  
   cat $PLOTFILE

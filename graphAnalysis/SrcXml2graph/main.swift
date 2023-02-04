@@ -7,7 +7,9 @@
 
 
 import Foundation
+#if swift(<5.1)
 import FoundationXML
+#endif
 
 struct Vertex {
     var id: String? = nil
