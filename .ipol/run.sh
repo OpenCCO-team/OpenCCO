@@ -10,7 +10,7 @@ INPUT3DDom=$5
 INPUTBASE=$(basename $INPUT)
 EXEC=generateTree2D
 EXEC3D=generateTree3D
-
+PLOTFILE=$6
     
 echo "INPUT3DDom = $INPUT3DDom"
 
@@ -68,3 +68,11 @@ then
   echo "url=$iframe" >> algo_info.txt
   echo "algoDim=3" >> algo_info.txt 
 fi
+
+
+  echo "----------------------------------------"
+  echo "-----Generating Stat Radius Curves -----"
+  echo "----------------------------------------"
+
+
+  cat $PLOTFILE
