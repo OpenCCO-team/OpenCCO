@@ -81,7 +81,7 @@ class FileVascuParse : NSObject, XMLParserDelegate {
         
         if elementName == "node" {
             if myCurrentVertex != nil && myCurrentVertex!.x != nil &&
-                myCurrentVertex!.y != nil && myCurrentVertex!.z != nil &&
+                myCurrentVertex!.y != nil &&
                 myCurrentVertex?.id != nil
             {
                 inNode = false
@@ -138,7 +138,11 @@ for v in 0..<vertices.count {
 var url = URL( fileURLWithPath: "vertex.txt" )
 var content = ""
 for v in vertices {
-    content += "\(v.x!) \(v.y!) \(v.z!)\n"
+    if v.z != nil {
+        content += "\(v.x!) \(v.y!) \(v.z!) \n"
+    }else{
+        content += "\(v.x!) \(v.y!) \n"
+    }
 }
 try! content.write(to: url, atomically: true, encoding: .utf8)
 
