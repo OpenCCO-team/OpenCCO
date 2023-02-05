@@ -64,9 +64,9 @@ func readVertex(fileName: String) ->  [Vertex]
                 let elem = l.components(separatedBy: " ")
                 if elem.count > 2  {
                     if let x = Double (elem[0]),
-                        let y = Double(elem[1]),
-                        let z = Double(elem[2])
+                        let y = Double(elem[1])
                     {
+                        let z = Double(elem[2])
                         result.append(Vertex(id: nb, x: x, y: y, z:z))
                         nb += 1
                     }
