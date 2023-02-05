@@ -21,7 +21,7 @@ then
   echo "----------------------------------------"
 
   convert ${INPUT} input.pgm
-  ${EXEC} -n ${NBTERM} -a ${APERF}  -d input.pgm >> algo_info.txt
+  ${EXEC} -n ${NBTERM} -a ${APERF}  -d input.pgm -x graphExport.xml >> algo_info.txt
   type ${EXEC}
   set $(identify -format '%w %h' ${INPUT})
   width=$1
