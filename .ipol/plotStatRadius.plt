@@ -1,5 +1,5 @@
 set terminal png
-set output 'statRadiusBifLevel.pdf';
+set output 'statRadiusBifLevel.png';
 
 
 #set logscale
