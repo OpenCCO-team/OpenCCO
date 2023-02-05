@@ -37,7 +37,6 @@ then
   echo "----------------------------------------"
 
   ${EXEC3D} -n ${NBTERM} -a ${APERF}  -o result.obj -x graphExport.xml
-  cat stderr.txt
   key=$(basename $(pwd))
   demo_id=$(basename $(dirname $(pwd)))
   viewer_url="https://3dviewer.net#https://ipolcore.ipol.im/api/core/shared_folder/run/${demo_id}/${key}/result.obj,https://ipolcore.ipol.im/api/core/shared_folder/run/${demo_id}/${key}/result.mtl"
@@ -59,7 +58,6 @@ then
   ${EXEC3D} -n ${NBTERM} -a ${APERF} -d $INPUT3DDom -o resultVessel.obj -x graphExport.xml
   volBoundary2obj $INPUT3DDom liver05Domain.obj
   mergeObj resultVessel.obj liver05Domain.obj result.obj --nameGrp1  vessel --nameGrp2  liver  --materialOne 0.7 0.2 0.2 1.0 --materialTwo +0.4  0.4 0.5 0.2 
-  cat stderr.txt
   key=$(basename $(pwd))
   demo_id=$(basename $(dirname $(pwd)))
   viewer_url="https://3dviewer.net#https://ipolcore.ipol.im/api/core/shared_folder/run/${demo_id}/${key}/result.obj,https://ipolcore.ipol.im/api/core/shared_folder/run/${demo_id}/${key}/result.mtl"
@@ -75,11 +73,7 @@ fi
   echo "----------------------------------------"
   xml2graph graphExport.xml 
   graph2statBifRad vertex.txt edges.txt radius.txt stat.dat
-  gnuplot plotStatRadius.plt
+  /usr/bin/gnuplot plotStatRadius.plt 2>> stderr.txt
   convert statRadiusBifLevel.pdf statRadiusBifLevel.png
   ls -la
-  cat $PLOTFILE
-echo  "STDERR::--------"
   cat stderr.txt
-echo  "STDOUT::--------"
-  cat stdout.txt
