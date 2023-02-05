@@ -73,7 +73,7 @@ fi
   echo "----------------------------------------"
   xml2graph graphExport.xml 
   graph2statBifRad vertex.txt edges.txt radius.txt stat.dat
-  /usr/bin/gnuplot plotStatRadius.plt 2>> stderr.txt
+  gnuplot $PLOTFILE
   convert statRadiusBifLevel.pdf statRadiusBifLevel.png
   ls -la
   cat stderr.txt
