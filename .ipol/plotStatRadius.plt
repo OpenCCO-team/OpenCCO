@@ -1,4 +1,4 @@
-set terminal pdf
+set terminal png
 set output 'statRadiusBifLevel.pdf';
 
 

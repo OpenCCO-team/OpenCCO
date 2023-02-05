@@ -74,6 +74,6 @@ fi
   xml2graph graphExport.xml 
   graph2statBifRad vertex.txt edges.txt radius.txt stat.dat
   gnuplot $PLOTFILE
-  convert statRadiusBifLevel.pdf statRadiusBifLevel.png
+#  convert statRadiusBifLevel.pdf statRadiusBifLevel.png
   ls -la
   cat stderr.txt
