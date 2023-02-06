@@ -27,7 +27,7 @@ struct Edge {
 }
 
 
-class FileVascuParse : NSObject, XMLParserDelegate {
+class XMLGraphParse : NSObject, XMLParserDelegate {
     //var description: String
     var myURL: URL
     
@@ -39,14 +39,16 @@ class FileVascuParse : NSObject, XMLParserDelegate {
     var readRadius = false
     var nodeId: String?
     var foundCharacters = ""
-    init(anURL: URL) {
+    var myVerbose: Bool
+    init(anURL: URL, verbose: Bool = false) {
         myURL = anURL
+        myVerbose = verbose
     }
     func apply(){
         let parser = XMLParser(contentsOf: myURL)!
         parser.delegate = self
         let success = parser.parse()
-        if success {
+        if success && myVerbose {
             print("Success...")
         }
     }
@@ -85,11 +87,13 @@ class FileVascuParse : NSObject, XMLParserDelegate {
                 myCurrentVertex?.id != nil
             {
                 inNode = false
-                if nodeId == "n0"{
+                if nodeId == "n0"  && myVerbose {
                     print("root index: \(myEdges.count)")
                 }
                 myVertices.append(myCurrentVertex!)
-                print("item addedv \(myCurrentVertex!.id!)")
+                if myVerbose {
+                    print("item addedv \(myCurrentVertex!.id!)")
+                }
                 myCurrentVertex = nil
             }
         }
@@ -123,10 +127,29 @@ class FileVascuParse : NSObject, XMLParserDelegate {
     
 }
 
-let a = CommandLine.arguments[1]
-print("Command line args: \(a)")
+func usage(){
+    print("Command line args: \(CommandLine.arguments[0]) input xml [outBaseName] [verbose]")
+    print("Extract the xml file into basic graph representation.",
+          "The representation is given in 3 files outBaseName_vertex.dat outBaseName_edges.dat outputBaseName_radius.dat")
+}
 
-let parseur = FileVascuParse(anURL: URL(fileURLWithPath: a))
+
+if CommandLine.arguments.count < 1 {
+    usage()
+    exit(1)
+}
+var outBaseName = ""
+var verbose = false
+let a = CommandLine.arguments[1]
+
+if CommandLine.arguments.count >= 3 {
+    outBaseName = CommandLine.arguments[2]
+}
+if CommandLine.arguments.count == 4 && CommandLine.arguments[3] == "verbose" {
+    verbose = true
+}
+
+let parseur = XMLGraphParse(anURL: URL(fileURLWithPath: a), verbose: verbose)
 parseur.apply()
 var translate = Dictionary<String, Int>()
 
@@ -135,7 +158,7 @@ var vertices = parseur.myVertices
 for v in 0..<vertices.count {
     translate[vertices[v].id!] = v
 }
-var url = URL( fileURLWithPath: "vertex.txt" )
+let url1 = URL( fileURLWithPath: "\(outBaseName)\(outBaseName=="" ? "" : "_")vertex.dat" )
 var content = ""
 for v in vertices {
     if v.z != nil {
@@ -144,20 +167,20 @@ for v in vertices {
         content += "\(v.x!) \(v.y!) \n"
     }
 }
-try! content.write(to: url, atomically: true, encoding: .utf8)
+try! content.write(to: url1, atomically: true, encoding: .utf8)
 
 
 var edges = parseur.myEdges
-url = URL( fileURLWithPath: "edges.txt" )
+let url2 = URL( fileURLWithPath: "\(outBaseName)\(outBaseName=="" ? "" : "_")edges.dat" )
 content = ""
 for e in edges {
     content += "\(translate[e.idA!]!) \(translate[e.idb!]!)  \n"
 }
-try! content.write(to: url, atomically: true, encoding: .utf8)
+try! content.write(to: url2, atomically: true, encoding: .utf8)
 
 
 // export radius for each vertex
-url = URL( fileURLWithPath: "radius.txt" )
+let url3 = URL( fileURLWithPath: "\(outBaseName)\(outBaseName=="" ? "" : "_")radius.dat" )
 content = ""
 for e in edges {
     if e.radius! > vertices[translate[e.idA!]!].radius ?? 0 {
@@ -169,8 +192,8 @@ for e in edges {
 }
 for v in 0..<vertices.count {
     content += "\(vertices[v].radius!)\n"
-    
 }
 
+try! content.write(to: url3, atomically: true, encoding: .utf8)
 
-try! content.write(to: url, atomically: true, encoding: .utf8)
+print("converting done, graph exported in \(url1.lastPathComponent) \(url2.lastPathComponent) \(url3.lastPathComponent)")
