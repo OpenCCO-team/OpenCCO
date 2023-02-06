@@ -11,7 +11,24 @@ INPUTBASE=$(basename $INPUT)
 EXEC=generateTree2D
 EXEC3D=generateTree3D
 PLOTFILE=$6
-    
+
+
+function applyCommand
+{
+  for c in $*
+  do
+      echo "Starting command: ${!c}  "
+      eval ${!c}
+      if [ $? -ne 0 ] 
+      then
+          exit 1
+      else
+          echo "[done]"
+      fi
+  done
+}
+
+
 echo "INPUT3DDom = $INPUT3DDom"
 
 if test -f "$INPUT"
@@ -53,9 +70,10 @@ then
   echo "----------------------------------------"
   echo "-----Generating 3D  Dom-----------------"
   echo "----------------------------------------"
-  ${EXEC3D} -n ${NBTERM} -a ${APERF} -d $INPUT3DDom -o resultVessel.obj -x graphExport.xml
-  volBoundary2obj $INPUT3DDom liver05Domain.obj
-  mergeObj resultVessel.obj liver05Domain.obj result.obj --nameGrp1  vessel --nameGrp2  liver  --materialOne 0.7 0.2 0.2 1.0 --materialTwo +0.4  0.4 0.5 0.2 
+  COMMANDGem1 = "${EXEC3D} -n ${NBTERM} -a ${APERF} -d $INPUT3DDom -o resultVessel.obj -x graphExport.xml"
+  COMMANDGem2 = "volBoundary2obj $INPUT3DDom liver05Domain.obj"
+  COMMANDGem3 = "mergeObj resultVessel.obj liver05Domain.obj result.obj --nameGrp1  vessel --nameGrp2  liver  --materialOne 0.7 0.2 0.2 1.0 --materialTwo +0.4  0.4 0.5 0.2"
+  applyCommand COMMANDGem1 COMMANDGem2 commandgem3
   key=$(basename $(pwd))
   demo_id=$(basename $(dirname $(pwd)))
   viewer_url="https://3dviewer.net#https://ipolcore.ipol.im/api/core/shared_folder/run/${demo_id}/${key}/result.obj,https://ipolcore.ipol.im/api/core/shared_folder/run/${demo_id}/${key}/result.mtl"
@@ -73,19 +91,6 @@ fi
   COMMANDStat2="graph2statBifRad vertex.dat edges.dat radius.dat stat.dat"
   COMMANDStat3="gnuplot $PLOTFILE"
   COMMANDStat4="tar cvzf graphExport.tar.gz vertex.dat edges.dat radius.dat"
-  for c in COMMANDStat1 COMMANDStat2 COMMANDStat3
-  do
-      echo "Starting command: ${!c}  "
-      eval ${!c}
-      if [ $? -ne 0 ] 
-      then
-          exit 1
-      else
-          echo "[done]"
-      fi
-  done
-  
-  
-  
-
+  applyCommand COMMANDStat1 COMMANDStat2 COMMANDStat3
+ 
 
