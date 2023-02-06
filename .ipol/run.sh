@@ -39,10 +39,10 @@ then
 
   COMMANDGem2D1="convert ${INPUT} input.pgm"
   COMMANDGem2D2="${EXEC} -n ${NBTERM} -a ${APERF}  -d input.pgm -x graphExport.xml >> algo_info.txt"
-  COMMANDGem2D3="set $(identify -format '%w %h' ${INPUT})"
-  COMMANDGem2D4="width=$1; height=$2"
-  COMMANDGem2D5="convert -density 400 -resize ${width}x${height}  -crop ${width}x${height} result.svg result.png"
-  applyCommand COMMANDGem2D1 COMMANDGem2D2 COMMANDGem2D3 COMMANDGem2D4 COMMANDGem2D5
+  set $(identify -format '%w %h' ${INPUT})
+  width=$1; height=$2
+  COMMANDGem2D3="convert -density 400 -resize ${width}x${height}  -crop ${width}x${height} result.svg result.png"
+  applyCommand COMMANDGem2D1 COMMANDGem2D2 COMMANDGem2D3
   echo "algoDim=2" >> algo_info.txt 
 fi
 
