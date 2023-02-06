@@ -44,16 +44,13 @@ then
   COMMANDGem2D3="convert -density 400 -resize ${width}x${height}  -crop ${width}x${height} result.svg result.png"
   applyCommand COMMANDGem2D1 COMMANDGem2D2 COMMANDGem2D3
   echo "algoDim=2" >> algo_info.txt 
-
-elif test -f "$INPUT3DDom"
-then
+elif [ ! -f "$INPUT3DDom" ]
+    
   echo "----------------------------------------"
-  echo "-----Generating 3D  Dom-----------------"
+  echo "-----Generating 3D ---------------------"
   echo "----------------------------------------"
-  COMMANDGem3Ddom_1="${EXEC3D} -n ${NBTERM} -a ${APERF} -d $INPUT3DDom -o resultVessel.obj -x graphExport.xml"
-  COMMANDGem3Ddom_2="volBoundary2obj $INPUT3DDom liver05Domain.obj"
-  COMMANDGem3Ddom_3="mergeObj resultVessel.obj liver05Domain.obj result.obj --nameGrp1  vessel --nameGrp2  liver  --materialOne 0.7 0.2 0.2 1.0 --materialTwo +0.4  0.4 0.5 0.2"
-  applyCommand COMMANDGem3Ddom_1 COMMANDGem3Ddom_2 COMMANDGem3Ddom_3
+  COMMANDGem3D1="${EXEC3D} -n ${NBTERM} -a ${APERF}  -o result.obj -x graphExport.xml"
+  applyCommand COMMANDGem3D1
   key=$(basename $(pwd))
   demo_id=$(basename $(dirname $(pwd)))
   viewer_url="https://3dviewer.net#https://ipolcore.ipol.im/api/core/shared_folder/run/${demo_id}/${key}/result.obj,https://ipolcore.ipol.im/api/core/shared_folder/run/${demo_id}/${key}/result.mtl"
@@ -61,12 +58,15 @@ then
   iframe="$iframe frameborder='5' scrolling='no' allowfullscreen webkitallowfullscreen mozallowfullscreen></iframe>"
   echo "url=$iframe" >> algo_info.txt
   echo "algoDim=3" >> algo_info.txt 
+
 else
   echo "----------------------------------------"
-  echo "-----Generating 3D ---------------------"
+  echo "-----Generating 3D  Dom-----------------"
   echo "----------------------------------------"
-  COMMANDGem3D1="${EXEC3D} -n ${NBTERM} -a ${APERF}  -o result.obj -x graphExport.xml"
-  applyCommand COMMANDGem3D1
+  COMMANDGem3Ddom_1="${EXEC3D} -n ${NBTERM} -a ${APERF} -d $INPUT3DDom -o resultVessel.obj -x graphExport.xml"
+  COMMANDGem3Ddom_2="volBoundary2obj $INPUT3DDom liver05Domain.obj"
+  COMMANDGem3Ddom_3="mergeObj resultVessel.obj liver05Domain.obj result.obj --nameGrp1  vessel --nameGrp2  liver  --materialOne 0.7 0.2 0.2 1.0 --materialTwo +0.4  0.4 0.5 0.2"
+  applyCommand COMMANDGem3Ddom_1 COMMANDGem3Ddom_2 COMMANDGem3Ddom_3
   key=$(basename $(pwd))
   demo_id=$(basename $(dirname $(pwd)))
   viewer_url="https://3dviewer.net#https://ipolcore.ipol.im/api/core/shared_folder/run/${demo_id}/${key}/result.obj,https://ipolcore.ipol.im/api/core/shared_folder/run/${demo_id}/${key}/result.mtl"
