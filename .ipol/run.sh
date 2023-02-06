@@ -22,7 +22,6 @@ then
 
   convert ${INPUT} input.pgm
   ${EXEC} -n ${NBTERM} -a ${APERF}  -d input.pgm -x graphExport.xml >> algo_info.txt
-  type ${EXEC}
   set $(identify -format '%w %h' ${INPUT})
   width=$1
   height=$2
@@ -70,7 +69,23 @@ fi
   echo "----------------------------------------"
   echo "-----Generating Stat Radius Curves -----"
   echo "----------------------------------------"
-  xml2graph graphExport.xml 
-  graph2statBifRad vertex.txt edges.txt radius.txt stat.dat
-  gnuplot $PLOTFILE
+  COMMANDStat1="xml2graph graphExport.xml"
+  COMMANDStat2="graph2statBifRad vertex.txt edges.txt radius.txt stat.dat"
+  COMMANDStat3="gnuplot $PLOTFILE"
+
+  for c in COMMANDStat1 COMMANDStat2 COMMANDStat3
+  do
+      echo "Starting command: ${!c}  "
+      eval ${!c}
+      if [ $? -ne 0 ] 
+      then
+          exit 1
+      else
+          echo "[done]"
+      fi
+  done
+
+  
+  
+
 
