@@ -44,8 +44,8 @@ then
   COMMANDGem2D3="convert -density 400 -resize ${width}x${height}  -crop ${width}x${height} result.svg result.png"
   applyCommand COMMANDGem2D1 COMMANDGem2D2 COMMANDGem2D3
   echo "algoDim=2" >> algo_info.txt 
-elif [ ! -f "$INPUT3DDom" ]
-    
+elif test ! -f "$INPUT3DDom"
+then 
   echo "----------------------------------------"
   echo "-----Generating 3D ---------------------"
   echo "----------------------------------------"
@@ -57,8 +57,7 @@ elif [ ! -f "$INPUT3DDom" ]
   iframe="<iframe id='3dviewerplayer' type='text/html' width='620' height='460' src='$viewer_url' "
   iframe="$iframe frameborder='5' scrolling='no' allowfullscreen webkitallowfullscreen mozallowfullscreen></iframe>"
   echo "url=$iframe" >> algo_info.txt
-  echo "algoDim=3" >> algo_info.txt 
-
+  echo "algoDim=3" >> algo_info.txt  
 else
   echo "----------------------------------------"
   echo "-----Generating 3D  Dom-----------------"
