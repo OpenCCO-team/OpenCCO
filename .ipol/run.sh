@@ -44,28 +44,8 @@ then
   COMMANDGem2D3="convert -density 400 -resize ${width}x${height}  -crop ${width}x${height} result.svg result.png"
   applyCommand COMMANDGem2D1 COMMANDGem2D2 COMMANDGem2D3
   echo "algoDim=2" >> algo_info.txt 
-fi
 
-if test -f "$INPUT3D"
-then 
-  echo "----------------------------------------"
-  echo "-----Generating 3D ---------------------"
-  echo "----------------------------------------"
-  COMMANDGem3D1="${EXEC3D} -n ${NBTERM} -a ${APERF}  -o result.obj -x graphExport.xml"
-  applyCommand COMMANDGem3D1
-  key=$(basename $(pwd))
-  demo_id=$(basename $(dirname $(pwd)))
-  viewer_url="https://3dviewer.net#https://ipolcore.ipol.im/api/core/shared_folder/run/${demo_id}/${key}/result.obj,https://ipolcore.ipol.im/api/core/shared_folder/run/${demo_id}/${key}/result.mtl"
-  iframe="<iframe id='3dviewerplayer' type='text/html' width='620' height='460' src='$viewer_url' "
-  iframe="$iframe frameborder='5' scrolling='no' allowfullscreen webkitallowfullscreen mozallowfullscreen></iframe>"
-  echo "url=$iframe" >> algo_info.txt
-  echo "algoDim=3" >> algo_info.txt 
-fi
-
-
-
-
-if test -f "$INPUT3DDom"
+elif test -f "$INPUT3DDom"
 then
   echo "----------------------------------------"
   echo "-----Generating 3D  Dom-----------------"
@@ -81,7 +61,22 @@ then
   iframe="$iframe frameborder='5' scrolling='no' allowfullscreen webkitallowfullscreen mozallowfullscreen></iframe>"
   echo "url=$iframe" >> algo_info.txt
   echo "algoDim=3" >> algo_info.txt 
+else
+  echo "----------------------------------------"
+  echo "-----Generating 3D ---------------------"
+  echo "----------------------------------------"
+  COMMANDGem3D1="${EXEC3D} -n ${NBTERM} -a ${APERF}  -o result.obj -x graphExport.xml"
+  applyCommand COMMANDGem3D1
+  key=$(basename $(pwd))
+  demo_id=$(basename $(dirname $(pwd)))
+  viewer_url="https://3dviewer.net#https://ipolcore.ipol.im/api/core/shared_folder/run/${demo_id}/${key}/result.obj,https://ipolcore.ipol.im/api/core/shared_folder/run/${demo_id}/${key}/result.mtl"
+  iframe="<iframe id='3dviewerplayer' type='text/html' width='620' height='460' src='$viewer_url' "
+  iframe="$iframe frameborder='5' scrolling='no' allowfullscreen webkitallowfullscreen mozallowfullscreen></iframe>"
+  echo "url=$iframe" >> algo_info.txt
+  echo "algoDim=3" >> algo_info.txt 
 fi
+
+
 
 
   echo "----------------------------------------"
