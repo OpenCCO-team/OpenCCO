@@ -70,10 +70,10 @@ then
   echo "----------------------------------------"
   echo "-----Generating 3D  Dom-----------------"
   echo "----------------------------------------"
-  COMMANDGem1 = "${EXEC3D} -n ${NBTERM} -a ${APERF} -d $INPUT3DDom -o resultVessel.obj -x graphExport.xml"
-  COMMANDGem2 = "volBoundary2obj $INPUT3DDom liver05Domain.obj"
-  COMMANDGem3 = "mergeObj resultVessel.obj liver05Domain.obj result.obj --nameGrp1  vessel --nameGrp2  liver  --materialOne 0.7 0.2 0.2 1.0 --materialTwo +0.4  0.4 0.5 0.2"
-  applyCommand COMMANDGem1 COMMANDGem2 commandgem3
+  COMMANDGem1="${EXEC3D} -n ${NBTERM} -a ${APERF} -d $INPUT3DDom -o resultVessel.obj -x graphExport.xml"
+  COMMANDGem2="volBoundary2obj $INPUT3DDom liver05Domain.obj"
+  COMMANDGem3="mergeObj resultVessel.obj liver05Domain.obj result.obj --nameGrp1  vessel --nameGrp2  liver  --materialOne 0.7 0.2 0.2 1.0 --materialTwo +0.4  0.4 0.5 0.2"
+  applyCommand COMMANDGem1 COMMANDGem2 COMMANDGem3
   key=$(basename $(pwd))
   demo_id=$(basename $(dirname $(pwd)))
   viewer_url="https://3dviewer.net#https://ipolcore.ipol.im/api/core/shared_folder/run/${demo_id}/${key}/result.obj,https://ipolcore.ipol.im/api/core/shared_folder/run/${demo_id}/${key}/result.mtl"
