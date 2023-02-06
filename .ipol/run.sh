@@ -70,9 +70,9 @@ fi
   echo "-----Generating Stat Radius Curves -----"
   echo "----------------------------------------"
   COMMANDStat1="xml2graph graphExport.xml"
-  COMMANDStat2="graph2statBifRad vertex.txt edges.txt radius.txt stat.dat"
+  COMMANDStat2="graph2statBifRad vertex.dat edges.dat radius.dat stat.dat"
   COMMANDStat3="gnuplot $PLOTFILE"
-
+  COMMANDStat4="tar cvzf graphExport.tar.gz vertex.dat edges.dat radius.dat"
   for c in COMMANDStat1 COMMANDStat2 COMMANDStat3
   do
       echo "Starting command: ${!c}  "
@@ -84,7 +84,7 @@ fi
           echo "[done]"
       fi
   done
-
+  
   
   
 
