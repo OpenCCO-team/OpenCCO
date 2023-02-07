@@ -59,11 +59,6 @@ int main(int argc, char **argv)
   app.get_formatter()->column_width(40);
   CLI11_PARSE(app, argc, argv);
   // END parse command line using CLI ----------------------------------------------
-  #ifdef WITH_VISU3D_QGLVIEWER
-  if (display3D) {
-    QApplication application(argc,argv);
-  }
-  #endif
 
   DGtal::Z3i::Point ptRoot(postInitV[0], postInitV[1], postInitV[2]);
   CoronaryArteryTree<3> tree;
@@ -84,6 +79,8 @@ int main(int argc, char **argv)
   
 #ifdef WITH_VISU3D_QGLVIEWER
   if (display3D){
+    QApplication application(argc,argv);
+
     typedef DGtal::Viewer3D<> MyViewer;
     MyViewer viewer;
     viewer.show();
