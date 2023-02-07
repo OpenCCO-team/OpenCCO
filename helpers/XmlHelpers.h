@@ -93,7 +93,7 @@ void writeTreeToXml(const CoronaryArteryTree<TDim>& tree, const char * filePath)
   //writing tree's nodes
    for(auto s : tree.myVectSegments) {
      // test if the segment is the root or its parent
-     if (s.myIndex == 0 || s.myIndex == 1) //root node
+     if (tree.myVectParent[s.myIndex]==0) //root node
        subPrint_node<TDim>(NodeTable::ROOT, s.myCoordinate, s.myIndex, output);
      else {
        if(std::find(begin(tree.myVectTerminals), end(tree.myVectTerminals), s.myIndex) != end(tree.myVectTerminals)) { //terminal node

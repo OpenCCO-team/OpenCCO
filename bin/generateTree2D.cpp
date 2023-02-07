@@ -31,9 +31,13 @@ int main(int argc, char *const *argv)
   bool verbose {false};
   std::string nameImgDom {""}; 
   std::vector<int> postInitV {-1,-1};
+  std::string exportXMLName {""};
+
   app.add_option("-n,--nbTerm,1", nbTerm, "Set the number of terminal segments.", true);
   app.add_option("-a,--aPerf,2", aPerf, "The value of the input parameter A perfusion.", true);
   app.add_option("--organDomain,-d", nameImgDom, "Define the organ domain using a mask image (organ=255).");
+  app.add_option("-x,--exportXML", exportXMLName, "Output the resulting gaph as xml file", true);
+
   auto pInit = app.add_option("-p,--posInit", postInitV, "Initial position of root, if not given the position of point is determined from the image center")
   ->expected(2);
   app.add_flag("-v,--verbose", verbose);
@@ -56,7 +60,9 @@ int main(int argc, char *const *argv)
   }
   end = clock();
   printf ("Execution time: %0.8f sec\n", ((double) end - start)/CLOCKS_PER_SEC);
-  XMLHelpers::writeTreeToXml<2>(tree, "tree_2D.xml");
+  if (exportXMLName != ""){
+      XMLHelpers::writeTreeToXml<2>(tree, exportXMLName.c_str());
+  }
   
   std::string filename;
   
