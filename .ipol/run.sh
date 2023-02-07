@@ -85,6 +85,6 @@ fi
   COMMANDStat2="graph2statBifRad vertex.dat edges.dat radius.dat stat.dat"
   COMMANDStat3="gnuplot $PLOTFILE"
   COMMANDStat4="tar cvzf graphExport.tar.gz vertex.dat edges.dat radius.dat"
-  applyCommand COMMANDStat1 COMMANDStat2 COMMANDStat3
+  applyCommand COMMANDStat1 COMMANDStat2 COMMANDStat3 COMMANDStat4
  
 
