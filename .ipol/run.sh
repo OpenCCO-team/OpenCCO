@@ -10,7 +10,7 @@ INPUT3DDom=$5
 INPUTBASE=$(basename $INPUT)
 EXEC=generateTree2D
 EXEC3D=generateTree3D
-PLOTFILE=$6
+IPOLDIR=$6
 
 
 function applyCommand
@@ -83,8 +83,9 @@ fi
   echo "----------------------------------------"
   COMMANDStat1="xml2graph graphExport.xml"
   COMMANDStat2="graph2statBifRad vertex.dat edges.dat radius.dat stat.dat"
-  COMMANDStat3="gnuplot $PLOTFILE"
-  COMMANDStat4="tar cvzf graphExport.tar.gz vertex.dat edges.dat radius.dat"
+  COMMANDStat3="gnuplot ${IPOLDIR}/helpers/plotStatRadius.plt"
+  cp ${IPOLDIR}/helpers/readme.txt ./
+  COMMANDStat4="tar cvzf graphExport.tar.gz vertex.dat edges.dat radius.dat readme.txt"
   applyCommand COMMANDStat1 COMMANDStat2 COMMANDStat3 COMMANDStat4
  
 
