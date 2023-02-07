@@ -74,7 +74,7 @@ else
   echo "url=$iframe" >> algo_info.txt
   echo "algoDim=3" >> algo_info.txt 
   export DISPLAY=:1; Xvfb "$DISPLAY" -screen 0 1024x768x24
-  meshViewer resultVessel.obj &  import -window root -display :1 -screen extractVisu.png ; convert extractVisu.png  -crop 800x600+0+0  visuMeshArchive.png
+  timeout 1s meshViewer resultVessel.obj &  sleep 0.5; import -window root -display :1 -screen extractVisu.png ; convert extractVisu.png  -crop 800x600+0+0  visuMeshArchive.png
 fi
 
 
