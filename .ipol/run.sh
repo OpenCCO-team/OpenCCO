@@ -61,7 +61,7 @@ then
   echo "domain=0" >> algo_info.txt
 
   export DISPLAY=:1; Xvfb "$DISPLAY" -screen 0 1024x768x24 &
-  meshViewer result.obj -b 200 200 200 2>&1 |  while read -r line; do if [[ $line == "[done]." ]] ; then sleep 0.5; import -window root -display :1 -screen extractVisu.png ; convert extractVisu.png  -crop 800x600+0+0  visuMeshArchive.png; pkill meshViewer;  fi; done;
+  meshViewer result.obj -b 240 240 240 2>&1 |  while read -r line; do if [[ $line == "[done]." ]] ; then sleep 0.5; import -window root -display :1 -screen extractVisu.png ; convert extractVisu.png  -crop 800x600+0+0  visuMeshArchive.png; pkill meshViewer;  fi; done;
 
   
 else
@@ -81,8 +81,8 @@ else
   echo "algoDim=3" >> algo_info.txt
   echo "domain=1" >> algo_info.txt
   export DISPLAY=:1; Xvfb "$DISPLAY" -screen 0 1024x768x24 &
-  meshViewer resultVessel.obj -b 200 200 200  2>&1 |  while read -r line; do if [[ $line == "[done]." ]] ; then sleep 0.5; import -window root -display :1 -screen extractVisu.png ; convert extractVisu.png  -crop 800x600+0+0  visuMeshArchive.png; pkill meshViewer;  fi; done;
-  meshViewer liver05Domain.obj -b 200 200 200 2>&1 |  while read -r line; do if [[ $line == "[done]." ]] ; then sleep 0.5; import -window root -display :1 -screen extractVisu.png ; convert extractVisu.png  -crop 800x600+0+0  visuMeshDomain.png; pkill meshViewer;  fi; done;
+  meshViewer resultVessel.obj -b 240 240 240  2>&1 |  while read -r line; do if [[ $line == "[done]." ]] ; then sleep 0.5; import -window root -display :1 -screen extractVisu.png ; convert extractVisu.png  -crop 800x600+0+0  visuMeshArchive.png; pkill meshViewer;  fi; done;
+  meshViewer liver05Domain.obj -b 240 240 240 -c  2>&1 |  while read -r line; do if [[ $line == "[done]." ]] ; then sleep 0.5; import -window root -display :1 -screen extractVisu.png ; convert extractVisu.png  -crop 800x600+0+0  visuMeshDomain.png; pkill meshViewer;  fi; done;
 
 fi
 
