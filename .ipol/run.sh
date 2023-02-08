@@ -61,9 +61,8 @@ then
   echo "domain=0" >> algo_info.txt
 
   export DISPLAY=:1; Xvfb "$DISPLAY" -screen 0 1024x768x24 &
-  timeout 2s meshViewer resultVessel.obj &  sleep 1.5; import -window root -display :1 -screen extractVisu.png ; convert extractVisu.png  -crop 800x600+0+0  visuMeshArchive.png
-  timeout 2s meshViewer liver05Domain.obj &  sleep 1.5; import -window root -display :1 -screen tmp.png ; convert tmp.png  -crop 800x600+0+0  visuMeshDomain.png
-
+  timeout 2s meshViewer result.obj &  sleep 1.5; import -window root -display :1 -screen extractVisu.png ; convert extractVisu.png  -crop 800x600+0+0  visuMeshArchive.png
+  
 else
   echo "----------------------------------------"
   echo "-----Generating 3D  Dom-----------------"
