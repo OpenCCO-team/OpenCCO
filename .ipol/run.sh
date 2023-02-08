@@ -61,8 +61,7 @@ then
   echo "domain=0" >> algo_info.txt
 
   export DISPLAY=:1; Xvfb "$DISPLAY" -screen 0 1024x768x24 &
-
-  meshViewer result.obj 2>&1 |  while read -r line; do if [[ $line == "[done]." ]] ; then sleep 0.5; import -window root -display :1 -screen extractVisu.png ; convert extractVisu.png  -crop 800x600+0+0  visuMeshArchive.png; pkill meshViewer;  fi; done;
+  meshViewer result.obj -b 200 200 200 2>&1 |  while read -r line; do if [[ $line == "[done]." ]] ; then sleep 0.5; import -window root -display :1 -screen extractVisu.png ; convert extractVisu.png  -crop 800x600+0+0  visuMeshArchive.png; pkill meshViewer;  fi; done;
 
   
 else
@@ -80,10 +79,11 @@ else
   iframe="$iframe frameborder='5' scrolling='no' allowfullscreen webkitallowfullscreen mozallowfullscreen></iframe>"
   echo "url=$iframe" >> algo_info.txt
   echo "algoDim=3" >> algo_info.txt
-   echo "domain=1" >> algo_info.txt
+  echo "domain=1" >> algo_info.txt
   export DISPLAY=:1; Xvfb "$DISPLAY" -screen 0 1024x768x24 &
-  timeout 2s meshViewer resultVessel.obj &  sleep 1.5 &&  import -window root -display :1 -screen extractVisu.png && convert extractVisu.png  -crop 800x600+0+0  visuMeshArchive.png
-  timeout 2s meshViewer liver05Domain.obj &  sleep 1.5 && import -window root -display :1 -screen tmp.png && convert tmp.png  -crop 800x600+0+0  visuMeshDomain.png
+  meshViewer resultVessel.obj -b 200 200 200  2>&1 |  while read -r line; do if [[ $line == "[done]." ]] ; then sleep 0.5; import -window root -display :1 -screen extractVisu.png ; convert extractVisu.png  -crop 800x600+0+0  visuMeshArchive.png; pkill meshViewer;  fi; done;
+  meshViewer liver05Domain.obj -b 200 200 200 2>&1 |  while read -r line; do if [[ $line == "[done]." ]] ; then sleep 0.5; import -window root -display :1 -screen extractVisu.png ; convert extractVisu.png  -crop 800x600+0+0  visuMeshDomain.png; pkill meshViewer;  fi; done;
+
 fi
 
 
