@@ -82,8 +82,8 @@ else
   echo "domain=1" >> algo_info.txt
   export DISPLAY=:1; Xvfb "$DISPLAY" -screen 0 1024x768x24 &
   meshViewer resultVessel.obj -b 240 240 240 -l  2>&1 |  while read -r line; do if [[ $line == "[done]." ]] ; then sleep 0.5; import -window root -display :1 -screen extractVisu.png ; convert extractVisu.png  -crop 800x600+0+0  visuMeshArchive.png; pkill meshViewer;  fi; done;
-  meshViewer liver05Domain.obj --customMeshColor 200 50 50 50 0 0 0 0 -b 240 240 240 -c -l  2>&1 |  while read -r line; do if [[ $line == "[done]." ]] ; then sleep 0.5; import -window root -display :1 -screen extractVisu.png ; convert extractVisu.png  -crop 800x600+0+0  visuMeshDomain.png; pkill meshViewer;  fi; done;
-  meshViewer liver05Domain.obj resultVessel.obj --customMeshColor 200 50 50 50 0 0 0 0 50 50 200 255 0 0 0 0 -b 240 240 240 -c -l  2>&1 |  while read -r line; do if [[ $line == "[done]." ]] ; then sleep 0.5; import -window root -display :1 -screen extractVisu.png ; convert extractVisu.png  -crop 800x600+0+0  visuMeshDomainRes.png; pkill meshViewer;  fi; done;
+  meshViewer liver05Domain.obj --customColorMesh 200 50 50 50 0 0 0 0 -b 240 240 240 -c -l  2>&1 |  while read -r line; do if [[ $line == "[done]." ]] ; then sleep 0.5; import -window root -display :1 -screen extractVisu.png ; convert extractVisu.png  -crop 800x600+0+0  visuMeshDomain.png; pkill meshViewer;  fi; done;
+  meshViewer liver05Domain.obj resultVessel.obj --customColorMesh 200 50 50 50 0 0 0 0 50 50 200 255 0 0 0 0 -b 240 240 240 -c -l  2>&1 |  while read -r line; do if [[ $line == "[done]." ]] ; then sleep 0.5; import -window root -display :1 -screen extractVisu.png ; convert extractVisu.png  -crop 800x600+0+0  visuMeshDomainRes.png; pkill meshViewer;  fi; done;
 
 fi
 
