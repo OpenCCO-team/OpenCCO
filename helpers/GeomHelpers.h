@@ -103,6 +103,25 @@ generateRandomPtOnDisk(const DGtal::PointVector<3, double> &ptCenter, double r)
   return DGtal::PointVector<3, double>(x+ptCenter[0], y+ptCenter[1], z+ptCenter[2]);
 }
 
+
+
+/**
+ * Template specialisation for 3D
+ **/
+inline
+DGtal::PointVector<3, int>
+generateRandomPtOnRectDomain(const DGtal::Z3i::Domain &aDom)
+{
+  DGtal::Z3i::Point s = aDom.upperBound() - aDom.lowerBound();
+  DGtal::Z3i::Point r;
+  r[0] = aDom.lowerBound()[0]+((double)rand() / RAND_MAX)*s[0];
+  r[1] = aDom.lowerBound()[1]+((double)rand() / RAND_MAX)*s[1];
+  r[2] = aDom.lowerBound()[2]+((double)rand() / RAND_MAX)*s[2];
+  return r;
+}
+
+
+
 template<typename TImage, typename TImageDist>
 inline
 DGtal::Z2i::Point

@@ -1,6 +1,7 @@
 SET(TOOLS_SRC
    generateTestDomain
    mergeObj
+   generateEmptyDomain
 )
 
 FOREACH(FILE ${TOOLS_SRC})
