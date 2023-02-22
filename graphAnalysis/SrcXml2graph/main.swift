@@ -24,6 +24,7 @@ struct Edge {
     var idA: String?
     var idb: String?
     var radius: Double?
+    var flow: Double?
 }
 
 
@@ -37,6 +38,7 @@ class XMLGraphParse : NSObject, XMLParserDelegate {
     var myCurrentEdge: Edge?
     var inNode = false
     var readRadius = false
+    var readFlow = false
     var nodeId: String?
     var foundCharacters = ""
     var myVerbose: Bool
@@ -62,6 +64,9 @@ class XMLGraphParse : NSObject, XMLParserDelegate {
         if myCurrentEdge != nil {
             if elementName == "attr" && attributeDict["name"] == " radius"{
                 readRadius = true
+            }
+            if elementName == "attr" && attributeDict["name"] == " flow"{
+                readFlow = true
             }
         }
         if elementName == "node" {
@@ -96,6 +101,12 @@ class XMLGraphParse : NSObject, XMLParserDelegate {
                 }
                 myCurrentVertex = nil
             }
+        }
+        if readFlow && elementName == "float" {
+            foundCharacters = String(foundCharacters.filter { !" \n\t\r".contains($0) })
+            myCurrentEdge?.flow = Double(foundCharacters)
+            foundCharacters=""
+            readFlow = false
         }
         if elementName == "edge" {
             myEdges.append(myCurrentEdge!)
@@ -174,7 +185,7 @@ var edges = parseur.myEdges
 let url2 = URL( fileURLWithPath: "\(outBaseName)\(outBaseName=="" ? "" : "_")edges.dat" )
 content = ""
 for e in edges {
-    content += "\(translate[e.idA!]!) \(translate[e.idb!]!)  \n"
+    content += "\(translate[e.idA!]!) \(translate[e.idb!]!) \(e.flow==nil ? "" : "\(e.flow!)") \n"
 }
 try! content.write(to: url2, atomically: true, encoding: .utf8)
 
