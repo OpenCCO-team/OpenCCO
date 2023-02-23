@@ -64,12 +64,15 @@ void subPrint_node(int nodeType, DGtal::PointVector<TDim, double> pos, int idNod
 /**
  * prints an edge into XML/GXL format from a node table
  */
- void subPrint_edge(int idSeg, int idSegPar, double flow, double radius, ofstream &os){
+ void subPrint_edge(int idSeg, int idSegPar, double flow, double radius,double resist, ofstream &os){
  
   if(idSeg != 0){
       os<<"  <edge id=\"e"<<idSeg<<"\" to=\"n"<<idSeg<<"\" from=\"n"<<idSegPar<<"\">"<<endl;
       os<<"    <attr name=\" flow\">"<<endl;
       os<<"      <float>"<<flow<<"</float>"<<endl;
+      os<<"    </attr>"<<endl;
+      os<<"    <attr name=\" resistance\">"<<endl;
+      os<<"      <float>"<<resist<<"</float>"<<endl;
       os<<"    </attr>"<<endl;
 
       os<<"    <attr name=\" radius\">"<<endl;
@@ -106,7 +109,7 @@ void writeTreeToXml(const CoronaryArteryTree<TDim>& tree, const char * filePath)
    }
   //writing tree's edges
   for(auto s : tree.myVectSegments) {
-    subPrint_edge(s.myIndex,tree.myVectParent[s.myIndex], s.myFlow, s.myRadius, output);
+    subPrint_edge(s.myIndex,tree.myVectParent[s.myIndex], s.myFlow, s.myRadius, s.myResistance, output);
   }
   
   output<<"</graph></gxl>"<<endl;
