@@ -92,8 +92,16 @@ void writeTreeToXml(const CoronaryArteryTree<TDim>& tree, const char * filePath)
   //writing the tree structure as GXL to the filePath specified
   output.open(filePath);
   output<<"<gxl><graph id=\""<<filePath<<"\" edgeids=\" true\" edgemode=\" directed\" hypergraph=\" false\">"<<endl;
-  
-  //writing tree's nodes
+  output<<"<info_graph>"<< endl;
+  output<<"    <attr name=\" pPerf\">"<<endl;
+  output<<"      <float>"<<tree.my_pPerf<<"</float>"<<endl;
+  output<<"    </attr>"<<endl;
+  output<<"    <attr name=\" pTerm\">"<<endl;
+  output<<"      <float>"<<tree.my_pTerm<<"</float>"<<endl;
+  output<<"    </attr>"<<endl;
+  output<<"</info_graph>"<< endl;
+
+    //writing tree's nodes
    for(auto s : tree.myVectSegments) {
      // test if the segment is the root or its parent
      if (tree.myVectParent[s.myIndex]==0) //root node
