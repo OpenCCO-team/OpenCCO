@@ -64,12 +64,15 @@ void subPrint_node(int nodeType, DGtal::PointVector<TDim, double> pos, int idNod
 /**
  * prints an edge into XML/GXL format from a node table
  */
- void subPrint_edge(int idSeg, int idSegPar, double flow, double radius, ofstream &os){
+ void subPrint_edge(int idSeg, int idSegPar, double flow, double radius,double resist, ofstream &os){
  
   if(idSeg != 0){
       os<<"  <edge id=\"e"<<idSeg<<"\" to=\"n"<<idSeg<<"\" from=\"n"<<idSegPar<<"\">"<<endl;
       os<<"    <attr name=\" flow\">"<<endl;
       os<<"      <float>"<<flow<<"</float>"<<endl;
+      os<<"    </attr>"<<endl;
+      os<<"    <attr name=\" resistance\">"<<endl;
+      os<<"      <float>"<<resist<<"</float>"<<endl;
       os<<"    </attr>"<<endl;
 
       os<<"    <attr name=\" radius\">"<<endl;
@@ -89,8 +92,16 @@ void writeTreeToXml(const CoronaryArteryTree<TDim>& tree, const char * filePath)
   //writing the tree structure as GXL to the filePath specified
   output.open(filePath);
   output<<"<gxl><graph id=\""<<filePath<<"\" edgeids=\" true\" edgemode=\" directed\" hypergraph=\" false\">"<<endl;
-  
-  //writing tree's nodes
+  output<<"<info_graph>"<< endl;
+  output<<"    <attr name=\" pPerf\">"<<endl;
+  output<<"      <float>"<<tree.my_pPerf<<"</float>"<<endl;
+  output<<"    </attr>"<<endl;
+  output<<"    <attr name=\" pTerm\">"<<endl;
+  output<<"      <float>"<<tree.my_pTerm<<"</float>"<<endl;
+  output<<"    </attr>"<<endl;
+  output<<"</info_graph>"<< endl;
+
+    //writing tree's nodes
    for(auto s : tree.myVectSegments) {
      // test if the segment is the root or its parent
      if (tree.myVectParent[s.myIndex]==0) //root node
@@ -106,7 +117,7 @@ void writeTreeToXml(const CoronaryArteryTree<TDim>& tree, const char * filePath)
    }
   //writing tree's edges
   for(auto s : tree.myVectSegments) {
-    subPrint_edge(s.myIndex,tree.myVectParent[s.myIndex], s.myFlow, s.myRadius, output);
+    subPrint_edge(s.myIndex,tree.myVectParent[s.myIndex], s.myFlow, s.myRadius, s.myResistance, output);
   }
   
   output<<"</graph></gxl>"<<endl;
