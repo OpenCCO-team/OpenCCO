@@ -58,12 +58,7 @@ then
   echo "----------------------------------------"
   echo "-----Generating 3D ---------------------"
   echo "----------------------------------------"
-   if [ $FIRSTSEG -eq 1 ]
-   then 
-         COMMANDGem3D1="${EXEC3D} -n ${NBTERM} -a ${APERF}  -o result.obj -x graphExport.xml"
-   else
-        COMMANDGem3D1="${EXEC3D} -n ${NBTERM} -p $X0 $Y0 $Z0  -a ${APERF}  -o result.obj -x graphExport.xml"
-   fi
+  COMMANDGem3D1="${EXEC3D} -n ${NBTERM} -a ${APERF}  -o result.obj -x graphExport.xml"
    
   applyCommand COMMANDGem3D1
   key=$(basename $(pwd))
@@ -83,7 +78,13 @@ else
   echo "----------------------------------------"
   echo "-----Generating 3D  Dom-----------------"
   echo "----------------------------------------"
-  COMMANDGem3Ddom_1="${EXEC3D} -n ${NBTERM} -a ${APERF} -d $INPUT3DDom -o resultVessel.obj -x graphExport.xml"
+if [ $FIRSTSEG -eq 1 ]
+then   
+    COMMANDGem3Ddom_1="${EXEC3D} -n ${NBTERM} -a ${APERF} -d $INPUT3DDom -o resultVessel.obj -x graphExport.xml"
+else
+    COMMANDGem3Ddom_1="${EXEC3D} -n ${NBTERM} -p $X0 $Y0 $Z0 -a ${APERF} -d $INPUT3DDom -o resultVessel.obj -x graphExport.xml"
+fi
+
   COMMANDGem3Ddom_2="volBoundary2obj $INPUT3DDom liver05Domain.obj"
   COMMANDGem3Ddom_3="mergeObj resultVessel.obj liver05Domain.obj result.obj --nameGrp1  vessel --nameGrp2  liver  --materialOne 0.7 0.2 0.2 1.0 --materialTwo +0.4  0.4 0.5 0.2"
   applyCommand COMMANDGem3Ddom_1 COMMANDGem3Ddom_2 COMMANDGem3Ddom_3
