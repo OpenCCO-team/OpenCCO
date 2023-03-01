@@ -11,6 +11,10 @@ INPUTBASE=$(basename $INPUT)
 EXEC=generateTree2D
 EXEC3D=generateTree3D
 IPOLDIR=$6
+FIRSTSEG=$7
+X0=$8
+Y0=$9
+Z0=$10
 
 
 function applyCommand
@@ -38,7 +42,12 @@ then
   echo "----------------------------------------"
 
   COMMANDGem2D1="convert ${INPUT} input.pgm"
+  if [ $FIRSTSEG -eq 0 ]
+     then 
   COMMANDGem2D2="${EXEC} -n ${NBTERM} -a ${APERF}  -d input.pgm -x graphExport.xml >> algo_info.txt"
+  else
+      COMMANDGem2D2="${EXEC} -n ${NBTERM} -a ${APERF}  -d input.pgm -x graphExport.xml >> algo_info.txt" -p $X0 $Y0 $Z0
+  fi
   set $(identify -format '%w %h' ${INPUT})
   width=$1; height=$2
   COMMANDGem2D3="convert -density 400 -resize ${width}x${height}  -crop ${width}x${height} result.svg result.png"
