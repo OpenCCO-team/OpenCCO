@@ -4,13 +4,13 @@ set (CMAKE_CXX_STANDARD 11)
 
 
 SET(SOURCE_BASE_HEADER_FILES
-  ${PROJECT_SOURCE_DIR}/helpers/GeomHelpers.h
-  ${PROJECT_SOURCE_DIR}/helpers/ConstructionHelpers.h
-  ${PROJECT_SOURCE_DIR}/base/CoronaryArteryTree.h
-  ${PROJECT_SOURCE_DIR}/helpers/XmlHelpers.h
+  ${PROJECT_SOURCE_DIR}/src/helpers/GeomHelpers.h
+  ${PROJECT_SOURCE_DIR}/src/helpers/ConstructionHelpers.h
+  ${PROJECT_SOURCE_DIR}/src/CoronaryArteryTree.h
+  ${PROJECT_SOURCE_DIR}/src/helpers/XmlHelpers.h
 )
 SET(SOURCE_BASE_FILES
-  ${PROJECT_SOURCE_DIR}/base/CoronaryArteryTree.ih
+  ${PROJECT_SOURCE_DIR}/src/CoronaryArteryTree.ih
 )
 
 find_package(Ceres REQUIRED)
@@ -18,7 +18,7 @@ find_package(Ceres REQUIRED)
 
 
 # CLI11
-include_directories( "${PROJECT_SOURCE_DIR}/ext/" "${PROJECT_SOURCE_DIR}/helpers/" "${PROJECT_SOURCE_DIR}/base/" )
+include_directories( "${PROJECT_SOURCE_DIR}/ext/" "${PROJECT_SOURCE_DIR}/src/helpers/" "${PROJECT_SOURCE_DIR}/src/" )
 FIND_PACKAGE(DGtal REQUIRED)
 
 INCLUDE_DIRECTORIES(${DGTAL_INCLUDE_DIRS})
