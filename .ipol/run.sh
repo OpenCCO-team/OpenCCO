@@ -42,7 +42,7 @@ then
   echo "----------------------------------------"
 
   COMMANDGem2D1="convert ${INPUT} input.pgm"
-  if [ $FIRSTSEG -eq 0 ]
+  if [ $FIRSTSEG -eq 1 ]
      then 
   COMMANDGem2D2="${EXEC} -n ${NBTERM} -a ${APERF}  -d input.pgm -x graphExport.xml >> algo_info.txt"
   else
@@ -58,7 +58,13 @@ then
   echo "----------------------------------------"
   echo "-----Generating 3D ---------------------"
   echo "----------------------------------------"
-  COMMANDGem3D1="${EXEC3D} -n ${NBTERM} -a ${APERF}  -o result.obj -x graphExport.xml"
+   if [ $FIRSTSEG -eq 1 ]
+   then 
+         COMMANDGem3D1="${EXEC3D} -n ${NBTERM} -a ${APERF}  -o result.obj -x graphExport.xml"
+   else
+        COMMANDGem3D1="${EXEC3D} -n ${NBTERM} -p $X0 $Y0 $Z0  -a ${APERF}  -o result.obj -x graphExport.xml"
+   fi
+   
   applyCommand COMMANDGem3D1
   key=$(basename $(pwd))
   demo_id=$(basename $(dirname $(pwd)))
