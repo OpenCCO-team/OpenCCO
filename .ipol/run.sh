@@ -46,7 +46,7 @@ then
      then 
   COMMANDGem2D2="${EXEC} -n ${NBTERM} -a ${APERF}  -d input.pgm -x graphExport.xml >> algo_info.txt"
   else
-      COMMANDGem2D2="${EXEC} -n ${NBTERM} -a ${APERF}  -d input.pgm -x graphExport.xml >> algo_info.txt" -p $X0 $Y0 $Z0
+  COMMANDGem2D2="${EXEC} -n ${NBTERM} -p $X0 $Y0 $Z0 -a ${APERF}  -d input.pgm -x graphExport.xml >> algo_info.txt" 
   fi
   set $(identify -format '%w %h' ${INPUT})
   width=$1; height=$2
