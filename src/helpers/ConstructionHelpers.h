@@ -24,13 +24,12 @@
 namespace ConstructionHelpers {
 
 
-
 /**
  * Helpers fonction to construction the tree. (mainly from circular domain and image organ for testing).
  */
-template<int TDim>
+template<typename DomCtr, int TDim>
 inline
-CoronaryArteryTree<TDim> constructTree(double aPerf, int nbTerm,
+CoronaryArteryTree< DomCtr, TDim > constructTree(double aPerf, int nbTerm,
                    std::string imageOrgan, unsigned int fgTh = 128,
                    bool verbose = false, DGtal::PointVector<TDim, int> ptCenter = DGtal::PointVector<TDim, int>::diagonal(0),
                    unsigned int distSearchRoot = 10){
@@ -38,9 +37,9 @@ CoronaryArteryTree<TDim> constructTree(double aPerf, int nbTerm,
   srand (time(NULL));
   double rRoot = 1.0;
   
-  CoronaryArteryTree<TDim> cTree (aPerf, nbTerm, rRoot, ptCenter);
+  CoronaryArteryTree< DomCtr, TDim > cTree (aPerf, nbTerm, rRoot, ptCenter);
   if (imageOrgan != ""){
-    auto img = DGtal::GenericReader<typename CoronaryArteryTree<TDim>::Image>::import( imageOrgan, fgTh );
+    auto img = DGtal::GenericReader<typename CoronaryArteryTree< DomCtr, TDim >::Image>::import( imageOrgan, fgTh );
     bool restrainedOK = cTree.restrainDomain(img, fgTh);
     if (restrainedOK){
       DGtal::trace.info() << "Using restrained image  " << imageOrgan << std::endl;
@@ -60,7 +59,7 @@ CoronaryArteryTree<TDim> constructTree(double aPerf, int nbTerm,
   for (unsigned int i = 1; i < nbSeed; i++) {
     DGtal::trace.progressBar(i, nbSeed);
     int nbSol = 0, itOpt = 0;
-    CoronaryArteryTree<TDim> cTreeOpt = cTree;
+    CoronaryArteryTree< DomCtr, TDim > cTreeOpt = cTree;
     double volOpt = -1.0, vol = 0.0;
     while (nbSol==0) {
       auto pt = cTree.generateNewLocation(100);
@@ -68,7 +67,7 @@ CoronaryArteryTree<TDim> constructTree(double aPerf, int nbTerm,
       for(size_t it=0; it<vecN.size(); it++) {
         //if(!cTree.isIntersecting(pt, cTree.findBarycenter(pt, vecN.at(it)),vecN.at(it),n))
         if(!cTree.isIntersecting(pt, cTree.findBarycenter(pt, vecN.at(it)),vecN.at(it),cTree.myNumNeighbor, 2*cTree.myVectSegments[vecN.at(it)].myRadius)) {
-          CoronaryArteryTree<TDim> cTree1 = cTree;
+          CoronaryArteryTree< DomCtr, TDim  > cTree1 = cTree;
           isOK = cTree1.isAddable(pt,vecN.at(it), 100, 0.01, cTree1.myNumNeighbor, verbose);
           if(isOK) {
             vol = cTree1.computeTotalVolume(1);
@@ -104,15 +103,15 @@ CoronaryArteryTree<TDim> constructTree(double aPerf, int nbTerm,
  * Helpers fonction to construction the tree with autoSearch of the center and root.
  * The center is defined from the maximal distance map and the root point is searched on the image domain.
  */
-template<typename TPoint>
+template<typename TPoint, typename DomCtr>
 inline
-CoronaryArteryTree<2> constructTreeImageDomain2D(double aPerf, int nbTerm,
+CoronaryArteryTree<DomCtr, 2> constructTreeImageDomain2D(double aPerf, int nbTerm,
                               std::string imageOrgan, unsigned int fgTh = 128,
                               bool verbose = false){
   // searching center from maximak distance.
-  auto img = DGtal::GenericReader<typename CoronaryArteryTree<TPoint::dimension>::Image>::import( imageOrgan );
-  auto imgDist = GeomHelpers::getImageDistance2D<typename CoronaryArteryTree<TPoint::dimension>::Image,
-                                               typename CoronaryArteryTree<TPoint::dimension>::ImageDist>(img);
+  auto img = DGtal::GenericReader<typename CoronaryArteryTree<DomCtr,TPoint::dimension>::Image>::import( imageOrgan );
+  auto imgDist = GeomHelpers::getImageDistance2D<typename CoronaryArteryTree<DomCtr, TPoint::dimension>::Image,
+                                               typename CoronaryArteryTree<DomCtr, TPoint::dimension>::ImageDist>(img);
   double m = 0.0;
   DGtal::PointVector<2, int> pM;
   for(auto p: imgDist.domain()) {if (imgDist(p) > m ){m = imgDist(p); pM =  DGtal::PointVector<2, int>(p[0], p[1]);}}
@@ -120,7 +119,7 @@ CoronaryArteryTree<2> constructTreeImageDomain2D(double aPerf, int nbTerm,
     DGtal::trace.info() << "center point found: " << pM << "maximal value:"
                         << m <<   std::endl;
   }
-  return constructTree<2>(aPerf, nbTerm, imageOrgan, fgTh, verbose, pM,
+    return constructTree<2, DomCtr>(aPerf, nbTerm, imageOrgan, fgTh, verbose, pM,
                 static_cast<unsigned int >(m/2.0));
 }
 
@@ -129,15 +128,15 @@ CoronaryArteryTree<2> constructTreeImageDomain2D(double aPerf, int nbTerm,
  * Helpers fonction to construction the tree with autoSearch of the center and root.
  * The center is defined from the maximal distance map and the root point is searched on the image domain.
  */
-template<typename TPoint>
+template<typename TPoint, typename DomCtr>
 inline
-CoronaryArteryTree<3> constructTreeImageDomain3D(double aPerf, int nbTerm,
+CoronaryArteryTree<DomCtr, 3> constructTreeImageDomain3D(double aPerf, int nbTerm,
                               std::string imageOrgan, unsigned int fgTh = 128,
                               bool verbose = false){
   // searching center from maximak distance.
-  auto img = DGtal::GenericReader<typename CoronaryArteryTree<TPoint::dimension>::Image>::import( imageOrgan );
-  auto imgDist = GeomHelpers::getImageDistance3D<typename CoronaryArteryTree<3>::Image,
-                                               typename CoronaryArteryTree<3>::ImageDist>(img,fgTh);
+  auto img = DGtal::GenericReader<typename CoronaryArteryTree<DomCtr, TPoint::dimension>::Image>::import( imageOrgan );
+  auto imgDist = GeomHelpers::getImageDistance3D<typename CoronaryArteryTree<DomCtr,3>::Image,
+                                               typename CoronaryArteryTree<DomCtr, 3>::ImageDist>(img,fgTh);
   double m = 0.0;
   DGtal::PointVector<3, int> pM;
   for(auto p: imgDist.domain()) {
@@ -146,7 +145,7 @@ CoronaryArteryTree<3> constructTreeImageDomain3D(double aPerf, int nbTerm,
     DGtal::trace.info() << "center point found: " << pM << "maximal value:"
                         << m <<   std::endl;
   }
-  return constructTree<3>(aPerf, nbTerm, imageOrgan, fgTh, verbose, pM,
+  return constructTree<DomCtr, 3>(aPerf, nbTerm, imageOrgan, fgTh, verbose, pM,
                 static_cast<unsigned int >(m/2.0));
 }
 

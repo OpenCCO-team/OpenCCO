@@ -20,7 +20,7 @@
 #include "DGtal/helpers/StdDefs.h"
 
 #include "GeomHelpers.h"
-
+#include "DomainController.h"
 
 #include "ceres/ceres.h"
 using ceres::AutoDiffCostFunction;
@@ -28,6 +28,8 @@ using ceres::CostFunction;
 using ceres::Problem;
 using ceres::Solve;
 using ceres::Solver;
+
+
 
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -40,9 +42,8 @@ using ceres::Solver;
  *
  */
 
-template <int TDim>
+template <class DomCtr, int TDim>
 class CoronaryArteryTree{
-  
   /**
    * Class to handle the reprensetation of the coronary tree.
    */
@@ -57,7 +58,6 @@ public:
   
   // Represent the left and right
   typedef std::pair<unsigned int, unsigned int> SegmentChildren;
-
   typedef typename DGtal::ImageSelector < DomCT, unsigned char>::Type Image;
   typedef DGtal::ImageContainerBySTLVector< DomCT, int> ImageDist;
 
@@ -89,6 +89,7 @@ public:
   // to store the index of the terminal segments
   std::vector<unsigned int> myVectTerminals;
   
+     
   //-----------------------------
   // Global biological parameters
   
@@ -666,24 +667,23 @@ private:
 };
 
 
-
 /**
  * Overloads 'operator<<' for displaying objects of class 'CoronaryArteryTree'.
  * @param out the output stream where the object is written.
  * @param aCoronaryTree the object of class 'CoronaryArteryTree' to write.
  * @return the output stream after the writing.
  */
-template <int TDim>
+template <typename DomCtr, int TDim>
 std::ostream&
-operator<< ( std::ostream & out, const CoronaryArteryTree<TDim> & aCoronaryTree );
+operator<< ( std::ostream & out, const CoronaryArteryTree<DomCtr, TDim> & aCoronaryTree );
 
-template <int TDim>
+template <typename DomCtr, int TDim>
 bool
-operator==(typename CoronaryArteryTree<TDim>::Segment  S1,typename  CoronaryArteryTree<TDim>::Segment S2);
+operator==(typename CoronaryArteryTree<DomCtr, TDim>::Segment  S1,typename  CoronaryArteryTree<DomCtr, TDim>::Segment S2);
 
-template <int TDim>
+template <typename DomCtr, int TDim>
 bool
-operator!=(typename CoronaryArteryTree<TDim>::Segment  S1, typename CoronaryArteryTree<TDim>::Segment S2);
+operator!=(typename CoronaryArteryTree<DomCtr, TDim>::Segment  S1, typename CoronaryArteryTree<DomCtr, TDim>::Segment S2);
 
 
 

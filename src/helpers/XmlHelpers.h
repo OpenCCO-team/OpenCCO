@@ -84,9 +84,9 @@ void subPrint_node(int nodeType, DGtal::PointVector<TDim, double> pos, int idNod
 }
 
 
-template<int TDim>
+template<typename DomCtr, int TDim>
 inline
-void writeTreeToXml(const CoronaryArteryTree<TDim>& tree, const char * filePath) {
+void writeTreeToXml(const CoronaryArteryTree< DomCtr, TDim> &tree, const char * filePath) {
   ofstream output;
   
   //writing the tree structure as GXL to the filePath specified

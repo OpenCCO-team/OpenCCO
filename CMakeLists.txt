@@ -8,6 +8,7 @@ SET(SOURCE_BASE_HEADER_FILES
   ${PROJECT_SOURCE_DIR}/src/helpers/ConstructionHelpers.h
   ${PROJECT_SOURCE_DIR}/src/CoronaryArteryTree.h
   ${PROJECT_SOURCE_DIR}/src/helpers/XmlHelpers.h
+  ${PROJECT_SOURCE_DIR}/src/DomainController.h      
 )
 SET(SOURCE_BASE_FILES
   ${PROJECT_SOURCE_DIR}/src/CoronaryArteryTree.ih

@@ -18,6 +18,8 @@
 #include "ConstructionHelpers.h"
 #include "XmlHelpers.h"
 
+#include "DomainController.h"
+
 #ifdef WITH_VISU3D_QGLVIEWER
 #include "DGtal/io/viewers/Viewer3D.h"
 #endif
@@ -61,7 +63,7 @@ int main(int argc, char **argv)
   // END parse command line using CLI ----------------------------------------------
 
   DGtal::Z3i::Point ptRoot(postInitV[0], postInitV[1], postInitV[2]);
-  CoronaryArteryTree<3> tree;
+  CoronaryArteryTree<ImageMaskDomainCtrl<3>, 3 > tree;
   start = clock();
   //1000 => Execution time: 129.17274900 sec
   //2000 => Execution time: 478.48590200 sec
@@ -69,13 +71,13 @@ int main(int argc, char **argv)
   //4000 => Execution time: 1896.94450700 sec
   //5000 => Execution time: 3435.08630500 sec
   if(nameImgDom != "" ){
-    tree = ConstructionHelpers::constructTreeImageDomain3D<DGtal::Z3i::RealPoint>(aPerf, nbTerm, nameImgDom, 128, verbose);
+    tree = ConstructionHelpers::constructTreeImageDomain3D<DGtal::Z3i::RealPoint, ImageMaskDomainCtrl<3> >(aPerf, nbTerm, nameImgDom, 128, verbose);
   } else {
-    tree = ConstructionHelpers::constructTree<3>(aPerf, nbTerm, nameImgDom, 128, verbose, ptRoot);
+    tree = ConstructionHelpers::constructTree<ImageMaskDomainCtrl<3>, 3>(aPerf, nbTerm, nameImgDom, 128, verbose, ptRoot);
   }
   end = clock();
   printf ("Execution time: %0.8f sec\n", ((double) end - start)/CLOCKS_PER_SEC);
-  XMLHelpers::writeTreeToXml<3>(tree, "tree_3D.xml");
+  XMLHelpers::writeTreeToXml<ImageMaskDomainCtrl<3>, 3>(tree, "tree_3D.xml");
   
 #ifdef WITH_VISU3D_QGLVIEWER
   if (display3D){
@@ -152,7 +154,7 @@ int main(int argc, char **argv)
     fout.close();
   }
     if (exportXMLName != ""){
-        XMLHelpers::writeTreeToXml<3>(tree, exportXMLName.c_str());
+        XMLHelpers::writeTreeToXml<ImageMaskDomainCtrl<3>, 3>(tree, exportXMLName.c_str());
     }
   return EXIT_SUCCESS;
 }
