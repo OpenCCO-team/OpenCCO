@@ -1229,6 +1229,39 @@ CoronaryArteryTree<CircularDomainCtrl<2>, 2>::restrainDomain(const Image &imageD
 }
 
 /**
+ * Template specialisation for 2D
+ **/
+template< >
+bool
+CoronaryArteryTree<ImageMaskDomainCtrl<2>, 2>::restrainDomain(const Image &imageDom, unsigned int threshold){
+  myForegroundThreshold = threshold;
+  myImageDomain = imageDom;
+  bool isOk = false;
+  // Check if at least one pixel of with foreground value exist:
+  for (auto p: myImageDomain.domain()){
+    if (myImageDomain(p) >= threshold){
+      isOk = true;
+      break;
+    }
+  }
+  //Check if the root is inside the domain
+  if(isOk) {
+    DGtal::Z2i::RealPoint pRoot = myVectSegments[0].myCoordinate;
+    DGtal::Z2i::Point pRootI;
+    for (auto i=0; i< 2; i++){
+        pRootI[i] = static_cast<int>(pRoot[i]);
+    }
+  
+    if(myImageDomain.domain().isInside(pRootI) &&
+       myImageDomain(pRootI) >= threshold) {
+       myIsImageDomainRestrained = true;
+       myImageDist = GeomHelpers::getImageDistance2D<Image, ImageDist>(myImageDomain, threshold);
+      return true;
+    }
+  }
+  return false;
+}
+/**
  * Template specialisation for 3D
  **/
 template<>

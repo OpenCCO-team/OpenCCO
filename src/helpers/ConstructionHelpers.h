@@ -119,7 +119,7 @@ CoronaryArteryTree<DomCtr, 2> constructTreeImageDomain2D(double aPerf, int nbTer
     DGtal::trace.info() << "center point found: " << pM << "maximal value:"
                         << m <<   std::endl;
   }
-    return constructTree<2, DomCtr>(aPerf, nbTerm, imageOrgan, fgTh, verbose, pM,
+    return constructTree<DomCtr, 2>(aPerf, nbTerm, imageOrgan, fgTh, verbose, pM,
                 static_cast<unsigned int >(m/2.0));
 }
 

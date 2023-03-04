@@ -11,15 +11,12 @@
 #define DOMAIN_CONTROLLER_H
 
 
-
-
 #include "DGtal/base/Common.h"
 #include "DGtal/helpers/StdDefs.h"
 #include "DGtal/images/ImageContainerBySTLVector.h"
 #include "DGtal/topology/helpers/Surfaces.h"
 #include "DGtal/kernel/BasicPointPredicates.h"
 #include "DGtal/io/readers/GenericReader.h"
-
 
 
 
