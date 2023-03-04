@@ -20,43 +20,33 @@
 
 
 
-template<int TDim>
-class DomainCtrl {
-    // point is let in double to simplify vectorial domain and template process.
-    typedef DGtal::PointVector<TDim, double> TPoint;
-    
-    virtual bool isInside(const TPoint &p);
-    virtual TPoint randomPoint();
-};
-
 
 /**
-    Domain controller based on a ball
+ *  Domain controller based on a ball
  */
-
 template<int TDim>
-class CircularDomainCtrl: DomainCtrl<TDim> {
+class CircularDomainCtrl {
 public:
-    typedef  typename DomainCtrl<TDim>::TPoint TPoint;
+    typedef DGtal::PointVector<TDim, double> TPoint;
     double myRadius {0.0};
     TPoint myCenter;
     // Constructor for ImplicitCirc type
 
-    CircularDomainCtrl(double radius, TPoint center){
+    CircularDomainCtrl(double radius, TPoint center)
+    {
         myRadius = radius;
         myCenter = center;
     };
     
-    bool isInside(const TPoint &p){
+    bool isInside(const TPoint &p)
+    {
         return p.norm() < myRadius;
     }
     
     TPoint
-    randomPoint()
-    {
+    randomPoint() {
       bool found = false;
       TPoint p;
-      
       while(!found){
           double ss = 0.0;
           for(unsigned int i = 0;i<TDim; i++ ){
@@ -65,18 +55,25 @@ public:
           }
         found = ss < myRadius*myRadius;
       }
-        return p + myCenter;;
+      return p + myCenter;
+    }
+    /**
+     * Get the supported domain of the tree. By default it is defined from the circle center.
+     * If the domain if defined from a mask image, the center if computed from the imate center.
+     */
+    TPoint getDomainCenter() const{
+        return myCenter;
     }
 };
 
 
 
 /**
-    Domain controller based on a Image Mask
+ *  Domain controller based on a Image Mask
  */
 template<int TDim>
-class ImageMaskDomainCtrl: DomainCtrl<TDim> {
-    typedef  typename DomainCtrl<TDim>::TPoint TPoint;
+class ImageMaskDomainCtrl {
+    typedef DGtal::PointVector<TDim, double> TPoint;
     typedef  DGtal::PointVector<TDim, int> TPointI;
 
     typedef DGtal::SpaceND< TDim, int >   SpaceCT;
@@ -98,41 +95,7 @@ class ImageMaskDomainCtrl: DomainCtrl<TDim> {
         return myImage(p) > myMaskThreshold;
     }
     
-    TPoint
-    randomPoint(unsigned int nbTry=0){
-        bool found = false;
-        unsigned int x = 0;
-        unsigned int y = 0;
-        unsigned int z = 0;
-        auto pMin = myImage.domain().lowerBound();
-        auto pMax = myImage.domain().upperBound();
-        auto dp = pMax - pMin;
-
-        DGtal::PointVector<TDim, int > pCand;
-        unsigned int n = 0;
-        while(!found && n < nbTry){
-            TPoint p;
-            for (unsigned int i = 0; i < TDim; i++ )
-            {
-                p[i] = rand()%dp[i];
-                p[i+1] = rand()%dp[i+1];
-                p[i+2] = rand()%dp[i+2];
-            }
-          pCand[0] = static_cast<int>(pMin[0] +x);
-          pCand[1] = static_cast<int>(pMin[1] +y);
-          pCand[2] = static_cast<int>(pMin[2] +z);
-          found = myImage(pCand)>= myMaskThreshold  && abs(myDistanceImage(pCand)) >= 10.0;
-          n++;
-        }
-        if (n >= nbTry){
-          for(auto p : myImage.domain()){
-              if (myImage(p)>=myMaskThreshold &&
-                  abs(myDistanceImage(p)) >= 10.0 )
-                  return p;
-          }
-        }
-        return pCand;
-    }
+    
 };
 
 
