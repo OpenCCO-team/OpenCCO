@@ -533,6 +533,64 @@ CoronaryArteryTree<ImageMaskDomainCtrl<3>, 3>::isIntersecting(const TPointD &pNe
   return false;
 }
 
+// fixme : merge code since duplicated with below
+/**
+ * Template specialisation for 3D
+ **/
+template<>
+bool
+CoronaryArteryTree<CircularDomainCtrl<3>, 3>::isIntersecting(const TPointD &pNew, const TPointD &pCenter, unsigned int nearIndex, unsigned int nbNeibour, double minDistance) const
+{
+  //bool inter = hasNearestIntersections(p, newCenter, 10);
+  //bool inter = hasNearestIntersections(myVectParent[nearIndex], nearIndex, p, newCenter,  nbNeibour);
+  //bool inter = hasNearestIntersections(myVectParent[nearIndex], nearIndex, pNew, pCenter,  nbNeibour);
+  bool inter = hasIntersections(pNew) || hasIntersections(pCenter);
+  if (inter){
+    //DGtal::trace.warning() << "detection intersection" << std::endl;
+    return true;
+  }
+  // Check barycenter is not too close considered segment
+  if ((pCenter-myVectSegments[nearIndex].myCoordinate).norm() < minDistance ||
+      (pCenter-myVectSegments[myVectParent[nearIndex]].myCoordinate).norm() < minDistance ||
+      (pCenter - pNew).norm() < minDistance){
+    //DGtal::trace.warning() << "new barycenter too close!!!!!!!!" << std::endl;
+    return true;
+  }
+  // Check new point with new segment of barycenter:
+  // - newPt and new segment [Barycenter-OriginNewSeg]
+  // - newPt and new segment [Barycenter-FatherNewSeg]
+  if ((pCenter-myVectSegments[nearIndex].myCoordinate).norm() < minDistance ||
+      (pCenter-myVectSegments[myVectParent[nearIndex]].myCoordinate).norm() < minDistance) {
+    //DGtal::trace.warning() << "initial too close to new!!!!!!!!" << std::endl;
+    return true;
+  }
+  if (getProjDistance(nearIndex, pNew) < minDistance) {
+    //DGtal::trace.warning() << "initial too close!!!!!!!!" << std::endl;
+    return true;
+
+  }
+  if (isToCloseFromNearest(pNew, minDistance)){
+    //DGtal::trace.warning() << "detection near too close " << std::endl;
+    return true;
+  }
+  if (getProjDistance(nearIndex, pNew) < minDistance||
+      getProjDistance(myVectParent[nearIndex], pNew) < minDistance||
+      getProjDistance(myVectChildren[nearIndex].first, pNew) < minDistance||
+      getProjDistance(myVectChildren[nearIndex].second, pNew) < minDistance){
+    //DGtal::trace.warning() << "detection too close existing" << std::endl;
+    return true;
+  }
+  if (getProjDistanceDico(nearIndex, pNew, pCenter) < minDistance||
+      getProjDistanceDico(myVectParent[nearIndex], pNew, pCenter) < minDistance||
+      getProjDistanceDico(myVectChildren[nearIndex].first, pNew, pCenter) < minDistance||
+      getProjDistanceDico(myVectChildren[nearIndex].second, pNew, pCenter) < minDistance){
+    //DGtal::trace.warning() << "detection too close existing" << std::endl;
+    return true;
+  }
+  return false;
+}
+
+
 template< class DomCtr, int TDim >
 bool
 CoronaryArteryTree<DomCtr, TDim>::isIntersectingNEW(unsigned int index1, unsigned int index2, double epsilon) const

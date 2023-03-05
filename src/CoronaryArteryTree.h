@@ -49,7 +49,6 @@ class CoronaryArteryTree{
    */
 public:
   
-  
   // Domain
   typedef DGtal::SpaceND< TDim, int >   SpaceCT;
   typedef DGtal::HyperRectDomain<SpaceCT> DomCT;
