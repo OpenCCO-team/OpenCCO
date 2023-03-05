@@ -23,9 +23,10 @@
  *  It is used during the reconstruction using the following points:
  *  - bool isInside(const TPoint &p):
  *    Test if a point is inside the domain or not (a point can be outside after the optmisation).
- *  -  TPoint  randomPoint():
+ *  - TPoint  randomPoint():
  *    To get a point inside the domaine used in the tree construction.
- *
+ *  - bool checkNoIntersectDomain(const TPoint &pt1, const TPoint &pt2):
+      Usefull to ensure is a whole segment is inside the domain.
  */
 
 
@@ -71,6 +72,11 @@ public:
      */
     TPoint getDomainCenter() const{
         return myCenter;
+    }
+    bool
+    checkNoIntersectDomain(const TPoint &pt1, const TPoint &pt2)
+    {
+        return isInside(pt1) && isInside(pt2);
     }
 };
 
@@ -127,7 +133,34 @@ class ImageMaskDomainCtrl {
     bool isInside(const TPoint &p){
         return myImage(p) > myMaskThreshold;
     }
-    
+    /**
+     * Check if the segment defined by two points intersect the domain.
+     *
+     * @param pt1 first point of the segment
+     * @param pt2  second point of the segment
+     */
+   bool
+   checkNoIntersectDomain(const TPoint &pt1, const TPoint &pt2)
+    {
+      if (!myImage.domain().isInside(pt1) ||
+          !myImage.domain().isInside(pt2)){
+        return false;
+      }
+      DGtal::PointVector<TPoint::dimension, double> dir = pt2 - pt1;
+      dir /= dir.norm();
+      DGtal::PointVector<TPoint::dimension, double>  p;
+      for(unsigned int i=0; i<TPoint::dimension; i++ ){p[i]=pt1[i];}
+      for (unsigned int i = 0; i<(pt2 - pt1).norm(); i++){
+        DGtal::PointVector<TPoint::dimension, double>  p = pt1+dir*i;
+        TPoint pI;
+        for(unsigned int i=0; i<TPoint::dimension; i++ ){pI[i]=static_cast<int>(p[i]);}
+        if (myImage(pI) < myMaskThreshold)
+          return false;
+      }
+      
+      return true;
+    }
+
     
 };
 
