@@ -414,7 +414,17 @@ public:
                       unsigned int nearIndex,
                       unsigned int nbNeibour = 10,
                       double minDistance = 5.0) const;
-  
+  bool isIntersecting3d(const TPointD &pNew,
+                        const TPointD &pCenter,
+                        unsigned int nearIndex,
+                        unsigned int nbNeibour = 10,
+                        double minDistance = 5.0) const;
+  bool isIntersecting2d(const TPointD &pNew,
+                        const TPointD &pCenter,
+                        unsigned int nearIndex,
+                        unsigned int nbNeibour = 10,
+                        double minDistance = 5.0) const;
+    
   /**
    * Verifies if there is an intersection between two segment
    * @param index1 the index of the first segement
@@ -448,6 +458,9 @@ public:
    */
   double getDistanceThreshold();
   
+  //used to template specialisation
+  double getDistanceThreshold3d();
+  double getDistanceThreshold2d();
   /**
    * Updates the radius of a segment (as given in Eq. 19)
    * @param segIndex index of the parent segment to be updated
@@ -498,8 +511,9 @@ public:
    * @param myDThresold : the distance constaint value
    * @return the generated point and a bool true if sucess and false othewise
    */
-
   std::pair<DGtal::PointVector<TDim, double>, bool> generateALocation(double myDThresold);
+  std::pair<DGtal::PointVector<TDim, double>, bool> generateALocation2d(double myDThresold);
+  std::pair<DGtal::PointVector<TDim, double>, bool> generateALocation3d(double myDThresold);
 
   /**
    * Computes the length of a segment represented with the index and mutiliplies by the length factor.
@@ -646,7 +660,23 @@ public:
    */
   bool restrainDomain(const Image &imageDom, unsigned int threshold=128);
 
-  
+    /**
+     * Restrain the domain from the image mask (specialized in 3D).
+     * @param image name that should represent the restricted domain (ie all pixels set to 255)
+     * @param threshold the threshold to consider foreground value (used to test if at least one domain pixel exist).
+     * @return true the restriction was well set (image exist).
+     */
+  bool restrainDomain2d(const Image &imageDom, unsigned int threshold=128);
+
+    /**
+     * Restrain the domain from the image mask.
+     * @param image name that should represent the restricted domain (ie all pixels set to 255)
+     * @param threshold the threshold to consider foreground value (used to test if at least one domain pixel exist).
+     * @return true the restriction was well set (image exist).
+     */
+    bool restrainDomain3d(const Image &imageDom, unsigned int threshold=128);
+
+
   /**
    * Try to find the root point (the non distal vertex of the first segment).
    * The center of tree (distal segment) is supposed to be already given and
@@ -657,7 +687,11 @@ public:
    * @return true of the root point was found.
    */
    bool searchRootFarthest(const double & d, TPointD &ptRoot );
-  
+   // 3d specialisation
+   bool searchRootFarthest3d(const double & d, TPointD &ptRoot );
+   // 2d specialisation
+   bool searchRootFarthest2d(const double & d, TPointD &ptRoot );
+    
   
 private:
 

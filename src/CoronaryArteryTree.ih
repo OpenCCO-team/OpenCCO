@@ -336,7 +336,6 @@ bool
 CoronaryArteryTree<DomCtr, TDim>::addSegmentFromPoint(const TPointD &p,
                                         unsigned int nearIndex)
 {
-
   TPointD newCenter = findBarycenter(p, nearIndex);
   bool inter = hasNearestIntersections(myVectParent[nearIndex], nearIndex, p, newCenter,  10);
   double minDistance = 5.0;
@@ -434,48 +433,66 @@ template< >
 bool
 CoronaryArteryTree<ImageMaskDomainCtrl<2>, 2>::isIntersecting(const TPointD &pNew, const TPointD &pCenter, unsigned int nearIndex, unsigned int nbNeibour, double minDistance) const
 {
-  //bool inter = hasNearestIntersections(p, newCenter, 10);
-  //bool inter = hasNearestIntersections(myVectParent[nearIndex], nearIndex, p, newCenter,  nbNeibour);
-// to be fixed later, else 
-    bool inter = hasNearestIntersections(myVectParent[nearIndex], nearIndex, pNew, pCenter,  nbNeibour);
-  // bool inter = hasIntersections(pNew) || hasIntersections(pCenter);
-  if (inter){
-    //DGtal::trace.warning() << "detection intersection" << std::endl;
-    return true;
-  }
-  // Check barycenter is not too close considered segment
-  if ((pCenter-myVectSegments[nearIndex].myCoordinate).norm() < minDistance ||
-      (pCenter-myVectSegments[myVectParent[nearIndex]].myCoordinate).norm() < minDistance ||
-      (pCenter - pNew).norm() < minDistance){
-    //DGtal::trace.warning() << "new barycenter too close!!!!!!!!" << std::endl;
-    return true;
-  }
-  // Check new point with new segment of barycenter:
-  // - newPt and new segment [Barycenter-OriginNewSeg]
-  // - newPt and new segment [Barycenter-FatherNewSeg]
-  if ((pCenter-myVectSegments[nearIndex].myCoordinate).norm() < minDistance ||
-      (pCenter-myVectSegments[myVectParent[nearIndex]].myCoordinate).norm() < minDistance) {
-    //DGtal::trace.warning() << "initial too close to new!!!!!!!!" << std::endl;
-    return true;
-  }
-  if (getProjDistance(nearIndex, pNew) < minDistance) {
-    //DGtal::trace.warning() << "initial too close!!!!!!!!" << std::endl;
-    return true;
-
-  }
-  if (isToCloseFromNearest(pNew, minDistance)){
-    //DGtal::trace.warning() << "detection near too close " << std::endl;
-    return true;
-  }
-  if (getProjDistance(nearIndex, pNew) < minDistance||
-      getProjDistance(myVectParent[nearIndex], pNew) < minDistance||
-      getProjDistance(myVectChildren[nearIndex].first, pNew) < minDistance||
-      getProjDistance(myVectChildren[nearIndex].second, pNew) < minDistance){
-    //DGtal::trace.warning() << "detection too close existing" << std::endl;
-    return true;
-  }
-  return false;
+    return isIntersecting2d(pNew, pCenter, nearIndex, nbNeibour, minDistance);
 }
+template< >
+bool
+CoronaryArteryTree<CircularDomainCtrl<2>, 2>::isIntersecting(const TPointD &pNew, const TPointD &pCenter, unsigned int nearIndex, unsigned int nbNeibour, double minDistance) const
+{
+    return isIntersecting2d(pNew, pCenter, nearIndex, nbNeibour, minDistance);
+}
+
+template< class DomCtr, int TDim >
+bool
+CoronaryArteryTree<DomCtr, TDim>::isIntersecting2d(const TPointD &pNew,
+                      const TPointD &pCenter,
+                      unsigned int nearIndex,
+                      unsigned int nbNeibour,
+                      double minDistance ) const{
+    //bool inter = hasNearestIntersections(p, newCenter, 10);
+    //bool inter = hasNearestIntersections(myVectParent[nearIndex], nearIndex, p, newCenter,  nbNeibour);
+  // to be fixed later, else
+      bool inter = hasNearestIntersections(myVectParent[nearIndex], nearIndex, pNew, pCenter,  nbNeibour);
+    // bool inter = hasIntersections(pNew) || hasIntersections(pCenter);
+    if (inter){
+      //DGtal::trace.warning() << "detection intersection" << std::endl;
+      return true;
+    }
+    // Check barycenter is not too close considered segment
+    if ((pCenter-myVectSegments[nearIndex].myCoordinate).norm() < minDistance ||
+        (pCenter-myVectSegments[myVectParent[nearIndex]].myCoordinate).norm() < minDistance ||
+        (pCenter - pNew).norm() < minDistance){
+      //DGtal::trace.warning() << "new barycenter too close!!!!!!!!" << std::endl;
+      return true;
+    }
+    // Check new point with new segment of barycenter:
+    // - newPt and new segment [Barycenter-OriginNewSeg]
+    // - newPt and new segment [Barycenter-FatherNewSeg]
+    if ((pCenter-myVectSegments[nearIndex].myCoordinate).norm() < minDistance ||
+        (pCenter-myVectSegments[myVectParent[nearIndex]].myCoordinate).norm() < minDistance) {
+      //DGtal::trace.warning() << "initial too close to new!!!!!!!!" << std::endl;
+      return true;
+    }
+    if (getProjDistance(nearIndex, pNew) < minDistance) {
+      //DGtal::trace.warning() << "initial too close!!!!!!!!" << std::endl;
+      return true;
+
+    }
+    if (isToCloseFromNearest(pNew, minDistance)){
+      //DGtal::trace.warning() << "detection near too close " << std::endl;
+      return true;
+    }
+    if (getProjDistance(nearIndex, pNew) < minDistance||
+        getProjDistance(myVectParent[nearIndex], pNew) < minDistance||
+        getProjDistance(myVectChildren[nearIndex].first, pNew) < minDistance||
+        getProjDistance(myVectChildren[nearIndex].second, pNew) < minDistance){
+      //DGtal::trace.warning() << "detection too close existing" << std::endl;
+      return true;
+    }
+    return false;
+    
+}
+  
 
 /**
  * Template specialisation for 3D
@@ -484,56 +501,9 @@ template<>
 bool
 CoronaryArteryTree<ImageMaskDomainCtrl<3>, 3>::isIntersecting(const TPointD &pNew, const TPointD &pCenter, unsigned int nearIndex, unsigned int nbNeibour, double minDistance) const
 {
-  //bool inter = hasNearestIntersections(p, newCenter, 10);
-  //bool inter = hasNearestIntersections(myVectParent[nearIndex], nearIndex, p, newCenter,  nbNeibour);
-  //bool inter = hasNearestIntersections(myVectParent[nearIndex], nearIndex, pNew, pCenter,  nbNeibour);
-  bool inter = hasIntersections(pNew) || hasIntersections(pCenter);
-  if (inter){
-    //DGtal::trace.warning() << "detection intersection" << std::endl;
-    return true;
-  }
-  // Check barycenter is not too close considered segment
-  if ((pCenter-myVectSegments[nearIndex].myCoordinate).norm() < minDistance ||
-      (pCenter-myVectSegments[myVectParent[nearIndex]].myCoordinate).norm() < minDistance ||
-      (pCenter - pNew).norm() < minDistance){
-    //DGtal::trace.warning() << "new barycenter too close!!!!!!!!" << std::endl;
-    return true;
-  }
-  // Check new point with new segment of barycenter:
-  // - newPt and new segment [Barycenter-OriginNewSeg]
-  // - newPt and new segment [Barycenter-FatherNewSeg]
-  if ((pCenter-myVectSegments[nearIndex].myCoordinate).norm() < minDistance ||
-      (pCenter-myVectSegments[myVectParent[nearIndex]].myCoordinate).norm() < minDistance) {
-    //DGtal::trace.warning() << "initial too close to new!!!!!!!!" << std::endl;
-    return true;
-  }
-  if (getProjDistance(nearIndex, pNew) < minDistance) {
-    //DGtal::trace.warning() << "initial too close!!!!!!!!" << std::endl;
-    return true;
-
-  }
-  if (isToCloseFromNearest(pNew, minDistance)){
-    //DGtal::trace.warning() << "detection near too close " << std::endl;
-    return true;
-  }
-  if (getProjDistance(nearIndex, pNew) < minDistance||
-      getProjDistance(myVectParent[nearIndex], pNew) < minDistance||
-      getProjDistance(myVectChildren[nearIndex].first, pNew) < minDistance||
-      getProjDistance(myVectChildren[nearIndex].second, pNew) < minDistance){
-    //DGtal::trace.warning() << "detection too close existing" << std::endl;
-    return true;
-  }
-  if (getProjDistanceDico(nearIndex, pNew, pCenter) < minDistance||
-      getProjDistanceDico(myVectParent[nearIndex], pNew, pCenter) < minDistance||
-      getProjDistanceDico(myVectChildren[nearIndex].first, pNew, pCenter) < minDistance||
-      getProjDistanceDico(myVectChildren[nearIndex].second, pNew, pCenter) < minDistance){
-    //DGtal::trace.warning() << "detection too close existing" << std::endl;
-    return true;
-  }
-  return false;
+    return isIntersecting3d(pNew, pCenter, nearIndex, nbNeibour, minDistance);
 }
 
-// fixme : merge code since duplicated with below
 /**
  * Template specialisation for 3D
  **/
@@ -541,53 +511,63 @@ template<>
 bool
 CoronaryArteryTree<CircularDomainCtrl<3>, 3>::isIntersecting(const TPointD &pNew, const TPointD &pCenter, unsigned int nearIndex, unsigned int nbNeibour, double minDistance) const
 {
-  //bool inter = hasNearestIntersections(p, newCenter, 10);
-  //bool inter = hasNearestIntersections(myVectParent[nearIndex], nearIndex, p, newCenter,  nbNeibour);
-  //bool inter = hasNearestIntersections(myVectParent[nearIndex], nearIndex, pNew, pCenter,  nbNeibour);
-  bool inter = hasIntersections(pNew) || hasIntersections(pCenter);
-  if (inter){
-    //DGtal::trace.warning() << "detection intersection" << std::endl;
-    return true;
-  }
-  // Check barycenter is not too close considered segment
-  if ((pCenter-myVectSegments[nearIndex].myCoordinate).norm() < minDistance ||
-      (pCenter-myVectSegments[myVectParent[nearIndex]].myCoordinate).norm() < minDistance ||
-      (pCenter - pNew).norm() < minDistance){
-    //DGtal::trace.warning() << "new barycenter too close!!!!!!!!" << std::endl;
-    return true;
-  }
-  // Check new point with new segment of barycenter:
-  // - newPt and new segment [Barycenter-OriginNewSeg]
-  // - newPt and new segment [Barycenter-FatherNewSeg]
-  if ((pCenter-myVectSegments[nearIndex].myCoordinate).norm() < minDistance ||
-      (pCenter-myVectSegments[myVectParent[nearIndex]].myCoordinate).norm() < minDistance) {
-    //DGtal::trace.warning() << "initial too close to new!!!!!!!!" << std::endl;
-    return true;
-  }
-  if (getProjDistance(nearIndex, pNew) < minDistance) {
-    //DGtal::trace.warning() << "initial too close!!!!!!!!" << std::endl;
-    return true;
+    return isIntersecting3d(pNew, pCenter, nearIndex, nbNeibour, minDistance);
+}
 
-  }
-  if (isToCloseFromNearest(pNew, minDistance)){
-    //DGtal::trace.warning() << "detection near too close " << std::endl;
-    return true;
-  }
-  if (getProjDistance(nearIndex, pNew) < minDistance||
-      getProjDistance(myVectParent[nearIndex], pNew) < minDistance||
-      getProjDistance(myVectChildren[nearIndex].first, pNew) < minDistance||
-      getProjDistance(myVectChildren[nearIndex].second, pNew) < minDistance){
-    //DGtal::trace.warning() << "detection too close existing" << std::endl;
-    return true;
-  }
-  if (getProjDistanceDico(nearIndex, pNew, pCenter) < minDistance||
-      getProjDistanceDico(myVectParent[nearIndex], pNew, pCenter) < minDistance||
-      getProjDistanceDico(myVectChildren[nearIndex].first, pNew, pCenter) < minDistance||
-      getProjDistanceDico(myVectChildren[nearIndex].second, pNew, pCenter) < minDistance){
-    //DGtal::trace.warning() << "detection too close existing" << std::endl;
-    return true;
-  }
-  return false;
+template< class DomCtr, int TDim >
+bool
+CoronaryArteryTree<DomCtr, TDim>::isIntersecting3d(const TPointD &pNew,
+                                                   const TPointD &pCenter,
+                                                   unsigned int nearIndex,
+                                                   unsigned int nbNeibour,
+                                                   double minDistance) const{
+    //bool inter = hasNearestIntersections(p, newCenter, 10);
+    //bool inter = hasNearestIntersections(myVectParent[nearIndex], nearIndex, p, newCenter,  nbNeibour);
+    //bool inter = hasNearestIntersections(myVectParent[nearIndex], nearIndex, pNew, pCenter,  nbNeibour);
+    bool inter = hasIntersections(pNew) || hasIntersections(pCenter);
+    if (inter){
+      //DGtal::trace.warning() << "detection intersection" << std::endl;
+      return true;
+    }
+    // Check barycenter is not too close considered segment
+    if ((pCenter-myVectSegments[nearIndex].myCoordinate).norm() < minDistance ||
+        (pCenter-myVectSegments[myVectParent[nearIndex]].myCoordinate).norm() < minDistance ||
+        (pCenter - pNew).norm() < minDistance){
+      //DGtal::trace.warning() << "new barycenter too close!!!!!!!!" << std::endl;
+      return true;
+    }
+    // Check new point with new segment of barycenter:
+    // - newPt and new segment [Barycenter-OriginNewSeg]
+    // - newPt and new segment [Barycenter-FatherNewSeg]
+    if ((pCenter-myVectSegments[nearIndex].myCoordinate).norm() < minDistance ||
+        (pCenter-myVectSegments[myVectParent[nearIndex]].myCoordinate).norm() < minDistance) {
+      //DGtal::trace.warning() << "initial too close to new!!!!!!!!" << std::endl;
+      return true;
+    }
+    if (getProjDistance(nearIndex, pNew) < minDistance) {
+      //DGtal::trace.warning() << "initial too close!!!!!!!!" << std::endl;
+      return true;
+
+    }
+    if (isToCloseFromNearest(pNew, minDistance)){
+      //DGtal::trace.warning() << "detection near too close " << std::endl;
+      return true;
+    }
+    if (getProjDistance(nearIndex, pNew) < minDistance||
+        getProjDistance(myVectParent[nearIndex], pNew) < minDistance||
+        getProjDistance(myVectChildren[nearIndex].first, pNew) < minDistance||
+        getProjDistance(myVectChildren[nearIndex].second, pNew) < minDistance){
+      //DGtal::trace.warning() << "detection too close existing" << std::endl;
+      return true;
+    }
+    if (getProjDistanceDico(nearIndex, pNew, pCenter) < minDistance||
+        getProjDistanceDico(myVectParent[nearIndex], pNew, pCenter) < minDistance||
+        getProjDistanceDico(myVectChildren[nearIndex].first, pNew, pCenter) < minDistance||
+        getProjDistanceDico(myVectChildren[nearIndex].second, pNew, pCenter) < minDistance){
+      //DGtal::trace.warning() << "detection too close existing" << std::endl;
+      return true;
+    }
+    return false;
 }
 
 
@@ -798,11 +778,26 @@ CoronaryArteryTree<DomCtr, TDim>::generateNewLocation(unsigned int nbTrials){
   }
   return res;
 }
-// Fix me: partial specialisation (merge same content in other common function
+
+
 template<>
 std::pair<typename CoronaryArteryTree<ImageMaskDomainCtrl<2>, 2>::TPointD, bool>
 CoronaryArteryTree<ImageMaskDomainCtrl<2>, 2>::generateALocation(double myDThresold) {
+    return generateALocation2d(myDThresold);
+}
+
+template<>
+std::pair<typename CoronaryArteryTree<CircularDomainCtrl<2>, 2>::TPointD, bool>
+CoronaryArteryTree< CircularDomainCtrl<2>, 2>::generateALocation(double myDThresold) {
+    return generateALocation2d(myDThresold);
+}
+
+
+template< typename DomCtr, int TDim >
+std::pair<DGtal::PointVector<TDim, double>, bool>
+CoronaryArteryTree<DomCtr, TDim>::generateALocation2d(double myDThresold){
     TPointD res;
+    // Fixme : To be merge
     if (myIsImageDomainRestrained){
       res = GeomHelpers::generateRandomPtOnImageDomain2D(myImageDomain, myForegroundThreshold,  myImageDist);
     } else {
@@ -826,84 +821,46 @@ CoronaryArteryTree<ImageMaskDomainCtrl<2>, 2>::generateALocation(double myDThres
     return  std::pair<TPointD, bool> {res, isComp && isComp2};
 }
 
-template<>
-std::pair<typename CoronaryArteryTree<CircularDomainCtrl<2>, 2>::TPointD, bool>
-CoronaryArteryTree< CircularDomainCtrl<2>, 2>::generateALocation(double myDThresold) {
-  TPointD res;
-  if (myIsImageDomainRestrained){
-    res = GeomHelpers::generateRandomPtOnImageDomain2D(myImageDomain, myForegroundThreshold,  myImageDist);
-  } else {
-    res = GeomHelpers::generateRandomPtOnDisk(myTreeCenter, my_rPerf);
-  }
-  bool isComp = true;
-  bool isComp2 = true;
-  unsigned int id = 1;
-  
-  while ( isComp && id < myVectTerminals.size() ) {
-    isComp = (myVectSegments[myVectTerminals[id]].myCoordinate - res).norm() > myDThresold;
-   //isComp = getProjDistance(myVectTerminals[id], res) > myDThresold;
-    id++;
-  }
-  
-  //generated point must have a certain distance to ALL tree segments
-  while ( isComp2 && id < myVectSegments.size() ) {
-    isComp2 = getProjDistance(myVectSegments[id].myIndex, res) > myVectSegments[id].myRadius;
-    id++;
-  }
-  return  std::pair<TPointD, bool> {res, isComp && isComp2};
-}
+
 
 template<>
 std::pair<typename CoronaryArteryTree<CircularDomainCtrl<3>,3>::TPointD, bool>
 CoronaryArteryTree<CircularDomainCtrl<3>, 3>::generateALocation(double myDThresold) {
-  TPointD res;
-  if (myIsImageDomainRestrained){
-    res = GeomHelpers::generateRandomPtOnImageDomain3D(myImageDomain, myForegroundThreshold,  myImageDist);
-  } else {
-    res = GeomHelpers::generateRandomPtOnDisk(myTreeCenter, my_rPerf);
-  }
-  bool isComp = true;
-  bool isComp2 = true;
-  unsigned int id = 1;
-  
-  while ( isComp && id < myVectTerminals.size() ) {
-    isComp = (myVectSegments[myVectTerminals[id]].myCoordinate - res).norm() > myDThresold;
-   //isComp = getProjDistance(myVectTerminals[id], res) > myDThresold;
-    id++;
-  }
-  
-  //generated point must have a certain distance to ALL tree segments
-  while ( isComp2 && id < myVectSegments.size() ) {
-    isComp2 = getProjDistance(myVectSegments[id].myIndex, res) > myVectSegments[id].myRadius;
-    id++;
-  }
-  return  std::pair<TPointD, bool> {res, isComp && isComp2};
+    return generateALocation3d(myDThresold);
 }
+
 template<>
 std::pair<typename CoronaryArteryTree<ImageMaskDomainCtrl<3>,3>::TPointD, bool>
 CoronaryArteryTree<ImageMaskDomainCtrl<3>, 3>::generateALocation(double myDThresold) {
-  TPointD res;
-  if (myIsImageDomainRestrained){
-    res = GeomHelpers::generateRandomPtOnImageDomain3D(myImageDomain, myForegroundThreshold,  myImageDist);
-  } else {
-    res = GeomHelpers::generateRandomPtOnDisk(myTreeCenter, my_rPerf);
-  }
-  bool isComp = true;
-  bool isComp2 = true;
-  unsigned int id = 1;
-  
-  while ( isComp && id < myVectTerminals.size() ) {
-    isComp = (myVectSegments[myVectTerminals[id]].myCoordinate - res).norm() > myDThresold;
-   //isComp = getProjDistance(myVectTerminals[id], res) > myDThresold;
-    id++;
-  }
-  
-  //generated point must have a certain distance to ALL tree segments
-  while ( isComp2 && id < myVectSegments.size() ) {
-    isComp2 = getProjDistance(myVectSegments[id].myIndex, res) > myVectSegments[id].myRadius;
-    id++;
-  }
-  return  std::pair<TPointD, bool> {res, isComp && isComp2};
+    return generateALocation3d(myDThresold);
+}
+
+template< typename DomCtr, int TDim >
+std::pair<DGtal::PointVector<TDim, double>, bool>
+CoronaryArteryTree<DomCtr, TDim>::generateALocation3d(double myDThresold){
+    TPointD res;
+    // will be make unique
+    if (myIsImageDomainRestrained){
+      res = GeomHelpers::generateRandomPtOnImageDomain3D(myImageDomain, myForegroundThreshold,  myImageDist);
+    } else {
+      res = GeomHelpers::generateRandomPtOnDisk(myTreeCenter, my_rPerf);
+    }
+    bool isComp = true;
+    bool isComp2 = true;
+    unsigned int id = 1;
+    
+    while ( isComp && id < myVectTerminals.size() ) {
+      isComp = (myVectSegments[myVectTerminals[id]].myCoordinate - res).norm() > myDThresold;
+     //isComp = getProjDistance(myVectTerminals[id], res) > myDThresold;
+      id++;
+    }
+    
+    //generated point must have a certain distance to ALL tree segments
+    while ( isComp2 && id < myVectSegments.size() ) {
+      isComp2 = getProjDistance(myVectSegments[id].myIndex, res) > myVectSegments[id].myRadius;
+      id++;
+    }
+    return  std::pair<TPointD, bool> {res, isComp && isComp2};
 }
 
 
@@ -1200,20 +1157,24 @@ template< >
 double
 CoronaryArteryTree<CircularDomainCtrl<2>, 2>::getDistanceThreshold()
 {
-  // Check with python code, here is the equation after simplification
-  return sqrt((M_PI*my_rPerf*my_rPerf)/myKTerm);
-  //Scale factor must be taken into account here
-  //return sqrt((M_PI*(myKTerm + 1)*myRsupp*myRsupp)/myKTerm) / myLengthFactor;
+    return getDistanceThreshold2d();
 }
 template< >
 double
 CoronaryArteryTree<ImageMaskDomainCtrl<2>, 2>::getDistanceThreshold()
 {
-  // Check with python code, here is the equation after simplification
-  return sqrt((M_PI*my_rPerf*my_rPerf)/myKTerm);
-  //Scale factor must be taken into account here
-  //return sqrt((M_PI*(myKTerm + 1)*myRsupp*myRsupp)/myKTerm) / myLengthFactor;
+    return getDistanceThreshold2d();
 }
+template< typename DomCtr, int TDim >
+double
+CoronaryArteryTree<DomCtr, TDim>::getDistanceThreshold2d()
+{
+    // Check with python code, here is the equation after simplification
+    return sqrt((M_PI*my_rPerf*my_rPerf)/myKTerm);
+    //Scale factor must be taken into account here
+    //return sqrt((M_PI*(myKTerm + 1)*myRsupp*myRsupp)/myKTerm) / myLengthFactor;
+}
+
 /**
  * Template specialisation for 3D
  **/
@@ -1221,22 +1182,24 @@ template< >
 double
 CoronaryArteryTree<ImageMaskDomainCtrl<3>, 3>::getDistanceThreshold()
 {
-  // Check with python code, here is the equation after simplification
-  return pow(((4.0*M_PI*my_rPerf*my_rPerf*my_rPerf)/(3.0*myKTerm)),1.0/3.0);
-  //Scale factor must be taken into account here
-  //return sqrt((M_PI*(myKTerm + 1)*myRsupp*myRsupp)/myKTerm) / myLengthFactor;
+    return getDistanceThreshold3d();
 }
 
 template< >
 double
 CoronaryArteryTree<CircularDomainCtrl<3>, 3>::getDistanceThreshold()
 {
-  // Check with python code, here is the equation after simplification
-  return pow(((4.0*M_PI*my_rPerf*my_rPerf*my_rPerf)/(3.0*myKTerm)),1.0/3.0);
-  //Scale factor must be taken into account here
-  //return sqrt((M_PI*(myKTerm + 1)*myRsupp*myRsupp)/myKTerm) / myLengthFactor;
+    return getDistanceThreshold3d();
 }
 
+template< typename DomCtr, int TDim >
+double
+CoronaryArteryTree<DomCtr, TDim>::getDistanceThreshold3d(){
+    // Check with python code, here is the equation after simplification
+    return pow(((4.0*M_PI*my_rPerf*my_rPerf*my_rPerf)/(3.0*myKTerm)),1.0/3.0);
+    //Scale factor must be taken into account here
+    //return sqrt((M_PI*(myKTerm + 1)*myRsupp*myRsupp)/myKTerm) / myLengthFactor;
+}
 
 template< typename DomCtr, int TDim >
 typename CoronaryArteryTree<DomCtr, TDim>::TPointD
@@ -1252,38 +1215,14 @@ CoronaryArteryTree<DomCtr, TDim>::findBarycenter(const TPointD &p, unsigned int 
   return barycenter;
 }
 
+
 /**
  * Template specialisation for 2D
  **/
 template< >
 bool
 CoronaryArteryTree<CircularDomainCtrl<2>, 2>::restrainDomain(const Image &imageDom, unsigned int threshold){
-  myForegroundThreshold = threshold;
-  myImageDomain = imageDom;
-  bool isOk = false;
-  // Check if at least one pixel of with foreground value exist:
-  for (auto p: myImageDomain.domain()){
-    if (myImageDomain(p) >= threshold){
-      isOk = true;
-      break;
-    }
-  }
-  //Check if the root is inside the domain
-  if(isOk) {
-    DGtal::Z2i::RealPoint pRoot = myVectSegments[0].myCoordinate;
-    DGtal::Z2i::Point pRootI;
-    for (auto i=0; i< 2; i++){
-        pRootI[i] = static_cast<int>(pRoot[i]);
-    }
-  
-    if(myImageDomain.domain().isInside(pRootI) &&
-       myImageDomain(pRootI) >= threshold) {
-       myIsImageDomainRestrained = true;
-       myImageDist = GeomHelpers::getImageDistance2D<Image, ImageDist>(myImageDomain, threshold);
-      return true;
-    }
-  }
-  return false;
+    return restrainDomain2d(imageDom, threshold);
 }
 
 /**
@@ -1292,77 +1231,65 @@ CoronaryArteryTree<CircularDomainCtrl<2>, 2>::restrainDomain(const Image &imageD
 template< >
 bool
 CoronaryArteryTree<ImageMaskDomainCtrl<2>, 2>::restrainDomain(const Image &imageDom, unsigned int threshold){
-  myForegroundThreshold = threshold;
-  myImageDomain = imageDom;
-  bool isOk = false;
-  // Check if at least one pixel of with foreground value exist:
-  for (auto p: myImageDomain.domain()){
-    if (myImageDomain(p) >= threshold){
-      isOk = true;
-      break;
-    }
-  }
-  //Check if the root is inside the domain
-  if(isOk) {
-    DGtal::Z2i::RealPoint pRoot = myVectSegments[0].myCoordinate;
-    DGtal::Z2i::Point pRootI;
-    for (auto i=0; i< 2; i++){
-        pRootI[i] = static_cast<int>(pRoot[i]);
-    }
-  
-    if(myImageDomain.domain().isInside(pRootI) &&
-       myImageDomain(pRootI) >= threshold) {
-       myIsImageDomainRestrained = true;
-       myImageDist = GeomHelpers::getImageDistance2D<Image, ImageDist>(myImageDomain, threshold);
-      return true;
-    }
-  }
-  return false;
+    return restrainDomain2d(imageDom, threshold);
 }
-/**
- * Template specialisation for 3D
- **/
+
+template< typename DomCtr, int TDim >
+bool
+CoronaryArteryTree<DomCtr, TDim>::restrainDomain2d(const Image &imageDom,
+                                                   unsigned int threshold)
+{
+    myForegroundThreshold = threshold;
+    myImageDomain = imageDom;
+    bool isOk = false;
+    // Check if at least one pixel of with foreground value exist:
+    for (auto p: myImageDomain.domain()){
+      if (myImageDomain(p) >= threshold){
+        isOk = true;
+        break;
+      }
+    }
+    //Check if the root is inside the domain
+    if(isOk) {
+      DGtal::Z2i::RealPoint pRoot = myVectSegments[0].myCoordinate;
+      DGtal::Z2i::Point pRootI;
+      for (auto i=0; i< 2; i++){
+          pRootI[i] = static_cast<int>(pRoot[i]);
+      }
+    
+      if(myImageDomain.domain().isInside(pRootI) &&
+         myImageDomain(pRootI) >= threshold) {
+         myIsImageDomainRestrained = true;
+         myImageDist = GeomHelpers::getImageDistance2D<Image, ImageDist>(myImageDomain, threshold);
+        return true;
+      }
+    }
+    return false;
+}
+
 template<>
 bool
 CoronaryArteryTree<CircularDomainCtrl<3>, 3>::restrainDomain(const Image &imageDom,
-                                      unsigned int threshold){
-  
-   myForegroundThreshold = threshold;
-  myImageDomain = imageDom;
-  bool isOk = false;
-  // Check if at least one pixel of with foreground value exist:
-  for (auto p: myImageDomain.domain()){
-    if (myImageDomain(p) >= threshold){
-      isOk = true;
-      break;
-    }
-  }
- 
-  //Check if the root is inside the domain
-  if(isOk) {
-    DGtal::Z3i::RealPoint pRoot = myVectSegments[0].myCoordinate;
-    DGtal::Z3i::Point pRootI;
-    for (auto i=0; i< 3; i++){
-        pRootI[i] = static_cast<int>(pRoot[i]);
-    }
-   
-  
-    if(myImageDomain.domain().isInside(pRootI) &&
-       myImageDomain(pRootI) >= threshold) {
-       myIsImageDomainRestrained = true;
-       myImageDist = GeomHelpers::getImageDistance3D<Image, ImageDist>(myImageDomain, threshold);
-      return true;
-    }
-  }
-  return false;
+                                                             unsigned int threshold){
+    return restrainDomain3d(imageDom, threshold);
 }
-
 
 template<>
 bool
 CoronaryArteryTree<ImageMaskDomainCtrl<3>, 3>::restrainDomain(const Image &imageDom,
-                                      unsigned int threshold){
-  
+                                                              unsigned int threshold){
+    return restrainDomain3d(imageDom, threshold);
+}
+
+
+
+/**
+ * Template specialisation for 3D
+ **/
+template< typename DomCtr, int TDim >
+bool
+CoronaryArteryTree<DomCtr, TDim>::restrainDomain3d(const Image &imageDom,
+                                                   unsigned int threshold){
    myForegroundThreshold = threshold;
   myImageDomain = imageDom;
   bool isOk = false;
@@ -1402,78 +1329,70 @@ template<>
 bool
 CoronaryArteryTree<ImageMaskDomainCtrl<2>, 2>::searchRootFarthest(const double & d,
                                              DGtal::PointVector<2, double> &ptRoot ){
-  DGtal::Z2i::DigitalSet sPts =  GeomHelpers::pointsOnCircle(myTreeCenter, d);
-  for (const DGtal::Z2i::Point &p : sPts){
-      if (GeomHelpers::checkNoIntersectDomain(myImageDomain, myForegroundThreshold,
-                                              p, DGtal::Z2i::Point(myTreeCenter[0],
-                                                                   myTreeCenter[1])) ){
-        ptRoot[0] = p[0];
-        ptRoot[1] = p[1];
-        return true;
-      }
-  }
-  return false;
+    return searchRootFarthest2d(d, ptRoot);
 }
 
 template<>
 bool
 CoronaryArteryTree<CircularDomainCtrl<2>, 2>::searchRootFarthest(const double & d,
                                              DGtal::PointVector<2, double> &ptRoot ){
-  DGtal::Z2i::DigitalSet sPts =  GeomHelpers::pointsOnCircle(myTreeCenter, d);
-  for (const DGtal::Z2i::Point &p : sPts){
-      if (GeomHelpers::checkNoIntersectDomain(myImageDomain, myForegroundThreshold,
-                                              p, DGtal::Z2i::Point(myTreeCenter[0],
-                                                                   myTreeCenter[1])) ){
-        ptRoot[0] = p[0];
-        ptRoot[1] = p[1];
-        return true;
-      }
-  }
-  return false;
+    return searchRootFarthest2d(d, ptRoot);
 }
+
+
+template< typename DomCtr, int TDim >
+bool
+CoronaryArteryTree<DomCtr, TDim>::searchRootFarthest2d(const double & d, TPointD &ptRoot ){
+    DGtal::Z2i::DigitalSet sPts =  GeomHelpers::pointsOnCircle(myTreeCenter, d);
+    for (const DGtal::Z2i::Point &p : sPts){
+        if (GeomHelpers::checkNoIntersectDomain(myImageDomain, myForegroundThreshold,
+                                                p, DGtal::Z2i::Point(myTreeCenter[0],
+                                                                     myTreeCenter[1])) ){
+          ptRoot[0] = p[0];
+          ptRoot[1] = p[1];
+          return true;
+        }
+    }
+    return false;
+}
+
+ 
 
 /**
  * Template specialisation for 3D
- * @Todo BK
  **/
-// fix me duplicated code for template specialisation
 
 template<>
 bool
 CoronaryArteryTree<CircularDomainCtrl<3>, 3>::searchRootFarthest(const double & d,
                                              DGtal::PointVector<3, double> &ptRoot ){
-  DGtal::Z3i::DigitalSet sPts =  GeomHelpers::pointsOnBall(myTreeCenter, d);
-  for (const DGtal::Z3i::Point &p : sPts){
-      if (GeomHelpers::checkNoIntersectDomain(myImageDomain, myForegroundThreshold,
-                                              p, DGtal::Z3i::Point(myTreeCenter[0],
-                                                                   myTreeCenter[1],
-                                                                   myTreeCenter[2])) ){
-        ptRoot[0] = p[0];
-        ptRoot[1] = p[1];
-        ptRoot[2] = p[2];
-        return true;
-      }
-  }
-  return false;
+    return searchRootFarthest3d(d, ptRoot);
 }
 
 template<>
 bool
 CoronaryArteryTree<ImageMaskDomainCtrl<3>, 3>::searchRootFarthest(const double & d,
                                              DGtal::PointVector<3, double> &ptRoot ){
-  DGtal::Z3i::DigitalSet sPts =  GeomHelpers::pointsOnBall(myTreeCenter, d);
-  for (const DGtal::Z3i::Point &p : sPts){
-      if (GeomHelpers::checkNoIntersectDomain(myImageDomain, myForegroundThreshold,
-                                              p, DGtal::Z3i::Point(myTreeCenter[0],
-                                                                   myTreeCenter[1],
-                                                                   myTreeCenter[2])) ){
-        ptRoot[0] = p[0];
-        ptRoot[1] = p[1];
-        ptRoot[2] = p[2];
-        return true;
-      }
-  }
-  return false;
+    return searchRootFarthest3d(d, ptRoot);
+}
+
+template< typename DomCtr, int TDim >
+bool
+CoronaryArteryTree<DomCtr, TDim>::searchRootFarthest3d(const double & d,
+                                                       TPointD &ptRoot ){
+    DGtal::Z3i::DigitalSet sPts =  GeomHelpers::pointsOnBall(myTreeCenter, d);
+    for (const DGtal::Z3i::Point &p : sPts){
+        if (GeomHelpers::checkNoIntersectDomain(myImageDomain, myForegroundThreshold,
+                                                p, DGtal::Z3i::Point(myTreeCenter[0],
+                                                                     myTreeCenter[1],
+                                                                     myTreeCenter[2])) ){
+          ptRoot[0] = p[0];
+          ptRoot[1] = p[1];
+          ptRoot[2] = p[2];
+          return true;
+        }
+    }
+    return false;
 }
 
 
