@@ -63,6 +63,7 @@ generateRandomPtOnDisk(const TPoint &ptCenter, double r)
 }
 */
 
+// FixMe: remove since already integrated in the DomainController
 /**
  * Template specialisation for 2D
  **/
@@ -82,6 +83,8 @@ generateRandomPtOnDisk(const DGtal::PointVector<2, double> &ptCenter, double r)
   return DGtal::PointVector<2, double>(x+ptCenter[0], y+ptCenter[1]);
 }
 
+
+// FixMe: remove since already integrated in the DomainController
 /**
  * Template specialisation for 3D
  **/
@@ -103,6 +106,7 @@ generateRandomPtOnDisk(const DGtal::PointVector<3, double> &ptCenter, double r)
   return DGtal::PointVector<3, double>(x+ptCenter[0], y+ptCenter[1], z+ptCenter[2]);
 }
 
+// FixMe: remove since already integrated in the DomainController
 template<typename TImage, typename TImageDist>
 inline
 DGtal::Z2i::Point
@@ -133,7 +137,7 @@ generateRandomPtOnImageDomain2D(const TImage &image, unsigned int fgTh,
   return pCand;
 }
 
-
+// FixMe: remove since already integrated in the DomainController
 template<typename TImage, typename TImageDist>
 inline
 DGtal::Z3i::Point

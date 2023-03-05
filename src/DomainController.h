@@ -18,7 +18,15 @@
 #include "DGtal/kernel/BasicPointPredicates.h"
 #include "DGtal/io/readers/GenericReader.h"
 
-
+/**
+ * Classes to control the construction domain of the coronary aretery tree.
+ *  It is used during the reconstruction using the following points:
+ *  - bool isInside(const TPoint &p):
+ *    Test if a point is inside the domain or not (a point can be outside after the optmisation).
+ *  -  TPoint  randomPoint():
+ *    To get a point inside the domaine used in the tree construction.
+ *
+ */
 
 
 /**
@@ -82,16 +90,41 @@ class ImageMaskDomainCtrl {
 
     TPoint myDomPtLow, myDomPtUpper;
     int myMaskThreshold {128};
+    unsigned int myNbTry {0};
     Image myImage;
     Image myDistanceImage;
     // Constructor for Masked domain type
-    ImageMaskDomainCtrl(const std::string &fileImgDomain, int maskThreshold){
+    ImageMaskDomainCtrl(const std::string &fileImgDomain,
+                        int maskThreshold, unsigned int nbTry=100): myNbTry{nbTry}{
         myImage = DGtal::GenericReader<Image>::import( fileImgDomain );
         myDistanceImage = GeomHelpers::getImageDistance<Image, Image>(myImage);
     };
     
+    TPointI
+    randomPoint()
+    {
+      bool found = false;
+      unsigned int x = 0;
+      unsigned int y = 0;
+      TPointI pMin = myImage.domain().lowerBound();
+      TPointI pMax = myImage.domain().upperBound();
+      TPointI dp = pMax - pMin;
+      TPointI pCand;
+      unsigned int n = 0;
+      while(!found && n < myNbTry){
+          for (unsigned int i = 0; i< TDim; i++){
+              pCand[i] = pCand[i]%dp[i];
+          }
+        found = myImage(pCand)>=myMaskThreshold &&
+                abs(myDistanceImage(pCand)) >= 10.0;
+        n++;
+      }
+      if (n >= myNbTry){
+        for(auto p : myImage.domain()){if (myImage(p)>=myMaskThreshold && abs(myDistanceImage(p)) >= 10.0 ) return p;}
+      }
+      return pCand;
+    }
     bool isInside(const TPoint &p){
-        
         return myImage(p) > myMaskThreshold;
     }
     
