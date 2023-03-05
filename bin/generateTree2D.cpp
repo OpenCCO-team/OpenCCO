@@ -61,7 +61,7 @@ int main(int argc, char *const *argv)
   end = clock();
   printf ("Execution time: %0.8f sec\n", ((double) end - start)/CLOCKS_PER_SEC);
   if (exportXMLName != ""){
-      XMLHelpers::writeTreeToXml<ImageMaskDomainCtrl<2>, 2>(tree, exportXMLName.c_str());
+      XMLHelpers::writeTreeToXml(tree, exportXMLName.c_str());
   }
   
   std::string filename;

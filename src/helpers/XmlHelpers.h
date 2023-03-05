@@ -34,8 +34,8 @@ namespace XMLHelpers {
 /**
  * prints a node into XML/GXL format from the NodeTable
  */
-template <int TDim>
-void subPrint_node(int nodeType, DGtal::PointVector<TDim, double> pos, int idNode, ofstream &os){
+template <typename TPoint>
+void subPrint_node(int nodeType, TPoint pos, int idNode, ofstream &os){
   os<<"  <node id=\"n"<<idNode<<"\">"<<endl;
   os<<"    <attr name=\" nodeType\">"<<endl;
   if(nodeType == NodeTable::ROOT){
@@ -52,7 +52,7 @@ void subPrint_node(int nodeType, DGtal::PointVector<TDim, double> pos, int idNod
   os<<"    <attr name=\" position\">"<<endl;
   os<<"      <tup>"<<endl;
   
-  for (auto i=0; i < TDim; i++){
+  for (auto i=0; i <pos.dimension; i++){
    os<<"        <float>"<<pos[i]<<"</float>"<<endl;
   }
    
@@ -64,6 +64,7 @@ void subPrint_node(int nodeType, DGtal::PointVector<TDim, double> pos, int idNod
 /**
  * prints an edge into XML/GXL format from a node table
  */
+
  void subPrint_edge(int idSeg, int idSegPar, double flow, double radius,double resist, ofstream &os){
  
   if(idSeg != 0){
@@ -84,11 +85,10 @@ void subPrint_node(int nodeType, DGtal::PointVector<TDim, double> pos, int idNod
 }
 
 
-template<typename DomCtr, int TDim>
+template<typename TTree>
 inline
-void writeTreeToXml(const CoronaryArteryTree< DomCtr, TDim> &tree, const char * filePath) {
+void writeTreeToXml(const TTree &tree, const char * filePath) {
   ofstream output;
-  
   //writing the tree structure as GXL to the filePath specified
   output.open(filePath);
   output<<"<gxl><graph id=\""<<filePath<<"\" edgeids=\" true\" edgemode=\" directed\" hypergraph=\" false\">"<<endl;
@@ -105,13 +105,13 @@ void writeTreeToXml(const CoronaryArteryTree< DomCtr, TDim> &tree, const char * 
    for(auto s : tree.myVectSegments) {
      // test if the segment is the root or its parent
      if (tree.myVectParent[s.myIndex]==0) //root node
-       subPrint_node<TDim>(NodeTable::ROOT, s.myCoordinate, s.myIndex, output);
+       subPrint_node(NodeTable::ROOT, s.myCoordinate, s.myIndex, output);
      else {
        if(std::find(begin(tree.myVectTerminals), end(tree.myVectTerminals), s.myIndex) != end(tree.myVectTerminals)) { //terminal node
-       subPrint_node<TDim>(NodeTable::TERM, s.myCoordinate, s.myIndex, output);
+       subPrint_node(NodeTable::TERM, s.myCoordinate, s.myIndex, output);
        }
        else { // bif node
-       subPrint_node<TDim>(NodeTable::BIF, s.myCoordinate, s.myIndex, output);
+       subPrint_node(NodeTable::BIF, s.myCoordinate, s.myIndex, output);
        }
      }
    }

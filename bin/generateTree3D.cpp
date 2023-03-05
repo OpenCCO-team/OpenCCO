@@ -165,25 +165,24 @@ int main(int argc, char **argv)
   if(nameImgDom != "" ){
     auto tree = constructImageDomeTree(aPerf, nbTerm,
                                        nameImgDom, 128, verbose);
-    XMLHelpers::writeTreeToXml<ImageMaskDomainCtrl<3>, 3>(tree, "tree_3D.xml");
+    XMLHelpers::writeTreeToXml(tree, "tree_3D.xml");
     exportResultingMesh(tree, outputMeshName);
     #ifdef WITH_VISU3D_QGLVIEWER
     if (display3D) display3DTree(tree);
     #endif
     if (exportDatName != "") exportDat(tree, exportDatName);
-    if (exportXMLName != "") XMLHelpers::writeTreeToXml<ImageMaskDomainCtrl<3>, 3>(tree,
-                                                                                   exportXMLName.c_str());
+    if (exportXMLName != "") XMLHelpers::writeTreeToXml(tree, exportXMLName.c_str());
   } else
   {
     auto tree = ConstructionHelpers::constructTree<CircularDomainCtrl<3>, 3>(aPerf, nbTerm, nameImgDom, 128, verbose, ptRoot);
-      XMLHelpers::writeTreeToXml<CircularDomainCtrl<3>, 3>(tree, "tree_3D.xml");
+      XMLHelpers::writeTreeToXml(tree, "tree_3D.xml");
       exportResultingMesh(tree, outputMeshName);
       #ifdef WITH_VISU3D_QGLVIEWER
       if (display3D) display3DTree(tree);
       #endif
       if (exportDatName != "") exportDat(tree, exportDatName);
-      if (exportXMLName != "") XMLHelpers::writeTreeToXml<CircularDomainCtrl<3>, 3>(tree,
-                                                                                     exportXMLName.c_str());
+      if (exportXMLName != "") XMLHelpers::writeTreeToXml(tree,
+                                                          exportXMLName.c_str());
   }
 
   
