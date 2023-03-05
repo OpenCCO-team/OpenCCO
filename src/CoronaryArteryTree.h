@@ -147,7 +147,7 @@ public:
   //-----------------------------
 
   
-  
+  DomCtr myDomainController;
   
   // To handle display
   DGtal::Board2D myBoard;

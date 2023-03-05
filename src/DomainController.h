@@ -40,8 +40,9 @@ public:
     double myRadius {0.0};
     TPoint myCenter;
     // Constructor for ImplicitCirc type
-
-    CircularDomainCtrl(double radius, TPoint center)
+    CircularDomainCtrl(){};
+    
+    CircularDomainCtrl(double radius, const TPoint &center)
     {
         myRadius = radius;
         myCenter = center;
@@ -99,6 +100,11 @@ class ImageMaskDomainCtrl {
     unsigned int myNbTry {0};
     Image myImage;
     Image myDistanceImage;
+public:
+    ImageMaskDomainCtrl(): myImage{Image(DomCT())},
+                           myDistanceImage {Image(DomCT())} {};
+    
+    
     // Constructor for Masked domain type
     ImageMaskDomainCtrl(const std::string &fileImgDomain,
                         int maskThreshold, unsigned int nbTry=100): myNbTry{nbTry}{
