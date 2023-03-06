@@ -79,7 +79,6 @@ public:
   
   // to recover the Children left (first) and right (second) on an indexed segment.
   std::vector< SegmentChildren >  myVectChildren;
-  
   // to recover the parent of an indexed segement
   std::vector<unsigned int >  myVectParent;
   // represents all the vertices of the graph
@@ -90,58 +89,61 @@ public:
      
   //-----------------------------
   // Global biological parameters
-  
-  // my_NTerm: number of terminal segments
-  unsigned int my_NTerm = 1;
-  
-  // my_rPref final radius of circular area (m)
-  double my_rPerf = 1.0;
-  
-  // my_qPerf LAD flow in vasodilated
-  double my_qPerf = 8.33e3; //0.00000833;
-  
-  // my_pPerf perfusion pressure
-  double my_pPerf = 1.33e4; //13300.0;
-  
-  // my_pTerm pressure et distal ends of terminal segment
-  double my_pTerm = 8.40e3;
-  
-  // my_qTerm flow in one terminal segment
-  double my_qTerm = 1000;
-  
-  // my_gamma: bifurcation exponent (2.10-3.0)
-  double my_gamma = 3.0;
-  
-  // my_mu: viscosity of blood
-  double my_mu = 3.6e-3; //3.6;
-  
-  // my_aPerf: Perfusion area
-  double my_aPerf = 10000;
-  
-  // my_pDrop = my_pPerf-my_pTerm
-  double my_pDrop = 4900;
-  
+    struct BioAlgoParameter{
+        
+        // my_NTerm: number of terminal segments
+        unsigned int my_NTerm = 1;
+        
+        // my_rPref final radius of circular area (m)
+        double my_rPerf = 1.0;
+        
+        // my_qPerf LAD flow in vasodilated
+        double my_qPerf = 8.33e3; //0.00000833;
+        
+        // my_pPerf perfusion pressure
+        double my_pPerf = 1.33e4; //13300.0;
+        
+        // my_pTerm pressure et distal ends of terminal segment
+        double my_pTerm = 8.40e3;
+        
+        // my_qTerm flow in one terminal segment
+        double my_qTerm = 1000;
+        
+        // my_gamma: bifurcation exponent (2.10-3.0)
+        double my_gamma = 3.0;
+        
+        // my_mu: viscosity of blood
+        double my_mu = 3.6e-3; //3.6;
+        
+        // my_aPerf: Perfusion area
+        double my_aPerf = 10000;
+        
+        // my_pDrop = my_pPerf-my_pTerm
+        double my_pDrop = 4900;
+    };
+    BioAlgoParameter bParam;
   // End biological parameters
   //-----------------------------
   
   //-----------------------------
   // Internal algorithm parameter
-
-  //myKTerm: current number of terminal segments of the tree
-  unsigned int myKTerm = 1;
-  
-  //myRsupp: average radius of blackboxes
-  double myRsupp = 0.0;
-  
-  // myTreeCenter: coordinate of the tree center used to define the main domain.
-  TPointD myTreeCenter;
-  
-  // myNumNeighbor : represents the number of nearest neighbours to be tested
-  int myNumNeighbor = 20;
-  
-  // myLengthFactor : scale factor (updated during tree growth after each added bifurcation)
-  double myLengthFactor = 1.0;
-  
+    struct InternAlgoParameter{
+        //myKTerm: current number of terminal segments of the tree
+        unsigned int myKTerm = 1;
+        
+        //myRsupp: average radius of blackboxes
+        double myRsupp = 0.0;
+        
+        // myTreeCenter: coordinate of the tree center used to define the main domain.
+        TPointD myTreeCenter;
+        
+        // myNumNeighbor : represents the number of nearest neighbours to be tested
+        unsigned int myNumNeighbor = 20;
+        
+        // myLengthFactor : scale factor (updated during tree growth after each added bifurcation)
+        double myLengthFactor = 1.0;
+    };
+   InternAlgoParameter iParam;
   // End: Internal algorithm parameter
   //-----------------------------
 
@@ -172,26 +174,26 @@ public:
   CoronaryArteryTree(double aPerf, unsigned int nTerm, double aRadius = 1.0,
                      TPointD treeCenter = TPointD::diagonal(0) ){
     assert(nTerm>=1);
-    for (auto i=0; i < TDim; i++){myTreeCenter[i]=treeCenter[i];}
+    for (auto i=0; i < TDim; i++){iParam.myTreeCenter[i]=treeCenter[i];}
     if(TDim==2) {
-      myRsupp = sqrt(aPerf/(nTerm*M_PI));
-      my_rPerf = sqrt(aPerf/M_PI);
+        iParam.myRsupp = sqrt(aPerf/(nTerm*M_PI));
+        bParam.my_rPerf = sqrt(aPerf/M_PI);
     }
     else {//TDim==3
-      myRsupp = pow(3.0*aPerf/(4.0*M_PI*nTerm),1.0/3.0);
-      my_rPerf = pow(3.0*aPerf/(4.0*M_PI),1.0/3.0);
+        iParam.myRsupp = pow(3.0*aPerf/(4.0*M_PI*nTerm),1.0/3.0);
+        bParam.my_rPerf = pow(3.0*aPerf/(4.0*M_PI),1.0/3.0);
     }
-    my_aPerf = aPerf;
-    my_NTerm = nTerm;
-    my_qTerm = my_qPerf / my_NTerm;
+      bParam.my_aPerf = aPerf;
+      bParam.my_NTerm = nTerm;
+      bParam.my_qTerm = bParam.my_qPerf / bParam.my_NTerm;
     if(nTerm > 250)
-      my_pTerm = 7.98e3;
-    my_pDrop = my_pPerf-my_pTerm;
+        bParam.my_pTerm = 7.98e3;
+      bParam.my_pDrop = bParam.my_pPerf-bParam.my_pTerm;
     //myDThresold = sqrt(M_PI*myRsupp*myRsupp/myKTerm);
     
     // Construction of the special root segment
-    TPointD ptRoot = myTreeCenter;
-    ptRoot[1] += my_rPerf;// Point2D(0,my_rPerf);
+    TPointD ptRoot = iParam.myTreeCenter;
+    ptRoot[1] += bParam.my_rPerf;// Point2D(0,my_rPerf);
     Segment s;
     s.myRadius = aRadius;
     s.myCoordinate = ptRoot;
@@ -205,12 +207,12 @@ public:
     // Construction of the first segment after the root
     Segment s1;
     s1.myRadius = aRadius;
-    s1.myCoordinate = myTreeCenter;
-    double myLength = (ptRoot-s1.myCoordinate).norm()*myLengthFactor;
+    s1.myCoordinate = iParam.myTreeCenter;
+    double myLength = (ptRoot-s1.myCoordinate).norm()*iParam.myLengthFactor;
     s1.myIndex = 1;
     s1.myKTerm = 1; //it contains terminal itself
-    s1.myResistance = 8.0*my_mu*myLength/M_PI;
-    s1.myFlow = my_qTerm;
+    s1.myResistance = 8.0*bParam.my_mu*myLength/M_PI;
+    s1.myFlow = bParam.my_qTerm;
     s1.myBeta = 1.0;
     
     myVectSegments.push_back(s1);
