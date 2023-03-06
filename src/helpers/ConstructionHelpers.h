@@ -91,59 +91,10 @@ expandTree(CoronaryArteryTree< DomCtr, TDim > &aTree, bool verbose = false)
 
 
 
-/**
- * Helpers fonction to construction the tree with autoSearch of the center and root.
- * The center is defined from the maximal distance map and the root point is searched on the image domain.
- */
-template<typename TPoint, typename DomCtr>
-inline
-CoronaryArteryTree<DomCtr, 2> constructTreeImageDomain2D(double aPerf, int nbTerm,
-                              std::string imageOrgan, unsigned int fgTh = 128,
-                              bool verbose = false){
-  // searching center from maximak distance.
-  auto img = DGtal::GenericReader<typename CoronaryArteryTree<DomCtr,TPoint::dimension>::Image>::import( imageOrgan );
-  auto imgDist = GeomHelpers::getImageDistance<typename CoronaryArteryTree<DomCtr, TPoint::dimension>::Image,
-                                               typename CoronaryArteryTree<DomCtr, TPoint::dimension>::ImageDist>(img);
-  double m = 0.0;
-  DGtal::PointVector<2, int> pM;
-  for(auto p: imgDist.domain()) {if (imgDist(p) > m ){m = imgDist(p); pM =  DGtal::PointVector<2, int>(p[0], p[1]);}}
-  if (verbose){
-    DGtal::trace.info() << "center point found: " << pM << "maximal value:"
-                        << m <<   std::endl;
-  }
-    return constructTree<DomCtr, 2>(aPerf, nbTerm, imageOrgan, fgTh, verbose, pM,
-                static_cast<unsigned int >(m/2.0));
-}
 
-
-/**
- * Helpers fonction to construction the tree with autoSearch of the center and root.
- * The center is defined from the maximal distance map and the root point is searched on the image domain.
- */
-template<typename TPoint, typename DomCtr>
-inline
-CoronaryArteryTree<DomCtr, 3> constructTreeImageDomain3D(double aPerf, int nbTerm,
-                              std::string imageOrgan, unsigned int fgTh = 128,
-                              bool verbose = false){
-  // searching center from maximak distance.
-  auto img = DGtal::GenericReader<typename CoronaryArteryTree<DomCtr, TPoint::dimension>::Image>::import( imageOrgan );
-  auto imgDist = GeomHelpers::getImageDistance<typename CoronaryArteryTree<DomCtr,3>::Image,
-                                               typename CoronaryArteryTree<DomCtr, 3>::ImageDist>(img,fgTh);
-  double m = 0.0;
-  DGtal::PointVector<3, int> pM;
-  for(auto p: imgDist.domain()) {
-    if (imgDist(p) > m ){m = imgDist(p); pM = DGtal::PointVector<3, int>(p[0], p[1], p[2]);}}
-  if (verbose){
-    DGtal::trace.info() << "center point found: " << pM << "maximal value:"
-                        << m <<   std::endl;
-  }
-  return constructTree<DomCtr, 3>(aPerf, nbTerm, imageOrgan, fgTh, verbose, pM,
-                static_cast<unsigned int >(m/2.0));
-}
 
 
 template<typename TImage >
-inline
 std::vector<std::vector<typename TImage::Domain::Point > >
 getImageContours(const TImage &image,
                  unsigned int threshold=128){
@@ -155,11 +106,7 @@ getImageContours(const TImage &image,
   return v;
 }
 
-/**
-  Template Specialisation in 2D  to export image contour of the restricted image domain.
- */
-template< >
-inline
+
 std::vector<std::vector<DGtal::Z2i::Point > >
 getImageContours(const DGtal::ImageContainerBySTLVector<DGtal::Z2i::Domain, unsigned char> &image,
                  unsigned int threshold){
@@ -187,8 +134,6 @@ getImageContours(const DGtal::ImageContainerBySTLVector<DGtal::Z2i::Domain, unsi
   Template Specialisation in 3D  to export surfel image  border of the restricted image domain.
  * Todo @BK
  */
-template< >
-inline
 std::vector<std::vector<DGtal::Z3i::Point > >
 getImageContours(const DGtal::ImageContainerBySTLVector<DGtal::Z3i::Domain, unsigned char> &image,
                  unsigned int threshold){
