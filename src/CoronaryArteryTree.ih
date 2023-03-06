@@ -1260,7 +1260,7 @@ CoronaryArteryTree<DomCtr, TDim>::restrainDomain2d(const Image &imageDom,
       if(myImageDomain.domain().isInside(pRootI) &&
          myImageDomain(pRootI) >= threshold) {
          myIsImageDomainRestrained = true;
-         myImageDist = GeomHelpers::getImageDistance2D<Image, ImageDist>(myImageDomain, threshold);
+         myImageDist = GeomHelpers::getImageDistance<Image, ImageDist>(myImageDomain, threshold);
         return true;
       }
     }
@@ -1313,7 +1313,7 @@ CoronaryArteryTree<DomCtr, TDim>::restrainDomain3d(const Image &imageDom,
     if(myImageDomain.domain().isInside(pRootI) &&
        myImageDomain(pRootI) >= threshold) {
        myIsImageDomainRestrained = true;
-       myImageDist = GeomHelpers::getImageDistance3D<Image, ImageDist>(myImageDomain,
+       myImageDist = GeomHelpers::getImageDistance<Image, ImageDist>(myImageDomain,
                                                                        threshold);
       return true;
     }

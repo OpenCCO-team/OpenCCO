@@ -102,7 +102,7 @@ CoronaryArteryTree<DomCtr, 2> constructTreeImageDomain2D(double aPerf, int nbTer
                               bool verbose = false){
   // searching center from maximak distance.
   auto img = DGtal::GenericReader<typename CoronaryArteryTree<DomCtr,TPoint::dimension>::Image>::import( imageOrgan );
-  auto imgDist = GeomHelpers::getImageDistance2D<typename CoronaryArteryTree<DomCtr, TPoint::dimension>::Image,
+  auto imgDist = GeomHelpers::getImageDistance<typename CoronaryArteryTree<DomCtr, TPoint::dimension>::Image,
                                                typename CoronaryArteryTree<DomCtr, TPoint::dimension>::ImageDist>(img);
   double m = 0.0;
   DGtal::PointVector<2, int> pM;
@@ -127,7 +127,7 @@ CoronaryArteryTree<DomCtr, 3> constructTreeImageDomain3D(double aPerf, int nbTer
                               bool verbose = false){
   // searching center from maximak distance.
   auto img = DGtal::GenericReader<typename CoronaryArteryTree<DomCtr, TPoint::dimension>::Image>::import( imageOrgan );
-  auto imgDist = GeomHelpers::getImageDistance3D<typename CoronaryArteryTree<DomCtr,3>::Image,
+  auto imgDist = GeomHelpers::getImageDistance<typename CoronaryArteryTree<DomCtr,3>::Image,
                                                typename CoronaryArteryTree<DomCtr, 3>::ImageDist>(img,fgTh);
   double m = 0.0;
   DGtal::PointVector<3, int> pM;

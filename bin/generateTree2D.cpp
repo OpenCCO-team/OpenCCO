@@ -17,6 +17,36 @@
 
 
 /**
+ * Function to construct the tree with the help ConstructionHelpers by using a domain of reconstruction defined fram an image (ImageMaskDomainCtrl)l
+ */
+template<typename TTree>
+void
+constructTreeMaskDomain(TTree &aTree, int distSearchRoot,
+                       bool verbose)
+{
+    clock_t start, end;
+    start = clock();
+    ConstructionHelpers::initFirtElemTree(aTree, distSearchRoot);
+    ConstructionHelpers::expandTree(aTree);
+    end = clock();
+    printf ("Execution time: %0.8f sec\n", ((double) end - start)/CLOCKS_PER_SEC);
+}
+
+
+template<typename TTree>
+void
+constructTreeImplicitDomain(TTree &aTree, bool verbose)
+{
+    clock_t start, end;
+    start = clock();
+    ConstructionHelpers::expandTree(aTree);
+    end = clock();
+    printf ("Execution time: %0.8f sec\n", ((double) end - start)/CLOCKS_PER_SEC);
+}
+
+
+
+/**
  * @brief main function call
  *
  */
@@ -47,30 +77,53 @@ int main(int argc, char *const *argv)
   
   DGtal::Z2i::Point ptRoot(postInitV[0], postInitV[1]);
   CoronaryArteryTree<ImageMaskDomainCtrl<2>, 2> tree;
-  start = clock();
   //1000 => Execution time: 129.17274900 sec
   //2000 => Execution time: 478.48590200 sec
   //3000 => Execution time: 1023.94746700 sec
   //4000 => Execution time: 1896.94450700 sec
   //5000 => Execution time: 3435.08630500 sec
-  if(nameImgDom != "" && pInit->empty()){
-    tree = ConstructionHelpers::constructTreeImageDomain2D< DGtal::Z2i::RealPoint, ImageMaskDomainCtrl<2>>(aPerf, nbTerm, nameImgDom, 128, verbose);
-  } else {
-    tree = ConstructionHelpers::constructTree<ImageMaskDomainCtrl<2>, 2>(aPerf, nbTerm, nameImgDom, 128, verbose, ptRoot);
-  }
-  end = clock();
-  printf ("Execution time: %0.8f sec\n", ((double) end - start)/CLOCKS_PER_SEC);
-  if (exportXMLName != ""){
-      XMLHelpers::writeTreeToXml(tree, exportXMLName.c_str());
-  }
-  
-  std::string filename;
-  
-  filename = "testCCO_"+std::to_string(nbTerm)+".eps";
-  tree.exportBoardDisplay(filename.c_str(), 1.0);
-  tree.exportBoardDisplay("result.eps", 1.0);
-  tree.exportBoardDisplay("result.svg", 1.0);
-  tree.myBoard.clear();
-  
+    if(nameImgDom != "" && pInit->empty()){
+        start = clock();
+        typedef ImageMaskDomainCtrl<2> TImgContrl;
+          typedef  CoronaryArteryTree<TImgContrl, 2> TTree;
+          TImgContrl aDomCtr (nameImgDom, 128, 100);
+          TImgContrl::TPointI pM = aDomCtr.maxDistantPointFromBorder();
+          unsigned int distSearchRoot =  static_cast< unsigned int >(aDomCtr.myDistanceImage(pM) /3.0);
+
+          TTree tree  (aPerf, nbTerm, 1.0, pM);
+          tree.myDomainController = aDomCtr;
+          constructTreeMaskDomain(tree, distSearchRoot, verbose);
+          XMLHelpers::writeTreeToXml(tree, "tree_2D.xml");
+          if (exportXMLName != "") XMLHelpers::writeTreeToXml(tree, exportXMLName.c_str());
+        
+        std::string filename = "testCCO_"+std::to_string(nbTerm)+".eps";
+        tree.exportBoardDisplay(filename.c_str(), 1.0);
+        tree.exportBoardDisplay("result.eps", 1.0);
+        tree.exportBoardDisplay("result.svg", 1.0);
+        tree.myBoard.clear();
+        end = clock();
+        printf ("Execution time: %0.8f sec\n", ((double) end - start)/CLOCKS_PER_SEC);
+
+    }
+    else {
+        start = clock();
+        typedef CircularDomainCtrl<2> DiskDomCtrl;
+        typedef  CoronaryArteryTree<DiskDomCtrl, 2> TTree;
+        DiskDomCtrl::TPoint pCenter (0,0);
+        TTree tree  (aPerf, nbTerm, 1.0, pCenter);
+        constructTreeImplicitDomain(tree, verbose);
+        XMLHelpers::writeTreeToXml(tree, "tree_2D.xml");
+        if (exportXMLName != "") XMLHelpers::writeTreeToXml(tree,
+                                                              exportXMLName.c_str());
+        std::string filename = "testCCO_"+std::to_string(nbTerm)+".eps";
+        tree.exportBoardDisplay(filename.c_str(), 1.0);
+        tree.exportBoardDisplay("result.eps", 1.0);
+        tree.exportBoardDisplay("result.svg", 1.0);
+        tree.myBoard.clear();
+        end = clock();
+        printf ("Execution time: %0.8f sec\n", ((double) end - start)/CLOCKS_PER_SEC);
+
+    }
+   
   return EXIT_SUCCESS;
 }
