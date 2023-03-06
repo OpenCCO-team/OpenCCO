@@ -27,6 +27,9 @@
  *    To get a point inside the domaine used in the tree construction.
  *  - bool checkNoIntersectDomain(const TPoint &pt1, const TPoint &pt2):
       Usefull to ensure is a whole segment is inside the domain.
+ *  - maxDistantPointFromBorder() const:
+ *    usefull to determine a starting point and help to construct the tree.
+
  */
 
 
@@ -78,6 +81,11 @@ public:
     checkNoIntersectDomain(const TPoint &pt1, const TPoint &pt2)
     {
         return isInside(pt1) && isInside(pt2);
+    }
+    
+    TPoint
+    maxDistantPointFromBorder() const {
+        return myCenter;
     }
 };
 
@@ -167,7 +175,6 @@ public:
         if (myImage(pI) < myMaskThreshold)
           return false;
       }
-      
       return true;
     }
     
