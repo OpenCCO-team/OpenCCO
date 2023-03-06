@@ -76,7 +76,6 @@ int main(int argc, char *const *argv)
   // END parse command line using CLI ----------------------------------------------
   
   DGtal::Z2i::Point ptRoot(postInitV[0], postInitV[1]);
-  CoronaryArteryTree<ImageMaskDomainCtrl<2>, 2> tree;
   //1000 => Execution time: 129.17274900 sec
   //2000 => Execution time: 478.48590200 sec
   //3000 => Execution time: 1023.94746700 sec

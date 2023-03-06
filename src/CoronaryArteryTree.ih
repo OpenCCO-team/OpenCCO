@@ -1308,7 +1308,6 @@ CoronaryArteryTree<DomCtr, TDim>::restrainDomain3d(const Image &imageDom,
     for (auto i=0; i< 3; i++){
         pRootI[i] = static_cast<int>(pRoot[i]);
     }
-
   
     if(myImageDomain.domain().isInside(pRootI) &&
        myImageDomain(pRootI) >= threshold) {
