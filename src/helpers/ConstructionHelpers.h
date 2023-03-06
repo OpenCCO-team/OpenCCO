@@ -189,6 +189,32 @@ getImageContours(const DGtal::ImageContainerBySTLVector<DGtal::Z2i::Domain, unsi
 }
 
 /**
+ * Helpers fonction to construction the tree with autoSearch of the center and root.
+ * The center is defined from the maximal distance map and the root point is searched on the image domain.
+ */
+
+inline
+CoronaryArteryTree< ImageMaskDomainCtrl<3>, 3>
+construct3dTreeWithController(const ImageMaskDomainCtrl<3> &aDomCtr, double aPerf,
+                              int nbTerm, std::string imageOrgan,
+                              unsigned int fgTh = 128,
+                              bool verbose = false){
+    ImageMaskDomainCtrl<3>::TPointI pM = aDomCtr.maxDistantPointFromBorder();
+    
+//    return  constructTree<ImageMaskDomainCtrl<3>, 3>( aPerf,  nbTerm,
+//                                                            imageOrgan, fgTh,
+//                                                             verbose ,pM,
+//                                                                        10);
+//    return constructTre
+    
+   return  constructTree<ImageMaskDomainCtrl<3>, 3>(aPerf, nbTerm, imageOrgan,
+                                                      fgTh, verbose, pM,
+                static_cast< unsigned int >(aDomCtr.myDistanceImage(pM) /2.0));
+}
+
+
+
+/**
   Template Specialisation in 3D  to export surfel image  border of the restricted image domain.
  * Todo @BK
  */

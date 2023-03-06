@@ -30,13 +30,16 @@
 
 
 CoronaryArteryTree<ImageMaskDomainCtrl<3>, 3>
-constructImageDomeTree(double aPerf, unsigned int nbTerm,
+constructImageDomTree(double aPerf, unsigned int nbTerm,
                        std::string nameImgDom, int threshold, bool verbose)
 {
+    
     clock_t start, end;
     start = clock();
+    ImageMaskDomainCtrl<3> aDomContr (nameImgDom, threshold, 100);
     CoronaryArteryTree<ImageMaskDomainCtrl<3>, 3> res;
-    res = ConstructionHelpers::constructTreeImageDomain3D<DGtal::Z3i::RealPoint, ImageMaskDomainCtrl<3> >(aPerf, nbTerm, nameImgDom, threshold, verbose);
+    res = ConstructionHelpers::construct3dTreeWithController(aDomContr, aPerf, nbTerm, nameImgDom, threshold, verbose);
+  
     end = clock();
     printf ("Execution time: %0.8f sec\n", ((double) end - start)/CLOCKS_PER_SEC);
     return res;
@@ -163,7 +166,7 @@ int main(int argc, char **argv)
   DGtal::Z3i::Point ptRoot(postInitV[0], postInitV[1], postInitV[2]);
 
   if(nameImgDom != "" ){
-    auto tree = constructImageDomeTree(aPerf, nbTerm,
+    auto tree = constructImageDomTree(aPerf, nbTerm,
                                        nameImgDom, 128, verbose);
     XMLHelpers::writeTreeToXml(tree, "tree_3D.xml");
     exportResultingMesh(tree, outputMeshName);

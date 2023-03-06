@@ -475,24 +475,6 @@ getImageDistance3D(const TImage &image, unsigned int threshold=128){
 }
 
 
-template< typename TImage, typename TImageDistance>
-inline
-TImageDistance
-getImageDistance(const TImage &image, unsigned int threshold=128){
-    typedef typename TImage::Space Space;
-    typedef DGtal::ExactPredicateLpSeparableMetric<Space, TImage::Domain::Dimension> L2Metric;
-    
-  TImageDistance res (image.domain());
-  typedef DGtal::functors::IntervalForegroundPredicate<TImage> Binarizer;
-  typedef DGtal::DistanceTransformation<Space, Binarizer, L2Metric> DTL;
-  L2Metric l2metric;
-  Binarizer b(image, threshold, 255);
-  DTL dt(&image.domain(),&b, &l2metric);
-  for (auto p: dt.domain()){
-    res.setValue(p, dt(p));
-  }
-  return res;
-}
 
 
 }

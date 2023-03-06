@@ -88,29 +88,33 @@ public:
  */
 template<int TDim>
 class ImageMaskDomainCtrl {
+public:
     typedef DGtal::PointVector<TDim, double> TPoint;
     typedef  DGtal::PointVector<TDim, int> TPointI;
 
     typedef DGtal::SpaceND< TDim, int >   SpaceCT;
     typedef DGtal::HyperRectDomain<SpaceCT> DomCT;
     typedef DGtal::ImageContainerBySTLVector< DomCT, int> Image;
+    typedef DGtal::ImageContainerBySTLVector< DomCT, double> ImageD;
 
+    
     TPoint myDomPtLow, myDomPtUpper;
     int myMaskThreshold {128};
     unsigned int myNbTry {0};
-    Image myImage;
-    Image myDistanceImage;
+   
 public:
+    Image myImage;
+    ImageD myDistanceImage;
+    
     ImageMaskDomainCtrl(): myImage{Image(DomCT())},
-                           myDistanceImage {Image(DomCT())} {};
+                           myDistanceImage {ImageD(DomCT())} {};
     
     
     // Constructor for Masked domain type
     ImageMaskDomainCtrl(const std::string &fileImgDomain,
-                        int maskThreshold, unsigned int nbTry=100): myNbTry{nbTry}{
-        myImage = DGtal::GenericReader<Image>::import( fileImgDomain );
-        myDistanceImage = GeomHelpers::getImageDistance<Image, Image>(myImage);
-    };
+                        int maskThreshold, unsigned int nbTry=100): myNbTry{nbTry},       myImage {DGtal::GenericReader<Image>::import( fileImgDomain )},
+    myDistanceImage { GeomHelpers::getImageDistance3D<Image,ImageD>(myImage,myMaskThreshold )}
+    {};
     
     TPointI
     randomPoint()
@@ -166,7 +170,18 @@ public:
       
       return true;
     }
-
+    
+    TPointI
+    maxDistantPointFromBorder() const {
+        double m = 0.0;
+        DGtal::PointVector<3, int> pM;
+        for(auto p: myDistanceImage.domain()) {
+            if (myDistanceImage(p) > m ){m = myDistanceImage(p);
+                pM = DGtal::PointVector<3, int>(p[0], p[1], p[2]);}
+            
+        }
+        return pM;
+    }
     
 };
 
