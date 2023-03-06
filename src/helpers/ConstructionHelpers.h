@@ -38,18 +38,18 @@ expandTree(CoronaryArteryTree< DomCtr, TDim > &aTree,
     aTree.searchRootFarthest(distSearchRoot, pRoot);
     aTree.myVectSegments[0].myCoordinate = pRoot;
     
+    
     bool isOK = false;
      unsigned int nbSeed = aTree.my_NTerm;
      for (unsigned int i = 1; i < nbSeed; i++) {
        DGtal::trace.progressBar(i, nbSeed);
-       int nbSol = 0, itOpt = 0;
+       size_t nbSol = 0, itOpt = 0;
        CoronaryArteryTree< DomCtr, TDim > cTreeOpt = aTree;
        double volOpt = -1.0, vol = 0.0;
        while (nbSol==0) {
          auto pt = aTree.generateNewLocation(100);
          std::vector<unsigned int> vecN = aTree.getN_NearestSegments(pt,aTree.myNumNeighbor);
          for(size_t it=0; it<vecN.size(); it++) {
-           //if(!cTree.isIntersecting(pt, cTree.findBarycenter(pt, vecN.at(it)),vecN.at(it),n))
            if(!aTree.isIntersecting(pt, aTree.findBarycenter(pt, vecN.at(it)),vecN.at(it),aTree.myNumNeighbor, 2*aTree.myVectSegments[vecN.at(it)].myRadius)) {
              CoronaryArteryTree< DomCtr, TDim  > cTree1 = aTree;
              isOK = cTree1.isAddable(pt,vecN.at(it), 100, 0.01, cTree1.myNumNeighbor, verbose);
@@ -97,7 +97,7 @@ CoronaryArteryTree< DomCtr, TDim > constructTree(double aPerf, int nbTerm,
                    bool verbose = false, DGtal::PointVector<TDim, int> ptCenter = DGtal::PointVector<TDim, int>::diagonal(0),
                    unsigned int distSearchRoot = 10){
   DGtal::trace.beginBlock("Testing class CoronaryArteryTree: test random adds with distance constraint");
-  srand (time(NULL));
+  srand ((unsigned int)time(NULL));
   double rRoot = 1.0;
   
   CoronaryArteryTree< DomCtr, TDim > cTree (aPerf, nbTerm, rRoot, ptCenter);
@@ -121,14 +121,14 @@ CoronaryArteryTree< DomCtr, TDim > constructTree(double aPerf, int nbTerm,
   unsigned int nbSeed = cTree.my_NTerm;
   for (unsigned int i = 1; i < nbSeed; i++) {
     DGtal::trace.progressBar(i, nbSeed);
-    int nbSol = 0, itOpt = 0;
+    int nbSol = 0;
+    size_t itOpt = 0;
     CoronaryArteryTree< DomCtr, TDim > cTreeOpt = cTree;
     double volOpt = -1.0, vol = 0.0;
     while (nbSol==0) {
       auto pt = cTree.generateNewLocation(100);
       std::vector<unsigned int> vecN = cTree.getN_NearestSegments(pt,cTree.myNumNeighbor);
       for(size_t it=0; it<vecN.size(); it++) {
-        //if(!cTree.isIntersecting(pt, cTree.findBarycenter(pt, vecN.at(it)),vecN.at(it),n))
         if(!cTree.isIntersecting(pt, cTree.findBarycenter(pt, vecN.at(it)),vecN.at(it),cTree.myNumNeighbor, 2*cTree.myVectSegments[vecN.at(it)].myRadius)) {
           CoronaryArteryTree< DomCtr, TDim  > cTree1 = cTree;
           isOK = cTree1.isAddable(pt,vecN.at(it), 100, 0.01, cTree1.myNumNeighbor, verbose);
