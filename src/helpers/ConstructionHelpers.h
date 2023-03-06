@@ -23,21 +23,28 @@
 
 namespace ConstructionHelpers {
 
+
 template<typename DomCtr, int TDim>
 inline
 void
-expandTree(CoronaryArteryTree< DomCtr, TDim > &aTree,
-           unsigned int distSearchRoot, bool verbose = false)
-{
-    srand ((unsigned int) time(NULL));
+initFirtElemTree(CoronaryArteryTree< DomCtr, TDim > &aTree,
+                 unsigned int distSearchRoot, bool verbose = false){
     DGtal::PointVector<TDim, double> pRoot;
-    bool restrainedOK = aTree.restrainDomain(aTree.myDomainController.myImage, aTree.myForegroundThreshold);
+    bool restrainedOK = aTree.restrainDomain(aTree.myDomainController.myImage,              aTree.myForegroundThreshold);
     if (restrainedOK){
         DGtal::trace.info() << "Using restrained image  "  << std::endl;
     }
     aTree.searchRootFarthest(distSearchRoot, pRoot);
     aTree.myVectSegments[0].myCoordinate = pRoot;
-    
+}
+
+
+template<typename DomCtr, int TDim>
+inline
+void
+expandTree(CoronaryArteryTree< DomCtr, TDim > &aTree, bool verbose = false)
+{
+    srand ((unsigned int) time(NULL));
     
     bool isOK = false;
      unsigned int nbSeed = aTree.my_NTerm;
@@ -83,84 +90,6 @@ expandTree(CoronaryArteryTree< DomCtr, TDim > &aTree,
 }
 
 
-
-
-
-
-/**
- * Helpers fonction to construction the tree. (mainly from circular domain and image organ for testing).
- */
-template<typename DomCtr, int TDim>
-inline
-CoronaryArteryTree< DomCtr, TDim > constructTree(double aPerf, int nbTerm,
-                   std::string imageOrgan, unsigned int fgTh = 128,
-                   bool verbose = false, DGtal::PointVector<TDim, int> ptCenter = DGtal::PointVector<TDim, int>::diagonal(0),
-                   unsigned int distSearchRoot = 10){
-  DGtal::trace.beginBlock("Testing class CoronaryArteryTree: test random adds with distance constraint");
-  srand ((unsigned int)time(NULL));
-  double rRoot = 1.0;
-  
-  CoronaryArteryTree< DomCtr, TDim > cTree (aPerf, nbTerm, rRoot, ptCenter);
-  if (imageOrgan != ""){
-    auto img = DGtal::GenericReader<typename CoronaryArteryTree< DomCtr, TDim >::Image>::import( imageOrgan, fgTh );
-    bool restrainedOK = cTree.restrainDomain(img, fgTh);
-    if (restrainedOK){
-      DGtal::trace.info() << "Using restrained image  " << imageOrgan << std::endl;
-      cTree.myVectSegments[1].myCoordinate = ptCenter;
-      cTree.myTreeCenter = ptCenter;
-      if (ptCenter[0]==-1 && ptCenter[0]==-1) {
-        auto pC = cTree.getDomainCenter();
-        cTree.myVectSegments[1].myCoordinate = pC;
-      }
-      DGtal::PointVector<TDim, double> pRoot;
-      cTree.searchRootFarthest(distSearchRoot, pRoot);
-      cTree.myVectSegments[0].myCoordinate = pRoot;
-    }
-  }
-  bool isOK = false;
-  unsigned int nbSeed = cTree.my_NTerm;
-  for (unsigned int i = 1; i < nbSeed; i++) {
-    DGtal::trace.progressBar(i, nbSeed);
-    int nbSol = 0;
-    size_t itOpt = 0;
-    CoronaryArteryTree< DomCtr, TDim > cTreeOpt = cTree;
-    double volOpt = -1.0, vol = 0.0;
-    while (nbSol==0) {
-      auto pt = cTree.generateNewLocation(100);
-      std::vector<unsigned int> vecN = cTree.getN_NearestSegments(pt,cTree.myNumNeighbor);
-      for(size_t it=0; it<vecN.size(); it++) {
-        if(!cTree.isIntersecting(pt, cTree.findBarycenter(pt, vecN.at(it)),vecN.at(it),cTree.myNumNeighbor, 2*cTree.myVectSegments[vecN.at(it)].myRadius)) {
-          CoronaryArteryTree< DomCtr, TDim  > cTree1 = cTree;
-          isOK = cTree1.isAddable(pt,vecN.at(it), 100, 0.01, cTree1.myNumNeighbor, verbose);
-          if(isOK) {
-            vol = cTree1.computeTotalVolume(1);
-            if(volOpt<0.0) {
-              volOpt = vol;
-              cTreeOpt = cTree1;
-              itOpt = it;
-            }
-            else {
-              if(volOpt>vol) {
-                volOpt = vol;
-                cTreeOpt = cTree1;
-                itOpt = it;
-              }
-            }
-            nbSol++;
-          }
-        }
-      }
-    }
-    cTree = cTreeOpt;
-    cTree.updateLengthFactor();
-    cTree.updateResistanceFromRoot();
-    cTree.updateRootRadius();
-  }
-  if (verbose){
-    std::cout<<"====> Aperf="<<cTree.myRsupp*cTree.myRsupp*cTree.my_NTerm*M_PI<<" == "<<aPerf<<std::endl;
-  }
-  return cTree;
-}
 
 /**
  * Helpers fonction to construction the tree with autoSearch of the center and root.

@@ -28,28 +28,35 @@
  *
  */
 
-
-CoronaryArteryTree<ImageMaskDomainCtrl<3>, 3>
-constructImageDomTree(double aPerf, unsigned int nbTerm,
-                       std::string nameImgDom, int threshold,
+/**
+ * Function to construct the tree with the help ConstructionHelpers by using a domain of reconstruction defined fram an image (ImageMaskDomainCtrl)l
+ */
+template<typename TTree>
+void
+constructTreeMaskDomain(TTree &aTree, int distSearchRoot,
                        bool verbose)
 {
-    typedef ImageMaskDomainCtrl<3> TImgContrl;
-    typedef CoronaryArteryTree<TImgContrl, 3> TTree;
     clock_t start, end;
     start = clock();
-    TImgContrl aDomCtr (nameImgDom, threshold, 100);
-    TImgContrl::TPointI pM = aDomCtr.maxDistantPointFromBorder();
-    unsigned int distSearchRoot =  static_cast< unsigned int >(aDomCtr.myDistanceImage(pM) /2.0);
-    TTree cTree (aPerf, nbTerm, 1.0, pM);
-    cTree.myDomainController = aDomCtr;
-    ConstructionHelpers::expandTree(cTree, distSearchRoot);
-   
-  
+    ConstructionHelpers::initFirtElemTree(aTree, distSearchRoot);
+    ConstructionHelpers::expandTree(aTree);
     end = clock();
     printf ("Execution time: %0.8f sec\n", ((double) end - start)/CLOCKS_PER_SEC);
-    return cTree;
 }
+
+
+template<typename TTree>
+void
+constructTreeImplicitDomain(TTree &aTree, bool verbose)
+{
+    clock_t start, end;
+    start = clock();
+    ConstructionHelpers::expandTree(aTree);
+    end = clock();
+    printf ("Execution time: %0.8f sec\n", ((double) end - start)/CLOCKS_PER_SEC);
+}
+
+
 
 
 template <typename TTree>
@@ -172,8 +179,16 @@ int main(int argc, char **argv)
   DGtal::Z3i::Point ptRoot(postInitV[0], postInitV[1], postInitV[2]);
 
   if(nameImgDom != "" ){
-    auto tree = constructImageDomTree(aPerf, nbTerm,
-                                       nameImgDom, 128, verbose);
+    typedef ImageMaskDomainCtrl<3> TImgContrl;
+    typedef  CoronaryArteryTree<TImgContrl, 3> TTree;
+    TImgContrl aDomCtr (nameImgDom, 128, 100);
+    TImgContrl::TPointI pM = aDomCtr.maxDistantPointFromBorder();
+    unsigned int distSearchRoot =  static_cast< unsigned int >(aDomCtr.myDistanceImage(pM) /2.0);
+
+    TTree tree  (aPerf, nbTerm, 1.0, pM);
+    tree.myDomainController = aDomCtr;
+    constructTreeMaskDomain(tree, distSearchRoot, verbose);
+    
     XMLHelpers::writeTreeToXml(tree, "tree_3D.xml");
     exportResultingMesh(tree, outputMeshName);
     #ifdef WITH_VISU3D_QGLVIEWER
@@ -181,20 +196,22 @@ int main(int argc, char **argv)
     #endif
     if (exportDatName != "") exportDat(tree, exportDatName);
     if (exportXMLName != "") XMLHelpers::writeTreeToXml(tree, exportXMLName.c_str());
-  } else
+  }
+  else
   {
-    auto tree = ConstructionHelpers::constructTree<CircularDomainCtrl<3>, 3>(aPerf, nbTerm, nameImgDom, 128, verbose, ptRoot);
-      XMLHelpers::writeTreeToXml(tree, "tree_3D.xml");
-      exportResultingMesh(tree, outputMeshName);
-      #ifdef WITH_VISU3D_QGLVIEWER
-      if (display3D) display3DTree(tree);
-      #endif
-      if (exportDatName != "") exportDat(tree, exportDatName);
-      if (exportXMLName != "") XMLHelpers::writeTreeToXml(tree,
+    typedef CircularDomainCtrl<3> SphereDomCtrl;
+    typedef  CoronaryArteryTree<SphereDomCtrl, 3> TTree;
+    SphereDomCtrl::TPoint pCenter (0,0,0);
+    TTree tree  (aPerf, nbTerm, 1.0, pCenter);
+    constructTreeImplicitDomain(tree, verbose);
+    XMLHelpers::writeTreeToXml(tree, "tree_3D.xml");
+    exportResultingMesh(tree, outputMeshName);
+    #ifdef WITH_VISU3D_QGLVIEWER
+    if (display3D) display3DTree(tree);
+    #endif
+    if (exportDatName != "") exportDat(tree, exportDatName);
+    if (exportXMLName != "") XMLHelpers::writeTreeToXml(tree,
                                                           exportXMLName.c_str());
   }
-
-  
-   
   return EXIT_SUCCESS;
 }
