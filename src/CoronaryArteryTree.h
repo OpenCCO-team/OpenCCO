@@ -152,7 +152,7 @@ public:
   DGtal::Board2D myBoard;
 
   
-protected:
+//protected:
   Image myImageDomain = Image(DomCT());
   ImageDist myImageDist = ImageDist(DomCT());
   unsigned int myForegroundThreshold = 128;

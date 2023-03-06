@@ -102,7 +102,7 @@ public:
 
     typedef DGtal::SpaceND< TDim, int >   SpaceCT;
     typedef DGtal::HyperRectDomain<SpaceCT> DomCT;
-    typedef DGtal::ImageContainerBySTLVector< DomCT, int> Image;
+    typedef DGtal::ImageContainerBySTLVector< DomCT, unsigned char> Image;
     typedef DGtal::ImageContainerBySTLVector< DomCT, double> ImageD;
 
     
@@ -120,7 +120,7 @@ public:
     
     // Constructor for Masked domain type
     ImageMaskDomainCtrl(const std::string &fileImgDomain,
-                        int maskThreshold, unsigned int nbTry=100): myNbTry{nbTry},       myImage {DGtal::GenericReader<Image>::import( fileImgDomain )},
+                        int maskThreshold, unsigned int nbTry=100): myNbTry{nbTry},       myImage {DGtal::GenericReader<Image>::import( fileImgDomain,myMaskThreshold )},
     myDistanceImage { GeomHelpers::getImageDistance3D<Image,ImageD>(myImage,myMaskThreshold )}
     {};
     

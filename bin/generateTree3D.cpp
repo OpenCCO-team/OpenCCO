@@ -31,18 +31,24 @@
 
 CoronaryArteryTree<ImageMaskDomainCtrl<3>, 3>
 constructImageDomTree(double aPerf, unsigned int nbTerm,
-                       std::string nameImgDom, int threshold, bool verbose)
+                       std::string nameImgDom, int threshold,
+                       bool verbose)
 {
-    
+    typedef ImageMaskDomainCtrl<3> TImgContrl;
+    typedef CoronaryArteryTree<TImgContrl, 3> TTree;
     clock_t start, end;
     start = clock();
-    ImageMaskDomainCtrl<3> aDomContr (nameImgDom, threshold, 100);
-    CoronaryArteryTree<ImageMaskDomainCtrl<3>, 3> res;
-    res = ConstructionHelpers::construct3dTreeWithController(aDomContr, aPerf, nbTerm, nameImgDom, threshold, verbose);
+    TImgContrl aDomCtr (nameImgDom, threshold, 100);
+    TImgContrl::TPointI pM = aDomCtr.maxDistantPointFromBorder();
+    unsigned int distSearchRoot =  static_cast< unsigned int >(aDomCtr.myDistanceImage(pM) /2.0);
+    TTree cTree (aPerf, nbTerm, 1.0, pM);
+    cTree.myDomainController = aDomCtr;
+    ConstructionHelpers::expandTree(cTree, distSearchRoot);
+   
   
     end = clock();
     printf ("Execution time: %0.8f sec\n", ((double) end - start)/CLOCKS_PER_SEC);
-    return res;
+    return cTree;
 }
 
 

@@ -23,6 +23,69 @@
 
 namespace ConstructionHelpers {
 
+template<typename DomCtr, int TDim>
+inline
+void
+expandTree(CoronaryArteryTree< DomCtr, TDim > &aTree,
+           unsigned int distSearchRoot, bool verbose = false)
+{
+    srand ((unsigned int) time(NULL));
+    DGtal::PointVector<TDim, double> pRoot;
+    bool restrainedOK = aTree.restrainDomain(aTree.myDomainController.myImage, aTree.myForegroundThreshold);
+    if (restrainedOK){
+        DGtal::trace.info() << "Using restrained image  "  << std::endl;
+    }
+    aTree.searchRootFarthest(distSearchRoot, pRoot);
+    aTree.myVectSegments[0].myCoordinate = pRoot;
+    
+    bool isOK = false;
+     unsigned int nbSeed = aTree.my_NTerm;
+     for (unsigned int i = 1; i < nbSeed; i++) {
+       DGtal::trace.progressBar(i, nbSeed);
+       int nbSol = 0, itOpt = 0;
+       CoronaryArteryTree< DomCtr, TDim > cTreeOpt = aTree;
+       double volOpt = -1.0, vol = 0.0;
+       while (nbSol==0) {
+         auto pt = aTree.generateNewLocation(100);
+         std::vector<unsigned int> vecN = aTree.getN_NearestSegments(pt,aTree.myNumNeighbor);
+         for(size_t it=0; it<vecN.size(); it++) {
+           //if(!cTree.isIntersecting(pt, cTree.findBarycenter(pt, vecN.at(it)),vecN.at(it),n))
+           if(!aTree.isIntersecting(pt, aTree.findBarycenter(pt, vecN.at(it)),vecN.at(it),aTree.myNumNeighbor, 2*aTree.myVectSegments[vecN.at(it)].myRadius)) {
+             CoronaryArteryTree< DomCtr, TDim  > cTree1 = aTree;
+             isOK = cTree1.isAddable(pt,vecN.at(it), 100, 0.01, cTree1.myNumNeighbor, verbose);
+             if(isOK) {
+               vol = cTree1.computeTotalVolume(1);
+               if(volOpt<0.0) {
+                 volOpt = vol;
+                 cTreeOpt = cTree1;
+                 itOpt = it;
+               }
+               else {
+                 if(volOpt>vol) {
+                   volOpt = vol;
+                   cTreeOpt = cTree1;
+                   itOpt = it;
+                 }
+               }
+               nbSol++;
+             }
+           }
+         }
+       }
+         aTree = cTreeOpt;
+         aTree.updateLengthFactor();
+         aTree.updateResistanceFromRoot();
+         aTree.updateRootRadius();
+     }
+     if (verbose){
+       std::cout<<"====> Aperf="<<aTree.myRsupp*aTree.myRsupp*aTree.my_NTerm*M_PI<<" == "<<aTree.my_aPerf<<std::endl;
+     }
+}
+
+
+
+
+
 
 /**
  * Helpers fonction to construction the tree. (mainly from circular domain and image organ for testing).
@@ -188,29 +251,6 @@ getImageContours(const DGtal::ImageContainerBySTLVector<DGtal::Z2i::Domain, unsi
     return vectContoursBdryPointels;
 }
 
-/**
- * Helpers fonction to construction the tree with autoSearch of the center and root.
- * The center is defined from the maximal distance map and the root point is searched on the image domain.
- */
-
-inline
-CoronaryArteryTree< ImageMaskDomainCtrl<3>, 3>
-construct3dTreeWithController(const ImageMaskDomainCtrl<3> &aDomCtr, double aPerf,
-                              int nbTerm, std::string imageOrgan,
-                              unsigned int fgTh = 128,
-                              bool verbose = false){
-    ImageMaskDomainCtrl<3>::TPointI pM = aDomCtr.maxDistantPointFromBorder();
-    
-//    return  constructTree<ImageMaskDomainCtrl<3>, 3>( aPerf,  nbTerm,
-//                                                            imageOrgan, fgTh,
-//                                                             verbose ,pM,
-//                                                                        10);
-//    return constructTre
-    
-   return  constructTree<ImageMaskDomainCtrl<3>, 3>(aPerf, nbTerm, imageOrgan,
-                                                      fgTh, verbose, pM,
-                static_cast< unsigned int >(aDomCtr.myDistanceImage(pM) /2.0));
-}
 
 
 
