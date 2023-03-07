@@ -85,12 +85,22 @@ public:
   std::vector< Segment > myVectSegments;
   // to store the index of the terminal segments
   std::vector<unsigned int> myVectTerminals;
+    
+    
+    
+    // to recover the Children left (first) and right (second) on an indexed segment.
+    std::vector< SegmentChildren >  rec_myVectChildren;
+    // to recover the parent of an indexed segement
+    std::vector<unsigned int >  rec_myVectParent;
+    // represents all the vertices of the graph
+    std::vector< Segment > rec_myVectSegments;
+    // to store the index of the terminal segments
+    std::vector<unsigned int> rec_myVectTerminals;
   
      
   //-----------------------------
   // Global biological parameters
     struct BioAlgoParameter{
-        
         // my_NTerm: number of terminal segments
         unsigned int my_NTerm = 1;
         
@@ -146,8 +156,19 @@ public:
    InternAlgoParameter iParam;
   // End: Internal algorithm parameter
   //-----------------------------
-
   
+    
+  struct TreeState {
+        BioAlgoParameter bParam;
+        InternAlgoParameter iParam;
+        std::vector< SegmentChildren >  myVectChildren;
+        // to recover the parent of an indexed segement
+        std::vector<unsigned int >  myVectParent;
+        // represents all the vertices of the graph
+        std::vector< Segment > myVectSegments;
+        // to store the index of the terminal segments
+        std::vector<unsigned int> myVectTerminals;
+  };
   DomCtr myDomainController;
   
   // To handle display
@@ -227,6 +248,10 @@ public:
 
 
   // ----------------------- Interface --------------------------------------
+    
+    
+    TreeState state();
+    void restaureState(const TreeState &aState);
     
   /**
    * Tries to add a new segment from a given point and a nearest segement given by index.
@@ -586,8 +611,5 @@ operator!=(typename CoronaryArteryTree<DomCtr, TDim>::Segment  S1, typename Coro
 
 #undef CORONARY_ARTERY_TREE_RECURSES
 #endif // else defined(CORONARY_ARTERY_TREE_RECURSES)
-
-
-
 
 

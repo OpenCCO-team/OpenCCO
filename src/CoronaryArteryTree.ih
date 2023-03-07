@@ -15,7 +15,30 @@
 
 #include <math.h>
 
-
+template< class DomCtr, int TDim>
+inline
+typename CoronaryArteryTree<DomCtr, TDim>::TreeState
+CoronaryArteryTree<DomCtr, TDim>::state(){
+    TreeState state;
+    state.bParam = bParam;
+    state.iParam = iParam;
+    state.myVectTerminals = myVectTerminals;
+    state.myVectSegments = myVectSegments;
+    state.myVectParent = myVectParent;
+    state.myVectChildren = myVectChildren;
+    return state;
+}
+template< class DomCtr, int TDim>
+inline
+void
+CoronaryArteryTree<DomCtr, TDim>::restaureState(const CoronaryArteryTree<DomCtr, TDim>::TreeState &aState){
+    bParam = aState.bParam ;
+    iParam = aState.iParam ;
+    myVectTerminals = aState.myVectTerminals;
+    myVectSegments = aState.myVectSegments;
+    myVectParent = aState.myVectParent;
+    myVectChildren = aState.myVectChildren;
+}
 
 
 template< class DomCtr, int TDim>
