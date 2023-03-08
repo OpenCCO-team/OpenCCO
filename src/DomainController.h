@@ -29,8 +29,7 @@
       Usefull to ensure is a whole segment is inside the domain.
  *  - maxDistantPointFromBorder() const:
  *    usefull to determine a starting point and help to construct the tree.
-
- */
+ **/
 
 
 /**
@@ -40,7 +39,7 @@ template<int TDim>
 class CircularDomainCtrl {
 public:
     typedef DGtal::PointVector<TDim, double> TPoint;
-    double myRadius {0.0};
+    double myRadius {1.0};
     TPoint myCenter;
     // Constructor for ImplicitCirc type
     CircularDomainCtrl(){};
@@ -53,7 +52,7 @@ public:
     
     bool isInside(const TPoint &p)
     {
-        return p.norm() < myRadius;
+        return (myCenter-p).norm() < myRadius;
     }
     
     TPoint
@@ -97,6 +96,7 @@ public:
 template<int TDim>
 class ImageMaskDomainCtrl {
 public:
+    
     typedef DGtal::PointVector<TDim, double> TPoint;
     typedef  DGtal::PointVector<TDim, int> TPointI;
 
@@ -108,7 +108,7 @@ public:
     
     TPoint myDomPtLow, myDomPtUpper;
     int myMaskThreshold {128};
-    unsigned int myNbTry {0};
+    unsigned int myNbTry {100};
    
 public:
     Image myImage;
@@ -152,7 +152,7 @@ public:
       }
       return pCand;
     }
-    bool isInside(const TPoint &p){
+    bool isInside(const TPointI &p){
         return myImage(p) > myMaskThreshold;
     }
     /**
@@ -162,7 +162,7 @@ public:
      * @param pt2  second point of the segment
      */
    bool
-   checkNoIntersectDomain(const TPoint &pt1, const TPoint &pt2)
+   checkNoIntersectDomain(const TPointI &pt1, const TPointI &pt2)
     {
       if (!myImage.domain().isInside(pt1) ||
           !myImage.domain().isInside(pt2)){
@@ -174,7 +174,7 @@ public:
       for(unsigned int i=0; i<TPoint::dimension; i++ ){p[i]=pt1[i];}
       for (unsigned int i = 0; i<(pt2 - pt1).norm(); i++){
         DGtal::PointVector<TPoint::dimension, double>  p = pt1+dir*i;
-        TPoint pI;
+        TPointI pI;
         for(unsigned int i=0; i<TPoint::dimension; i++ ){pI[i]=static_cast<int>(p[i]);}
         if (myImage(pI) < myMaskThreshold)
           return false;

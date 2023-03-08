@@ -21,7 +21,7 @@
 
 
 
-namespace ConstructionHelpers {
+namespace ExpandTreeHelpers {
 
 
 template<typename DomCtr, int TDim>
@@ -60,9 +60,8 @@ expandTree(CoronaryArteryTree< DomCtr, TDim > &aTree, bool verbose = false)
             std::vector<unsigned int> vecN = aTree.getN_NearestSegments(pt,aTree.iParam.myNumNeighbor);
             for(size_t it=0; it<vecN.size(); it++) {
                 if(!aTree.isIntersecting(pt, aTree.findBarycenter(pt, vecN.at(it)),vecN.at(it),aTree.iParam.myNumNeighbor, 2*aTree.myVectSegments[vecN.at(it)].myRadius)) {
-                    // CTree1 copie d'expé
                     aTree.restaureState(stateBase);
-                    isOK = aTree.isAddable(pt,vecN.at(it), 100, 0.01, aTree.iParam.myNumNeighbor, verbose);
+                    isOK = aTree.isAddable(pt,vecN.at(it), 100, 0.01,   aTree.iParam.myNumNeighbor, verbose);
                     if(isOK) {
                         vol = aTree.computeTotalVolume(1);
                         if(volOpt<0.0) {

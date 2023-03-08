@@ -11,7 +11,7 @@
 
 #include "CoronaryArteryTree.h"
 #include "GeomHelpers.h"
-#include "ConstructionHelpers.h"
+#include "ExpandTreeHelpers.h"
 
 #include "XmlHelpers.h"
 
@@ -26,8 +26,8 @@ constructTreeMaskDomain(TTree &aTree, int distSearchRoot,
 {
     clock_t start, end;
     start = clock();
-    ConstructionHelpers::initFirtElemTree(aTree, distSearchRoot);
-    ConstructionHelpers::expandTree(aTree);
+    ExpandTreeHelpers::initFirtElemTree(aTree, distSearchRoot);
+    ExpandTreeHelpers::expandTree(aTree);
     end = clock();
     printf ("Execution time: %0.8f sec\n", ((double) end - start)/CLOCKS_PER_SEC);
 }
@@ -39,7 +39,7 @@ constructTreeImplicitDomain(TTree &aTree, bool verbose)
 {
     clock_t start, end;
     start = clock();
-    ConstructionHelpers::expandTree(aTree);
+    ExpandTreeHelpers::expandTree(aTree);
     end = clock();
     printf ("Execution time: %0.8f sec\n", ((double) end - start)/CLOCKS_PER_SEC);
 }
@@ -84,10 +84,10 @@ int main(int argc, char *const *argv)
     if(nameImgDom != "" && pInit->empty()){
         start = clock();
         typedef ImageMaskDomainCtrl<2> TImgContrl;
-          typedef  CoronaryArteryTree<TImgContrl, 2> TTree;
-          TImgContrl aDomCtr (nameImgDom, 128, 100);
-          TImgContrl::TPointI pM = aDomCtr.maxDistantPointFromBorder();
-          unsigned int distSearchRoot =  static_cast< unsigned int >(aDomCtr.myDistanceImage(pM) /3.0);
+        typedef  CoronaryArteryTree<TImgContrl, 2> TTree;
+        TImgContrl aDomCtr (nameImgDom, 128, 100);
+        TImgContrl::TPointI pM = aDomCtr.maxDistantPointFromBorder();
+        unsigned int distSearchRoot =  static_cast< unsigned int>(aDomCtr.myDistanceImage(pM) /3.0);
 
           TTree tree  (aPerf, nbTerm, 1.0, pM);
           tree.myDomainController = aDomCtr;

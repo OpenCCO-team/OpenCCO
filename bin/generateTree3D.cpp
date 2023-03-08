@@ -15,7 +15,7 @@
 
 #include "CoronaryArteryTree.h"
 #include "GeomHelpers.h"
-#include "ConstructionHelpers.h"
+#include "ExpandTreeHelpers.h"
 #include "XmlHelpers.h"
 
 #include "DomainController.h"
@@ -38,8 +38,8 @@ constructTreeMaskDomain(TTree &aTree, int distSearchRoot,
 {
     clock_t start, end;
     start = clock();
-    ConstructionHelpers::initFirtElemTree(aTree, distSearchRoot);
-    ConstructionHelpers::expandTree(aTree);
+    ExpandTreeHelpers::initFirtElemTree(aTree, distSearchRoot);
+    ExpandTreeHelpers::expandTree(aTree, verbose);
     end = clock();
     printf ("Execution time: %0.8f sec\n", ((double) end - start)/CLOCKS_PER_SEC);
 }
@@ -51,7 +51,7 @@ constructTreeImplicitDomain(TTree &aTree, bool verbose)
 {
     clock_t start, end;
     start = clock();
-    ConstructionHelpers::expandTree(aTree);
+    ExpandTreeHelpers::expandTree(aTree, verbose);
     end = clock();
     printf ("Execution time: %0.8f sec\n", ((double) end - start)/CLOCKS_PER_SEC);
 }

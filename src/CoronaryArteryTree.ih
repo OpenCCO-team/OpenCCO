@@ -1,6 +1,6 @@
 
 #include "GeomHelpers.h"
-#include "ConstructionHelpers.h"
+#include "ExpandTreeHelpers.h"
 
 #include "DGtal/io/boards/Board2D.h"
 #include "DGtal/io/readers/PPMReader.h"
@@ -159,37 +159,37 @@ CoronaryArteryTree<DomCtr, TDim>::isAddable(const TPointD &p, unsigned int segIn
                               unsigned int nbIter, double tolerance,
                               unsigned int nbNeibour, bool verbose)
 {
+  typedef typename DomCtr::TPoint::Component TCompPt;
   TPointD pOpt, newCenter = findBarycenter(p, segIndex);
-  TPoint newCenterDom; for (auto i=0; i < TDim; i++){newCenterDom[i] = static_cast<int>(newCenter[i]);}
-  TPoint pDom; for (auto i=0; i < TDim; i++){pDom[i] = static_cast<int>(p[i]);}
+  TPoint newCenterDom;
+  for (auto i=0; i < TDim; i++){newCenterDom[i] = static_cast<TCompPt>(newCenter[i]);}
+  TPoint pDom; for (auto i=0; i < TDim; i++){pDom[i] = static_cast<TCompPt>(p[i]);}
 
-  TPoint pSegIndDom; for (auto i=0; i < TDim; i++){pSegIndDom[i] = static_cast<int>(myVectSegments[segIndex].myCoordinate[i]);}
+  TPoint pSegIndDom; for (auto i=0; i < TDim; i++){pSegIndDom[i] = static_cast<TCompPt>(myVectSegments[segIndex].myCoordinate[i]);}
   
-  if(myIsImageDomainRestrained && (myImageDomain(newCenterDom)< myForegroundThreshold))
-    return false;
-
-  if(myIsImageDomainRestrained &&
-    !GeomHelpers::checkNoIntersectDomain(myImageDomain,
-                                        myForegroundThreshold,
-                                        pDom,
-                                        newCenterDom))
+  if (!myDomainController.isInside(newCenterDom))
+  {
       return false;
-  if(myIsImageDomainRestrained &&
-     !GeomHelpers::checkNoIntersectDomain(myImageDomain,myForegroundThreshold,
-                                                        pSegIndDom,
-                                                        newCenterDom))
+  }
+    
+  if (!myDomainController.checkNoIntersectDomain(pDom, newCenterDom))
+  {
       return false;
+  }
   
+  if(!myDomainController.checkNoIntersectDomain(pSegIndDom,
+                                                 newCenterDom))
+  {
+      return false;
+  }
+      
   // Creation a copy of parent segment
   Segment sParent = myVectSegments[myVectParent[segIndex]];
   TPointD pParent = sParent.myCoordinate;
-  TPoint pParentDom; for (auto i=0; i < TDim; i++){pParentDom[i] = static_cast<int>(pParent[i]);}
+  TPoint pParentDom; for (auto i=0; i < TDim; i++){pParentDom[i] = static_cast<TCompPt>(pParent[i]);}
 
-  if(myIsImageDomainRestrained &&
-    !GeomHelpers::checkNoIntersectDomain(myImageDomain,
-                                         myForegroundThreshold,
-                                         pParentDom,
-                                         newCenterDom))
+  if(!myDomainController.checkNoIntersectDomain(pParentDom,
+                                                newCenterDom))
       return false;
   
   // Creation of the left child
@@ -213,14 +213,7 @@ CoronaryArteryTree<DomCtr, TDim>::isAddable(const TPointD &p, unsigned int segIn
   sCurrent.myFlow = myVectSegments[segIndex].myFlow + bParam.my_qTerm;
   sCurrent.myKTerm = sNewLeft.myKTerm + 1;
   
-  /*
-  double f1 = sNewLeft.myFlow;//ratioQ*f0;//k * r1*r1*r1; //left
-  double f2 = sNewRight.myFlow;//(1.0-ratioQ)*f0;//k * r2*r2*r2; //right
-  double f0 =  f1 + f2;//R0*R0*R0; //middle
-   TPointD pL = sNewLeft.myCoordinate;
-   TPointD pR = sNewRight.myCoordinate;
-   TPointD pCurrent ((f0*pParent[0]+f1*pL[0]+f2*pR[0])/(2.0*f0), (f0*pParent[1]+f1*pL[1]+f2*pR[1])/(2.0*f0)); //barycenter of the sement
-  */
+ 
   TPointD pCurrent = (sParent.myCoordinate+sNewLeft.myCoordinate)/2.0; //center of the current segment
   double r0 = sCurrent.myRadius, r1 = sCurrent.myRadius, r2 = sCurrent.myRadius;
   bool res1 = true, res2 = false, res3 = true, res4 = false, isDone = false;
@@ -696,7 +689,7 @@ CoronaryArteryTree<DomCtr, TDim>::boardDisplay(double thickness, bool clearDispl
     i++;
   }
   if (myIsImageDomainRestrained ){
-     auto vectContours = ConstructionHelpers::getImageContours(myImageDomain, myForegroundThreshold);
+     auto vectContours = ExpandTreeHelpers::getImageContours(myImageDomain, myForegroundThreshold);
      for(auto const c: vectContours){
        DGtal::Color col;
        if(DGtal::ContourHelper::isCounterClockWise(c)){
