@@ -95,7 +95,18 @@ public:
     
     TPoint
     firtCandidatePoint() const {
-        return TPoint::diagonal(0.5*myRadius);
+        TPoint res;
+        if (TDim == 2){
+            res[0] = 0.0;
+            res[1] = myRadius/2.0 - 0.01;
+         }else  if (TDim == 3){
+             res[0] = 0.0;
+             res[1] = myRadius/2.0 - 0.01;
+             res[2] = 0.0;
+
+         }
+
+        return res;
         
     }
     std::vector<std::vector< TPoint > >
@@ -114,7 +125,7 @@ public:
     upperBound()
     {
         TPoint p = TPoint::diagonal(myRadius*0.01);
-        return myCenter - p;
+        return myCenter + p;
     }
 
 };
