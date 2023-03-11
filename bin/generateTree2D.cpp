@@ -27,7 +27,7 @@ constructTreeMaskDomain(TTree &aTree, int distSearchRoot,
     clock_t start, end;
     start = clock();
     ExpandTreeHelpers::initFirtElemTree(aTree, distSearchRoot);
-    ExpandTreeHelpers::expandTree(aTree);
+    ExpandTreeHelpers::expandTree(aTree, verbose);
     end = clock();
     printf ("Execution time: %0.8f sec\n", ((double) end - start)/CLOCKS_PER_SEC);
 }

@@ -98,7 +98,12 @@ public:
         return TPoint::diagonal(0.5*myRadius);
         
     }
-    
+    std::vector<std::vector< TPoint > >
+    contours()
+    {
+        std::vector<std::vector< TPoint > > res;
+        return res;
+    }
     
 };
 
@@ -118,9 +123,9 @@ public:
     typedef DGtal::ImageContainerBySTLVector< DomCT, unsigned char> Image;
     typedef DGtal::ImageContainerBySTLVector< DomCT, double> ImageD;
     typedef typename DGtal::DigitalSetSelector<DomCT,
-                                               DGtal::BIG_DS+
-                                               DGtal::HIGH_BEL_DS>::Type TDGset;
-
+    DGtal::BIG_DS+
+    DGtal::HIGH_BEL_DS>::Type TDGset;
+    
     
     TPoint myDomPtLow, myDomPtUpper;
     int myMaskThreshold {128};
@@ -128,7 +133,7 @@ public:
     // Fixme to be removed since no need when finalized
     bool myIsImageDomainRestrained = true;
     TPointI myCenter;
-
+    
     
 public:
     Image myImage;
@@ -150,10 +155,10 @@ public:
         bool isOk = false;
         // Check if at least one pixel of with foreground value exist:
         for (auto p: myImage.domain()){
-          if (myImage(p) >= myMaskThreshold){
-            isOk = true;
-            break;
-          }
+            if (myImage(p) >= myMaskThreshold){
+                isOk = true;
+                break;
+            }
         }
         if (isOk){
             std::cout << "first point In domain:" << myCenter<<  std::endl;
@@ -233,8 +238,14 @@ public:
         searchRootFarthest(myDistanceImage(myCenter)/2, res);
         return res;
     }
-
-         
+    
+    std::vector<std::vector< TPointI > >
+    contours()
+    {
+        std::vector<std::vector< TPointI > > res;
+        return res;
+    }
+    
     
 private:
     // internal method
@@ -257,13 +268,29 @@ private:
     }
     
     
-
- 
-        
-    
-    
     
 };
+
+template<>
+std::vector<std::vector< typename ImageMaskDomainCtrl<2>::TPointI > >
+ImageMaskDomainCtrl<2>::contours()
+{
+    typedef  DGtal::ImageContainerBySTLVector<DGtal::Z2i::Domain, unsigned char> TImage;
+    typedef DGtal::functors::IntervalThresholder<typename TImage::Value> Binarizer;
+    DGtal::Z2i::KSpace ks;
+    if(! ks.init( myImage.domain().lowerBound(),
+                 myImage.domain().upperBound(), true )){
+      DGtal::trace.error() << "Problem in KSpace initialisation"<< std::endl;
+    }
+  
+    Binarizer b(myMaskThreshold, 255);
+    DGtal::functors::PointFunctorPredicate<TImage,Binarizer> predicate(myImage, b);
+    DGtal::trace.info() << "DGtal contour extraction from thresholds ["<<  myMaskThreshold << "," << 255 << "]" ;
+    DGtal::SurfelAdjacency<2> sAdj( true );
+    std::vector<std::vector< typename ImageMaskDomainCtrl<2>::TPointI > > vectContoursBdryPointels;
+    DGtal::Surfaces<DGtal::Z2i::KSpace>::extractAllPointContours4C( vectContoursBdryPointels, ks, predicate, sAdj );
+    return vectContoursBdryPointels;
+}
 
 
 
