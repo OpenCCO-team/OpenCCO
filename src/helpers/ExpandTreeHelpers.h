@@ -57,7 +57,8 @@ expandTree(CoronaryArteryTree< DomCtr, TDim > &aTree, bool verbose = false)
 
         double volOpt = -1.0, vol = 0.0;
         while (nbSol==0) {
-            auto pt = aTree.myDomainController.randomPoint();
+           // auto pt = aTree.myDomainController.randomPoint();
+            auto pt = aTree.generateNewLocation();
             std::vector<unsigned int> vecN = aTree.getN_NearestSegments(pt,aTree.iParam.myNumNeighbor);
             for(size_t it=0; it<vecN.size(); it++) {
                 if(!aTree.isIntersecting(pt, aTree.findBarycenter(pt, vecN.at(it)),vecN.at(it),aTree.iParam.myNumNeighbor, 2*aTree.myVectSegments[vecN.at(it)].myRadius)) {
