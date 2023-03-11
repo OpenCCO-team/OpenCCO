@@ -237,21 +237,17 @@ CoronaryArteryTree<DomCtr, TDim>::isAddable(const TPointD &p, unsigned int segIn
     TPoint sNewLeftDom; for (auto i=0; i < TDim; i++){sNewLeftDom[i] = static_cast<int>(sNewLeft.myCoordinate[i]);}
     TPoint sNewRightDom; for (auto i=0; i < TDim; i++){sNewRightDom[i] = static_cast<int>(sNewRight.myCoordinate[i]);}
 
-    if(myIsImageDomainRestrained &&  (myImageDomain(pOptDom)< myForegroundThreshold)) //resulting point is out of the domaine
+    if(!myDomainController.isInside(pOptDom)){ //resulting point is out of the domaine
       return false;
-      
+    }
    
     
     //resulting segments intersect the domaine
-    if(myIsImageDomainRestrained && !GeomHelpers::checkNoIntersectDomain(myImageDomain, myForegroundThreshold,
-                                    pParentDom,
-                                    pOptDom)) //Center segment
+    if( !myDomainController.checkNoIntersectDomain(pParentDom, pOptDom)) //Center segment
       return false;
-    if(myIsImageDomainRestrained && !GeomHelpers::checkNoIntersectDomain(myImageDomain, myForegroundThreshold,
-                                                                          sNewLeftDom, pOptDom)) //Left segment
+    if(!myDomainController.checkNoIntersectDomain(sNewLeftDom, pOptDom)) //Left segment
       return false;
-    if(myIsImageDomainRestrained && !GeomHelpers::checkNoIntersectDomain(myImageDomain, myForegroundThreshold,
-                                                                          sNewRightDom, pOptDom)) //Right segment
+    if(!myDomainController.checkNoIntersectDomain(sNewRightDom, pOptDom)) //Right segment
       return false;
     
     //Otherwise, iterate for the optimisation process
@@ -638,7 +634,7 @@ CoronaryArteryTree<DomCtr, TDim>::boardDisplay(double thickness, bool clearDispl
   // 57.5 from myBoard change scale
   double scaleBoard = 57.5*scaleFactorEPS;
   // drawing base circle
-  if (!myIsImageDomainRestrained){
+  if (!myDomainController.myIsImageDomainRestrained){
     myBoard.setPenColor(DGtal::Color::Blue);
     myBoard.setLineWidth(myVectSegments[0].myRadius*scaleBoard*thickness);
     myBoard.drawCircle(iParam.myTreeCenter[0], iParam.myTreeCenter[1], bParam.my_rPerf, 1);
@@ -688,7 +684,7 @@ CoronaryArteryTree<DomCtr, TDim>::boardDisplay(double thickness, bool clearDispl
     myBoard.fillCircle(distal[0], distal[1], myVectSegments[s.myIndex].myRadius*thickness, 1 );
     i++;
   }
-  if (myIsImageDomainRestrained ){
+  if (myDomainController.myIsImageDomainRestrained ){
      auto vectContours = ExpandTreeHelpers::getImageContours(myImageDomain, myForegroundThreshold);
      for(auto const c: vectContours){
        DGtal::Color col;
@@ -719,7 +715,7 @@ CoronaryArteryTree<DomCtr, TDim>::exportBoardDisplay(const std::string &fileName
   if (updateDisplay){
     boardDisplay(thickness, clearDisplay);
   }
-  if (myIsImageDomainRestrained){
+  if (myDomainController.myIsImageDomainRestrained){
     myBoard.drawDot(0, 0);
     myBoard.drawDot(myImageDomain.domain().upperBound()[0],
                     myImageDomain.domain().upperBound()[1]);
@@ -814,7 +810,7 @@ std::pair<DGtal::PointVector<TDim, double>, bool>
 CoronaryArteryTree<DomCtr, TDim>::generateALocation2d(double myDThresold){
     TPointD res;
     // Fixme : To be merge
-    if (myIsImageDomainRestrained){
+    if (myDomainController.myIsImageDomainRestrained){
       res = GeomHelpers::generateRandomPtOnImageDomain2D(myImageDomain, myForegroundThreshold,  myImageDist);
     } else {
       res = GeomHelpers::generateRandomPtOnDisk(iParam.myTreeCenter, bParam.my_rPerf);
@@ -856,7 +852,7 @@ std::pair<DGtal::PointVector<TDim, double>, bool>
 CoronaryArteryTree<DomCtr, TDim>::generateALocation3d(double myDThresold){
     TPointD res;
     // will be make unique
-    if (myIsImageDomainRestrained){
+    if (myDomainController.myIsImageDomainRestrained){
       res = GeomHelpers::generateRandomPtOnImageDomain3D(myImageDomain, myForegroundThreshold,  myImageDist);
     } else {
       res = GeomHelpers::generateRandomPtOnDisk(iParam.myTreeCenter, bParam.my_rPerf);
@@ -1139,7 +1135,7 @@ CoronaryArteryTree<DomCtr, TDim>::selfDisplay( std::ostream & out ) const {
 }
 template< typename DomCtr, int TDim >
 typename CoronaryArteryTree<DomCtr, TDim>::TPoint CoronaryArteryTree<DomCtr,TDim>::getDomainCenter() const {
-  if (!myIsImageDomainRestrained){
+  if (!myDomainController.myIsImageDomainRestrained){
     return TPoint::diagonal(0);
   }
   else {
@@ -1275,7 +1271,7 @@ CoronaryArteryTree<DomCtr, TDim>::restrainDomain2d(const Image &imageDom,
     
       if(myImageDomain.domain().isInside(pRootI) &&
          myImageDomain(pRootI) >= threshold) {
-         myIsImageDomainRestrained = true;
+          myDomainController.myIsImageDomainRestrained = true;
          myImageDist = GeomHelpers::getImageDistance<Image, ImageDist>(myImageDomain, threshold);
         return true;
       }
@@ -1327,7 +1323,7 @@ CoronaryArteryTree<DomCtr, TDim>::restrainDomain3d(const Image &imageDom,
   
     if(myImageDomain.domain().isInside(pRootI) &&
        myImageDomain(pRootI) >= threshold) {
-       myIsImageDomainRestrained = true;
+        myDomainController.myIsImageDomainRestrained = true;
        myImageDist = GeomHelpers::getImageDistance<Image, ImageDist>(myImageDomain,
                                                                        threshold);
       return true;
@@ -1337,89 +1333,89 @@ CoronaryArteryTree<DomCtr, TDim>::restrainDomain3d(const Image &imageDom,
 }
 
 
-/**
- * Template specialisation for 2D
- **/
-// fix me duplicated code for template specialisation
-template<>
-bool
-CoronaryArteryTree<ImageMaskDomainCtrl<2>, 2>::searchRootFarthest(const double & d,
-                                             DGtal::PointVector<2, double> &ptRoot ){
-    return searchRootFarthest2d(d, ptRoot);
-}
+///**
+// * Template specialisation for 2D
+// **/
+//// fix me duplicated code for template specialisation
+//template<>
+//bool
+//CoronaryArteryTree<ImageMaskDomainCtrl<2>, 2>::searchRootFarthest(const double & d,
+//                                             DGtal::PointVector<2, double> &ptRoot ){
+//    return searchRootFarthest2d(d, ptRoot);
+//}
+//
+//template<>
+//bool
+//CoronaryArteryTree<CircularDomainCtrl<2>, 2>::searchRootFarthest(const double & d,
+//                                             DGtal::PointVector<2, double> &ptRoot ){
+//    return searchRootFarthest2d(d, ptRoot);
+//}
 
-template<>
-bool
-CoronaryArteryTree<CircularDomainCtrl<2>, 2>::searchRootFarthest(const double & d,
-                                             DGtal::PointVector<2, double> &ptRoot ){
-    return searchRootFarthest2d(d, ptRoot);
-}
 
-
-template< typename DomCtr, int TDim >
-bool
-CoronaryArteryTree<DomCtr, TDim>::searchRootFarthest2d(const double & d, TPointD &ptRoot ){
-    DGtal::Z2i::DigitalSet sPts =  GeomHelpers::pointsOnCircle(iParam.myTreeCenter, d);
-    for (const DGtal::Z2i::Point &p : sPts){
-        if (GeomHelpers::checkNoIntersectDomain(myImageDomain, myForegroundThreshold,
-                                                p, DGtal::Z2i::Point(iParam.myTreeCenter[0],
-                                                                     iParam.myTreeCenter[1])) ){
-          ptRoot[0] = p[0];
-          ptRoot[1] = p[1];
-          return true;
-        }
-    }
-    return false;
-}
-
- 
+//template< typename DomCtr, int TDim >
+//bool
+//CoronaryArteryTree<DomCtr, TDim>::searchRootFarthest2d(const double & d, TPointD &ptRoot ){
+//    DGtal::Z2i::DigitalSet sPts =  GeomHelpers::pointsOnCircle(iParam.myTreeCenter, d);
+//    for (const DGtal::Z2i::Point &p : sPts){
+//        if (GeomHelpers::checkNoIntersectDomain(myImageDomain, myForegroundThreshold,
+//                                                p, DGtal::Z2i::Point(iParam.myTreeCenter[0],
+//                                                                     iParam.myTreeCenter[1])) ){
+//          ptRoot[0] = p[0];
+//          ptRoot[1] = p[1];
+//          return true;
+//        }
+//    }
+//    return false;
+//}
+//
+//
 
 /**
  * Template specialisation for 3D
  **/
-
-template<>
-bool
-CoronaryArteryTree<CircularDomainCtrl<3>, 3>::searchRootFarthest(const double & d,
-                                             DGtal::PointVector<3, double> &ptRoot ){
-    return searchRootFarthest3d(d, ptRoot);
-}
-
-template<>
-bool
-CoronaryArteryTree<ImageMaskDomainCtrl<3>, 3>::searchRootFarthest(const double & d,
-                                             DGtal::PointVector<3, double> &ptRoot ){
-    return searchRootFarthest3d(d, ptRoot);
-}
-
-template< typename DomCtr, int TDim >
-bool
-CoronaryArteryTree<DomCtr, TDim>::searchRootFarthest3d(const double & d,
-                                                       TPointD &ptRoot ){
-    DGtal::Z3i::DigitalSet sPts =  GeomHelpers::pointsOnBall(iParam.myTreeCenter, d);
-    for (const DGtal::Z3i::Point &p : sPts){
-        if (GeomHelpers::checkNoIntersectDomain(myImageDomain, myForegroundThreshold,
-                                                p, DGtal::Z3i::Point(iParam.myTreeCenter[0],
-                                                                     iParam.myTreeCenter[1],
-                                                                     iParam.myTreeCenter[2])) ){
-          ptRoot[0] = p[0];
-          ptRoot[1] = p[1];
-          ptRoot[2] = p[2];
-          return true;
-        }
-    }
-    return false;
-}
-
-
-template< typename DomCtr, int TDim >
-bool
-CoronaryArteryTree<DomCtr, TDim>::searchRootFarthest(const double & d,
-                                             DGtal::PointVector<TDim, double> &ptRoot ){
-  DGtal::trace.error() << "not yet implemented in "<< TDim << "dimensions" << std::endl;
-  throw 1;
-  return false;
-}
+//
+//template<>
+//bool
+//CoronaryArteryTree<CircularDomainCtrl<3>, 3>::searchRootFarthest(const double & d,
+//                                             DGtal::PointVector<3, double> &ptRoot ){
+//    return searchRootFarthest3d(d, ptRoot);
+//}
+//
+//template<>
+//bool
+//CoronaryArteryTree<ImageMaskDomainCtrl<3>, 3>::searchRootFarthest(const double & d,
+//                                             DGtal::PointVector<3, double> &ptRoot ){
+//    return searchRootFarthest3d(d, ptRoot);
+//}
+//
+//template< typename DomCtr, int TDim >
+//bool
+//CoronaryArteryTree<DomCtr, TDim>::searchRootFarthest3d(const double & d,
+//                                                       TPointD &ptRoot ){
+//    DGtal::Z3i::DigitalSet sPts =  GeomHelpers::pointsOnBall(iParam.myTreeCenter, d);
+//    for (const DGtal::Z3i::Point &p : sPts){
+//        if (GeomHelpers::checkNoIntersectDomain(myImageDomain, myForegroundThreshold,
+//                                                p, DGtal::Z3i::Point(iParam.myTreeCenter[0],
+//                                                                     iParam.myTreeCenter[1],
+//                                                                     iParam.myTreeCenter[2])) ){
+//          ptRoot[0] = p[0];
+//          ptRoot[1] = p[1];
+//          ptRoot[2] = p[2];
+//          return true;
+//        }
+//    }
+//    return false;
+//}
+//
+//
+//template< typename DomCtr, int TDim >
+//bool
+//CoronaryArteryTree<DomCtr, TDim>::searchRootFarthest(const double & d,
+//                                             DGtal::PointVector<TDim, double> &ptRoot ){
+//  DGtal::trace.error() << "not yet implemented in "<< TDim << "dimensions" << std::endl;
+//  throw 1;
+//  return false;
+//}
 
 template< typename DomCtr, int TDim >
 bool operator==(typename CoronaryArteryTree<DomCtr, TDim>::Segment S1,

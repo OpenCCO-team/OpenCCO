@@ -21,6 +21,7 @@
 /**
  * Classes to control the construction domain of the coronary aretery tree.
  *  It is used during the reconstruction using the following points:
+ *  - myCenter: used to orient the construction according the domain.
  *  - bool isInside(const TPoint &p):
  *    Test if a point is inside the domain or not (a point can be outside after the optmisation).
  *  - TPoint  randomPoint():
@@ -29,6 +30,8 @@
       Usefull to ensure is a whole segment is inside the domain.
  *  - maxDistantPointFromBorder() const:
  *    usefull to determine a starting point and help to construct the tree.
+ *  - TPoint firtCandidatePoint() const :
+ *    use to initiate the reconstruction of the tree.
  **/
 
 
@@ -41,6 +44,9 @@ public:
     typedef DGtal::PointVector<TDim, double> TPoint;
     double myRadius {1.0};
     TPoint myCenter;
+    
+    // Fixme to be removed since no need when finalized
+    bool myIsImageDomainRestrained = false;
     // Constructor for ImplicitCirc type
     CircularDomainCtrl(){};
     
@@ -86,6 +92,14 @@ public:
     maxDistantPointFromBorder() const {
         return myCenter;
     }
+    
+    TPoint
+    firtCandidatePoint() const {
+        return TPoint::diagonal(0.5*myRadius);
+        
+    }
+    
+    
 };
 
 
@@ -99,58 +113,76 @@ public:
     
     typedef DGtal::PointVector<TDim, double> TPoint;
     typedef  DGtal::PointVector<TDim, int> TPointI;
-
     typedef DGtal::SpaceND< TDim, int >   SpaceCT;
     typedef DGtal::HyperRectDomain<SpaceCT> DomCT;
     typedef DGtal::ImageContainerBySTLVector< DomCT, unsigned char> Image;
     typedef DGtal::ImageContainerBySTLVector< DomCT, double> ImageD;
+    typedef typename DGtal::DigitalSetSelector<DomCT,
+                                               DGtal::BIG_DS+
+                                               DGtal::HIGH_BEL_DS>::Type TDGset;
 
     
     TPoint myDomPtLow, myDomPtUpper;
     int myMaskThreshold {128};
     unsigned int myNbTry {100};
-   
+    // Fixme to be removed since no need when finalized
+    bool myIsImageDomainRestrained = true;
+    TPointI myCenter;
+
+    
 public:
     Image myImage;
     ImageD myDistanceImage;
     
     ImageMaskDomainCtrl(): myImage{Image(DomCT())},
-                           myDistanceImage {ImageD(DomCT())} {};
+    myDistanceImage {ImageD(DomCT())} {};
     
     
     // Constructor for Masked domain type
     ImageMaskDomainCtrl(const std::string &fileImgDomain,
                         int maskThreshold, unsigned int nbTry=100):
-                        myNbTry{nbTry},
-                        myImage {DGtal::GenericReader<Image>::import(fileImgDomain,myMaskThreshold )},
-                        myDistanceImage {ImageD(DomCT())}
+    myNbTry{nbTry},
+    myImage {DGtal::GenericReader<Image>::import(fileImgDomain,myMaskThreshold )},
+    myDistanceImage {ImageD(DomCT())}
     {
         myDistanceImage = GeomHelpers::getImageDistance<Image,ImageD>(myImage,myMaskThreshold );
+        myCenter = maxDistantPointFromBorder();
+        bool isOk = false;
+        // Check if at least one pixel of with foreground value exist:
+        for (auto p: myImage.domain()){
+          if (myImage(p) >= myMaskThreshold){
+            isOk = true;
+            break;
+          }
+        }
+        if (isOk){
+            std::cout << "first point In domain:" << myCenter<<  std::endl;
+        }else{
+            std::cout << "First point not in domain ! ;( " << myCenter<<   std::endl;
+        }
     };
     
     TPointI
     randomPoint()
     {
-      bool found = false;
-      unsigned int x = 0;
-      unsigned int y = 0;
-      TPointI pMin = myImage.domain().lowerBound();
-      TPointI pMax = myImage.domain().upperBound();
-      TPointI dp = pMax - pMin;
-      TPointI pCand;
-      unsigned int n = 0;
-      while(!found && n < myNbTry){
-          for (unsigned int i = 0; i< TDim; i++){
-              pCand[i] = pCand[i]%dp[i];
-          }
-        found = myImage(pCand)>=myMaskThreshold &&
-                abs(myDistanceImage(pCand)) >= 10.0;
-        n++;
-      }
-      if (n >= myNbTry){
-        for(auto p : myImage.domain()){if (myImage(p)>=myMaskThreshold && abs(myDistanceImage(p)) >= 10.0 ) return p;}
-      }
-      return pCand;
+        bool found = false;
+        TPointI pMin = myImage.domain().lowerBound();
+        TPointI pMax = myImage.domain().upperBound();
+        TPointI dp = pMax - pMin;
+        TPointI pCand;
+        unsigned int n = 0;
+        while(!found && n < myNbTry){
+            for (unsigned int i = 0; i< TDim; i++){
+                pCand[i] = pMin[i]+(rand()%dp[i]);
+            }
+            found = myImage(pCand)>=myMaskThreshold &&
+            abs(myDistanceImage(pCand)) >= 10.0;
+            n++;
+        }
+        if (n >= myNbTry){
+            for(auto p : myImage.domain()){if (myImage(p)>=myMaskThreshold && abs(myDistanceImage(p)) >= 10.0 ) return p;}
+        }
+        return pCand;
     }
     bool isInside(const TPointI &p){
         return myImage(p) > myMaskThreshold;
@@ -161,25 +193,25 @@ public:
      * @param pt1 first point of the segment
      * @param pt2  second point of the segment
      */
-   bool
-   checkNoIntersectDomain(const TPointI &pt1, const TPointI &pt2)
+    bool
+    checkNoIntersectDomain(const TPointI &pt1, const TPointI &pt2) const
     {
-      if (!myImage.domain().isInside(pt1) ||
-          !myImage.domain().isInside(pt2)){
-        return false;
-      }
-      DGtal::PointVector<TPoint::dimension, double> dir = pt2 - pt1;
-      dir /= dir.norm();
-      DGtal::PointVector<TPoint::dimension, double>  p;
-      for(unsigned int i=0; i<TPoint::dimension; i++ ){p[i]=pt1[i];}
-      for (unsigned int i = 0; i<(pt2 - pt1).norm(); i++){
-        DGtal::PointVector<TPoint::dimension, double>  p = pt1+dir*i;
-        TPointI pI;
-        for(unsigned int i=0; i<TPoint::dimension; i++ ){pI[i]=static_cast<int>(p[i]);}
-        if (myImage(pI) < myMaskThreshold)
-          return false;
-      }
-      return true;
+        if (!myImage.domain().isInside(pt1) ||
+            !myImage.domain().isInside(pt2)){
+            return false;
+        }
+        DGtal::PointVector<TPoint::dimension, double> dir = pt2 - pt1;
+        dir /= dir.norm();
+        DGtal::PointVector<TPoint::dimension, double>  p;
+        for(unsigned int i=0; i<TPoint::dimension; i++ ){p[i]=pt1[i];}
+        for (unsigned int i = 0; i<(pt2 - pt1).norm(); i++){
+            DGtal::PointVector<TPoint::dimension, double>  p = pt1+dir*i;
+            TPointI pI;
+            for(unsigned int i=0; i<TPoint::dimension; i++ ){pI[i]=static_cast<int>(p[i]);}
+            if (myImage(pI) < myMaskThreshold)
+                return false;
+        }
+        return true;
     }
     
     TPointI
@@ -195,6 +227,41 @@ public:
         }
         return pM;
     }
+    TPoint
+    firtCandidatePoint() const {
+        TPointI res;
+        searchRootFarthest(myDistanceImage(myCenter)/2, res);
+        return res;
+    }
+
+         
+    
+private:
+    // internal method
+
+    bool
+    searchRootFarthest(const double & d, TPointI &ptRoot ) const {
+        typedef DGtal::SpaceND<TDim, int> Space;
+        //        auto sPts =  GeomHelpers::pointsOnSphere(ptRoot, d);
+        DomCT aDom;
+        TDGset sPts = GeomHelpers::pointsOnSphere<TPointI, TDGset>(myCenter, d);
+        for (const TPointI &p : sPts){
+            if (checkNoIntersectDomain(p, myCenter)){
+                for(unsigned int i = 0; i < TDim; i++){
+                    ptRoot[i] = p[i];
+                }
+                return true;
+            }
+        }
+        return false;
+    }
+    
+    
+
+ 
+        
+    
+    
     
 };
 

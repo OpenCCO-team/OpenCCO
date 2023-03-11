@@ -339,6 +339,33 @@ pointsOnBall(const TPoint & ptCenter,
 }
 
 
+
+template<typename TPoint, typename TDSet>
+inline
+TDSet
+pointsOnSphere(const TPoint & ptCenter,
+               double radius)
+{
+    typedef  DGtal::SpaceND<TPoint::dimension,
+                             typename TPoint::Component> Space;
+    typedef DGtal::HyperRectDomain<Space> Dom;
+
+  typedef DGtal::ImplicitBall< Space > MyBall;
+  MyBall disk( ptCenter, radius-0.5 );
+  MyBall diskDilate( ptCenter, radius+0.5 );
+  typedef DGtal::EuclideanShapesCSG< MyBall, MyBall > Minus;
+  Minus border ( diskDilate );
+  border.minus( disk );
+  typedef DGtal::GaussDigitizer< Space, Minus > MyGaussDigitizer;
+  MyGaussDigitizer digShape;
+  digShape.attach( border );
+  digShape.init( border.getLowerBound(), border.getUpperBound(), 1 );
+  Dom domainShape = digShape.getDomain();
+  TDSet  aSet(domainShape);
+  DGtal::Shapes<Dom>::digitalShaper( aSet, digShape );
+  return aSet;
+}
+
 /**
  * From two segments represented by the end points, it returns true if
  * there exists an intersection and 0 in the other cases.

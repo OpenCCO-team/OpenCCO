@@ -30,12 +30,13 @@ void
 initFirtElemTree(CoronaryArteryTree< DomCtr, TDim > &aTree,
                  unsigned int distSearchRoot, bool verbose = false){
     DGtal::PointVector<TDim, double> pRoot;
-    bool restrainedOK = aTree.restrainDomain(aTree.myDomainController.myImage,              aTree.myForegroundThreshold);
-    if (restrainedOK){
-        DGtal::trace.info() << "Using restrained image  "  << std::endl;
+    //bool restrainedOK = aTree.restrainDomain(aTree.myDomainController.myImage,              aTree.myForegroundThreshold);
+    for(unsigned int i = 0; i < TDim; i++){
+        aTree.iParam.myTreeCenter[i] = static_cast<int>(aTree.myDomainController.myCenter[i]);
     }
-    aTree.searchRootFarthest(distSearchRoot, pRoot);
-    aTree.myVectSegments[0].myCoordinate = pRoot;
+    
+    auto p = aTree.myDomainController.firtCandidatePoint();
+    aTree.myVectSegments[0].myCoordinate = p;
 }
 
 
@@ -56,7 +57,7 @@ expandTree(CoronaryArteryTree< DomCtr, TDim > &aTree, bool verbose = false)
 
         double volOpt = -1.0, vol = 0.0;
         while (nbSol==0) {
-            auto pt = aTree.generateNewLocation(100);
+            auto pt = aTree.myDomainController.randomPoint();
             std::vector<unsigned int> vecN = aTree.getN_NearestSegments(pt,aTree.iParam.myNumNeighbor);
             for(size_t it=0; it<vecN.size(); it++) {
                 if(!aTree.isIntersecting(pt, aTree.findBarycenter(pt, vecN.at(it)),vecN.at(it),aTree.iParam.myNumNeighbor, 2*aTree.myVectSegments[vecN.at(it)].myRadius)) {
@@ -145,6 +146,9 @@ getImageContours(const DGtal::ImageContainerBySTLVector<DGtal::Z3i::Domain, unsi
 }
 
 
+
+
+ 
 
 
 }

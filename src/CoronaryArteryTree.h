@@ -561,11 +561,11 @@ public:
    *  @param[out] ptRoot the root point is updated if found.
    * @return true of the root point was found.
    */
-   bool searchRootFarthest(const double & d, TPointD &ptRoot );
-   // 3d specialisation
-   bool searchRootFarthest3d(const double & d, TPointD &ptRoot );
-   // 2d specialisation
-   bool searchRootFarthest2d(const double & d, TPointD &ptRoot );
+//   bool searchRootFarthest(const double & d, TPointD &ptRoot );
+//   // 3d specialisation
+//   bool searchRootFarthest3d(const double & d, TPointD &ptRoot );
+//   // 2d specialisation
+//   bool searchRootFarthest2d(const double & d, TPointD &ptRoot );
     
   
 private:

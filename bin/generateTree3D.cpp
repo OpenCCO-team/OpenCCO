@@ -47,10 +47,11 @@ constructTreeMaskDomain(TTree &aTree, int distSearchRoot,
 
 template<typename TTree>
 void
-constructTreeImplicitDomain(TTree &aTree, bool verbose)
+constructTreeImplicitDomain(TTree &aTree,double distSearchRoot, bool verbose)
 {
     clock_t start, end;
     start = clock();
+    ExpandTreeHelpers::initFirtElemTree(aTree, distSearchRoot);
     ExpandTreeHelpers::expandTree(aTree, verbose);
     end = clock();
     printf ("Execution time: %0.8f sec\n", ((double) end - start)/CLOCKS_PER_SEC);
@@ -203,7 +204,7 @@ int main(int argc, char **argv)
     typedef  CoronaryArteryTree<SphereDomCtrl, 3> TTree;
     SphereDomCtrl::TPoint pCenter (0,0,0);
     TTree tree  (aPerf, nbTerm, 1.0, pCenter);
-    constructTreeImplicitDomain(tree, verbose);
+    constructTreeImplicitDomain(tree, 0.5, verbose);
     XMLHelpers::writeTreeToXml(tree, "tree_3D.xml");
     exportResultingMesh(tree, outputMeshName);
     #ifdef WITH_VISU3D_QGLVIEWER
