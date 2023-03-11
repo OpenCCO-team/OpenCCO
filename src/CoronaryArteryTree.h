@@ -174,14 +174,7 @@ public:
   // To handle display
   DGtal::Board2D myBoard;
 
-  
-//protected:
-  Image myImageDomain = Image(DomCT());
-  ImageDist myImageDist = ImageDist(DomCT());
-  unsigned int myForegroundThreshold = 128;
-  bool myIsImageDomainRestrained = false;
-
-  
+    
   
 public: 
   
@@ -527,30 +520,6 @@ public:
                           bool updateDisplay = true,
                           bool clearDisplay = true);
   
-  /**
-   * Restrain the domain from the image mask.
-   * @param image name that should represent the restricted domain (ie all pixels set to 255)
-   * @param threshold the threshold to consider foreground value (used to test if at least one domain pixel exist).
-   * @return true the restriction was well set (image exist).
-   */
-  bool restrainDomain(const Image &imageDom, unsigned int threshold=128);
-
-    /**
-     * Restrain the domain from the image mask (specialized in 3D).
-     * @param image name that should represent the restricted domain (ie all pixels set to 255)
-     * @param threshold the threshold to consider foreground value (used to test if at least one domain pixel exist).
-     * @return true the restriction was well set (image exist).
-     */
-  bool restrainDomain2d(const Image &imageDom, unsigned int threshold=128);
-
-    /**
-     * Restrain the domain from the image mask.
-     * @param image name that should represent the restricted domain (ie all pixels set to 255)
-     * @param threshold the threshold to consider foreground value (used to test if at least one domain pixel exist).
-     * @return true the restriction was well set (image exist).
-     */
-    bool restrainDomain3d(const Image &imageDom, unsigned int threshold=128);
-
 
   /**
    * Try to find the root point (the non distal vertex of the first segment).

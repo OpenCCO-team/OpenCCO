@@ -104,7 +104,19 @@ public:
         std::vector<std::vector< TPoint > > res;
         return res;
     }
-    
+    TPoint
+    lowerBound()
+    {
+        TPoint p = TPoint::diagonal(myRadius*0.01);
+        return myCenter - p;
+    }
+    TPoint
+    upperBound()
+    {
+        TPoint p = TPoint::diagonal(myRadius*0.01);
+        return myCenter - p;
+    }
+
 };
 
 
@@ -245,7 +257,17 @@ public:
         std::vector<std::vector< TPointI > > res;
         return res;
     }
-    
+    TPointI
+    lowerBound()
+    {
+        
+        return myImage.domain().lowerBound();
+    }
+    TPointI
+    upperBound()
+    {
+        return myImage.domain().upperBound();
+     }
     
 private:
     // internal method
