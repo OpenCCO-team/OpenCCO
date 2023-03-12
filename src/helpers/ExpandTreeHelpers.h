@@ -1,4 +1,3 @@
-
 #pragma once
 
 #if defined(CONSTRUCTIONHELPERS_RECURSES)
@@ -143,10 +142,6 @@ getImageContours(const DGtal::ImageContainerBySTLVector<DGtal::Z3i::Domain, unsi
     
     return v;
 }
-
-
-
-
 
 
 

@@ -134,11 +134,7 @@ display3DTree(const TTree &tree )
         viewer.addCylinder(distal,proxital,tree.myVectSegments[s.myIndex].myRadius*thickness);
         i++;
       }
-      /*
-       //Display Sphere domaine
-       viewer << DGtal::CustomColors3D(DGtal::Color(0,0,250,10),DGtal::Color(0,0,250,10));
-       viewer.addBall(DGtal::Z3i::RealPoint(0,0,0),my_rPerf);
-       */
+      
       viewer<< MyViewer::updateDisplay;
       return application.exec();
     }
