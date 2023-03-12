@@ -10,7 +10,7 @@
 
 #include "CoronaryArteryTree.h"
 #include "GeomHelpers.h"
-#include "ConstructionHelpers.h"
+#include "ExpandTreeHelpers.h"
 
 
 
@@ -20,38 +20,66 @@
  */
 int main(int argc, char *const *argv)
 {
+  std::string resource_dir = SAMPLE_DIR;
   clock_t start, end;
   
-  // parse command line using CLI ----------------------------------------------
-  CLI::App app;
   int nbTerm {300};
   double aPerf {20000};
   bool verbose {false};
-  std::string nameImgDom {""}; 
-  std::vector<int> postInitV {-1,-1};
-  app.add_option("-n,--nbTerm,1", nbTerm, "Set the number of terminal segments.", true);
-  app.add_option("-a,--aPerf,2", aPerf, "The value of the input parameter A perfusion.", true);
-  app.add_option("--organDomain,-d", nameImgDom, "Define the organ domain using a mask image (organ=255).");
-  auto pInit = app.add_option("-p,--posInit", postInitV, "Initial position of root, if not given the position of point is determined from the image center")
-  ->expected(2);
-  app.add_flag("-v,--verbose", verbose);
-  app.get_formatter()->column_width(40);
-  CLI11_PARSE(app, argc, argv);
-  // END parse command line using CLI ----------------------------------------------
-  
-  DGtal::Z2i::Point ptRoot(postInitV[0], postInitV[1]);
+  std::stringstream ss;
+  ss << resource_dir <<"shape.png";
+  std::string nameImgDom  = ss.str();
+  //----------------------
+  // Example to construct a simple tree in 2D from mask respresented by the file (shape.png)
+  //----------------------
   start = clock();
-  //1000 => Execution time: 129.17274900 sec
-  //2000 => Execution time: 478.48590200 sec
-  //3000 => Execution time: 1023.94746700 sec
-  //4000 => Execution time: 1896.94450700 sec
-  //5000 => Execution time: 3435.08630500 sec
-  if(nameImgDom != "" && pInit->empty()){
-    ConstructionHelpers::constructTreeImageDomain(aPerf, nbTerm, nameImgDom, 128, verbose);
-  }
-  ConstructionHelpers::constructTree(aPerf, nbTerm, nameImgDom, 128, verbose, ptRoot);
+  // 1. Type definition, of domain controller and tree.
+  typedef ImageMaskDomainCtrl<2> TImgContrl;
+  typedef  CoronaryArteryTree<TImgContrl, 2> TTreeMaskDom;
+  
+  // 2. Domain controller construction
+  TImgContrl aDomCtr = TImgContrl(nameImgDom, 128, 100);
+  
+  // 3. Tree construction using center
+  TTreeMaskDom tree  (aPerf, nbTerm, 1.0, aDomCtr.myCenter);
+  
+  // 4. Set the domain controller to the tree
+  tree.myDomainController = aDomCtr;
+
+  // 5. Tree construction
+  ExpandTreeHelpers::initFirtElemTree(tree, true);
+  ExpandTreeHelpers::expandTree(tree, true);
+  
+  // 5. exporting the result
+  tree.exportBoardDisplay("testResult2TreeMaskedDomain.eps", 1.0);
   end = clock();
   printf ("Execution time: %0.8f sec\n", ((double) end - start)/CLOCKS_PER_SEC);
   
+  //----------------------
+  // Example to construct a simple tree in 2D from implicit domain
+  //----------------------
+
+  // Example to construct a simple tree in 2D from mask respresented by the file (shape.png)
+  // 1. Type definition, of domain controller and tree.
+  typedef CircularDomainCtrl<2> ImplicitContrl;
+  typedef CoronaryArteryTree<ImplicitContrl, 2> TTreeCircDom;
+
+  // 2. Tree construction using center
+  TImgContrl::TPoint pCenter (0,0);
+  TTreeCircDom treeImpl (aPerf, nbTerm, 1.0, pCenter);
+
+    
+  // 3. Domain controller construction
+  ImplicitContrl aDomCtrImp(treeImpl.bParam.my_rPerf, pCenter);
+  
+ 
+  // 4. Set the domain controller to the tree
+  treeImpl.myDomainController = aDomCtrImp;
+
+  ExpandTreeHelpers::initFirtElemTree(treeImpl, true);
+  ExpandTreeHelpers::expandTree(treeImpl, true);
+  treeImpl.exportBoardDisplay("testResult2TreeMaskedDomain.eps", 1.0);
+
+
   return EXIT_SUCCESS;
 }

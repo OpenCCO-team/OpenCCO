@@ -357,6 +357,9 @@ CoronaryArteryTree<DomCtr, TDim>::isAddable(const TPointD &p, unsigned int segIn
   return isDone;
 }
 
+
+
+
 template< class DomCtr, int TDim >
 bool
 CoronaryArteryTree<DomCtr, TDim>::isIntersecting(const TPointD &pNew,
@@ -503,7 +506,7 @@ CoronaryArteryTree<DomCtr, TDim>::boardDisplay(double thickness, bool clearDispl
   myBoard.setPenColor(DGtal::Color(150, 0, 0, 150));
   myBoard.drawLine(p0[0], p0[1], p1[0], p1[1], 2);
   
-  DGtal::GradientColorMap<int> cmap_grad( 0, myVectSegments.size()+1 );
+  DGtal::GradientColorMap<int> cmap_grad( 0, (int) myVectSegments.size()+1 );
   cmap_grad.addColor( DGtal::Color( 50, 50, 255 ) );
   cmap_grad.addColor( DGtal::Color( 255, 0, 0 ) );
   cmap_grad.addColor( DGtal::Color( 255, 255, 10 ) );

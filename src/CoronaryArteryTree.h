@@ -175,8 +175,10 @@ public:
     
     
     
-public: 
+public:
     
+    // Constructor do nothing mainly used for specific test
+    CoronaryArteryTree(){}
     /**
      * @brief Default constructor.
      * @brief It generates the first root segment with tree center as the first terminal point.
@@ -237,6 +239,7 @@ public:
     };
     
     
+   
     
     
     // ----------------------- Interface --------------------------------------
@@ -263,9 +266,7 @@ public:
                    unsigned int nbNeibour = 10,
                    bool verbose = true);
     
-    
-    bool addSegmentFromPoint(const TPointD &p, unsigned int nearIndex);
-    
+        
     
     /**
      * Verifies if there is an intersection for the new bifurcation position or the point is to near to the neigbour segment

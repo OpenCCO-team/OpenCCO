@@ -143,6 +143,7 @@ display3DTree(const TTree &tree )
 
 int main(int argc, char **argv)
 {
+  srand ((int) time(NULL));
   // parse command line using CLI ----------------------------------------------
   CLI::App app;
   app.description("Generated a 3D tree using the CCO algorithm. By default it generates a 3D mesh.");

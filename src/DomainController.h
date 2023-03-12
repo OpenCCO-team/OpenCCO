@@ -160,7 +160,7 @@ public:
     int myMaskThreshold {128};
     unsigned int myNbTry {100};
     // Fixme to be removed since no need when finalized
-    bool myIsImageDomainRestrained = true;
+    bool myIsImageDomainRestrained = false;
     TPointI myCenter;
     double minDistInitSegment {5.0};
 
@@ -176,6 +176,7 @@ public:
                         int maskThreshold, TPointI ptRoot,
                         unsigned int nbTry=100): myNbTry{nbTry}
     {
+        myIsImageDomainRestrained = true;
         myImage = DGtal::GenericReader<Image>::import(fileImgDomain,myMaskThreshold);
         myDistanceImage = GeomHelpers::getImageDistance<Image,ImageD>(myImage,
                                                                       myMaskThreshold );
@@ -194,6 +195,7 @@ public:
                         int maskThreshold, unsigned int nbTry=100):
                                                     myNbTry{nbTry}
     {
+        myIsImageDomainRestrained = true;
         myImage = DGtal::GenericReader<Image>::import(fileImgDomain,myMaskThreshold);
         myDistanceImage = GeomHelpers::getImageDistance<Image,ImageD>(myImage,
                                                                       myMaskThreshold );
