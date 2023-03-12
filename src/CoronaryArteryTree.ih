@@ -28,6 +28,7 @@ CoronaryArteryTree<DomCtr, TDim>::state(){
     state.myVectChildren = myVectChildren;
     return state;
 }
+
 template< class DomCtr, int TDim>
 inline
 void
@@ -64,7 +65,8 @@ CoronaryArteryTree<DomCtr, TDim>::updateResistanceFromRoot(unsigned int segIndex
     double brotherFlow = myVectSegments[segIndexRight].myFlow;
     double segHydro = myVectSegments[segIndexLeft].myResistance;
     double brotherHydro = myVectSegments[segIndexRight].myResistance;
-    double ratioR = pow((segFlow*segHydro) / (brotherFlow*brotherHydro), 0.25); //ratio of radii of two brother segments
+    //ratio of radii of two brother segments
+    double ratioR = pow((segFlow*segHydro) / (brotherFlow*brotherHydro), 0.25);
     //ratio of radii of current segment wrt the parent segment
     myVectSegments[segIndexLeft].myBeta = pow(1.0/(1+pow(ratioR,-bParam.my_gamma)),1.0/bParam.my_gamma);
     myVectSegments[segIndexRight].myBeta = pow(1.0/(1+pow(1.0/ratioR,-bParam.my_gamma)),1.0/bParam.my_gamma);
@@ -143,7 +145,9 @@ CoronaryArteryTree<DomCtr, TDim>::computeTotalVolume(unsigned int segIndex)
   //Volumn of current segment : Eq 20
   double l = getLengthSegment(segIndex);
   double r = myVectSegments[segIndex].myRadius;
-  double v = myVectSegments[segIndex].myRadius*myVectSegments[segIndex].myRadius*getLengthSegment(segIndex);
+  double v = myVectSegments[segIndex].myRadius
+            * myVectSegments[segIndex].myRadius
+            * getLengthSegment(segIndex);
   double vL, vR;
   if(myVectChildren[segIndex].first!=0 && myVectChildren[segIndex].second!=0) {
     vL = computeTotalVolume(myVectChildren[segIndex].first);
@@ -186,7 +190,10 @@ CoronaryArteryTree<DomCtr, TDim>::isAddable(const TPointD &p, unsigned int segIn
   // Creation a copy of parent segment
   Segment sParent = myVectSegments[myVectParent[segIndex]];
   TPointD pParent = sParent.myCoordinate;
-  TPoint pParentDom; for (auto i=0; i < TDim; i++){pParentDom[i] = static_cast<TCompPt>(pParent[i]);}
+  TPoint pParentDom;
+  for (auto i=0; i < TDim; i++){
+      pParentDom[i] = static_cast<TCompPt>(pParent[i]);
+  }
 
   if(!myDomainController.checkNoIntersectDomain(pParentDom,
                                                 newCenterDom))
@@ -213,18 +220,21 @@ CoronaryArteryTree<DomCtr, TDim>::isAddable(const TPointD &p, unsigned int segIn
   sCurrent.myFlow = myVectSegments[segIndex].myFlow + bParam.my_qTerm;
   sCurrent.myKTerm = sNewLeft.myKTerm + 1;
   
- 
-  TPointD pCurrent = (sParent.myCoordinate+sNewLeft.myCoordinate)/2.0; //center of the current segment
+  //center of the current segment
+  TPointD pCurrent = (sParent.myCoordinate+sNewLeft.myCoordinate)/2.0;
   double r0 = sCurrent.myRadius, r1 = sCurrent.myRadius, r2 = sCurrent.myRadius;
   bool res1 = true, res2 = false, res3 = true, res4 = false, isDone = false;
   double vol = -1, volCurr = -1, diffVol = -1;
   CoronaryArteryTree cTreeCurr = *this;
-  if (verbose){
+  if (verbose)
+  {
     DGtal::trace.info() <<"---------- segIndex: "<<segIndex<<std::endl;
   }
   size_t i=0;
-  for(size_t i=0; i<nbIter && !isDone; i++) {
-    res1 = kamyiaOptimization(pCurrent, pParent, sCurrent.myRadius, sNewLeft, sNewRight, 1, pOpt, r0, r1, r2);
+  for(size_t i=0; i<nbIter && !isDone; i++)
+  {
+    res1 = kamyiaOptimization(pCurrent, pParent, sCurrent.myRadius,
+                              sNewLeft, sNewRight, 1, pOpt, r0, r1, r2);
     if(!res1) //Kamyia does not have solution
       return false;
     
@@ -237,7 +247,8 @@ CoronaryArteryTree<DomCtr, TDim>::isAddable(const TPointD &p, unsigned int segIn
     TPoint sNewLeftDom; for (auto i=0; i < TDim; i++){sNewLeftDom[i] = static_cast<int>(sNewLeft.myCoordinate[i]);}
     TPoint sNewRightDom; for (auto i=0; i < TDim; i++){sNewRightDom[i] = static_cast<int>(sNewRight.myCoordinate[i]);}
 
-    if(!myDomainController.isInside(pOptDom)){ //resulting point is out of the domaine
+    if(!myDomainController.isInside(pOptDom))
+    { //resulting point is out of the domain
       return false;
     }
    
@@ -311,20 +322,23 @@ CoronaryArteryTree<DomCtr, TDim>::isAddable(const TPointD &p, unsigned int segIn
       }
       else {
         diffVol = volCurr - vol;
-        if(fabs(diffVol) < tolerance) {
+        if(fabs(diffVol) < tolerance)
+        {
           // Verify the degenerate case of the resulting segment
           double l0 = (pOpt - pParent).norm()*iParam.myLengthFactor;
           double l1 = (pOpt - sNewLeft.myCoordinate).norm()*iParam.myLengthFactor;
           double l2 = (pOpt - sNewRight.myCoordinate).norm()*iParam.myLengthFactor;
           res3 = (2*r0<=l0) && (2*r1<=l1) && (2*r2<=l2);
           // If there is a solution, then save the result
-          if(res3) {
+          if(res3)
+          {
             //std::cout<<"Best volume at "<<i<<std::endl;
             isDone = true;
             *this = cTree1;
           }
         }
-        else {
+        else
+        {
           volCurr = vol;
           cTreeCurr = cTree1;
         }
@@ -345,104 +359,10 @@ CoronaryArteryTree<DomCtr, TDim>::isAddable(const TPointD &p, unsigned int segIn
 
 template< class DomCtr, int TDim >
 bool
-CoronaryArteryTree<DomCtr, TDim>::addSegmentFromPoint(const TPointD &p,
-                                        unsigned int nearIndex)
-{
-  TPointD newCenter = findBarycenter(p, nearIndex);
-  bool inter = hasNearestIntersections(myVectParent[nearIndex], nearIndex, p, newCenter,  10);
-  double minDistance = 5.0;
-  if (inter){
-    DGtal::trace.warning() << "detection intersection" << std::endl;
-    return false;
-  }
-  // Check barycenter is not too close considered segment
-  if ((newCenter-myVectSegments[nearIndex].myCoordinate).norm() < minDistance ||
-      (newCenter-myVectSegments[myVectParent[nearIndex]].myCoordinate).norm() < minDistance ||
-      (newCenter - p).norm() < minDistance){
-    DGtal::trace.warning() << "new barycenter too close!!!!!!!!" << std::endl;
-    return false;
-  }
-  // Check new point with new segment of barycenter:
-  // - newPt and new segment [Barycenter-OriginNewSeg]
-  // - newPt and new segment [Barycenter-FatherNewSeg]
-  if ((newCenter-myVectSegments[nearIndex].myCoordinate).norm() < minDistance ||
-      (newCenter-myVectSegments[myVectParent[nearIndex]].myCoordinate).norm() < minDistance) {
-    DGtal::trace.warning() << "initial too close to new!!!!!!!!" << std::endl;
-    return false;
-  }
-  if (getProjDistance(nearIndex, p) < minDistance) {
-    DGtal::trace.warning() << "initial too close!!!!!!!!" << std::endl;
-    return false;
-
-  }
-  if (isToCloseFromNearest(p, minDistance)){
-    DGtal::trace.warning() << "detection near too close " << std::endl;
-    return false;
-  }
-  if (getProjDistance(nearIndex, p) < minDistance||
-      getProjDistance(myVectParent[nearIndex], p) < minDistance||
-      getProjDistance(myVectChildren[nearIndex].first, p) < minDistance||
-      getProjDistance(myVectChildren[nearIndex].second, p) < minDistance){
-    DGtal::trace.warning() << "detection too close existing" << std::endl;
-    return false;
-  }
-  // Creation of the left child
-  Segment sNewLeft;
-  sNewLeft.myCoordinate = myVectSegments[nearIndex].myCoordinate;
-  sNewLeft.myIndex = myVectSegments.size();
-  sNewLeft.myRadius = myVectSegments[nearIndex].myRadius;
-  sNewLeft.myFlow = myVectSegments[nearIndex].myFlow;
-  sNewLeft.myKTerm = myVectSegments[nearIndex].myKTerm;
-  sNewLeft.myResistance = myVectSegments[nearIndex].myResistance;
-  myVectSegments.push_back(sNewLeft);
-  myVectChildren.push_back(std::pair<unsigned int, unsigned int>(0,0));
-  myVectParent.push_back(nearIndex);
-  
-  // Update for the new parent of the new left segment
-  unsigned int leftGrandChildIndex = myVectChildren[myVectSegments[nearIndex].myIndex].first;
-  unsigned int rightGrandChildIndex = myVectChildren[myVectSegments[nearIndex].myIndex].second;
-  myVectParent[leftGrandChildIndex] = sNewLeft.myIndex;
-  myVectParent[rightGrandChildIndex] = sNewLeft.myIndex;
-
-  // Update of the child of the new left segment (sNewLeft)
-  myVectChildren[sNewLeft.myIndex].first = leftGrandChildIndex;
-  myVectChildren[sNewLeft.myIndex].second = rightGrandChildIndex;
-
-  // Creation of the right child
-  Segment sNewRight;
-  sNewRight.myCoordinate = p;
-  sNewRight.myRadius = myVectSegments[nearIndex].myRadius;
-  sNewRight.myIndex = myVectSegments.size();
-  sNewRight.myFlow = bParam.my_qTerm;
-  sNewRight.myKTerm = 1;
-  myVectSegments.push_back(sNewRight);
-  myVectChildren.push_back(std::pair<unsigned int, unsigned int>(0,0));
-  myVectParent.push_back(nearIndex);
-  myVectTerminals.push_back(sNewRight.myIndex);
-  
-  // Update center segment
-  myVectSegments[nearIndex].myCoordinate = newCenter;
-  myVectSegments[nearIndex].myFlow = myVectSegments[nearIndex].myFlow + bParam.my_qTerm;
-  myVectSegments[nearIndex].myKTerm = sNewLeft.myKTerm + 1;
-  //update childrens of center segment
-  myVectChildren[nearIndex].first = sNewLeft.myIndex;
-  myVectChildren[nearIndex].second = sNewRight.myIndex;
-  
-  // Update physilogique paramaters
-    iParam.myKTerm++;
-  updateFlow(myVectParent[nearIndex]);
-  updateResistanceFromRoot();
-  updateRootRadius();
-  
-  return true;
-}
-
-template< class DomCtr, int TDim >
-bool
 CoronaryArteryTree<DomCtr, TDim>::isIntersecting(const TPointD &pNew,
-                      const TPointD &pCenter,
-                      unsigned int nearIndex,
-                      unsigned int nbNeibour,
+                                                 const TPointD &pCenter,
+                                                 unsigned int nearIndex,
+                                                 unsigned int nbNeibour,
                                                  double minDistance ) const{
     bool inter = false;
     if (TDim == 2){
@@ -1086,8 +1006,6 @@ CoronaryArteryTree<DomCtr, TDim>::findBarycenter(const TPointD &p, unsigned int 
   }
   return barycenter;
 }
-
-
 
 
 
