@@ -33,66 +33,7 @@ using ceres::Solver;
 
 namespace GeomHelpers {
 
-/**
- * Check if the segment defined by two points intersect the domain.
- *
- * @param image defining the domain
- * @param fgTh the threshol defining the foreground
- * @param pt1 first point of the segment
- * @param pt2  second point of the segment
- */
-template<typename TImage, typename TPoint>
-inline
-bool
-checkNoIntersectDomain(const TImage &image, unsigned int fgTh,
-                       const TPoint &pt1,
-                       const TPoint &pt2)
-{
-    if ( !image.domain().isInside(pt1) ||
-        !image.domain().isInside(pt2)){
-        return false;
-    }
-    DGtal::PointVector<TPoint::dimension, double> dir = pt2 - pt1;
-    dir /= dir.norm();
-    DGtal::PointVector<TPoint::dimension, double>  p;
-    for(unsigned int i=0; i<TPoint::dimension; i++ ){p[i]=pt1[i];}
-    for (unsigned int i = 0; i<(pt2 - pt1).norm(); i++){
-        DGtal::PointVector<TPoint::dimension, double>  p = pt1+dir*i;
-        TPoint pI;
-        for(unsigned int i=0; i<TPoint::dimension; i++ ){pI[i]=static_cast<int>(p[i]);}
-        if (image(pI) < fgTh)
-            return false;
-    }
-    
-    return true;
-}
 
-/**
- * Dertermines if a point is on the right of a line represented by two points [ptA, ptB]
- */
-template<typename TPoint>
-inline
-bool
-isOnRight(const TPoint &ptA, const TPoint &ptB, const TPoint &ptC ){
-    auto u = ptB-ptA;
-    auto v = ptC-ptA;
-    return u[0]*v[1]- u[1]*v[0] < 0.0;
-}
-
-
-template<typename TPoint>
-inline
-bool
-isInsideCircle(const TPoint &ptCenter,const TPoint &p,  double radius){
-    return ((p[0]-ptCenter[0])*(p[0]-ptCenter[0])+(p[1]-ptCenter[1])*(p[1]-ptCenter[1])) <= radius*radius;
-}
-
-template<typename TPoint>
-inline
-bool
-isInsideSphere(const TPoint &ptCenter,const TPoint &p,  double radius){
-    return ((p[0]-ptCenter[0])*(p[0]-ptCenter[0])+(p[1]-ptCenter[1])*(p[1]-ptCenter[1])+(p[2]-ptCenter[2])*(p[2]-ptCenter[2])) <= radius*radius;
-}
 
 
 
@@ -173,27 +114,6 @@ pointsOnCircle(const TPoint & ptCenter,
 }
 
 
-template<typename TPoint>
-inline
-DGtal::Z3i::DigitalSet
-pointsOnBall(const TPoint & ptCenter,
-             double radius)
-{
-    typedef DGtal::ImplicitBall< DGtal::Z3i::Space > MyBall;
-    MyBall disk( ptCenter, radius-0.5 );
-    MyBall diskDilate( ptCenter, radius+0.5 );
-    typedef DGtal::EuclideanShapesCSG< MyBall, MyBall > Minus;
-    Minus border ( diskDilate );
-    border.minus( disk );
-    typedef DGtal::GaussDigitizer< DGtal::Z3i::Space, Minus > MyGaussDigitizer;
-    MyGaussDigitizer digShape;
-    digShape.attach( border );
-    digShape.init( border.getLowerBound(), border.getUpperBound(), 1 );
-    DGtal::Z3i::Domain domainShape = digShape.getDomain();
-    DGtal::Z3i::DigitalSet aSet( domainShape );
-    DGtal::Shapes<DGtal::Z3i::Domain>::digitalShaper( aSet, digShape );
-    return aSet;
-}
 
 
 

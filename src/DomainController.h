@@ -81,6 +81,13 @@ public:
     TPoint getDomainCenter() const{
         return myCenter;
     }
+    
+    /**
+     * Check if the segment defined by two points intersect the domain.
+     *
+     * @param pt1 first point of the segment
+     * @param pt2  second point of the segment
+     */
     bool
     checkNoIntersectDomain(const TPoint &pt1, const TPoint &pt2)
     {

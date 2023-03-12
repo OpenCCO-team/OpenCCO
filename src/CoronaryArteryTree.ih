@@ -195,7 +195,7 @@ CoronaryArteryTree<DomCtr, TDim>::isAddable(const TPointD &p, unsigned int segIn
   // Creation of the left child
   Segment sNewLeft;
   sNewLeft.myCoordinate = myVectSegments[segIndex].myCoordinate;
-  sNewLeft.myIndex = myVectSegments.size();
+  sNewLeft.myIndex = (unsigned int) myVectSegments.size();
   sNewLeft.myRadius = myVectSegments[segIndex].myRadius;
   sNewLeft.myFlow = myVectSegments[segIndex].myFlow;
   sNewLeft.myKTerm = myVectSegments[segIndex].myKTerm;
@@ -203,7 +203,7 @@ CoronaryArteryTree<DomCtr, TDim>::isAddable(const TPointD &p, unsigned int segIn
   // Creation of the right child
   Segment sNewRight;
   sNewRight.myCoordinate = p;
-  sNewRight.myIndex = myVectSegments.size()+1;
+  sNewRight.myIndex = (unsigned int) myVectSegments.size()+1;
   sNewRight.myRadius = myVectSegments[segIndex].myRadius;
   sNewRight.myFlow = bParam.my_qTerm;
   sNewRight.myKTerm = 1;
