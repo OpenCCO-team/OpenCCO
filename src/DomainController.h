@@ -69,9 +69,8 @@ public:
           double ss = 0.0;
           for(unsigned int i = 0;i<TDim; i++ ){
               p[i] = ((double)rand() / RAND_MAX)*2.0*myRadius - myRadius;
-              ss += p[i]*p[i];
           }
-        found = ss < myRadius*myRadius;
+          found = isInside(p);
       }
       return p + myCenter;
     }
@@ -98,10 +97,10 @@ public:
         TPoint res;
         if (TDim == 2){
             res[0] = 0.0;
-            res[1] = myRadius/2.0 - 0.01;
+            res[1] = myRadius;
          }else  if (TDim == 3){
              res[0] = 0.0;
-             res[1] = myRadius/2.0 - 0.01;
+             res[1] = myRadius;
              res[2] = 0.0;
 
          }

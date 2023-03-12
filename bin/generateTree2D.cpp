@@ -111,6 +111,8 @@ int main(int argc, char *const *argv)
         typedef  CoronaryArteryTree<DiskDomCtrl, 2> TTree;
         DiskDomCtrl::TPoint pCenter (0,0);
         TTree tree  (aPerf, nbTerm, 1.0, pCenter);
+        DiskDomCtrl aCtr(tree.bParam.my_rPerf,pCenter);
+        tree.myDomainController = aCtr;
         constructTreeImplicitDomain(tree, verbose);
         XMLHelpers::writeTreeToXml(tree, "tree_2D.xml");
         if (exportXMLName != "") XMLHelpers::writeTreeToXml(tree,
