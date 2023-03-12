@@ -116,6 +116,62 @@ public:
         updateRootRadius();
         DGtal::trace.info() << "Construction initialized..." << std::endl;
       };
+
+
+   /**
+   * @brief Constructor.
+   * @brief It generates the first root segment by randomly choose the first terminal point.
+   * @param ptRoot: coordinates of the root special segment (who have no parent)
+   * @param aPerf: surface of the perfusion.
+   * @param nTerm: number of terminal segments.
+   **/
+  
+  TreeTest(const TPointD &ptRoot, double aPerf, unsigned int nTerm, double aRadius = 1.0 ){
+    assert(nTerm>=1);
+    iParam.myTreeCenter = TPointD::diagonal(0.0);
+    iParam.myRsupp = sqrt(aPerf/(nTerm*M_PI));
+    bParam.my_rPerf = sqrt(aPerf/M_PI);
+    
+    bParam.my_aPerf = aPerf;
+    bParam.my_NTerm = nTerm;
+    bParam.my_qTerm = bParam.my_qPerf / bParam.my_NTerm;
+    if(nTerm > 250)
+        bParam.my_pTerm = 7.98e3;
+    bParam.my_pDrop = bParam.my_pPerf-bParam.my_pTerm;
+    //myDThresold = sqrt(M_PI*myRsupp*myRsupp/myKTerm);
+    
+    // Construction of the special root segment
+    assert((ptRoot - iParam.myTreeCenter).norm() == bParam.my_rPerf); //ptRoot must be on the perfusion circle
+    Segment s;
+    s.myRadius = aRadius;
+    s.myCoordinate = ptRoot;
+    s.myIndex = 0;
+    s.myKTerm = 0;
+    myVectSegments.push_back(s);
+    myVectParent.push_back(0); //if parent index is itsef it is the root (special segment of length 0).
+    myVectChildren.push_back(std::pair<unsigned int, unsigned int>(0,0)); // if children index is itself, it is an end segment.
+    updateLengthFactor();
+    
+    // Construction of the first segment after the root
+    Segment s1;
+    s1.myRadius = aRadius;
+    //s1.myCoordinate = generateRandomPtOnDisk(myTreeCenter, myRsupp);
+    s1.myCoordinate = myDomainController.randomPoint();
+    double myLength = (ptRoot-s1.myCoordinate).norm()*iParam.myLengthFactor;
+    s1.myIndex = 1;
+    s1.myKTerm = 1; //it contains terminal itself
+    s1.myResistance = 8.0*bParam.my_mu*myLength/M_PI;
+    s1.myFlow = bParam.my_qTerm;
+    s1.myBeta = 1.0;
+    
+    myVectSegments.push_back(s1);
+    myVectTerminals.push_back(1);
+    myVectParent.push_back(0); //if parent index is the root
+    myVectChildren.push_back(std::pair<unsigned int, unsigned int>(0,0)); // if children index is itself, it is an end segment.
+    updateRootRadius();
+    DGtal::trace.info() << "Construction initialized..." << std::endl;
+  };
+  
     bool
     addSegmentFromPoint(const TPointD &p,
                         unsigned int nearIndex)
@@ -295,6 +351,52 @@ public:
         updateRootRadius();
         DGtal::trace.info() << "Construction initialized..." << std::endl;
       };
+    
+    TreeTestCirc(const TPointD &ptRoot, double aPerf, unsigned int nTerm, double aRadius = 1.0 ){
+      assert(nTerm>=1);
+      iParam.myTreeCenter = TPointD::diagonal(0.0);
+      iParam.myRsupp = sqrt(aPerf/(nTerm*M_PI));
+      bParam.my_rPerf = sqrt(aPerf/M_PI);
+      
+      bParam.my_aPerf = aPerf;
+      bParam.my_NTerm = nTerm;
+      bParam.my_qTerm = bParam.my_qPerf / bParam.my_NTerm;
+      if(nTerm > 250)
+          bParam.my_pTerm = 7.98e3;
+      bParam.my_pDrop = bParam.my_pPerf-bParam.my_pTerm;
+      //myDThresold = sqrt(M_PI*myRsupp*myRsupp/myKTerm);
+      
+      // Construction of the special root segment
+      assert((ptRoot - iParam.myTreeCenter).norm() == bParam.my_rPerf); //ptRoot must be on the perfusion circle
+      Segment s;
+      s.myRadius = aRadius;
+      s.myCoordinate = ptRoot;
+      s.myIndex = 0;
+      s.myKTerm = 0;
+      myVectSegments.push_back(s);
+      myVectParent.push_back(0); //if parent index is itsef it is the root (special segment of length 0).
+      myVectChildren.push_back(std::pair<unsigned int, unsigned int>(0,0)); // if children index is itself, it is an end segment.
+      updateLengthFactor();
+      
+      // Construction of the first segment after the root
+      Segment s1;
+      s1.myRadius = aRadius;
+      //s1.myCoordinate = generateRandomPtOnDisk(myTreeCenter, myRsupp);
+      s1.myCoordinate = myDomainController.randomPoint();
+      double myLength = (ptRoot-s1.myCoordinate).norm()*iParam.myLengthFactor;
+      s1.myIndex = 1;
+      s1.myKTerm = 1; //it contains terminal itself
+      s1.myResistance = 8.0*bParam.my_mu*myLength/M_PI;
+      s1.myFlow = bParam.my_qTerm;
+      s1.myBeta = 1.0;
+      
+      myVectSegments.push_back(s1);
+      myVectTerminals.push_back(1);
+      myVectParent.push_back(0); //if parent index is the root
+      myVectChildren.push_back(std::pair<unsigned int, unsigned int>(0,0)); // if children index is itself, it is an end segment.
+      updateRootRadius();
+      DGtal::trace.info() << "Construction initialized..." << std::endl;
+    };
     bool
     addSegmentFromPoint(const TPointD &p,
                         unsigned int nearIndex)

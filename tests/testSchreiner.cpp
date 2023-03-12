@@ -8,17 +8,21 @@
 
 #include "CoronaryArteryTree.h"
 #include "GeomHelpers.h"
-
+#include "TreeTest.h"
 /**
  * @brief main function call
  *
  */
 int main(int argc, char *const *argv)
 {
-  
+    typedef CircularDomainCtrl<2> ImplicitContrl;
+    typedef ImageMaskDomainCtrl<2> MaskContrl;
+
+    typedef  CoronaryArteryTree<ImplicitContrl, 2> TTree;
+
   DGtal::trace.beginBlock("esting base constructor with initial segment (should give a first random segment).");
   double aPerf = 2000;
-  CoronaryArteryTree c (DGtal::Z2i::RealPoint(0, sqrt(aPerf/M_PI)), aPerf, 1);
+  TreeTestCirc c (DGtal::Z2i::RealPoint(0, sqrt(aPerf/M_PI)), aPerf, 1);
   DGtal::trace.info() << c;
   c.exportBoardDisplay("testBase0.svg", 1.0, true);
   c.exportBoardDisplay("testBase0.eps", 1.0, true);
@@ -87,10 +91,10 @@ int main(int argc, char *const *argv)
   srand (time(NULL));
   //CoronaryArteryTree cRand (DGtal::Z2i::RealPoint(0, 250), 2000, 1);
   aPerf = 2000;
-  CoronaryArteryTree cRand(DGtal::Z2i::RealPoint(0, sqrt(aPerf/M_PI)), aPerf, 1000);
+    TreeTestCirc cRand(DGtal::Z2i::RealPoint(0, sqrt(aPerf/M_PI)), aPerf, 1000);
   
   for (unsigned int i = 0; i < 1000; i++){
-    CoronaryArteryTree::Point2D pt = GeomHelpers::generateRandomPtOnDisk(cRand.myTreeCenter, cRand.my_rPerf);
+      TreeTestCirc::TPointD pt = cRand.myDomainController.randomPoint();
     
     nearest = cRand.getNearestSegment(pt);
     cRand.addSegmentFromPoint(pt, nearest);
@@ -123,11 +127,11 @@ int main(int argc, char *const *argv)
   srand (time(NULL));
   //CoronaryArteryTree cRand2 (DGtal::Z2i::RealPoint(0, 250), 20000000, 100);
   aPerf = 20000000;
-  CoronaryArteryTree cRand2(DGtal::Z2i::RealPoint(0, sqrt(aPerf/M_PI)), aPerf, 50);
+    TreeTestCirc cRand2(DGtal::Z2i::RealPoint(0, sqrt(aPerf/M_PI)), aPerf, 50);
   
   for (unsigned int i = 0; i < 50; i++){
     DGtal::trace.progressBar(i, 50);
-    CoronaryArteryTree::Point2D pt = cRand2.generateNewLocation(100);
+      TreeTest::TPointD pt = cRand2.generateNewLocation(100);
     //std::cout <<"myCurrAPerf: " <<  cRand2.myCurrAPerf << std::endl;
     //std::cout <<"myDThresold: " <<  cRand2.myDThresold << std::endl;
 
@@ -140,14 +144,14 @@ int main(int argc, char *const *argv)
   cRand2.exportBoardDisplay("testRandomAdd2.eps", 1.0, true);
   
   DGtal::trace.endBlock();
-  CoronaryArteryTree::Point2D pC = cRand2.myVectSegments.back().myCoordinate;
+  TreeTest::TPointD pC = cRand2.myVectSegments.back().myCoordinate;
   DGtal::trace.beginBlock("Testing class CoronaryArteryTree: test get nearest neighbordhood");
   std::vector<unsigned int > nNearest = cRand2.getN_NearestSegments(pC, 15);
   DGtal::trace.info() << "Nearest size() :" << nNearest.size() << std::endl;
   for (unsigned int i = 0; i < nNearest.size(); i++) {
     DGtal::trace.info() << "Nearest elem :" << nNearest[i] << " "
                  << cRand2.myVectSegments[nNearest[i]].myCoordinate << " "
-                 <<"distance: " << (cRand2.myVectSegments[nNearest[i]].myCoordinate - CoronaryArteryTree::Point2D(0,0)).norm()<<   std::endl;
+                 <<"distance: " << (cRand2.myVectSegments[nNearest[i]].myCoordinate - TreeTest::TPointD(0,0)).norm()<<   std::endl;
   }
   cRand2.myBoard.setFillColor(DGtal::Color::Cyan);
   cRand2.myBoard.drawCircle(pC[0], pC[1], 1, 0);
@@ -167,11 +171,11 @@ int main(int argc, char *const *argv)
   DGtal::trace.beginBlock("Testing class CoronaryArteryTree: test last leaf to root display path");
   //CoronaryArteryTree cRand3 (DGtal::Z2i::RealPoint(0, 250), 20000000, 100);
   aPerf = 20000000;
-  CoronaryArteryTree cRand3(DGtal::Z2i::RealPoint(0, sqrt(aPerf/M_PI)), aPerf, 1000);
+    TreeTestCirc cRand3(DGtal::Z2i::RealPoint(0, sqrt(aPerf/M_PI)), aPerf, 1000);
   
   for (unsigned int i = 0; i < 1000; i++){
     DGtal::trace.progressBar(i, 1000);
-    CoronaryArteryTree::Point2D pt = cRand3.generateNewLocation(100);
+    TreeTest::TPointD pt = cRand3.generateNewLocation(100);
     nearest = cRand3.getNearestSegment(pt);
     cRand3.addSegmentFromPoint(pt, nearest);
   }

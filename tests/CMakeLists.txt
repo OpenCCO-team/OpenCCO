@@ -2,8 +2,8 @@ SET(TESTS_SRC
   testCompCCO
   testGenerateTree
   testGeom
-#  testKamiya
-#  testSchreiner
+  testKamiya
+  testSchreiner
 )
 
 
