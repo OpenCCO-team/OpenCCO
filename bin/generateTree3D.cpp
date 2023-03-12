@@ -204,6 +204,9 @@ int main(int argc, char **argv)
     typedef  CoronaryArteryTree<SphereDomCtrl, 3> TTree;
     SphereDomCtrl::TPoint pCenter (0,0,0);
     TTree tree  (aPerf, nbTerm, 1.0, pCenter);
+    SphereDomCtrl aCtr(tree.bParam.my_rPerf,pCenter);
+    tree.myDomainController = aCtr;
+
     constructTreeImplicitDomain(tree, 0.5, verbose);
     XMLHelpers::writeTreeToXml(tree, "tree_3D.xml");
     exportResultingMesh(tree, outputMeshName);
