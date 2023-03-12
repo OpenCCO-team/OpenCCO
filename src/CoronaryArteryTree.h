@@ -380,8 +380,6 @@ public:
    * @return the generated point and a bool true if sucess and false othewise
    */
   std::pair<DGtal::PointVector<TDim, double>, bool> generateALocation(double myDThresold);
-  std::pair<DGtal::PointVector<TDim, double>, bool> generateALocation2d(double myDThresold);
-  std::pair<DGtal::PointVector<TDim, double>, bool> generateALocation3d(double myDThresold);
 
   /**
    * Computes the length of a segment represented with the index and mutiliplies by the length factor.

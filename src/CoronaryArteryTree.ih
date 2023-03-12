@@ -778,7 +778,7 @@ CoronaryArteryTree<DomCtr, TDim>::generateNewLocation(unsigned int nbTrials){
   unsigned int n = nbTrials;
   while(!found && n >= 0) {
     n--;
-    auto p = generateALocation(myDThresold);
+    auto p =  generateALocation(myDThresold);
     found = p.second;
     if (found) {
       res = p.first;
@@ -791,62 +791,9 @@ CoronaryArteryTree<DomCtr, TDim>::generateNewLocation(unsigned int nbTrials){
   return res;
 }
 
-
-template<>
-std::pair<typename CoronaryArteryTree<ImageMaskDomainCtrl<2>, 2>::TPointD, bool>
-CoronaryArteryTree<ImageMaskDomainCtrl<2>, 2>::generateALocation(double myDThresold) {
-    return generateALocation2d(myDThresold);
-}
-
-template<>
-std::pair<typename CoronaryArteryTree<CircularDomainCtrl<2>, 2>::TPointD, bool>
-CoronaryArteryTree< CircularDomainCtrl<2>, 2>::generateALocation(double myDThresold) {
-    return generateALocation2d(myDThresold);
-}
-
-
 template< typename DomCtr, int TDim >
-std::pair<DGtal::PointVector<TDim, double>, bool>
-CoronaryArteryTree<DomCtr, TDim>::generateALocation2d(double myDThresold){
-    TPointD res;
-    // Fixme : To be merge
-    res = myDomainController.randomPoint();
-   
-    bool isComp = true;
-    bool isComp2 = true;
-    unsigned int id = 1;
-    
-    while ( isComp && id < myVectTerminals.size() ) {
-      isComp = (myVectSegments[myVectTerminals[id]].myCoordinate - res).norm() > myDThresold;
-     //isComp = getProjDistance(myVectTerminals[id], res) > myDThresold;
-      id++;
-    }
-    
-    //generated point must have a certain distance to ALL tree segments
-    while ( isComp2 && id < myVectSegments.size() ) {
-      isComp2 = getProjDistance(myVectSegments[id].myIndex, res) > myVectSegments[id].myRadius;
-      id++;
-    }
-    return  std::pair<TPointD, bool> {res, isComp && isComp2};
-}
-
-
-
-template<>
-std::pair<typename CoronaryArteryTree<CircularDomainCtrl<3>,3>::TPointD, bool>
-CoronaryArteryTree<CircularDomainCtrl<3>, 3>::generateALocation(double myDThresold) {
-    return generateALocation3d(myDThresold);
-}
-
-template<>
-std::pair<typename CoronaryArteryTree<ImageMaskDomainCtrl<3>,3>::TPointD, bool>
-CoronaryArteryTree<ImageMaskDomainCtrl<3>, 3>::generateALocation(double myDThresold) {
-    return generateALocation3d(myDThresold);
-}
-
-template< typename DomCtr, int TDim >
-std::pair<DGtal::PointVector<TDim, double>, bool>
-CoronaryArteryTree<DomCtr, TDim>::generateALocation3d(double myDThresold){
+std::pair<typename CoronaryArteryTree<DomCtr, TDim>::TPointD, bool>
+CoronaryArteryTree<DomCtr, TDim>::generateALocation(double myDThresold) {
     TPointD res;
     res = myDomainController.randomPoint();
     bool isComp = true;
@@ -866,7 +813,6 @@ CoronaryArteryTree<DomCtr, TDim>::generateALocation3d(double myDThresold){
     }
     return  std::pair<TPointD, bool> {res, isComp && isComp2};
 }
-
 
 
 template< typename DomCtr, int TDim >
@@ -1221,88 +1167,7 @@ CoronaryArteryTree<DomCtr, TDim>::findBarycenter(const TPointD &p, unsigned int 
 
 
 
-// * Template specialisation for 2D
-// **/
-//// fix me duplicated code for template specialisation
-//template<>
-//bool
-//CoronaryArteryTree<ImageMaskDomainCtrl<2>, 2>::searchRootFarthest(const double & d,
-//                                             DGtal::PointVector<2, double> &ptRoot ){
-//    return searchRootFarthest2d(d, ptRoot);
-//}
-//
-//template<>
-//bool
-//CoronaryArteryTree<CircularDomainCtrl<2>, 2>::searchRootFarthest(const double & d,
-//                                             DGtal::PointVector<2, double> &ptRoot ){
-//    return searchRootFarthest2d(d, ptRoot);
-//}
 
-
-//template< typename DomCtr, int TDim >
-//bool
-//CoronaryArteryTree<DomCtr, TDim>::searchRootFarthest2d(const double & d, TPointD &ptRoot ){
-//    DGtal::Z2i::DigitalSet sPts =  GeomHelpers::pointsOnCircle(iParam.myTreeCenter, d);
-//    for (const DGtal::Z2i::Point &p : sPts){
-//        if (GeomHelpers::checkNoIntersectDomain(myImageDomain, myForegroundThreshold,
-//                                                p, DGtal::Z2i::Point(iParam.myTreeCenter[0],
-//                                                                     iParam.myTreeCenter[1])) ){
-//          ptRoot[0] = p[0];
-//          ptRoot[1] = p[1];
-//          return true;
-//        }
-//    }
-//    return false;
-//}
-//
-//
-
-/**
- * Template specialisation for 3D
- **/
-//
-//template<>
-//bool
-//CoronaryArteryTree<CircularDomainCtrl<3>, 3>::searchRootFarthest(const double & d,
-//                                             DGtal::PointVector<3, double> &ptRoot ){
-//    return searchRootFarthest3d(d, ptRoot);
-//}
-//
-//template<>
-//bool
-//CoronaryArteryTree<ImageMaskDomainCtrl<3>, 3>::searchRootFarthest(const double & d,
-//                                             DGtal::PointVector<3, double> &ptRoot ){
-//    return searchRootFarthest3d(d, ptRoot);
-//}
-//
-//template< typename DomCtr, int TDim >
-//bool
-//CoronaryArteryTree<DomCtr, TDim>::searchRootFarthest3d(const double & d,
-//                                                       TPointD &ptRoot ){
-//    DGtal::Z3i::DigitalSet sPts =  GeomHelpers::pointsOnBall(iParam.myTreeCenter, d);
-//    for (const DGtal::Z3i::Point &p : sPts){
-//        if (GeomHelpers::checkNoIntersectDomain(myImageDomain, myForegroundThreshold,
-//                                                p, DGtal::Z3i::Point(iParam.myTreeCenter[0],
-//                                                                     iParam.myTreeCenter[1],
-//                                                                     iParam.myTreeCenter[2])) ){
-//          ptRoot[0] = p[0];
-//          ptRoot[1] = p[1];
-//          ptRoot[2] = p[2];
-//          return true;
-//        }
-//    }
-//    return false;
-//}
-//
-//
-//template< typename DomCtr, int TDim >
-//bool
-//CoronaryArteryTree<DomCtr, TDim>::searchRootFarthest(const double & d,
-//                                             DGtal::PointVector<TDim, double> &ptRoot ){
-//  DGtal::trace.error() << "not yet implemented in "<< TDim << "dimensions" << std::endl;
-//  throw 1;
-//  return false;
-//}
 
 template< typename DomCtr, int TDim >
 bool operator==(typename CoronaryArteryTree<DomCtr, TDim>::Segment S1,
