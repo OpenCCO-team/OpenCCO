@@ -45,23 +45,23 @@ namespace GeomHelpers {
 //  return TPoint(ptCenter[0]+rR*cos(a), ptCenter[1]+rR*sin(a));
 //}
 /*
-template<typename TPoint>
-inline
-TPoint
-generateRandomPtOnDisk(const TPoint &ptCenter, double r)
-{
-  bool found = false;
-  double x = 0.0;
-  double y = 0.0;
-  
-  while(!found){
-    x =  ((double)rand() / RAND_MAX)*2.0*r - r;
-    y =  ((double)rand() / RAND_MAX)*2.0*r - r;
-    found = x*x + y*y < r*r;
-  }
-  return TPoint(x+ptCenter[0], y+ptCenter[1]);
-}
-*/
+ template<typename TPoint>
+ inline
+ TPoint
+ generateRandomPtOnDisk(const TPoint &ptCenter, double r)
+ {
+ bool found = false;
+ double x = 0.0;
+ double y = 0.0;
+ 
+ while(!found){
+ x =  ((double)rand() / RAND_MAX)*2.0*r - r;
+ y =  ((double)rand() / RAND_MAX)*2.0*r - r;
+ found = x*x + y*y < r*r;
+ }
+ return TPoint(x+ptCenter[0], y+ptCenter[1]);
+ }
+ */
 
 // FixMe: remove since already integrated in the DomainController
 /**
@@ -71,16 +71,16 @@ inline
 DGtal::PointVector<2, double>
 generateRandomPtOnDisk(const DGtal::PointVector<2, double> &ptCenter, double r)
 {
-  bool found = false;
-  double x = 0.0;
-  double y = 0.0;
-  
-  while(!found){
-    x =  ((double)rand() / RAND_MAX)*2.0*r - r;
-    y =  ((double)rand() / RAND_MAX)*2.0*r - r;
-    found = x*x + y*y < r*r;
-  }
-  return DGtal::PointVector<2, double>(x+ptCenter[0], y+ptCenter[1]);
+    bool found = false;
+    double x = 0.0;
+    double y = 0.0;
+    
+    while(!found){
+        x =  ((double)rand() / RAND_MAX)*2.0*r - r;
+        y =  ((double)rand() / RAND_MAX)*2.0*r - r;
+        found = x*x + y*y < r*r;
+    }
+    return DGtal::PointVector<2, double>(x+ptCenter[0], y+ptCenter[1]);
 }
 
 
@@ -92,18 +92,18 @@ inline
 DGtal::PointVector<3, double>
 generateRandomPtOnDisk(const DGtal::PointVector<3, double> &ptCenter, double r)
 {
-  bool found = false;
-  double x = 0.0;
-  double y = 0.0;
-  double z = 0.0;
-  
-  while(!found){
-    x =  ((double)rand() / RAND_MAX)*2.0*r - r;
-    y =  ((double)rand() / RAND_MAX)*2.0*r - r;
-    z =  ((double)rand() / RAND_MAX)*2.0*r - r;
-    found = x*x + y*y + z*z < r*r;
-  }
-  return DGtal::PointVector<3, double>(x+ptCenter[0], y+ptCenter[1], z+ptCenter[2]);
+    bool found = false;
+    double x = 0.0;
+    double y = 0.0;
+    double z = 0.0;
+    
+    while(!found){
+        x =  ((double)rand() / RAND_MAX)*2.0*r - r;
+        y =  ((double)rand() / RAND_MAX)*2.0*r - r;
+        z =  ((double)rand() / RAND_MAX)*2.0*r - r;
+        found = x*x + y*y + z*z < r*r;
+    }
+    return DGtal::PointVector<3, double>(x+ptCenter[0], y+ptCenter[1], z+ptCenter[2]);
 }
 
 // FixMe: remove since already integrated in the DomainController
@@ -111,30 +111,30 @@ template<typename TImage, typename TImageDist>
 inline
 DGtal::Z2i::Point
 generateRandomPtOnImageDomain2D(const TImage &image, unsigned int fgTh,
-                              const TImageDist &imageDistance,
-                              unsigned int nbTry = 100)
+                                const TImageDist &imageDistance,
+                                unsigned int nbTry = 100)
 {
-  bool found = false;
-  unsigned int x = 0;
-  unsigned int y = 0;
-  DGtal::Z2i::Point pMin = image.domain().lowerBound();
-  DGtal::Z2i::Point pMax = image.domain().upperBound();
-  int dx = pMax[0] - pMin[0];
-  int dy = pMax[1] - pMin[1];
-  DGtal::PointVector<2, int > pCand;
-  unsigned int n = 0;
-  while(!found && n < nbTry){
-    x =  rand()%dx;
-    y =  rand()%dy;
-    pCand[0] = static_cast<int>(pMin[0] +x);
-    pCand[1] = static_cast<int>(pMin[1] +y);
-    found = image(pCand)>=fgTh && abs(imageDistance(pCand)) >= 10.0;
-    n++;
-  }
-  if (n >= nbTry){
-    for(auto p : image.domain()){if (image(p)>=fgTh && abs(imageDistance(p)) >= 10.0 ) return p;}
-  }
-  return pCand;
+    bool found = false;
+    unsigned int x = 0;
+    unsigned int y = 0;
+    DGtal::Z2i::Point pMin = image.domain().lowerBound();
+    DGtal::Z2i::Point pMax = image.domain().upperBound();
+    int dx = pMax[0] - pMin[0];
+    int dy = pMax[1] - pMin[1];
+    DGtal::PointVector<2, int > pCand;
+    unsigned int n = 0;
+    while(!found && n < nbTry){
+        x =  rand()%dx;
+        y =  rand()%dy;
+        pCand[0] = static_cast<int>(pMin[0] +x);
+        pCand[1] = static_cast<int>(pMin[1] +y);
+        found = image(pCand)>=fgTh && abs(imageDistance(pCand)) >= 10.0;
+        n++;
+    }
+    if (n >= nbTry){
+        for(auto p : image.domain()){if (image(p)>=fgTh && abs(imageDistance(p)) >= 10.0 ) return p;}
+    }
+    return pCand;
 }
 
 // FixMe: remove since already integrated in the DomainController
@@ -142,38 +142,38 @@ template<typename TImage, typename TImageDist>
 inline
 DGtal::Z3i::Point
 generateRandomPtOnImageDomain3D(const TImage &image, unsigned int fgTh,
-                              const TImageDist &imageDistance,
-                              unsigned int nbTry = 100)
+                                const TImageDist &imageDistance,
+                                unsigned int nbTry = 100)
 {
-  bool found = false;
-  unsigned int x = 0;
-  unsigned int y = 0;
-  unsigned int z = 0;
-
-  DGtal::Z3i::Point pMin = image.domain().lowerBound();
-  DGtal::Z3i::Point pMax = image.domain().upperBound();
-
-  int dx = pMax[0] - pMin[0];
-  int dy = pMax[1] - pMin[1];
-  int dz = pMax[2] - pMin[2];
-
-  DGtal::PointVector<3, int > pCand;
-  unsigned int n = 0;
-  while(!found && n < nbTry){
-    x =  rand()%dx;
-    y =  rand()%dy;
-    z =  rand()%dz;
-
-    pCand[0] = static_cast<int>(pMin[0] +x);
-    pCand[1] = static_cast<int>(pMin[1] +y);
-    pCand[2] = static_cast<int>(pMin[2] +z);
-    found = image(pCand)>=fgTh && abs(imageDistance(pCand)) >= 10.0;
-    n++;
-  }
-  if (n >= nbTry){
-    for(auto p : image.domain()){if (image(p)>=fgTh && abs(imageDistance(p)) >= 10.0 ) return p;}
-  }
-  return pCand;
+    bool found = false;
+    unsigned int x = 0;
+    unsigned int y = 0;
+    unsigned int z = 0;
+    
+    DGtal::Z3i::Point pMin = image.domain().lowerBound();
+    DGtal::Z3i::Point pMax = image.domain().upperBound();
+    
+    int dx = pMax[0] - pMin[0];
+    int dy = pMax[1] - pMin[1];
+    int dz = pMax[2] - pMin[2];
+    
+    DGtal::PointVector<3, int > pCand;
+    unsigned int n = 0;
+    while(!found && n < nbTry){
+        x =  rand()%dx;
+        y =  rand()%dy;
+        z =  rand()%dz;
+        
+        pCand[0] = static_cast<int>(pMin[0] +x);
+        pCand[1] = static_cast<int>(pMin[1] +y);
+        pCand[2] = static_cast<int>(pMin[2] +z);
+        found = image(pCand)>=fgTh && abs(imageDistance(pCand)) >= 10.0;
+        n++;
+    }
+    if (n >= nbTry){
+        for(auto p : image.domain()){if (image(p)>=fgTh && abs(imageDistance(p)) >= 10.0 ) return p;}
+    }
+    return pCand;
 }
 
 /**
@@ -191,23 +191,23 @@ checkNoIntersectDomain(const TImage &image, unsigned int fgTh,
                        const TPoint &pt1,
                        const TPoint &pt2)
 {
-  if ( !image.domain().isInside(pt1) ||
-      !image.domain().isInside(pt2)){
-    return false;
-  }
-  DGtal::PointVector<TPoint::dimension, double> dir = pt2 - pt1;
-  dir /= dir.norm();
-  DGtal::PointVector<TPoint::dimension, double>  p;
-  for(unsigned int i=0; i<TPoint::dimension; i++ ){p[i]=pt1[i];}
-  for (unsigned int i = 0; i<(pt2 - pt1).norm(); i++){
-    DGtal::PointVector<TPoint::dimension, double>  p = pt1+dir*i;
-    TPoint pI;
-    for(unsigned int i=0; i<TPoint::dimension; i++ ){pI[i]=static_cast<int>(p[i]);}
-    if (image(pI) < fgTh)
-      return false;
-  }
-  
-  return true;
+    if ( !image.domain().isInside(pt1) ||
+        !image.domain().isInside(pt2)){
+        return false;
+    }
+    DGtal::PointVector<TPoint::dimension, double> dir = pt2 - pt1;
+    dir /= dir.norm();
+    DGtal::PointVector<TPoint::dimension, double>  p;
+    for(unsigned int i=0; i<TPoint::dimension; i++ ){p[i]=pt1[i];}
+    for (unsigned int i = 0; i<(pt2 - pt1).norm(); i++){
+        DGtal::PointVector<TPoint::dimension, double>  p = pt1+dir*i;
+        TPoint pI;
+        for(unsigned int i=0; i<TPoint::dimension; i++ ){pI[i]=static_cast<int>(p[i]);}
+        if (image(pI) < fgTh)
+            return false;
+    }
+    
+    return true;
 }
 
 /**
@@ -217,9 +217,9 @@ template<typename TPoint>
 inline
 bool
 isOnRight(const TPoint &ptA, const TPoint &ptB, const TPoint &ptC ){
-  auto u = ptB-ptA;
-  auto v = ptC-ptA;
-  return u[0]*v[1]- u[1]*v[0] < 0.0;
+    auto u = ptB-ptA;
+    auto v = ptC-ptA;
+    return u[0]*v[1]- u[1]*v[0] < 0.0;
 }
 
 
@@ -227,14 +227,14 @@ template<typename TPoint>
 inline
 bool
 isInsideCircle(const TPoint &ptCenter,const TPoint &p,  double radius){
-  return ((p[0]-ptCenter[0])*(p[0]-ptCenter[0])+(p[1]-ptCenter[1])*(p[1]-ptCenter[1])) <= radius*radius;
+    return ((p[0]-ptCenter[0])*(p[0]-ptCenter[0])+(p[1]-ptCenter[1])*(p[1]-ptCenter[1])) <= radius*radius;
 }
 
 template<typename TPoint>
 inline
 bool
 isInsideSphere(const TPoint &ptCenter,const TPoint &p,  double radius){
-  return ((p[0]-ptCenter[0])*(p[0]-ptCenter[0])+(p[1]-ptCenter[1])*(p[1]-ptCenter[1])+(p[2]-ptCenter[2])*(p[2]-ptCenter[2])) <= radius*radius;
+    return ((p[0]-ptCenter[0])*(p[0]-ptCenter[0])+(p[1]-ptCenter[1])*(p[1]-ptCenter[1])+(p[2]-ptCenter[2])*(p[2]-ptCenter[2])) <= radius*radius;
 }
 
 
@@ -258,38 +258,38 @@ projectOnStraightLine(const TPoint & ptA,
                       const TPoint & ptC,
                       TPointD & ptProjected)
 {
-  if (ptA==ptC)
-  {
-    for(auto i=0; i<TPoint::dimension; i++){ ptProjected[i]=ptA[i];}
-    return true;
-  }
-  if (ptB==ptC)
-  {
-    for(auto i=0; i<TPoint::dimension; i++){ ptProjected[i]=ptB[i];}
-    return true ;
-  }
-  
-  TPointD vAB = ptB - ptA;//(ptB[0]- ptA[0], ptB[1]- ptA[1]);
-  TPointD vABn = vAB / vAB.norm();//((double)vAB[0], (double)vAB[1]);
-  //double norm = vABn.norm();
-  //vABn[0] /= norm;
-  //vABn[1] /= norm;
-  
-  TPointD vAC = ptC-ptA;// (ptC[0]-ptA[0], ptC[1]-ptA[1]);
-  double distPtA_Proj = vAC.dot(vABn);
-  
-  for(auto i=0; i<TPoint::dimension; i++){ ptProjected[i]= ptA[i]+vABn[i]*(distPtA_Proj);}
-  //ptProjected[0] = ptA[0]+vABn[0]*(distPtA_Proj);
-  //ptProjected[1] = ptA[1]+vABn[1]*(distPtA_Proj);
-  bool res = false;
-  for(auto i=0; i<TPoint::dimension; i++) { res = res || (ptA[i]<ptB[i] && ptProjected[i]<=ptB[i]); }
-  return distPtA_Proj>=0 && res;
-  /*
-  return  distPtA_Proj>=0 && ((ptA[0]<ptB[0] && ptProjected[0]<=ptB[0] ) ||
-                              (ptA[0]>ptB[0] && ptProjected[0]>=ptB[0] ) ||
-                              (ptA[0]==ptB[0] && ptA[1]<ptB[1] && ptProjected[1]<=ptB[1]) ||
-                              (ptA[0]==ptB[0] && ptA[1]>=ptB[1] && ptProjected[1]>=ptB[1]));
- */
+    if (ptA==ptC)
+    {
+        for(auto i=0; i<TPoint::dimension; i++){ ptProjected[i]=ptA[i];}
+        return true;
+    }
+    if (ptB==ptC)
+    {
+        for(auto i=0; i<TPoint::dimension; i++){ ptProjected[i]=ptB[i];}
+        return true ;
+    }
+    
+    TPointD vAB = ptB - ptA;//(ptB[0]- ptA[0], ptB[1]- ptA[1]);
+    TPointD vABn = vAB / vAB.norm();//((double)vAB[0], (double)vAB[1]);
+    //double norm = vABn.norm();
+    //vABn[0] /= norm;
+    //vABn[1] /= norm;
+    
+    TPointD vAC = ptC-ptA;// (ptC[0]-ptA[0], ptC[1]-ptA[1]);
+    double distPtA_Proj = vAC.dot(vABn);
+    
+    for(auto i=0; i<TPoint::dimension; i++){ ptProjected[i]= ptA[i]+vABn[i]*(distPtA_Proj);}
+    //ptProjected[0] = ptA[0]+vABn[0]*(distPtA_Proj);
+    //ptProjected[1] = ptA[1]+vABn[1]*(distPtA_Proj);
+    bool res = false;
+    for(auto i=0; i<TPoint::dimension; i++) { res = res || (ptA[i]<ptB[i] && ptProjected[i]<=ptB[i]); }
+    return distPtA_Proj>=0 && res;
+    /*
+     return  distPtA_Proj>=0 && ((ptA[0]<ptB[0] && ptProjected[0]<=ptB[0] ) ||
+     (ptA[0]>ptB[0] && ptProjected[0]>=ptB[0] ) ||
+     (ptA[0]==ptB[0] && ptA[1]<ptB[1] && ptProjected[1]<=ptB[1]) ||
+     (ptA[0]==ptB[0] && ptA[1]>=ptB[1] && ptProjected[1]>=ptB[1]));
+     */
 }
 
 
@@ -299,20 +299,20 @@ DGtal::Z2i::DigitalSet
 pointsOnCircle(const TPoint & ptCenter,
                double radius)
 {
-  typedef DGtal::ImplicitBall< DGtal::Z2i::Space > MyBall;
-  MyBall disk( ptCenter, radius-0.5 );
-  MyBall diskDilate( ptCenter, radius+0.5 );
-  typedef DGtal::EuclideanShapesCSG< MyBall, MyBall > Minus;
-  Minus border ( diskDilate );
-  border.minus( disk );
-  typedef DGtal::GaussDigitizer< DGtal::Z2i::Space, Minus > MyGaussDigitizer;
-  MyGaussDigitizer digShape;
-  digShape.attach( border );
-  digShape.init( border.getLowerBound(), border.getUpperBound(), 1 );
-  DGtal::Z2i::Domain domainShape = digShape.getDomain();
-  DGtal::Z2i::DigitalSet aSet( domainShape );
-  DGtal::Shapes<DGtal::Z2i::Domain>::digitalShaper( aSet, digShape );
-  return aSet;
+    typedef DGtal::ImplicitBall< DGtal::Z2i::Space > MyBall;
+    MyBall disk( ptCenter, radius-0.5 );
+    MyBall diskDilate( ptCenter, radius+0.5 );
+    typedef DGtal::EuclideanShapesCSG< MyBall, MyBall > Minus;
+    Minus border ( diskDilate );
+    border.minus( disk );
+    typedef DGtal::GaussDigitizer< DGtal::Z2i::Space, Minus > MyGaussDigitizer;
+    MyGaussDigitizer digShape;
+    digShape.attach( border );
+    digShape.init( border.getLowerBound(), border.getUpperBound(), 1 );
+    DGtal::Z2i::Domain domainShape = digShape.getDomain();
+    DGtal::Z2i::DigitalSet aSet( domainShape );
+    DGtal::Shapes<DGtal::Z2i::Domain>::digitalShaper( aSet, digShape );
+    return aSet;
 }
 
 
@@ -320,22 +320,22 @@ template<typename TPoint>
 inline
 DGtal::Z3i::DigitalSet
 pointsOnBall(const TPoint & ptCenter,
-               double radius)
+             double radius)
 {
-  typedef DGtal::ImplicitBall< DGtal::Z3i::Space > MyBall;
-  MyBall disk( ptCenter, radius-0.5 );
-  MyBall diskDilate( ptCenter, radius+0.5 );
-  typedef DGtal::EuclideanShapesCSG< MyBall, MyBall > Minus;
-  Minus border ( diskDilate );
-  border.minus( disk );
-  typedef DGtal::GaussDigitizer< DGtal::Z3i::Space, Minus > MyGaussDigitizer;
-  MyGaussDigitizer digShape;
-  digShape.attach( border );
-  digShape.init( border.getLowerBound(), border.getUpperBound(), 1 );
-  DGtal::Z3i::Domain domainShape = digShape.getDomain();
-  DGtal::Z3i::DigitalSet aSet( domainShape );
-  DGtal::Shapes<DGtal::Z3i::Domain>::digitalShaper( aSet, digShape );
-  return aSet;
+    typedef DGtal::ImplicitBall< DGtal::Z3i::Space > MyBall;
+    MyBall disk( ptCenter, radius-0.5 );
+    MyBall diskDilate( ptCenter, radius+0.5 );
+    typedef DGtal::EuclideanShapesCSG< MyBall, MyBall > Minus;
+    Minus border ( diskDilate );
+    border.minus( disk );
+    typedef DGtal::GaussDigitizer< DGtal::Z3i::Space, Minus > MyGaussDigitizer;
+    MyGaussDigitizer digShape;
+    digShape.attach( border );
+    digShape.init( border.getLowerBound(), border.getUpperBound(), 1 );
+    DGtal::Z3i::Domain domainShape = digShape.getDomain();
+    DGtal::Z3i::DigitalSet aSet( domainShape );
+    DGtal::Shapes<DGtal::Z3i::Domain>::digitalShaper( aSet, digShape );
+    return aSet;
 }
 
 
@@ -347,23 +347,23 @@ pointsOnSphere(const TPoint & ptCenter,
                double radius)
 {
     typedef  DGtal::SpaceND<TPoint::dimension,
-                             typename TPoint::Component> Space;
+    typename TPoint::Component> Space;
     typedef DGtal::HyperRectDomain<Space> Dom;
-
-  typedef DGtal::ImplicitBall< Space > MyBall;
-  MyBall disk( ptCenter, radius-0.5 );
-  MyBall diskDilate( ptCenter, radius+0.5 );
-  typedef DGtal::EuclideanShapesCSG< MyBall, MyBall > Minus;
-  Minus border ( diskDilate );
-  border.minus( disk );
-  typedef DGtal::GaussDigitizer< Space, Minus > MyGaussDigitizer;
-  MyGaussDigitizer digShape;
-  digShape.attach( border );
-  digShape.init( border.getLowerBound(), border.getUpperBound(), 1 );
-  Dom domainShape = digShape.getDomain();
-  TDSet  aSet(domainShape);
-  DGtal::Shapes<Dom>::digitalShaper( aSet, digShape );
-  return aSet;
+    
+    typedef DGtal::ImplicitBall< Space > MyBall;
+    MyBall disk( ptCenter, radius-0.5 );
+    MyBall diskDilate( ptCenter, radius+0.5 );
+    typedef DGtal::EuclideanShapesCSG< MyBall, MyBall > Minus;
+    Minus border ( diskDilate );
+    border.minus( disk );
+    typedef DGtal::GaussDigitizer< Space, Minus > MyGaussDigitizer;
+    MyGaussDigitizer digShape;
+    digShape.attach( border );
+    digShape.init( border.getLowerBound(), border.getUpperBound(), 1 );
+    Dom domainShape = digShape.getDomain();
+    TDSet  aSet(domainShape);
+    DGtal::Shapes<Dom>::digitalShaper( aSet, digShape );
+    return aSet;
 }
 
 /**
@@ -386,54 +386,54 @@ bool
 hasIntersection(const TPoint &seg1ptA, const TPoint &seg1ptB,
                 const TPoint &seg2ptA, const TPoint &seg2ptB)
 {
-  double  d = ((seg2ptB[1] - seg2ptA[1])*(seg1ptB[0] - seg1ptA[0])) -
-  ((seg2ptB[0] - seg2ptA[0])*(seg1ptB[1] - seg1ptA[1]));
-  double a = ((seg2ptB[0] - seg2ptA[0])*(seg1ptA[1] - seg2ptA[1])) -
-  ((seg2ptB[1] - seg2ptA[1])*(seg1ptA[0] - seg2ptA[0]));
-  double b = ((seg1ptB[0] - seg1ptA[0])*(seg1ptA[1] - seg2ptA[1])) -
-  ((seg1ptB[1] - seg1ptA[1])*(seg1ptA[0] - seg2ptA[0]));
-  if ( d==0.0 ) {
-    // test coincident
-    if (a==0.0 && b == 0.0 ) {
-      return false;
+    double  d = ((seg2ptB[1] - seg2ptA[1])*(seg1ptB[0] - seg1ptA[0])) -
+    ((seg2ptB[0] - seg2ptA[0])*(seg1ptB[1] - seg1ptA[1]));
+    double a = ((seg2ptB[0] - seg2ptA[0])*(seg1ptA[1] - seg2ptA[1])) -
+    ((seg2ptB[1] - seg2ptA[1])*(seg1ptA[0] - seg2ptA[0]));
+    double b = ((seg1ptB[0] - seg1ptA[0])*(seg1ptA[1] - seg2ptA[1])) -
+    ((seg1ptB[1] - seg1ptA[1])*(seg1ptA[0] - seg2ptA[0]));
+    if ( d==0.0 ) {
+        // test coincident
+        if (a==0.0 && b == 0.0 ) {
+            return false;
+        }
+        else
+            return false;
     }
-    else
-      return false;
-  }
-  double ua = a / d;
-  double ub = b / d;
-  return ua > 0.0f && ua < 1.0f && ub > 0.0f && ub < 1.0f;
-  // Get the intersection point.
-  //intersection.x_ = begin_.x_ + ua*(end_.x_ - begin_.x_);
-  //intersection.y_ = begin_.y_ + ua*(end_.y_ - begin_.y_);
+    double ua = a / d;
+    double ub = b / d;
+    return ua > 0.0f && ua < 1.0f && ub > 0.0f && ub < 1.0f;
+    // Get the intersection point.
+    //intersection.x_ = begin_.x_ + ua*(end_.x_ - begin_.x_);
+    //intersection.y_ = begin_.y_ + ua*(end_.y_ - begin_.y_);
 }
 
 
 
 struct CostOptPos {
-  double deltap1;
-  double deltap2;
-  double f0;
-  double f1;
-  double f2;
-  double l0;
-  double l1;
-  double l2;
-  double gamma;
-  
-  template <typename T>
-  bool operator()(const T* const x1, const T* const x2, T* residual) const {
-    //residual[0] =  deltap1*x1[0]*x1[0]*pow((f0*(((x1[0]*x1[0]*x1[0])/f1)+(x2[0]*x2[0]*x2[0])/f2)), 2.0/3.0)
-    //- (f0*l0*x1[0]*x1[0]) - f1 * l1 * pow(f0*((x1[0]*x1[0]*x1[0]/f1)+(x2[0]*x2[0]*x2[0])/f2), 2.0/3.0);
-    //residual[1] =  deltap2*x2[0]*x2[0]*pow((f0*(((x1[0]*x1[0]*x1[0])/f1)+(x2[0]*x2[0]*x2[0])/f2)), 2.0/3.0)
-    //- (f0*l0*x2[0]*x2[0]) - f2 * l2 * pow(f0*((x1[0]*x1[0]*x1[0]/f1)+(x2[0]*x2[0]*x2[0])/f2), 2.0/3.0);
-    //Equation 28
-    residual[0] =  deltap1*x1[0]*x1[0]*(pow(f0*((pow(x1[0],(3.0+gamma)/2.0)/f1) + (pow(x2[0],(3.0+gamma)/2.0)/f2)),2.0/3.0))
-    - (f0*l0*x1[0]*x1[0]) - f1 * l1 * (pow(f0*((pow(x1[0],(3.0+gamma)/2.0)/f1) + (pow(x2[0],(3.0+gamma)/2.0))/f2),2.0/3.0));
-    residual[1] =  deltap2*x2[0]*x2[0]*(pow(f0*((pow(x1[0],(3.0+gamma)/2.0)/f1) + (pow(x2[0],(3.0+gamma)/2.0)/f2)),2.0/3.0))
-    - (f0*l0*x2[0]*x2[0]) - f2 * l2 * (pow(f0*((pow(x1[0],(3.0+gamma)/2.0)/f1) + (pow(x2[0],(3.0+gamma)/2.0))/f2),2.0/3.0));
-    return true;
-  }
+    double deltap1;
+    double deltap2;
+    double f0;
+    double f1;
+    double f2;
+    double l0;
+    double l1;
+    double l2;
+    double gamma;
+    
+    template <typename T>
+    bool operator()(const T* const x1, const T* const x2, T* residual) const {
+        //residual[0] =  deltap1*x1[0]*x1[0]*pow((f0*(((x1[0]*x1[0]*x1[0])/f1)+(x2[0]*x2[0]*x2[0])/f2)), 2.0/3.0)
+        //- (f0*l0*x1[0]*x1[0]) - f1 * l1 * pow(f0*((x1[0]*x1[0]*x1[0]/f1)+(x2[0]*x2[0]*x2[0])/f2), 2.0/3.0);
+        //residual[1] =  deltap2*x2[0]*x2[0]*pow((f0*(((x1[0]*x1[0]*x1[0])/f1)+(x2[0]*x2[0]*x2[0])/f2)), 2.0/3.0)
+        //- (f0*l0*x2[0]*x2[0]) - f2 * l2 * pow(f0*((x1[0]*x1[0]*x1[0]/f1)+(x2[0]*x2[0]*x2[0])/f2), 2.0/3.0);
+        //Equation 28
+        residual[0] =  deltap1*x1[0]*x1[0]*(pow(f0*((pow(x1[0],(3.0+gamma)/2.0)/f1) + (pow(x2[0],(3.0+gamma)/2.0)/f2)),2.0/3.0))
+        - (f0*l0*x1[0]*x1[0]) - f1 * l1 * (pow(f0*((pow(x1[0],(3.0+gamma)/2.0)/f1) + (pow(x2[0],(3.0+gamma)/2.0))/f2),2.0/3.0));
+        residual[1] =  deltap2*x2[0]*x2[0]*(pow(f0*((pow(x1[0],(3.0+gamma)/2.0)/f1) + (pow(x2[0],(3.0+gamma)/2.0)/f2)),2.0/3.0))
+        - (f0*l0*x2[0]*x2[0]) - f2 * l2 * (pow(f0*((pow(x1[0],(3.0+gamma)/2.0)/f1) + (pow(x2[0],(3.0+gamma)/2.0))/f2),2.0/3.0));
+        return true;
+    }
 };
 
 
@@ -441,33 +441,33 @@ struct CostOptPos {
  * @return true if a solution exists
  */
 static bool kamyiaOpt(double gamma, double deltaP1, double deltaP2, double f0, double f1, double f2, double l0, double l1, double l2, double &xx1, double &xx2) {
-  CostOptPos *f = new CostOptPos();
-  f->deltap1 = deltaP1;
-  f->deltap2 = deltaP2;
-  f->f0 = f0;
-  f->f1 = f1;
-  f->f2 = f2;
-  f->l0 = l0;
-  f->l1 = l1;
-  f->l2 = l2;
-  f->gamma = gamma;
-  
-  // const double initial_x = x;
-  // Build the problem.
-  Problem problem;
-  // Set up the only cost function (also known as residual). This uses
-  // auto-differentiation to obtain the derivative (jacobian).
-  CostFunction* cost_function =
-  new AutoDiffCostFunction<CostOptPos, 2, 1, 1>(f);
-  problem.AddResidualBlock(cost_function, nullptr, &xx1, &xx2);
-  // Run the solver!
-  Solver::Options options;
-  options.minimizer_progress_to_stdout = false;
-  Solver::Summary summary;
-  Solve(options, &problem, &summary);
-  //std::cout << summary.BriefReport() << "\n";
-  
-  return summary.IsSolutionUsable();
+    CostOptPos *f = new CostOptPos();
+    f->deltap1 = deltaP1;
+    f->deltap2 = deltaP2;
+    f->f0 = f0;
+    f->f1 = f1;
+    f->f2 = f2;
+    f->l0 = l0;
+    f->l1 = l1;
+    f->l2 = l2;
+    f->gamma = gamma;
+    
+    // const double initial_x = x;
+    // Build the problem.
+    Problem problem;
+    // Set up the only cost function (also known as residual). This uses
+    // auto-differentiation to obtain the derivative (jacobian).
+    CostFunction* cost_function =
+    new AutoDiffCostFunction<CostOptPos, 2, 1, 1>(f);
+    problem.AddResidualBlock(cost_function, nullptr, &xx1, &xx2);
+    // Run the solver!
+    Solver::Options options;
+    options.minimizer_progress_to_stdout = false;
+    Solver::Summary summary;
+    Solve(options, &problem, &summary);
+    //std::cout << summary.BriefReport() << "\n";
+    
+    return summary.IsSolutionUsable();
 }
 
 
@@ -479,16 +479,16 @@ getImageDistance(const TImage &image, unsigned int threshold=128){
     typedef typename TImage::Domain::Space Space;
     typedef DGtal::ExactPredicateLpSeparableMetric<Space, TImage::Domain::dimension> L2Metric;
     
-  TImageDistance res (image.domain());
-  typedef DGtal::functors::IntervalForegroundPredicate<TImage> Binarizer;
-  typedef DGtal::DistanceTransformation<Space, Binarizer, L2Metric> DTL;
-  L2Metric l2metric;
-  Binarizer b(image, threshold, 255);
-  DTL dt(&image.domain(),&b, &l2metric);
-  for (auto p: dt.domain()){
-    res.setValue(p, dt(p));
-  }
-  return res;
+    TImageDistance res (image.domain());
+    typedef DGtal::functors::IntervalForegroundPredicate<TImage> Binarizer;
+    typedef DGtal::DistanceTransformation<Space, Binarizer, L2Metric> DTL;
+    L2Metric l2metric;
+    Binarizer b(image, threshold, 255);
+    DTL dt(&image.domain(),&b, &l2metric);
+    for (auto p: dt.domain()){
+        res.setValue(p, dt(p));
+    }
+    return res;
 }
 
 

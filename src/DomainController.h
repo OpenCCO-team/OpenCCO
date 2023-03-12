@@ -27,7 +27,7 @@
  *  - TPoint  randomPoint():
  *    To get a point inside the domaine used in the tree construction.
  *  - bool checkNoIntersectDomain(const TPoint &pt1, const TPoint &pt2):
-      Usefull to ensure is a whole segment is inside the domain.
+ Usefull to ensure is a whole segment is inside the domain.
  *  - maxDistantPointFromBorder() const:
  *    usefull to determine a starting point and help to construct the tree.
  *  - TPoint firtCandidatePoint() const :
@@ -63,16 +63,16 @@ public:
     
     TPoint
     randomPoint() {
-      bool found = false;
-      TPoint p;
-      while(!found){
-          double ss = 0.0;
-          for(unsigned int i = 0;i<TDim; i++ ){
-              p[i] = ((double)rand() / RAND_MAX)*2.0*myRadius - myRadius;
-          }
-          found = isInside(p);
-      }
-      return p + myCenter;
+        bool found = false;
+        TPoint p;
+        while(!found){
+            double ss = 0.0;
+            for(unsigned int i = 0;i<TDim; i++ ){
+                p[i] = ((double)rand() / RAND_MAX)*2.0*myRadius - myRadius;
+            }
+            found = isInside(p);
+        }
+        return p + myCenter;
     }
     /**
      * Get the supported domain of the tree. By default it is defined from the circle center.
@@ -98,13 +98,13 @@ public:
         if (TDim == 2){
             res[0] = 0.0;
             res[1] = myRadius;
-         }else  if (TDim == 3){
-             res[0] = 0.0;
-             res[1] = myRadius;
-             res[2] = 0.0;
-
-         }
-
+        }else  if (TDim == 3){
+            res[0] = 0.0;
+            res[1] = myRadius;
+            res[2] = 0.0;
+            
+        }
+        
         return res;
         
     }
@@ -126,7 +126,7 @@ public:
         TPoint p = TPoint::diagonal(myRadius*0.01);
         return myCenter + p;
     }
-
+    
 };
 
 
@@ -277,11 +277,11 @@ public:
     upperBound()
     {
         return myImage.domain().upperBound();
-     }
+    }
     
 private:
     // internal method
-
+    
     bool
     searchRootFarthest(const double & d, TPointI &ptRoot ) const {
         typedef DGtal::SpaceND<TDim, int> Space;
@@ -312,9 +312,9 @@ ImageMaskDomainCtrl<2>::contours()
     DGtal::Z2i::KSpace ks;
     if(! ks.init( myImage.domain().lowerBound(),
                  myImage.domain().upperBound(), true )){
-      DGtal::trace.error() << "Problem in KSpace initialisation"<< std::endl;
+        DGtal::trace.error() << "Problem in KSpace initialisation"<< std::endl;
     }
-  
+    
     Binarizer b(myMaskThreshold, 255);
     DGtal::functors::PointFunctorPredicate<TImage,Binarizer> predicate(myImage, b);
     DGtal::trace.info() << "DGtal contour extraction from thresholds ["<<  myMaskThreshold << "," << 255 << "]" ;
