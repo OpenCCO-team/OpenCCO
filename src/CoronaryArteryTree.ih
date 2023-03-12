@@ -437,34 +437,23 @@ CoronaryArteryTree<DomCtr, TDim>::addSegmentFromPoint(const TPointD &p,
   return true;
 }
 
-/**
- * Template specialisation for 2D
- **/
-
-template< >
-bool
-CoronaryArteryTree<ImageMaskDomainCtrl<2>, 2>::isIntersecting(const TPointD &pNew, const TPointD &pCenter, unsigned int nearIndex, unsigned int nbNeibour, double minDistance) const
-{
-    return isIntersecting2d(pNew, pCenter, nearIndex, nbNeibour, minDistance);
-}
-template< >
-bool
-CoronaryArteryTree<CircularDomainCtrl<2>, 2>::isIntersecting(const TPointD &pNew, const TPointD &pCenter, unsigned int nearIndex, unsigned int nbNeibour, double minDistance) const
-{
-    return isIntersecting2d(pNew, pCenter, nearIndex, nbNeibour, minDistance);
-}
-
 template< class DomCtr, int TDim >
 bool
-CoronaryArteryTree<DomCtr, TDim>::isIntersecting2d(const TPointD &pNew,
+CoronaryArteryTree<DomCtr, TDim>::isIntersecting(const TPointD &pNew,
                       const TPointD &pCenter,
                       unsigned int nearIndex,
                       unsigned int nbNeibour,
-                      double minDistance ) const{
-    //bool inter = hasNearestIntersections(p, newCenter, 10);
-    //bool inter = hasNearestIntersections(myVectParent[nearIndex], nearIndex, p, newCenter,  nbNeibour);
-  // to be fixed later, else
-      bool inter = hasNearestIntersections(myVectParent[nearIndex], nearIndex, pNew, pCenter,  nbNeibour);
+                                                 double minDistance ) const{
+    bool inter = false;
+    if (TDim == 2){
+        inter = hasNearestIntersections(myVectParent[nearIndex], nearIndex,
+                                        pNew, pCenter,  nbNeibour);
+    }else
+    {
+        inter = hasIntersections(pNew) || hasIntersections(pCenter);
+    }
+
+
     // bool inter = hasIntersections(pNew) || hasIntersections(pCenter);
     if (inter){
       //DGtal::trace.warning() << "detection intersection" << std::endl;
@@ -501,86 +490,19 @@ CoronaryArteryTree<DomCtr, TDim>::isIntersecting2d(const TPointD &pNew,
       //DGtal::trace.warning() << "detection too close existing" << std::endl;
       return true;
     }
-    return false;
+    if (TDim == 3 &&
+        (getProjDistanceDico(nearIndex, pNew, pCenter) < minDistance||
+            getProjDistanceDico(myVectParent[nearIndex], pNew, pCenter) < minDistance||
+            getProjDistanceDico(myVectChildren[nearIndex].first, pNew, pCenter) < minDistance||
+            getProjDistanceDico(myVectChildren[nearIndex].second, pNew, pCenter) < minDistance)){
+          //DGtal::trace.warning() << "detection too close existing" << std::endl;
+      return true;
+    }
     
-}
-  
-
-/**
- * Template specialisation for 3D
- **/
-template<>
-bool
-CoronaryArteryTree<ImageMaskDomainCtrl<3>, 3>::isIntersecting(const TPointD &pNew, const TPointD &pCenter, unsigned int nearIndex, unsigned int nbNeibour, double minDistance) const
-{
-    return isIntersecting3d(pNew, pCenter, nearIndex, nbNeibour, minDistance);
-}
-
-/**
- * Template specialisation for 3D
- **/
-template<>
-bool
-CoronaryArteryTree<CircularDomainCtrl<3>, 3>::isIntersecting(const TPointD &pNew, const TPointD &pCenter, unsigned int nearIndex, unsigned int nbNeibour, double minDistance) const
-{
-    return isIntersecting3d(pNew, pCenter, nearIndex, nbNeibour, minDistance);
-}
-
-template< class DomCtr, int TDim >
-bool
-CoronaryArteryTree<DomCtr, TDim>::isIntersecting3d(const TPointD &pNew,
-                                                   const TPointD &pCenter,
-                                                   unsigned int nearIndex,
-                                                   unsigned int nbNeibour,
-                                                   double minDistance) const{
-    //bool inter = hasNearestIntersections(p, newCenter, 10);
-    //bool inter = hasNearestIntersections(myVectParent[nearIndex], nearIndex, p, newCenter,  nbNeibour);
-    //bool inter = hasNearestIntersections(myVectParent[nearIndex], nearIndex, pNew, pCenter,  nbNeibour);
-    bool inter = hasIntersections(pNew) || hasIntersections(pCenter);
-    if (inter){
-      //DGtal::trace.warning() << "detection intersection" << std::endl;
-      return true;
-    }
-    // Check barycenter is not too close considered segment
-    if ((pCenter-myVectSegments[nearIndex].myCoordinate).norm() < minDistance ||
-        (pCenter-myVectSegments[myVectParent[nearIndex]].myCoordinate).norm() < minDistance ||
-        (pCenter - pNew).norm() < minDistance){
-      //DGtal::trace.warning() << "new barycenter too close!!!!!!!!" << std::endl;
-      return true;
-    }
-    // Check new point with new segment of barycenter:
-    // - newPt and new segment [Barycenter-OriginNewSeg]
-    // - newPt and new segment [Barycenter-FatherNewSeg]
-    if ((pCenter-myVectSegments[nearIndex].myCoordinate).norm() < minDistance ||
-        (pCenter-myVectSegments[myVectParent[nearIndex]].myCoordinate).norm() < minDistance) {
-      //DGtal::trace.warning() << "initial too close to new!!!!!!!!" << std::endl;
-      return true;
-    }
-    if (getProjDistance(nearIndex, pNew) < minDistance) {
-      //DGtal::trace.warning() << "initial too close!!!!!!!!" << std::endl;
-      return true;
-
-    }
-    if (isToCloseFromNearest(pNew, minDistance)){
-      //DGtal::trace.warning() << "detection near too close " << std::endl;
-      return true;
-    }
-    if (getProjDistance(nearIndex, pNew) < minDistance||
-        getProjDistance(myVectParent[nearIndex], pNew) < minDistance||
-        getProjDistance(myVectChildren[nearIndex].first, pNew) < minDistance||
-        getProjDistance(myVectChildren[nearIndex].second, pNew) < minDistance){
-      //DGtal::trace.warning() << "detection too close existing" << std::endl;
-      return true;
-    }
-    if (getProjDistanceDico(nearIndex, pNew, pCenter) < minDistance||
-        getProjDistanceDico(myVectParent[nearIndex], pNew, pCenter) < minDistance||
-        getProjDistanceDico(myVectChildren[nearIndex].first, pNew, pCenter) < minDistance||
-        getProjDistanceDico(myVectChildren[nearIndex].second, pNew, pCenter) < minDistance){
-      //DGtal::trace.warning() << "detection too close existing" << std::endl;
-      return true;
-    }
     return false;
 }
+
+
 
 
 template< class DomCtr, int TDim >
