@@ -28,9 +28,7 @@ template<typename DomCtr, int TDim>
 inline
 void
 initFirtElemTree(CoronaryArteryTree< DomCtr, TDim > &aTree,
-                 unsigned int distSearchRoot, bool verbose = false){
-    DGtal::PointVector<TDim, double> pRoot;
-    //bool restrainedOK = aTree.restrainDomain(aTree.myDomainController.myImage,              aTree.myForegroundThreshold);
+                 bool verbose = false){
     for(unsigned int i = 0; i < TDim; i++){
         aTree.iParam.myTreeCenter[i] = static_cast<int>(aTree.myDomainController.myCenter[i]);
     }

@@ -33,12 +33,12 @@
  */
 template<typename TTree>
 void
-constructTreeMaskDomain(TTree &aTree, int distSearchRoot,
+constructTreeMaskDomain(TTree &aTree,
                        bool verbose)
 {
     clock_t start, end;
     start = clock();
-    ExpandTreeHelpers::initFirtElemTree(aTree, distSearchRoot);
+    ExpandTreeHelpers::initFirtElemTree(aTree, verbose);
     ExpandTreeHelpers::expandTree(aTree, verbose);
     end = clock();
     printf ("Execution time: %0.8f sec\n", ((double) end - start)/CLOCKS_PER_SEC);
@@ -47,11 +47,11 @@ constructTreeMaskDomain(TTree &aTree, int distSearchRoot,
 
 template<typename TTree>
 void
-constructTreeImplicitDomain(TTree &aTree,double distSearchRoot, bool verbose)
+constructTreeImplicitDomain(TTree &aTree, bool verbose)
 {
     clock_t start, end;
     start = clock();
-    ExpandTreeHelpers::initFirtElemTree(aTree, distSearchRoot);
+    ExpandTreeHelpers::initFirtElemTree(aTree, verbose);
     ExpandTreeHelpers::expandTree(aTree, verbose);
     end = clock();
     printf ("Execution time: %0.8f sec\n", ((double) end - start)/CLOCKS_PER_SEC);
@@ -158,20 +158,20 @@ int main(int argc, char **argv)
   std::string outputMeshName {"result.off"};
   std::string exportDatName {""};
   std::string exportXMLName {""};
-    
-  std::vector<int> postInitV {-1,-1};
+  std::vector<int> postInitV {-1,-1,-1};
+
   app.add_option("-n,--nbTerm,1", nbTerm, "Set the number of terminal segments.", true);
   app.add_option("-a,--aPerf,2", aPerf, "The value of the input parameter A perfusion.", true);
   app.add_option("--organDomain,-d", nameImgDom, "Define the organ domain using a mask image (organ=255).");
   app.add_option("-o,--outputName", outputMeshName, "Output the 3D mesh", true);
   app.add_option("-e,--export", exportDatName, "Output the 3D mesh", true);
   app.add_option("-x,--exportXML", exportXMLName, "Output the resulting gaph as xml file", true);
-  
+  auto pInit = app.add_option("-p,--posInit", postInitV, "Initial position of root, if not given the position of point is determined from the image center")
+    ->expected(3);
+
 #ifdef WITH_VISU3D_QGLVIEWER
   app.add_flag("--view", display3D, "display 3D view using QGLViewer");
 #endif
-  auto pInit = app.add_option("-p,--posInit", postInitV, "Initial position of root, if not given the position of point is determined from the image center")
-  ->expected(3);
   app.add_flag("-v,--verbose", verbose);
   app.get_formatter()->column_width(40);
   CLI11_PARSE(app, argc, argv);
@@ -182,13 +182,22 @@ int main(int argc, char **argv)
   if(nameImgDom != "" ){
     typedef ImageMaskDomainCtrl<3> TImgContrl;
     typedef  CoronaryArteryTree<TImgContrl, 3> TTree;
-    TImgContrl aDomCtr (nameImgDom, 128, 100);
-    TImgContrl::TPointI pM = aDomCtr.maxDistantPointFromBorder();
-    unsigned int distSearchRoot =  static_cast< unsigned int >(aDomCtr.myDistanceImage(pM) /2.0);
-
-    TTree tree  (aPerf, nbTerm, 1.0, pM);
+    TImgContrl aDomCtr;
+    TImgContrl::TPointI pM;
+      if (!pInit->empty())
+      {
+          pM[0] = postInitV[0];
+          pM[1] = postInitV[1];
+          pM[2] = postInitV[2];
+          aDomCtr = TImgContrl(nameImgDom, 128, pM, 100);
+      }
+      else
+      {
+          aDomCtr = TImgContrl(nameImgDom, 128, 100);
+      }
+    TTree tree  (aPerf, nbTerm, 1.0, aDomCtr.myCenter);
     tree.myDomainController = aDomCtr;
-    constructTreeMaskDomain(tree, distSearchRoot, verbose);
+    constructTreeMaskDomain(tree, verbose);
     
     XMLHelpers::writeTreeToXml(tree, "tree_3D.xml");
     exportResultingMesh(tree, outputMeshName);
@@ -207,7 +216,7 @@ int main(int argc, char **argv)
     SphereDomCtrl aCtr(tree.bParam.my_rPerf,pCenter);
     tree.myDomainController = aCtr;
 
-    constructTreeImplicitDomain(tree, 0.5, verbose);
+    constructTreeImplicitDomain(tree, verbose);
     XMLHelpers::writeTreeToXml(tree, "tree_3D.xml");
     exportResultingMesh(tree, outputMeshName);
     #ifdef WITH_VISU3D_QGLVIEWER

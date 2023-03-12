@@ -155,39 +155,48 @@ public:
     // Fixme to be removed since no need when finalized
     bool myIsImageDomainRestrained = true;
     TPointI myCenter;
-    
+    double minDistInitSegment {5.0};
+
     
 public:
-    Image myImage;
-    ImageD myDistanceImage;
+    Image myImage {Image(DomCT())} ;
+    ImageD myDistanceImage {ImageD(DomCT())};
     
-    ImageMaskDomainCtrl(): myImage{Image(DomCT())},
-    myDistanceImage {ImageD(DomCT())} {};
+    ImageMaskDomainCtrl(){};
     
+    // Constructor
+    ImageMaskDomainCtrl(const std::string &fileImgDomain,
+                        int maskThreshold, TPointI ptRoot,
+                        unsigned int nbTry=100): myNbTry{nbTry}
+    {
+        myImage = DGtal::GenericReader<Image>::import(fileImgDomain,myMaskThreshold);
+        myDistanceImage = GeomHelpers::getImageDistance<Image,ImageD>(myImage,
+                                                                      myMaskThreshold );
+        if ( !isInside(ptRoot) ){
+            DGtal::trace.warning() << "ImageMaskDomainCtrl: Initial point given as input is not in domain." << std::endl;
+            DGtal::trace.warning() << "ImageMaskDomainCtrl: Using default value from the maximal distant point." << std::endl;
+            myCenter = maxDistantPointFromBorder();
+        }else{
+            myCenter = ptRoot;
+        }
+
+    }
     
-    // Constructor for Masked domain type
+    // Constructor
     ImageMaskDomainCtrl(const std::string &fileImgDomain,
                         int maskThreshold, unsigned int nbTry=100):
-    myNbTry{nbTry},
-    myImage {DGtal::GenericReader<Image>::import(fileImgDomain,myMaskThreshold )},
-    myDistanceImage {ImageD(DomCT())}
+                                                    myNbTry{nbTry}
     {
-        myDistanceImage = GeomHelpers::getImageDistance<Image,ImageD>(myImage,myMaskThreshold );
+        myImage = DGtal::GenericReader<Image>::import(fileImgDomain,myMaskThreshold);
+        myDistanceImage = GeomHelpers::getImageDistance<Image,ImageD>(myImage,
+                                                                      myMaskThreshold );
         myCenter = maxDistantPointFromBorder();
-        bool isOk = false;
-        // Check if at least one pixel of with foreground value exist:
-        for (auto p: myImage.domain()){
-            if (myImage(p) >= myMaskThreshold){
-                isOk = true;
-                break;
-            }
-        }
-        if (isOk){
-            std::cout << "first point In domain:" << myCenter<<  std::endl;
-        }else{
-            std::cout << "First point not in domain ! ;( " << myCenter<<   std::endl;
-        }
+        checkImageDomain();
     };
+    
+    
+    
+    
     
     TPointI
     randomPoint()
@@ -257,7 +266,7 @@ public:
     TPoint
     firtCandidatePoint() const {
         TPointI res;
-        searchRootFarthest(myDistanceImage(myCenter)/2, res);
+        searchRootFarthest(std::max(myDistanceImage(myCenter)/2.0, minDistInitSegment), res);
         return res;
     }
     
@@ -299,7 +308,19 @@ private:
         return false;
     }
     
-    
+    void checkImageDomain(){
+        bool isOk = false;
+        // Check if at least one pixel of with foreground value exist:
+        for (auto p: myImage.domain()){
+            if (myImage(p) >= myMaskThreshold){
+                isOk = true;
+                break;
+            }
+        }
+        if (!isOk){
+            std::cout << "ImageMaskDomainCtrl: domain non valid since no point are inside the mask image." <<  std::endl;
+        }
+    }
     
 };
 

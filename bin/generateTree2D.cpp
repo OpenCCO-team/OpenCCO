@@ -21,12 +21,11 @@
  */
 template<typename TTree>
 void
-constructTreeMaskDomain(TTree &aTree, int distSearchRoot,
-                        bool verbose)
+constructTreeMaskDomain(TTree &aTree, bool verbose)
 {
     clock_t start, end;
     start = clock();
-    ExpandTreeHelpers::initFirtElemTree(aTree, distSearchRoot);
+    ExpandTreeHelpers::initFirtElemTree(aTree);
     ExpandTreeHelpers::expandTree(aTree, verbose);
     end = clock();
     printf ("Execution time: %0.8f sec\n", ((double) end - start)/CLOCKS_PER_SEC);
@@ -77,22 +76,27 @@ int main(int argc, char *const *argv)
     // END parse command line using CLI ----------------------------------------------
     
     DGtal::Z2i::Point ptRoot(postInitV[0], postInitV[1]);
-    //1000 => Execution time: 129.17274900 sec
-    //2000 => Execution time: 478.48590200 sec
-    //3000 => Execution time: 1023.94746700 sec
-    //4000 => Execution time: 1896.94450700 sec
-    //5000 => Execution time: 3435.08630500 sec
-    if(nameImgDom != "" && pInit->empty()){
+  
+    if(nameImgDom != ""){
         start = clock();
         typedef ImageMaskDomainCtrl<2> TImgContrl;
         typedef  CoronaryArteryTree<TImgContrl, 2> TTree;
-        TImgContrl aDomCtr (nameImgDom, 128, 100);
-        TImgContrl::TPointI pM = aDomCtr.maxDistantPointFromBorder();
-        unsigned int distSearchRoot =  static_cast< unsigned int>(aDomCtr.myDistanceImage(pM) /3.0);
+        TImgContrl aDomCtr;
+        TImgContrl::TPointI pM;
+        if (!pInit->empty())
+        {
+            pM[0] = postInitV[0];
+            pM[1] = postInitV[1];
+            aDomCtr = TImgContrl(nameImgDom, 128, pM, 100);
+        }
+        else
+        {
+            aDomCtr = TImgContrl(nameImgDom, 128, 100);
+        }
         
-        TTree tree  (aPerf, nbTerm, 1.0, pM);
+        TTree tree  (aPerf, nbTerm, 1.0,aDomCtr.myCenter);
         tree.myDomainController = aDomCtr;
-        constructTreeMaskDomain(tree, distSearchRoot, verbose);
+        constructTreeMaskDomain(tree, verbose);
         XMLHelpers::writeTreeToXml(tree, "tree_2D.xml");
         if (exportXMLName != "") XMLHelpers::writeTreeToXml(tree, exportXMLName.c_str());
         
