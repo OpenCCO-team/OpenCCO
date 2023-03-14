@@ -45,50 +45,47 @@ expandTree(CoronaryArteryTree< DomCtr, TDim > &aTree, bool verbose = false)
     typedef typename CoronaryArteryTree< DomCtr, TDim >::TreeState TState;
     srand ((unsigned int) time(NULL));
     bool isOK = false;
-    unsigned int nbSeed = aTree.bParam.my_NTerm;
-    for (unsigned int i = 1; i < nbSeed; i++) {
-        DGtal::trace.progressBar(i, nbSeed);
-        size_t nbSol = 0, itOpt = 0;
-        TState stateOpt = aTree.state();
-        TState stateBase = aTree.state();
-        
-        double volOpt = -1.0, vol = 0.0;
-        while (nbSol==0) {
-            // auto pt = aTree.myDomainController.randomPoint();
-            auto pt = aTree.generateNewLocation(100);
-            std::vector<unsigned int> vecN = aTree.getN_NearestSegments(pt,aTree.iParam.myNumNeighbor);
-            for(size_t it=0; it<vecN.size(); it++) {
-                if(!aTree.isIntersecting(pt, aTree.findBarycenter(pt, vecN.at(it)),vecN.at(it),aTree.iParam.myNumNeighbor, 2*aTree.myVectSegments[vecN.at(it)].myRadius)) {
-                    aTree.restaureState(stateBase);
-                    isOK = aTree.isAddable(pt,vecN.at(it), 100, 0.01,   aTree.iParam.myNumNeighbor, verbose);
-                    if(isOK) {
-                        vol = aTree.computeTotalVolume(1);
-                        if(volOpt<0.0) {
-                            volOpt = vol;
-                            stateOpt = aTree.state();
-                            itOpt = it;
-                        }
-                        else {
-                            if(volOpt>vol) {
-                                volOpt = vol;
-                                stateOpt = aTree.state();
-                                itOpt = it;
-                            }
-                        }
-                        nbSol++;
-                    }
-                }
-            }
-        }
-        aTree.restaureState(stateOpt);
-        aTree.updateLengthFactor();
-        aTree.updateResistanceFromRoot();
-        aTree.updateRootRadius();
+       unsigned int nbSeed = aTree.bParam.my_NTerm;
+       for (unsigned int i = 1; i < nbSeed; i++) {
+         DGtal::trace.progressBar(i, nbSeed);
+         size_t nbSol = 0, itOpt = 0;
+         CoronaryArteryTree< DomCtr, TDim > cTreeOpt = aTree;
+         double volOpt = -1.0, vol = 0.0;
+         while (nbSol==0) {
+           auto pt = aTree.generateNewLocation(100);
+           std::vector<unsigned int> vecN = aTree.getN_NearestSegments(pt,aTree.iParam.myNumNeighbor);
+           for(size_t it=0; it<vecN.size(); it++) {
+             if(!aTree.isIntersecting(pt, aTree.findBarycenter(pt, vecN.at(it)),vecN.at(it),aTree.iParam.myNumNeighbor, 2*aTree.myVectSegments[vecN.at(it)].myRadius)) {
+               CoronaryArteryTree< DomCtr, TDim  > cTree1 = aTree;
+               isOK = cTree1.isAddable(pt,vecN.at(it), 100, 0.01, cTree1.iParam.myNumNeighbor, verbose);
+               if(isOK) {
+                 vol = cTree1.computeTotalVolume(1);
+                 if(volOpt<0.0) {
+                   volOpt = vol;
+                   cTreeOpt = cTree1;
+                   itOpt = it;
+                 }
+                 else {
+                   if(volOpt>vol) {
+                     volOpt = vol;
+                     cTreeOpt = cTree1;
+                     itOpt = it;
+                   }
+                 }
+                 nbSol++;
+               }
+             }
+           }
+         }
+           aTree = cTreeOpt;
+           aTree.updateLengthFactor();
+           aTree.updateResistanceFromRoot();
+           aTree.updateRootRadius();
+       }
+       if (verbose){
+         std::cout<<"====> Aperf="<<aTree.iParam.myRsupp*aTree.iParam.myRsupp*aTree.bParam.my_NTerm*M_PI<<" == "<<aTree.bParam.my_aPerf<<std::endl;
+       }
     }
-    if (verbose){
-        std::cout<<"====> Aperf="<<aTree.iParam.myRsupp*aTree.iParam.myRsupp*aTree.bParam.my_NTerm*M_PI<<" == "<<aTree.bParam.my_aPerf<<std::endl;
-    }
-}
 
 
 
