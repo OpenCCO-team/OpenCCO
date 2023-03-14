@@ -40,7 +40,7 @@ class TreeTest: public CoronaryArteryTree<ImageMaskDomainCtrl<2>, 2>
 {
 public:
     // Constructor do nothing mainly used for specific test
-    TreeTest(double r=1.0){
+    TreeTest(ImageMaskDomainCtrl<2> &ctr, double r=1.0 ): CoronaryArteryTree(ctr){
         iParam.myTreeCenter = TPointD::diagonal(0);
         iParam.myRsupp = r;
         bParam.my_aPerf = 1.0;
@@ -70,7 +70,7 @@ public:
      * Constructor used mainly in testCompCCO
      */
     
-    TreeTest(const TPointD &ptCenter, const TPointD &ptRoot, const TPointD &ptTerm, unsigned int nTerm,  double aRadius = 1.0 ){
+    TreeTest(const TPointD &ptCenter, const TPointD &ptRoot, const TPointD &ptTerm, unsigned int nTerm,  ImageMaskDomainCtrl<2> &ctr , double aRadius = 1.0 ): CoronaryArteryTree(ctr){
         assert(nTerm>=1);
         iParam.myTreeCenter = ptCenter;
         bParam.my_rPerf = (ptCenter - ptRoot).norm();
@@ -126,7 +126,8 @@ public:
    * @param nTerm: number of terminal segments.
    **/
   
-  TreeTest(const TPointD &ptRoot, double aPerf, unsigned int nTerm, double aRadius = 1.0 ){
+  TreeTest(const TPointD &ptRoot, double aPerf, unsigned int nTerm,
+           ImageMaskDomainCtrl<2> &ctr,double aRadius = 1.0 ): CoronaryArteryTree(ctr){
     assert(nTerm>=1);
     iParam.myTreeCenter = TPointD::diagonal(0.0);
     iParam.myRsupp = sqrt(aPerf/(nTerm*M_PI));
@@ -156,7 +157,7 @@ public:
     Segment s1;
     s1.myRadius = aRadius;
     //s1.myCoordinate = generateRandomPtOnDisk(myTreeCenter, myRsupp);
-    s1.myCoordinate = myDomainController.randomPoint();
+    s1.myCoordinate = myDomainController().randomPoint();
     double myLength = (ptRoot-s1.myCoordinate).norm()*iParam.myLengthFactor;
     s1.myIndex = 1;
     s1.myKTerm = 1; //it contains terminal itself
@@ -275,7 +276,7 @@ class TreeTestCirc: public CoronaryArteryTree<CircularDomainCtrl<2>, 2>
 {
 public:
     // Constructor do nothing mainly used for specific test
-    TreeTestCirc(double r=1.0){
+    TreeTestCirc(CircularDomainCtrl<2> &ctr, double r=1.0): CoronaryArteryTree(ctr){
         iParam.myTreeCenter = TPointD::diagonal(0);
         iParam.myRsupp = r;
         bParam.my_aPerf = 1.0;
@@ -305,7 +306,7 @@ public:
      * Constructor used mainly in testCompCCO
      */
     
-    TreeTestCirc(const TPointD &ptCenter, const TPointD &ptRoot, const TPointD &ptTerm, unsigned int nTerm,  double aRadius = 1.0 ){
+    TreeTestCirc(const TPointD &ptCenter, const TPointD &ptRoot, const TPointD &ptTerm, unsigned int nTerm,  CircularDomainCtrl<2> &ctr, double aRadius = 1.0 ): CoronaryArteryTree(ctr){
         assert(nTerm>=1);
         iParam.myTreeCenter = ptCenter;
         bParam.my_rPerf = (ptCenter - ptRoot).norm();
@@ -352,7 +353,8 @@ public:
         DGtal::trace.info() << "Construction initialized..." << std::endl;
       };
     
-    TreeTestCirc(const TPointD &ptRoot, double aPerf, unsigned int nTerm, double aRadius = 1.0 ){
+    TreeTestCirc(const TPointD &ptRoot, double aPerf, unsigned int nTerm,
+                 CircularDomainCtrl<2> &ctr, double aRadius = 1.0 ): CoronaryArteryTree(ctr){
       assert(nTerm>=1);
       iParam.myTreeCenter = TPointD::diagonal(0.0);
       iParam.myRsupp = sqrt(aPerf/(nTerm*M_PI));
@@ -382,7 +384,7 @@ public:
       Segment s1;
       s1.myRadius = aRadius;
       //s1.myCoordinate = generateRandomPtOnDisk(myTreeCenter, myRsupp);
-      s1.myCoordinate = myDomainController.randomPoint();
+      s1.myCoordinate = myDomainController().randomPoint();
       double myLength = (ptRoot-s1.myCoordinate).norm()*iParam.myLengthFactor;
       s1.myIndex = 1;
       s1.myKTerm = 1; //it contains terminal itself

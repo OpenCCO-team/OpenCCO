@@ -22,7 +22,8 @@ int main(int argc, char *const *argv)
 
   DGtal::trace.beginBlock("esting base constructor with initial segment (should give a first random segment).");
   double aPerf = 2000;
-  TreeTestCirc c (DGtal::Z2i::RealPoint(0, sqrt(aPerf/M_PI)), aPerf, 1);
+  ImplicitContrl ic;
+  TreeTestCirc c (DGtal::Z2i::RealPoint(0, sqrt(aPerf/M_PI)), aPerf,  1, ic);
   DGtal::trace.info() << c;
   c.exportBoardDisplay("testBase0.svg", 1.0, true);
   c.exportBoardDisplay("testBase0.eps", 1.0, true);
@@ -91,10 +92,10 @@ int main(int argc, char *const *argv)
   srand (time(NULL));
   //CoronaryArteryTree cRand (DGtal::Z2i::RealPoint(0, 250), 2000, 1);
   aPerf = 2000;
-    TreeTestCirc cRand(DGtal::Z2i::RealPoint(0, sqrt(aPerf/M_PI)), aPerf, 1000);
+    TreeTestCirc cRand(DGtal::Z2i::RealPoint(0, sqrt(aPerf/M_PI)), aPerf, 1000, ic);
   
   for (unsigned int i = 0; i < 1000; i++){
-      TreeTestCirc::TPointD pt = cRand.myDomainController.randomPoint();
+      TreeTestCirc::TPointD pt = cRand.myDomainController().randomPoint();
     
     nearest = cRand.getNearestSegment(pt);
     cRand.addSegmentFromPoint(pt, nearest);
@@ -127,7 +128,7 @@ int main(int argc, char *const *argv)
   srand (time(NULL));
   //CoronaryArteryTree cRand2 (DGtal::Z2i::RealPoint(0, 250), 20000000, 100);
   aPerf = 20000000;
-    TreeTestCirc cRand2(DGtal::Z2i::RealPoint(0, sqrt(aPerf/M_PI)), aPerf, 50);
+    TreeTestCirc cRand2(DGtal::Z2i::RealPoint(0, sqrt(aPerf/M_PI)), aPerf, 50, ic);
   
   for (unsigned int i = 0; i < 50; i++){
     DGtal::trace.progressBar(i, 50);
@@ -171,7 +172,7 @@ int main(int argc, char *const *argv)
   DGtal::trace.beginBlock("Testing class CoronaryArteryTree: test last leaf to root display path");
   //CoronaryArteryTree cRand3 (DGtal::Z2i::RealPoint(0, 250), 20000000, 100);
   aPerf = 20000000;
-    TreeTestCirc cRand3(DGtal::Z2i::RealPoint(0, sqrt(aPerf/M_PI)), aPerf, 1000);
+    TreeTestCirc cRand3(DGtal::Z2i::RealPoint(0, sqrt(aPerf/M_PI)), aPerf, 1000, ic);
   
   for (unsigned int i = 0; i < 1000; i++){
     DGtal::trace.progressBar(i, 1000);
