@@ -47,7 +47,8 @@ int main(int argc, char *const *argv)
     
   ///-----------------------------------------------------------------------------------------------
   DGtal::trace.beginBlock("Testing basic intersections on Tree");
-  TreeTest c(20);
+  ImplicitContrl ic;
+  TreeTestCirc c(ic, 20);
   c.addSegmentFromPoint(DGtal::Z2i::RealPoint(-10, 10), 1);
   c.addSegmentFromPoint(DGtal::Z2i::RealPoint(12, 8), 1);
   c.boardDisplay();
@@ -81,7 +82,7 @@ int main(int argc, char *const *argv)
 
   TreeTestCirc cIntersec (DGtal::Z2i::RealPoint(0, 0),
                    DGtal::Z2i::RealPoint(0, 30),
-                   DGtal::Z2i::RealPoint (0,  0), 100);
+                   DGtal::Z2i::RealPoint (0,  0), 100, ic);
   for (unsigned int i = 0; i < 100; i++){
     DGtal::trace.progressBar(i, 100);
     TreeTestCirc::TPointD pt = cIntersec.generateNewLocation(100);
@@ -127,7 +128,7 @@ int main(int argc, char *const *argv)
   ///-----------------------------------------------------------------------------------------------
   /// Test projection distances
   DGtal::trace.beginBlock("Testing projection distances");
-  TreeTest ci (DGtal::Z2i::RealPoint(0, 0), DGtal::Z2i::RealPoint(0, 10), DGtal::Z2i::RealPoint (0,  0), 1);
+    TreeTestCirc ci (DGtal::Z2i::RealPoint(0, 0), DGtal::Z2i::RealPoint(0, 10), DGtal::Z2i::RealPoint (0,  0), 1, ic);
   DGtal::Z2i::RealPoint pDirect (2,  5);
   double dist = ci.getProjDistance(1, pDirect);
   DGtal::trace.info() << "Test projection on initial segment: " << pDirect
