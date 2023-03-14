@@ -168,7 +168,12 @@ public:
         // to store the index of the terminal segments
         std::vector<unsigned int> myVectTerminals;
     };
-    DomCtr myDomainController;
+    std::reference_wrapper<DomCtr> myDomainController_;
+    
+    DomCtr& myDomainController() const {
+        return myDomainController_.get();
+    };
+    
     
     // To handle display
     DGtal::Board2D myBoard;
@@ -178,7 +183,7 @@ public:
 public:
     
     // Constructor do nothing mainly used for specific test
-    CoronaryArteryTree(){}
+    CoronaryArteryTree(DomCtr &aDomCtr): myDomainController_(aDomCtr){}
     /**
      * @brief Default constructor.
      * @brief It generates the first root segment with tree center as the first terminal point.
@@ -186,8 +191,9 @@ public:
      * @param nTerm: number of terminal segments.
      **/
     
-    CoronaryArteryTree(double aPerf, unsigned int nTerm, double aRadius = 1.0,
-                       TPointD treeCenter = TPointD::diagonal(0) ){
+    CoronaryArteryTree(double aPerf, unsigned int nTerm,  DomCtr &aDomCtr,
+                       double aRadius = 1.0,
+                       TPointD treeCenter = TPointD::diagonal(0) ): myDomainController_(aDomCtr) {
         assert(nTerm>=1);
         for (auto i=0; i < TDim; i++){iParam.myTreeCenter[i]=treeCenter[i];}
         if(TDim==2) {

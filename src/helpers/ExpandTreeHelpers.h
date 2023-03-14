@@ -29,10 +29,10 @@ void
 initFirtElemTree(CoronaryArteryTree< DomCtr, TDim > &aTree,
                  bool verbose = false){
     for(unsigned int i = 0; i < TDim; i++){
-        aTree.iParam.myTreeCenter[i] = static_cast<int>(aTree.myDomainController.myCenter[i]);
+        aTree.iParam.myTreeCenter[i] = static_cast<int>(aTree.myDomainController().myCenter[i]);
     }
     
-    auto p = aTree.myDomainController.firtCandidatePoint();
+    auto p = aTree.myDomainController().firtCandidatePoint();
     aTree.myVectSegments[0].myCoordinate = p;
 }
 

@@ -168,7 +168,9 @@ public:
 public:
     Image myImage {Image(DomCT())} ;
     ImageD myDistanceImage {ImageD(DomCT())};
-    
+    ImageMaskDomainCtrl(const ImageMaskDomainCtrl&) {
+        std::cout << "copy domain!!" << std::endl;
+    }
     ImageMaskDomainCtrl(){};
     
     // Constructor

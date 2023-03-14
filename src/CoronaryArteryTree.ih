@@ -171,17 +171,17 @@ CoronaryArteryTree<DomCtr, TDim>::isAddable(const TPointD &p, unsigned int segIn
 
   TPoint pSegIndDom; for (auto i=0; i < TDim; i++){pSegIndDom[i] = static_cast<TCompPt>(myVectSegments[segIndex].myCoordinate[i]);}
   
-  if (!myDomainController.isInside(newCenterDom))
+  if (!myDomainController().isInside(newCenterDom))
   {
       return false;
   }
     
-  if (!myDomainController.checkNoIntersectDomain(pDom, newCenterDom))
+  if (!myDomainController().checkNoIntersectDomain(pDom, newCenterDom))
   {
       return false;
   }
   
-  if(!myDomainController.checkNoIntersectDomain(pSegIndDom,
+  if(!myDomainController().checkNoIntersectDomain(pSegIndDom,
                                                  newCenterDom))
   {
       return false;
@@ -195,7 +195,7 @@ CoronaryArteryTree<DomCtr, TDim>::isAddable(const TPointD &p, unsigned int segIn
       pParentDom[i] = static_cast<TCompPt>(pParent[i]);
   }
 
-  if(!myDomainController.checkNoIntersectDomain(pParentDom,
+  if(!myDomainController().checkNoIntersectDomain(pParentDom,
                                                 newCenterDom))
       return false;
   
@@ -247,18 +247,18 @@ CoronaryArteryTree<DomCtr, TDim>::isAddable(const TPointD &p, unsigned int segIn
     TPoint sNewLeftDom; for (auto i=0; i < TDim; i++){sNewLeftDom[i] = static_cast<int>(sNewLeft.myCoordinate[i]);}
     TPoint sNewRightDom; for (auto i=0; i < TDim; i++){sNewRightDom[i] = static_cast<int>(sNewRight.myCoordinate[i]);}
 
-    if(!myDomainController.isInside(pOptDom))
+    if(!myDomainController().isInside(pOptDom))
     { //resulting point is out of the domain
       return false;
     }
    
     
     //resulting segments intersect the domaine
-    if( !myDomainController.checkNoIntersectDomain(pParentDom, pOptDom)) //Center segment
+    if( !myDomainController().checkNoIntersectDomain(pParentDom, pOptDom)) //Center segment
       return false;
-    if(!myDomainController.checkNoIntersectDomain(sNewLeftDom, pOptDom)) //Left segment
+    if(!myDomainController().checkNoIntersectDomain(sNewLeftDom, pOptDom)) //Left segment
       return false;
-    if(!myDomainController.checkNoIntersectDomain(sNewRightDom, pOptDom)) //Right segment
+    if(!myDomainController().checkNoIntersectDomain(sNewRightDom, pOptDom)) //Right segment
       return false;
     
     //Otherwise, iterate for the optimisation process
@@ -479,7 +479,7 @@ CoronaryArteryTree<DomCtr, TDim>::boardDisplay(double thickness, bool clearDispl
   // 57.5 from myBoard change scale
   double scaleBoard = 57.5*scaleFactorEPS;
   // drawing base circle
-  if (!myDomainController.myIsImageDomainRestrained){
+  if (!myDomainController().myIsImageDomainRestrained){
     myBoard.setPenColor(DGtal::Color::Blue);
     myBoard.setLineWidth(myVectSegments[0].myRadius*scaleBoard*thickness);
     myBoard.drawCircle(iParam.myTreeCenter[0], iParam.myTreeCenter[1], bParam.my_rPerf, 1);
@@ -529,8 +529,8 @@ CoronaryArteryTree<DomCtr, TDim>::boardDisplay(double thickness, bool clearDispl
     myBoard.fillCircle(distal[0], distal[1], myVectSegments[s.myIndex].myRadius*thickness, 1 );
     i++;
   }
-  if (myDomainController.myIsImageDomainRestrained ){
-     auto vectContours = myDomainController.contours();//ExpandTreeHelpers::getImageContours(myDomainController.myImage, myForegroundThreshold);
+  if (myDomainController().myIsImageDomainRestrained ){
+     auto vectContours = myDomainController().contours();//ExpandTreeHelpers::getImageContours(myDomainController().myImage, myForegroundThreshold);
      for(auto const c: vectContours){
        DGtal::Color col;
        if(DGtal::ContourHelper::isCounterClockWise(c)){
@@ -560,10 +560,10 @@ CoronaryArteryTree<DomCtr, TDim>::exportBoardDisplay(const std::string &fileName
   if (updateDisplay){
     boardDisplay(thickness, clearDisplay);
   }
-  if (myDomainController.myIsImageDomainRestrained){
+  if (myDomainController().myIsImageDomainRestrained){
     myBoard.drawDot(0, 0);
-    myBoard.drawDot(myDomainController.upperBound()[0],
-                    myDomainController.upperBound()[1]);
+    myBoard.drawDot(myDomainController().upperBound()[0],
+                    myDomainController().upperBound()[1]);
 
   }
   std::string ext = fileName.substr(fileName.find_last_of(".") + 1);
@@ -640,7 +640,7 @@ template< typename DomCtr, int TDim >
 std::pair<typename CoronaryArteryTree<DomCtr, TDim>::TPointD, bool>
 CoronaryArteryTree<DomCtr, TDim>::generateALocation(double myDThresold) {
     TPointD res;
-    res = myDomainController.randomPoint();
+    res = myDomainController().randomPoint();
     bool isComp = true;
     bool isComp2 = true;
     unsigned int id = 1;
@@ -918,15 +918,15 @@ CoronaryArteryTree<DomCtr, TDim>::selfDisplay( std::ostream & out ) const {
 }
 template< typename DomCtr, int TDim >
 typename CoronaryArteryTree<DomCtr, TDim>::TPoint CoronaryArteryTree<DomCtr,TDim>::getDomainCenter() const {
-  if (!myDomainController.myIsImageDomainRestrained){
+  if (!myDomainController().myIsImageDomainRestrained){
     return TPoint::diagonal(0);
   }
   else {
     // searching the farthest point of the border domain
     double maxDistance = 0;
     TPoint ptMax = TPoint::diagonal(0);
-    for (auto p: myDomainController.myImage.domain()){
-      if (myDomainController.myDistanceImage(p) >= maxDistance){
+    for (auto p: myDomainController().myImage.domain()){
+      if (myDomainController().myDistanceImage(p) >= maxDistance){
         ptMax = p;
         maxDistance = myImageDist(p);
       }
