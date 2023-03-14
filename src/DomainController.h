@@ -164,7 +164,7 @@ public:
     TPointI myCenter;
     double minDistInitSegment {5.0};
 
-    
+    ImageMaskDomainCtrl(const ImageMaskDomainCtrl& ct) = delete;
 public:
     Image myImage {Image(DomCT())} ;
     ImageD myDistanceImage {ImageD(DomCT())};

@@ -225,7 +225,8 @@ CoronaryArteryTree<DomCtr, TDim>::isAddable(const TPointD &p, unsigned int segIn
   double r0 = sCurrent.myRadius, r1 = sCurrent.myRadius, r2 = sCurrent.myRadius;
   bool res1 = true, res2 = false, res3 = true, res4 = false, isDone = false;
   double vol = -1, volCurr = -1, diffVol = -1;
-  CoronaryArteryTree cTreeCurr = *this;
+  TreeState cTreeCurr = state();
+  //CoronaryArteryTree cTreeCurr = *this;
   if (verbose)
   {
     DGtal::trace.info() <<"---------- segIndex: "<<segIndex<<std::endl;
@@ -253,7 +254,7 @@ CoronaryArteryTree<DomCtr, TDim>::isAddable(const TPointD &p, unsigned int segIn
     }
    
     
-    //resulting segments intersect the domaine
+    //resulting segments intersect the domain
     if( !myDomainController.checkNoIntersectDomain(pParentDom, pOptDom)) //Center segment
       return false;
     if(!myDomainController.checkNoIntersectDomain(sNewLeftDom, pOptDom)) //Left segment
@@ -262,7 +263,9 @@ CoronaryArteryTree<DomCtr, TDim>::isAddable(const TPointD &p, unsigned int segIn
       return false;
     
     //Otherwise, iterate for the optimisation process
-    CoronaryArteryTree cTree1 = *this;
+    TreeState cTree1 = state();
+    // restaureState(cTree1);
+    //CoronaryArteryTree cTree1 = *this;
     //Update optimal values
     sNewLeft.myRadius = r1;
     sNewRight.myRadius = r2;
@@ -300,19 +303,25 @@ CoronaryArteryTree<DomCtr, TDim>::isAddable(const TPointD &p, unsigned int segIn
     // update parameters
     cTree1.iParam.myKTerm++;
     // Update physilogique paramaters
-    cTree1.updateFlow(cTree1.myVectParent[segIndex]);
-    cTree1.updateResistanceFromRoot();
-    cTree1.updateRootRadius();
+    TreeState saveTmp = state();
+    restaureState(cTree1);
+    updateFlow(myVectParent[segIndex]);
+    updateResistanceFromRoot();
+    updateRootRadius();
     
     if(TDim==2) {
       res4 = false;
     }
     else { //TDi==3}
     //Test intersection wrt radius except the childs and the parent and brother
-    res4 = cTree1.hasIntersections(sNewLeft.myIndex) || cTree1.hasIntersections(sNewRight.myIndex) || cTree1.hasIntersections(segIndex); //FIXME: epsilon
+    res4 = hasIntersections(sNewLeft.myIndex) || hasIntersections(sNewRight.myIndex) || hasIntersections(segIndex); //FIXME: epsilon
     }
+
     if(!res4) {
-      vol = cTree1.computeTotalVolume();
+      vol = computeTotalVolume();
+      cTree1 = state();
+      restaureState(saveTmp);
+
       if (verbose){
         DGtal::trace.info() <<"Iter "<<i<<" has tree Volume: "<< vol <<std::endl;
       }
@@ -334,7 +343,8 @@ CoronaryArteryTree<DomCtr, TDim>::isAddable(const TPointD &p, unsigned int segIn
           {
             //std::cout<<"Best volume at "<<i<<std::endl;
             isDone = true;
-            *this = cTree1;
+            restaureState(cTree1);
+//            *this = cTree1;
           }
         }
         else

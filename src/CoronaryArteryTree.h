@@ -86,17 +86,7 @@ public:
     std::vector<unsigned int> myVectTerminals;
     
     
-    
-    // to recover the Children left (first) and right (second) on an indexed segment.
-    std::vector< SegmentChildren >  rec_myVectChildren;
-    // to recover the parent of an indexed segement
-    std::vector<unsigned int >  rec_myVectParent;
-    // represents all the vertices of the graph
-    std::vector< Segment > rec_myVectSegments;
-    // to store the index of the terminal segments
-    std::vector<unsigned int> rec_myVectTerminals;
-    
-    
+      
     //-----------------------------
     // Global biological parameters
     struct BioAlgoParameter{
@@ -174,8 +164,13 @@ public:
     DGtal::Board2D myBoard;
     
     
+
+
     
 public:
+    
+    CoronaryArteryTree(const CoronaryArteryTree& ct) = delete;
+
     
     // Constructor do nothing mainly used for specific test
     CoronaryArteryTree(){}
@@ -337,7 +332,7 @@ public:
     void updateRadius(unsigned int segIndex, double beta);
     
     /**
-     * Updates the root radius after updating flow parameters (as given in Eq. 18)
+     * Updates the root radius after updating flow parameters TreeState in Eq. 18)
      */
     void updateRootRadius();
     
