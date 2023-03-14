@@ -67,7 +67,8 @@ testCompareResult(int NTerm, int seed)
   //CoronaryArteryTree cTree (pRoot, aPerf, nbTerm, rRoot);
   std::string filename;
   DGtal::Z2i::RealPoint pTerm = vecSeed[0].first;
-  TTreeCircDom cTree (pCenter, pRoot, pTerm, nbTerm, rRoot);
+    ImplicitContrl ic;
+  TTreeCircDom cTree (pCenter, pRoot, pTerm, nbTerm, ic, rRoot);
   
   std::cout<<"Vol : "<<cTree.computeTotalVolume(1)<<std::endl;
   
