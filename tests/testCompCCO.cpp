@@ -9,6 +9,7 @@
 
 #include "CoronaryArteryTree.h"
 #include "GeomHelpers.h"
+#include "TreeTest.h"
 
 /**
  * @brief reads seed file from results obtained by Clara and Hugues's code
@@ -41,6 +42,10 @@ readSeed(std::string filename) {
 void
 testCompareResult(int NTerm, int seed)
 {
+  typedef CircularDomainCtrl<2> ImplicitContrl;
+  typedef TreeTestCirc TTreeCircDom;
+    typedef  TTreeCircDom::TreeState TState;
+
   DGtal::trace.beginBlock("Testing class CoronaryArteryTree: test adds fixed terminal points from file");
   
   std::string dir = "../Data/Nt" + std::to_string(NTerm) + "_kt10_s" + std::to_string(seed) + "_M301/";
@@ -52,7 +57,7 @@ testCompareResult(int NTerm, int seed)
   
   double radius = 50;
   double aPerf = M_PI*radius*radius;//2000000;
-  int nbTerm = vecSeed.size();//10;
+  int nbTerm = (int) vecSeed.size();//10;
   double rRoot = 1.0;//1.0/nbTerm;
   double r = sqrt(aPerf/(nbTerm*M_PI));
   DGtal::Z2i::RealPoint pRoot(2*radius,2*radius);
@@ -62,36 +67,39 @@ testCompareResult(int NTerm, int seed)
   //CoronaryArteryTree cTree (pRoot, aPerf, nbTerm, rRoot);
   std::string filename;
   DGtal::Z2i::RealPoint pTerm = vecSeed[0].first;
-  CoronaryArteryTree cTree (pCenter, pRoot, pTerm, nbTerm, rRoot);
+  TTreeCircDom cTree (pCenter, pRoot, pTerm, nbTerm, rRoot);
   
   std::cout<<"Vol : "<<cTree.computeTotalVolume(1)<<std::endl;
   
   bool isOK = false;
-  unsigned int nbSeed = cTree.my_NTerm;
+  unsigned int nbSeed = cTree.bParam.my_NTerm;
   for (unsigned int i = 1; i < nbSeed; i++) {
     DGtal::trace.progressBar(i, nbSeed);
-    int nbSol = 0, itOpt = 0;
-    CoronaryArteryTree cTreeOpt = cTree;
+      size_t nbSol = 0, itOpt = 0;
+      TState stateOpt = cTree.state();
+      TState stateBase = cTree.state();
+   
     double volOpt = -1.0, vol = cTree.computeTotalVolume();
     std::cout<<"Vol in ("<<i<<"): "<< vol <<std::endl;
     while (nbSol==0) {
-      CoronaryArteryTree::Point2D pt = vecSeed[i].first; //cTree.generateNewLocation(100);
-      std::vector<unsigned int> vecN = cTree.getN_NearestSegments(pt,cTree.myNumNeighbor);
+      auto pt = vecSeed[i].first; //cTree.generateNewLocation(100);
+      std::vector<unsigned int> vecN = cTree.getN_NearestSegments(pt,cTree.iParam.myNumNeighbor);
+
       for(size_t it=0; it<vecN.size(); it++) {
-        if(!cTree.isIntersecting(pt, cTree.findBarycenter(pt, vecN.at(it)),vecN.at(it),cTree.myNumNeighbor, cTree.myVectSegments[vecN.at(it)].myRadius)) {
-          CoronaryArteryTree cTree1 = cTree;
-          isOK = cTree1.isAddable(pt,vecN.at(it), 100, 0.01, cTree1.myNumNeighbor);
+        if(!cTree.isIntersecting(pt, cTree.findBarycenter(pt, vecN.at(it)),vecN.at(it),cTree.iParam.myNumNeighbor, cTree.myVectSegments[vecN.at(it)].myRadius)) {
+            cTree.restaureState(stateBase);
+          isOK = cTree.isAddable(pt,vecN.at(it), 100, 0.01, cTree.iParam.myNumNeighbor);
           if(isOK) {
-            vol = cTree1.computeTotalVolume();
+            vol = cTree.computeTotalVolume();
             if(volOpt<0.0) {
               volOpt = vol;
-              cTreeOpt = cTree1;
+                stateOpt = cTree.state();
               itOpt = it;
             }
             else {
               if(volOpt>vol) {
                 volOpt = vol;
-                cTreeOpt = cTree1;
+                  stateOpt = cTree.state();
                 itOpt = it;
               }
             }
@@ -100,7 +108,7 @@ testCompareResult(int NTerm, int seed)
         }
       }
     }
-    cTree = cTreeOpt;
+    cTree.restaureState(stateOpt);
     cTree.updateLengthFactor();
     cTree.updateResistanceFromRoot();
     cTree.updateRootRadius();
