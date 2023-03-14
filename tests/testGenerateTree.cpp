@@ -41,10 +41,10 @@ int main(int argc, char *const *argv)
   TImgContrl aDomCtr = TImgContrl(nameImgDom, 128, 100);
   
   // 3. Tree construction using center
-  TTreeMaskDom tree  (aPerf, nbTerm, 1.0, aDomCtr.myCenter);
+  TTreeMaskDom tree  (aPerf, nbTerm, aDomCtr, 1.0,  aDomCtr.myCenter);
   
   // 4. Set the domain controller to the tree
-  tree.myDomainController = aDomCtr;
+  tree.myDomainController() = aDomCtr;
 
   // 5. Tree construction
   ExpandTreeHelpers::initFirtElemTree(tree, true);
@@ -64,17 +64,16 @@ int main(int argc, char *const *argv)
   typedef CircularDomainCtrl<2> ImplicitContrl;
   typedef CoronaryArteryTree<ImplicitContrl, 2> TTreeCircDom;
 
+   // Domain controller construction
+   TImgContrl::TPoint pCenter (0,0);
+   ImplicitContrl aDomCtrImp(1.0, pCenter);
+
   // 2. Tree construction using center
-  TImgContrl::TPoint pCenter (0,0);
-  TTreeCircDom treeImpl (aPerf, nbTerm, 1.0, pCenter);
+  ImplicitContrl ic;
+  TTreeCircDom treeImpl (aPerf, nbTerm, ic, 1.0,  pCenter);
 
     
-  // 3. Domain controller construction
-  ImplicitContrl aDomCtrImp(treeImpl.bParam.my_rPerf, pCenter);
   
- 
-  // 4. Set the domain controller to the tree
-  treeImpl.myDomainController = aDomCtrImp;
 
   ExpandTreeHelpers::initFirtElemTree(treeImpl, true);
   ExpandTreeHelpers::expandTree(treeImpl, true);
