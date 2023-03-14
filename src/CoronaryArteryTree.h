@@ -10,6 +10,7 @@
 /** Prevents repeated inclusion of headers. */
 #define CORONARY_ARTERY_TREE_h
 
+#include <type_traits>
 
 
 #include <iostream>
@@ -195,6 +196,7 @@ public:
                        double aRadius = 1.0,
                        TPointD treeCenter = TPointD::diagonal(0) ): myDomainController_(aDomCtr) {
         assert(nTerm>=1);
+        
         for (auto i=0; i < TDim; i++){iParam.myTreeCenter[i]=treeCenter[i];}
         if(TDim==2) {
             iParam.myRsupp = sqrt(aPerf/(nTerm*M_PI));
@@ -241,6 +243,12 @@ public:
         myVectParent.push_back(0); //if parent index is the root
         myVectChildren.push_back(std::pair<unsigned int, unsigned int>(0,0)); // if children index is itself, it is an end segment.
         updateRootRadius();
+        
+        // special case for implicit domain:
+        if (std::is_same<DomCtr, CircularDomainCtrl<TDim>>::value)
+        {
+            aDomCtr.myRadius = bParam.my_rPerf;
+        }
         DGtal::trace.info() << "Construction initialized..." << std::endl;
     };
     

@@ -209,10 +209,8 @@ int main(int argc, char **argv)
     typedef CircularDomainCtrl<3> SphereDomCtrl;
     typedef  CoronaryArteryTree<SphereDomCtrl, 3> TTree;
     SphereDomCtrl::TPoint pCenter (0,0,0);
-    SphereDomCtrl aCtr(1.0,pCenter);
-    TTree tree  (aPerf, nbTerm,aCtr,  1.0, pCenter);
-
-      //tree.myDomainController = aCtr;
+    SphereDomCtrl aCtr(1.0 ,pCenter);
+    TTree tree  (aPerf, nbTerm, aCtr,  1.0, pCenter);
 
     constructTreeImplicitDomain(tree, verbose);
     XMLHelpers::writeTreeToXml(tree, "tree_3D.xml");

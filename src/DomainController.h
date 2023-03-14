@@ -162,6 +162,11 @@ public:
     // Fixme to be removed since no need when finalized
     bool myIsImageDomainRestrained = false;
     TPointI myCenter;
+    
+    // Fixme: not really used but needed for compillation of other domain
+    // it is used for implicit limit (perhaps is can be also used to store the distance of search the first solution
+    double myRadius {1.0};
+
     double minDistInitSegment {5.0};
 
     
