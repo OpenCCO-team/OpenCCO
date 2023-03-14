@@ -192,7 +192,7 @@ int main(int argc, char **argv)
       {
           aDomCtr = TImgContrl(nameImgDom, 128, 100);
       }
-    TTree tree  (aPerf, nbTerm,aDomCtr, 1.0, aDomCtr.myCenter);
+    TTree tree  (aPerf, nbTerm,aDomCtr, 1.0);
     //tree.myDomainController() = aDomCtr;
     constructTreeMaskDomain(tree, verbose);
     
@@ -210,7 +210,7 @@ int main(int argc, char **argv)
     typedef  CoronaryArteryTree<SphereDomCtrl, 3> TTree;
     SphereDomCtrl::TPoint pCenter (0,0,0);
     SphereDomCtrl aCtr(1.0 ,pCenter);
-    TTree tree  (aPerf, nbTerm, aCtr,  1.0, pCenter);
+    TTree tree  (aPerf, nbTerm, aCtr,  1.0);
 
     constructTreeImplicitDomain(tree, verbose);
     XMLHelpers::writeTreeToXml(tree, "tree_3D.xml");

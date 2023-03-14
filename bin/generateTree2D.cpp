@@ -95,7 +95,7 @@ int main(int argc, char *const *argv)
             aDomCtr = TImgContrl(nameImgDom, 128, 100);
         }
         
-        TTree tree  (aPerf, nbTerm, aDomCtr,  1.0, aDomCtr.myCenter);
+        TTree tree  (aPerf, nbTerm, aDomCtr,  1.0);
         constructTreeMaskDomain(tree, verbose);
         XMLHelpers::writeTreeToXml(tree, "tree_2D.xml");
         if (exportXMLName != "") XMLHelpers::writeTreeToXml(tree, exportXMLName.c_str());
@@ -115,7 +115,7 @@ int main(int argc, char *const *argv)
         typedef  CoronaryArteryTree<DiskDomCtrl, 2> TTree;
         DiskDomCtrl::TPoint pCenter (0,0);
         DiskDomCtrl aCtr(1.0,pCenter);
-        TTree tree  (aPerf, nbTerm, aCtr, 1.0, pCenter);
+        TTree tree  (aPerf, nbTerm, aCtr, 1.0);
         constructTreeImplicitDomain(tree, verbose);
         XMLHelpers::writeTreeToXml(tree, "tree_2D.xml");
         if (exportXMLName != "") XMLHelpers::writeTreeToXml(tree,

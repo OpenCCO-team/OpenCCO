@@ -193,11 +193,10 @@ public:
      **/
     
     CoronaryArteryTree(double aPerf, unsigned int nTerm,  DomCtr &aDomCtr,
-                       double aRadius = 1.0,
-                       TPointD treeCenter = TPointD::diagonal(0) ): myDomainController_(aDomCtr) {
+                       double aRadius = 1.0): myDomainController_(aDomCtr) {
         assert(nTerm>=1);
         
-        for (auto i=0; i < TDim; i++){iParam.myTreeCenter[i]=treeCenter[i];}
+        for (auto i=0; i < TDim; i++){iParam.myTreeCenter[i]=aDomCtr.myCenter[i];}
         if(TDim==2) {
             iParam.myRsupp = sqrt(aPerf/(nTerm*M_PI));
             bParam.my_rPerf = sqrt(aPerf/M_PI);
