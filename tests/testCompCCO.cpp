@@ -44,7 +44,6 @@ testCompareResult(int NTerm, int seed)
 {
   typedef CircularDomainCtrl<2> ImplicitContrl;
   typedef TreeTestCirc TTreeCircDom;
-    typedef  TTreeCircDom::TreeState TState;
 
   DGtal::trace.beginBlock("Testing class CoronaryArteryTree: test adds fixed terminal points from file");
   
@@ -72,50 +71,52 @@ testCompareResult(int NTerm, int seed)
   
   std::cout<<"Vol : "<<cTree.computeTotalVolume(1)<<std::endl;
   
-  bool isOK = false;
-  unsigned int nbSeed = cTree.bParam.my_NTerm;
-  for (unsigned int i = 1; i < nbSeed; i++) {
-    DGtal::trace.progressBar(i, nbSeed);
-      size_t nbSol = 0, itOpt = 0;
-      TState stateOpt = cTree.state();
-      TState stateBase = cTree.state();
-   
-    double volOpt = -1.0, vol = cTree.computeTotalVolume();
-    std::cout<<"Vol in ("<<i<<"): "<< vol <<std::endl;
-    while (nbSol==0) {
-      auto pt = vecSeed[i].first; //cTree.generateNewLocation(100);
-      std::vector<unsigned int> vecN = cTree.getN_NearestSegments(pt,cTree.iParam.myNumNeighbor);
+    srand ((unsigned int) time(NULL));
+        
+        bool isOK = false;
+         unsigned int nbSeed = cTree.my_NTerm;
+         for (unsigned int i = 1; i < nbSeed; i++) {
+           DGtal::trace.progressBar(i, nbSeed);
+           size_t nbSol = 0, itOpt = 0;
+             TTreeCircDom cTreeOpt = cTree;
+           double volOpt = -1.0, vol = 0.0;
+           while (nbSol==0) {
+             auto pt = cTree.generateNewLocation(100);
+             std::vector<unsigned int> vecN = cTree.getN_NearestSegments(pt,cTree.myNumNeighbor);
+             for(size_t it=0; it<vecN.size(); it++) {
+               if(!cTree.isIntersecting(pt, cTree.findBarycenter(pt, vecN.at(it)),vecN.at(it),cTree.myNumNeighbor, 2*cTree.myVectSegments[vecN.at(it)].myRadius)) {
+                   TTreeCircDom cTree1 = cTree;
+                 isOK = cTree1.isAddable(pt,vecN.at(it), 100, 0.01, cTree1.myNumNeighbor, true);
+                 if(isOK) {
+                   vol = cTree1.computeTotalVolume(1);
+                   if(volOpt<0.0) {
+                     volOpt = vol;
+                     cTreeOpt = cTree1;
+                     itOpt = it;
+                   }
+                   else {
+                     if(volOpt>vol) {
+                       volOpt = vol;
+                       cTreeOpt = cTree1;
+                       itOpt = it;
+                     }
+                   }
+                   nbSol++;
+                 }
+               }
+             }
+           }
+             cTree = cTreeOpt;
+             cTree.updateLengthFactor();
+             cTree.updateResistanceFromRoot();
+             cTree.updateRootRadius();
+             std::cout<<"Vol out ("<<i<<"): "<< vol <<std::endl;
 
-      for(size_t it=0; it<vecN.size(); it++) {
-        if(!cTree.isIntersecting(pt, cTree.findBarycenter(pt, vecN.at(it)),vecN.at(it),cTree.iParam.myNumNeighbor, cTree.myVectSegments[vecN.at(it)].myRadius)) {
-            cTree.restaureState(stateBase);
-          isOK = cTree.isAddable(pt,vecN.at(it), 100, 0.01, cTree.iParam.myNumNeighbor);
-          if(isOK) {
-            vol = cTree.computeTotalVolume();
-            if(volOpt<0.0) {
-              volOpt = vol;
-                stateOpt = cTree.state();
-              itOpt = it;
-            }
-            else {
-              if(volOpt>vol) {
-                volOpt = vol;
-                  stateOpt = cTree.state();
-                itOpt = it;
-              }
-            }
-            nbSol++;
-          }
-        }
-      }
-    }
-    cTree.restaureState(stateOpt);
-    cTree.updateLengthFactor();
-    cTree.updateResistanceFromRoot();
-    cTree.updateRootRadius();
-    vol = cTree.computeTotalVolume();
-    std::cout<<"Vol out ("<<i<<"): "<< vol <<std::endl;
-  }
+         }
+         
+    
+    
+  
   //std::cout<<"====> Aperf="<<cTree.myRsupp*cTree.myRsupp*cTree.my_NTerm*M_PI<<" == "<<aPerf<<std::endl;
 
   //Draw CCO result

@@ -96,10 +96,10 @@ void writeTreeToXml(const TTree &tree, const char * filePath) {
     output<<"<gxl><graph id=\""<<filePath<<"\" edgeids=\" true\" edgemode=\" directed\" hypergraph=\" false\">"<<endl;
     output<<"<info_graph>"<< endl;
     output<<"    <attr name=\" pPerf\">"<<endl;
-    output<<"      <float>"<<tree.bParam.my_pPerf<<"</float>"<<endl;
+    output<<"      <float>"<<tree.my_pPerf<<"</float>"<<endl;
     output<<"    </attr>"<<endl;
     output<<"    <attr name=\" pTerm\">"<<endl;
-    output<<"      <float>"<<tree.bParam.my_pTerm<<"</float>"<<endl;
+    output<<"      <float>"<<tree.my_pTerm<<"</float>"<<endl;
     output<<"    </attr>"<<endl;
     output<<"</info_graph>"<< endl;
     

@@ -29,7 +29,7 @@ void
 initFirtElemTree(CoronaryArteryTree< DomCtr, TDim > &aTree,
                  bool verbose = false){
     for(unsigned int i = 0; i < TDim; i++){
-        aTree.iParam.myTreeCenter[i] = static_cast<int>(aTree.myDomainController().myCenter[i]);
+        aTree.myTreeCenter[i] = static_cast<int>(aTree.myDomainController().myCenter[i]);
     }
     
     auto p = aTree.myDomainController().firtCandidatePoint();
@@ -42,10 +42,9 @@ inline
 void
 expandTree(CoronaryArteryTree< DomCtr, TDim > &aTree, bool verbose = false)
 {
-    typedef typename CoronaryArteryTree< DomCtr, TDim >::TreeState TState;
     srand ((unsigned int) time(NULL));
     bool isOK = false;
-       unsigned int nbSeed = aTree.bParam.my_NTerm;
+       unsigned int nbSeed = aTree.my_NTerm;
        for (unsigned int i = 1; i < nbSeed; i++) {
          DGtal::trace.progressBar(i, nbSeed);
          size_t nbSol = 0, itOpt = 0;
@@ -53,11 +52,11 @@ expandTree(CoronaryArteryTree< DomCtr, TDim > &aTree, bool verbose = false)
          double volOpt = -1.0, vol = 0.0;
          while (nbSol==0) {
            auto pt = aTree.generateNewLocation(100);
-           std::vector<unsigned int> vecN = aTree.getN_NearestSegments(pt,aTree.iParam.myNumNeighbor);
+           std::vector<unsigned int> vecN = aTree.getN_NearestSegments(pt,aTree.myNumNeighbor);
            for(size_t it=0; it<vecN.size(); it++) {
-             if(!aTree.isIntersecting(pt, aTree.findBarycenter(pt, vecN.at(it)),vecN.at(it),aTree.iParam.myNumNeighbor, 2*aTree.myVectSegments[vecN.at(it)].myRadius)) {
+             if(!aTree.isIntersecting(pt, aTree.findBarycenter(pt, vecN.at(it)),vecN.at(it),aTree.myNumNeighbor, 2*aTree.myVectSegments[vecN.at(it)].myRadius)) {
                CoronaryArteryTree< DomCtr, TDim  > cTree1 = aTree;
-               isOK = cTree1.isAddable(pt,vecN.at(it), 100, 0.01, cTree1.iParam.myNumNeighbor, verbose);
+               isOK = cTree1.isAddable(pt,vecN.at(it), 100, 0.01, cTree1.myNumNeighbor, verbose);
                if(isOK) {
                  vol = cTree1.computeTotalVolume(1);
                  if(volOpt<0.0) {
@@ -83,7 +82,7 @@ expandTree(CoronaryArteryTree< DomCtr, TDim > &aTree, bool verbose = false)
            aTree.updateRootRadius();
        }
        if (verbose){
-         std::cout<<"====> Aperf="<<aTree.iParam.myRsupp*aTree.iParam.myRsupp*aTree.bParam.my_NTerm*M_PI<<" == "<<aTree.bParam.my_aPerf<<std::endl;
+         std::cout<<"====> Aperf="<<aTree.myRsupp*aTree.myRsupp*aTree.my_NTerm*M_PI<<" == "<<aTree.my_aPerf<<std::endl;
        }
     }
 

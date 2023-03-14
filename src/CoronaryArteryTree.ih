@@ -15,32 +15,6 @@
 
 #include <math.h>
 
-template< class DomCtr, int TDim>
-inline
-typename CoronaryArteryTree<DomCtr, TDim>::TreeState
-CoronaryArteryTree<DomCtr, TDim>::state(){
-    TreeState state;
-    state.bParam = bParam;
-    state.iParam = iParam;
-    state.myVectTerminals = myVectTerminals;
-    state.myVectSegments = myVectSegments;
-    state.myVectParent = myVectParent;
-    state.myVectChildren = myVectChildren;
-    return state;
-}
-
-template< class DomCtr, int TDim>
-inline
-void
-CoronaryArteryTree<DomCtr, TDim>::restaureState(const CoronaryArteryTree<DomCtr, TDim>::TreeState &aState){
-    bParam = aState.bParam ;
-    iParam = aState.iParam ;
-    myVectTerminals = aState.myVectTerminals;
-    myVectSegments = aState.myVectSegments;
-    myVectParent = aState.myVectParent;
-    myVectChildren = aState.myVectChildren;
-}
-
 
 template< class DomCtr, int TDim>
 inline
@@ -49,7 +23,7 @@ CoronaryArteryTree<DomCtr, TDim>::updateResistanceFromRoot(unsigned int segIndex
   if(segIndex != 0) {
     //Update HydroResistance
     double l = getLengthSegment(segIndex);
-    myVectSegments[segIndex].myResistance = 8.0*bParam.my_mu*l/M_PI;
+    myVectSegments[segIndex].myResistance = 8.0*my_mu*l/M_PI;
     if(myVectChildren[segIndex].first==0 && myVectChildren[segIndex].second==0)
       return myVectSegments[segIndex];
     
@@ -68,8 +42,8 @@ CoronaryArteryTree<DomCtr, TDim>::updateResistanceFromRoot(unsigned int segIndex
     //ratio of radii of two brother segments
     double ratioR = pow((segFlow*segHydro) / (brotherFlow*brotherHydro), 0.25);
     //ratio of radii of current segment wrt the parent segment
-    myVectSegments[segIndexLeft].myBeta = pow(1.0/(1+pow(ratioR,-bParam.my_gamma)),1.0/bParam.my_gamma);
-    myVectSegments[segIndexRight].myBeta = pow(1.0/(1+pow(1.0/ratioR,-bParam.my_gamma)),1.0/bParam.my_gamma);
+    myVectSegments[segIndexLeft].myBeta = pow(1.0/(1+pow(ratioR,-my_gamma)),1.0/my_gamma);
+    myVectSegments[segIndexRight].myBeta = pow(1.0/(1+pow(1.0/ratioR,-my_gamma)),1.0/my_gamma);
     //Compute resistance of parent segment
     double r1 = myVectSegments[segIndexLeft].myBeta;
     double r2 = myVectSegments[segIndexRight].myBeta;
@@ -85,7 +59,7 @@ CoronaryArteryTree<DomCtr, TDim>::updateFlow(unsigned int segIndex)
   Segment sC = myVectSegments[segIndex];
   while (sC.myIndex != 0){
     myVectSegments[sC.myIndex].myKTerm ++;
-    myVectSegments[sC.myIndex].myFlow = myVectSegments[sC.myIndex].myKTerm*bParam.my_qTerm;
+    myVectSegments[sC.myIndex].myFlow = myVectSegments[sC.myIndex].myKTerm*my_qTerm;
     sC = myVectSegments[myVectParent[sC.myIndex]];
   }
 }
@@ -94,8 +68,8 @@ template< class DomCtr, int TDim >
 void
 CoronaryArteryTree<DomCtr, TDim>::updateLengthFactor()
 {
-  double r_pk = sqrt(iParam.myKTerm + 1)*iParam.myRsupp;
-    iParam.myLengthFactor =  r_pk / bParam.my_rPerf;
+  double r_pk = sqrt(myKTerm + 1)*myRsupp;
+    myLengthFactor =  r_pk / my_rPerf;
 }
 
 
@@ -121,8 +95,8 @@ void
 CoronaryArteryTree<DomCtr, TDim>::updateRootRadius()
 {
   unsigned int idRoot = 1;
-  double Qpk = myVectSegments[idRoot].myKTerm*bParam.my_qTerm;
-  double rRoot = pow((myVectSegments[idRoot].myResistance*Qpk)/bParam.my_pDrop,0.25);
+  double Qpk = myVectSegments[idRoot].myKTerm*my_qTerm;
+  double rRoot = pow((myVectSegments[idRoot].myResistance*Qpk)/my_pDrop,0.25);
   myVectSegments[idRoot].myRadius = rRoot;
   updateRadius(idRoot, 1.0);
 }
@@ -135,7 +109,7 @@ CoronaryArteryTree<DomCtr, TDim>::getLengthSegment(unsigned int segIndex)
   if(segIndex==0) return 0; //there is no parent segment
   TPointD p1 = myVectSegments[segIndex].myCoordinate;
   TPointD p2 = myVectSegments[myVectParent[segIndex]].myCoordinate;
-  return (p1-p2).norm()*iParam.myLengthFactor;
+  return (p1-p2).norm()*myLengthFactor;
 }
 
 template< class DomCtr, int TDim >
@@ -212,12 +186,12 @@ CoronaryArteryTree<DomCtr, TDim>::isAddable(const TPointD &p, unsigned int segIn
   sNewRight.myCoordinate = p;
   sNewRight.myIndex = (unsigned int) myVectSegments.size()+1;
   sNewRight.myRadius = myVectSegments[segIndex].myRadius;
-  sNewRight.myFlow = bParam.my_qTerm;
+  sNewRight.myFlow = my_qTerm;
   sNewRight.myKTerm = 1;
   // Cretation a copy of center segment
   Segment sCurrent = myVectSegments[segIndex];
   sCurrent.myCoordinate = newCenter;
-  sCurrent.myFlow = myVectSegments[segIndex].myFlow + bParam.my_qTerm;
+  sCurrent.myFlow = myVectSegments[segIndex].myFlow + my_qTerm;
   sCurrent.myKTerm = sNewLeft.myKTerm + 1;
   
   //center of the current segment
@@ -298,7 +272,7 @@ CoronaryArteryTree<DomCtr, TDim>::isAddable(const TPointD &p, unsigned int segIn
     cTree1.myVectChildren[segIndex].second = sNewRight.myIndex;
     
     // update parameters
-    cTree1.iParam.myKTerm++;
+    cTree1.myKTerm++;
     // Update physilogique paramaters
     cTree1.updateFlow(cTree1.myVectParent[segIndex]);
     cTree1.updateResistanceFromRoot();
@@ -325,9 +299,9 @@ CoronaryArteryTree<DomCtr, TDim>::isAddable(const TPointD &p, unsigned int segIn
         if(fabs(diffVol) < tolerance)
         {
           // Verify the degenerate case of the resulting segment
-          double l0 = (pOpt - pParent).norm()*iParam.myLengthFactor;
-          double l1 = (pOpt - sNewLeft.myCoordinate).norm()*iParam.myLengthFactor;
-          double l2 = (pOpt - sNewRight.myCoordinate).norm()*iParam.myLengthFactor;
+          double l0 = (pOpt - pParent).norm()*myLengthFactor;
+          double l1 = (pOpt - sNewLeft.myCoordinate).norm()*myLengthFactor;
+          double l2 = (pOpt - sNewRight.myCoordinate).norm()*myLengthFactor;
           res3 = (2*r0<=l0) && (2*r1<=l1) && (2*r2<=l2);
           // If there is a solution, then save the result
           if(res3)
@@ -482,7 +456,7 @@ CoronaryArteryTree<DomCtr, TDim>::boardDisplay(double thickness, bool clearDispl
   if (!myDomainController().myIsImageDomainRestrained){
     myBoard.setPenColor(DGtal::Color::Blue);
     myBoard.setLineWidth(myVectSegments[0].myRadius*scaleBoard*thickness);
-    myBoard.drawCircle(iParam.myTreeCenter[0], iParam.myTreeCenter[1], bParam.my_rPerf, 1);
+    myBoard.drawCircle(myTreeCenter[0], myTreeCenter[1], my_rPerf, 1);
   }
   
   // draw root: (first segment is special reduced to one point and no parent).
@@ -493,7 +467,7 @@ CoronaryArteryTree<DomCtr, TDim>::boardDisplay(double thickness, bool clearDispl
   
   myBoard.setPenColor(DGtal::Color(100, 100, 0, 180));
   myBoard.setLineWidth(1.0);
-  myBoard.fillCircle(iParam.myTreeCenter[0], iParam.myTreeCenter[1], 2.0*myVectSegments[1].myRadius*scaleBoard*thickness, 1);
+  myBoard.fillCircle(myTreeCenter[0], myTreeCenter[1], 2.0*myVectSegments[1].myRadius*scaleBoard*thickness, 1);
   
   
   TPointD p1 = myVectSegments[1].myCoordinate;
@@ -854,11 +828,11 @@ CoronaryArteryTree<DomCtr, TDim>::kamyiaOptimization(const TPointD& pCurrent,
   for (auto i=0; i < TDim; i++){pb[i] = pCurrent[i];}
   
   //std::cout<<"Init:"<<pb<<std::endl;
-  double l0 = (pParent - pb).norm()*iParam.myLengthFactor;
-  double l1 = (pL - pb).norm()*iParam.myLengthFactor;
-  double l2 = (pR - pb).norm()*iParam.myLengthFactor;
+  double l0 = (pParent - pb).norm()*myLengthFactor;
+  double l1 = (pL - pb).norm()*myLengthFactor;
+  double l2 = (pR - pb).norm()*myLengthFactor;
   //std::cout<<"l0="<<l0<<", l1="<<l1<<", l2="<<l2<<std::endl;
-  double kappa = 8 * bParam.my_mu / M_PI;
+  double kappa = 8 * my_mu / M_PI;
   double deltaP1k = kappa*((f0*l0)/(R0*R0)+(f1*l1)/(R1*R1));
   double deltaP2k = kappa*((f0*l0)/(R0*R0)+(f2*l2)/(R2*R2));
   double deltaP1 = (f0*l0)/(R0*R0)+(f1*l1)/(R1*R1);
@@ -874,9 +848,9 @@ CoronaryArteryTree<DomCtr, TDim>::kamyiaOptimization(const TPointD& pCurrent,
   
   for (int i = 0; i<nbIter && hasSolution; i++) {
     //DGtal::trace.progressBar(i, nbIter);
-    hasSolution = GeomHelpers::kamyiaOpt(bParam.my_gamma, deltaP1, deltaP2, f0, f1, f2, l0, l1, l2,rr1, rr2);
+    hasSolution = GeomHelpers::kamyiaOpt(my_gamma, deltaP1, deltaP2, f0, f1, f2, l0, l1, l2,rr1, rr2);
     // Equation 27
-    R0 = pow(f0*(pow(rr1, bParam.my_gamma)/f1 + pow(rr2, bParam.my_gamma)/f2), 1.0/bParam.my_gamma);
+    R0 = pow(f0*(pow(rr1, my_gamma)/f1 + pow(rr2, my_gamma)/f2), 1.0/my_gamma);
     R1 = rr1;
     R2 = rr2;
     // Equation (26) page 13
@@ -889,9 +863,9 @@ CoronaryArteryTree<DomCtr, TDim>::kamyiaOptimization(const TPointD& pCurrent,
     //Update values
     deltaP1 = (f0*l0)/(R0*R0)+(f1*l1)/(R1*R1);
     deltaP2 = (f0*l0)/(R0*R0)+(f2*l2)/(R2*R2);
-    l0 = (pParent - pb).norm()*iParam.myLengthFactor;
-    l1 = (pL - pb).norm()*iParam.myLengthFactor;
-    l2 = (pR - pb).norm()*iParam.myLengthFactor;
+    l0 = (pParent - pb).norm()*myLengthFactor;
+    l1 = (pL - pb).norm()*myLengthFactor;
+    l2 = (pR - pb).norm()*myLengthFactor;
     //std::cout << "r0 : " << sqrt(R0) << ", r1 : " << sqrt(R1) << ", sqrt(R2) : " << sqrt(R2) << "\n";
     //std::cout << "R0 : " << R0 << ", R1 : " << R1 << ", R2 : " << R2 << "\n";
     //std::cout << "pbNew[0]  : " << pb[0] << " and pbNew[1] " << pb[1] << "\n";
@@ -912,7 +886,7 @@ void
 CoronaryArteryTree<DomCtr, TDim>::selfDisplay( std::ostream & out ) const {
   out << std::endl << "----" << std::endl;
   out << "CoronaryArteryTree: " << std::endl;
-  out << "main parameters: myKTerm: "  << iParam.myKTerm << "\n\t myRsupp: " <<iParam.myRsupp << std::endl;
+  out << "main parameters: myKTerm: "  << myKTerm << "\n\t myRsupp: " <<myRsupp << std::endl;
   out << "\n\t Nb Segments from container: " << myVectSegments.size() << std::endl;
   out << "----" << std::endl;
 }
@@ -965,7 +939,7 @@ double
 CoronaryArteryTree<DomCtr, TDim>::getDistanceThreshold2d()
 {
     // Check with python code, here is the equation after simplification
-    return sqrt((M_PI*bParam.my_rPerf*bParam.my_rPerf)/iParam.myKTerm);
+    return sqrt((M_PI*my_rPerf*my_rPerf)/myKTerm);
     //Scale factor must be taken into account here
     //return sqrt((M_PI*(myKTerm + 1)*myRsupp*myRsupp)/myKTerm) / myLengthFactor;
 }
@@ -991,7 +965,7 @@ template< typename DomCtr, int TDim >
 double
 CoronaryArteryTree<DomCtr, TDim>::getDistanceThreshold3d(){
     // Check with python code, here is the equation after simplification
-    return pow(((4.0*M_PI*bParam.my_rPerf*bParam.my_rPerf*bParam.my_rPerf)/(3.0*iParam.myKTerm)),1.0/3.0);
+    return pow(((4.0*M_PI*my_rPerf*my_rPerf*my_rPerf)/(3.0*myKTerm)),1.0/3.0);
     //Scale factor must be taken into account here
     //return sqrt((M_PI*(myKTerm + 1)*myRsupp*myRsupp)/myKTerm) / myLengthFactor;
 }
