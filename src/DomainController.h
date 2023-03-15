@@ -42,6 +42,8 @@ template<int TDim>
 class CircularDomainCtrl {
 public:
     typedef DGtal::PointVector<TDim, double> TPoint;
+    typedef enum {NO_UPDATE, UPDATED} UPDATE_RAD_TYPE ;
+    UPDATE_RAD_TYPE myUpdateType = UPDATED;
     double myRadius {1.0};
     TPoint myCenter;
     
@@ -152,7 +154,9 @@ public:
     typedef typename DGtal::DigitalSetSelector<DomCT,
     DGtal::BIG_DS+
     DGtal::HIGH_BEL_DS>::Type TDGset;
-    
+    typedef enum {NO_UPDATE, UPDATED} UPDATE_RAD_TYPE ;
+    UPDATE_RAD_TYPE myUpdateType = NO_UPDATE;
+
     
     TPoint myDomPtLow, myDomPtUpper;
     int myMaskThreshold {128};

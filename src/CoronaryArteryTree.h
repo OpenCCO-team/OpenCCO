@@ -217,7 +217,7 @@ public:
         updateRootRadius();
         
         // special case for implicit domain:
-        if (std::is_same<DomCtr, CircularDomainCtrl<TDim>>::value)
+        if (aDomCtr.myUpdateType == DomCtr::UPDATED )
         {
             aDomCtr.myRadius = my_rPerf;
         }
