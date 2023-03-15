@@ -93,6 +93,160 @@ projectOnStraightLine(const TPoint & ptA,
 
 
 
+/**
+ * From two segments represented by the end points, it returns their
+ * Euclidean distance
+ * @param segA first point of the first segment.
+ * @param segB second point of the first segment.
+ * @param segC first point of the first segment.
+ * @param segD second point of the first segment.
+ * @return distance between two segments
+ **/
+template<int TDim>
+inline
+double
+segment2segmentDistance(const DGtal::PointVector<TDim, double> &segA, const DGtal::PointVector<TDim, double> &segB,
+                const DGtal::PointVector<TDim, double> &segC, const DGtal::PointVector<TDim, double> &segD)
+{
+  DGtal::PointVector<TDim, double> A, B, C, D;
+  DGtal::PointVector<TDim, double> d1, d2, d12;
+  bool sameAB = true;
+  for (int i = 0; i<TDim; i++) {
+    A[i] = segA[i];
+    B[i] = segB[i];
+    C[i] = segC[i];
+    D[i] = segD[i];
+    
+    d1[i] = segB[i] - segA[i]; //d2[i] : di2
+    if(abs(d1[i])!=0)
+      sameAB = false;
+  }
+  if(sameAB == true) { //switch AB <-> CD
+    A = segC;
+    B = segD;
+    C = segA;
+    D = segB;
+  }
+  
+  double D1 = 0, D2 = 0, R = 0, S1 = 0, S2 = 0, den = 0;
+  bool sAB = true, sCD = true;
+  for (int i = 0; i<TDim; i++) {
+    d1[i] = B[i] - A[i]; //d1[i] : di1
+    d2[i] = D[i] - C[i]; //d2[i] : di2
+    d12[i] = C[i] - A[i]; //d12[i] : di12
+    
+    D1 += d1[i]*d1[i];
+    D2 += d2[i]*d2[i];
+    R += d1[i]*d2[i];
+    S1 += d1[i]*d12[i];
+    S2 += d2[i]*d12[i];
+    
+    if(abs(d1[i])!=0)
+      sAB = false;
+    if(abs(d2[i])!=0)
+      sCD = false;
+  }
+  den = D1*D2 - R*R;
+  
+  double u = 0, t = 0, DD = 0;
+  int step = 0;
+  //Case 1 : degenerate case of A=B but C!=D
+  if(sAB == false && sCD == true) {
+    u = 0;
+    step = 4;
+  }
+  //Case 2 : degenerate case of A=B and C=D
+  else if(sAB == true && sCD == true) {
+    u = 0;
+    t = 0;
+    step = 5;
+  }
+  //Case 3 : degenerate case of A!=B and C!=D and denominator = 0
+  else if(sAB == false && sCD == false && den == 0) {
+    t = 0;
+    step = 3;
+  }
+  //Case 4 : otherwise
+  else {
+    step = 2;
+  }
+  
+  //Process of each case
+  if(step <=2 ) {
+    t = (S1*D2 - S2*R)/den;
+    if(t<0)
+      t = 0;
+    else if(t>1)
+      t = 1;
+  }
+  if(step <=3 ) {
+    u = (t*R - S2)/D2;
+    if(u<0)
+      u = 0;
+    else {
+      if(u>1)
+        u = 1;
+      else
+        step = 5;
+    }
+  }
+  if(step <= 4) {
+    t = (u*R + S1)/D1;
+    if(t<0)
+      t = 0;
+    else if(t>1)
+      t = 1;
+  }
+  if(step <= 5) {
+    double d=0;
+    for(int i=0; i<TDim; i++) {
+      d = (d1[i]*t - d2[i]*u - d12[i]);
+      DD += d*d;
+    }
+  }
+  return sqrt(DD);
+}
+
+template<int TDim>
+inline
+double
+point2segmentDistance(const DGtal::PointVector<TDim, double> &segA, const DGtal::PointVector<TDim, double> &segB,
+                const DGtal::PointVector<TDim, double> &ptP)
+{
+  return segment2segmentDistance<TDim>(segA, segB, ptP, ptP);
+}
+
+/**
+ * From two thick segments represented by their end points and radius,
+ * it indicate if they intersect
+ * @param segA first point of the first segment.
+ * @param segB second point of the first segment.
+ * @param rAB radius of the first segment.
+ * @param segC first point of the first segment.
+ * @param segD second point of the first segment.
+ * @param rCD radius of the second segment.
+ * @return bool indicating if two segments intersect
+ **/
+template<int TDim>
+inline
+bool
+isIntersecting(const DGtal::PointVector<TDim, double> &segA, const DGtal::PointVector<TDim, double> &segB, double rAB,
+                      const DGtal::PointVector<TDim, double> &segC, const DGtal::PointVector<TDim, double> &segD, double rCD)
+{
+  DGtal::PointVector<TDim, double> cAB = (segA + segB)/2.0;
+  DGtal::PointVector<TDim, double> cCD = (segC + segD)/2.0;
+  double lAB = (segA - segB).norm();
+  double lCD = (segC - segD).norm();
+  double dC = (cAB - cCD).norm();
+  bool res = dC > ((lAB + lCD)/2.0 + rAB + rCD);
+  if(res==true)
+    return false;
+  double distanceSeg = segment2segmentDistance<TDim>(segA, segB, segC, segD);
+  if(distanceSeg > (rAB + rCD))
+    return false;
+  return true;
+}
+
 
 
 

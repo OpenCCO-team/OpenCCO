@@ -59,7 +59,10 @@ expandTree(CoronaryArteryTree< DomCtr, TDim > &aTree,
             nbT++;
             std::vector<unsigned int> vecN = aTree.getN_NearestSegments(pt,aTree.myNumNeighbor);
             for(size_t it=0; it<vecN.size(); it++) {
-                if(!aTree.isIntersecting(pt, aTree.findBarycenter(pt, vecN.at(it)),vecN.at(it),aTree.myNumNeighbor, 2*aTree.myVectSegments[vecN.at(it)].myRadius)) {
+                auto ptBifurcation = aTree.findBarycenter(pt, vecN.at(it));
+                     if(!aTree.isIntersectingTree(pt, ptBifurcation,
+                                                  aTree.myVectSegments[vecN.at(it)].myRadius,
+                                                  vecN.at(it))) {
                     CoronaryArteryTree< DomCtr, TDim  > cTree1 = aTree;
                     isOK = cTree1.isAddable(pt,vecN.at(it), 100, 0.01, cTree1.myNumNeighbor, verbose);
                     if(isOK) {

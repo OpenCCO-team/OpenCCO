@@ -441,6 +441,66 @@ CoronaryArteryTree<DomCtr, TDim>::isIntersectingNEW(unsigned int index1, unsigne
   return (d5 < r1+r2);
 }
 
+template<typename DomCtr, int TDim >
+bool
+CoronaryArteryTree<DomCtr, TDim>::isIntersectingTree(const TPointD &ptA, const TPointD &ptB, double r, unsigned int idSeg) const
+{
+  //Get coordinates of points
+  Segment sParent = myVectSegments[myVectParent[idSeg]];
+  Segment sNewLeft = myVectSegments[idSeg];
+  Segment sNewRight;
+  sNewRight.myCoordinate = ptA;
+
+  //Check for middle seg
+  int idSegPar = myVectParent[idSeg];
+  int idL = myVectChildren[idSegPar].first;
+  int idR = myVectChildren[idSegPar].second;
+  bool res2 = isIntersectingTree(ptB, sParent.myCoordinate, r, std::make_tuple(idL, idR, idSegPar));
+  if(res2) //there is intersection betweeen segments
+    return true;
+  
+  //Check for left seg
+  idL = myVectChildren[idSeg].first;
+  idR = myVectChildren[idSeg].second;
+  res2 = isIntersectingTree(ptB, sNewLeft.myCoordinate, r, std::make_tuple(idSeg, idL, idR));
+  if(res2) //there is intersection betweeen segments
+    return true;
+    
+  //Check for right seg
+  res2 = isIntersectingTree(ptB, ptA, r, std::make_tuple(idSeg,-1,-1));
+  if(res2) //there is intersection betweeen segments
+    return true;
+    
+  return false;
+}
+
+
+
+template<class DomCtr, int TDim >
+bool
+CoronaryArteryTree<DomCtr, TDim>::isIntersectingTree(const TPointD &ptA, const TPointD &ptB, double r, std::tuple<int, int, int> idExcept) const
+//int idExcept1, int idExcept2,  int idExcept3) const
+{
+  int idExcept1 = std::get<0>(idExcept);
+  int idExcept2 = std::get<1>(idExcept);
+  int idExcept3 = std::get<2>(idExcept);
+  if(idExcept1==0 || idExcept2==0 || idExcept3==0) //root segment
+    return false;
+  for(auto s : myVectSegments) {
+    //s.myIndex = 0 is the root segment
+    if(s.myIndex !=0 && s.myIndex != idExcept1 && s.myIndex != idExcept2 && s.myIndex != idExcept3) {
+      TPointD ptC = s.myCoordinate;
+      TPointD ptD = myVectSegments[myVectParent[s.myIndex]].myCoordinate;
+      if(GeomHelpers::isIntersecting<TDim>(ptA, ptB, r, ptC, ptD, s.myRadius)) {
+        //std::cout<<"Seg bug :"<<s.myIndex<<" ==> seg expt :"<<idExcept1<<", "<<idExcept2<<", "<<idExcept3<<std::endl;
+        return true;
+      }
+    }
+  }
+  return false;
+}
+
+
 template< class DomCtr, int TDim >
 void
 CoronaryArteryTree<DomCtr, TDim>::boardDisplay(double thickness, bool clearDisplay)
