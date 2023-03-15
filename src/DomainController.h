@@ -45,8 +45,6 @@ public:
     double myRadius {1.0};
     TPoint myCenter;
     
-    // Fixme to be removed since no need when finalized
-    bool myIsImageDomainRestrained = false;
     // Constructor for ImplicitCirc type
     CircularDomainCtrl(){};
     
@@ -159,8 +157,6 @@ public:
     TPoint myDomPtLow, myDomPtUpper;
     int myMaskThreshold {128};
     unsigned int myNbTry {100};
-    // Fixme to be removed since no need when finalized
-    bool myIsImageDomainRestrained = false;
     TPointI myCenter;
     
     // Fixme: not really used but needed for compillation of other domain
@@ -183,7 +179,6 @@ public:
                         int maskThreshold, TPointI ptRoot,
                         unsigned int nbTry=100): myNbTry{nbTry}
     {
-        myIsImageDomainRestrained = true;
         myImage = DGtal::GenericReader<Image>::import(fileImgDomain,myMaskThreshold);
         myDistanceImage = GeomHelpers::getImageDistance<Image,ImageD>(myImage,
                                                                       myMaskThreshold );
@@ -202,7 +197,6 @@ public:
                         int maskThreshold, unsigned int nbTry=100):
                                                     myNbTry{nbTry}
     {
-        myIsImageDomainRestrained = true;
         myImage = DGtal::GenericReader<Image>::import(fileImgDomain,myMaskThreshold);
         myDistanceImage = GeomHelpers::getImageDistance<Image,ImageD>(myImage,
                                                                       myMaskThreshold );
@@ -228,11 +222,11 @@ public:
                 pCand[i] = pMin[i]+(rand()%dp[i]);
             }
             found = myImage(pCand)>=myMaskThreshold &&
-            abs(myDistanceImage(pCand)) >= 10.0;
+            abs(myDistanceImage(pCand)) >= 2.0;
             n++;
         }
         if (n >= myNbTry){
-            for(auto p : myImage.domain()){if (myImage(p)>=myMaskThreshold && abs(myDistanceImage(p)) >= 10.0 ) return p;}
+            for(auto p : myImage.domain()){if (myImage(p)>=myMaskThreshold && abs(myDistanceImage(p)) >= 2.0 ) return p;}
         }
         return pCand;
     }

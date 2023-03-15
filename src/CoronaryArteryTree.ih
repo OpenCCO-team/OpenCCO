@@ -453,7 +453,8 @@ CoronaryArteryTree<DomCtr, TDim>::boardDisplay(double thickness, bool clearDispl
   // 57.5 from myBoard change scale
   double scaleBoard = 57.5*scaleFactorEPS;
   // drawing base circle
-  if (!myDomainController().myIsImageDomainRestrained){
+  if (std::is_same<DomCtr, CircularDomainCtrl<TDim>>::value)
+  {
     myBoard.setPenColor(DGtal::Color::Blue);
     myBoard.setLineWidth(myVectSegments[0].myRadius*scaleBoard*thickness);
     myBoard.drawCircle(myTreeCenter[0], myTreeCenter[1], my_rPerf, 1);
@@ -503,7 +504,8 @@ CoronaryArteryTree<DomCtr, TDim>::boardDisplay(double thickness, bool clearDispl
     myBoard.fillCircle(distal[0], distal[1], myVectSegments[s.myIndex].myRadius*thickness, 1 );
     i++;
   }
-  if (myDomainController().myIsImageDomainRestrained ){
+  if (std::is_same<DomCtr, ImageMaskDomainCtrl<TDim>>::value)
+  {
      auto vectContours = myDomainController().contours();//ExpandTreeHelpers::getImageContours(myDomainController().myImage, myForegroundThreshold);
      for(auto const c: vectContours){
        DGtal::Color col;
@@ -534,7 +536,8 @@ CoronaryArteryTree<DomCtr, TDim>::exportBoardDisplay(const std::string &fileName
   if (updateDisplay){
     boardDisplay(thickness, clearDisplay);
   }
-  if (myDomainController().myIsImageDomainRestrained){
+  if (std::is_same<DomCtr, ImageMaskDomainCtrl<TDim>>::value)
+  {
     myBoard.drawDot(0, 0);
     myBoard.drawDot(myDomainController().upperBound()[0],
                     myDomainController().upperBound()[1]);
