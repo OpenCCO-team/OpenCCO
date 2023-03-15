@@ -178,7 +178,13 @@ int main(int argc, char *const *argv)
 
   
   DGtal::trace.beginBlock("Testing generate circle points.");
-  DGtal::Z2i::DigitalSet vPt =  GeomHelpers::pointsOnCircle(DGtal::Z2i::Point(3,3), 4);
+  typedef DGtal::SpaceND< 2, int >   SpaceCT;
+  typedef DGtal::HyperRectDomain<SpaceCT> DomCT;
+    typedef typename DGtal::DigitalSetSelector<DomCT,
+    DGtal::BIG_DS+
+    DGtal::HIGH_BEL_DS>::Type TDGset;
+    
+  TDGset vPt =  GeomHelpers::pointsOnSphere<DGtal::Z2i::Point, TDGset>(DGtal::Z2i::Point(3,3), 4);
   DGtal::trace.info() << "Nb points :" << vPt.size() <<
   " Should be more than 0 "<< ( vPt.size() > 0 ? " OK": "KO") <<   std::endl;
   DGtal::trace.info() << "Should contain P(7,3) and P(-1,3) :"
