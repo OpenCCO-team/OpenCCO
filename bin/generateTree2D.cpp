@@ -111,7 +111,8 @@ int main(int argc, char *const *argv)
         printf ("Execution time: %0.8f sec\n", ((double) end - start)/CLOCKS_PER_SEC);
         
     }
-    else {
+    else
+    {
         start = clock();
         typedef CircularDomainCtrl<2> DiskDomCtrl;
         typedef  CoronaryArteryTree<DiskDomCtrl, 2> TTree;

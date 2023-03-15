@@ -14,7 +14,8 @@ IPOLDIR=$6
 FIRSTSEG=$7
 X0=$8
 Y0=$9
-Z0=$10
+Z0=${10}
+MINDISTBORDER=${11}
 
 
 function applyCommand
@@ -44,9 +45,9 @@ then
   COMMANDGem2D1="convert ${INPUT} input.pgm"
   if [ $FIRSTSEG -eq 1 ]
      then 
-  COMMANDGem2D2="${EXEC} -n ${NBTERM} -a ${APERF}  -d input.pgm -x graphExport.xml >> algo_info.txt"
+  COMMANDGem2D2="${EXEC} -n ${NBTERM} -a ${APERF}  -d input.pgm -x graphExport.xml -m ${MINDISTBORDER} >> algo_info.txt"
   else
-  COMMANDGem2D2="${EXEC} -n ${NBTERM} -p $X0 $Y0 -a ${APERF}  -d input.pgm -x graphExport.xml >> algo_info.txt" 
+  COMMANDGem2D2="${EXEC} -n ${NBTERM} -p $X0 $Y0 -a ${APERF}  -d input.pgm -x graphExport.xml -m ${MINDISTBORDER} >> algo_info.txt" 
   fi
   set $(identify -format '%w %h' ${INPUT})
   width=$1; height=$2
@@ -80,9 +81,9 @@ else
   echo "----------------------------------------"
 if [ $FIRSTSEG -eq 1 ]
 then   
-    COMMANDGem3Ddom_1="${EXEC3D} -n ${NBTERM} -a ${APERF} -d $INPUT3DDom -o resultVessel.obj -x graphExport.xml"
+    COMMANDGem3Ddom_1="${EXEC3D} -n ${NBTERM} -a ${APERF} -m ${MINDISTBORDER} -d $INPUT3DDom -o resultVessel.obj -x graphExport.xml"
 else
-    COMMANDGem3Ddom_1="${EXEC3D} -n ${NBTERM} -p $X0 $Y0 $Z0 -a ${APERF} -d $INPUT3DDom -o resultVessel.obj -x graphExport.xml"
+    COMMANDGem3Ddom_1="${EXEC3D} -n ${NBTERM} -p $X0 $Y0 $Z0 -a ${APERF} -m ${MINDISTBORDER} -d $INPUT3DDom -o resultVessel.obj -x graphExport.xml"
 fi
 
   COMMANDGem3Ddom_2="volBoundary2obj $INPUT3DDom liver05Domain.obj"
