@@ -18,6 +18,7 @@
 #include "DGtal/kernel/BasicPointPredicates.h"
 #include "DGtal/io/readers/GenericReader.h"
 
+
 /**
  * Classes to control the construction domain of the coronary aretery tree.
  *  It is used during the reconstruction using the following points:
@@ -42,6 +43,8 @@ template<int TDim>
 class CircularDomainCtrl {
 public:
     typedef DGtal::PointVector<TDim, double> TPoint;
+    typedef DGtal::PointVector<TDim, double> TPointD;
+
     typedef enum {NO_UPDATE, UPDATED} UPDATE_RAD_TYPE ;
     UPDATE_RAD_TYPE myUpdateType = UPDATED;
     double myRadius {1.0};
@@ -227,6 +230,9 @@ public:
             abs(myDistanceImage(pCand)) >= myMinDistanceToBorder;
             n++;
         }
+        if (found){
+            return pCand;
+        }
         if (n >= myNbTry){
             for(auto p : myImage.domain()){
                 if (myImage(p) >= myMaskThreshold &&
@@ -237,7 +243,7 @@ public:
                 
             }
         }
-        return pCand;
+        return TPointI();
     }
     bool isInside(const TPointI &p){
         return myImage(p) > myMaskThreshold;
