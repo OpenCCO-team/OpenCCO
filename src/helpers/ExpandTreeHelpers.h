@@ -40,51 +40,64 @@ initFirtElemTree(CoronaryArteryTree< DomCtr, TDim > &aTree,
 template<typename DomCtr, int TDim>
 inline
 void
-expandTree(CoronaryArteryTree< DomCtr, TDim > &aTree, bool verbose = false)
+expandTree(CoronaryArteryTree< DomCtr, TDim > &aTree,
+           bool verbose = false, unsigned int nbMaxSearch = 100,
+           unsigned int nbTryCandite = 100)
 {
     srand ((unsigned int) time(NULL));
     bool isOK = false;
-       unsigned int nbSeed = aTree.my_NTerm;
-       for (unsigned int i = 1; i < nbSeed; i++) {
-         DGtal::trace.progressBar(i, nbSeed);
-         size_t nbSol = 0, itOpt = 0;
-         CoronaryArteryTree< DomCtr, TDim > cTreeOpt = aTree;
-         double volOpt = -1.0, vol = 0.0;
-         while (nbSol==0) {
-           auto pt = aTree.generateNewLocation(100);
-           std::vector<unsigned int> vecN = aTree.getN_NearestSegments(pt,aTree.myNumNeighbor);
-           for(size_t it=0; it<vecN.size(); it++) {
-             if(!aTree.isIntersecting(pt, aTree.findBarycenter(pt, vecN.at(it)),vecN.at(it),aTree.myNumNeighbor, 2*aTree.myVectSegments[vecN.at(it)].myRadius)) {
-               CoronaryArteryTree< DomCtr, TDim  > cTree1 = aTree;
-               isOK = cTree1.isAddable(pt,vecN.at(it), 100, 0.01, cTree1.myNumNeighbor, verbose);
-               if(isOK) {
-                 vol = cTree1.computeTotalVolume(1);
-                 if(volOpt<0.0) {
-                   volOpt = vol;
-                   cTreeOpt = cTree1;
-                   itOpt = it;
-                 }
-                 else {
-                   if(volOpt>vol) {
-                     volOpt = vol;
-                     cTreeOpt = cTree1;
-                     itOpt = it;
-                   }
-                 }
-                 nbSol++;
-               }
-             }
-           }
-         }
-           aTree = cTreeOpt;
-           aTree.updateLengthFactor();
-           aTree.updateResistanceFromRoot();
-           aTree.updateRootRadius();
-       }
-       if (verbose){
-         std::cout<<"====> Aperf="<<aTree.myRsupp*aTree.myRsupp*aTree.my_NTerm*M_PI<<" == "<<aTree.my_aPerf<<std::endl;
-       }
+    unsigned int nbSeedFound = 1;
+    unsigned int nbSeed = aTree.my_NTerm;
+    for (unsigned int i = 1; i < nbSeed; i++) {
+        DGtal::trace.progressBar(i, nbSeed);
+        size_t nbSol = 0, itOpt = 0;
+        CoronaryArteryTree< DomCtr, TDim > cTreeOpt = aTree;
+        double volOpt = -1.0, vol = 0.0;
+        unsigned int nbT = 0;
+        while (nbSol==0 && nbT < nbMaxSearch) {
+            auto pt = aTree.generateNewLocation(nbTryCandite);
+            nbT++;
+            std::vector<unsigned int> vecN = aTree.getN_NearestSegments(pt,aTree.myNumNeighbor);
+            for(size_t it=0; it<vecN.size(); it++) {
+                if(!aTree.isIntersecting(pt, aTree.findBarycenter(pt, vecN.at(it)),vecN.at(it),aTree.myNumNeighbor, 2*aTree.myVectSegments[vecN.at(it)].myRadius)) {
+                    CoronaryArteryTree< DomCtr, TDim  > cTree1 = aTree;
+                    isOK = cTree1.isAddable(pt,vecN.at(it), 100, 0.01, cTree1.myNumNeighbor, verbose);
+                    if(isOK) {
+                        vol = cTree1.computeTotalVolume(1);
+                        if(volOpt<0.0) {
+                            volOpt = vol;
+                            cTreeOpt = cTree1;
+                            itOpt = it;
+                        }
+                        else {
+                            if(volOpt>vol) {
+                                volOpt = vol;
+                                cTreeOpt = cTree1;
+                                itOpt = it;
+                            }
+                        }
+                        nbSol++;
+                    }
+                }
+            }
+        }
+        if(nbT < nbMaxSearch){
+            nbSeedFound++;
+        }
+        aTree = cTreeOpt;
+        aTree.updateLengthFactor();
+        aTree.updateResistanceFromRoot();
+        aTree.updateRootRadius();
     }
+    if (nbSeed != nbSeedFound){
+        DGtal::trace.warning() << "All seeds not found due to too large domain constraints ("
+        << nbSeedFound << " over " << nbSeed << ")";
+    }
+
+    if (verbose){
+        std::cout<<"====> Aperf="<<aTree.myRsupp*aTree.myRsupp*aTree.my_NTerm*M_PI<<" == "<<aTree.my_aPerf<<std::endl;
+    }
+}
 
 
 

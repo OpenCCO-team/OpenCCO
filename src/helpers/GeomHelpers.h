@@ -103,7 +103,7 @@ pointsOnSphere(const TPoint & ptCenter,
                double radius)
 {
     typedef  DGtal::SpaceND<TPoint::dimension,
-    typename TPoint::Component> Space;
+                            typename TPoint::Component> Space;
     typedef DGtal::HyperRectDomain<Space> Dom;
     
     typedef DGtal::ImplicitBall< Space > MyBall;

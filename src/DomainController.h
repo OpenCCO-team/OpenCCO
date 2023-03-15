@@ -285,7 +285,8 @@ public:
     TPoint
     firtCandidatePoint() const {
         TPointI res;
-        searchRootFarthest(std::max(myDistanceImage(myCenter)/2.0, minDistInitSegment), res);
+        bool find = searchRootFarthest(std::max(myDistanceImage(myCenter)/2.0, minDistInitSegment), res);
+        assert(find);
         return res;
     }
     
@@ -313,7 +314,6 @@ private:
     bool
     searchRootFarthest(const double & d, TPointI &ptRoot ) const {
         typedef DGtal::SpaceND<TDim, int> Space;
-        //        auto sPts =  GeomHelpers::pointsOnSphere(ptRoot, d);
         DomCT aDom;
         TDGset sPts = GeomHelpers::pointsOnSphere<TPointI, TDGset>(myCenter, d);
         for (const TPointI &p : sPts){
