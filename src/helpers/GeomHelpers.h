@@ -91,27 +91,6 @@ projectOnStraightLine(const TPoint & ptA,
 }
 
 
-template<typename TPoint>
-inline
-DGtal::Z2i::DigitalSet
-pointsOnCircle(const TPoint & ptCenter,
-               double radius)
-{
-    typedef DGtal::ImplicitBall< DGtal::Z2i::Space > MyBall;
-    MyBall disk( ptCenter, radius-0.5 );
-    MyBall diskDilate( ptCenter, radius+0.5 );
-    typedef DGtal::EuclideanShapesCSG< MyBall, MyBall > Minus;
-    Minus border ( diskDilate );
-    border.minus( disk );
-    typedef DGtal::GaussDigitizer< DGtal::Z2i::Space, Minus > MyGaussDigitizer;
-    MyGaussDigitizer digShape;
-    digShape.attach( border );
-    digShape.init( border.getLowerBound(), border.getUpperBound(), 1 );
-    DGtal::Z2i::Domain domainShape = digShape.getDomain();
-    DGtal::Z2i::DigitalSet aSet( domainShape );
-    DGtal::Shapes<DGtal::Z2i::Domain>::digitalShaper( aSet, digShape );
-    return aSet;
-}
 
 
 
@@ -124,7 +103,7 @@ pointsOnSphere(const TPoint & ptCenter,
                double radius)
 {
     typedef  DGtal::SpaceND<TPoint::dimension,
-    typename TPoint::Component> Space;
+                            typename TPoint::Component> Space;
     typedef DGtal::HyperRectDomain<Space> Dom;
     
     typedef DGtal::ImplicitBall< Space > MyBall;

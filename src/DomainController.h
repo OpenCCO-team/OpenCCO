@@ -42,11 +42,11 @@ template<int TDim>
 class CircularDomainCtrl {
 public:
     typedef DGtal::PointVector<TDim, double> TPoint;
+    typedef enum {NO_UPDATE, UPDATED} UPDATE_RAD_TYPE ;
+    UPDATE_RAD_TYPE myUpdateType = UPDATED;
     double myRadius {1.0};
     TPoint myCenter;
     
-    // Fixme to be removed since no need when finalized
-    bool myIsImageDomainRestrained = false;
     // Constructor for ImplicitCirc type
     CircularDomainCtrl(){};
     
@@ -154,21 +154,26 @@ public:
     typedef typename DGtal::DigitalSetSelector<DomCT,
     DGtal::BIG_DS+
     DGtal::HIGH_BEL_DS>::Type TDGset;
-    
-    
-    TPoint myDomPtLow, myDomPtUpper;
-    int myMaskThreshold {128};
-    unsigned int myNbTry {100};
-    // Fixme to be removed since no need when finalized
-    bool myIsImageDomainRestrained = false;
-    TPointI myCenter;
-    double minDistInitSegment {5.0};
+    typedef enum {NO_UPDATE, UPDATED} UPDATE_RAD_TYPE ;
+    UPDATE_RAD_TYPE myUpdateType = NO_UPDATE;
 
     
+    TPoint myDomPtLow, myDomPtUpper;
+    TPointI myCenter;
+    double myRadius {1.0};
+    double minDistInitSegment {5.0};
+    
+    // Specific attributes to ImageMaskDomainCtr
+    int myMaskThreshold {128};
+    unsigned int myNbTry {100};
+    double myMinDistanceToBorder {5.0};
+
 public:
     Image myImage {Image(DomCT())} ;
     ImageD myDistanceImage {ImageD(DomCT())};
-    
+    ImageMaskDomainCtrl(const ImageMaskDomainCtrl&) {
+        std::cout << "copy domain!!" << std::endl;
+    }
     ImageMaskDomainCtrl(){};
     
     // Constructor
@@ -176,7 +181,6 @@ public:
                         int maskThreshold, TPointI ptRoot,
                         unsigned int nbTry=100): myNbTry{nbTry}
     {
-        myIsImageDomainRestrained = true;
         myImage = DGtal::GenericReader<Image>::import(fileImgDomain,myMaskThreshold);
         myDistanceImage = GeomHelpers::getImageDistance<Image,ImageD>(myImage,
                                                                       myMaskThreshold );
@@ -195,7 +199,6 @@ public:
                         int maskThreshold, unsigned int nbTry=100):
                                                     myNbTry{nbTry}
     {
-        myIsImageDomainRestrained = true;
         myImage = DGtal::GenericReader<Image>::import(fileImgDomain,myMaskThreshold);
         myDistanceImage = GeomHelpers::getImageDistance<Image,ImageD>(myImage,
                                                                       myMaskThreshold );
@@ -221,11 +224,18 @@ public:
                 pCand[i] = pMin[i]+(rand()%dp[i]);
             }
             found = myImage(pCand)>=myMaskThreshold &&
-            abs(myDistanceImage(pCand)) >= 10.0;
+            abs(myDistanceImage(pCand)) >= myMinDistanceToBorder;
             n++;
         }
         if (n >= myNbTry){
-            for(auto p : myImage.domain()){if (myImage(p)>=myMaskThreshold && abs(myDistanceImage(p)) >= 10.0 ) return p;}
+            for(auto p : myImage.domain()){
+                if (myImage(p) >= myMaskThreshold &&
+                    abs(myDistanceImage(p)) >= myMinDistanceToBorder )
+                {
+                    return p;
+                }
+                
+            }
         }
         return pCand;
     }
@@ -275,7 +285,8 @@ public:
     TPoint
     firtCandidatePoint() const {
         TPointI res;
-        searchRootFarthest(std::max(myDistanceImage(myCenter)/2.0, minDistInitSegment), res);
+        bool find = searchRootFarthest(std::max(myDistanceImage(myCenter)/2.0, minDistInitSegment), res);
+        assert(find);
         return res;
     }
     
@@ -303,7 +314,6 @@ private:
     bool
     searchRootFarthest(const double & d, TPointI &ptRoot ) const {
         typedef DGtal::SpaceND<TDim, int> Space;
-        //        auto sPts =  GeomHelpers::pointsOnSphere(ptRoot, d);
         DomCT aDom;
         TDGset sPts = GeomHelpers::pointsOnSphere<TPointI, TDGset>(myCenter, d);
         for (const TPointI &p : sPts){

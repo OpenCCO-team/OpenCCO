@@ -10,6 +10,7 @@
 /** Prevents repeated inclusion of headers. */
 #define CORONARY_ARTERY_TREE_h
 
+#include <type_traits>
 
 
 #include <iostream>
@@ -85,21 +86,9 @@ public:
     // to store the index of the terminal segments
     std::vector<unsigned int> myVectTerminals;
     
-    
-    
-    // to recover the Children left (first) and right (second) on an indexed segment.
-    std::vector< SegmentChildren >  rec_myVectChildren;
-    // to recover the parent of an indexed segement
-    std::vector<unsigned int >  rec_myVectParent;
-    // represents all the vertices of the graph
-    std::vector< Segment > rec_myVectSegments;
-    // to store the index of the terminal segments
-    std::vector<unsigned int> rec_myVectTerminals;
-    
-    
+      
     //-----------------------------
     // Global biological parameters
-    struct BioAlgoParameter{
         // my_NTerm: number of terminal segments
         unsigned int my_NTerm = 1;
         
@@ -129,14 +118,11 @@ public:
         
         // my_pDrop = my_pPerf-my_pTerm
         double my_pDrop = 4900;
-    };
-    BioAlgoParameter bParam;
     // End biological parameters
     //-----------------------------
     
     //-----------------------------
     // Internal algorithm parameter
-    struct InternAlgoParameter{
         //myKTerm: current number of terminal segments of the tree
         unsigned int myKTerm = 1;
         
@@ -151,24 +137,17 @@ public:
         
         // myLengthFactor : scale factor (updated during tree growth after each added bifurcation)
         double myLengthFactor = 1.0;
-    };
-    InternAlgoParameter iParam;
     // End: Internal algorithm parameter
     //-----------------------------
     
     
-    struct TreeState {
-        BioAlgoParameter bParam;
-        InternAlgoParameter iParam;
-        std::vector< SegmentChildren >  myVectChildren;
-        // to recover the parent of an indexed segement
-        std::vector<unsigned int >  myVectParent;
-        // represents all the vertices of the graph
-        std::vector< Segment > myVectSegments;
-        // to store the index of the terminal segments
-        std::vector<unsigned int> myVectTerminals;
+   
+    std::reference_wrapper<DomCtr> myDomainController_;
+    
+    DomCtr& myDomainController() const {
+        return myDomainController_.get();
     };
-    DomCtr myDomainController;
+    
     
     // To handle display
     DGtal::Board2D myBoard;
@@ -178,7 +157,7 @@ public:
 public:
     
     // Constructor do nothing mainly used for specific test
-    CoronaryArteryTree(){}
+    CoronaryArteryTree(DomCtr &aDomCtr): myDomainController_(aDomCtr){}
     /**
      * @brief Default constructor.
      * @brief It generates the first root segment with tree center as the first terminal point.
@@ -186,29 +165,30 @@ public:
      * @param nTerm: number of terminal segments.
      **/
     
-    CoronaryArteryTree(double aPerf, unsigned int nTerm, double aRadius = 1.0,
-                       TPointD treeCenter = TPointD::diagonal(0) ){
+    CoronaryArteryTree(double aPerf, unsigned int nTerm,  DomCtr &aDomCtr,
+                       double aRadius = 1.0): myDomainController_(aDomCtr) {
         assert(nTerm>=1);
-        for (auto i=0; i < TDim; i++){iParam.myTreeCenter[i]=treeCenter[i];}
+        
+        for (auto i=0; i < TDim; i++){myTreeCenter[i]=aDomCtr.myCenter[i];}
         if(TDim==2) {
-            iParam.myRsupp = sqrt(aPerf/(nTerm*M_PI));
-            bParam.my_rPerf = sqrt(aPerf/M_PI);
+            myRsupp = sqrt(aPerf/(nTerm*M_PI));
+            my_rPerf = sqrt(aPerf/M_PI);
         }
         else {//TDim==3
-            iParam.myRsupp = pow(3.0*aPerf/(4.0*M_PI*nTerm),1.0/3.0);
-            bParam.my_rPerf = pow(3.0*aPerf/(4.0*M_PI),1.0/3.0);
+            myRsupp = pow(3.0*aPerf/(4.0*M_PI*nTerm),1.0/3.0);
+            my_rPerf = pow(3.0*aPerf/(4.0*M_PI),1.0/3.0);
         }
-        bParam.my_aPerf = aPerf;
-        bParam.my_NTerm = nTerm;
-        bParam.my_qTerm = bParam.my_qPerf / bParam.my_NTerm;
+        my_aPerf = aPerf;
+        my_NTerm = nTerm;
+        my_qTerm = my_qPerf / my_NTerm;
         if(nTerm > 250)
-            bParam.my_pTerm = 7.98e3;
-        bParam.my_pDrop = bParam.my_pPerf-bParam.my_pTerm;
+            my_pTerm = 7.98e3;
+        my_pDrop = my_pPerf-my_pTerm;
         //myDThresold = sqrt(M_PI*myRsupp*myRsupp/myKTerm);
         
         // Construction of the special root segment
-        TPointD ptRoot = iParam.myTreeCenter;
-        ptRoot[1] += bParam.my_rPerf;// Point2D(0,my_rPerf);
+        TPointD ptRoot = myTreeCenter;
+        ptRoot[1] += my_rPerf;// Point2D(0,my_rPerf);
         Segment s;
         s.myRadius = aRadius;
         s.myCoordinate = ptRoot;
@@ -222,12 +202,12 @@ public:
         // Construction of the first segment after the root
         Segment s1;
         s1.myRadius = aRadius;
-        s1.myCoordinate = iParam.myTreeCenter;
-        double myLength = (ptRoot-s1.myCoordinate).norm()*iParam.myLengthFactor;
+        s1.myCoordinate = myTreeCenter;
+        double myLength = (ptRoot-s1.myCoordinate).norm()*myLengthFactor;
         s1.myIndex = 1;
         s1.myKTerm = 1; //it contains terminal itself
-        s1.myResistance = 8.0*bParam.my_mu*myLength/M_PI;
-        s1.myFlow = bParam.my_qTerm;
+        s1.myResistance = 8.0*my_mu*myLength/M_PI;
+        s1.myFlow = my_qTerm;
         s1.myBeta = 1.0;
         
         myVectSegments.push_back(s1);
@@ -235,6 +215,12 @@ public:
         myVectParent.push_back(0); //if parent index is the root
         myVectChildren.push_back(std::pair<unsigned int, unsigned int>(0,0)); // if children index is itself, it is an end segment.
         updateRootRadius();
+        
+        // special case for implicit domain:
+        if (aDomCtr.myUpdateType == DomCtr::UPDATED )
+        {
+            aDomCtr.myRadius = my_rPerf;
+        }
         DGtal::trace.info() << "Construction initialized..." << std::endl;
     };
     
@@ -244,10 +230,7 @@ public:
     
     // ----------------------- Interface --------------------------------------
     
-    
-    TreeState state();
-    void restaureState(const TreeState &aState);
-    
+  
     /**
      * Tries to add a new segment from a given point and a nearest segement given by index.
      * @param p the extremity of the new segment to be created

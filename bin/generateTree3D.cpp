@@ -149,6 +149,7 @@ int main(int argc, char **argv)
   app.description("Generated a 3D tree using the CCO algorithm. By default it generates a 3D mesh.");
   int nbTerm {500};
   double aPerf {20000};
+  double minDistanceToBorder {5.0};
   bool verbose {false};
   bool display3D {false};
   std::string nameImgDom {""};
@@ -160,6 +161,8 @@ int main(int argc, char **argv)
   app.add_option("-n,--nbTerm,1", nbTerm, "Set the number of terminal segments.", true);
   app.add_option("-a,--aPerf,2", aPerf, "The value of the input parameter A perfusion.", true);
   app.add_option("--organDomain,-d", nameImgDom, "Define the organ domain using a mask image (organ=255).");
+  app.add_option("-m,--minDistanceToBorder", minDistanceToBorder, "Set the minimal distance to border. Works only  with option organDomain else it has not effect", true);
+
   app.add_option("-o,--outputName", outputMeshName, "Output the 3D mesh", true);
   app.add_option("-e,--export", exportDatName, "Output the 3D mesh", true);
   app.add_option("-x,--exportXML", exportXMLName, "Output the resulting gaph as xml file", true);
@@ -192,8 +195,10 @@ int main(int argc, char **argv)
       {
           aDomCtr = TImgContrl(nameImgDom, 128, 100);
       }
-    TTree tree  (aPerf, nbTerm, 1.0, aDomCtr.myCenter);
-    tree.myDomainController = aDomCtr;
+    
+    aDomCtr.myMinDistanceToBorder = minDistanceToBorder;
+    TTree tree  (aPerf, nbTerm,aDomCtr, 1.0);
+    //tree.myDomainController() = aDomCtr;
     constructTreeMaskDomain(tree, verbose);
     
     XMLHelpers::writeTreeToXml(tree, "tree_3D.xml");
@@ -209,9 +214,8 @@ int main(int argc, char **argv)
     typedef CircularDomainCtrl<3> SphereDomCtrl;
     typedef  CoronaryArteryTree<SphereDomCtrl, 3> TTree;
     SphereDomCtrl::TPoint pCenter (0,0,0);
-    TTree tree  (aPerf, nbTerm, 1.0, pCenter);
-    SphereDomCtrl aCtr(tree.bParam.my_rPerf,pCenter);
-    tree.myDomainController = aCtr;
+    SphereDomCtrl aCtr(1.0 ,pCenter);
+    TTree tree  (aPerf, nbTerm, aCtr,  1.0);
 
     constructTreeImplicitDomain(tree, verbose);
     XMLHelpers::writeTreeToXml(tree, "tree_3D.xml");

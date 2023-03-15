@@ -8,7 +8,8 @@ SET(SOURCE_BASE_HEADER_FILES
   ${PROJECT_SOURCE_DIR}/src/helpers/ExpandTreeHelpers.h
   ${PROJECT_SOURCE_DIR}/src/CoronaryArteryTree.h
   ${PROJECT_SOURCE_DIR}/src/helpers/XmlHelpers.h
-  ${PROJECT_SOURCE_DIR}/src/DomainController.h      
+  ${PROJECT_SOURCE_DIR}/src/DomainController.h
+  ${PROJECT_SOURCE_DIR}/tests/TreeTest.h        
 )
 SET(SOURCE_BASE_FILES
   ${PROJECT_SOURCE_DIR}/src/CoronaryArteryTree.ih
