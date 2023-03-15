@@ -287,6 +287,30 @@ public:
                            double epsilon=0.01) const;
     
     /**
+       * Verifies if there is an intersection between a thick segment defined by two points
+       * and all other segments of the tree
+       * @param ptA the first point
+       * @param ptA the second point
+       * @param r : radius of the thick segment
+       */
+      bool isIntersectingTree(const TPointD &ptA,
+                              const TPointD &ptB,
+                              double r,
+                              unsigned int idSeg) const;
+    /**
+     * Verifies if there is an intersection between a thick segment defined by two points
+     * and all other segments of the tree, except the segments given in idExcept
+     * @param ptA the first point
+     * @param ptA the second point
+     * @param r : radius of the thick segment
+     * @param idExcept: indices of three segments to ignore
+     */
+    bool isIntersectingTree(const TPointD &ptA,
+                            const TPointD &ptB,
+                            double r,
+                            std::tuple<int, int, int> idExcept) const;
+    
+    /**
      * Update the distribution of segmental flows after adding a new segment (new bifurcation)
      * @param segIndex index of the parent segment to be updated
      */
