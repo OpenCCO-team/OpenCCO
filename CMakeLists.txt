@@ -2,6 +2,9 @@ cmake_minimum_required(VERSION 3.5)
 project(CCO_Implementation)
 set (CMAKE_CXX_STANDARD 11)
 
+list(APPEND CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake)
+
+include(DGtal)
 
 SET(SOURCE_BASE_HEADER_FILES
   ${PROJECT_SOURCE_DIR}/src/helpers/GeomHelpers.h
@@ -21,9 +24,10 @@ find_package(Ceres REQUIRED)
 
 # CLI11
 include_directories( "${PROJECT_SOURCE_DIR}/ext/" "${PROJECT_SOURCE_DIR}/src/helpers/" "${PROJECT_SOURCE_DIR}/src/" )
-FIND_PACKAGE(DGtal REQUIRED)
+#FIND_PACKAGE(DGtal REQUIRED)
 
 INCLUDE_DIRECTORIES(${DGTAL_INCLUDE_DIRS})
+
 LINK_DIRECTORIES(${DGTAL_LIBRARY_DIRS} )
 
 add_subdirectory(tests)
