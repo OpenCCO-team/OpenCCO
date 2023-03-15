@@ -1,3 +1,0 @@
-[submodule "DGtal"]
-	path = DGtal
-	url = https://github.com/DGtal-team/DGtal.git
