@@ -159,17 +159,15 @@ public:
 
     
     TPoint myDomPtLow, myDomPtUpper;
+    TPointI myCenter;
+    double myRadius {1.0};
+    double minDistInitSegment {5.0};
+    
+    // Specific attributes to ImageMaskDomainCtr
     int myMaskThreshold {128};
     unsigned int myNbTry {100};
-    TPointI myCenter;
-    
-    // Fixme: not really used but needed for compillation of other domain
-    // it is used for implicit limit (perhaps is can be also used to store the distance of search the first solution
-    double myRadius {1.0};
+    double myMinDistanceToBorder {5.0};
 
-    double minDistInitSegment {5.0};
-
-    
 public:
     Image myImage {Image(DomCT())} ;
     ImageD myDistanceImage {ImageD(DomCT())};
@@ -226,11 +224,18 @@ public:
                 pCand[i] = pMin[i]+(rand()%dp[i]);
             }
             found = myImage(pCand)>=myMaskThreshold &&
-            abs(myDistanceImage(pCand)) >= 2.0;
+            abs(myDistanceImage(pCand)) >= myMinDistanceToBorder;
             n++;
         }
         if (n >= myNbTry){
-            for(auto p : myImage.domain()){if (myImage(p)>=myMaskThreshold && abs(myDistanceImage(p)) >= 2.0 ) return p;}
+            for(auto p : myImage.domain()){
+                if (myImage(p) >= myMaskThreshold &&
+                    abs(myDistanceImage(p)) >= myMinDistanceToBorder )
+                {
+                    return p;
+                }
+                
+            }
         }
         return pCand;
     }
