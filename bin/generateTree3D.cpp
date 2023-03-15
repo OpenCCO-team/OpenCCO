@@ -197,8 +197,7 @@ int main(int argc, char **argv)
       }
     
     aDomCtr.myMinDistanceToBorder = minDistanceToBorder;
-    TTree tree  (aPerf, nbTerm,aDomCtr, 1.0);
-    //tree.myDomainController() = aDomCtr;
+    TTree tree  (aPerf, nbTerm, aDomCtr, 1.0);
     constructTreeMaskDomain(tree, verbose);
     
     XMLHelpers::writeTreeToXml(tree, "tree_3D.xml");

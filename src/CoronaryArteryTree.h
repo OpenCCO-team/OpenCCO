@@ -221,6 +221,14 @@ public:
         {
             aDomCtr.myRadius = my_rPerf;
         }
+        if(aDomCtr.randomPoint() == TPoint(0,0) )
+        {
+            DGtal::trace.error() << "Domain too restraint not possible to find random"
+            << " candidate in domain (probably reduce the minimal distance to border"
+            << std::endl;
+            exit(1);
+        }
+
         DGtal::trace.info() << "Construction initialized..." << std::endl;
     };
     
@@ -551,7 +559,7 @@ private:
 
 /**
  * Overloads 'operator<<' for displaying objects of class 'CoronaryArteryTree'.
- * @param out the output stream where the object is written.
+ * @param  out the output stream where the object is written.
  * @param aCoronaryTree the object of class 'CoronaryArteryTree' to write.
  * @return the output stream after the writing.
  */
