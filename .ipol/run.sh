@@ -48,7 +48,7 @@ then
   then
       COMMANDGem2D2="$COMMANDGem2D2 -s"
   fi
-  
+  echo "algoImp=1" >> algo_info.txt 
   set $(identify -format '%w %h' ${INPUT})
   width=$1; height=$2
   COMMANDGem2D3="convert -density 400 -resize ${width}x${height}  -crop ${width}x${height} result.svg result.png"
@@ -59,6 +59,7 @@ then
   echo "----------------------------------------"
   echo "-----Generating 2D ---------------------"
   echo "----------------------------------------"
+  echo "algoImp=0" >> algo_info.txt 
 
   COMMANDGem2D1="convert ${INPUT} input.pgm"
   if [ $FIRSTSEG -eq 1 ]
