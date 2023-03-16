@@ -257,43 +257,6 @@ public:
                    unsigned int nbNeibour = 10,
                    bool verbose = true);
     
-        
-    
-    /**
-     * Verifies if there is an intersection for the new bifurcation position or the point is to near to the neigbour segment
-     * @param pNew the extremity of the new segment to be created
-     * @param pCenter the  new bifurcation position.
-     * @param nearIndex the index of the near segement to pNew.
-     * @param nbNeibour the number of nearest segments to be tested.
-     * @param minDistance the limit distance to the nearest segments.
-     * @return true of there is an intersection, false in the other case.
-     */
-    bool isIntersecting(const TPointD &pNew,
-                        const TPointD &pCenter,
-                        unsigned int nearIndex,
-                        unsigned int nbNeibour = 10,
-                        double minDistance = 5.0) const;
-    bool isIntersecting3d(const TPointD &pNew,
-                          const TPointD &pCenter,
-                          unsigned int nearIndex,
-                          unsigned int nbNeibour = 10,
-                          double minDistance = 5.0) const;
-    bool isIntersecting2d(const TPointD &pNew,
-                          const TPointD &pCenter,
-                          unsigned int nearIndex,
-                          unsigned int nbNeibour = 10,
-                          double minDistance = 5.0) const;
-    
-    /**
-     * Verifies if there is an intersection between two segment
-     * @param index1 the index of the first segement
-     * @param index2 the index of the second segement
-     * @param epsilon : param for dicotomie search
-     */
-    bool isIntersectingNEW(unsigned int index1,
-                           unsigned int index2,
-                           double epsilon=0.01) const;
-    
     /**
        * Verifies if there is an intersection between a thick segment defined by two points
        * and all other segments of the tree
@@ -441,42 +404,6 @@ public:
     std::vector<unsigned int> getN_NearestSegments(const TPointD &p,
                                                    unsigned int n) const;
     
-    /**
-     * Compute if a segment has intersection on the n nearest segments.
-     * @param p0 : one extremity of one segment
-     * @param p1 : another extremity of one segment
-     * @param n : the number of nearest point to be considered
-     */
-    bool hasNearestIntersections(const TPointD &p0,
-                                 const TPointD &p1, unsigned int n) const;
-    
-    
-    /**
-     * Compute if a segment has intersection all the segments.
-     * @param p : one point
-     */
-    bool hasIntersections(const TPointD &p) const;
-    
-    /**
-     * Compute if a segment has intersection all the segments.
-     * @param indexSeg : a segment
-     * @param epsilon : param for dicotomie search
-     */
-    bool hasIntersections(const unsigned int indexSeg, double epsilon=0.01) const;
-    
-    /**
-     * Computes if an bifurcation has intersections on the n nearest segments.
-     * It uses the middle point
-     * @param indexPFather index extremity of initial segment (father).
-     * @param indexPChild index  extremity  of initial segment (child).
-     * @param pAdded point added at the origin of the creation of bifurcation.
-     * @param pBifurcation the central point of the bifurcation.
-     * @param n : the number of nearest point to be considered
-     */
-    bool hasNearestIntersections(unsigned int indexPFather,
-                                 unsigned int indexPChild,
-                                 const TPointD &pAdded,
-                                 const TPointD &pBifurcation, unsigned int n) const;
     
     /**
      * Verifies the condition of degenerate after Kamyia solution : 2 ri < li

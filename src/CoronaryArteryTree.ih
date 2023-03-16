@@ -212,8 +212,24 @@ CoronaryArteryTree<DomCtr, TDim>::isAddable(const TPointD &p, unsigned int segIn
     if(!res1) //Kamyia does not have solution
       return false;
     
-    res2 = isIntersecting(p, pOpt, segIndex, nbNeibour, 2*cTreeCurr.myVectSegments[segIndex].myRadius);
-    if(res2) //there is intersection betweeen segments
+    //Check for middle seg
+    int idSegPar = myVectParent[segIndex];
+    int idL = myVectChildren[idSegPar].first;
+    int idR = myVectChildren[idSegPar].second;
+    res2 = isIntersectingTree(pOpt, pParent, r0, std::make_tuple(idL, idR, idSegPar));
+    if(res2) //there is intersection between segments
+      return false;
+    
+    //Check for left seg
+    idL = myVectChildren[segIndex].first;
+    idR = myVectChildren[segIndex].second;
+    res2 = isIntersectingTree(pOpt, sNewLeft.myCoordinate, r1,  std::make_tuple(segIndex, idL, idR));
+    if(res2) //there is intersection between segments
+      return false;
+      
+    //Check for right seg
+    res2 = isIntersectingTree(pOpt, p, r2,  std::make_tuple(segIndex,-1,-1));
+    if(res2) //there is intersection between segments
       return false;
     
     TPoint pParentDom; for (auto i=0; i < TDim; i++){pParentDom[i] = static_cast<int>(pParent[i]);}
@@ -278,46 +294,39 @@ CoronaryArteryTree<DomCtr, TDim>::isAddable(const TPointD &p, unsigned int segIn
     cTree1.updateResistanceFromRoot();
     cTree1.updateRootRadius();
     
-    if(TDim==2) {
-      res4 = false;
+    // Compute vol of the current tree
+    vol = cTree1.computeTotalVolume();
+    if (verbose){
+      DGtal::trace.info() <<"Iter "<<i<<" has tree Volume: "<< vol <<std::endl;
     }
-    else { //TDi==3}
-    //Test intersection wrt radius except the childs and the parent and brother
-    res4 = cTree1.hasIntersections(sNewLeft.myIndex) || cTree1.hasIntersections(sNewRight.myIndex) || cTree1.hasIntersections(segIndex); //FIXME: epsilon
+    if(i==0) {
+      volCurr = vol;
+      cTreeCurr = cTree1;
     }
-    if(!res4) {
-      vol = cTree1.computeTotalVolume();
-      if (verbose){
-        DGtal::trace.info() <<"Iter "<<i<<" has tree Volume: "<< vol <<std::endl;
+    else {
+      diffVol = volCurr - vol;
+      if(fabs(diffVol) < tolerance)
+      {
+        // Verify the degenerate case of the resulting segment
+        double l0 = (pOpt - pParent).norm()*myLengthFactor;
+        double l1 = (pOpt - sNewLeft.myCoordinate).norm()*myLengthFactor;
+        double l2 = (pOpt - sNewRight.myCoordinate).norm()*myLengthFactor;
+        res3 = (2*r0<=l0) && (2*r1<=l1) && (2*r2<=l2);
+        // If there is a solution, then save the result
+        if(res3)
+        {
+          //std::cout<<"Best volume at "<<i<<std::endl;
+          isDone = true;
+          *this = cTree1;
+        }
       }
-      if(i==0) {
+      else
+      {
         volCurr = vol;
         cTreeCurr = cTree1;
       }
-      else {
-        diffVol = volCurr - vol;
-        if(fabs(diffVol) < tolerance)
-        {
-          // Verify the degenerate case of the resulting segment
-          double l0 = (pOpt - pParent).norm()*myLengthFactor;
-          double l1 = (pOpt - sNewLeft.myCoordinate).norm()*myLengthFactor;
-          double l2 = (pOpt - sNewRight.myCoordinate).norm()*myLengthFactor;
-          res3 = (2*r0<=l0) && (2*r1<=l1) && (2*r2<=l2);
-          // If there is a solution, then save the result
-          if(res3)
-          {
-            //std::cout<<"Best volume at "<<i<<std::endl;
-            isDone = true;
-            *this = cTree1;
-          }
-        }
-        else
-        {
-          volCurr = vol;
-          cTreeCurr = cTree1;
-        }
-      }
     }
+    
     //update new position, radius and flow
     pCurrent = pOpt;
     sCurrent.myRadius = cTree1.myVectSegments[segIndex].myRadius;
@@ -333,113 +342,6 @@ CoronaryArteryTree<DomCtr, TDim>::isAddable(const TPointD &p, unsigned int segIn
 
 
 
-
-template< class DomCtr, int TDim >
-bool
-CoronaryArteryTree<DomCtr, TDim>::isIntersecting(const TPointD &pNew,
-                                                 const TPointD &pCenter,
-                                                 unsigned int nearIndex,
-                                                 unsigned int nbNeibour,
-                                                 double minDistance ) const{
-    bool inter = false;
-    if (TDim == 2){
-        inter = hasNearestIntersections(myVectParent[nearIndex], nearIndex,
-                                        pNew, pCenter,  nbNeibour);
-    }else
-    {
-        inter = hasIntersections(pNew) || hasIntersections(pCenter);
-    }
-
-
-    // bool inter = hasIntersections(pNew) || hasIntersections(pCenter);
-    if (inter){
-      //DGtal::trace.warning() << "detection intersection" << std::endl;
-      return true;
-    }
-    // Check barycenter is not too close considered segment
-    if ((pCenter-myVectSegments[nearIndex].myCoordinate).norm() < minDistance ||
-        (pCenter-myVectSegments[myVectParent[nearIndex]].myCoordinate).norm() < minDistance ||
-        (pCenter - pNew).norm() < minDistance){
-      //DGtal::trace.warning() << "new barycenter too close!!!!!!!!" << std::endl;
-      return true;
-    }
-    // Check new point with new segment of barycenter:
-    // - newPt and new segment [Barycenter-OriginNewSeg]
-    // - newPt and new segment [Barycenter-FatherNewSeg]
-    if ((pCenter-myVectSegments[nearIndex].myCoordinate).norm() < minDistance ||
-        (pCenter-myVectSegments[myVectParent[nearIndex]].myCoordinate).norm() < minDistance) {
-      //DGtal::trace.warning() << "initial too close to new!!!!!!!!" << std::endl;
-      return true;
-    }
-    if (getProjDistance(nearIndex, pNew) < minDistance) {
-      //DGtal::trace.warning() << "initial too close!!!!!!!!" << std::endl;
-      return true;
-
-    }
-    if (isToCloseFromNearest(pNew, minDistance)){
-      //DGtal::trace.warning() << "detection near too close " << std::endl;
-      return true;
-    }
-    if (getProjDistance(nearIndex, pNew) < minDistance||
-        getProjDistance(myVectParent[nearIndex], pNew) < minDistance||
-        getProjDistance(myVectChildren[nearIndex].first, pNew) < minDistance||
-        getProjDistance(myVectChildren[nearIndex].second, pNew) < minDistance){
-      //DGtal::trace.warning() << "detection too close existing" << std::endl;
-      return true;
-    }
-    if (TDim == 3 &&
-        (getProjDistanceDico(nearIndex, pNew, pCenter) < minDistance||
-            getProjDistanceDico(myVectParent[nearIndex], pNew, pCenter) < minDistance||
-            getProjDistanceDico(myVectChildren[nearIndex].first, pNew, pCenter) < minDistance||
-            getProjDistanceDico(myVectChildren[nearIndex].second, pNew, pCenter) < minDistance)){
-          //DGtal::trace.warning() << "detection too close existing" << std::endl;
-      return true;
-    }
-    
-    return false;
-}
-
-
-
-
-template< class DomCtr, int TDim >
-bool
-CoronaryArteryTree<DomCtr, TDim>::isIntersectingNEW(unsigned int index1, unsigned int index2, double epsilon) const
-{
-  TPointD p10 = myVectSegments[index1].myCoordinate;
-  TPointD p11 = myVectSegments[myVectParent[index1]].myCoordinate;
-  TPointD p20 = myVectSegments[index2].myCoordinate;
-  TPointD p21 = myVectSegments[myVectParent[index2]].myCoordinate;
-  TPointD c1 = (p10+p11)/2.0;
-  TPointD c2 = (p20+p21)/2.0;
-  double d = (c1-c2).norm();
-  double l1 = (p10-p11).norm();
-  double l2 = (p20-p21).norm();
-  double tmp = d-l1/2.0-l2/2.0;
-  double r1 = myVectSegments[index1].myRadius;
-  double r2 = myVectSegments[index2].myRadius;
-  if(tmp>r1+r2)
-    return false;
-  double d1 = getProjDistance(index1, p20);
-  double d2 = getProjDistance(index1, p21);
-  double d3 = std::min(d1,d2);
-  TPointD p, q, r;
-  if(d1<d2) {
-    q = p21;
-    p = p20;
-  }
-  else {
-    p = p21;
-    q = p20;
-  }
-  r = (1.0-epsilon)*p + epsilon*q;
-  double d4 = getProjDistance(index1, r);
-  if ((d4 > d3) && (d3 > r1+r2))
-    return false;
-  //Use dico search for testing intersection
-  double d5 = getProjDistanceDico(index1, p20, p21, epsilon);
-  return (d5 < r1+r2);
-}
 
 template<typename DomCtr, int TDim >
 bool
@@ -731,37 +633,6 @@ CoronaryArteryTree<DomCtr, TDim>::getProjDistance(unsigned int index, const TPoi
 }
 
 template< typename DomCtr, int TDim >
-double
-CoronaryArteryTree<DomCtr, TDim>::getProjDistanceDico(unsigned int index1, const TPointD &p1, const TPointD &p2, const double& epsilon) const {
-  TPointD p10 = myVectSegments[index1].myCoordinate;
-  TPointD p11 = myVectSegments[myVectParent[index1]].myCoordinate;
-  TPointD p20 = p1;
-  TPointD p23 = p2;
-  TPointD p21 = (2.0*p20+p23)/3.0;
-  TPointD p22 = (p20+2.0*p23)/3.0;
-  double d20, d21, d22, d23, delta_d1, delta_d2, delta_d3;
-  double d = (p20-p22).norm();
-  while (d>epsilon) {
-    d20 = getProjDistance(p10, p11, p20);
-    d21 = getProjDistance(p10, p11, p21);
-    d22 = getProjDistance(p10, p11, p22);
-    d23 = getProjDistance(p10, p11, p23);
-    delta_d1 = d21 - d20;
-    delta_d2 = d22 - d21;
-    delta_d3 = d23 - d22;
-    if(delta_d2>=0 && delta_d3>=0)
-      p23 = p22;
-    else
-      p20 = p21;
-      
-    p21 = (2.0*p20+p23)/3.0;
-    p22 = (p20+2.0*p23)/3.0;
-    d = (p20-p22).norm();
-  }
-  return  std::min(d20, std::min(d21, std::min (d22, d23)));
-}
-
-template< typename DomCtr, int TDim >
 std::vector<unsigned int>
 CoronaryArteryTree<DomCtr, TDim>::getN_NearestSegments(const TPointD &p, unsigned int n) const {
   std::vector<unsigned int> res;
@@ -780,81 +651,6 @@ CoronaryArteryTree<DomCtr, TDim>::getN_NearestSegments(const TPointD &p, unsigne
     }
   }
   return res;
-}
-
-template<typename DomCtr, int TDim >
-bool
-CoronaryArteryTree<DomCtr, TDim>::hasIntersections(const TPointD &p) const {
-  for(auto s : myVectSegments) {
-    double d = getProjDistance(s.myIndex, p);
-    if (d<2*s.myRadius)
-      return true;
-  }
-  return false;
-}
-
-template< typename DomCtr, int TDim >
-bool
-CoronaryArteryTree<DomCtr, TDim>::hasIntersections(unsigned int indexSeg, double epsilon) const {
-  if(indexSeg==0 || indexSeg==1)
-    return false;
-  for(auto s : myVectSegments) {
-    if (s.myIndex != 0) {
-      if(indexSeg != s.myIndex && // current segment
-         myVectSegments[myVectParent[indexSeg]].myIndex != myVectSegments[myVectParent[s.myIndex]].myIndex && //brother = same parents
-         myVectSegments[myVectParent[s.myIndex]].myIndex != indexSeg && // children
-         s.myIndex != myVectSegments[myVectParent[indexSeg]].myIndex ) { //parent
-        if(isIntersectingNEW(indexSeg, s.myIndex, epsilon))
-          return true;
-      }
-    }
-  }
-  return false;
-}
-
-template< typename DomCtr, int TDim >
-bool
-CoronaryArteryTree<DomCtr, TDim>::hasNearestIntersections(const TPointD &p0,
-                                            const TPointD &p1, unsigned int n) const {
-  TPointD b = (p1+p0)/2;
-  std::vector<unsigned int> near = getN_NearestSegments(b, n);
-  for (const auto &s : near){
-    if (GeomHelpers::hasIntersection(p0, p1, myVectSegments[s].myCoordinate,
-                        myVectSegments[myVectParent[s]].myCoordinate ))
-    {
-      return  true;
-    }
-  }
-  return false;
-}
-
-template< typename DomCtr, int TDim >
-bool
-CoronaryArteryTree<DomCtr, TDim>::hasNearestIntersections(unsigned int indexPFather,
-                                            unsigned int indexPChild,
-                                            const TPointD &pAdded,
-                                            const TPointD &pBifurcation, unsigned int n) const{
-  std::vector<unsigned int> near = getN_NearestSegments(pAdded, n);
-  TPointD p0  = myVectSegments[indexPFather].myCoordinate;
-  TPointD p1  = myVectSegments[indexPChild].myCoordinate;
-  
-  for (const auto &s : near){
-    // ignoring self initial segment.
-    if (myVectParent[s] == indexPFather && s == indexPChild)
-      continue;
-
-    bool inter1 = GeomHelpers::hasIntersection(p0, pBifurcation, myVectSegments[s].myCoordinate,
-                                  myVectSegments[myVectParent[s]].myCoordinate  );
-    bool inter2 = GeomHelpers::hasIntersection(p1, pBifurcation, myVectSegments[s].myCoordinate,
-                                  myVectSegments[myVectParent[s]].myCoordinate  );
-    bool inter3 = GeomHelpers::hasIntersection(pAdded, pBifurcation, myVectSegments[s].myCoordinate,
-                                  myVectSegments[myVectParent[s]].myCoordinate  );
-
-    if (inter1 || inter2 || inter3)
-      return  true;
-  }
-  return false;
-  
 }
 
 template< typename DomCtr, int TDim >
