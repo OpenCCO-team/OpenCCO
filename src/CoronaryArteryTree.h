@@ -341,9 +341,6 @@ public:
      */
     double getDistanceThreshold();
     
-    //used to template specialisation
-    double getDistanceThreshold3d();
-    double getDistanceThreshold2d();
     /**
      * Updates the radius of a segment (as given in Eq. 19)
      * @param segIndex index of the parent segment to be updated
