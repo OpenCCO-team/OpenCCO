@@ -39,6 +39,48 @@ using ceres::Solver;
 class TreeTest: public CoronaryArteryTree<ImageMaskDomainCtrl<2>, 2>
 {
 public:
+    bool hasNearestIntersections(unsigned int indexPFather,
+                                                 unsigned int indexPChild,
+                                                 const TPointD &pAdded,
+                                                 const TPointD &pBifurcation, unsigned int n) const{
+       std::vector<unsigned int> near = getN_NearestSegments(pAdded, n);
+       TPointD p0  = myVectSegments[indexPFather].myCoordinate;
+       TPointD p1  = myVectSegments[indexPChild].myCoordinate;
+
+       for (const auto &s : near){
+         // ignoring self initial segment.
+         if (myVectParent[s] == indexPFather && s == indexPChild)
+           continue;
+
+         bool inter1 = GeomHelpers::hasIntersection(p0, pBifurcation, myVectSegments[s].myCoordinate,
+                                       myVectSegments[myVectParent[s]].myCoordinate  );
+         bool inter2 = GeomHelpers::hasIntersection(p1, pBifurcation, myVectSegments[s].myCoordinate,
+                                       myVectSegments[myVectParent[s]].myCoordinate  );
+         bool inter3 = GeomHelpers::hasIntersection(pAdded, pBifurcation, myVectSegments[s].myCoordinate,
+                                       myVectSegments[myVectParent[s]].myCoordinate  );
+
+         if (inter1 || inter2 || inter3)
+           return  true;
+       }
+       return false;
+
+     }
+
+    bool
+    hasNearestIntersections(const TPointD &p0,
+                                                const TPointD &p1, unsigned int n) const {
+      TPointD b = (p1+p0)/2;
+      std::vector<unsigned int> near = getN_NearestSegments(b, n);
+      for (const auto &s : near){
+        if (GeomHelpers::hasIntersection(p0, p1, myVectSegments[s].myCoordinate,
+                            myVectSegments[myVectParent[s]].myCoordinate ))
+        {
+          return  true;
+        }
+      }
+      return false;
+    }
+
     // Constructor do nothing mainly used for specific test
     TreeTest(ImageMaskDomainCtrl<2> &ctr, double r=1.0 ): CoronaryArteryTree(ctr){
         myTreeCenter = TPointD::diagonal(0);
@@ -275,6 +317,47 @@ public:
 class TreeTestCirc: public CoronaryArteryTree<CircularDomainCtrl<2>, 2>
 {
 public:
+    bool
+    hasNearestIntersections(unsigned int indexPFather,
+                                                 unsigned int indexPChild,
+                                                 const TPointD &pAdded,
+                                                 const TPointD &pBifurcation, unsigned int n) const{
+       std::vector<unsigned int> near = getN_NearestSegments(pAdded, n);
+       TPointD p0  = myVectSegments[indexPFather].myCoordinate;
+       TPointD p1  = myVectSegments[indexPChild].myCoordinate;
+
+       for (const auto &s : near){
+         // ignoring self initial segment.
+         if (myVectParent[s] == indexPFather && s == indexPChild)
+           continue;
+
+         bool inter1 = GeomHelpers::hasIntersection(p0, pBifurcation, myVectSegments[s].myCoordinate,
+                                       myVectSegments[myVectParent[s]].myCoordinate  );
+         bool inter2 = GeomHelpers::hasIntersection(p1, pBifurcation, myVectSegments[s].myCoordinate,
+                                       myVectSegments[myVectParent[s]].myCoordinate  );
+         bool inter3 = GeomHelpers::hasIntersection(pAdded, pBifurcation, myVectSegments[s].myCoordinate,
+                                       myVectSegments[myVectParent[s]].myCoordinate  );
+
+         if (inter1 || inter2 || inter3)
+           return  true;
+       }
+       return false;
+
+     }
+
+   bool  hasNearestIntersections(const TPointD &p0,
+                                                const TPointD &p1, unsigned int n) const {
+      TPointD b = (p1+p0)/2;
+      std::vector<unsigned int> near = getN_NearestSegments(b, n);
+      for (const auto &s : near){
+        if (GeomHelpers::hasIntersection(p0, p1, myVectSegments[s].myCoordinate,
+                            myVectSegments[myVectParent[s]].myCoordinate ))
+        {
+          return  true;
+        }
+      }
+      return false;
+    }
     // Constructor do nothing mainly used for specific test
     TreeTestCirc(CircularDomainCtrl<2> &ctr, double r=1.0): CoronaryArteryTree(ctr){
         myTreeCenter = TPointD::diagonal(0);
@@ -492,7 +575,7 @@ public:
       return true;
     }
 
-    
+  
     
 };
 
