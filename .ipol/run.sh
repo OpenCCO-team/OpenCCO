@@ -108,15 +108,5 @@ fi
 
 
 
-  echo "----------------------------------------"
-  echo "-----Generating Stat Radius Curves -----"
-  echo "----------------------------------------"
-  COMMANDStat1="xml2graph graphExport.xml"
-  COMMANDStat2="graph2statBifRad vertex.dat edges.dat radius.dat stat.dat"
-  COMMANDStat3="gnuplot ${IPOLDIR}/helpers/plotStatRadius.plt"
-  cp ${IPOLDIR}/helpers/readme.txt ./
-  COMMANDStat4="tar cvzf graphExport.tar.gz vertex.dat edges.dat radius.dat readme.txt"
-  applyCommand COMMANDStat1 COMMANDStat2 COMMANDStat3 COMMANDStat4
-  
 
   
