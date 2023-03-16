@@ -314,7 +314,7 @@ public:
 
 
 
-class TreeTestCirc: public CoronaryArteryTree<ImplCircSqDomainCtrl<2>, 2>
+class TreeTestCirc: public CoronaryArteryTree<CircularDomainCtrl<2>, 2>
 {
 public:
     bool
@@ -359,7 +359,7 @@ public:
       return false;
     }
     // Constructor do nothing mainly used for specific test
-    TreeTestCirc(ImplCircSqDomainCtrl<2> &ctr, double r=1.0): CoronaryArteryTree(ctr){
+    TreeTestCirc(CircularDomainCtrl<2> &ctr, double r=1.0): CoronaryArteryTree(ctr){
         myTreeCenter = TPointD::diagonal(0);
         myRsupp = r;
         my_aPerf = 1.0;
@@ -389,7 +389,7 @@ public:
      * Constructor used mainly in testCompCCO
      */
     
-    TreeTestCirc(const TPointD &ptCenter, const TPointD &ptRoot, const TPointD &ptTerm, unsigned int nTerm,  ImplCircSqDomainCtrl<2> &ctr, double aRadius = 1.0 ): CoronaryArteryTree(ctr){
+    TreeTestCirc(const TPointD &ptCenter, const TPointD &ptRoot, const TPointD &ptTerm, unsigned int nTerm,  CircularDomainCtrl<2> &ctr, double aRadius = 1.0 ): CoronaryArteryTree(ctr){
         assert(nTerm>=1);
         myTreeCenter = ptCenter;
         my_rPerf = (ptCenter - ptRoot).norm();
@@ -437,7 +437,7 @@ public:
       };
     
     TreeTestCirc(const TPointD &ptRoot, double aPerf, unsigned int nTerm,
-                 ImplCircSqDomainCtrl<2> &ctr, double aRadius = 1.0 ): CoronaryArteryTree(ctr){
+                 CircularDomainCtrl<2> &ctr, double aRadius = 1.0 ): CoronaryArteryTree(ctr){
       assert(nTerm>=1);
       myTreeCenter = TPointD::diagonal(0.0);
       myRsupp = sqrt(aPerf/(nTerm*M_PI));

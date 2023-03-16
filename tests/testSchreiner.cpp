@@ -15,7 +15,7 @@
  */
 int main(int argc, char *const *argv)
 {
-    typedef ImplCircSqDomainCtrl<2> ImplicitContrl;
+    typedef CircularDomainCtrl<2> ImplicitContrl;
     typedef ImageMaskDomainCtrl<2> MaskContrl;
 
     typedef  CoronaryArteryTree<ImplicitContrl, 2> TTree;
