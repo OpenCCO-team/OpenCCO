@@ -231,8 +231,8 @@ int main(int argc, char **argv)
       SqDomCtrl aCtr(1.0 ,pCenter);
       TTree tree  (aPerf, nbTerm, aCtr,  1.0);
         constructTreeImplicitDomain(tree, outputMeshName,
-                                    exportDatName,
-                                    exportXMLName, verbose, display3D);
+                                    exportXMLName,
+                                    exportDatName, verbose, display3D);
      
   }
   else
