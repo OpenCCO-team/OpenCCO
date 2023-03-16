@@ -49,7 +49,7 @@ then
       COMMANDGem2D2="$COMMANDGem2D2 -s"
   fi
   echo "algoImp=1" >> algo_info.txt 
-  width=640; height=640;
+  width=480; height=480;
   COMMANDGem2D3="convert -density 400 -resize ${width}x${height}  -crop ${width}x${height} result.svg result.png"
   applyCommand COMMANDGem2D1 COMMANDGem2D2 COMMANDGem2D3
   echo "algoDim=2" >> algo_info.txt 
