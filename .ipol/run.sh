@@ -42,13 +42,8 @@ then
   echo "-----Generating IMPLICIT 2D ------------"
   echo "----------------------------------------"
 
-  COMMANDGem2D1="convert ${INPUT} input.pgm"
-  if [ $FIRSTSEG -eq 1 ]
-     then 
-  COMMANDGem2D2="${EXEC} -n ${NBTERM} -a ${APERF}  -d input.pgm -x graphExport.xml -m ${MINDISTBORDER} >> algo_info.txt"
-  else
-  COMMANDGem2D2="${EXEC} -n ${NBTERM} -p $X0 $Y0 -a ${APERF}  -d input.pgm -x graphExport.xml -m ${MINDISTBORDER} >> algo_info.txt" 
-  fi
+
+  COMMANDGem2D2="${EXEC} -n ${NBTERM} -a ${APERF}  -x graphExport.xml -m ${MINDISTBORDER} >> algo_info.txt"
   set $(identify -format '%w %h' ${INPUT})
   width=$1; height=$2
   COMMANDGem2D3="convert -density 400 -resize ${width}x${height}  -crop ${width}x${height} result.svg result.png"
