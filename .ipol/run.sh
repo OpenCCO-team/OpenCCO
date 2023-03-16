@@ -16,7 +16,7 @@ X0=$8
 Y0=$9
 Z0=${10}
 MINDISTBORDER=${11}
-
+IMPLICITETYPE=${12}
 
 function applyCommand
 {
@@ -60,7 +60,11 @@ then
   echo "-----Generating 3D ---------------------"
   echo "----------------------------------------"
   COMMANDGem3D1="${EXEC3D} -n ${NBTERM} -a ${APERF}  -o result.obj -x graphExport.xml"
-   
+  if [ $IMPLICITETYPE -eq 0 ]
+  then
+      COMMANDGem3D1="$COMMANDGem3D1 -s"
+  fi
+  
   applyCommand COMMANDGem3D1
   key=$(basename $(pwd))
   demo_id=$(basename $(dirname $(pwd)))
