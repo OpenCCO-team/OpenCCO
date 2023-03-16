@@ -51,7 +51,7 @@ int main(int argc, char *const *argv)
   c.exportBoardDisplay("testBase2.svg", 1.0, true);
   c.exportBoardDisplay("testBase2.eps", 1.0, true);
   
-  unsigned int addIndex = c.myVectSegments.size()-1;
+  unsigned int addIndex = (unsigned int) (c.myVectSegments.size()-1);
   DGtal::trace.info() <<"Parent of new segment "
   << c.myVectSegments[c.myVectParent[addIndex]].myCoordinate << " (should be "
   << c.myVectSegments[1].myCoordinate << ")" << std::endl;
@@ -89,7 +89,7 @@ int main(int argc, char *const *argv)
   
   
   DGtal::trace.beginBlock("Testing class CoronaryArteryTree: test random adds");
-  srand (time(NULL));
+  srand ((unsigned int) time(NULL));
   //CoronaryArteryTree cRand (DGtal::Z2i::RealPoint(0, 250), 2000, 1);
   aPerf = 2000;
     TreeTestCirc cRand(DGtal::Z2i::RealPoint(0, sqrt(aPerf/M_PI)), aPerf, 1000, ic);
@@ -125,7 +125,7 @@ int main(int argc, char *const *argv)
 
   
   DGtal::trace.beginBlock("Testing class CoronaryArteryTree: test random adds with distance constraint");
-  srand (time(NULL));
+  srand ((unsigned int) time(NULL));
   //CoronaryArteryTree cRand2 (DGtal::Z2i::RealPoint(0, 250), 20000000, 100);
   aPerf = 20000000;
     TreeTestCirc cRand2(DGtal::Z2i::RealPoint(0, sqrt(aPerf/M_PI)), aPerf, 50, ic);
