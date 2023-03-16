@@ -380,15 +380,6 @@ public:
     double getProjDistance(const TPointD &p0, const TPointD &p1, const TPointD &p) const;
     
     /**
-     * Computes the projected distance from a segment represented with the index  and the point given as argument using dicotomic search.
-     * @param index : the index of the segement used for the comparison
-     * @param p1 : a point representing one extremity
-     * @param p2 : a point representing another extremity
-     * @param epsilon : param for dicotomie search
-     */
-    double getProjDistanceDico(unsigned int index1, const TPointD &p1, const TPointD &p2, const double& epsilon=0.01) const;
-    
-    /**
      * Check if a new added point is too close the nearest segment.
      * @param p : a point
      * @param minDist: min distance
