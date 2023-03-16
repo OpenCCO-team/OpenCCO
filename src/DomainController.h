@@ -59,7 +59,7 @@ public:
         myCenter = center;
     };
     
-    bool isInside(const TPoint &p)
+    virtual bool isInside(const TPoint &p)
     {
         return (myCenter-p).norm() < myRadius;
     }
@@ -138,111 +138,26 @@ public:
     }
     
 };
-
-
-/**
- *  Domain controller based on a ball
- */
 template<int TDim>
-class SquareDomainCtrl {
-public:
-    typedef DGtal::PointVector<TDim, double> TPoint;
-    typedef DGtal::PointVector<TDim, double> TPointD;
-
-    typedef enum {NO_UPDATE, UPDATED} UPDATE_RAD_TYPE ;
-    UPDATE_RAD_TYPE myUpdateType = UPDATED;
-    double myRadius {1.0};
-    TPoint myCenter;
+class SquareDomainCtrl: public CircularDomainCtrl<TDim>{
     
+public:
     // Constructor for ImplicitCirc type
     SquareDomainCtrl(){};
     
-    SquareDomainCtrl(double radius, const TPoint &center)
+    SquareDomainCtrl(double radius,
+                     const typename CircularDomainCtrl<TDim>::TPoint &center)
     {
-        myRadius = radius;
-        myCenter = center;
+        CircularDomainCtrl<TDim>::myRadius = radius;
+        CircularDomainCtrl<TDim>::myCenter = center;
     };
-    
-    bool isInside(const TPoint &p)
+    bool isInside(const typename SquareDomainCtrl<TDim>::TPoint &p)
     {
         bool res = true;
         for (unsigned int i=0; i<TDim; i++){
-            res = res && (myCenter-p)[i] < myRadius;
+            res = res && (CircularDomainCtrl<TDim>::myCenter-p)[i] < CircularDomainCtrl<TDim>::myRadius;
         }
         return res;
-    }
-    
-    TPoint
-    randomPoint() {
-        bool found = false;
-        TPoint p;
-        while(!found){
-            double ss = 0.0;
-            for(unsigned int i = 0;i<TDim; i++ ){
-                p[i] = ((double)rand() / RAND_MAX)*2.0*myRadius - myRadius;
-            }
-            found = isInside(p);
-        }
-        return p + myCenter;
-    }
-    /**
-     * Get the supported domain of the tree. By default it is defined from the circle center.
-     * If the domain if defined from a mask image, the center if computed from the imate center.
-     */
-    TPoint getDomainCenter() const{
-        return myCenter;
-    }
-    
-    /**
-     * Check if the segment defined by two points intersect the domain.
-     *
-     * @param pt1 first point of the segment
-     * @param pt2  second point of the segment
-     */
-    bool
-    checkNoIntersectDomain(const TPoint &pt1, const TPoint &pt2)
-    {
-        return isInside(pt1) && isInside(pt2);
-    }
-    
-    TPoint
-    maxDistantPointFromBorder() const {
-        return myCenter;
-    }
-    
-    TPoint
-    firtCandidatePoint() const {
-        TPoint res;
-        if (TDim == 2){
-            res[0] = 0.0;
-            res[1] = myRadius;
-        }else  if (TDim == 3){
-            res[0] = 0.0;
-            res[1] = myRadius;
-            res[2] = 0.0;
-            
-        }
-        
-        return res;
-        
-    }
-    std::vector<std::vector< TPoint > >
-    contours()
-    {
-        std::vector<std::vector< TPoint > > res;
-        return res;
-    }
-    TPoint
-    lowerBound()
-    {
-        TPoint p = TPoint::diagonal(myRadius*0.01);
-        return myCenter - p;
-    }
-    TPoint
-    upperBound()
-    {
-        TPoint p = TPoint::diagonal(myRadius*0.01);
-        return myCenter + p;
     }
     
 };

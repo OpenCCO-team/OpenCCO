@@ -34,7 +34,7 @@ constructTreeMaskDomain(TTree &aTree, bool verbose)
 
 template<typename TTree>
 void
-constructTreeImplicitDomain(TTree &aTree, bool verbose)
+constructTreeImplicitDomain(TTree &aTree,std::string exportXMLName, bool verbose)
 {
     clock_t start, end;
     start = clock();
@@ -42,6 +42,14 @@ constructTreeImplicitDomain(TTree &aTree, bool verbose)
     ExpandTreeHelpers::expandTree(aTree);
     end = clock();
     printf ("Execution time: %0.8f sec\n", ((double) end - start)/CLOCKS_PER_SEC);
+    XMLHelpers::writeTreeToXml(aTree, "tree_2D.xml");
+    if (exportXMLName != "") XMLHelpers::writeTreeToXml(aTree,
+                                                        exportXMLName.c_str());
+    std::string filename = "testCCO_"+std::to_string(aTree.my_NTerm)+".eps";
+    aTree.exportBoardDisplay(filename.c_str(), 1.0);
+    aTree.exportBoardDisplay("result.eps", 1.0);
+    aTree.exportBoardDisplay("result.svg", 1.0);
+    aTree.myBoard.clear();
 }
 
 
@@ -60,6 +68,8 @@ int main(int argc, char *const *argv)
     int nbTerm {1000};
     double aPerf {20000};
     bool verbose {false};
+    bool squaredImplDomain {false};
+
     double minDistanceToBorder {5.0};
     std::string nameImgDom {""};
     std::vector<int> postInitV {-1,-1};
@@ -70,7 +80,7 @@ int main(int argc, char *const *argv)
     app.add_option("-m,--minDistanceToBorder", minDistanceToBorder, "Set the minimal distance to border. Works only  with option organDomain else it has not effect", true);
     app.add_option("--organDomain,-d", nameImgDom, "Define the organ domain using a mask image (organ=255).");
     app.add_option("-x,--exportXML", exportXMLName, "Output the resulting gaph as xml file", true);
-
+    app.add_flag("-s,--squaredDom",squaredImplDomain , "Use a squared implicit domain instead a sphere (is used only without --organDomain)");
     auto pInit = app.add_option("-p,--posInit", postInitV, "Initial position of root, if not given the position of point is determined from the image center")
     ->expected(2);
     app.add_flag("-v,--verbose", verbose);
@@ -111,26 +121,28 @@ int main(int argc, char *const *argv)
         printf ("Execution time: %0.8f sec\n", ((double) end - start)/CLOCKS_PER_SEC);
         
     }
-    else
+    else if (squaredImplDomain)
     {
+        start = clock();
+        typedef SquareDomainCtrl<2> SqDomCtrl;
+        typedef  CoronaryArteryTree<SqDomCtrl, 2> TTree;
+        SqDomCtrl::TPoint pCenter (0,0);
+        SqDomCtrl aCtr(1.0,pCenter);
+        TTree tree  (aPerf, nbTerm, aCtr, 1.0);
+        constructTreeImplicitDomain(tree, exportXMLName, verbose);
+        end = clock();
+        printf ("Execution time: %0.8f sec\n", ((double) end - start)/CLOCKS_PER_SEC);
+    }else {
         start = clock();
         typedef CircularDomainCtrl<2> DiskDomCtrl;
         typedef  CoronaryArteryTree<DiskDomCtrl, 2> TTree;
         DiskDomCtrl::TPoint pCenter (0,0);
         DiskDomCtrl aCtr(1.0,pCenter);
         TTree tree  (aPerf, nbTerm, aCtr, 1.0);
-        constructTreeImplicitDomain(tree, verbose);
-        XMLHelpers::writeTreeToXml(tree, "tree_2D.xml");
-        if (exportXMLName != "") XMLHelpers::writeTreeToXml(tree,
-                                                            exportXMLName.c_str());
-        std::string filename = "testCCO_"+std::to_string(nbTerm)+".eps";
-        tree.exportBoardDisplay(filename.c_str(), 1.0);
-        tree.exportBoardDisplay("result.eps", 1.0);
-        tree.exportBoardDisplay("result.svg", 1.0);
-        tree.myBoard.clear();
+        constructTreeImplicitDomain(tree, exportXMLName, verbose);
         end = clock();
         printf ("Execution time: %0.8f sec\n", ((double) end - start)/CLOCKS_PER_SEC);
-        
+
     }
     
     return EXIT_SUCCESS;

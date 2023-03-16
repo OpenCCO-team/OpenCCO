@@ -47,7 +47,10 @@ constructTreeMaskDomain(TTree &aTree,
 
 template<typename TTree>
 void
-constructTreeImplicitDomain(TTree &aTree, bool verbose)
+constructTreeImplicitDomain(TTree &aTree, std::string outputMeshName,
+                            std::string exportXMLName,
+                            std::string exportDatName, bool verbose,
+                            bool display3D)
 {
     clock_t start, end;
     start = clock();
@@ -55,7 +58,16 @@ constructTreeImplicitDomain(TTree &aTree, bool verbose)
     ExpandTreeHelpers::expandTree(aTree, verbose);
     end = clock();
     printf ("Execution time: %0.8f sec\n", ((double) end - start)/CLOCKS_PER_SEC);
-}
+    if (exportDatName != "") exportDat(aTree, exportDatName);
+    if (exportXMLName != "") XMLHelpers::writeTreeToXml(aTree,
+                                                        exportXMLName.c_str());
+
+    XMLHelpers::writeTreeToXml(aTree, "tree_3D.xml");
+    exportResultingMesh(aTree, outputMeshName);
+    #ifdef WITH_VISU3D_QGLVIEWER
+        if (display3D) display3DTree(aTree);
+    #endif
+   }
 
 
 
@@ -157,6 +169,7 @@ int main(int argc, char **argv)
   std::string exportDatName {""};
   std::string exportXMLName {""};
   std::vector<int> postInitV {-1,-1,-1};
+  bool squaredImplDomain {false};
 
   app.add_option("-n,--nbTerm,1", nbTerm, "Set the number of terminal segments.", true);
   app.add_option("-a,--aPerf,2", aPerf, "The value of the input parameter A perfusion.", true);
@@ -166,6 +179,8 @@ int main(int argc, char **argv)
   app.add_option("-o,--outputName", outputMeshName, "Output the 3D mesh", true);
   app.add_option("-e,--export", exportDatName, "Output the 3D mesh", true);
   app.add_option("-x,--exportXML", exportXMLName, "Output the resulting gaph as xml file", true);
+  app.add_flag("-s,--squaredDom",squaredImplDomain , "Use a squared implicit domain instead a sphere (is used only without --organDomain)");
+
   auto pInit = app.add_option("-p,--posInit", postInitV, "Initial position of root, if not given the position of point is determined from the image center")
     ->expected(3);
 
@@ -208,6 +223,18 @@ int main(int argc, char **argv)
     if (exportDatName != "") exportDat(tree, exportDatName);
     if (exportXMLName != "") XMLHelpers::writeTreeToXml(tree, exportXMLName.c_str());
   }
+  else if (squaredImplDomain)
+  {
+      typedef SquareDomainCtrl<3> SqDomCtrl;
+      typedef  CoronaryArteryTree<SqDomCtrl, 3> TTree;
+      SqDomCtrl::TPoint pCenter (0,0,0);
+      SqDomCtrl aCtr(1.0 ,pCenter);
+      TTree tree  (aPerf, nbTerm, aCtr,  1.0);
+        constructTreeImplicitDomain(tree, outputMeshName,
+                                    exportDatName,
+                                    exportXMLName, verbose, display3D);
+     
+  }
   else
   {
     typedef CircularDomainCtrl<3> SphereDomCtrl;
@@ -215,16 +242,10 @@ int main(int argc, char **argv)
     SphereDomCtrl::TPoint pCenter (0,0,0);
     SphereDomCtrl aCtr(1.0 ,pCenter);
     TTree tree  (aPerf, nbTerm, aCtr,  1.0);
-
-    constructTreeImplicitDomain(tree, verbose);
-    XMLHelpers::writeTreeToXml(tree, "tree_3D.xml");
-    exportResultingMesh(tree, outputMeshName);
-    #ifdef WITH_VISU3D_QGLVIEWER
-    if (display3D) display3DTree(tree);
-    #endif
-    if (exportDatName != "") exportDat(tree, exportDatName);
-    if (exportXMLName != "") XMLHelpers::writeTreeToXml(tree,
-                                                          exportXMLName.c_str());
+      constructTreeImplicitDomain(tree, outputMeshName,
+                                  exportDatName,
+                                  exportXMLName, verbose, display3D);
+    
   }
   return EXIT_SUCCESS;
 }

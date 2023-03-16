@@ -221,7 +221,7 @@ public:
         {
             aDomCtr.myRadius = my_rPerf;
         }
-        if(aDomCtr.randomPoint() == TPoint(0,0) )
+        if(aDomCtr.randomPoint() == TPoint::diagonal(0) )
         {
             DGtal::trace.error() << "Domain too restraint not possible to find random"
             << " candidate in domain (probably reduce the minimal distance to border"
