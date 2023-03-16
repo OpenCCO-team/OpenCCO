@@ -17,7 +17,7 @@ Y0=$9
 Z0=${10}
 MINDISTBORDER=${11}
 IMPLICITETYPE=${12}
-IMPLICITE2D=${13}
+IMPLICITEDIM=${13}
 
 function applyCommand
 {
@@ -36,14 +36,19 @@ function applyCommand
 
 
 echo "INPUT3DDom = $INPUT3DDom"
-if test -f "$IMPLICITE2D"
+if [ $IMPLICITEDIM -eq 2 ]
 then
   echo "----------------------------------------"
   echo "-----Generating IMPLICIT 2D ------------"
   echo "----------------------------------------"
 
-
+  
   COMMANDGem2D2="${EXEC} -n ${NBTERM} -a ${APERF}  -x graphExport.xml -m ${MINDISTBORDER} >> algo_info.txt"
+  if [ $IMPLICITETYPE -eq 0 ]
+  then
+      COMMANDGem2D2="$COMMANDGem2D2 -s"
+  fi
+  
   set $(identify -format '%w %h' ${INPUT})
   width=$1; height=$2
   COMMANDGem2D3="convert -density 400 -resize ${width}x${height}  -crop ${width}x${height} result.svg result.png"
