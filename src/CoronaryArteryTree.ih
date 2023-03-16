@@ -778,53 +778,19 @@ operator<< ( std::ostream & out,
   return out;
 }
 
-/**
- * Template specialisation for 2D
- **/
-template< >
-double
-CoronaryArteryTree<CircularDomainCtrl<2>, 2>::getDistanceThreshold()
-{
-    return getDistanceThreshold2d();
-}
-template< >
-double
-CoronaryArteryTree<ImageMaskDomainCtrl<2>, 2>::getDistanceThreshold()
-{
-    return getDistanceThreshold2d();
-}
-template< typename DomCtr, int TDim >
-double
-CoronaryArteryTree<DomCtr, TDim>::getDistanceThreshold2d()
-{
-    // Check with python code, here is the equation after simplification
-    return sqrt((M_PI*my_rPerf*my_rPerf)/myKTerm);
-    //Scale factor must be taken into account here
-    //return sqrt((M_PI*(myKTerm + 1)*myRsupp*myRsupp)/myKTerm) / myLengthFactor;
-}
 
-/**
- * Template specialisation for 3D
- **/
-template< >
-double
-CoronaryArteryTree<ImageMaskDomainCtrl<3>, 3>::getDistanceThreshold()
-{
-    return getDistanceThreshold3d();
-}
-
-template< >
-double
-CoronaryArteryTree<CircularDomainCtrl<3>, 3>::getDistanceThreshold()
-{
-    return getDistanceThreshold3d();
-}
 
 template< typename DomCtr, int TDim >
 double
-CoronaryArteryTree<DomCtr, TDim>::getDistanceThreshold3d(){
+CoronaryArteryTree<DomCtr, TDim>::getDistanceThreshold(){
     // Check with python code, here is the equation after simplification
-    return pow(((4.0*M_PI*my_rPerf*my_rPerf*my_rPerf)/(3.0*myKTerm)),1.0/3.0);
+    if (TDim==3)
+    {
+        return pow(((4.0*M_PI*my_rPerf*my_rPerf*my_rPerf)/(3.0*myKTerm)),1.0/3.0);
+    }
+    else if(TDim==2) {
+        return sqrt((M_PI*my_rPerf*my_rPerf)/myKTerm);
+    }
     //Scale factor must be taken into account here
     //return sqrt((M_PI*(myKTerm + 1)*myRsupp*myRsupp)/myKTerm) / myLengthFactor;
 }

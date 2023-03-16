@@ -59,7 +59,7 @@ public:
         myCenter = center;
     };
     
-    bool isInside(const TPoint &p)
+    virtual bool isInside(const TPoint &p)
     {
         return (myCenter-p).norm() < myRadius;
     }
@@ -138,8 +138,29 @@ public:
     }
     
 };
-
-
+template<int TDim>
+class SquareDomainCtrl: public CircularDomainCtrl<TDim>{
+    
+public:
+    // Constructor for ImplicitCirc type
+    SquareDomainCtrl(){};
+    
+    SquareDomainCtrl(double radius,
+                     const typename CircularDomainCtrl<TDim>::TPoint &center)
+    {
+        CircularDomainCtrl<TDim>::myRadius = radius;
+        CircularDomainCtrl<TDim>::myCenter = center;
+    };
+    bool isInside(const typename SquareDomainCtrl<TDim>::TPoint &p)
+    {
+        bool res = true;
+        for (unsigned int i=0; i<TDim; i++){
+            res = res && (CircularDomainCtrl<TDim>::myCenter-p)[i] < CircularDomainCtrl<TDim>::myRadius;
+        }
+        return res;
+    }
+    
+};
 
 /**
  *  Domain controller based on a Image Mask

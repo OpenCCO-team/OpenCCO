@@ -221,7 +221,7 @@ public:
         {
             aDomCtr.myRadius = my_rPerf;
         }
-        if(aDomCtr.randomPoint() == TPoint(0,0) )
+        if(aDomCtr.randomPoint() == TPoint::diagonal(0) )
         {
             DGtal::trace.error() << "Domain too restraint not possible to find random"
             << " candidate in domain (probably reduce the minimal distance to border"
@@ -304,9 +304,6 @@ public:
      */
     double getDistanceThreshold();
     
-    //used to template specialisation
-    double getDistanceThreshold3d();
-    double getDistanceThreshold2d();
     /**
      * Updates the radius of a segment (as given in Eq. 19)
      * @param segIndex index of the parent segment to be updated
