@@ -83,9 +83,12 @@ testCompareResult(int NTerm, int seed)
            while (nbSol==0) {
              auto pt = cTree.generateNewLocation(100);
              std::vector<unsigned int> vecN = cTree.getN_NearestSegments(pt,cTree.myNumNeighbor);
-             for(size_t it=0; it<vecN.size(); it++) {
-               if(!cTree.isIntersecting(pt, cTree.findBarycenter(pt, vecN.at(it)),vecN.at(it),cTree.myNumNeighbor, 2*cTree.myVectSegments[vecN.at(it)].myRadius)) {
-                   TTreeCircDom cTree1 = cTree;
+                 for(size_t it=0; it<vecN.size(); it++) {
+                     auto ptBifurcation = cTree.findBarycenter(pt, vecN.at(it));
+                          if(!cTree.isIntersectingTree(pt, ptBifurcation,
+                                                       cTree.myVectSegments[vecN.at(it)].myRadius,
+                                                       vecN.at(it))) {
+                             TTreeCircDom cTree1 = cTree;
                  isOK = cTree1.isAddable(pt,vecN.at(it), 100, 0.01, cTree1.myNumNeighbor, true);
                  if(isOK) {
                    vol = cTree1.computeTotalVolume(1);
