@@ -143,7 +143,7 @@ class XMLGraphParse : NSObject, XMLParserDelegate {
             myPperf = Double(foundCharacters)
             foundCharacters=""
             readPPerf = false
-        }
+         }
         if elementName == "edge" {
             myEdges.append(myCurrentEdge!)
             myCurrentEdge = nil

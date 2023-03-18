@@ -69,7 +69,7 @@ int main(int argc, char *const *argv)
     double aPerf {20000};
     bool verbose {false};
     bool squaredImplDomain {false};
-
+    double gamma {3.0};
     double minDistanceToBorder {5.0};
     std::string nameImgDom {""};
     std::vector<int> postInitV {-1,-1};
@@ -77,6 +77,7 @@ int main(int argc, char *const *argv)
     
     app.add_option("-n,--nbTerm,1", nbTerm, "Set the number of terminal segments.", true);
     app.add_option("-a,--aPerf,2", aPerf, "The value of the input parameter A perfusion.", true);
+    app.add_option("-g,--gamma", gamma, "The value of the gamma parameter.", true);
     app.add_option("-m,--minDistanceToBorder", minDistanceToBorder, "Set the minimal distance to border. Works only  with option organDomain else it has not effect", true);
     app.add_option("--organDomain,-d", nameImgDom, "Define the organ domain using a mask image (organ=255).");
     app.add_option("-x,--exportXML", exportXMLName, "Output the resulting gaph as xml file", true);
@@ -108,6 +109,7 @@ int main(int argc, char *const *argv)
         }
         aDomCtr.myMinDistanceToBorder = minDistanceToBorder;
         TTree tree  (aPerf, nbTerm, aDomCtr,  1.0);
+        tree.my_gamma = gamma;
         constructTreeMaskDomain(tree, verbose);
         XMLHelpers::writeTreeToXml(tree, "tree_2D.xml");
         if (exportXMLName != "") XMLHelpers::writeTreeToXml(tree, exportXMLName.c_str());
@@ -129,6 +131,7 @@ int main(int argc, char *const *argv)
         SqDomCtrl::TPoint pCenter (0,0);
         SqDomCtrl aCtr(1.0,pCenter);
         TTree tree  (aPerf, nbTerm, aCtr, 1.0);
+        tree.my_gamma = gamma;
         constructTreeImplicitDomain(tree, exportXMLName, verbose);
         end = clock();
         printf ("Execution time: %0.8f sec\n", ((double) end - start)/CLOCKS_PER_SEC);
@@ -139,6 +142,7 @@ int main(int argc, char *const *argv)
         DiskDomCtrl::TPoint pCenter (0,0);
         DiskDomCtrl aCtr(1.0,pCenter);
         TTree tree  (aPerf, nbTerm, aCtr, 1.0);
+        tree.my_gamma = gamma;
         constructTreeImplicitDomain(tree, exportXMLName, verbose);
         end = clock();
         printf ("Execution time: %0.8f sec\n", ((double) end - start)/CLOCKS_PER_SEC);

@@ -124,100 +124,114 @@ func usage(){
 }
 
 
+
+
+func processGraph(nodesFile: String,
+                  edgeFile: String,
+                  radiusFile: String,
+                  tabRad: inout [[Double]]){
+    
+    print("Reading edges files \(edgeFile)", terminator: "")
+    let edges = readEdges(fileName: edgeFile)
+    print("[done]: \(edges.count)")
+    print("Reading nodes files \(nodesFile)", terminator: "")
+    var vertex = readVertex(fileName: nodesFile)
+    print("[done]: \(vertex.count)")
+    print("Reading radius files \(radiusFile)", terminator: "")
+    let radius = readRadius(fileName: radiusFile)
+    print("[done]: \(radius.count)")
+    
+    // updating for each vertex, the radius
+    for v in vertex {
+        if let i = v.id {
+            vertex[i].radius = radius[i]
+            vertex[i].bifLevel = -1
+        }
+    }
+    // Updating for each vertex, the childs 1 and 2 from the edges
+    for e in edges {
+        if let vA = e.idA, let vB = e.idB {
+            if vertex[vA].children1 == nil {
+                vertex[vA].children1 = vB
+            }else {
+                vertex[vA].children2 = vB
+            }
+            vertex[vB].parent =  vA
+        }
+    }
+    
+    // Update for each vertex its bifurcation level
+    var listTraite: [Int] = [0]
+    while !listTraite.isEmpty
+    {
+        let s = listTraite.removeLast()
+        if let p = vertex[s].parent  {
+            vertex[s].bifLevel = vertex[p].bifLevel + 1
+        }else {
+            vertex[s].bifLevel = 0
+        }
+        if let c = vertex[s].children1 {
+            listTraite.append(c)
+        }
+        if let c = vertex[s].children2 {
+            listTraite.append(c)
+        }
+    }
+    
+    var bifLevelMax = 0
+    for v in vertex {
+        if v.bifLevel > bifLevelMax {
+            bifLevelMax = v.bifLevel
+        }
+    }
+    while tabRad.count <= bifLevelMax+1
+    {
+            tabRad.append([Double]())
+    }
+    // Filling tab radius
+    for v in vertex {
+        if let r = v.radius {
+            tabRad[v.bifLevel].append(r)
+        }
+    }
+    
+}
+
+
+
 if CommandLine.arguments.count < 5 {
     usage()
     exit(1)
 }
 
-let nodesFile = CommandLine.arguments[1]
-let edgeFile = CommandLine.arguments[2]
-let radiusFile = CommandLine.arguments[3]
-let radiusStatFile = CommandLine.arguments[4]
-
-print("Reading edges files \(edgeFile)", terminator: "")
-var edges = readEdges(fileName: edgeFile)
-print("[done]: \(edges.count)")
 
 
-print("Reading nodes files \(nodesFile)", terminator: "")
-var vertex = readVertex(fileName: nodesFile)
-print("[done]: \(vertex.count)")
-
-
-print("Reading radius files \(radiusFile)", terminator: "")
-let radius = readRadius(fileName: radiusFile)
-print("[done]: \(radius.count)")
+let radiusStatFile = CommandLine.arguments[1]
 
 
 
-// updating for each vertex, the radius
-for v in vertex {
-    if let i = v.id {
-        vertex[i].radius = radius[i]
-        vertex[i].bifLevel = -1
-    }
-}
 
-
-// Updating for each vertex, the childs 1 and 2 from the edges
-for e in edges {
-    if let vA = e.idA, let vB = e.idB {
-        if vertex[vA].children1 == nil {
-            vertex[vA].children1 = vB
-        }else {
-            vertex[vA].children2 = vB
-        }
-        vertex[vB].parent =  vA
-    }
-}
-
-// Update for each vertex its bifurcation level
-var listTraite: [Int] = [0]
-while !listTraite.isEmpty
-{
-    let s = listTraite.removeLast()
-    if let p = vertex[s].parent  {
-        vertex[s].bifLevel = vertex[p].bifLevel + 1
-    }else {
-       vertex[s].bifLevel = 0
-    }
-    if let c = vertex[s].children1 {
-        listTraite.append(c)
-    }
-    if let c = vertex[s].children2 {
-        listTraite.append(c)
-    }
-}
-
-
-
-var bifLevelMax = 0
-for v in vertex {
-    if v.bifLevel > bifLevelMax {
-        bifLevelMax = v.bifLevel
-    }
-}
 
 
 // Initialisation of the tab representing for each bifurcation level le tabular of radius of the edges.
 var tabRadiusBif = [[Double]]()
-for _ in 0...bifLevelMax {
-    tabRadiusBif.append([Double]())
+
+for i in 0..<(CommandLine.arguments.count-2)/3 {
+    let nodesFile = CommandLine.arguments[i*3+2]
+    let edgeFile = CommandLine.arguments[i*3+3]
+    let radiusFile = CommandLine.arguments[i*3+4]
+    processGraph(nodesFile: nodesFile, edgeFile: edgeFile,
+                 radiusFile: radiusFile, tabRad: &tabRadiusBif)
 }
 
-// Filling tab radius
-for v in vertex {
-    if let r = v.radius {
-        tabRadiusBif[v.bifLevel].append(r)
-    }
-}
+
 
 let url = URL( fileURLWithPath: radiusStatFile )
 var content = ""
 content += "# Mean Variance nbElements \n"
 
 // Starting from level 1 since the root is by definition not associated to any segment
-for i in 1...bifLevelMax {
+for i in 1..<tabRadiusBif.count {
  let meanEsp = getMeanVariance(t: tabRadiusBif[i])
     content += "\(i-1) \(meanEsp.0) \(meanEsp.1)  \(tabRadiusBif[i].count) \n"
 }
