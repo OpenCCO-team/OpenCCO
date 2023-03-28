@@ -10,7 +10,7 @@ SET(BUILD_EXAMPLES OFF)
 
 FetchContent_Declare(
     DGtal
-    GIT_REPOSITORY https://github.com/DGtal-team/DGtal.git
+    URL "file://${PROJECT_SOURCE_DIR}/ext/DGtal.zip"
     GIT_SHALLOW    TRUE
     )
 FetchContent_MakeAvailable(DGtal)
