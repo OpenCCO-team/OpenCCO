@@ -1,4 +1,4 @@
-# LiverCCO
+# OpenCCO
 
 [![CI (linux/macOS)](https://github.com/kerautret/LiverCCO/actions/workflows/build.yml/badge.svg)](https://github.com/kerautret/LiverCCO/actions/workflows/build.yml)
 
