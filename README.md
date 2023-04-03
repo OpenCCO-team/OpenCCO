@@ -39,8 +39,17 @@ sudo apt-get install cmake libboost-dev libceres-dev libceres1
 Then the binary file "generateTree2D" and "generateTree3D" will be available in the "/build/bin" directory.
 
 
-### run 
----------------
+## Typical use 
+
+```
+ ./build/bin/generateTree3D -n 3000 -a 20000  -d Samples/bunnyThickBdr.vol   --view -m 1 -p 143 -107 7
+ ```
+
+
+
+
+
+
 For more details see IPOL Journal article available here: 
  http://dx.doi.org/10.5201/ipol.xxx
 
