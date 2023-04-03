@@ -89,6 +89,8 @@ You will obtain such type of visualisation:
 
 For more details see IPOL Journal article available here: 
  http://dx.doi.org/10.5201/ipol.xxx
+# Acknowledgements
+This work was supported by the French Agence Nationale de la Recherche (grants ANR-18-CE45- 0018, ANR-18-CE45-0014, ANR-20-CE45-0011).
 
 
 
