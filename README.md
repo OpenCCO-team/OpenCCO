@@ -4,7 +4,7 @@
 
 
 
-This is the Implementation of the CCO algorithm based on [[Schreiner etal. 93](https://github.com/kerautret/LiverCCO/blob/main/Refs/schreiner90.pdf)] algorithm and note of [[Clara Jaquet and Hugues Talbot  Feb 2021](https://github.com/kerautret/LiverCCO/blob/main/Refs/ccoJacquetHugues.pdf)]
+This is the Implementation of the CCO algorithm based on [[Schreiner etal. 93] algorithm and note of [[Clara Jaquet and Hugues Talbot  Feb 2021](https://github.com/kerautret/LiverCCO/blob/main/Refs/ccoJacquetHugues.pdf)]
 and proposed to the IPOL journal: 
 "OpenCCO: An Implementation of Constrained Constructive Optimization for Generating 2D and 3D Vascular Trees" 
 
