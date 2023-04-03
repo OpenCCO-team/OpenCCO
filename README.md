@@ -49,6 +49,15 @@ Then the binary file "generateTree2D" and "generateTree3D" will be available in 
 <img width="616" alt="Capture d’écran 2023-04-03 à 02 46 55" src="https://user-images.githubusercontent.com/772865/229388906-2035b721-f4f6-4f9c-bb2b-1490b5a86187.png">
 
 
+### Generate vascalar tree on an implicit square domain :
+```
+./build/bin/generateTree3D -n 3000 -a 20000  -s
+meshViewer result.off
+```
+(or used directly the --view option)
+You will obtain such type of visualisation:
+<img width="912" alt="Capture d’écran 2023-04-03 à 02 58 25" src="https://user-images.githubusercontent.com/772865/229389571-ccac9ca2-a560-4b1b-acce-7ce9d825efa5.png">
+
 
 
 For more details see IPOL Journal article available here: 
