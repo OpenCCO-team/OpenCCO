@@ -46,14 +46,45 @@ sudo apt-get install cmake libboost-dev libceres-dev libceres1
 Then the binary file "generateTree2D" and "generateTree3D" will be available in the "/build/bin" directory.
 
 
-## Typical use 
 
+## Typical 2D tree generation
+
+### Generate vascalar tree on an implicit square domain :
+```
+./build/bin/generateTree2D -n 3000 -a 20000  -s
+```
+You will obtain such a display:
+
+![Capture d’écran 2023-04-03 à 03 06 25](https://user-images.githubusercontent.com/772865/229390129-635e2863-5679-4065-b6c2-cefa921f79aa.png)
+
+
+### Generate vascalar tree on the domain defined from the boudary of a binary shape:
+```
+./build/bin/generateTree2D -n 3000 -a 20000  -d Samples/shape3.pgm 
+```
+<img width="628" alt="Capture d’écran 2023-04-03 à 03 18 19" src="https://user-images.githubusercontent.com/772865/229391012-b9b6efc4-aa10-48de-ac5a-063d023f083f.png">
+
+
+
+## Typical 3D tree generation
+
+### Generate vascalar tree on the domain defined from the boudary of the bunny.obj:
+The following commands permits to generate a vascular with 3000 terminal and starting with a specific 3D point (-p option): 
 ```
  ./build/bin/generateTree3D -n 3000 -a 20000  -d Samples/bunnyThickBdr.vol   --view -m 1 -p 143 -107 7
  ```
+ 
+<img width="616" alt="Capture d’écran 2023-04-03 à 02 46 55" src="https://user-images.githubusercontent.com/772865/229388906-2035b721-f4f6-4f9c-bb2b-1490b5a86187.png">
 
 
-
+### Generate vascalar tree on an implicit square domain :
+```
+./build/bin/generateTree3D -n 3000 -a 20000  -s
+meshViewer result.off
+```
+(or used directly the --view option)
+You will obtain such type of visualisation:
+<img width="912" alt="Capture d’écran 2023-04-03 à 02 58 25" src="https://user-images.githubusercontent.com/772865/229389571-ccac9ca2-a560-4b1b-acce-7ce9d825efa5.png">
 
 
 
