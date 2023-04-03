@@ -1,0 +1,18 @@
+
+# Generation of the vascusynth
+# using files paramMainN200.txt paramN200.txt 
+
+
+VascuSynth paramMainN200.txt imageNameListParamN200.txt  0.04
+xml2graph resN200/tree_structure.xml
+graphViewer -v vertex.dat -e edges.dat -r radius.dat -s 25 --cstSectionEdgeRad
+
+
+# Generation of the LiverCCO
+time generateTree3D -n 200 -a 100000   -x graphExport.xml  -s    
+xml2graph graphExport.xml
+graphViewer -v vertex.dat -e edges.dat -r radius.dat  --cstSectionEdgeRad
+
+
+
+
