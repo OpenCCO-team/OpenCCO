@@ -8,11 +8,18 @@ This is the Implementation of the CCO algorithm based on [[Schreiner etal. 93](h
 and proposed to the IPOL journal: 
 "OpenCCO: An Implementation of Constrained Constructive Optimization for Generating 2D and 3D Vascular Trees" 
 
+The online demonstration is available [here](https://ipolcore.ipol.im/demo/clientApp/demo.html?id=5555531082026} 
+
+
 version 1.0 IPOL article ( http://dx.doi.org/xxxx )
+
+
 
 Copyright (c) 2023 by B. Kerautret;  Phuc Ngo, N. Passat H. Talbot and C. Jaquet
 License: GNU LESSER GENERAL PUBLIC LICENSE (the "LGPL").
 Version 1.0 04/04/2023
+
+
 
 
 ## Dependencies
