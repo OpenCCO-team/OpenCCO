@@ -41,11 +41,12 @@ Then the binary file "generateTree2D" and "generateTree3D" will be available in 
 
 ## Typical use 
 
+### Generate vascalar tree on the domain defined from the boudary of the bunny.obj:
 ```
  ./build/bin/generateTree3D -n 3000 -a 20000  -d Samples/bunnyThickBdr.vol   --view -m 1 -p 143 -107 7
  ```
-
-
+ 
+<img width="616" alt="Capture d’écran 2023-04-03 à 02 46 55" src="https://user-images.githubusercontent.com/772865/229388906-2035b721-f4f6-4f9c-bb2b-1490b5a86187.png">
 
 
 
