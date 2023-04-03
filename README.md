@@ -39,9 +39,20 @@ sudo apt-get install cmake libboost-dev libceres-dev libceres1
 Then the binary file "generateTree2D" and "generateTree3D" will be available in the "/build/bin" directory.
 
 
-## Typical use 
+
+## Typical 2D tree generation
+
+```
+./build/bin/generateTree2D -n 3000 -a 20000  -s
+```
+You will obtain such a display:
+
+![Capture d’écran 2023-04-03 à 03 06 25](https://user-images.githubusercontent.com/772865/229390129-635e2863-5679-4065-b6c2-cefa921f79aa.png)
+
+## Typical 3D tree generation
 
 ### Generate vascalar tree on the domain defined from the boudary of the bunny.obj:
+The following commands permits to generate a vascular with 3000 terminal and starting with a specific 3D point (-p option): 
 ```
  ./build/bin/generateTree3D -n 3000 -a 20000  -d Samples/bunnyThickBdr.vol   --view -m 1 -p 143 -107 7
  ```
