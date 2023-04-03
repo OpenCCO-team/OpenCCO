@@ -1,0 +1,16 @@
+
+
+meshBasicEdit -i ~/mesh3D/bunny.off --scale 2000 -o lapin.obj
+mesh2vol lapin.obj lapin.vol -d -f 255
+volAddBorder lapin.vol  lapin.vol
+volAddBorder lapin.vol  lapin.vol
+volAddBorder lapin.vol  lapin.vol
+volAddBorder lapin.vol  lapin.vol
+volAddBorder lapin.vol  lapin.vol
+volAddBorder lapin.vol  lapin.vol
+basicMorphoFilter -i lapin.vol -o lapinDilateS2.vol -d -s 4
+volBoundary2obj lapinDilateS2.vol lapinDilateS2.obj
+meshViewer lapinDilateS2.obj --customColorMesh 250 50 50 20
+./bin/generateTree3D -n 5000 -a 20000  -d lapinDilateS2.vol   --view -m 1 -p 143 -107 7
+ meshViewer result.off --customColorMesh 255 0 0 255
+meshBasicEdit lapin.obj --scale 0.98 lapinScale0.2.obj --barycenterScaleRef
