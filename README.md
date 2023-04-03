@@ -49,12 +49,22 @@ Then the binary file "generateTree2D" and "generateTree3D" will be available in 
 
 ## Typical 2D tree generation
 
+### Generate vascalar tree on an implicit square domain :
 ```
 ./build/bin/generateTree2D -n 3000 -a 20000  -s
 ```
 You will obtain such a display:
 
 ![Capture d’écran 2023-04-03 à 03 06 25](https://user-images.githubusercontent.com/772865/229390129-635e2863-5679-4065-b6c2-cefa921f79aa.png)
+
+
+### Generate vascalar tree on the domain defined from the boudary of a binary shape:
+```
+./build/bin/generateTree2D -n 3000 -a 20000  -d Samples/shape3.pgm 
+```
+<img width="628" alt="Capture d’écran 2023-04-03 à 03 18 19" src="https://user-images.githubusercontent.com/772865/229391012-b9b6efc4-aa10-48de-ac5a-063d023f083f.png">
+
+
 
 ## Typical 3D tree generation
 
