@@ -427,12 +427,21 @@ CoronaryArteryTree<DomCtr, TDim>::boardDisplay(double thickness, bool clearDispl
 {
   double scaleFactorEPS = 0.01;
   myBoard.setUnit(scaleFactorEPS, LibBoard::Board::UCentimeter);
+
   if (clearDisplay){
-    myBoard.clear();
+    myBoard.clear(DGtal::Color::White);
   }
+
+  // color gradient for the vessels, depending on the value of the log of the flow
+  DGtal::GradientColorMap<float> cmap_grad(std::log(my_qTerm), std::log(my_qPerf));
+  cmap_grad.addColor( DGtal::Color( 79, 162, 198 ) );   // blue
+  //cmap_grad.addColor( DGtal::Color( 255, 0, 0 ) );      // red
+  cmap_grad.addColor( DGtal::Color( 200, 10, 10 ) );    // red
+
   // 57.5 from myBoard change scale
   double scaleBoard = 57.5*scaleFactorEPS;
-  // drawing base circle
+  
+  // drawing base circle when the domain is circular
   if (std::is_same<DomCtr, CircularDomainCtrl<TDim>>::value)
   {
     myBoard.setPenColor(DGtal::Color::Blue);
@@ -440,72 +449,56 @@ CoronaryArteryTree<DomCtr, TDim>::boardDisplay(double thickness, bool clearDispl
     myBoard.drawCircle(myTreeCenter[0], myTreeCenter[1], my_rPerf, 1);
   }
   
-  // draw root: (first segment is special reduced to one point and no parent).
-  TPointD p0 = myVectSegments[0].myCoordinate;
-  myBoard.setPenColor(DGtal::Color(10, 100, 0, 180));
-  myBoard.setLineWidth(1.0);
-  myBoard.fillCircle(p0[0], p0[1], 2.0*myVectSegments[1].myRadius*scaleBoard*thickness, 1);
-  
-  myBoard.setPenColor(DGtal::Color(100, 100, 0, 180));
-  myBoard.setLineWidth(1.0);
-  myBoard.fillCircle(myTreeCenter[0], myTreeCenter[1], 2.0*myVectSegments[1].myRadius*scaleBoard*thickness, 1);
-  
-  
-  TPointD p1 = myVectSegments[1].myCoordinate;
-  
-  myBoard.setPenColor(DGtal::Color(180, 0, 0, 180));
-  myBoard.setLineWidth(1.0);
-  myBoard.fillCircle(p1[0], p1[1], myVectSegments[1].myRadius*thickness, 1);
-  
-  myBoard.setLineWidth(myVectSegments[1].myRadius*scaleBoard*thickness);
-  myBoard.setPenColor(DGtal::Color(150, 0, 0, 150));
-  myBoard.drawLine(p0[0], p0[1], p1[0], p1[1], 2);
-  
-  DGtal::GradientColorMap<int> cmap_grad( 0, (int) myVectSegments.size()+1 );
-  cmap_grad.addColor( DGtal::Color( 50, 50, 255 ) );
-  cmap_grad.addColor( DGtal::Color( 255, 0, 0 ) );
-  cmap_grad.addColor( DGtal::Color( 255, 255, 10 ) );
   unsigned int i = 0;
   for (auto s : myVectSegments)
   {
-    // test if the segment is the root or its parent we do not display (already done).
-    if (s.myIndex == 0 || s.myIndex == 1)
+    // test if the segment is the first (root's parent), we do not display it.
+    if (s.myIndex == 0)
       continue;
-  
-    // distal node
-    TPointD distal = s.myCoordinate;
+
+    // computing the color of the segment
+    DGtal::Color segcolor = cmap_grad(std::log(myVectSegments[s.myIndex].myFlow));            // color from cmap
+    //uint8_t alpha = 255 * (0.18 + 0.82 * myVectSegments[s.myIndex].myRadius / myVectSegments[1].myRadius);  // transparency
+    //myBoard.setPenColorRGBi(segcolor.red(), segcolor.green(), segcolor.blue(), alpha);
+    myBoard.setPenColor(segcolor);
+
+    // segment width
+    double segwidth = myVectSegments[s.myIndex].myRadius * scaleBoard * thickness;
+    
+    // start and end of segment
     TPointD proxital = myVectSegments[myVectParent[s.myIndex]].myCoordinate;
-    myBoard.setLineWidth(myVectSegments[s.myIndex].myRadius*scaleBoard*thickness);
-    // myBoard.setPenColor(cmap_grad(i));
-    myBoard.setPenColor(DGtal::Color::Gray);
+    TPointD distal = s.myCoordinate;
+
+    // draw the body of the segment
+    myBoard.setLineWidth(segwidth);
     myBoard.drawLine(distal[0], distal[1], proxital[0], proxital[1],2);
-    myBoard.setLineWidth(1.0);
-    myBoard.setPenColor(DGtal::Color(180, 0, 0, 180));
-    myBoard.fillCircle(distal[0], distal[1], myVectSegments[s.myIndex].myRadius*thickness, 1 );
+
+    // draw the tip of the segment
+    //myBoard.fillCircle(distal[0], distal[1], myVectSegments[s.myIndex].myRadius * thickness, 1 );
     i++;
   }
+
   if (std::is_same<DomCtr, ImageMaskDomainCtrl<TDim>>::value)
   {
-     auto vectContours = myDomainController().contours();//ExpandTreeHelpers::getImageContours(myDomainController().myImage, myForegroundThreshold);
-     for(auto const c: vectContours){
-       DGtal::Color col;
-       if(DGtal::ContourHelper::isCounterClockWise(c)){
-         col = DGtal::Color(200, 200, 200);
-       }else{
-         col = DGtal::Color::White;
-       }
-       std::vector<LibBoard::Point> bv;
-       for(unsigned int i=0; i<c.size(); i++){
-         bv.push_back(LibBoard::Point(c[i][0], c[i][1]));
-       }
-       myBoard.setFillColor(col);
-       myBoard.setLineWidth(5.0*scaleFactorEPS);
-       myBoard.fillPolyline(bv);
-       myBoard.drawPolyline(bv);
-     }
-
-   }
- }
+    auto vectContours = myDomainController().contours();//ExpandTreeHelpers::getImageContours(myDomainController().myImage, myForegroundThreshold);
+    for(auto const c: vectContours){
+      DGtal::Color col;
+      if(DGtal::ContourHelper::isCounterClockWise(c)){
+        col = DGtal::Color(200, 200, 200);
+      }else{
+        col = DGtal::Color::White;
+      }
+      std::vector<LibBoard::Point> bv;
+      for(unsigned int i=0; i<c.size(); i++){
+        bv.push_back(LibBoard::Point(c[i][0], c[i][1]));
+      }
+      myBoard.setFillColor(col);
+      myBoard.setLineWidth(5.0*scaleFactorEPS);
+      myBoard.fillPolyline(bv);
+      myBoard.drawPolyline(bv);
+    }
+  }
+}
 
 template< class DomCtr, int TDim >
 void

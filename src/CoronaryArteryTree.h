@@ -249,6 +249,8 @@ public:
         }
 
         DGtal::trace.info() << "Construction initialized..." << std::endl;
+
+        myBoard.setLineCap(LibBoard::Shape::LineCap::RoundCap);
     };
     
     
@@ -283,10 +285,10 @@ public:
        * @param ptA the second point
        * @param r : radius of the thick segment
        */
-      bool isIntersectingTree(const TPointD &ptA,
-                              const TPointD &ptB,
-                              double r,
-                              unsigned int idSeg) const;
+    bool isIntersectingTree(const TPointD &ptA,
+                            const TPointD &ptB,
+                            double r,
+                            unsigned int idSeg) const;
     /**
      * Verifies if there is an intersection between a thick segment defined by two points
      * and all other segments of the tree, except the segments given in idExcept
@@ -462,6 +464,10 @@ public:
     
     void boardDisplay(double thickness = 1,
                       bool clearDisplay = true);
+
+
+    void createPointInDomain(int nbpoints);
+
     void exportBoardDisplay(const std::string &fileName = "result.eps",
                             double thickness = 1,
                             bool updateDisplay = true,

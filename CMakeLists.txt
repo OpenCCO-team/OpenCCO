@@ -17,8 +17,6 @@ SET(SOURCE_BASE_FILES
 
 find_package(Ceres REQUIRED)
 
-
-
 # CLI11
 include_directories( "${PROJECT_SOURCE_DIR}/ext/" "${PROJECT_SOURCE_DIR}/src/helpers/" "${PROJECT_SOURCE_DIR}/src/" )
 FIND_PACKAGE(DGtal REQUIRED)
