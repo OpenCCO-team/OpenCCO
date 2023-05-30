@@ -7,15 +7,24 @@
 #include <stdexcept>
 #include <algorithm>
 #include <numeric>
+#include <limits>
 
-#include "DGtal/helpers/StdDefs.h"
 #include "DGtal/base/Common.h"
+#include "DGtal/helpers/StdDefs.h"
+
 #include "GeomHelpers.h"
 
 typedef DGtal::ImageContainerBySTLVector<DGtal::Z2i::Domain, double> TImage2D;
 typedef DGtal::Z2i::Point TPoint;
 typedef DGtal::PointVector<2, double> TPointD;
 typedef DGtal::Z2i::Domain TDomain;
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////                   Segment                     ////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////
+
+
 
 struct Segment
 {
@@ -34,6 +43,13 @@ struct Segment
 	friend bool operator<(const Segment & s1, const Segment & s2);
 };
 
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////                 ArteryTree                    ////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
 struct ArteryTree
 {
 	std::vector<Segment> mySegments;
@@ -50,14 +66,26 @@ struct ArteryTree
 	void sort();
 };
 
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////            TreeImageRenderer                  ////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
 class TreeImageRenderer
 {
 public:
 	// Constructor
-	TreeImageRenderer(unsigned int width);
+	TreeImageRenderer(const unsigned int width,
+					  const std::string & radii_filename,
+					  const std::string & vertices_filename,
+					  const std::string & edges_filename);
 
 	// Methods
-	void importTreeData();
+	void importTreeData(const std::string & radii_filename,
+						const std::string & vertices_filename,
+						const std::string & edges_filename);
 
 	/**
      * Computes the image size given its desired width and the margins thickness
@@ -66,7 +94,13 @@ public:
      **/
 	void setImageSize(unsigned int width, unsigned int margin_thickness);
 
-	void createDistanceAlphaChannel();
+	void createDistanceMap();
+	
+	void createTreeImage();
+
+	const TImage2D & distanceMap() const;
+
+	const TImage2D & treeImage() const;
 
 private:
 	// Member variables
@@ -77,7 +111,13 @@ private:
 	TDomain myDomain;
 };
 
-// Other useful fonctions
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////               Other functions                 ////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////
+
+
 
 /**
  * Computes the upper and lower bounds of a vector of points
@@ -105,8 +145,7 @@ bool projectOnStraightLine(const TPointD & ptA,
 
 
 /**
- * Creates a subdomain from a domain and desired lower and upper bounds.
- * Upper and lower bounds may be outside the domain, in other words the 
+ * Creates a subdomain that is the result of the intersection of two domains
  * @param dom1 1st domain
  * @param dom2 2nd domain
  * @return the domain resulting from the intersection

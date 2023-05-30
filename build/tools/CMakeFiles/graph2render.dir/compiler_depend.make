@@ -202,7 +202,7 @@ tools/CMakeFiles/graph2render.dir/TreeImageRenderer.cpp.o: ../tools/TreeImageRen
   /usr/include/c++/11/numeric \
   /usr/include/c++/11/bits/stl_numeric.h \
   /usr/include/c++/11/bit \
-  /usr/local/include/DGtal/helpers/StdDefs.h \
+  /usr/include/c++/11/limits \
   /usr/local/include/DGtal/base/Common.h \
   /usr/local/include/QGLViewer/qglviewer.h \
   /usr/local/include/QGLViewer/camera.h \
@@ -299,7 +299,6 @@ tools/CMakeFiles/graph2render.dir/TreeImageRenderer.cpp.o: ../tools/TreeImageRen
   /usr/include/x86_64-linux-gnu/qt5/QtCore/qobject_impl.h \
   /usr/include/c++/11/chrono \
   /usr/include/c++/11/ratio \
-  /usr/include/c++/11/limits \
   /usr/include/c++/11/ctime \
   /usr/include/c++/11/bits/parse_numbers.h \
   /usr/include/x86_64-linux-gnu/qt5/QtCore/QTimer \
@@ -1051,6 +1050,7 @@ tools/CMakeFiles/graph2render.dir/TreeImageRenderer.cpp.o: ../tools/TreeImageRen
   /usr/local/include/DGtal/base/BasicBoolFunctors.ih \
   /usr/local/include/DGtal/base/BasicArchetypes.h \
   /usr/local/include/DGtal/base/Exceptions.h \
+  /usr/local/include/DGtal/helpers/StdDefs.h \
   /usr/local/include/DGtal/kernel/SpaceND.h \
   /usr/local/include/DGtal/kernel/CInteger.h \
   /usr/local/include/DGtal/kernel/CEuclideanRing.h \
@@ -2007,7 +2007,7 @@ tools/CMakeFiles/graph2render.dir/graph2render.cpp.o: ../tools/graph2render.cpp 
   /usr/include/c++/11/numeric \
   /usr/include/c++/11/bits/stl_numeric.h \
   /usr/include/c++/11/bit \
-  /usr/local/include/DGtal/helpers/StdDefs.h \
+  /usr/include/c++/11/limits \
   /usr/local/include/DGtal/base/Common.h \
   /usr/local/include/QGLViewer/qglviewer.h \
   /usr/local/include/QGLViewer/camera.h \
@@ -2104,7 +2104,6 @@ tools/CMakeFiles/graph2render.dir/graph2render.cpp.o: ../tools/graph2render.cpp 
   /usr/include/x86_64-linux-gnu/qt5/QtCore/qobject_impl.h \
   /usr/include/c++/11/chrono \
   /usr/include/c++/11/ratio \
-  /usr/include/c++/11/limits \
   /usr/include/c++/11/ctime \
   /usr/include/c++/11/bits/parse_numbers.h \
   /usr/include/x86_64-linux-gnu/qt5/QtCore/QTimer \
@@ -2856,6 +2855,7 @@ tools/CMakeFiles/graph2render.dir/graph2render.cpp.o: ../tools/graph2render.cpp 
   /usr/local/include/DGtal/base/BasicBoolFunctors.ih \
   /usr/local/include/DGtal/base/BasicArchetypes.h \
   /usr/local/include/DGtal/base/Exceptions.h \
+  /usr/local/include/DGtal/helpers/StdDefs.h \
   /usr/local/include/DGtal/kernel/SpaceND.h \
   /usr/local/include/DGtal/kernel/CInteger.h \
   /usr/local/include/DGtal/kernel/CEuclideanRing.h \
@@ -3610,12 +3610,10 @@ tools/CMakeFiles/graph2render.dir/graph2render.cpp.o: ../tools/graph2render.cpp 
   /usr/local/include/ceres/solver.h \
   /usr/local/include/ceres/sphere_manifold.h \
   /usr/local/include/ceres/version.h \
-  /usr/local/include/DGtal/io/writers/GenericWriter.h \
-  /usr/local/include/DGtal/images/Image.h \
-  /usr/local/include/DGtal/images/Image.ih \
-  /usr/local/include/DGtal/images/ImageContainerBySTLMap.h \
-  /usr/local/include/DGtal/images/DefaultImageRange.h \
-  /usr/local/include/DGtal/images/ImageContainerBySTLMap.ih \
+  /usr/local/include/DGtal/io/writers/STBWriter.h \
+  /usr/local/include/DGtal/io/colormaps/BasicColorToScalarFunctors.h \
+  /usr/local/include/DGtal/io/writers/STBWriter.ih \
+  /usr/local/include/stb/stb_image_write.h \
   /usr/local/include/DGtal/io/colormaps/GradientColorMap.h \
   /usr/local/include/Board/Board.h \
   /usr/local/include/Board/Point.h \
@@ -3636,217 +3634,6 @@ tools/CMakeFiles/graph2render.dir/graph2render.cpp.o: ../tools/graph2render.cpp 
   /usr/local/include/Board/ShapeList.ih \
   /usr/local/include/Board/Board.ih \
   /usr/local/include/DGtal/io/colormaps/GradientColorMap.ih \
-  /usr/local/include/DGtal/io/colormaps/HueShadeColorMap.h \
-  /usr/local/include/DGtal/io/colormaps/HueShadeColorMap.ih \
-  /usr/local/include/DGtal/io/writers/GenericWriter.ih \
-  /usr/local/include/DGtal/io/writers/LongvolWriter.h \
-  /usr/local/include/DGtal/io/writers/LongvolWriter.ih \
-  /usr/local/include/DGtal/io/writers/VolWriter.h \
-  /usr/local/include/DGtal/io/writers/VolWriter.ih \
-  /usr/local/include/DGtal/io/writers/PPMWriter.h \
-  /usr/local/include/DGtal/io/writers/PPMWriter.ih \
-  /usr/local/include/DGtal/io/writers/PGMWriter.h \
-  /usr/local/include/DGtal/io/writers/PGMWriter.ih \
-  /usr/local/include/DGtal/io/writers/RawWriter.h \
-  /usr/local/include/DGtal/io/writers/RawWriter.ih \
-  /usr/local/include/DGtal/io/writers/STBWriter.h \
-  /usr/local/include/DGtal/io/colormaps/BasicColorToScalarFunctors.h \
-  /usr/local/include/DGtal/io/writers/STBWriter.ih \
-  /usr/local/include/stb/stb_image_write.h \
-  /usr/local/include/DGtal/io/writers/ITKWriter.h \
-  /usr/local/include/DGtal/images/ImageContainerByITKImage.h \
-  /usr/local/include/ITK-5.3/itkImage.h \
-  /usr/local/include/ITK-5.3/itkImageRegion.h \
-  /usr/local/include/ITK-5.3/itkRegion.h \
-  /usr/local/include/ITK-5.3/itkObject.h \
-  /usr/local/include/ITK-5.3/itkLightObject.h \
-  /usr/local/include/ITK-5.3/itkMacro.h \
-  /usr/local/include/ITK-5.3/itkWin32Header.h \
-  /usr/local/include/ITK-5.3/itkConfigure.h \
-  /usr/local/include/ITK-5.3/ITKCommonExport.h \
-  /usr/local/include/ITK-5.3/itkExceptionObject.h \
-  /usr/local/include/ITK-5.3/itkSmartPointer.h \
-  /usr/local/include/ITK-5.3/itkTimeStamp.h \
-  /usr/local/include/ITK-5.3/itkIntTypes.h \
-  /usr/local/include/ITK-5.3/itkSingletonMacro.h \
-  /usr/local/include/ITK-5.3/itkIndent.h \
-  /usr/local/include/ITK-5.3/itkEventObject.h \
-  /usr/local/include/ITK-5.3/itkMetaDataDictionary.h \
-  /usr/local/include/ITK-5.3/itkMetaDataObjectBase.h \
-  /usr/local/include/ITK-5.3/itkCommonEnums.h \
-  /usr/local/include/ITK-5.3/itkSize.h \
-  /usr/local/include/ITK-5.3/itkMakeFilled.h \
-  /usr/local/include/ITK-5.3/itkContinuousIndex.h \
-  /usr/local/include/ITK-5.3/itkPoint.h \
-  /usr/local/include/ITK-5.3/itkNumericTraits.h \
-  /usr/local/include/ITK-5.3/itkFixedArray.h \
-  /usr/local/include/ITK-5.3/itkFixedArray.hxx \
-  /usr/local/include/ITK-5.3/itkNumericTraitsFixedArrayPixel.h \
-  /usr/local/include/ITK-5.3/itkVector.h \
-  /usr/local/include/ITK-5.3/vnl/vnl_vector_ref.h \
-  /usr/local/include/ITK-5.3/vnl/vnl_vector.h \
-  /usr/local/include/ITK-5.3/vnl/vnl_error.h \
-  /usr/local/include/ITK-5.3/vnl/vnl_export.h \
-  /usr/local/include/ITK-5.3/vcl_compiler.h \
-  /usr/local/include/ITK-5.3/vnl/vnl_c_vector.h \
-  /usr/local/include/ITK-5.3/vnl/vnl_numeric_traits.h \
-  /usr/local/include/ITK-5.3/vxl_config.h \
-  /usr/local/include/ITK-5.3/vnl/vnl_config.h \
-  /usr/local/include/ITK-5.3/vnl/vnl_sse.h \
-  /usr/local/include/ITK-5.3/vcl_compiler_detection.h \
-  /usr/local/include/ITK-5.3/compilers/VXL_COMPILER_INFO_GNU_CXX.h \
-  /usr/local/include/ITK-5.3/vnl/vnl_alloc.h \
-  /usr/local/include/ITK-5.3/itkVector.hxx \
-  /usr/local/include/ITK-5.3/itkMath.h \
-  /usr/local/include/ITK-5.3/itkMathDetail.h \
-  /usr/include/c++/11/cfenv \
-  /usr/include/c++/11/fenv.h \
-  /usr/include/fenv.h \
-  /usr/include/x86_64-linux-gnu/bits/fenv.h \
-  /usr/local/include/ITK-5.3/itkConceptChecking.h \
-  /usr/local/include/ITK-5.3/itkPixelTraits.h \
-  /usr/local/include/ITK-5.3/vnl/vnl_math.h \
-  /usr/local/include/ITK-5.3/vnl/dll.h \
-  /usr/local/include/ITK-5.3/vxl_version.h \
-  /usr/local/include/ITK-5.3/vnl/vnl_vector.h \
-  /usr/local/include/ITK-5.3/itkNumericTraitsVectorPixel.h \
-  /usr/local/include/ITK-5.3/itkPoint.hxx \
-  /usr/local/include/ITK-5.3/itkNumericTraitsPointPixel.h \
-  /usr/local/include/ITK-5.3/itkIndex.h \
-  /usr/local/include/ITK-5.3/itkOffset.h \
-  /usr/local/include/ITK-5.3/itkImageRegion.hxx \
-  /usr/local/include/ITK-5.3/itkImportImageContainer.h \
-  /usr/local/include/ITK-5.3/itkObjectFactory.h \
-  /usr/local/include/ITK-5.3/itkObjectFactoryBase.h \
-  /usr/local/include/ITK-5.3/itkCreateObjectFunction.h \
-  /usr/local/include/ITK-5.3/itkImportImageContainer.hxx \
-  /usr/local/include/ITK-5.3/itkDefaultPixelAccessor.h \
-  /usr/local/include/ITK-5.3/itkDefaultPixelAccessorFunctor.h \
-  /usr/local/include/ITK-5.3/itkWeakPointer.h \
-  /usr/local/include/ITK-5.3/itkNeighborhoodAccessorFunctor.h \
-  /usr/local/include/ITK-5.3/itkImageBoundaryCondition.h \
-  /usr/local/include/ITK-5.3/itkNeighborhood.h \
-  /usr/local/include/ITK-5.3/itkNeighborhoodAllocator.h \
-  /usr/local/include/ITK-5.3/itkMakeUniqueForOverwrite.h \
-  /usr/local/include/ITK-5.3/itkSliceIterator.h \
-  /usr/include/c++/11/valarray \
-  /usr/include/c++/11/bits/valarray_array.h \
-  /usr/include/c++/11/bits/valarray_array.tcc \
-  /usr/include/c++/11/bits/valarray_before.h \
-  /usr/include/c++/11/bits/slice_array.h \
-  /usr/include/c++/11/bits/valarray_after.h \
-  /usr/include/c++/11/bits/gslice.h \
-  /usr/include/c++/11/bits/gslice_array.h \
-  /usr/include/c++/11/bits/mask_array.h \
-  /usr/include/c++/11/bits/indirect_array.h \
-  /usr/local/include/ITK-5.3/itkNeighborhood.hxx \
-  /usr/local/include/ITK-5.3/itkImageBase.h \
-  /usr/local/include/ITK-5.3/itkDataObject.h \
-  /usr/local/include/ITK-5.3/itkRealTimeStamp.h \
-  /usr/local/include/ITK-5.3/itkRealTimeInterval.h \
-  /usr/local/include/ITK-5.3/itkMatrix.h \
-  /usr/local/include/ITK-5.3/itkCovariantVector.h \
-  /usr/local/include/ITK-5.3/itkNumericTraitsCovariantVectorPixel.h \
-  /usr/local/include/ITK-5.3/itkCovariantVector.hxx \
-  /usr/local/include/ITK-5.3/vnl/vnl_matrix_fixed.hxx \
-  /usr/local/include/ITK-5.3/vnl/vnl_matrix_fixed.h \
-  /usr/local/include/ITK-5.3/vnl/vnl_matrix.h \
-  /usr/local/include/ITK-5.3/vnl/vnl_matrix_ref.h \
-  /usr/local/include/ITK-5.3/vnl/vnl_vector_fixed.h \
-  /usr/local/include/ITK-5.3/vnl/vnl_vector_ref.h \
-  /usr/local/include/ITK-5.3/vnl/vnl_math.h \
-  /usr/local/include/ITK-5.3/vnl/vnl_complex.h \
-  /usr/local/include/ITK-5.3/vnl/vnl_transpose.h \
-  /usr/local/include/ITK-5.3/vnl/vnl_fastops.h \
-  /usr/local/include/ITK-5.3/vnl/algo/vnl_matrix_inverse.h \
-  /usr/local/include/ITK-5.3/vnl/algo/vnl_svd.h \
-  /usr/local/include/ITK-5.3/vnl/vnl_numeric_traits.h \
-  /usr/local/include/ITK-5.3/vnl/vnl_vector.h \
-  /usr/local/include/ITK-5.3/vnl/vnl_matrix.h \
-  /usr/local/include/ITK-5.3/vnl/vnl_diag_matrix.h \
-  /usr/local/include/ITK-5.3/vnl/algo/vnl_algo_export.h \
-  /usr/local/include/ITK-5.3/vnl/vnl_matrix.h \
-  /usr/local/include/ITK-5.3/vnl/algo/vnl_determinant.h \
-  /usr/local/include/ITK-5.3/vnl/vnl_matrix_fixed.h \
-  /usr/local/include/ITK-5.3/itkMatrix.hxx \
-  /usr/local/include/ITK-5.3/itkImageHelper.h \
-  /usr/local/include/ITK-5.3/itkFloatTypes.h \
-  /usr/local/include/ITK-5.3/itkImageBase.hxx \
-  /usr/local/include/ITK-5.3/itkProcessObject.h \
-  /usr/local/include/ITK-5.3/itkThreadSupport.h \
-  /usr/include/c++/11/thread \
-  /usr/include/c++/11/bits/std_thread.h \
-  /usr/include/c++/11/bits/this_thread_sleep.h \
-  /usr/local/include/ITK-5.3/itkSpatialOrientation.h \
-  /usr/local/include/ITK-5.3/itkImage.hxx \
-  /usr/local/include/ITK-5.3/itkImageRegionConstIterator.h \
-  /usr/local/include/ITK-5.3/itkImageIterator.h \
-  /usr/local/include/ITK-5.3/itkImageConstIterator.h \
-  /usr/local/include/ITK-5.3/itkImage.h \
-  /usr/local/include/ITK-5.3/itkImageIterator.hxx \
-  /usr/local/include/ITK-5.3/itkImageRegionConstIterator.hxx \
-  /usr/local/include/ITK-5.3/itkImageRegionIterator.h \
-  /usr/local/include/ITK-5.3/itkImageRegionConstIterator.h \
-  /usr/local/include/ITK-5.3/itkImageRegionIterator.hxx \
-  /usr/local/include/DGtal/images/ImageContainerByITKImage.ih \
-  /usr/local/include/DGtal/io/ITKIOTrait.h \
-  /usr/local/include/DGtal/io/writers/ITKWriter.ih \
-  /usr/local/include/DGtal/images/ConstImageAdapter.h \
-  /usr/local/include/DGtal/images/ConstImageAdapter.ih \
-  /usr/local/include/ITK-5.3/itkImageFileWriter.h \
-  /usr/local/include/ITK-5.3/ITKIOImageBaseExport.h \
-  /usr/local/include/ITK-5.3/itkImageIOBase.h \
-  /usr/local/include/ITK-5.3/itkIOConfigure.h \
-  /usr/local/include/ITK-5.3/itkLightProcessObject.h \
-  /usr/local/include/ITK-5.3/itkImageIORegion.h \
-  /usr/local/include/ITK-5.3/itkRGBPixel.h \
-  /usr/local/include/ITK-5.3/itkNumericTraitsRGBPixel.h \
-  /usr/local/include/ITK-5.3/itkRGBPixel.hxx \
-  /usr/local/include/ITK-5.3/itkRGBAPixel.h \
-  /usr/local/include/ITK-5.3/itkNumericTraitsRGBAPixel.h \
-  /usr/local/include/ITK-5.3/itkRGBAPixel.hxx \
-  /usr/local/include/ITK-5.3/itkSymmetricSecondRankTensor.h \
-  /usr/local/include/ITK-5.3/itkSymmetricEigenAnalysis.h \
-  /usr/local/include/ITK-5.3/itk_eigen.h \
-  /usr/local/include/ITK-5.3/itkeigen/Eigen/Eigenvalues \
-  /usr/local/include/ITK-5.3/vnl/vnl_matrix_fixed.h \
-  /usr/local/include/ITK-5.3/itkSymmetricEigenAnalysis.hxx \
-  /usr/local/include/ITK-5.3/itkNumericTraitsTensorPixel.h \
-  /usr/local/include/ITK-5.3/itkSymmetricSecondRankTensor.hxx \
-  /usr/local/include/ITK-5.3/itkDiffusionTensor3D.h \
-  /usr/local/include/ITK-5.3/itkNumericTraitsDiffusionTensor3DPixel.h \
-  /usr/local/include/ITK-5.3/itkDiffusionTensor3D.hxx \
-  /usr/local/include/ITK-5.3/itkArray.h \
-  /usr/local/include/ITK-5.3/vxl_version.h \
-  /usr/local/include/ITK-5.3/itkArray.hxx \
-  /usr/local/include/ITK-5.3/itkNumericTraitsArrayPixel.h \
-  /usr/local/include/ITK-5.3/itkVariableSizeMatrix.h \
-  /usr/local/include/ITK-5.3/itkVariableSizeMatrix.hxx \
-  /usr/local/include/ITK-5.3/itkImageRegionSplitterBase.h \
-  /usr/local/include/ITK-5.3/vcl_compiler.h \
-  /usr/local/include/ITK-5.3/itkMetaProgrammingLibrary.h \
-  /usr/local/include/ITK-5.3/itkImageFileWriter.hxx \
-  /usr/local/include/ITK-5.3/itkImageIOFactory.h \
-  /usr/local/include/ITK-5.3/itkCommand.h \
-  /usr/local/include/ITK-5.3/itkVectorImage.h \
-  /usr/local/include/ITK-5.3/itkDefaultVectorPixelAccessor.h \
-  /usr/local/include/ITK-5.3/itkVariableLengthVector.h \
-  /usr/local/include/ITK-5.3/itkIsNumber.h \
-  /usr/local/include/ITK-5.3/itkPromoteType.h \
-  /usr/local/include/ITK-5.3/itkBinaryOperationConcept.h \
-  /usr/local/include/ITK-5.3/itkNumericTraitsVariableLengthVectorPixel.h \
-  /usr/local/include/ITK-5.3/itkVariableLengthVector.hxx \
-  /usr/local/include/ITK-5.3/itkDefaultVectorPixelAccessorFunctor.h \
-  /usr/local/include/ITK-5.3/itkVectorImageNeighborhoodAccessorFunctor.h \
-  /usr/local/include/ITK-5.3/itkVectorImage.hxx \
-  /usr/local/include/ITK-5.3/itkImageRegionIterator.h \
-  /usr/local/include/ITK-5.3/itkImageAlgorithm.h \
-  /usr/local/include/ITK-5.3/itkImageAlgorithm.hxx \
-  /usr/local/include/ITK-5.3/itkImageScanlineIterator.h \
-  /usr/local/include/ITK-5.3/itkImageScanlineConstIterator.h \
-  /usr/local/include/ITK-5.3/itkImageScanlineConstIterator.hxx \
-  /usr/local/include/ITK-5.3/itkImageScanlineIterator.hxx \
-  ITKFactoryRegistration/itkImageIOFactoryRegisterManager.h \
   ../ext/CLI11.hpp \
   /usr/include/x86_64-linux-gnu/sys/stat.h \
   /usr/include/x86_64-linux-gnu/bits/stat.h \
@@ -3895,178 +3682,6 @@ tools/CMakeFiles/graph2render.dir/graph2render.cpp.o: ../tools/graph2render.cpp 
 
 ../ext/CLI11.hpp:
 
-/usr/local/include/ITK-5.3/itkImageAlgorithm.hxx:
-
-/usr/local/include/ITK-5.3/itkVariableLengthVector.hxx:
-
-/usr/local/include/ITK-5.3/itkDefaultVectorPixelAccessor.h:
-
-/usr/local/include/ITK-5.3/itkMetaProgrammingLibrary.h:
-
-/usr/local/include/ITK-5.3/itkImageRegionSplitterBase.h:
-
-/usr/local/include/ITK-5.3/itkArray.hxx:
-
-/usr/local/include/ITK-5.3/itkArray.h:
-
-/usr/local/include/ITK-5.3/itkNumericTraitsDiffusionTensor3DPixel.h:
-
-/usr/local/include/ITK-5.3/itkSymmetricSecondRankTensor.hxx:
-
-/usr/local/include/ITK-5.3/itk_eigen.h:
-
-/usr/local/include/ITK-5.3/itkSymmetricEigenAnalysis.h:
-
-/usr/local/include/ITK-5.3/itkNumericTraitsRGBAPixel.h:
-
-/usr/local/include/ITK-5.3/itkRGBPixel.h:
-
-/usr/local/include/ITK-5.3/itkImageIORegion.h:
-
-/usr/local/include/ITK-5.3/itkLightProcessObject.h:
-
-/usr/local/include/ITK-5.3/ITKIOImageBaseExport.h:
-
-/usr/local/include/DGtal/images/ConstImageAdapter.ih:
-
-/usr/local/include/DGtal/io/writers/ITKWriter.ih:
-
-/usr/local/include/ITK-5.3/itkImageRegionIterator.h:
-
-/usr/local/include/ITK-5.3/itkImageRegionConstIterator.hxx:
-
-/usr/local/include/ITK-5.3/itkImageRegionConstIterator.h:
-
-/usr/local/include/ITK-5.3/itkImage.hxx:
-
-/usr/local/include/ITK-5.3/itkSpatialOrientation.h:
-
-/usr/include/c++/11/bits/this_thread_sleep.h:
-
-/usr/include/c++/11/bits/std_thread.h:
-
-/usr/include/c++/11/thread:
-
-/usr/local/include/ITK-5.3/itkThreadSupport.h:
-
-/usr/local/include/ITK-5.3/itkImageBase.hxx:
-
-/usr/local/include/ITK-5.3/itkFloatTypes.h:
-
-/usr/local/include/ITK-5.3/itkImageHelper.h:
-
-/usr/local/include/ITK-5.3/itkMatrix.hxx:
-
-/usr/local/include/ITK-5.3/vnl/algo/vnl_determinant.h:
-
-/usr/local/include/ITK-5.3/vnl/vnl_complex.h:
-
-/usr/local/include/ITK-5.3/vnl/vnl_vector_fixed.h:
-
-/usr/local/include/ITK-5.3/vnl/vnl_matrix_ref.h:
-
-/usr/local/include/ITK-5.3/vnl/vnl_matrix.h:
-
-/usr/local/include/ITK-5.3/vnl/vnl_matrix_fixed.h:
-
-/usr/local/include/ITK-5.3/itkNumericTraitsCovariantVectorPixel.h:
-
-/usr/local/include/ITK-5.3/itkRealTimeInterval.h:
-
-/usr/include/c++/11/bits/indirect_array.h:
-
-/usr/include/c++/11/bits/gslice_array.h:
-
-/usr/include/c++/11/bits/valarray_after.h:
-
-/usr/include/c++/11/bits/valarray_array.h:
-
-/usr/include/c++/11/valarray:
-
-/usr/local/include/ITK-5.3/itkNeighborhoodAllocator.h:
-
-/usr/local/include/ITK-5.3/itkNeighborhoodAccessorFunctor.h:
-
-/usr/local/include/ITK-5.3/itkImportImageContainer.hxx:
-
-/usr/local/include/ITK-5.3/itkImportImageContainer.h:
-
-/usr/local/include/ITK-5.3/itkImageRegion.hxx:
-
-/usr/local/include/ITK-5.3/itkIndex.h:
-
-/usr/local/include/ITK-5.3/itkPoint.hxx:
-
-/usr/include/x86_64-linux-gnu/bits/fenv.h:
-
-/usr/include/c++/11/cfenv:
-
-/usr/local/include/ITK-5.3/itkMath.h:
-
-/usr/local/include/ITK-5.3/itkVector.hxx:
-
-/usr/local/include/ITK-5.3/vnl/vnl_alloc.h:
-
-/usr/local/include/ITK-5.3/vcl_compiler_detection.h:
-
-/usr/local/include/ITK-5.3/vnl/vnl_c_vector.h:
-
-/usr/local/include/ITK-5.3/vnl/vnl_error.h:
-
-/usr/local/include/ITK-5.3/vnl/vnl_vector.h:
-
-/usr/local/include/ITK-5.3/vnl/vnl_vector_ref.h:
-
-/usr/local/include/ITK-5.3/itkVector.h:
-
-/usr/local/include/ITK-5.3/itkNumericTraitsFixedArrayPixel.h:
-
-/usr/local/include/ITK-5.3/itkFixedArray.hxx:
-
-/usr/local/include/ITK-5.3/itkSize.h:
-
-/usr/local/include/ITK-5.3/itkMetaDataObjectBase.h:
-
-/usr/local/include/ITK-5.3/itkMetaDataDictionary.h:
-
-/usr/local/include/ITK-5.3/itkSingletonMacro.h:
-
-/usr/local/include/ITK-5.3/itkIntTypes.h:
-
-/usr/local/include/ITK-5.3/itkSmartPointer.h:
-
-/usr/local/include/ITK-5.3/itkNumericTraitsVariableLengthVectorPixel.h:
-
-/usr/local/include/ITK-5.3/itkExceptionObject.h:
-
-/usr/local/include/ITK-5.3/ITKCommonExport.h:
-
-/usr/local/include/ITK-5.3/itkConfigure.h:
-
-/usr/local/include/ITK-5.3/itkLightObject.h:
-
-/usr/local/include/ITK-5.3/itkObject.h:
-
-/usr/local/include/DGtal/io/writers/ITKWriter.h:
-
-/usr/local/include/DGtal/io/writers/PGMWriter.h:
-
-/usr/local/include/DGtal/io/writers/PPMWriter.ih:
-
-/usr/local/include/DGtal/io/writers/PPMWriter.h:
-
-/usr/local/include/DGtal/io/writers/VolWriter.ih:
-
-/usr/local/include/DGtal/io/writers/VolWriter.h:
-
-/usr/local/include/DGtal/io/writers/LongvolWriter.ih:
-
-/usr/include/c++/11/bits/valarray_array.tcc:
-
-/usr/local/include/DGtal/io/writers/GenericWriter.ih:
-
-/usr/local/include/DGtal/io/colormaps/HueShadeColorMap.ih:
-
 /usr/local/include/Board/Board.ih:
 
 /usr/local/include/Board/ShapeList.ih:
@@ -4086,16 +3701,6 @@ tools/CMakeFiles/graph2render.dir/graph2render.cpp.o: ../tools/graph2render.cpp 
 /usr/include/cairo/cairo.h:
 
 /usr/local/include/Board/Board.h:
-
-/usr/local/include/ITK-5.3/itkImageAlgorithm.h:
-
-/usr/local/include/DGtal/images/DefaultImageRange.h:
-
-/usr/local/include/DGtal/io/writers/RawWriter.h:
-
-/usr/local/include/DGtal/images/Image.h:
-
-/usr/local/include/DGtal/io/writers/GenericWriter.h:
 
 /usr/local/include/ceres/solver.h:
 
@@ -4132,8 +3737,6 @@ tools/CMakeFiles/graph2render.dir/graph2render.cpp.o: ../tools/graph2render.cpp 
 /usr/include/eigen3/Eigen/src/Geometry/Quaternion.h:
 
 /usr/include/eigen3/Eigen/src/Geometry/Rotation2D.h:
-
-/usr/local/include/DGtal/images/ImageContainerBySTLMap.h:
 
 /usr/include/eigen3/Eigen/src/Geometry/EulerAngles.h:
 
@@ -4173,11 +3776,7 @@ tools/CMakeFiles/graph2render.dir/graph2render.cpp.o: ../tools/graph2render.cpp 
 
 /usr/include/eigen3/Eigen/src/misc/Kernel.h:
 
-/usr/local/include/ITK-5.3/itkFixedArray.h:
-
 /usr/local/include/ceres/internal/numeric_diff.h:
-
-/usr/local/include/ITK-5.3/itkNumericTraitsRGBPixel.h:
 
 /usr/local/include/ceres/dynamic_numeric_diff_cost_function.h:
 
@@ -4199,11 +3798,7 @@ tools/CMakeFiles/graph2render.dir/graph2render.cpp.o: ../tools/graph2render.cpp 
 
 /usr/local/include/ceres/local_parameterization.h:
 
-/usr/local/include/ITK-5.3/itkRGBAPixel.hxx:
-
 /usr/local/include/ceres/first_order_function.h:
-
-/usr/local/include/ITK-5.3/vnl/algo/vnl_algo_export.h:
 
 /usr/local/include/ceres/internal/port.h:
 
@@ -4251,10 +3846,6 @@ tools/CMakeFiles/graph2render.dir/graph2render.cpp.o: ../tools/graph2render.cpp 
 
 /usr/include/eigen3/Eigen/src/Core/products/GeneralBlockPanelKernel.h:
 
-/usr/local/include/ITK-5.3/itkWeakPointer.h:
-
-/usr/local/include/ITK-5.3/vnl/vnl_sse.h:
-
 /usr/include/eigen3/Eigen/src/Core/TriangularMatrix.h:
 
 /usr/include/eigen3/Eigen/src/Core/PermutationMatrix.h:
@@ -4273,13 +3864,9 @@ tools/CMakeFiles/graph2render.dir/graph2render.cpp.o: ../tools/graph2render.cpp 
 
 /usr/include/eigen3/Eigen/src/Core/MapBase.h:
 
-/usr/local/include/ITK-5.3/itkVariableSizeMatrix.h:
-
 /usr/include/eigen3/Eigen/src/Core/StableNorm.h:
 
 /usr/include/eigen3/Eigen/src/Core/CwiseUnaryView.h:
-
-/usr/local/include/ITK-5.3/itkImageConstIterator.h:
 
 /usr/include/eigen3/Eigen/src/Core/CwiseNullaryOp.h:
 
@@ -4325,13 +3912,9 @@ tools/CMakeFiles/graph2render.dir/graph2render.cpp.o: ../tools/graph2render.cpp 
 
 /usr/include/eigen3/Eigen/src/Core/arch/SSE/Complex.h:
 
-/usr/local/include/ITK-5.3/itkNumericTraitsArrayPixel.h:
-
 /usr/include/eigen3/Eigen/src/Core/arch/SSE/MathFunctions.h:
 
 /usr/include/eigen3/Eigen/src/Core/arch/SSE/TypeCasting.h:
-
-/usr/local/include/ITK-5.3/vnl/vnl_matrix_fixed.hxx:
 
 /usr/include/eigen3/Eigen/src/Core/arch/SSE/PacketMath.h:
 
@@ -4339,19 +3922,13 @@ tools/CMakeFiles/graph2render.dir/graph2render.cpp.o: ../tools/graph2render.cpp 
 
 /usr/include/eigen3/Eigen/src/Core/arch/Default/TypeCasting.h:
 
-/usr/local/include/ITK-5.3/itkDefaultVectorPixelAccessorFunctor.h:
-
 /usr/include/eigen3/Eigen/src/Core/NumTraits.h:
-
-/usr/local/include/ITK-5.3/itkPixelTraits.h:
 
 /usr/include/eigen3/Eigen/src/Householder/BlockHouseholder.h:
 
 /usr/include/eigen3/Eigen/src/Core/util/IntegralConstant.h:
 
 /usr/include/eigen3/Eigen/src/Core/util/Memory.h:
-
-/usr/local/include/ITK-5.3/itkIOConfigure.h:
 
 /usr/include/eigen3/Eigen/src/Core/util/XprHelper.h:
 
@@ -4408,8 +3985,6 @@ tools/CMakeFiles/graph2render.dir/graph2render.cpp.o: ../tools/graph2render.cpp 
 /usr/local/include/DGtal/shapes/CEuclideanOrientedShape.h:
 
 /usr/local/include/DGtal/kernel/RegularPointEmbedder.h:
-
-/usr/local/include/ITK-5.3/itkConceptChecking.h:
 
 /usr/local/include/DGtal/shapes/GaussDigitizer.h:
 
@@ -4473,8 +4048,6 @@ tools/CMakeFiles/graph2render.dir/graph2render.cpp.o: ../tools/graph2render.cpp 
 
 /usr/local/include/DGtal/topology/SCellsFunctors.h:
 
-/usr/local/include/ITK-5.3/itkImageFileWriter.h:
-
 /usr/include/boost/iterator.hpp:
 
 /usr/local/include/DGtal/base/ConstRangeAdapter.h:
@@ -4525,8 +4098,6 @@ tools/CMakeFiles/graph2render.dir/graph2render.cpp.o: ../tools/graph2render.cpp 
 
 /usr/include/boost/iostreams/detail/optional.hpp:
 
-/usr/include/c++/11/bits/valarray_before.h:
-
 /usr/include/boost/preprocessor/facilities/intercept.hpp:
 
 /usr/local/include/ceres/internal/reenable_warnings.h:
@@ -4536,8 +4107,6 @@ tools/CMakeFiles/graph2render.dir/graph2render.cpp.o: ../tools/graph2render.cpp 
 /usr/include/boost/iostreams/detail/streambuf/direct_streambuf.hpp:
 
 /usr/include/boost/iostreams/device/null.hpp:
-
-/usr/local/include/ITK-5.3/vnl/vnl_config.h:
 
 /usr/include/boost/iostreams/device/array.hpp:
 
@@ -4572,8 +4141,6 @@ tools/CMakeFiles/graph2render.dir/graph2render.cpp.o: ../tools/graph2render.cpp 
 /usr/local/include/DGtal/images/imagesSetsUtils/ImageFromSet.ih:
 
 /usr/include/boost/iostreams/detail/is_iterator_range.hpp:
-
-/usr/local/include/ITK-5.3/itkImageFileWriter.hxx:
 
 /usr/include/boost/iostreams/traits.hpp:
 
@@ -4621,8 +4188,6 @@ tools/CMakeFiles/graph2render.dir/graph2render.cpp.o: ../tools/graph2render.cpp 
 
 /usr/local/include/DGtal/topology/DomainAdjacency.ih:
 
-/usr/local/include/ITK-5.3/itkCommonEnums.h:
-
 /usr/local/include/DGtal/kernel/domains/DomainPredicate.ih:
 
 /usr/include/boost/iostreams/detail/wrap_unwrap.hpp:
@@ -4631,15 +4196,11 @@ tools/CMakeFiles/graph2render.dir/graph2render.cpp.o: ../tools/graph2render.cpp 
 
 /usr/local/include/DGtal/topology/DomainAdjacency.h:
 
-/usr/local/include/DGtal/io/writers/PGMWriter.ih:
-
 /usr/include/c++/11/bits/stl_queue.h:
 
 /usr/include/c++/11/queue:
 
 /usr/local/include/DGtal/graph/BreadthFirstVisitor.h:
-
-/usr/local/include/ITK-5.3/itkCommand.h:
 
 /usr/local/include/stb/stb_image_write.h:
 
@@ -4691,8 +4252,6 @@ tools/CMakeFiles/graph2render.dir/graph2render.cpp.o: ../tools/graph2render.cpp 
 
 /usr/include/boost/dynamic_bitset_fwd.hpp:
 
-/usr/local/include/ITK-5.3/vnl/dll.h:
-
 /usr/include/boost/dynamic_bitset/config.hpp:
 
 /usr/include/boost/dynamic_bitset.hpp:
@@ -4706,8 +4265,6 @@ tools/CMakeFiles/graph2render.dir/graph2render.cpp.o: ../tools/graph2render.cpp 
 /usr/include/boost/smart_ptr/detail/spinlock_pool.hpp:
 
 /usr/include/boost/smart_ptr/detail/sp_convertible.hpp:
-
-/usr/local/include/ITK-5.3/vnl/vnl_fastops.h:
 
 /usr/include/boost/checked_delete.hpp:
 
@@ -4779,8 +4336,6 @@ tools/CMakeFiles/graph2render.dir/graph2render.cpp.o: ../tools/graph2render.cpp 
 
 /usr/include/boost/type_traits/is_noncopyable.hpp:
 
-/usr/include/c++/11/bits/gslice.h:
-
 /usr/include/boost/iostreams/detail/enable_if_stream.hpp:
 
 /usr/include/boost/type_traits/is_copy_assignable.hpp:
@@ -4836,10 +4391,6 @@ tools/CMakeFiles/graph2render.dir/graph2render.cpp.o: ../tools/graph2render.cpp 
 /usr/include/boost/type_traits/has_greater_equal.hpp:
 
 /usr/include/boost/type_traits/has_equal_to.hpp:
-
-/usr/local/include/ITK-5.3/itkVariableLengthVector.h:
-
-/usr/local/include/ITK-5.3/vnl/vnl_math.h:
 
 /usr/include/boost/type_traits/has_dereference.hpp:
 
@@ -4947,8 +4498,6 @@ tools/CMakeFiles/graph2render.dir/graph2render.cpp.o: ../tools/graph2render.cpp 
 
 /usr/lib/gcc/x86_64-linux-gnu/11/include/xmmintrin.h:
 
-/usr/local/include/ITK-5.3/itkObjectFactory.h:
-
 /usr/include/boost/math/special_functions/lanczos.hpp:
 
 /usr/include/boost/math/special_functions/sqrt1pm1.hpp:
@@ -4984,8 +4533,6 @@ tools/CMakeFiles/graph2render.dir/graph2render.cpp.o: ../tools/graph2render.cpp 
 /usr/include/boost/config/pragma_message.hpp:
 
 /usr/include/boost/math/tools/cxx03_warn.hpp:
-
-/usr/local/include/ITK-5.3/itkContinuousIndex.h:
 
 /usr/include/boost/math/constants/constants.hpp:
 
@@ -5053,8 +4600,6 @@ tools/CMakeFiles/graph2render.dir/graph2render.cpp.o: ../tools/graph2render.cpp 
 
 /usr/include/boost/mpl/aux_/na.hpp:
 
-/usr/local/include/ITK-5.3/itkDefaultPixelAccessorFunctor.h:
-
 /usr/include/boost/mpl/aux_/config/ttp.hpp:
 
 /usr/local/include/ceres/jet_fwd.h:
@@ -5113,17 +4658,11 @@ tools/CMakeFiles/graph2render.dir/graph2render.cpp.o: ../tools/graph2render.cpp 
 
 /usr/local/include/QGLViewer/camera.h:
 
-/usr/local/include/ITK-5.3/itkNumericTraits.h:
-
 /usr/include/boost/preprocessor/seq/seq.hpp:
 
 /usr/local/include/ceres/autodiff_cost_function.h:
 
 /usr/include/boost/preprocessor/tuple/eat.hpp:
-
-/usr/local/include/ITK-5.3/itkIsNumber.h:
-
-/usr/local/include/ITK-5.3/itkMakeFilled.h:
 
 /usr/include/eigen3/Eigen/Cholesky:
 
@@ -5139,8 +4678,6 @@ tools/CMakeFiles/graph2render.dir/graph2render.cpp.o: ../tools/graph2render.cpp 
 
 /usr/include/boost/preprocessor/control/if.hpp:
 
-/usr/local/include/ITK-5.3/itkImageRegion.h:
-
 /usr/include/boost/preprocessor/arithmetic/inc.hpp:
 
 /usr/include/x86_64-linux-gnu/bits/stdint-uintn.h:
@@ -5153,8 +4690,6 @@ tools/CMakeFiles/graph2render.dir/graph2render.cpp.o: ../tools/graph2render.cpp 
 
 /usr/include/x86_64-linux-gnu/bits/environments.h:
 
-/usr/include/fenv.h:
-
 /usr/include/eigen3/Eigen/src/plugins/ArrayCwiseUnaryOps.h:
 
 /usr/include/boost/type_traits/is_array.hpp:
@@ -5162,8 +4697,6 @@ tools/CMakeFiles/graph2render.dir/graph2render.cpp.o: ../tools/graph2render.cpp 
 /usr/include/c++/11/bits/stl_stack.h:
 
 /usr/include/boost/type_traits/detail/is_function_cxx_11.hpp:
-
-/usr/local/include/ITK-5.3/itkDefaultPixelAccessor.h:
 
 /usr/local/include/DGtal/geometry/volumes/distance/VoronoiMap.h:
 
@@ -5177,15 +4710,11 @@ tools/CMakeFiles/graph2render.dir/graph2render.cpp.o: ../tools/graph2render.cpp 
 
 /usr/include/boost/type_traits/is_lvalue_reference.hpp:
 
-/usr/local/include/ITK-5.3/itkObjectFactoryBase.h:
-
 /usr/include/boost/type_traits/declval.hpp:
 
 /usr/include/x86_64-linux-gnu/qt5/QtCore/qnamespace.h:
 
 /usr/include/boost/type_traits/intrinsics.hpp:
-
-/usr/local/include/ITK-5.3/itkMacro.h:
 
 /usr/include/boost/type_traits/conversion_traits.hpp:
 
@@ -5203,13 +4732,9 @@ tools/CMakeFiles/graph2render.dir/graph2render.cpp.o: ../tools/graph2render.cpp 
 
 /usr/include/boost/concept/detail/general.hpp:
 
-/usr/local/include/ITK-5.3/itkPoint.h:
-
 /usr/include/boost/config/detail/posix_features.hpp:
 
 /usr/include/c++/11/iterator:
-
-/usr/local/include/ITK-5.3/itkNeighborhood.hxx:
 
 /usr/include/boost/preprocessor/arithmetic/add.hpp:
 
@@ -5230,8 +4755,6 @@ tools/CMakeFiles/graph2render.dir/graph2render.cpp.o: ../tools/graph2render.cpp 
 /usr/include/boost/smart_ptr/detail/yield_k.hpp:
 
 /usr/include/c++/11/version:
-
-/usr/local/include/ITK-5.3/itkWin32Header.h:
 
 /usr/include/boost/mpl/apply.hpp:
 
@@ -5351,15 +4874,11 @@ tools/CMakeFiles/graph2render.dir/graph2render.cpp.o: ../tools/graph2render.cpp 
 
 /usr/include/boost/preprocessor/array/data.hpp:
 
-/usr/local/include/ITK-5.3/itkNumericTraitsPointPixel.h:
-
 /usr/include/x86_64-linux-gnu/qt5/QtGui/qtransform.h:
 
 /usr/include/x86_64-linux-gnu/qt5/QtGui/qpen.h:
 
 /usr/include/x86_64-linux-gnu/qt5/QtCore/qline.h:
-
-/usr/local/include/DGtal/io/writers/RawWriter.ih:
 
 /usr/local/include/ceres/internal/variadic_evaluate.h:
 
@@ -5378,8 +4897,6 @@ tools/CMakeFiles/graph2render.dir/graph2render.cpp.o: ../tools/graph2render.cpp 
 /usr/include/boost/mpl/aux_/config/eti.hpp:
 
 /usr/include/boost/config/compiler/gcc.hpp:
-
-/usr/local/include/ITK-5.3/itkImageIterator.hxx:
 
 /usr/include/x86_64-linux-gnu/qt5/QtWidgets/qtwidgets-config.h:
 
@@ -5461,8 +4978,6 @@ tools/CMakeFiles/graph2render.dir/graph2render.cpp.o: ../tools/graph2render.cpp 
 
 /usr/include/boost/config/helper_macros.hpp:
 
-/usr/local/include/ITK-5.3/itkRGBPixel.hxx:
-
 /usr/local/include/ceres/internal/array_selector.h:
 
 /usr/include/x86_64-linux-gnu/qt5/QtXml/QDomElement:
@@ -5485,8 +5000,6 @@ tools/CMakeFiles/graph2render.dir/graph2render.cpp.o: ../tools/graph2render.cpp 
 
 /usr/include/boost/preprocessor/iterate.hpp:
 
-/usr/local/include/ITK-5.3/itkDiffusionTensor3D.h:
-
 /usr/include/x86_64-linux-gnu/qt5/QtGui/qpolygon.h:
 
 /usr/include/x86_64-linux-gnu/bits/math-vector.h:
@@ -5496,8 +5009,6 @@ tools/CMakeFiles/graph2render.dir/graph2render.cpp.o: ../tools/graph2render.cpp 
 /usr/include/boost/mpl/aux_/preprocessed/gcc/reverse_fold_impl.hpp:
 
 /usr/include/c++/11/math.h:
-
-ITKFactoryRegistration/itkImageIOFactoryRegisterManager.h:
 
 /usr/include/eigen3/Eigen/src/Core/products/TriangularSolverMatrix.h:
 
@@ -5516,10 +5027,6 @@ ITKFactoryRegistration/itkImageIOFactoryRegisterManager.h:
 /usr/include/c++/11/bits/parse_numbers.h:
 
 /usr/include/c++/11/ctime:
-
-/usr/include/boost/iostreams/input_sequence.hpp:
-
-/usr/include/c++/11/limits:
 
 /usr/include/boost/type_traits/detail/mp_defer.hpp:
 
@@ -5541,15 +5048,11 @@ ITKFactoryRegistration/itkImageIOFactoryRegisterManager.h:
 
 /usr/include/x86_64-linux-gnu/qt5/QtCore/qvarlengtharray.h:
 
-/usr/local/include/ITK-5.3/itkVariableSizeMatrix.hxx:
-
 /usr/include/boost/mpl/vector/aux_/preprocessed/typeof_based/vector20.hpp:
 
 /usr/include/boost/mpl/iter_fold.hpp:
 
 /usr/include/x86_64-linux-gnu/qt5/QtGui/qvector2d.h:
-
-/usr/local/include/ITK-5.3/itkImageIterator.h:
 
 /usr/local/include/DGtal/geometry/volumes/distance/ExactPredicateLpSeparableMetric.h:
 
@@ -5629,8 +5132,6 @@ ITKFactoryRegistration/itkImageIOFactoryRegisterManager.h:
 
 /usr/include/c++/11/bits/stl_list.h:
 
-/usr/local/include/DGtal/images/ImageContainerByITKImage.ih:
-
 /usr/include/c++/11/list:
 
 /usr/include/c++/11/bits/vector.tcc:
@@ -5695,8 +5196,6 @@ ITKFactoryRegistration/itkImageIOFactoryRegisterManager.h:
 
 /usr/include/x86_64-linux-gnu/qt5/QtCore/qrefcount.h:
 
-/usr/local/include/ITK-5.3/itkSymmetricSecondRankTensor.h:
-
 /usr/local/include/ceres/internal/line_parameterization.h:
 
 /usr/include/x86_64-linux-gnu/qt5/QtGui/qsurfaceformat.h:
@@ -5708,8 +5207,6 @@ ITKFactoryRegistration/itkImageIOFactoryRegisterManager.h:
 /usr/include/x86_64-linux-gnu/bits/types/struct_FILE.h:
 
 /usr/include/boost/mpl/find.hpp:
-
-/usr/local/include/ITK-5.3/compilers/VXL_COMPILER_INFO_GNU_CXX.h:
 
 /usr/include/c++/11/bits/postypes.h:
 
@@ -5728,8 +5225,6 @@ ITKFactoryRegistration/itkImageIOFactoryRegisterManager.h:
 /usr/include/x86_64-linux-gnu/bits/stat.h:
 
 /usr/include/boost/mpl/aux_/is_msvc_eti_arg.hpp:
-
-/usr/local/include/ITK-5.3/itkOffset.h:
 
 /usr/include/x86_64-linux-gnu/bits/thread-shared-types.h:
 
@@ -5818,8 +5313,6 @@ ITKFactoryRegistration/itkImageIOFactoryRegisterManager.h:
 /usr/local/include/DGtal/base/CountedPtrOrPtr.ih:
 
 /usr/include/boost/mpl/list/aux_/push_back.hpp:
-
-/usr/local/include/DGtal/io/ITKIOTrait.h:
 
 /usr/include/c++/11/cctype:
 
@@ -5949,15 +5442,11 @@ ITKFactoryRegistration/itkImageIOFactoryRegisterManager.h:
 
 /usr/include/x86_64-linux-gnu/qt5/QtCore/qmetatype.h:
 
-/usr/local/include/ITK-5.3/itkImageScanlineConstIterator.hxx:
-
 /usr/include/x86_64-linux-gnu/qt5/QtCore/qhash.h:
 
 /usr/include/c++/11/exception:
 
 /usr/include/boost/preprocessor/facilities/empty.hpp:
-
-/usr/local/include/ITK-5.3/vnl/algo/vnl_matrix_inverse.h:
 
 /usr/include/c++/11/bits/basic_ios.tcc:
 
@@ -5975,11 +5464,7 @@ ITKFactoryRegistration/itkImageIOFactoryRegisterManager.h:
 
 /usr/include/boost/mpl/sequence_tag.hpp:
 
-/usr/local/include/ITK-5.3/vnl/vnl_export.h:
-
 /usr/include/boost/concept_check.hpp:
-
-/usr/local/include/ITK-5.3/itkPromoteType.h:
 
 /usr/include/c++/11/bits/functional_hash.h:
 
@@ -6014,8 +5499,6 @@ ITKFactoryRegistration/itkImageIOFactoryRegisterManager.h:
 /usr/include/features-time64.h:
 
 /usr/include/x86_64-linux-gnu/bits/types/locale_t.h:
-
-/usr/local/include/ITK-5.3/vnl/vnl_transpose.h:
 
 /usr/local/include/QGLViewer/vec.h:
 
@@ -6069,8 +5552,6 @@ ITKFactoryRegistration/itkImageIOFactoryRegisterManager.h:
 
 /usr/include/x86_64-linux-gnu/qt5/QtCore/qsharedpointer.h:
 
-/usr/local/include/ITK-5.3/vxl_version.h:
-
 /usr/include/eigen3/Eigen/src/Core/util/MKL_support.h:
 
 /usr/include/boost/core/ref.hpp:
@@ -6084,8 +5565,6 @@ ITKFactoryRegistration/itkImageIOFactoryRegisterManager.h:
 /usr/include/boost/mpl/aux_/preprocessed/gcc/full_lambda.hpp:
 
 /usr/include/boost/functional/hash.hpp:
-
-/usr/local/include/ITK-5.3/vcl_compiler.h:
 
 /usr/include/c++/11/debug/assertions.h:
 
@@ -6114,8 +5593,6 @@ ITKFactoryRegistration/itkImageIOFactoryRegisterManager.h:
 /usr/include/boost/mpl/aux_/contains_impl.hpp:
 
 /usr/include/boost/mpl/aux_/value_wknd.hpp:
-
-/usr/include/c++/11/bits/slice_array.h:
 
 /usr/include/boost/mpl/same_as.hpp:
 
@@ -6155,8 +5632,6 @@ ITKFactoryRegistration/itkImageIOFactoryRegisterManager.h:
 
 /usr/include/c++/11/bits/atomic_base.h:
 
-/usr/local/include/ITK-5.3/itkMathDetail.h:
-
 /usr/include/features.h:
 
 /usr/include/boost/mpl/aux_/reverse_fold_impl.hpp:
@@ -6177,21 +5652,15 @@ ITKFactoryRegistration/itkImageIOFactoryRegisterManager.h:
 
 /usr/include/x86_64-linux-gnu/bits/stdio_lim.h:
 
-/usr/local/include/DGtal/images/Image.ih:
-
 /usr/local/include/DGtal/base/Clock.h:
 
 /usr/include/boost/function/detail/maybe_include.hpp:
-
-/usr/local/include/ITK-5.3/itkCovariantVector.h:
 
 /usr/include/x86_64-linux-gnu/sys/single_threaded.h:
 
 /usr/local/include/ceres/evaluation_callback.h:
 
 /usr/include/c++/11/cmath:
-
-/usr/local/include/ITK-5.3/itkDiffusionTensor3D.hxx:
 
 /usr/include/asm-generic/errno-base.h:
 
@@ -6245,8 +5714,6 @@ ITKFactoryRegistration/itkImageIOFactoryRegisterManager.h:
 
 /usr/local/include/DGtal/kernel/domains/HyperRectDomain.ih:
 
-/usr/local/include/ITK-5.3/itkNumericTraitsVectorPixel.h:
-
 /usr/include/x86_64-linux-gnu/c++/11/bits/c++config.h:
 
 /usr/local/include/DGtal/images/imagesSetsUtils/ImageFromSet.h:
@@ -6258,8 +5725,6 @@ ITKFactoryRegistration/itkImageIOFactoryRegisterManager.h:
 /usr/include/eigen3/Eigen/src/Core/Transpose.h:
 
 /usr/include/boost/next_prior.hpp:
-
-/usr/local/include/ITK-5.3/itkImageBoundaryCondition.h:
 
 /usr/include/x86_64-linux-gnu/bits/types/__sigset_t.h:
 
@@ -6297,8 +5762,6 @@ ITKFactoryRegistration/itkImageIOFactoryRegisterManager.h:
 
 /usr/include/x86_64-linux-gnu/bits/types/struct_timespec.h:
 
-/usr/local/include/ITK-5.3/itkVectorImage.hxx:
-
 /usr/include/boost/move/iterator.hpp:
 
 /usr/include/c++/11/bit:
@@ -6335,17 +5798,7 @@ ITKFactoryRegistration/itkImageIOFactoryRegisterManager.h:
 
 /usr/include/x86_64-linux-gnu/qt5/QtCore/qcompilerdetection.h:
 
-/usr/local/include/ITK-5.3/itkImageScanlineIterator.h:
-
 /usr/include/x86_64-linux-gnu/bits/cpu-set.h:
-
-/usr/local/include/DGtal/helpers/StdDefs.h:
-
-/usr/include/boost/range/distance.hpp:
-
-/usr/include/eigen3/Eigen/src/Core/SelfAdjointView.h:
-
-/usr/include/boost/mpl/vector/aux_/include_preprocessed.hpp:
 
 /usr/include/boost/iostreams/flush.hpp:
 
@@ -6393,8 +5846,6 @@ ITKFactoryRegistration/itkImageIOFactoryRegisterManager.h:
 
 /usr/include/c++/11/bits/cpp_type_traits.h:
 
-/usr/local/include/ITK-5.3/itkEventObject.h:
-
 /usr/include/boost/dynamic_bitset/dynamic_bitset.hpp:
 
 /usr/include/x86_64-linux-gnu/qt5/QtCore/qsize.h:
@@ -6438,8 +5889,6 @@ ITKFactoryRegistration/itkImageIOFactoryRegisterManager.h:
 /usr/include/c++/11/bits/stl_numeric.h:
 
 /usr/local/include/DGtal/kernel/CUnsignedNumber.h:
-
-/usr/local/include/DGtal/images/ImageContainerByITKImage.h:
 
 /usr/include/x86_64-linux-gnu/bits/select2.h:
 
@@ -6565,15 +6014,11 @@ ITKFactoryRegistration/itkImageIOFactoryRegisterManager.h:
 
 /usr/include/boost/function_equal.hpp:
 
-/usr/local/include/ITK-5.3/itkNeighborhood.h:
-
 /usr/include/c++/11/utility:
 
 /usr/include/eigen3/Eigen/src/Core/util/SymbolicIndex.h:
 
 /usr/include/x86_64-linux-gnu/c++/11/bits/error_constants.h:
-
-/usr/local/include/DGtal/images/ConstImageAdapter.h:
 
 /usr/include/eigen3/Eigen/src/Core/CwiseTernaryOp.h:
 
@@ -6599,9 +6044,9 @@ ITKFactoryRegistration/itkImageIOFactoryRegisterManager.h:
 
 /usr/include/string.h:
 
-/usr/local/include/ITK-5.3/itkProcessObject.h:
+/usr/include/eigen3/Eigen/src/Core/products/Parallelizer.h:
 
-/usr/local/include/DGtal/io/writers/LongvolWriter.h:
+/usr/include/boost/preprocessor/logical/and.hpp:
 
 /usr/include/c++/11/bits/atomic_lockfree_defines.h:
 
@@ -6665,8 +6110,6 @@ ITKFactoryRegistration/itkImageIOFactoryRegisterManager.h:
 
 /usr/include/c++/11/bits/fstream.tcc:
 
-/usr/local/include/ITK-5.3/itkImageBase.h:
-
 /usr/local/include/DGtal/base/CConstBidirectionalRange.h:
 
 /usr/include/boost/preprocessor/debug/error.hpp:
@@ -6690,6 +6133,10 @@ ITKFactoryRegistration/itkImageIOFactoryRegisterManager.h:
 /usr/include/boost/type_traits/is_compound.hpp:
 
 /usr/include/x86_64-linux-gnu/c++/11/bits/time_members.h:
+
+/usr/include/boost/iostreams/input_sequence.hpp:
+
+/usr/include/c++/11/limits:
 
 /usr/include/boost/preprocessor/logical/bool.hpp:
 
@@ -6729,10 +6176,6 @@ ITKFactoryRegistration/itkImageIOFactoryRegisterManager.h:
 
 /usr/include/limits.h:
 
-/usr/local/include/ITK-5.3/itkSymmetricEigenAnalysis.hxx:
-
-/usr/local/include/ITK-5.3/itkImageIOBase.h:
-
 /usr/include/pthread.h:
 
 /usr/include/x86_64-linux-gnu/qt5/QtCore/qlist.h:
@@ -6742,8 +6185,6 @@ ITKFactoryRegistration/itkImageIOFactoryRegisterManager.h:
 /usr/include/x86_64-linux-gnu/qt5/QtGui/qimage.h:
 
 /usr/include/c++/11/bits/refwrap.h:
-
-/usr/include/c++/11/fenv.h:
 
 /usr/include/x86_64-linux-gnu/qt5/QtCore/qflags.h:
 
@@ -6776,10 +6217,6 @@ ITKFactoryRegistration/itkImageIOFactoryRegisterManager.h:
 /usr/include/eigen3/Eigen/src/Geometry/RotationBase.h:
 
 /usr/include/c++/11/array:
-
-/usr/include/eigen3/Eigen/src/Core/products/Parallelizer.h:
-
-/usr/include/boost/preprocessor/logical/and.hpp:
 
 /usr/include/x86_64-linux-gnu/qt5/QtCore/qset.h:
 
@@ -6851,15 +6288,11 @@ ITKFactoryRegistration/itkImageIOFactoryRegisterManager.h:
 
 /usr/include/boost/detail/select_type.hpp:
 
-/usr/local/include/ITK-5.3/itkTimeStamp.h:
-
 /usr/include/boost/mpl/identity.hpp:
 
 /usr/include/boost/mpl/aux_/template_arity.hpp:
 
 /usr/include/boost/mpl/placeholders.hpp:
-
-/usr/local/include/ITK-5.3/itkRGBAPixel.h:
 
 /usr/include/eigen3/Eigen/src/Geometry/AlignedBox.h:
 
@@ -6886,8 +6319,6 @@ ITKFactoryRegistration/itkImageIOFactoryRegisterManager.h:
 /usr/include/c++/11/cxxabi.h:
 
 /usr/local/include/DGtal/kernel/sets/DigitalSetSelector.h:
-
-/usr/include/c++/11/bits/mask_array.h:
 
 /usr/include/boost/mpl/aux_/config/compiler.hpp:
 
@@ -6959,8 +6390,6 @@ ITKFactoryRegistration/itkImageIOFactoryRegisterManager.h:
 
 /usr/local/include/DGtal/base/TraceWriterFile.h:
 
-/usr/local/include/ITK-5.3/itkRegion.h:
-
 /usr/include/boost/type_traits/alignment_of.hpp:
 
 /usr/local/include/DGtal/base/ConceptUtils.h:
@@ -6970,8 +6399,6 @@ ITKFactoryRegistration/itkImageIOFactoryRegisterManager.h:
 /usr/local/include/DGtal/base/BasicTypes.h:
 
 /usr/include/c++/11/cstring:
-
-/usr/local/include/ITK-5.3/itkeigen/Eigen/Eigenvalues:
 
 /usr/local/include/DGtal/io/writers/STBWriter.ih:
 
@@ -6985,8 +6412,6 @@ ITKFactoryRegistration/itkImageIOFactoryRegisterManager.h:
 
 /usr/include/boost/numeric/conversion/detail/sign_mixture.hpp:
 
-/usr/local/include/ITK-5.3/vnl/vnl_numeric_traits.h:
-
 /usr/include/boost/mpl/aux_/preprocessor/params.hpp:
 
 /usr/include/boost/mpl/aux_/arithmetic_op.hpp:
@@ -6994,8 +6419,6 @@ ITKFactoryRegistration/itkImageIOFactoryRegisterManager.h:
 /usr/include/boost/mpl/aux_/include_preprocessed.hpp:
 
 /usr/include/boost/detail/indirect_traits.hpp:
-
-/usr/local/include/ITK-5.3/itkImage.h:
 
 /usr/include/boost/type_traits/is_pointer.hpp:
 
@@ -7095,8 +6518,6 @@ ITKFactoryRegistration/itkImageIOFactoryRegisterManager.h:
 
 /usr/include/boost/mpl/aux_/preprocessed/gcc/template_arity.hpp:
 
-/usr/local/include/ITK-5.3/itkMatrix.h:
-
 /usr/local/include/ceres/internal/parameter_dims.h:
 
 /usr/include/boost/mpl/remove_if.hpp:
@@ -7106,8 +6527,6 @@ ITKFactoryRegistration/itkImageIOFactoryRegisterManager.h:
 /usr/include/boost/type_traits/is_base_and_derived.hpp:
 
 /usr/local/include/DGtal/base/CBidirectionalRange.h:
-
-/usr/local/include/ITK-5.3/vnl/vnl_diag_matrix.h:
 
 /usr/include/boost/range/begin.hpp:
 
@@ -7165,8 +6584,6 @@ ITKFactoryRegistration/itkImageIOFactoryRegisterManager.h:
 
 /usr/include/boost/range/concepts.hpp:
 
-/usr/local/include/ITK-5.3/itkNumericTraitsTensorPixel.h:
-
 /usr/include/boost/range/value_type.hpp:
 
 /usr/include/boost/type_traits/make_unsigned.hpp:
@@ -7215,8 +6632,6 @@ ITKFactoryRegistration/itkImageIOFactoryRegisterManager.h:
 
 /usr/local/include/DGtal/kernel/BasicPointPredicates.ih:
 
-/usr/local/include/ITK-5.3/itkImageScanlineConstIterator.h:
-
 /usr/local/include/ceres/internal/integer_sequence_algorithm.h:
 
 /usr/local/include/DGtal/kernel/sets/DigitalSetSelector.ih:
@@ -7226,8 +6641,6 @@ ITKFactoryRegistration/itkImageIOFactoryRegisterManager.h:
 /usr/include/boost/preprocessor/arithmetic/mod.hpp:
 
 /usr/include/c++/11/bits/locale_conv.h:
-
-/usr/local/include/DGtal/images/ImageContainerBySTLMap.ih:
 
 /usr/include/boost/preprocessor/comparison/less_equal.hpp:
 
@@ -7240,6 +6653,14 @@ ITKFactoryRegistration/itkImageIOFactoryRegisterManager.h:
 /usr/include/boost/core/checked_delete.hpp:
 
 /usr/include/c++/11/bits/hashtable.h:
+
+/usr/include/boost/range/distance.hpp:
+
+/usr/include/eigen3/Eigen/src/Core/SelfAdjointView.h:
+
+/usr/include/boost/mpl/vector/aux_/include_preprocessed.hpp:
+
+/usr/local/include/DGtal/helpers/StdDefs.h:
 
 /usr/include/boost/type_traits/detail/has_binary_operator.hpp:
 
@@ -7347,8 +6768,6 @@ ITKFactoryRegistration/itkImageIOFactoryRegisterManager.h:
 
 /usr/include/boost/mpl/vector/aux_/push_front.hpp:
 
-/usr/local/include/ITK-5.3/itkRealTimeStamp.h:
-
 /usr/include/boost/mpl/aux_/preprocessed/gcc/less.hpp:
 
 /usr/include/boost/config/no_tr1/cmath.hpp:
@@ -7437,11 +6856,7 @@ ITKFactoryRegistration/itkImageIOFactoryRegisterManager.h:
 
 /usr/include/boost/mpl/vector/aux_/pop_back.hpp:
 
-/usr/local/include/ITK-5.3/itkMakeUniqueForOverwrite.h:
-
 /usr/include/boost/predef/architecture/x86/32.h:
-
-/usr/local/include/ITK-5.3/itkImageScanlineIterator.hxx:
 
 /usr/include/boost/predef/version_number.h:
 
@@ -7469,8 +6884,6 @@ ITKFactoryRegistration/itkImageIOFactoryRegisterManager.h:
 
 /usr/include/boost/type_index/type_index_facade.hpp:
 
-/usr/local/include/ITK-5.3/itkImageRegionIterator.hxx:
-
 /usr/local/include/Board/Transforms.ih:
 
 /usr/include/boost/math/policies/policy.hpp:
@@ -7495,15 +6908,11 @@ ITKFactoryRegistration/itkImageIOFactoryRegisterManager.h:
 
 /usr/include/boost/mpl/list/aux_/push_front.hpp:
 
-/usr/local/include/DGtal/io/colormaps/HueShadeColorMap.h:
-
 /usr/include/boost/preprocessor/variadic/size.hpp:
 
 /usr/include/boost/mpl/push_front_fwd.hpp:
 
 /usr/include/boost/mpl/list/aux_/tag.hpp:
-
-/usr/local/include/ITK-5.3/itkVectorImage.h:
 
 /usr/include/boost/math/tools/detail/rational_horner3_20.hpp:
 
@@ -7539,8 +6948,6 @@ ITKFactoryRegistration/itkImageIOFactoryRegisterManager.h:
 
 /usr/include/boost/mpl/contains.hpp:
 
-/usr/local/include/ITK-5.3/itkImageIOFactory.h:
-
 /usr/include/eigen3/Eigen/src/Core/GenericPacketMath.h:
 
 /usr/include/boost/mpl/sequence_tag_fwd.hpp:
@@ -7548,8 +6955,6 @@ ITKFactoryRegistration/itkImageIOFactoryRegisterManager.h:
 /usr/include/boost/mpl/begin_end.hpp:
 
 /usr/include/boost/mpl/aux_/begin_end_impl.hpp:
-
-/usr/local/include/ITK-5.3/itkCovariantVector.hxx:
 
 /usr/include/c++/11/vector:
 
@@ -7570,8 +6975,6 @@ ITKFactoryRegistration/itkImageIOFactoryRegisterManager.h:
 /usr/include/boost/mpl/aux_/preprocessed/gcc/not_equal_to.hpp:
 
 /usr/include/boost/mpl/fold.hpp:
-
-/usr/local/include/ITK-5.3/itkCreateObjectFunction.h:
 
 /usr/include/c++/11/bits/move.h:
 
@@ -7594,8 +6997,6 @@ ITKFactoryRegistration/itkImageIOFactoryRegisterManager.h:
 /usr/include/boost/mpl/inserter.hpp:
 
 /usr/include/boost/mpl/front_inserter.hpp:
-
-/usr/local/include/ITK-5.3/itkDataObject.h:
 
 /usr/include/x86_64-linux-gnu/qt5/QtCore/qalgorithms.h:
 
@@ -7681,8 +7082,6 @@ ITKFactoryRegistration/itkImageIOFactoryRegisterManager.h:
 
 /usr/include/boost/mpl/minus.hpp:
 
-/usr/local/include/ITK-5.3/vxl_config.h:
-
 /usr/include/boost/type_traits/remove_const.hpp:
 
 /usr/include/boost/predef/os/bsd/free.h:
@@ -7757,8 +7156,6 @@ ITKFactoryRegistration/itkImageIOFactoryRegisterManager.h:
 
 /usr/include/c++/11/cassert:
 
-/usr/local/include/ITK-5.3/itkBinaryOperationConcept.h:
-
 /usr/include/boost/predef/os/macos.h:
 
 /usr/include/boost/iostreams/operations_fwd.hpp:
@@ -7770,8 +7167,6 @@ ITKFactoryRegistration/itkImageIOFactoryRegisterManager.h:
 /usr/include/boost/predef/os/bsd/dragonfly.h:
 
 /usr/include/boost/predef/platform/android.h:
-
-/usr/local/include/ITK-5.3/itkVectorImageNeighborhoodAccessorFunctor.h:
 
 /usr/include/boost/math/special_functions/fpclassify.hpp:
 
@@ -7838,8 +7233,6 @@ ITKFactoryRegistration/itkImageIOFactoryRegisterManager.h:
 /usr/include/boost/lexical_cast/detail/converter_lexical.hpp:
 
 /usr/include/boost/get_pointer.hpp:
-
-/usr/local/include/ITK-5.3/itkSliceIterator.h:
 
 /usr/include/boost/preprocessor/enum.hpp:
 
@@ -7911,11 +7304,7 @@ ITKFactoryRegistration/itkImageIOFactoryRegisterManager.h:
 
 /usr/local/include/DGtal/base/CSTLAssociativeContainer.h:
 
-/usr/local/include/ITK-5.3/itkIndent.h:
-
 /usr/local/include/DGtal/kernel/PointHashFunctions.h:
-
-/usr/local/include/ITK-5.3/vnl/algo/vnl_svd.h:
 
 /usr/include/eigen3/Eigen/src/Core/util/Macros.h:
 

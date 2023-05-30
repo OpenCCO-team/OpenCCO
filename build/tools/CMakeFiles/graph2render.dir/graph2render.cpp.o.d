@@ -161,8 +161,7 @@ tools/CMakeFiles/graph2render.dir/graph2render.cpp.o: \
  /usr/include/c++/11/bits/stl_tempbuf.h \
  /usr/include/c++/11/bits/uniform_int_dist.h /usr/include/c++/11/numeric \
  /usr/include/c++/11/bits/stl_numeric.h /usr/include/c++/11/bit \
- /usr/local/include/DGtal/helpers/StdDefs.h \
- /usr/local/include/DGtal/base/Common.h \
+ /usr/include/c++/11/limits /usr/local/include/DGtal/base/Common.h \
  /usr/local/include/QGLViewer/qglviewer.h \
  /usr/local/include/QGLViewer/camera.h \
  /usr/include/x86_64-linux-gnu/qt5/QtCore/QMap \
@@ -246,8 +245,7 @@ tools/CMakeFiles/graph2render.dir/graph2render.cpp.o: \
  /usr/include/x86_64-linux-gnu/qt5/QtCore/qcontainerfwd.h \
  /usr/include/x86_64-linux-gnu/qt5/QtCore/qobject_impl.h \
  /usr/include/c++/11/chrono /usr/include/c++/11/ratio \
- /usr/include/c++/11/limits /usr/include/c++/11/ctime \
- /usr/include/c++/11/bits/parse_numbers.h \
+ /usr/include/c++/11/ctime /usr/include/c++/11/bits/parse_numbers.h \
  /usr/include/x86_64-linux-gnu/qt5/QtCore/QTimer \
  /usr/include/x86_64-linux-gnu/qt5/QtCore/qtimer.h \
  /usr/include/x86_64-linux-gnu/qt5/QtCore/qbasictimer.h \
@@ -946,6 +944,7 @@ tools/CMakeFiles/graph2render.dir/graph2render.cpp.o: \
  /usr/local/include/DGtal/base/BasicBoolFunctors.ih \
  /usr/local/include/DGtal/base/BasicArchetypes.h \
  /usr/local/include/DGtal/base/Exceptions.h \
+ /usr/local/include/DGtal/helpers/StdDefs.h \
  /usr/local/include/DGtal/kernel/SpaceND.h \
  /usr/local/include/DGtal/kernel/CInteger.h \
  /usr/local/include/DGtal/kernel/CEuclideanRing.h \
@@ -1684,12 +1683,10 @@ tools/CMakeFiles/graph2render.dir/graph2render.cpp.o: \
  /usr/local/include/ceres/solver.h \
  /usr/local/include/ceres/sphere_manifold.h \
  /usr/local/include/ceres/version.h \
- /usr/local/include/DGtal/io/writers/GenericWriter.h \
- /usr/local/include/DGtal/images/Image.h \
- /usr/local/include/DGtal/images/Image.ih \
- /usr/local/include/DGtal/images/ImageContainerBySTLMap.h \
- /usr/local/include/DGtal/images/DefaultImageRange.h \
- /usr/local/include/DGtal/images/ImageContainerBySTLMap.ih \
+ /usr/local/include/DGtal/io/writers/STBWriter.h \
+ /usr/local/include/DGtal/io/colormaps/BasicColorToScalarFunctors.h \
+ /usr/local/include/DGtal/io/writers/STBWriter.ih \
+ /usr/local/include/stb/stb_image_write.h \
  /usr/local/include/DGtal/io/colormaps/GradientColorMap.h \
  /usr/local/include/Board/Board.h /usr/local/include/Board/Point.h \
  /usr/local/include/Board/Path.h /usr/local/include/Board/Rect.h \
@@ -1702,213 +1699,6 @@ tools/CMakeFiles/graph2render.dir/graph2render.cpp.o: \
  /usr/local/include/Board/ShapeList.h \
  /usr/local/include/Board/ShapeList.ih /usr/local/include/Board/Board.ih \
  /usr/local/include/DGtal/io/colormaps/GradientColorMap.ih \
- /usr/local/include/DGtal/io/colormaps/HueShadeColorMap.h \
- /usr/local/include/DGtal/io/colormaps/HueShadeColorMap.ih \
- /usr/local/include/DGtal/io/writers/GenericWriter.ih \
- /usr/local/include/DGtal/io/writers/LongvolWriter.h \
- /usr/local/include/DGtal/io/writers/LongvolWriter.ih \
- /usr/local/include/DGtal/io/writers/VolWriter.h \
- /usr/local/include/DGtal/io/writers/VolWriter.ih \
- /usr/local/include/DGtal/io/writers/PPMWriter.h \
- /usr/local/include/DGtal/io/writers/PPMWriter.ih \
- /usr/local/include/DGtal/io/writers/PGMWriter.h \
- /usr/local/include/DGtal/io/writers/PGMWriter.ih \
- /usr/local/include/DGtal/io/writers/RawWriter.h \
- /usr/local/include/DGtal/io/writers/RawWriter.ih \
- /usr/local/include/DGtal/io/writers/STBWriter.h \
- /usr/local/include/DGtal/io/colormaps/BasicColorToScalarFunctors.h \
- /usr/local/include/DGtal/io/writers/STBWriter.ih \
- /usr/local/include/stb/stb_image_write.h \
- /usr/local/include/DGtal/io/writers/ITKWriter.h \
- /usr/local/include/DGtal/images/ImageContainerByITKImage.h \
- /usr/local/include/ITK-5.3/itkImage.h \
- /usr/local/include/ITK-5.3/itkImageRegion.h \
- /usr/local/include/ITK-5.3/itkRegion.h \
- /usr/local/include/ITK-5.3/itkObject.h \
- /usr/local/include/ITK-5.3/itkLightObject.h \
- /usr/local/include/ITK-5.3/itkMacro.h \
- /usr/local/include/ITK-5.3/itkWin32Header.h \
- /usr/local/include/ITK-5.3/itkConfigure.h \
- /usr/local/include/ITK-5.3/ITKCommonExport.h \
- /usr/local/include/ITK-5.3/itkExceptionObject.h \
- /usr/local/include/ITK-5.3/itkSmartPointer.h \
- /usr/local/include/ITK-5.3/itkTimeStamp.h \
- /usr/local/include/ITK-5.3/itkIntTypes.h \
- /usr/local/include/ITK-5.3/itkSingletonMacro.h \
- /usr/local/include/ITK-5.3/itkIndent.h \
- /usr/local/include/ITK-5.3/itkEventObject.h \
- /usr/local/include/ITK-5.3/itkMetaDataDictionary.h \
- /usr/local/include/ITK-5.3/itkMetaDataObjectBase.h \
- /usr/local/include/ITK-5.3/itkCommonEnums.h \
- /usr/local/include/ITK-5.3/itkSize.h \
- /usr/local/include/ITK-5.3/itkMakeFilled.h \
- /usr/local/include/ITK-5.3/itkContinuousIndex.h \
- /usr/local/include/ITK-5.3/itkPoint.h \
- /usr/local/include/ITK-5.3/itkNumericTraits.h \
- /usr/local/include/ITK-5.3/itkFixedArray.h \
- /usr/local/include/ITK-5.3/itkFixedArray.hxx \
- /usr/local/include/ITK-5.3/itkNumericTraitsFixedArrayPixel.h \
- /usr/local/include/ITK-5.3/itkVector.h \
- /usr/local/include/ITK-5.3/vnl/vnl_vector_ref.h \
- /usr/local/include/ITK-5.3/vnl/vnl_vector.h \
- /usr/local/include/ITK-5.3/vnl/vnl_error.h \
- /usr/local/include/ITK-5.3/vnl/vnl_export.h \
- /usr/local/include/ITK-5.3/vcl_compiler.h \
- /usr/local/include/ITK-5.3/vnl/vnl_c_vector.h \
- /usr/local/include/ITK-5.3/vnl/vnl_numeric_traits.h \
- /usr/local/include/ITK-5.3/vxl_config.h \
- /usr/local/include/ITK-5.3/vnl/vnl_config.h \
- /usr/local/include/ITK-5.3/vnl/vnl_sse.h \
- /usr/local/include/ITK-5.3/vcl_compiler_detection.h \
- /usr/local/include/ITK-5.3/compilers/VXL_COMPILER_INFO_GNU_CXX.h \
- /usr/local/include/ITK-5.3/vnl/vnl_alloc.h \
- /usr/local/include/ITK-5.3/itkVector.hxx \
- /usr/local/include/ITK-5.3/itkMath.h \
- /usr/local/include/ITK-5.3/itkMathDetail.h /usr/include/c++/11/cfenv \
- /usr/include/c++/11/fenv.h /usr/include/fenv.h \
- /usr/include/x86_64-linux-gnu/bits/fenv.h \
- /usr/local/include/ITK-5.3/itkConceptChecking.h \
- /usr/local/include/ITK-5.3/itkPixelTraits.h \
- /usr/local/include/ITK-5.3/vnl/vnl_math.h \
- /usr/local/include/ITK-5.3/vnl/dll.h \
- /usr/local/include/ITK-5.3/vxl_version.h \
- /usr/local/include/ITK-5.3/vnl/vnl_vector.h \
- /usr/local/include/ITK-5.3/itkNumericTraitsVectorPixel.h \
- /usr/local/include/ITK-5.3/itkPoint.hxx \
- /usr/local/include/ITK-5.3/itkNumericTraitsPointPixel.h \
- /usr/local/include/ITK-5.3/itkIndex.h \
- /usr/local/include/ITK-5.3/itkOffset.h \
- /usr/local/include/ITK-5.3/itkImageRegion.hxx \
- /usr/local/include/ITK-5.3/itkImportImageContainer.h \
- /usr/local/include/ITK-5.3/itkObjectFactory.h \
- /usr/local/include/ITK-5.3/itkObjectFactoryBase.h \
- /usr/local/include/ITK-5.3/itkCreateObjectFunction.h \
- /usr/local/include/ITK-5.3/itkImportImageContainer.hxx \
- /usr/local/include/ITK-5.3/itkDefaultPixelAccessor.h \
- /usr/local/include/ITK-5.3/itkDefaultPixelAccessorFunctor.h \
- /usr/local/include/ITK-5.3/itkWeakPointer.h \
- /usr/local/include/ITK-5.3/itkNeighborhoodAccessorFunctor.h \
- /usr/local/include/ITK-5.3/itkImageBoundaryCondition.h \
- /usr/local/include/ITK-5.3/itkNeighborhood.h \
- /usr/local/include/ITK-5.3/itkNeighborhoodAllocator.h \
- /usr/local/include/ITK-5.3/itkMakeUniqueForOverwrite.h \
- /usr/local/include/ITK-5.3/itkSliceIterator.h \
- /usr/include/c++/11/valarray /usr/include/c++/11/bits/valarray_array.h \
- /usr/include/c++/11/bits/valarray_array.tcc \
- /usr/include/c++/11/bits/valarray_before.h \
- /usr/include/c++/11/bits/slice_array.h \
- /usr/include/c++/11/bits/valarray_after.h \
- /usr/include/c++/11/bits/gslice.h \
- /usr/include/c++/11/bits/gslice_array.h \
- /usr/include/c++/11/bits/mask_array.h \
- /usr/include/c++/11/bits/indirect_array.h \
- /usr/local/include/ITK-5.3/itkNeighborhood.hxx \
- /usr/local/include/ITK-5.3/itkImageBase.h \
- /usr/local/include/ITK-5.3/itkDataObject.h \
- /usr/local/include/ITK-5.3/itkRealTimeStamp.h \
- /usr/local/include/ITK-5.3/itkRealTimeInterval.h \
- /usr/local/include/ITK-5.3/itkMatrix.h \
- /usr/local/include/ITK-5.3/itkCovariantVector.h \
- /usr/local/include/ITK-5.3/itkNumericTraitsCovariantVectorPixel.h \
- /usr/local/include/ITK-5.3/itkCovariantVector.hxx \
- /usr/local/include/ITK-5.3/vnl/vnl_matrix_fixed.hxx \
- /usr/local/include/ITK-5.3/vnl/vnl_matrix_fixed.h \
- /usr/local/include/ITK-5.3/vnl/vnl_matrix.h \
- /usr/local/include/ITK-5.3/vnl/vnl_matrix_ref.h \
- /usr/local/include/ITK-5.3/vnl/vnl_vector_fixed.h \
- /usr/local/include/ITK-5.3/vnl/vnl_vector_ref.h \
- /usr/local/include/ITK-5.3/vnl/vnl_math.h \
- /usr/local/include/ITK-5.3/vnl/vnl_complex.h \
- /usr/local/include/ITK-5.3/vnl/vnl_transpose.h \
- /usr/local/include/ITK-5.3/vnl/vnl_fastops.h \
- /usr/local/include/ITK-5.3/vnl/algo/vnl_matrix_inverse.h \
- /usr/local/include/ITK-5.3/vnl/algo/vnl_svd.h \
- /usr/local/include/ITK-5.3/vnl/vnl_numeric_traits.h \
- /usr/local/include/ITK-5.3/vnl/vnl_vector.h \
- /usr/local/include/ITK-5.3/vnl/vnl_matrix.h \
- /usr/local/include/ITK-5.3/vnl/vnl_diag_matrix.h \
- /usr/local/include/ITK-5.3/vnl/algo/vnl_algo_export.h \
- /usr/local/include/ITK-5.3/vnl/vnl_matrix.h \
- /usr/local/include/ITK-5.3/vnl/algo/vnl_determinant.h \
- /usr/local/include/ITK-5.3/vnl/vnl_matrix_fixed.h \
- /usr/local/include/ITK-5.3/itkMatrix.hxx \
- /usr/local/include/ITK-5.3/itkImageHelper.h \
- /usr/local/include/ITK-5.3/itkFloatTypes.h \
- /usr/local/include/ITK-5.3/itkImageBase.hxx \
- /usr/local/include/ITK-5.3/itkProcessObject.h \
- /usr/local/include/ITK-5.3/itkThreadSupport.h /usr/include/c++/11/thread \
- /usr/include/c++/11/bits/std_thread.h \
- /usr/include/c++/11/bits/this_thread_sleep.h \
- /usr/local/include/ITK-5.3/itkSpatialOrientation.h \
- /usr/local/include/ITK-5.3/itkImage.hxx \
- /usr/local/include/ITK-5.3/itkImageRegionConstIterator.h \
- /usr/local/include/ITK-5.3/itkImageIterator.h \
- /usr/local/include/ITK-5.3/itkImageConstIterator.h \
- /usr/local/include/ITK-5.3/itkImage.h \
- /usr/local/include/ITK-5.3/itkImageIterator.hxx \
- /usr/local/include/ITK-5.3/itkImageRegionConstIterator.hxx \
- /usr/local/include/ITK-5.3/itkImageRegionIterator.h \
- /usr/local/include/ITK-5.3/itkImageRegionConstIterator.h \
- /usr/local/include/ITK-5.3/itkImageRegionIterator.hxx \
- /usr/local/include/DGtal/images/ImageContainerByITKImage.ih \
- /usr/local/include/DGtal/io/ITKIOTrait.h \
- /usr/local/include/DGtal/io/writers/ITKWriter.ih \
- /usr/local/include/DGtal/images/ConstImageAdapter.h \
- /usr/local/include/DGtal/images/ConstImageAdapter.ih \
- /usr/local/include/ITK-5.3/itkImageFileWriter.h \
- /usr/local/include/ITK-5.3/ITKIOImageBaseExport.h \
- /usr/local/include/ITK-5.3/itkImageIOBase.h \
- /usr/local/include/ITK-5.3/itkIOConfigure.h \
- /usr/local/include/ITK-5.3/itkLightProcessObject.h \
- /usr/local/include/ITK-5.3/itkImageIORegion.h \
- /usr/local/include/ITK-5.3/itkRGBPixel.h \
- /usr/local/include/ITK-5.3/itkNumericTraitsRGBPixel.h \
- /usr/local/include/ITK-5.3/itkRGBPixel.hxx \
- /usr/local/include/ITK-5.3/itkRGBAPixel.h \
- /usr/local/include/ITK-5.3/itkNumericTraitsRGBAPixel.h \
- /usr/local/include/ITK-5.3/itkRGBAPixel.hxx \
- /usr/local/include/ITK-5.3/itkSymmetricSecondRankTensor.h \
- /usr/local/include/ITK-5.3/itkSymmetricEigenAnalysis.h \
- /usr/local/include/ITK-5.3/itk_eigen.h \
- /usr/local/include/ITK-5.3/itkeigen/Eigen/Eigenvalues \
- /usr/local/include/ITK-5.3/vnl/vnl_matrix_fixed.h \
- /usr/local/include/ITK-5.3/itkSymmetricEigenAnalysis.hxx \
- /usr/local/include/ITK-5.3/itkNumericTraitsTensorPixel.h \
- /usr/local/include/ITK-5.3/itkSymmetricSecondRankTensor.hxx \
- /usr/local/include/ITK-5.3/itkDiffusionTensor3D.h \
- /usr/local/include/ITK-5.3/itkNumericTraitsDiffusionTensor3DPixel.h \
- /usr/local/include/ITK-5.3/itkDiffusionTensor3D.hxx \
- /usr/local/include/ITK-5.3/itkArray.h \
- /usr/local/include/ITK-5.3/vxl_version.h \
- /usr/local/include/ITK-5.3/itkArray.hxx \
- /usr/local/include/ITK-5.3/itkNumericTraitsArrayPixel.h \
- /usr/local/include/ITK-5.3/itkVariableSizeMatrix.h \
- /usr/local/include/ITK-5.3/itkVariableSizeMatrix.hxx \
- /usr/local/include/ITK-5.3/itkImageRegionSplitterBase.h \
- /usr/local/include/ITK-5.3/vcl_compiler.h \
- /usr/local/include/ITK-5.3/itkMetaProgrammingLibrary.h \
- /usr/local/include/ITK-5.3/itkImageFileWriter.hxx \
- /usr/local/include/ITK-5.3/itkImageIOFactory.h \
- /usr/local/include/ITK-5.3/itkCommand.h \
- /usr/local/include/ITK-5.3/itkVectorImage.h \
- /usr/local/include/ITK-5.3/itkDefaultVectorPixelAccessor.h \
- /usr/local/include/ITK-5.3/itkVariableLengthVector.h \
- /usr/local/include/ITK-5.3/itkIsNumber.h \
- /usr/local/include/ITK-5.3/itkPromoteType.h \
- /usr/local/include/ITK-5.3/itkBinaryOperationConcept.h \
- /usr/local/include/ITK-5.3/itkNumericTraitsVariableLengthVectorPixel.h \
- /usr/local/include/ITK-5.3/itkVariableLengthVector.hxx \
- /usr/local/include/ITK-5.3/itkDefaultVectorPixelAccessorFunctor.h \
- /usr/local/include/ITK-5.3/itkVectorImageNeighborhoodAccessorFunctor.h \
- /usr/local/include/ITK-5.3/itkVectorImage.hxx \
- /usr/local/include/ITK-5.3/itkImageRegionIterator.h \
- /usr/local/include/ITK-5.3/itkImageAlgorithm.h \
- /usr/local/include/ITK-5.3/itkImageAlgorithm.hxx \
- /usr/local/include/ITK-5.3/itkImageScanlineIterator.h \
- /usr/local/include/ITK-5.3/itkImageScanlineConstIterator.h \
- /usr/local/include/ITK-5.3/itkImageScanlineConstIterator.hxx \
- /usr/local/include/ITK-5.3/itkImageScanlineIterator.hxx \
- /home/adam/OpenCCO/build/ITKFactoryRegistration/itkImageIOFactoryRegisterManager.h \
  /home/adam/OpenCCO/ext/CLI11.hpp \
  /usr/include/x86_64-linux-gnu/sys/stat.h \
  /usr/include/x86_64-linux-gnu/bits/stat.h \

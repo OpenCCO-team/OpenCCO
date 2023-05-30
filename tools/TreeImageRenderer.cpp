@@ -41,12 +41,6 @@ void ArteryTree::sort()
 	}
 
 	// finally sort the mySegment vector, based on the minimum of myProxitalIndex and myDistalIndex
-	/*
-	auto segcmp = [&] (const Segment & s1, const Segment & s2)
-	{
-		return std::min(s1.myDistalIndex, s1.myProxitalIndex) < std::min(s2.myDistalIndex, s2.myProxitalIndex);
-	};*/
-
 	std::sort(mySegments.begin(), mySegments.end());
 }
 
@@ -58,13 +52,16 @@ void ArteryTree::sort()
 
 // Constructor
 
-TreeImageRenderer::TreeImageRenderer(unsigned int width) 
+TreeImageRenderer::TreeImageRenderer(const unsigned int width,
+									 const std::string & radii_filename,
+									 const std::string & vertices_filename,
+									 const std::string & edges_filename)
 	: myBackground( TDomain() ),
 	myTreeImage( TDomain() ),
 	myDistanceMap( TDomain() )
 {
-	importTreeData();
-	myTree.sort();
+	importTreeData(radii_filename, vertices_filename, edges_filename);
+	//myTree.sort();
 
 	setImageSize(width, width/20);		// initializes myDomain
 }
@@ -73,12 +70,14 @@ TreeImageRenderer::TreeImageRenderer(unsigned int width)
 
 // Methods
 
-void TreeImageRenderer::importTreeData()
+void TreeImageRenderer::importTreeData(const std::string & radii_filename,
+									   const std::string & vertices_filename,
+									   const std::string & edges_filename)
 {
 	std::ifstream file;
 
 	// get the vertex from vertex.dat
-	file.open("vertex.dat");
+	file.open(vertices_filename);
 
 	if(file.is_open())
 	{
@@ -97,11 +96,11 @@ void TreeImageRenderer::importTreeData()
 	}
 	else
 	{
-		std::cout << "Couldn't open vertex.dat" << std::endl;
+		std::cout << "Couldn't open " << vertices_filename << "." << std::endl;
 	}
 
 	// get the edge data from edges.dat
-	file.open("edges.dat");
+	file.open(edges_filename);
 
 	if(file.is_open())
 	{
@@ -126,11 +125,11 @@ void TreeImageRenderer::importTreeData()
 	}
 	else
 	{
-		std::cout << "Couldn't open edges.dat" << std::endl;
+		std::cout << "Couldn't open " << edges_filename << "." << std::endl;
 	}
 
 	// get the radii from from radius.dat
-	file.open("radius.dat");
+	file.open(radii_filename);
 
 	if(file.is_open())
 	{
@@ -148,7 +147,7 @@ void TreeImageRenderer::importTreeData()
 	}
 	else
 	{
-		std::cout << "Couldn't open radius.dat" << std::endl;
+		std::cout << "Couldn't open " << radii_filename << "." << std::endl;;
 	}
 
 	std::cout << "Imported " << myTree.myPoints.size() << " vertices." << std::endl;
@@ -230,21 +229,136 @@ void TreeImageRenderer::setImageSize(unsigned int width, unsigned int margin_thi
 
 
 
-void TreeImageRenderer::createDistanceAlphaChannel()
+void TreeImageRenderer::createDistanceMap()
 {
 	for(const TPoint &p : myDomain)
 	{
-		/*
+		// base value is 0, since we're searching for minimal distances it would stop the algorithm instantly
+		// infinity ensure that any distance we check will be accepted
+		myDistanceMap.setValue(p, std::numeric_limits<double>::infinity());
+
 		auto it = myTree.mySegments.begin();
-		while (it != myTree.mySegments.end() && it->)
-		*/
-		return;
+
+		// the while loop will iterate over the segment in their order of appearance from left to right
+		// like a sweeping line (segment must be sorted, it's taken care of in the constructor of TreeImageRenderer)
+		std::size_t ind_point = std::min(it->myDistalIndex, it->myProxitalIndex);	// leftmost point
+		double sweeping_line_x = myTree.myPoints[ind_point][0] - myTree.myRadii[ind_point];
+
+		while (it != myTree.mySegments.end()
+			/*&& myDistanceMap(p) > sweeping_line_x - p[0]*/)		// check if the sweeping line is too far compared to the already register min distance 
+		{
+			// project p onto the segment
+			TPointD proj;
+			bool isproj = projectOnStraightLine(myTree.myPoints[it->myDistalIndex],
+												myTree.myPoints[it->myProxitalIndex],
+												p,
+												proj);
+
+			if(isproj)		// the projection belongs to the segment
+			{
+				double dist_pproj = (proj - p).norm();
+
+				double dist_proxitalproj = (proj - myTree.myPoints[it->myProxitalIndex]).norm();
+				double dist_proxitaldistal = (myTree.myPoints[it->myDistalIndex] - myTree.myPoints[it->myProxitalIndex]).norm();
+				double interpolated_radius = (myTree.myRadii[it->myDistalIndex] - myTree.myRadii[it->myProxitalIndex]) * dist_proxitalproj/dist_proxitaldistal
+											+ myTree.myRadii[it->myProxitalIndex];
+
+				if(myDistanceMap(p) > dist_pproj - interpolated_radius)	
+				{
+					myDistanceMap.setValue(p, std::max(dist_pproj - interpolated_radius, 0.0));
+				}
+			}
+			else		// the projection doesn't belong to the segment
+			{			// the distance from p to the segment is either the distance to the distal or the distance to the proxital
+						// offset by their respective radius
+				double dist_pproxital = (myTree.myPoints[it->myProxitalIndex] - p).norm() - myTree.myRadii[it->myProxitalIndex];
+				double dist_pdistal = (myTree.myPoints[it->myDistalIndex] - p).norm() - myTree.myRadii[it->myDistalIndex];
+
+				double min_dist = std::min(dist_pproxital, dist_pdistal);
+
+				if(myDistanceMap(p) > min_dist)
+				{
+					myDistanceMap.setValue(p, min_dist);
+				}
+			}
+
+			// update 
+			it++;
+			if( it != myTree.mySegments.end() )
+			{
+				ind_point = std::min(it->myDistalIndex, it->myProxitalIndex);
+				sweeping_line_x = myTree.myPoints[ind_point][0] - myTree.myRadii[ind_point];	
+			}		
+		}
 	}
 }
 
 
 
-// Other useful fonctions
+
+void TreeImageRenderer::createTreeImage()
+{
+	for(const TPoint &p : myDomain)
+	{
+		auto it = myTree.mySegments.begin();
+		while (it != myTree.mySegments.end())
+		{
+			// project p onto the segment
+			TPointD proj;
+			bool isproj = projectOnStraightLine(myTree.myPoints[it->myDistalIndex],
+												myTree.myPoints[it->myProxitalIndex],
+												p,
+												proj);
+
+			if(isproj)		// the projection belongs to the segment
+			{
+				double dist_pproj = (proj - p).norm();
+
+				double dist_proxitalproj = (proj - myTree.myPoints[it->myProxitalIndex]).norm();
+				double dist_proxitaldistal = (myTree.myPoints[it->myDistalIndex] - myTree.myPoints[it->myProxitalIndex]).norm();
+				double interpolated_radius = (myTree.myRadii[it->myDistalIndex] - myTree.myRadii[it->myProxitalIndex]) * dist_proxitalproj/dist_proxitaldistal
+											+ myTree.myRadii[it->myProxitalIndex];
+
+				if(dist_pproj < interpolated_radius)	
+				{
+					myTreeImage.setValue(p, 1.0);
+				}
+			}
+			else		// the projection doesn't belong to the segment
+			{			// the distance from p to the segment is either the distance to the distal or the distance to the proxital
+						// offset by their respective radius
+				double dist_pproxital = (myTree.myPoints[it->myProxitalIndex] - p).norm() - myTree.myRadii[it->myProxitalIndex];
+				double dist_pdistal = (myTree.myPoints[it->myDistalIndex] - p).norm() - myTree.myRadii[it->myDistalIndex];
+
+				double min_dist = std::min(dist_pproxital, dist_pdistal);
+
+				if(min_dist < 0)
+				{
+					myTreeImage.setValue(p, 1.0);
+				}
+			}
+
+			// update 
+			it++;
+		}
+	}
+}
+
+const TImage2D & TreeImageRenderer::distanceMap() const
+{
+	return myDistanceMap;
+}
+
+const TImage2D & TreeImageRenderer::treeImage() const
+{
+	return myTreeImage;
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////               Other functions                 ////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////
+
+
 
 void compBB(std::vector<TPointD> &points, TPointD &upperbound, TPointD &lowerbound)
 {
