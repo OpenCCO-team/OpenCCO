@@ -1,5 +1,6 @@
-*.dat
-*.png
-*.svg
-*.eps
-build/
+/*.dat
+/*.png
+/*.svg
+/*.eps
+/*.xml
+/build/
