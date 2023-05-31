@@ -11,17 +11,55 @@ void createPerlinNoiseBackground(unsigned int width, unsigned int height)
 	TPoint p1(0, 0);
 	TPoint p2(width, height);
 	TDomain domain(p1, p2);
-	TImage2D background(domain);
+	TImage background(domain);
 
 	DGtal::HueShadeColorMap<double>  hueColorMap (-50.0, 50.0);
 
-	DGtal::STBWriter<TImage2D, DGtal::HueShadeColorMap<double>>::exportPNG("aFilename.png", background, hueColorMap);
+	DGtal::STBWriter<TImage, DGtal::HueShadeColorMap<double>>::exportPNG("aFilename.png", background, hueColorMap);
 
 	return;
 }
 */
 
-void saveImage(const TImage2D & image, const std::string & filename)
+
+/**
+ * Returns the dimension of the space defined by the vertices.
+ * @param vertices_filename the file containing the vertices coordinates
+ * @return the dimension
+ **/
+int checkDimension(const std::string & vertices_filename)
+{
+	int dim = 0;
+
+	std::ifstream v_file;
+
+	v_file.open(vertices_filename);
+
+	if(v_file.is_open())
+	{
+		// the first line contains the coordinates of the first point
+		std::string line;
+		getline(v_file, line);
+
+		// separate the coordinates
+		std::stringstream sline(line);
+
+		std::istream_iterator<std::string> begin(sline);
+		std::istream_iterator<std::string> end;
+
+		std::vector<std::string> v_strings(begin, end);
+
+		// amount of coordinates == dimension
+		dim = v_strings.size();
+
+		v_file.close();
+	}
+
+	return dim;
+}
+
+template <int TDim>
+void saveImage(const typename TreeImageRenderer<TDim>::TImage & image, const std::string & filename)
 {
 	auto min_val = std::min_element(image.constRange().begin(), image.constRange().end());
 	auto max_val = std::max_element(image.constRange().begin(), image.constRange().end());
@@ -31,7 +69,8 @@ void saveImage(const TImage2D & image, const std::string & filename)
     gradient_cmap.addColor(DGtal::Color::White);
 
 
-    DGtal::STBWriter<TImage2D, DGtal::GradientColorMap<double>>::exportPNG(filename, image, gradient_cmap);
+    DGtal::STBWriter<typename TreeImageRenderer<TDim>::TImage, DGtal::GradientColorMap<double>>
+    	::exportPNG(filename, image, gradient_cmap);
 }
 
 int main(int argc, char *const *argv)
@@ -52,12 +91,20 @@ int main(int argc, char *const *argv)
     CLI11_PARSE(app, argc, argv);
     // END parse command line using CLI ----------------------------------------------
 
-    TreeImageRenderer renderer(output_width, radii_filename, vertices_filename, edges_filename);
+    int dimension = checkDimension(vertices_filename);
 
-    renderer.createTreeImage();
+    if (dimension == 2)
+    {
+    	TreeImageRenderer<2> renderer(output_width, radii_filename, vertices_filename, edges_filename);
 
-    renderer.createDistanceMap();
+	    renderer.createTreeImage();
 
-    saveImage(renderer.treeImage(), "treeimage.png");
-    saveImage(renderer.distanceMap(), "distancemap.png");
+	    renderer.createDistanceMap();
+
+	    saveImage<2>(renderer.treeImage(), "treeimage.png");
+	    saveImage<2>(renderer.distanceMap(), "distancemap.png");
+    }
+    
+
+    return 0;
 }

@@ -8,22 +8,18 @@
 #include <algorithm>
 #include <numeric>
 #include <limits>
+#include <sstream>
 
 #include "DGtal/base/Common.h"
 #include "DGtal/helpers/StdDefs.h"
 
 #include "GeomHelpers.h"
 
-typedef DGtal::ImageContainerBySTLVector<DGtal::Z2i::Domain, double> TImage2D;
-typedef DGtal::Z2i::Point TPoint;
-typedef DGtal::PointVector<2, double> TPointD;
-typedef DGtal::Z2i::Domain TDomain;
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////                   Segment                     ////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-
 
 
 struct Segment
@@ -45,37 +41,38 @@ struct Segment
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-////////////////////////                 ArteryTree                    ////////////////////////////
-//////////////////////////////////////////////////////////////////////////////////////////////////
-
-
-
-struct ArteryTree
-{
-	std::vector<Segment> mySegments;
-	std::vector<TPointD> myPoints;
-	std::vector<double> myRadii;			// Radii associated with the vertices
-
-	// Method
-
-
-	/**
-     * Sorts mySegments, myPoints and myRaddi based on the positions of the points.
-     * The points are compared on their first coordinate minus their radius
-     **/
-	void sort();
-};
-
-
-///////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////            TreeImageRenderer                  ////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-
+template <int TDim>
 class TreeImageRenderer
 {
 public:
+	typedef DGtal::SpaceND<TDim, int>   SpaceCT;
+	typedef DGtal::PointVector<TDim, int> TPoint;
+	typedef DGtal::PointVector<TDim, double> TPointD;
+	typedef DGtal::HyperRectDomain<SpaceCT> TDomain;
+	typedef DGtal::ImageContainerBySTLVector<TDomain, double> TImage;
+
+	// Nested classes
+
+	struct ArteryTree
+	{
+		std::vector<Segment> mySegments;
+		std::vector<TPointD> myPoints;
+		std::vector<double> myRadii;			// Radii associated with the vertices
+
+		// Method
+
+
+		/**
+	     * Sorts mySegments, myPoints and myRaddi based on the positions of the points.
+	     * The points are compared on their first coordinate minus their radius
+	     **/
+		void sort();
+	};
+
 	// Constructor
 	TreeImageRenderer(const unsigned int width,
 					  const std::string & radii_filename,
@@ -98,19 +95,20 @@ public:
 	
 	void createTreeImage();
 
-	const TImage2D & distanceMap() const;
+	const TImage & distanceMap() const;
 
-	const TImage2D & treeImage() const;
+	const TImage & treeImage() const;
+
+	static const int myDim = TDim;
 
 private:
 	// Member variables
-	TImage2D myBackground;
-	TImage2D myTreeImage;
-	TImage2D myDistanceMap;
+	TImage myBackground;
+	TImage myTreeImage;
+	TImage myDistanceMap;
 	ArteryTree myTree;
 	TDomain myDomain;
 };
-
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
@@ -125,7 +123,10 @@ private:
  * @param upperbound the upperbound of the points (modified by this function)
  * @param lowerbound the lowerbound of the points (modified by this function)
  **/
-void compBB(std::vector<TPointD> &points, TPointD &upperbound, TPointD &lowerbound);
+template<int TDim>
+void compBB(std::vector< typename TreeImageRenderer<TDim>::TPointD > &points,
+			typename TreeImageRenderer<TDim>::TPointD &upperbound, 
+			typename TreeImageRenderer<TDim>::TPointD &lowerbound);
 
 
 
@@ -137,20 +138,12 @@ void compBB(std::vector<TPointD> &points, TPointD &upperbound, TPointD &lowerbou
  * @param ptP the result of the projection (modified by this function)
  * @return true if the projection belongs to the segment
  **/
-bool projectOnStraightLine(const TPointD & ptA,
-						   const TPointD & ptB,
-						   const TPointD & ptC,
-						   TPointD & ptP);
+template<int TDim>
+bool projectOnStraightLine(const typename TreeImageRenderer<TDim>::TPointD & ptA,
+						   const typename TreeImageRenderer<TDim>::TPointD & ptB,
+						   const typename TreeImageRenderer<TDim>::TPointD & ptC,
+						   typename TreeImageRenderer<TDim>::TPointD & ptP);
 
-
-
-/**
- * Creates a subdomain that is the result of the intersection of two domains
- * @param dom1 1st domain
- * @param dom2 2nd domain
- * @return the domain resulting from the intersection
- **/
-TDomain domainIntersect(TDomain &dom1, TDomain &dom2);
 
 
 // from https://stackoverflow.com/questions/17074324/how-can-i-sort-two-vectors-in-the-same-way-with-criteria-that-uses-only-one-of
