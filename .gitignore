@@ -1,6 +1,10 @@
+# file formats ignored at root :
 /*.dat
 /*.png
 /*.svg
 /*.eps
 /*.xml
+/*.off
+
+# folders ignored
 /build/
