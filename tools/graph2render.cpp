@@ -101,6 +101,16 @@ int main(int argc, char *const *argv)
 
 	    renderer.saveRender("render");
     }
+    else if (dimension == 3)
+    {
+    	TreeImageRenderer<3> renderer(output_width, radii_filename, vertices_filename, edges_filename);
+
+	    renderer.createTreeImage();
+
+	    renderer.createDistanceMap();
+
+	    renderer.saveRender("render");
+    }
     
 
     return 0;

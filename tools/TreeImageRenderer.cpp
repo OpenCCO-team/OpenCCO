@@ -6,6 +6,7 @@
 
 #include "DGtal/io/colormaps/GradientColorMap.h"
 
+#include "DGtal/io/writers/PGMWriter.h"
 #include "DGtal/io/writers/STBWriter.h"
 #include "DGtal/io/writers/VolWriter.h"
 
@@ -99,7 +100,11 @@ void TreeImageRenderer<TDim>::importTreeData(const std::string & radii_filename,
 			TPointD p;
 
 			std::istringstream iss(line);
-			iss >> p[0] >> p[1];
+
+			for(unsigned int i = 0; i < TPointD::dimension; i++)
+			{
+				iss >> p[i];
+			}
 			
 			myTree.myPoints.push_back(p);
 		}
@@ -315,6 +320,8 @@ void TreeImageRenderer<TDim>::createTreeImage()
 {
 	for(const TPoint &p : myDomain)
 	{
+		myTreeImage.setValue(p, 255);
+
 		auto it = myTree.mySegments.begin();
 		while (it != myTree.mySegments.end())
 		{
@@ -349,7 +356,7 @@ void TreeImageRenderer<TDim>::createTreeImage()
 
 				if(min_dist < 0)
 				{
-					myTreeImage.setValue(p, 1.0);
+					myTreeImage.setValue(p, 0);
 				}
 			}
 
@@ -373,30 +380,22 @@ void TreeImageRenderer<2>::saveRender(const std::string & filename)
 
 	DGtal::STBWriter< TImage, DGtal::GradientColorMap<double> > 
 		::exportPNG(filename + ".png", myTreeImage, gradient_cmap);
+}
 
 
-		/*
-	if(TDim == 2)			// 2D
-	{
-		auto min_val = std::min_element(myTreeImage.constRange().begin(), myTreeImage.constRange().end());
-		auto max_val = std::max_element(myTreeImage.constRange().begin(), myTreeImage.constRange().end());
 
-		DGtal::GradientColorMap<double> gradient_cmap(*min_val, *max_val);
-
-		gradient_cmap.addColor(DGtal::Color::Black);
-		gradient_cmap.addColor(DGtal::Color::White);
-
-		DGtal::STBWriter< TImage, DGtal::GradientColorMap<double> > 
-    		::exportPNG(filename, myTreeImage, gradient_cmap);
-	}
-	else if(TDim == 3)		// 3D
-	{
-		DGtal::functors::Cast<unsigned char> cast_functor;
+template<>
+void TreeImageRenderer<3>::saveRender(const std::string & filename)
+{
 	
-		DGtal::VolWriter< TImage, DGtal::functors::Cast<unsigned char> > 
-			::exportVol(filename, myTreeImage, true, cast_functor);
-	}	
+	DGtal::functors::Cast<unsigned char> cast_functor;
+	/*
+	DGtal::VolWriter< TImage, DGtal::functors::Cast<unsigned char> > 
+			::exportVol(filename + ".vol", myTreeImage, true, cast_functor);
 	*/
+
+	DGtal::PGMWriter<TImage, DGtal::functors::Cast<unsigned char> >
+		::exportPGM3D(filename + ".pgm3d", myTreeImage, cast_functor);
 }
 
 
