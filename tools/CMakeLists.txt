@@ -16,5 +16,5 @@ FOREACH(FILE ${TOOLS_SRC})
   target_link_libraries (${FILE}  ${DGTAL_LIBRARIES} )
 ENDFOREACH(FILE)
 
-add_executable(graph2render graph2render.cpp ${SOURCE_BASE_FILES} ${TOOLS_RENDER_SRC} ${SOURCE_BASE_HEADER_FILES} ${TOOLS_RENDER_SRC})
-target_link_libraries(graph2render ${DGTAL_LIBRARIES})
+add_executable(graph2render graph2render.cpp ${SOURCE_BASE_FILES} ${TOOLS_RENDER_SRC})
+target_link_libraries(graph2render ${CERES_LIBRARIES} ${DGTAL_LIBRARIES})

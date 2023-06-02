@@ -1,6 +1,6 @@
-cmake_minimum_required(VERSION 3.5)
-project(CCO_Implementation)
-set (CMAKE_CXX_STANDARD 11)
+CMAKE_MINIMUM_REQUIRED(VERSION 3.5)
+PROJECT(CCO_Implementation)
+SET (CMAKE_CXX_STANDARD 11)
 
 
 SET(SOURCE_BASE_HEADER_FILES
@@ -15,16 +15,17 @@ SET(SOURCE_BASE_FILES
   ${PROJECT_SOURCE_DIR}/src/CoronaryArteryTree.ih
 )
 
-find_package(Ceres REQUIRED)
-
 # CLI11
-include_directories( "${PROJECT_SOURCE_DIR}/ext/" "${PROJECT_SOURCE_DIR}/src/helpers/" "${PROJECT_SOURCE_DIR}/src/" )
+INCLUDE_DIRECTORIES( "${PROJECT_SOURCE_DIR}/ext/" "${PROJECT_SOURCE_DIR}/src/helpers/" "${PROJECT_SOURCE_DIR}/src/" "${PROJECT_SOURCE_DIR}/tools/")
+
+FIND_PACKAGE(Ceres REQUIRED)
+
 FIND_PACKAGE(DGtal REQUIRED)
 
 INCLUDE_DIRECTORIES(${DGTAL_INCLUDE_DIRS})
 LINK_DIRECTORIES(${DGTAL_LIBRARY_DIRS} )
 
-add_subdirectory(tests)
-add_subdirectory(bin)
-add_subdirectory(tools)
+ADD_SUBDIRECTORY(tests)
+ADD_SUBDIRECTORY(bin)
+ADD_SUBDIRECTORY(tools)
 

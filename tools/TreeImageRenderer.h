@@ -11,10 +11,9 @@
 #include <sstream>
 
 #include "DGtal/base/Common.h"
+
+#include "DGtal/images/ImageContainerBySTLVector.h"
 #include "DGtal/helpers/StdDefs.h"
-
-#include "GeomHelpers.h"
-
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
@@ -94,6 +93,8 @@ public:
 	void createDistanceMap();
 	
 	void createTreeImage();
+
+	void saveRender(const std::string & filename);
 
 	const TImage & distanceMap() const;
 

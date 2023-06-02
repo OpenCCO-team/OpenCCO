@@ -1,8 +1,5 @@
 #include "TreeImageRenderer.h"
 
-#include "DGtal/io/writers/STBWriter.h"
-#include <DGtal/io/colormaps/GradientColorMap.h>
-
 #include "CLI11.hpp"
 
 /*
@@ -58,6 +55,7 @@ int checkDimension(const std::string & vertices_filename)
 	return dim;
 }
 
+/*
 template <int TDim>
 void saveImage(const typename TreeImageRenderer<TDim>::TImage & image, const std::string & filename)
 {
@@ -71,7 +69,7 @@ void saveImage(const typename TreeImageRenderer<TDim>::TImage & image, const std
 
     DGtal::STBWriter<typename TreeImageRenderer<TDim>::TImage, DGtal::GradientColorMap<double>>
     	::exportPNG(filename, image, gradient_cmap);
-}
+}*/
 
 int main(int argc, char *const *argv)
 {
@@ -101,8 +99,7 @@ int main(int argc, char *const *argv)
 
 	    renderer.createDistanceMap();
 
-	    saveImage<2>(renderer.treeImage(), "treeimage.png");
-	    saveImage<2>(renderer.distanceMap(), "distancemap.png");
+	    renderer.saveRender("render");
     }
     
 

@@ -1,5 +1,14 @@
 #include "TreeImageRenderer.h"
 
+
+#include "DGtal/base/Common.h"
+#include "DGtal/helpers/StdDefs.h"
+
+#include "DGtal/io/colormaps/GradientColorMap.h"
+
+#include "DGtal/io/writers/STBWriter.h"
+#include "DGtal/io/writers/VolWriter.h"
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////                   Segment                     ////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////
@@ -48,7 +57,7 @@ void TreeImageRenderer<TDim>::ArteryTree::sort()
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-////////////////////////            TreeImageRenderer<TDim>                  ////////////////////////////
+////////////////////////          TreeImageRenderer<TDim>              ////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
 // Constructor
@@ -348,6 +357,46 @@ void TreeImageRenderer<TDim>::createTreeImage()
 			it++;
 		}
 	}
+}
+
+
+template<>
+void TreeImageRenderer<2>::saveRender(const std::string & filename)
+{
+	auto min_val = std::min_element(myTreeImage.constRange().begin(), myTreeImage.constRange().end());
+	auto max_val = std::max_element(myTreeImage.constRange().begin(), myTreeImage.constRange().end());
+
+	DGtal::GradientColorMap<double> gradient_cmap(*min_val, *max_val);
+
+	gradient_cmap.addColor(DGtal::Color::Black);
+	gradient_cmap.addColor(DGtal::Color::White);
+
+	DGtal::STBWriter< TImage, DGtal::GradientColorMap<double> > 
+		::exportPNG(filename + ".png", myTreeImage, gradient_cmap);
+
+
+		/*
+	if(TDim == 2)			// 2D
+	{
+		auto min_val = std::min_element(myTreeImage.constRange().begin(), myTreeImage.constRange().end());
+		auto max_val = std::max_element(myTreeImage.constRange().begin(), myTreeImage.constRange().end());
+
+		DGtal::GradientColorMap<double> gradient_cmap(*min_val, *max_val);
+
+		gradient_cmap.addColor(DGtal::Color::Black);
+		gradient_cmap.addColor(DGtal::Color::White);
+
+		DGtal::STBWriter< TImage, DGtal::GradientColorMap<double> > 
+    		::exportPNG(filename, myTreeImage, gradient_cmap);
+	}
+	else if(TDim == 3)		// 3D
+	{
+		DGtal::functors::Cast<unsigned char> cast_functor;
+	
+		DGtal::VolWriter< TImage, DGtal::functors::Cast<unsigned char> > 
+			::exportVol(filename, myTreeImage, true, cast_functor);
+	}	
+	*/
 }
 
 
