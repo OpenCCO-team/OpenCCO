@@ -268,7 +268,7 @@ public:
      * @param tolerance convegence boundary for tree volume gradient
      * @param nbNeibour number of neighbours to be considered for intersecting test
      * @param verbose used to display process algorithm  informations.
-     * @return true of the new segment is created, false in the other case.
+     * @return true if the new segment is created, false in the other case.
      * (for instance if an intersection to previous point was present)
      **/
     bool isAddable(const TPointD &p,

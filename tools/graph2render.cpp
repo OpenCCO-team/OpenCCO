@@ -2,27 +2,12 @@
 
 #include "CLI11.hpp"
 
-/*
-void createPerlinNoiseBackground(unsigned int width, unsigned int height)
-{
-	TPoint p1(0, 0);
-	TPoint p2(width, height);
-	TDomain domain(p1, p2);
-	TImage background(domain);
-
-	DGtal::HueShadeColorMap<double>  hueColorMap (-50.0, 50.0);
-
-	DGtal::STBWriter<TImage, DGtal::HueShadeColorMap<double>>::exportPNG("aFilename.png", background, hueColorMap);
-
-	return;
-}
-*/
 
 
 /**
  * Returns the dimension of the space defined by the vertices.
- * @param vertices_filename the file containing the vertices coordinates
- * @return the dimension
+ * @param vertices_filename the file containing the vertices coordinates.
+ * @return The dimension.
  **/
 int checkDimension(const std::string & vertices_filename)
 {
@@ -55,21 +40,8 @@ int checkDimension(const std::string & vertices_filename)
 	return dim;
 }
 
-/*
-template <int TDim>
-void saveImage(const typename TreeImageRenderer<TDim>::TImage & image, const std::string & filename)
-{
-	auto min_val = std::min_element(image.constRange().begin(), image.constRange().end());
-	auto max_val = std::max_element(image.constRange().begin(), image.constRange().end());
-
-	DGtal::GradientColorMap<double> gradient_cmap(*min_val, *max_val);
-	gradient_cmap.addColor(DGtal::Color::Black);
-    gradient_cmap.addColor(DGtal::Color::White);
 
 
-    DGtal::STBWriter<typename TreeImageRenderer<TDim>::TImage, DGtal::GradientColorMap<double>>
-    	::exportPNG(filename, image, gradient_cmap);
-}*/
 
 int main(int argc, char *const *argv)
 {

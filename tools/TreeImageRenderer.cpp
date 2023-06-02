@@ -400,22 +400,6 @@ void TreeImageRenderer<3>::saveRender(const std::string & filename)
 
 
 
-template<int TDim>
-const typename TreeImageRenderer<TDim>::TImage & TreeImageRenderer<TDim>::distanceMap() const
-{
-	return myDistanceMap;
-}
-
-
-
-template<int TDim>
-const typename TreeImageRenderer<TDim>::TImage & TreeImageRenderer<TDim>::treeImage() const
-{
-	return myTreeImage;
-}
-
-
-
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////               Other functions                 ////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////
