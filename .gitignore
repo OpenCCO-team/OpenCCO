@@ -5,6 +5,8 @@
 /*.eps
 /*.xml
 /*.off
+/*.pgm3d
+/*.vol
 
 # folders ignored
 /build/
