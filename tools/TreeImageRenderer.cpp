@@ -10,52 +10,6 @@
 #include "DGtal/io/writers/STBWriter.h"
 #include "DGtal/io/writers/VolWriter.h"
 
-///////////////////////////////////////////////////////////////////////////////////////////////////
-////////////////////////                   Segment                     ////////////////////////////
-///////////////////////////////////////////////////////////////////////////////////////////////////
-
-// Operator overloading
-bool operator<(const Segment & s1, const Segment & s2)
-{
-	return std::min(s1.myDistalIndex, s1.myProxitalIndex) < std::min(s2.myDistalIndex, s2.myProxitalIndex);
-}
-
-///////////////////////////////////////////////////////////////////////////////////////////////////
-////////////////////////                 ArteryTree                    ////////////////////////////
-///////////////////////////////////////////////////////////////////////////////////////////////////
-
-// Method
-
-template<int TDim>
-void TreeImageRenderer<TDim>::ArteryTree::sort()
-{
-	// create the vector of the points' first coordinate offset by the point radii
-	std::vector<double> p_offset(myRadii);
-	for(unsigned int i = 0; i < p_offset.size(); i++)
-	{
-		p_offset[i] -= myPoints[i][0];
-		p_offset[i] *= -1;
-	}
-
-	// sort a vector of indices (permutation)
-	std::vector<std::size_t> p = sort_permutation(p_offset,
-				[](const double & a, const double & b) { return a < b; });
-
-	// apply permutation to myRadii, myPoints, and to the distal and proxital indices of the segments
-	myRadii = apply_permutation(myRadii, p);
-	myPoints = apply_permutation(myPoints, p);
-
-	for(Segment & s : mySegments)
-	{
-		s.myDistalIndex = p[s.myDistalIndex];
-		s.myProxitalIndex = p[s.myProxitalIndex];
-	}
-
-	// finally sort the mySegment vector, based on the minimum of myProxitalIndex and myDistalIndex
-	std::sort(mySegments.begin(), mySegments.end());
-}
-
-
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////          TreeImageRenderer<TDim>              ////////////////////////////
@@ -73,7 +27,6 @@ TreeImageRenderer<TDim>::TreeImageRenderer(const unsigned int width,
 	myDistanceMap( TDomain() )
 {
 	importTreeData(radii_filename, vertices_filename, edges_filename);
-	//myTree.sort();
 
 	setImageSize(width, width/20);		// initializes myDomain
 }
@@ -394,8 +347,8 @@ void TreeImageRenderer<3>::saveRender(const std::string & filename)
 			::exportVol(filename + ".vol", myTreeImage, true, cast_functor);
 	*/
 
-	DGtal::PGMWriter<TImage, DGtal::functors::Cast<unsigned char> >
-		::exportPGM3D(filename + ".pgm3d", myTreeImage, cast_functor);
+	DGtal::VolWriter<TImage, DGtal::functors::Cast<unsigned char> >
+		::exportVol(filename + ".vol", myTreeImage, true, cast_functor);
 }
 
 

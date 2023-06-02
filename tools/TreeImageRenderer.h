@@ -17,29 +17,6 @@
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-////////////////////////                   Segment                     ////////////////////////////
-///////////////////////////////////////////////////////////////////////////////////////////////////
-
-
-struct Segment
-{
-	// Distal point of the segment.
-	unsigned int myDistalIndex;
-	// Proxital point of the segment.
-	unsigned int myProxitalIndex;
-	// hydrodynamc registance (R star)
-	double myResistance = 0.00;
-	// flow (Qi)
-	double myFlow = 0.00;
-
-	// Operator overloading
-	// friend keyword has no effect since all member variable are public
-	// but I've heard it's good practice
-	friend bool operator<(const Segment & s1, const Segment & s2);
-};
-
-
-///////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////            TreeImageRenderer                  ////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -56,20 +33,24 @@ public:
 
 	// Nested classes
 
+	struct Segment
+	{
+		// Distal point of the segment.
+		unsigned int myDistalIndex;
+		// Proxital point of the segment.
+		unsigned int myProxitalIndex;
+		// hydrodynamc registance (R star)
+		double myResistance = 0.00;
+		// flow (Qi)
+		double myFlow = 0.00;
+	};
+
+
 	struct ArteryTree
 	{
 		std::vector<Segment> mySegments;
 		std::vector<TPointD> myPoints;
 		std::vector<double> myRadii;			// Radii associated with the vertices
-
-		// Method
-
-
-		/**
-	     * Sorts mySegments, myPoints and myRaddi based on the positions of the points.
-	     * The points are compared on their first coordinate minus their radius
-	     **/
-		void sort();
 	};
 
 	// Constructor
@@ -170,28 +151,3 @@ bool projectOnStraightLine(const typename TreeImageRenderer<TDim>::TPointD & ptA
 						   const typename TreeImageRenderer<TDim>::TPointD & ptB,
 						   const typename TreeImageRenderer<TDim>::TPointD & ptC,
 						   typename TreeImageRenderer<TDim>::TPointD & ptP);
-
-
-
-// from https://stackoverflow.com/questions/17074324/how-can-i-sort-two-vectors-in-the-same-way-with-criteria-that-uses-only-one-of
-template <typename T, typename Compare>
-std::vector<std::size_t> sort_permutation(const std::vector<T> & vec,
-										  Compare compare)
-{
-    std::vector<std::size_t> p(vec.size());
-    std::iota(p.begin(), p.end(), 0);
-    std::sort(p.begin(), p.end(),
-        [&](std::size_t i, std::size_t j){ return compare(vec[i], vec[j]); });
-    return p;
-}
-
-// from https://stackoverflow.com/questions/17074324/how-can-i-sort-two-vectors-in-the-same-way-with-criteria-that-uses-only-one-of
-template <typename T>
-std::vector<T> apply_permutation(const std::vector<T> & vec,
-    							 const std::vector<std::size_t> & p)
-{
-    std::vector<T> sorted_vec(vec.size());
-    std::transform(p.begin(), p.end(), sorted_vec.begin(),
-        [&](std::size_t i){ return vec[i]; });
-    return sorted_vec;
-}

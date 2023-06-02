@@ -69,7 +69,7 @@ int main(int argc, char *const *argv)
 
 	    renderer.createTreeImage();
 
-	    renderer.createDistanceMap();
+	    //renderer.createDistanceMap();
 
 	    renderer.saveRender("render");
     }
@@ -79,7 +79,7 @@ int main(int argc, char *const *argv)
 
 	    renderer.createTreeImage();
 
-	    renderer.createDistanceMap();
+	    //renderer.createDistanceMap();
 
 	    renderer.saveRender("render");
     }
