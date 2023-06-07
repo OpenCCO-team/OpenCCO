@@ -1,0 +1,16 @@
+SET(TOOLS_RENDERER_SRC
+   graph2render
+)
+
+SET(TOOLS_RENDERER_HEADERS
+    TreeImageRenderer.h
+)
+
+SET(TOOLS_RENDER_SRC
+    TreeImageRenderer.cpp
+)
+
+FOREACH(FILE ${TOOLS_RENDERER_SRC})
+  add_executable(${FILE} ${FILE}.cpp ${TOOLS_RENDER_SRC} ${SOURCE_BASE_HEADER_FILES} ${TOOLS_RENDERER_HEADERS})
+  target_link_libraries (${FILE} ${CERES_LIBRARIES} ${DGTAL_LIBRARIES} )
+ENDFOREACH(FILE)

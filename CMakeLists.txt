@@ -4,19 +4,25 @@ SET (CMAKE_CXX_STANDARD 11)
 
 
 SET(SOURCE_BASE_HEADER_FILES
-  ${PROJECT_SOURCE_DIR}/src/helpers/GeomHelpers.h
-  ${PROJECT_SOURCE_DIR}/src/helpers/ExpandTreeHelpers.h
-  ${PROJECT_SOURCE_DIR}/src/CoronaryArteryTree.h
-  ${PROJECT_SOURCE_DIR}/src/helpers/XmlHelpers.h
-  ${PROJECT_SOURCE_DIR}/src/DomainController.h
-  ${PROJECT_SOURCE_DIR}/tests/TreeTest.h        
+	${PROJECT_SOURCE_DIR}/src/helpers/GeomHelpers.h
+	${PROJECT_SOURCE_DIR}/src/helpers/ExpandTreeHelpers.h
+	${PROJECT_SOURCE_DIR}/src/CoronaryArteryTree.h
+	${PROJECT_SOURCE_DIR}/src/helpers/XmlHelpers.h
+	${PROJECT_SOURCE_DIR}/src/DomainController.h
+	${PROJECT_SOURCE_DIR}/tests/TreeTest.h        
 )
 SET(SOURCE_BASE_FILES
-  ${PROJECT_SOURCE_DIR}/src/CoronaryArteryTree.ih
+	${PROJECT_SOURCE_DIR}/src/CoronaryArteryTree.ih
 )
 
 # CLI11
-INCLUDE_DIRECTORIES( "${PROJECT_SOURCE_DIR}/ext/" "${PROJECT_SOURCE_DIR}/src/helpers/" "${PROJECT_SOURCE_DIR}/src/" "${PROJECT_SOURCE_DIR}/tools/")
+INCLUDE_DIRECTORIES( 
+	${PROJECT_SOURCE_DIR}/ext/
+	${PROJECT_SOURCE_DIR}/src/helpers/
+	${PROJECT_SOURCE_DIR}/src/
+	${PROJECT_SOURCE_DIR}/tools/
+	${PROJECT_SOURCE_DIR}/tools/renderer/
+)
 
 FIND_PACKAGE(Ceres REQUIRED)
 
