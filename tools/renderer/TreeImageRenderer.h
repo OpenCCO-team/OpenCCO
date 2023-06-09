@@ -108,6 +108,8 @@ public:
      **/
 	void saveRender(const std::string & filename);
 
+	bool test();
+
 	static const int myDim = TDim;
 
 private:

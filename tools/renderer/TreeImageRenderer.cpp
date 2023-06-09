@@ -342,15 +342,56 @@ void TreeImageRenderer<3>::saveRender(const std::string & filename)
 {
 	
 	DGtal::functors::Cast<unsigned char> cast_functor;
-	/*
-	DGtal::VolWriter< TImage, DGtal::functors::Cast<unsigned char> > 
-			::exportVol(filename + ".vol", myTreeImage, true, cast_functor);
-	*/
 
-	DGtal::VolWriter<TImage, DGtal::functors::Cast<unsigned char> >
+	DGtal::VolWriter< TImage, DGtal::functors::Cast<unsigned char> >
 		::exportVol(filename + ".vol", myTreeImage, true, cast_functor);
 }
 
+
+template<>
+bool TreeImageRenderer<2>::test()
+{
+	int term_count_basic = 0;
+
+	for(auto rit = myTree.mySegments.rbegin(); rit != myTree.mySegments.rend(); rit++)
+	{
+		unsigned int distal = rit->myDistalIndex;
+		auto is_child = [&distal] (const Segment & s) { return s.myProxitalIndex == distal; };
+
+		auto it = std::find_if(myTree.mySegments.rbegin(), myTree.mySegments.rend(), is_child);
+
+		term_count_basic += (it == myTree.mySegments.rend());
+	}
+
+	std::cout << "Nb term base : " << term_count_basic << std::endl;
+
+
+
+	///////////////////////////////////////
+
+	int term_count_smart = 0;
+
+	for(auto rit = myTree.mySegments.rbegin(); rit != myTree.mySegments.rend() && rit+1 != myTree.mySegments.rend(); rit += 2)
+	{
+		unsigned int distal = rit->myDistalIndex;
+		auto is_child = [&distal] (const Segment & s) { return s.myProxitalIndex == distal; };
+
+		auto it = std::find_if(rit, myTree.mySegments.rend(), is_child);
+
+		term_count_smart += (it == myTree.mySegments.rend());
+
+		// displace parent
+		unsigned int proxital = rit->myProxitalIndex;
+		auto is_parent = [&proxital] (const Segment & s) { return s.myDistalIndex == proxital; };
+		unsigned int parent_index = std::find_if(rit, myTree.mySegments.rend(), is_parent) - myTree.mySegments.rbegin();
+	
+		myTree.mySegments[parent_index].myDistalIndex = (rit+1)->myProxitalIndex;
+	}
+
+	std::cout << "Nb term smrt : " << term_count_smart << std::endl;
+
+	return true;
+}
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////

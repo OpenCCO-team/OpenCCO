@@ -1,10 +1,34 @@
 #include <iostream>
 
-#include "svg_elements.h"
+#include "CLI11.hpp"
 
-int main()
+#include "svg_elements.h"
+#include "TreeImageRenderer.h"
+
+
+
+int main(int argc, char *const *argv)
 {
-	// build the whole app 
+	// fixed dimension, for now we only animate in 2D
+	const int dimension = 2;
+
+	// parse command line using CLI ----------------------------------------------
+	CLI::App app;
+	std::string radii_filename = "radius.dat";
+	std::string vertices_filename = "vertex.dat";
+	std::string edges_filename = "edges.dat";
+
+	app.add_option("-r,--radii", radii_filename, "File containing the radii of the vertices.");
+	app.add_option("-v,--vertices", vertices_filename, "File containing the coordinates of the vertices.");
+	app.add_option("-e,--edges", edges_filename, "File containing the edges data.");
+
+	app.get_formatter()->column_width(40);
+	CLI11_PARSE(app, argc, argv);
+	// END parse command line using CLI ----------------------------------------------
+
+	TreeImageRenderer<2> renderer(1000, radii_filename, vertices_filename, edges_filename);
+
+	std::cout << renderer.test() << std::endl;
 
 	return 0;
 }
