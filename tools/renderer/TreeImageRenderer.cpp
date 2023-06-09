@@ -368,6 +368,17 @@ bool TreeImageRenderer<2>::test()
 
 
 	///////////////////////////////////////
+	/*
+	Starting from the end because the data is ordered as the CCO algo output them;
+	the last segment is guaranteed to be terminal, and the second to last is its brother (same parent segment)
+
+	we then offset the next loop by 2 (number of segments processed), and 'elongate' the parent 
+	so that it reaches the distal of brother.
+	The reason behind this behavior is that the brother is created by the CCO algorithm only to keep the continuity;
+	before its existence the parent segment extended like that.
+
+	To sum it up, we're reversing the algorithm for the sake of the animation.
+	*/
 
 	int term_count_smart = 0;
 
