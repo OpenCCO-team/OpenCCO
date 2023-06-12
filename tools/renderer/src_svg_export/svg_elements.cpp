@@ -25,11 +25,23 @@ SVGAnimate::SVGAnimate(const std::string & attribute_name,
 }
 
 
-// Setters
+// Setters & Getters
 
 void SVGAnimate::setTimeline(const Timeline & timeline)
 {
 	m_timeline = timeline;
+}
+
+
+Timeline & SVGAnimate::getTimelineRef()
+{
+	return m_timeline;
+}
+
+
+std::string SVGAnimate::getAttributeName()
+{
+	return m_attribute_name;
 }
 
 
@@ -89,6 +101,20 @@ void SVGAnimatedElement::printAnimations(std::ostream & os) const
 int SVGAnimatedElement::animationCount() const
 {
 	return m_animations.size();
+}
+
+
+SVGAnimate * SVGAnimatedElement::getAnimation(const std::string & attribute_name)
+{
+	for(SVGAnimate & animation : m_animations)
+	{
+		if(animation.getAttributeName() == attribute_name)		// found the corresponding animation
+		{
+			return &animation;
+		}
+	}
+
+	return nullptr;			// didn't find it
 }
 
 
@@ -185,7 +211,7 @@ void SVGRect::print(std::ostream & os) const
 	{
 		os << ">\n";
 		printAnimations(os);
-		os << "</rect>";
+		os << "</rect>\n";
 	}
 	else
 	{
@@ -235,7 +261,7 @@ void SVGLine::print(std::ostream & os) const
 	{
 		os << ">\n";
 		printAnimations(os);
-		os << "</line>";
+		os << "</line>\n";
 	}
 	else
 	{

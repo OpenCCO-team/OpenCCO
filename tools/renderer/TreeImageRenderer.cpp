@@ -1,15 +1,15 @@
 #include "TreeImageRenderer.h"
 
-
 #include "DGtal/base/Common.h"
 #include "DGtal/helpers/StdDefs.h"
-
 #include "DGtal/io/colormaps/GradientColorMap.h"
-
 #include "DGtal/io/writers/PGMWriter.h"
 #include "DGtal/io/writers/STBWriter.h"
 #include "DGtal/io/writers/VolWriter.h"
 
+#include "GeomHelpers.h"
+
+#include "svg_elements.h"
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////          TreeImageRenderer<TDim>              ////////////////////////////
@@ -351,6 +351,8 @@ void TreeImageRenderer<3>::saveRender(const std::string & filename)
 template<>
 bool TreeImageRenderer<2>::test()
 {
+	// test loop, to remove once the animation loop works
+	
 	int term_count_basic = 0;
 
 	for(auto rit = myTree.mySegments.rbegin(); rit != myTree.mySegments.rend(); rit++)
@@ -364,7 +366,7 @@ bool TreeImageRenderer<2>::test()
 	}
 
 	std::cout << "Nb term base : " << term_count_basic << std::endl;
-
+	
 
 
 	///////////////////////////////////////
@@ -380,26 +382,110 @@ bool TreeImageRenderer<2>::test()
 	To sum it up, we're reversing the algorithm for the sake of the animation.
 	*/
 
-	int term_count_smart = 0;
+	// copy segment data
+	std::vector<Segment> segments = myTree.mySegments;
 
-	for(auto rit = myTree.mySegments.rbegin(); rit != myTree.mySegments.rend() && rit+1 != myTree.mySegments.rend(); rit += 2)
+	// animation global variable
+	int segment_growth_dur = 1000;						// duration, in milliseconds
+	int total_animation_dur = segments.size() / 2;		// number of segments to animate
+	total_animation_dur *= segment_growth_dur;
+
+	// find the min and the max of the flows
+	double q_min = segments[0].myFlow;
+	double q_max = q_min;
+
+	for(const Segment & s : segments)
 	{
-		unsigned int distal = rit->myDistalIndex;
-		auto is_child = [&distal] (const Segment & s) { return s.myProxitalIndex == distal; };
-
-		auto it = std::find_if(rit, myTree.mySegments.rend(), is_child);
-
-		term_count_smart += (it == myTree.mySegments.rend());
-
-		// displace parent
-		unsigned int proxital = rit->myProxitalIndex;
-		auto is_parent = [&proxital] (const Segment & s) { return s.myDistalIndex == proxital; };
-		unsigned int parent_index = std::find_if(rit, myTree.mySegments.rend(), is_parent) - myTree.mySegments.rbegin();
-	
-		myTree.mySegments[parent_index].myDistalIndex = (rit+1)->myProxitalIndex;
+		if(s.myFlow < q_min)
+		{
+			q_min = s.myFlow;
+		}
+		else if (s.myFlow > q_max)
+		{
+			q_max = s.myFlow;
+		}
 	}
 
-	std::cout << "Nb term smrt : " << term_count_smart << std::endl;
+	// color gradient for the vessels, depending on the value of the log of the flow
+	DGtal::GradientColorMap<float> cmap_grad(std::log(q_min), std::log(q_max));
+	cmap_grad.addColor( DGtal::Color( 79, 162, 198 ) );   // blue
+	cmap_grad.addColor( DGtal::Color( 200, 10, 10 ) );    // red
+
+	// lmabda to convert a DGtal::Color object into a Color (SVG) object
+	auto DGtalColor2SVGColor = [](const DGtal::Color & c) { return Color(c.red(), c.green(), c.blue()); };
+
+	std::vector< std::shared_ptr<SVGAnimatedElement> > lines_ptr(segments.size(), nullptr);	// to each segment its line element
+
+	for(auto rit = segments.rbegin(); rit != segments.rend() && rit+1 != segments.rend(); rit += 2)
+	{
+		// first we define every point needed for the animation
+
+		// brother reverse iterator
+		auto bro_rit = rit + 1;
+
+		// parent reverse iterator
+		unsigned int proxital_i = rit->myProxitalIndex;
+		auto is_parent = [&proxital_i] (const Segment & s) { return s.myDistalIndex == proxital_i; };
+		auto parent_rit = std::find_if(rit, segments.rend(), is_parent);
+
+		// indexes (because we have reverse iterator, we invert them)
+		std::size_t i = segments.size() - 1 - (rit - segments.rbegin());
+		std::size_t bro_i = segments.size() - 1 - (bro_rit - segments.rbegin());
+		std::size_t parent_i = segments.size() - 1 - (parent_rit - segments.rbegin());
+
+		// point at the intersection of the parent and the added segment
+		TPointD intersection;
+		bool res = lineIntersection(myTree.myPoints[parent_rit->myProxitalIndex], myTree.myPoints[bro_rit->myDistalIndex],
+									myTree.myPoints[rit->myProxitalIndex], myTree.myPoints[rit->myDistalIndex],
+									intersection);
+
+		if(!res)	// the lines are almost parallel or coincident (very unelikely)
+		{
+			// set intersection at starting point of added segment
+			intersection = rit->myProxitalIndex;
+		}
+
+		// define timestamps for this animation
+		int start = total_animation_dur - ((rit + 2 - segments.rbegin()) / 2) * segment_growth_dur;
+		int end = start + segment_growth_dur;
+
+		// initialize the lines with thier color and thickness if they don't exist yet
+		if(!lines_ptr[i])	// nullptr check
+		{
+			line_ptr[i] = std::make_shared<SVGLine>(
+				myTree.myPoints[rit->myProxitalIndex][0], myTree.myPoints[rit->myProxitalIndex][1], 	// proxital coordinates
+				myTree.myPoints[rit->myDistalIndex][0], myTree.myPoints[rit->myDistalIndex][1],			// distal coordinates
+				myTree.myRadii[rit->myDistalIndex] / 2,													// thickness
+				DGtalColor2SVGColor(cmap_grad(std::log(rit->myFlow))));									// color
+		}
+
+		if(!lines_ptr[bro_i])	// nullptr check
+		{
+			line_ptr[bro_i] = std::make_shared<SVGLine>(
+				myTree.myPoints[bro_rit->myProxitalIndex][0], myTree.myPoints[bro_rit->myProxitalIndex][1], // proxital coordinates
+				myTree.myPoints[bro_rit->myDistalIndex][0], myTree.myPoints[bro_rit->myDistalIndex][1],		// distal coordinates
+				myTree.myRadii[bro_rit->myDistalIndex] / 2,													// thickness
+				DGtalColor2SVGColor(cmap_grad(std::log(bro_rit->myFlow))));									// color
+		}
+
+		if(!lines_ptr[parent_i])	// nullptr check
+		{
+			line_ptr[parent_i] = std::make_shared<SVGLine>(
+				myTree.myPoints[parent_rit->myProxitalIndex][0], myTree.myPoints[parent_rit->myProxitalIndex][1], 	// proxital coordinates
+				myTree.myPoints[parent_rit->myDistalIndex][0], myTree.myPoints[parent_rit->myDistalIndex][1],		// distal coordinates
+				myTree.myRadii[parent_rit->myDistalIndex] / 2,													// thickness
+				DGtalColor2SVGColor(cmap_grad(std::log(parent_rit->myFlow))));									// color
+		}
+
+		// create the animations
+		// not finsihed
+	}
+
+	SVGSvg svg(myDomain.lowerBound()[0], myDomain.lowerBound()[1],		// top left coordinates
+			   myDomain.upperBound()[0] - myDomain.lowerBound()[0],		// width
+			   myDomain.upperBound()[1] - myDomain.lowerBound()[1]);	// height
+
+	// add elements to svg
 
 	return true;
 }

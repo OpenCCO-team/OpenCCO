@@ -39,13 +39,25 @@ public:
 			   const bool repeat_count = 0,
 			   const bool freeze = false);
 
-	// Setters
+	// Setters & Getters
 
 	/**
 	 * @brief Sets the timeline of the animation 
 	 * @param timeline The timeline
 	 **/
 	void setTimeline(const Timeline & timeline);
+
+	/**
+	 * @brief getter with the purpose of editing the member variable m_timeline
+	 * @returns a reference to m_timeline
+	 **/
+	Timeline & getTimelineRef();
+
+	/**
+	 * @brief getter to access the value of m_attribute_name
+	 * @returns a reference to m_timeline
+	 **/
+	std::string getAttributeName();
 
 	// Methods
 	
@@ -57,7 +69,7 @@ public:
 	void print(std::ostream & os) const override;
 
 private:
-	std::string m_attribute_name;		// Name of the attribute
+	std::string m_attribute_name;		// Name of the animated attribute
 	Timeline m_timeline;				// Animation duration and key times
 	int m_repeat_count;					// Number of animation loops (value <= 0 will be treated as "indefinite")
 	bool m_freeze;						// Whether the animation freezes at the end or snaps back to the initial state
@@ -96,6 +108,7 @@ public:
 
 	/**
 	 * @brief Appends an SVG animation to m_animations
+	 * @brief Checks if an animation for the same attribute exists or not, and by default will overwrite it
 	 * @param animation The animation to append
 	 **/
 	void addAnimation(const SVGAnimate & animation);
@@ -111,6 +124,12 @@ public:
 	 * @returns m_animation.size()
 	 **/
 	int animationCount() const;
+
+	/**
+	 * @brief Finds the animation associated with the specified attribute_name
+	 * @returns a pointer to the SVGAnimate element if it exists, nullptr if it doesn't
+	 **/
+	SVGAnimate * getAnimation(const std::string & attribute_name);
 
 private:
 	std::vector<SVGAnimate> m_animations;

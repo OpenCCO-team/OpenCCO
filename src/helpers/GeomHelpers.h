@@ -266,6 +266,42 @@ isIntersecting(const DGtal::PointVector<TDim, double> &segA, const DGtal::PointV
 }
 
 
+/**
+ * Calculates the intersection of 2 lines each defined by 2 points.
+ * Only for 2D lines.
+ * @param segA first point of the first line.
+ * @param segB second point of the first line.
+ * @param segC first point of the first line.
+ * @param segD second point of the first line.
+ * @param[out] The point where the two lines intersect.
+ * @return bool indicating if two line intersect.
+ * @note the formula comes from https://en.wikipedia.org/wiki/Line%E2%80%93line_intersection#Given_two_points_on_each_line
+ **/
+inline
+bool
+lineIntersection(const DGtal::PointVector<2, double> &segA,
+                 const DGtal::PointVector<2, double> &segB,
+                 const DGtal::PointVector<2, double> &segC,
+                 const DGtal::PointVector<2, double> &segD
+                 DGtal::PointVector<2, double> &intersection)
+{
+  double denominator = (segA[0] - segB[0]) * (segC[1] - segD[1]) - (segA[1] - segB[1]) * (segC[0] - segD[0]);
+
+  if(denominator < 0.0001)  // denominator = 0 implies that the lines are parallel or coincident
+  {
+    return false;
+  }
+
+  // variables for the next computation
+  double v1 = segA[0] * segB[1] - segA[1] * segB[0];
+  double v2 = segC[0] * segD[1] - segC[1] * segD[0];
+
+  intersection[0] = v1 * (segC[0] - segD[0]) - v2 * (segA[0] - segB[0]);
+  intersection[0] = v1 * (segC[1] - segD[1]) - v2 * (segA[1] - segB[1]);
+
+  intersection /= denominator;
+}
+
 
 
 template<typename TPoint, typename TDSet>
