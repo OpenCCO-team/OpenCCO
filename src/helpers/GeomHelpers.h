@@ -282,7 +282,7 @@ bool
 lineIntersection(const DGtal::PointVector<2, double> &segA,
                  const DGtal::PointVector<2, double> &segB,
                  const DGtal::PointVector<2, double> &segC,
-                 const DGtal::PointVector<2, double> &segD
+                 const DGtal::PointVector<2, double> &segD,
                  DGtal::PointVector<2, double> &intersection)
 {
   double denominator = (segA[0] - segB[0]) * (segC[1] - segD[1]) - (segA[1] - segB[1]) * (segC[0] - segD[0]);
@@ -300,6 +300,8 @@ lineIntersection(const DGtal::PointVector<2, double> &segA,
   intersection[0] = v1 * (segC[1] - segD[1]) - v2 * (segA[1] - segB[1]);
 
   intersection /= denominator;
+
+  return true;
 }
 
 

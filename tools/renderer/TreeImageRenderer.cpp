@@ -411,10 +411,12 @@ bool TreeImageRenderer<2>::test()
 	cmap_grad.addColor( DGtal::Color( 79, 162, 198 ) );   // blue
 	cmap_grad.addColor( DGtal::Color( 200, 10, 10 ) );    // red
 
-	// lmabda to convert a DGtal::Color object into a Color (SVG) object
-	auto DGtalColor2SVGColor = [](const DGtal::Color & c) { return Color(c.red(), c.green(), c.blue()); };
+	// lambda to convert a DGtal::Color object into a SVG::Color object
+	auto DGtalColor2SVGColor = [](const DGtal::Color & c) { return SVG::Color(c.red(), c.green(), c.blue()); };
 
-	std::vector< std::shared_ptr<SVGAnimatedElement> > lines_ptr(segments.size(), nullptr);	// to each segment its line element
+	std::vector< std::shared_ptr<SVG::AnimatedElement> > lines_ptr(segments.size(), nullptr);	// to each segment its line element
+
+	int k = 0;
 
 	for(auto rit = segments.rbegin(); rit != segments.rend() && rit+1 != segments.rend(); rit += 2)
 	{
@@ -435,24 +437,26 @@ bool TreeImageRenderer<2>::test()
 
 		// point at the intersection of the parent and the added segment
 		TPointD intersection;
-		bool res = lineIntersection(myTree.myPoints[parent_rit->myProxitalIndex], myTree.myPoints[bro_rit->myDistalIndex],
+		bool res = GeomHelpers::lineIntersection(myTree.myPoints[parent_rit->myProxitalIndex], myTree.myPoints[bro_rit->myDistalIndex],
 									myTree.myPoints[rit->myProxitalIndex], myTree.myPoints[rit->myDistalIndex],
 									intersection);
 
 		if(!res)	// the lines are almost parallel or coincident (very unelikely)
 		{
 			// set intersection at starting point of added segment
-			intersection = rit->myProxitalIndex;
+			intersection = myTree.myPoints[rit->myProxitalIndex];
 		}
 
 		// define timestamps for this animation
 		int start = total_animation_dur - ((rit + 2 - segments.rbegin()) / 2) * segment_growth_dur;
 		int end = start + segment_growth_dur;
 
+		std::cout << ++k << "\tstart = " << start << "\tend = " << end << std::endl;
+
 		// initialize the lines with thier color and thickness if they don't exist yet
 		if(!lines_ptr[i])	// nullptr check
 		{
-			line_ptr[i] = std::make_shared<SVGLine>(
+			lines_ptr[i] = std::make_shared<SVG::Line>(
 				myTree.myPoints[rit->myProxitalIndex][0], myTree.myPoints[rit->myProxitalIndex][1], 	// proxital coordinates
 				myTree.myPoints[rit->myDistalIndex][0], myTree.myPoints[rit->myDistalIndex][1],			// distal coordinates
 				myTree.myRadii[rit->myDistalIndex] / 2,													// thickness
@@ -461,7 +465,7 @@ bool TreeImageRenderer<2>::test()
 
 		if(!lines_ptr[bro_i])	// nullptr check
 		{
-			line_ptr[bro_i] = std::make_shared<SVGLine>(
+			lines_ptr[bro_i] = std::make_shared<SVG::Line>(
 				myTree.myPoints[bro_rit->myProxitalIndex][0], myTree.myPoints[bro_rit->myProxitalIndex][1], // proxital coordinates
 				myTree.myPoints[bro_rit->myDistalIndex][0], myTree.myPoints[bro_rit->myDistalIndex][1],		// distal coordinates
 				myTree.myRadii[bro_rit->myDistalIndex] / 2,													// thickness
@@ -470,7 +474,7 @@ bool TreeImageRenderer<2>::test()
 
 		if(!lines_ptr[parent_i])	// nullptr check
 		{
-			line_ptr[parent_i] = std::make_shared<SVGLine>(
+			lines_ptr[parent_i] = std::make_shared<SVG::Line>(
 				myTree.myPoints[parent_rit->myProxitalIndex][0], myTree.myPoints[parent_rit->myProxitalIndex][1], 	// proxital coordinates
 				myTree.myPoints[parent_rit->myDistalIndex][0], myTree.myPoints[parent_rit->myDistalIndex][1],		// distal coordinates
 				myTree.myRadii[parent_rit->myDistalIndex] / 2,													// thickness
@@ -478,14 +482,33 @@ bool TreeImageRenderer<2>::test()
 		}
 
 		// create the animations
-		// not finsihed
+		
+		// animation of the intersection to rit->distal
 	}
 
-	SVGSvg svg(myDomain.lowerBound()[0], myDomain.lowerBound()[1],		// top left coordinates
+	SVG::Svg svg(myDomain.lowerBound()[0], myDomain.lowerBound()[1],		// top left coordinates
 			   myDomain.upperBound()[0] - myDomain.lowerBound()[0],		// width
 			   myDomain.upperBound()[1] - myDomain.lowerBound()[1]);	// height
 
 	// add elements to svg
+	for(std::shared_ptr<SVG::AnimatedElement> & line_ptr : lines_ptr)
+	{
+		svg.addElement(std::move(line_ptr));
+	}
+
+	std::ofstream file;
+	file.open("anim.svg");
+
+	if(file.is_open())
+	{
+		file << svg;				// Write SVG to file
+
+		file.close();	
+	}
+	else
+	{
+		std::cout << "Couldn't open anim.svg" << std::endl;
+	}
 
 	return true;
 }
