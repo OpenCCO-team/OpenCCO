@@ -441,6 +441,7 @@ CoronaryArteryTree<DomCtr, TDim>::boardDisplay(double thickness, bool clearDispl
   // 57.5 from myBoard change scale
   double scaleBoard = 57.5*scaleFactorEPS;
   
+  /*
   // drawing base circle when the domain is circular
   if (std::is_same<DomCtr, CircularDomainCtrl<TDim>>::value)
   {
@@ -448,6 +449,7 @@ CoronaryArteryTree<DomCtr, TDim>::boardDisplay(double thickness, bool clearDispl
     myBoard.setLineWidth(myVectSegments[0].myRadius*scaleBoard*thickness);
     myBoard.drawCircle(myTreeCenter[0], myTreeCenter[1], my_rPerf, 1);
   }
+  */
   
   unsigned int i = 0;
   for (auto s : myVectSegments)

@@ -21,7 +21,7 @@ namespace SVG
 
 	Animation::Animation(const std::string & attribute_name,
 					       const Timeline & timeline,
-						   const bool repeat_count,		// = 0
+						   const int repeat_count,		// = 0
 						   const bool freeze)			// = false
 				: m_attribute_name(attribute_name), m_repeat_count(repeat_count), m_freeze(freeze), m_timeline(timeline)
 	{
@@ -119,6 +119,22 @@ namespace SVG
 		}
 
 		return nullptr;			// didn't find it
+	}
+
+
+	void AnimatedElement::initializeAnimation(const std::string & attribute_name,
+								double start_value,
+								double end_value,
+								int duration,
+								bool calc_mode_spline,
+								int repeat_count,
+								bool freeze)
+	{
+		Timeline tl(duration, calc_mode_spline);
+		tl.addKeyTime(0.0, start_value);
+		tl.addKeyTime(1.0, end_value);
+
+		m_animations.emplace_back(attribute_name, tl, repeat_count, freeze);
 	}
 
 

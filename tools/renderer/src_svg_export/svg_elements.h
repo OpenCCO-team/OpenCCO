@@ -38,7 +38,7 @@ namespace SVG
 		 **/
 		Animation(const std::string & attribute_name,
 			       const Timeline & timeline,
-				   const bool repeat_count = 0,
+				   const int repeat_count = 0,
 				   const bool freeze = false);
 
 		// Setters & Getters
@@ -132,6 +132,22 @@ namespace SVG
 		 * @returns a pointer to the Animation element if it exists, nullptr if it doesn't
 		 **/
 		Animation * getAnimation(const std::string & attribute_name);
+
+		/**
+		 * @brief Initialize an Animation for the AnimatedElement, for specified attribute and start & end values
+		 * @param attribute_name The attribute to animate
+		 * @param start_value The value of the attribute at the start of the timeline (keyTime 0.0)
+		 * @param end_value The value of the attribute at the en of the timeline (keyTime 1.0)
+		 * @param repeat_count How many time the animation will loop
+		 * @param freeze Whether the animation freezes when it stops or if attribute resets
+		 **/
+		void initializeAnimation(const std::string & attribute_name,
+								double start_value,
+								double end_value,
+								int duration,
+								bool calc_mode_spline,
+								int repeat_count = 0,
+								bool freeze = false);
 
 	private:
 		std::vector<Animation> m_animations;
