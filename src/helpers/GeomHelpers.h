@@ -287,7 +287,7 @@ lineIntersection(const DGtal::PointVector<2, double> &segA,
 {
   double denominator = (segA[0] - segB[0]) * (segC[1] - segD[1]) - (segA[1] - segB[1]) * (segC[0] - segD[0]);
 
-  if(denominator < 0.0001)  // denominator = 0 implies that the lines are parallel or coincident
+  if(std::fabs(denominator) < 0.0001)  // denominator = 0 implies that the lines are parallel or coincident
   {
     return false;
   }
@@ -297,7 +297,7 @@ lineIntersection(const DGtal::PointVector<2, double> &segA,
   double v2 = segC[0] * segD[1] - segC[1] * segD[0];
 
   intersection[0] = v1 * (segC[0] - segD[0]) - v2 * (segA[0] - segB[0]);
-  intersection[0] = v1 * (segC[1] - segD[1]) - v2 * (segA[1] - segB[1]);
+  intersection[1] = v1 * (segC[1] - segD[1]) - v2 * (segA[1] - segB[1]);
 
   intersection /= denominator;
 

@@ -4,6 +4,7 @@
 
 #include "svg_elements.h"
 #include "TreeImageRenderer.h"
+#include "GeomHelpers.h"
 
 
 

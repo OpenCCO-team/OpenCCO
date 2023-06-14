@@ -386,7 +386,8 @@ bool TreeImageRenderer<2>::test()
 	std::vector<Segment> segments = myTree.mySegments;
 
 	// animation global variable
-	int segment_growth_dur = 10000;						// duration, in milliseconds
+	int segment_growth_dur = 1000;						// duration, in milliseconds
+	int delay = segment_growth_dur/2;
 	int total_animation_dur = segments.size() / 2;		// number of segments to animate
 	total_animation_dur *= segment_growth_dur;
 
@@ -433,9 +434,9 @@ bool TreeImageRenderer<2>::test()
 		std::size_t bro_i = segments.size() - 1 - (bro_rit - segments.rbegin());
 		std::size_t parent_i = segments.size() - 1 - (parent_rit - segments.rbegin());
 
-		// point at the intersection of the parent and the added segment
-		TPointD intersection = myTree.myPoints[rit->myProxitalIndex];
-		/*
+		TPointD junction = myTree.myPoints[rit->myProxitalIndex];
+		TPointD intersection;
+		
 		bool res = GeomHelpers::lineIntersection(myTree.myPoints[parent_rit->myProxitalIndex], myTree.myPoints[bro_rit->myDistalIndex],
 									myTree.myPoints[rit->myProxitalIndex], myTree.myPoints[rit->myDistalIndex],
 									intersection);
@@ -444,11 +445,7 @@ bool TreeImageRenderer<2>::test()
 		{
 			// set intersection at starting point of added segment
 			intersection = myTree.myPoints[rit->myProxitalIndex];
-			std::cout << "!!!!!!" << std::endl;
 		}
-		*/
-
-		std::cout << intersection[0] << "\t" << intersection[1] << std::endl;
 
 		// define timestamps for this animation
 		int start = total_animation_dur - ((rit + 2 - segments.rbegin()) / 2) * segment_growth_dur;
@@ -510,64 +507,66 @@ bool TreeImageRenderer<2>::test()
 
 		// added segment
 		SVG::Animation * a_x1 = lines_ptr[i]->getAnimation("x1");
-		a_x1->getTimelineRef().addKeyTime(start+30, intersection[0]);
-		a_x1->getTimelineRef().addKeyTime(end, myTree.myPoints[rit->myProxitalIndex][0]);
+		a_x1->getTimelineRef().addKeyTime(start+delay, intersection[0]);
+		a_x1->getTimelineRef().addKeyTime(end, junction[0]);
 		
 		SVG::Animation * a_y1 = lines_ptr[i]->getAnimation("y1");
-		a_y1->getTimelineRef().addKeyTime(start+30, intersection[1]);
-		a_y1->getTimelineRef().addKeyTime(end, myTree.myPoints[rit->myProxitalIndex][1]);
+		a_y1->getTimelineRef().addKeyTime(start+delay, intersection[1]);
+		a_y1->getTimelineRef().addKeyTime(end, junction[1]);
 
 		SVG::Animation * a_x2 = lines_ptr[i]->getAnimation("x2");
-		a_x2->getTimelineRef().addKeyTime(start+30, intersection[0]);
+		a_x2->getTimelineRef().addKeyTime(start+delay, intersection[0]);
 		a_x2->getTimelineRef().addKeyTime(end, myTree.myPoints[rit->myDistalIndex][0]);
 
 		SVG::Animation * a_y2 = lines_ptr[i]->getAnimation("y2");
-		a_y2->getTimelineRef().addKeyTime(start+30, intersection[1]);
+		a_y2->getTimelineRef().addKeyTime(start+delay, intersection[1]);
 		a_y2->getTimelineRef().addKeyTime(end, myTree.myPoints[rit->myDistalIndex][1]);
 
 		SVG::Animation * a_opacity = lines_ptr[i]->getAnimation("opacity");
 		a_opacity->getTimelineRef().addKeyTime(start, 0.0);
-		a_opacity->getTimelineRef().addKeyTime(start+30, 1.0);
+		a_opacity->getTimelineRef().addKeyTime(start+delay, 1.0);
 
 		// brother segment
 		SVG::Animation * a_bx1 = lines_ptr[bro_i]->getAnimation("x1");
 		a_bx1->getTimelineRef().addKeyTime(start, myTree.myPoints[bro_rit->myDistalIndex][0]);
-		a_bx1->getTimelineRef().addKeyTime(start+30, intersection[0]);
-		a_bx1->getTimelineRef().addKeyTime(end, myTree.myPoints[bro_rit->myProxitalIndex][0]);
+		a_bx1->getTimelineRef().addKeyTime(start+delay, intersection[0]);
+		a_bx1->getTimelineRef().addKeyTime(end, junction[0]);
 		
 		SVG::Animation * a_by1 = lines_ptr[bro_i]->getAnimation("y1");
 		a_by1->getTimelineRef().addKeyTime(start, myTree.myPoints[bro_rit->myDistalIndex][1]);
-		a_by1->getTimelineRef().addKeyTime(start+30, intersection[1]);
-		a_by1->getTimelineRef().addKeyTime(end, myTree.myPoints[bro_rit->myProxitalIndex][1]);
+		a_by1->getTimelineRef().addKeyTime(start+delay, intersection[1]);
+		a_by1->getTimelineRef().addKeyTime(end, junction[1]);
 
 		/*
 		SVG::Animation * a_bx2 = lines_ptr[bro_i]->getAnimation("x2");
-		a_bx2->getTimelineRef().addKeyTime(start+30, intersection[0]);
-		a_bx2->getTimelineRef().addKeyTime(end, myTree.myPoints[bro_rit->myDistalIndex][0]);
+		a_bx2->getTimelineRef().addKeyTime(start, myTree.myPoints[bro_rit->myDistalIndex][0]);
 
 		SVG::Animation * a_by2 = lines_ptr[bro_i]->getAnimation("y2");
-		a_by2->getTimelineRef().addKeyTime(start+30, intersection[1]);
-		a_by2->getTimelineRef().addKeyTime(end, myTree.myPoints[bro_rit->myDistalIndex][1]);
+		a_bx2->getTimelineRef().addKeyTime(start, myTree.myPoints[bro_rit->myDistalIndex][1]);
 		*/
 
 		SVG::Animation * a_bopacity = lines_ptr[bro_i]->getAnimation("opacity");
 		a_bopacity->getTimelineRef().addKeyTime(start, 0.0);
-		a_bopacity->getTimelineRef().addKeyTime(start+30, 1.0);
+		a_bopacity->getTimelineRef().addKeyTime(start+delay, 1.0);
 
 		// parent segment
 		SVG::Animation * a_px2 = lines_ptr[parent_i]->getAnimation("x2");
 		a_px2->getTimelineRef().addKeyTime(start, myTree.myPoints[bro_rit->myDistalIndex][0]);
-		a_px2->getTimelineRef().addKeyTime(start+30, intersection[0]);
-		a_px2->getTimelineRef().addKeyTime(end, myTree.myPoints[parent_rit->myDistalIndex][0]);
+		a_px2->getTimelineRef().addKeyTime(start+delay, intersection[0]);
+		a_px2->getTimelineRef().addKeyTime(end, junction[0]);
 
 		SVG::Animation * a_py2 = lines_ptr[parent_i]->getAnimation("y2");
-		a_py2->getTimelineRef().addKeyTime(start, myTree.myPoints[bro_rit->myDistalIndex][0]);
-		a_py2->getTimelineRef().addKeyTime(start+30, intersection[1]);
-		a_py2->getTimelineRef().addKeyTime(end, myTree.myPoints[parent_rit->myDistalIndex][1]);
+		a_py2->getTimelineRef().addKeyTime(start, myTree.myPoints[bro_rit->myDistalIndex][1]);
+		a_py2->getTimelineRef().addKeyTime(start+delay, intersection[1]);
+		a_py2->getTimelineRef().addKeyTime(end, junction[1]);
 
 		// edit parent distal
 		parent_rit->myDistalIndex = bro_rit->myDistalIndex;
 	}
+
+	// adjust opacity of root
+	SVG::Animation * a_opacity_root = lines_ptr[0]->getAnimation("opacity");
+	a_opacity_root->getTimelineRef().addKeyTime(0.0, 1.0);
 
 	SVG::Svg svg(myDomain.lowerBound()[0], myDomain.lowerBound()[1],		// top left coordinates
 			   myDomain.upperBound()[0] - myDomain.lowerBound()[0],		// width
