@@ -108,7 +108,12 @@ public:
      **/
 	void saveRender(const std::string & filename);
 
-	bool test();
+	/**
+     * @brief Exports a 2D SVG animation of the construction of the ArteryTree.
+     * @param filename The file in which the animation will be written.
+     * @param duration The total duration of the animation
+     **/
+	void treeConstructionAnimation(const std::string & filename, int duration);
 
 	static const int myDim = TDim;
 

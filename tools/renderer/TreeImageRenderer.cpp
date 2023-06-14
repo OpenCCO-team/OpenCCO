@@ -349,52 +349,19 @@ void TreeImageRenderer<3>::saveRender(const std::string & filename)
 
 
 template<>
-bool TreeImageRenderer<2>::test()
+void TreeImageRenderer<2>::treeConstructionAnimation(const std::string & filename, int duration)
 {
-	// test loop, to remove once the animation loop works
-	
-	int term_count_basic = 0;
-
-	for(auto rit = myTree.mySegments.rbegin(); rit != myTree.mySegments.rend(); rit++)
-	{
-		unsigned int distal = rit->myDistalIndex;
-		auto is_child = [&distal] (const Segment & s) { return s.myProxitalIndex == distal; };
-
-		auto it = std::find_if(myTree.mySegments.rbegin(), myTree.mySegments.rend(), is_child);
-
-		term_count_basic += (it == myTree.mySegments.rend());
-	}
-
-	std::cout << "Nb term base : " << term_count_basic << std::endl;
-	
-
-
-	///////////////////////////////////////
-	/*
-	Starting from the end because the data is ordered as the CCO algo output them;
-	the last segment is guaranteed to be terminal, and the second to last is its brother (same parent segment)
-
-	we then offset the next loop by 2 (number of segments processed), and 'elongate' the parent 
-	so that it reaches the distal of brother.
-	The reason behind this behavior is that the brother is created by the CCO algorithm only to keep the continuity;
-	before its existence the parent segment extended like that.
-
-	To sum it up, we're reversing the algorithm for the sake of the animation.
-	*/
-
-	// copy segment data
+	// copy segment data, they are modified by the animation process
 	std::vector<Segment> segments = myTree.mySegments;
 
 	// animation global variable
-	int segment_growth_dur = 1000;						// duration, in milliseconds
-	int delay = segment_growth_dur/4;
-	int total_animation_dur = segments.size() / 2;		// number of segments to animate
-	total_animation_dur *= segment_growth_dur;
+	int n = segments.size() / 2;						// number of terminal segments
+	int segment_growth_dur = duration / n;				// duration, in milliseconds
+	int delay = segment_growth_dur/4;					// intermediate duration for 2-part animations
 
 	// find the min and the max of the flows
 	double q_min = segments[0].myFlow;
 	double q_max = q_min;
-
 	for(const Segment & s : segments)
 	{
 		if(s.myFlow < q_min)
@@ -417,41 +384,45 @@ bool TreeImageRenderer<2>::test()
 
 	std::vector< std::shared_ptr<SVG::AnimatedElement> > lines_ptr(segments.size(), nullptr);	// to each segment its line element
 
+	// Starting from the end because the data is ordered as the CCO algo output them;
+	// the last segment is guaranteed to be terminal, and the second to last is its brother (same parent segment)
+	// rit is a reverse iterator to the last segment, which is created in the animation at this loop
 	for(auto rit = segments.rbegin(); rit != segments.rend() && rit+1 != segments.rend(); rit += 2)
 	{
-		// first we define every point needed for the animation
-
-		// brother reverse iterator
-		auto bro_rit = rit + 1;
+		// find the reverse iterators and the indexes for the brother and the parent
+		auto bro_rit = rit + 1;				// brother reverse iterator
 
 		// parent reverse iterator
 		unsigned int proxital_i = rit->myProxitalIndex;
 		auto is_parent = [&proxital_i] (const Segment & s) { return s.myDistalIndex == proxital_i; };
 		auto parent_rit = std::find_if(rit, segments.rend(), is_parent);
 
-		// indexes (because we have reverse iterator, we invert them)
+		// indexes 
 		std::size_t i = segments.size() - 1 - (rit - segments.rbegin());
 		std::size_t bro_i = segments.size() - 1 - (bro_rit - segments.rbegin());
 		std::size_t parent_i = segments.size() - 1 - (parent_rit - segments.rbegin());		 
 
+		// handy points for what follows
+		// the junction is the point where the brother, the parent and the current segment meet
+		// the intersection is an arbitrary point for the sake of the animation; I think of it as the junction before the segment is born
 		TPointD junction = myTree.myPoints[rit->myProxitalIndex];
 		TPointD intersection;
 		
 		bool res = GeomHelpers::lineIntersection(myTree.myPoints[parent_rit->myProxitalIndex], myTree.myPoints[bro_rit->myDistalIndex],
 									myTree.myPoints[rit->myProxitalIndex], myTree.myPoints[rit->myDistalIndex],
 									intersection);
-
 		if(!res)	// the lines are almost parallel or coincident (very unelikely)
 		{
 			// set intersection at starting point of added segment
-			intersection = myTree.myPoints[rit->myProxitalIndex];
+			intersection = junction;
 		}
 
 		// define timestamps for this animation
-		int start = total_animation_dur - ((rit + 2 - segments.rbegin()) / 2) * segment_growth_dur;
+		int start = duration - ((rit + 2 - segments.rbegin()) / 2) * segment_growth_dur;
+		int step = start + delay;
 		int end = start + segment_growth_dur;
 
-		// initialize the lines with thier color and thickness if they don't exist yet
+		// initialize the lines with their color and thickness if they don't exist yet
 		if(!lines_ptr[i])	// nullptr check
 		{
 			TPointD prox = myTree.myPoints[rit->myProxitalIndex];
@@ -462,11 +433,11 @@ bool TreeImageRenderer<2>::test()
 				DGtalColor2SVGColor(cmap_grad(std::log(rit->myFlow))));						// color
 
 			// init the 5 attributes animation
-			lines_ptr[i]->initializeAnimation("x1", prox[0], prox[0], total_animation_dur, true, 1);
-			lines_ptr[i]->initializeAnimation("y1", prox[1], prox[1], total_animation_dur, true, 1);
-			lines_ptr[i]->initializeAnimation("x2", dist[0], dist[0], total_animation_dur, true, 1);
-			lines_ptr[i]->initializeAnimation("y2", dist[1], dist[1], total_animation_dur, true, 1);
-			lines_ptr[i]->initializeAnimation("opacity", 0.0, 1.0, total_animation_dur, false, 1);
+			lines_ptr[i]->initializeAnimation("x1", prox[0], prox[0], duration, true, 1);
+			lines_ptr[i]->initializeAnimation("y1", prox[1], prox[1], duration, true, 1);
+			lines_ptr[i]->initializeAnimation("x2", dist[0], dist[0], duration, true, 1);
+			lines_ptr[i]->initializeAnimation("y2", dist[1], dist[1], duration, true, 1);
+			lines_ptr[i]->initializeAnimation("opacity", 0.0, 1.0, duration, false, 1);
 		}
 
 		if(!lines_ptr[bro_i])	// nullptr check
@@ -479,11 +450,11 @@ bool TreeImageRenderer<2>::test()
 				DGtalColor2SVGColor(cmap_grad(std::log(bro_rit->myFlow))));						// color
 
 			// init the 5 attributes animation
-			lines_ptr[bro_i]->initializeAnimation("x1", prox[0], prox[0], total_animation_dur, true, 1);
-			lines_ptr[bro_i]->initializeAnimation("y1", prox[1], prox[1], total_animation_dur, true, 1);
-			lines_ptr[bro_i]->initializeAnimation("x2", dist[0], dist[0], total_animation_dur, true, 1);
-			lines_ptr[bro_i]->initializeAnimation("y2", dist[1], dist[1], total_animation_dur, true, 1);
-			lines_ptr[bro_i]->initializeAnimation("opacity", 0.0, 1.0, total_animation_dur, false, 1);
+			lines_ptr[bro_i]->initializeAnimation("x1", prox[0], prox[0], duration, true, 1);
+			lines_ptr[bro_i]->initializeAnimation("y1", prox[1], prox[1], duration, true, 1);
+			lines_ptr[bro_i]->initializeAnimation("x2", dist[0], dist[0], duration, true, 1);
+			lines_ptr[bro_i]->initializeAnimation("y2", dist[1], dist[1], duration, true, 1);
+			lines_ptr[bro_i]->initializeAnimation("opacity", 0.0, 1.0, duration, false, 1);
 		}
 
 		if(!lines_ptr[parent_i])	// nullptr check
@@ -496,11 +467,11 @@ bool TreeImageRenderer<2>::test()
 				DGtalColor2SVGColor(cmap_grad(std::log(parent_rit->myFlow))));						// color
 
 			// init the 5 attributes animation
-			lines_ptr[parent_i]->initializeAnimation("x1", prox[0], prox[0], total_animation_dur, true, 1);
-			lines_ptr[parent_i]->initializeAnimation("y1", prox[1], prox[1], total_animation_dur, true, 1);
-			lines_ptr[parent_i]->initializeAnimation("x2", dist[0], dist[0], total_animation_dur, true, 1);
-			lines_ptr[parent_i]->initializeAnimation("y2", dist[1], dist[1], total_animation_dur, true, 1);
-			lines_ptr[parent_i]->initializeAnimation("opacity", 0.0, 1.0, total_animation_dur, false, 1);
+			lines_ptr[parent_i]->initializeAnimation("x1", prox[0], prox[0], duration, true, 1);
+			lines_ptr[parent_i]->initializeAnimation("y1", prox[1], prox[1], duration, true, 1);
+			lines_ptr[parent_i]->initializeAnimation("x2", dist[0], dist[0], duration, true, 1);
+			lines_ptr[parent_i]->initializeAnimation("y2", dist[1], dist[1], duration, true, 1);
+			lines_ptr[parent_i]->initializeAnimation("opacity", 0.0, 1.0, duration, false, 1);
 		}
 
 		// create the animations
@@ -566,7 +537,7 @@ bool TreeImageRenderer<2>::test()
 	SVG::Animation * a_opacity_root = lines_ptr[0]->getAnimation("opacity");
 	a_opacity_root->getTimelineRef().addKeyTime(0.0, 1.0);
 
-	SVG::Svg svg(myDomain.lowerBound()[0], myDomain.lowerBound()[1],		// top left coordinates
+	SVG::Svg svg(myDomain.lowerBound()[0], myDomain.lowerBound()[1],	// top left coordinates
 			   myDomain.upperBound()[0] - myDomain.lowerBound()[0],		// width
 			   myDomain.upperBound()[1] - myDomain.lowerBound()[1]);	// height
 
@@ -576,8 +547,9 @@ bool TreeImageRenderer<2>::test()
 		svg.addElement(std::move(line_ptr));
 	}
 
+	// write svg to file
 	std::ofstream file;
-	file.open("anim.svg");
+	file.open(filename);
 
 	if(file.is_open())
 	{
@@ -587,10 +559,8 @@ bool TreeImageRenderer<2>::test()
 	}
 	else
 	{
-		std::cout << "Couldn't open anim.svg" << std::endl;
+		std::cout << "Couldn't open " << filename << std::endl;
 	}
-
-	return true;
 }
 
 
