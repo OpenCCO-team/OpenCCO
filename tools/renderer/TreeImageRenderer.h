@@ -9,11 +9,14 @@
 #include <numeric>
 #include <limits>
 #include <sstream>
+#include <memory>
 
 #include "DGtal/base/Common.h"
 
 #include "DGtal/images/ImageContainerBySTLVector.h"
 #include "DGtal/helpers/StdDefs.h"
+
+#include "svg_elements.h"
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
@@ -139,7 +142,7 @@ private:
  * @param[out] lowerbound The lowerbound of the points.
  **/
 template<int TDim>
-void compBB(std::vector< typename TreeImageRenderer<TDim>::TPointD > &points,
+void compBB(const std::vector< typename TreeImageRenderer<TDim>::TPointD > &points,
 			typename TreeImageRenderer<TDim>::TPointD &upperbound, 
 			typename TreeImageRenderer<TDim>::TPointD &lowerbound);
 
@@ -157,3 +160,21 @@ bool projectOnStraightLine(const typename TreeImageRenderer<TDim>::TPointD & ptA
 						   const typename TreeImageRenderer<TDim>::TPointD & ptB,
 						   const typename TreeImageRenderer<TDim>::TPointD & ptC,
 						   typename TreeImageRenderer<TDim>::TPointD & ptP);
+
+
+/**
+ * @brief Initializes a SVG::Line and its animations, if the pointer is nullptr (considered not already initialized)
+ * @param proxital The starting point of the line
+ * @param distal The ending point of the line
+ * @param radius The line radius
+ * @param color The color of the line
+ * @param duration The duration of the animation
+ * @param[out] line_ptr The line to initialize
+ * @returns true if a SVG::Line was initialized.
+ **/
+bool initializeSVGLine(const TreeImageRenderer<2>::TPointD & proxital,
+					   const TreeImageRenderer<2>::TPointD & distal, 
+					   double radius,
+					   const SVG::Color & color,
+					   int duration,
+					   std::shared_ptr<SVG::AnimatedElement> & line_ptr);

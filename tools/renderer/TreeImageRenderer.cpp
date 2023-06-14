@@ -418,89 +418,49 @@ void TreeImageRenderer<2>::treeConstructionAnimation(const std::string & filenam
 		int end = start + segment_growth_dur;
 
 		// initialize the lines with their color and thickness if they don't exist yet
-		if(!lines_ptr[i])	// nullptr check
-		{
-			TPointD prox = myTree.myPoints[rit->myProxitalIndex];
-			TPointD dist = myTree.myPoints[rit->myDistalIndex];
+		initializeSVGLine(myTree.myPoints[rit->myProxitalIndex],myTree.myPoints[rit->myDistalIndex], 
+		   myTree.myRadii[rit->myDistalIndex], DGtalColor2SVGColor(cmap_grad(std::log(rit->myFlow))), duration,
+		   lines_ptr[i]);
 
-			lines_ptr[i] = std::make_shared<SVG::Line>(prox[0], prox[1], dist[0], dist[1],	// proxital & distal coordinates
-				myTree.myRadii[rit->myDistalIndex] * 2,										// thickness
-				DGtalColor2SVGColor(cmap_grad(std::log(rit->myFlow))));						// color
+		initializeSVGLine(myTree.myPoints[bro_rit->myProxitalIndex],myTree.myPoints[bro_rit->myDistalIndex], 
+		   myTree.myRadii[bro_rit->myDistalIndex], DGtalColor2SVGColor(cmap_grad(std::log(bro_rit->myFlow))), duration,
+		   lines_ptr[bro_i]);
 
-			// init the 5 attributes animation
-			lines_ptr[i]->initializeAnimation("x1", prox[0], prox[0], duration, true, 1);
-			lines_ptr[i]->initializeAnimation("y1", prox[1], prox[1], duration, true, 1);
-			lines_ptr[i]->initializeAnimation("x2", dist[0], dist[0], duration, true, 1);
-			lines_ptr[i]->initializeAnimation("y2", dist[1], dist[1], duration, true, 1);
-			lines_ptr[i]->initializeAnimation("opacity", 0.0, 1.0, duration, false, 1);
-		}
-
-		if(!lines_ptr[bro_i])	// nullptr check
-		{
-			TPointD prox = myTree.myPoints[bro_rit->myProxitalIndex];
-			TPointD dist = myTree.myPoints[bro_rit->myDistalIndex];
-
-			lines_ptr[bro_i] = std::make_shared<SVG::Line>(prox[0], prox[1], dist[0], dist[1],	// proxital & distal coordinates
-				myTree.myRadii[bro_rit->myDistalIndex] * 2,										// thickness
-				DGtalColor2SVGColor(cmap_grad(std::log(bro_rit->myFlow))));						// color
-
-			// init the 5 attributes animation
-			lines_ptr[bro_i]->initializeAnimation("x1", prox[0], prox[0], duration, true, 1);
-			lines_ptr[bro_i]->initializeAnimation("y1", prox[1], prox[1], duration, true, 1);
-			lines_ptr[bro_i]->initializeAnimation("x2", dist[0], dist[0], duration, true, 1);
-			lines_ptr[bro_i]->initializeAnimation("y2", dist[1], dist[1], duration, true, 1);
-			lines_ptr[bro_i]->initializeAnimation("opacity", 0.0, 1.0, duration, false, 1);
-		}
-
-		if(!lines_ptr[parent_i])	// nullptr check
-		{
-			TPointD prox = myTree.myPoints[parent_rit->myProxitalIndex];
-			TPointD dist = myTree.myPoints[parent_rit->myDistalIndex];
-
-			lines_ptr[parent_i] = std::make_shared<SVG::Line>(prox[0], prox[1], dist[0], dist[1],	// proxital & distal coordinates
-				myTree.myRadii[parent_rit->myDistalIndex] * 2,										// thickness
-				DGtalColor2SVGColor(cmap_grad(std::log(parent_rit->myFlow))));						// color
-
-			// init the 5 attributes animation
-			lines_ptr[parent_i]->initializeAnimation("x1", prox[0], prox[0], duration, true, 1);
-			lines_ptr[parent_i]->initializeAnimation("y1", prox[1], prox[1], duration, true, 1);
-			lines_ptr[parent_i]->initializeAnimation("x2", dist[0], dist[0], duration, true, 1);
-			lines_ptr[parent_i]->initializeAnimation("y2", dist[1], dist[1], duration, true, 1);
-			lines_ptr[parent_i]->initializeAnimation("opacity", 0.0, 1.0, duration, false, 1);
-		}
+		initializeSVGLine(myTree.myPoints[parent_rit->myProxitalIndex],myTree.myPoints[parent_rit->myDistalIndex], 
+		   myTree.myRadii[parent_rit->myDistalIndex], DGtalColor2SVGColor(cmap_grad(std::log(parent_rit->myFlow))), duration,
+		   lines_ptr[parent_i]);
 
 		// create the animations
-
 		// added segment
 		SVG::Animation * a_x1 = lines_ptr[i]->getAnimation("x1");
-		a_x1->getTimelineRef().addKeyTime(start+delay, intersection[0]);
+		a_x1->getTimelineRef().addKeyTime(step, intersection[0]);
 		a_x1->getTimelineRef().addKeyTime(end, junction[0]);
 		
 		SVG::Animation * a_y1 = lines_ptr[i]->getAnimation("y1");
-		a_y1->getTimelineRef().addKeyTime(start+delay, intersection[1]);
+		a_y1->getTimelineRef().addKeyTime(step, intersection[1]);
 		a_y1->getTimelineRef().addKeyTime(end, junction[1]);
 
 		SVG::Animation * a_x2 = lines_ptr[i]->getAnimation("x2");
-		a_x2->getTimelineRef().addKeyTime(start+delay, intersection[0]);
+		a_x2->getTimelineRef().addKeyTime(step, intersection[0]);
 		a_x2->getTimelineRef().addKeyTime(end, myTree.myPoints[rit->myDistalIndex][0]);
 
 		SVG::Animation * a_y2 = lines_ptr[i]->getAnimation("y2");
-		a_y2->getTimelineRef().addKeyTime(start+delay, intersection[1]);
+		a_y2->getTimelineRef().addKeyTime(step, intersection[1]);
 		a_y2->getTimelineRef().addKeyTime(end, myTree.myPoints[rit->myDistalIndex][1]);
 
 		SVG::Animation * a_opacity = lines_ptr[i]->getAnimation("opacity");
 		a_opacity->getTimelineRef().addKeyTime(start, 0.0);
-		a_opacity->getTimelineRef().addKeyTime(start+delay, 1.0);
+		a_opacity->getTimelineRef().addKeyTime(step, 1.0);
 
 		// brother segment
 		SVG::Animation * a_bx1 = lines_ptr[bro_i]->getAnimation("x1");
 		a_bx1->getTimelineRef().addKeyTime(start, myTree.myPoints[bro_rit->myDistalIndex][0]);
-		a_bx1->getTimelineRef().addKeyTime(start+delay, intersection[0]);
+		a_bx1->getTimelineRef().addKeyTime(step, intersection[0]);
 		a_bx1->getTimelineRef().addKeyTime(end, junction[0]);
 		
 		SVG::Animation * a_by1 = lines_ptr[bro_i]->getAnimation("y1");
 		a_by1->getTimelineRef().addKeyTime(start, myTree.myPoints[bro_rit->myDistalIndex][1]);
-		a_by1->getTimelineRef().addKeyTime(start+delay, intersection[1]);
+		a_by1->getTimelineRef().addKeyTime(step, intersection[1]);
 		a_by1->getTimelineRef().addKeyTime(end, junction[1]);
 
 		SVG::Animation * a_bx2 = lines_ptr[bro_i]->getAnimation("x2");
@@ -511,17 +471,17 @@ void TreeImageRenderer<2>::treeConstructionAnimation(const std::string & filenam
 
 		SVG::Animation * a_bopacity = lines_ptr[bro_i]->getAnimation("opacity");
 		a_bopacity->getTimelineRef().addKeyTime(start, 0.0);
-		a_bopacity->getTimelineRef().addKeyTime(start+delay, 1.0);
+		a_bopacity->getTimelineRef().addKeyTime(step, 1.0);
 
 		// parent segment
 		SVG::Animation * a_px2 = lines_ptr[parent_i]->getAnimation("x2");
 		a_px2->getTimelineRef().addKeyTime(start, myTree.myPoints[bro_rit->myDistalIndex][0]);
-		a_px2->getTimelineRef().addKeyTime(start+delay, intersection[0]);
+		a_px2->getTimelineRef().addKeyTime(step, intersection[0]);
 		a_px2->getTimelineRef().addKeyTime(end, junction[0]);
 
 		SVG::Animation * a_py2 = lines_ptr[parent_i]->getAnimation("y2");
 		a_py2->getTimelineRef().addKeyTime(start, myTree.myPoints[bro_rit->myDistalIndex][1]);
-		a_py2->getTimelineRef().addKeyTime(start+delay, intersection[1]);
+		a_py2->getTimelineRef().addKeyTime(step, intersection[1]);
 		a_py2->getTimelineRef().addKeyTime(end, junction[1]);
 
 		// edit parent distal
@@ -532,9 +492,13 @@ void TreeImageRenderer<2>::treeConstructionAnimation(const std::string & filenam
 	SVG::Animation * a_opacity_root = lines_ptr[0]->getAnimation("opacity");
 	a_opacity_root->getTimelineRef().addKeyTime(0.0, 1.0);
 
-	SVG::Svg svg(myDomain.lowerBound()[0], myDomain.lowerBound()[1],	// top left coordinates
-			   myDomain.upperBound()[0] - myDomain.lowerBound()[0],		// width
-			   myDomain.upperBound()[1] - myDomain.lowerBound()[1]);	// height
+	// compute svg viewbox
+	TPointD ub, lb;						// upper and lower bounds
+	compBB<2>(myTree.myPoints, ub, lb);
+
+	SVG::Svg svg(lb[0], lb[1],		// top left coordinates
+			   ub[0] - lb[0],		// width
+			   ub[1] - lb[1]);		// height
 
 	// add elements to svg
 	for(std::shared_ptr<SVG::AnimatedElement> & line_ptr : lines_ptr)
@@ -566,7 +530,7 @@ void TreeImageRenderer<2>::treeConstructionAnimation(const std::string & filenam
 
 
 template<int TDim>
-void compBB(std::vector< typename TreeImageRenderer<TDim>::TPointD > &points,
+void compBB(const std::vector< typename TreeImageRenderer<TDim>::TPointD > &points,
 			typename TreeImageRenderer<TDim>::TPointD &upperbound, 
 			typename TreeImageRenderer<TDim>::TPointD &lowerbound)
 {
@@ -619,6 +583,35 @@ bool projectOnStraightLine(const typename TreeImageRenderer<TDim>::TPointD & ptA
     
     return vPB.dot(vPA) <= 0 ;
 }
+
+
+
+bool initializeSVGLine(const TreeImageRenderer<2>::TPointD & proxital,
+					   const TreeImageRenderer<2>::TPointD & distal, 
+					   double radius,
+					   const SVG::Color & color,
+					   int duration,
+					   std::shared_ptr<SVG::AnimatedElement> & line_ptr)
+{
+	if(!line_ptr)	// nullptr check
+	{
+		// make a shared pointer
+		line_ptr = std::make_shared<SVG::Line>(proxital[0], proxital[1], distal[0], distal[1],radius * 3, color);
+
+		// init the 5 attributes animation
+		line_ptr->initializeAnimation("x1", proxital[0], proxital[0], duration, true, 1);
+		line_ptr->initializeAnimation("y1", proxital[1], proxital[1], duration, true, 1);
+		line_ptr->initializeAnimation("x2", distal[0], distal[0], duration, true, 1);
+		line_ptr->initializeAnimation("y2", distal[1], distal[1], duration, true, 1);
+		line_ptr->initializeAnimation("opacity", 0.0, 1.0, duration, false, 1);
+
+		return true;
+	}
+
+	return false;
+}
+
+
 
 // explicit instantion (the application, at the moment, only supports 2D and 3D)
 template class TreeImageRenderer<2>;

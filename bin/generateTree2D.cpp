@@ -61,12 +61,19 @@ constructTreeImplicitDomain(TTree &aTree,std::string exportXMLName, bool verbose
     ExpandTreeHelpers::expandTree(aTree);
     end = clock();
     printf ("Execution time: %0.8f sec\n", ((double) end - start)/CLOCKS_PER_SEC);
-    XMLHelpers::writeTreeToXml(aTree, "tree_2D.xml");
-    if (exportXMLName != "") XMLHelpers::writeTreeToXml(aTree,
-                                                        exportXMLName.c_str());
-    std::string filename = "testCCO_"+std::to_string(aTree.my_NTerm)+".eps";
-    aTree.exportBoardDisplay(filename.c_str(), 1.0);
-    aTree.exportBoardDisplay("result.eps", 1.0);
+    
+    if(exportXMLName != "")
+    {
+        XMLHelpers::writeTreeToXml(aTree, exportXMLName.c_str());
+    }
+    else
+    {
+        XMLHelpers::writeTreeToXml(aTree, "tree_2D.xml");
+    }
+    
+    //std::string filename = "testCCO_"+std::to_string(aTree.my_NTerm)+".eps";
+    //aTree.exportBoardDisplay(filename.c_str(), 1.0);
+    //aTree.exportBoardDisplay("result.eps", 1.0);
     aTree.exportBoardDisplay("result.svg", 1.0);
     aTree.myBoard.clear();
 }
