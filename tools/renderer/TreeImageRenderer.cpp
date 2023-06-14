@@ -18,17 +18,12 @@
 // Constructor
 
 template<int TDim>
-TreeImageRenderer<TDim>::TreeImageRenderer(const unsigned int width,
-									 const std::string & radii_filename,
+TreeImageRenderer<TDim>::TreeImageRenderer(const std::string & radii_filename,
 									 const std::string & vertices_filename,
 									 const std::string & edges_filename)
-	: myBackground( TDomain() ),
-	myTreeImage( TDomain() ),
-	myDistanceMap( TDomain() )
+	: myBackground( TDomain() ), myTreeImage( TDomain() ), myDistanceMap( TDomain() )
 {
 	importTreeData(radii_filename, vertices_filename, edges_filename);
-
-	setImageSize(width, width/20);		// initializes myDomain
 }
 
 

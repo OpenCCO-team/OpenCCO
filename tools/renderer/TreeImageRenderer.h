@@ -62,8 +62,7 @@ public:
 	 * @param vertices_filename The name of the file containing radii data.
 	 * @param edges_filename The name of the file containing radii data.
 	 **/
-	TreeImageRenderer(const unsigned int width,
-					  const std::string & radii_filename,
+	TreeImageRenderer(const std::string & radii_filename,
 					  const std::string & vertices_filename,
 					  const std::string & edges_filename);
 

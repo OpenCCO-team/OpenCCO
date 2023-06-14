@@ -1,5 +1,4 @@
 #include "TreeImageRenderer.h"
-
 #include "CLI11.hpp"
 
 
@@ -52,7 +51,8 @@ int main(int argc, char *const *argv)
 	std::string vertices_filename = "vertex.dat";
 	std::string edges_filename = "edges.dat";
 
-	app.add_option("-w,--width", output_width, "Width of the output image, in pixels. Aspect ratio is constrained by the position of the points.", true);
+	app.add_option("-w,--width", output_width, "Width of the output image, in pixels. Aspect ratio is constrained by the position of the points.", true)
+		->check(CLI::Range(100,10000));			// nobody would create images outside this range, right ?
 	app.add_option("-r,--radii", radii_filename, "File containing the radii of the vertices.");
 	app.add_option("-v,--vertices", vertices_filename, "File containing the coordinates of the vertices.");
 	app.add_option("-e,--edges", edges_filename, "File containing the edges data.");
@@ -65,7 +65,11 @@ int main(int argc, char *const *argv)
 
 	if (dimension == 2)
 	{
-		TreeImageRenderer<2> renderer(output_width, radii_filename, vertices_filename, edges_filename);
+		// renderer initialized from files
+		TreeImageRenderer<2> renderer(radii_filename, vertices_filename, edges_filename);
+
+		// for rasterized renders, we need to set the image size and its margins
+		renderer.setImageSize(output_width, output_width/20);
 
 		renderer.createTreeImage();
 
@@ -75,7 +79,11 @@ int main(int argc, char *const *argv)
 	}
 	else if (dimension == 3)
 	{
-		TreeImageRenderer<3> renderer(output_width, radii_filename, vertices_filename, edges_filename);
+		// renderer initialized from files
+		TreeImageRenderer<3> renderer(radii_filename, vertices_filename, edges_filename);
+
+		// for rasterized renders, we need to set the image size and its margins
+		renderer.setImageSize(output_width, output_width/20);
 
 		renderer.createTreeImage();
 

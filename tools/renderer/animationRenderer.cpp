@@ -1,11 +1,5 @@
-#include <iostream>
-
 #include "CLI11.hpp"
-
-#include "svg_elements.h"
 #include "TreeImageRenderer.h"
-#include "GeomHelpers.h"
-
 
 
 int main(int argc, char *const *argv)
@@ -32,8 +26,8 @@ int main(int argc, char *const *argv)
 	CLI11_PARSE(app, argc, argv);
 	// END parse command line using CLI ----------------------------------------------
 
-	TreeImageRenderer<2> renderer(1000, radii_filename, vertices_filename, edges_filename);
-
+	// renderer initialized from files
+	TreeImageRenderer<2> renderer(radii_filename, vertices_filename, edges_filename);
 
 	renderer.treeConstructionAnimation(output_filename, duration * 1000);
 
