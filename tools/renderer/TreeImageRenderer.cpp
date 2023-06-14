@@ -387,7 +387,7 @@ bool TreeImageRenderer<2>::test()
 
 	// animation global variable
 	int segment_growth_dur = 1000;						// duration, in milliseconds
-	int delay = segment_growth_dur/2;
+	int delay = segment_growth_dur/4;
 	int total_animation_dur = segments.size() / 2;		// number of segments to animate
 	total_animation_dur *= segment_growth_dur;
 
@@ -432,7 +432,7 @@ bool TreeImageRenderer<2>::test()
 		// indexes (because we have reverse iterator, we invert them)
 		std::size_t i = segments.size() - 1 - (rit - segments.rbegin());
 		std::size_t bro_i = segments.size() - 1 - (bro_rit - segments.rbegin());
-		std::size_t parent_i = segments.size() - 1 - (parent_rit - segments.rbegin());
+		std::size_t parent_i = segments.size() - 1 - (parent_rit - segments.rbegin());		 
 
 		TPointD junction = myTree.myPoints[rit->myProxitalIndex];
 		TPointD intersection;
@@ -537,13 +537,11 @@ bool TreeImageRenderer<2>::test()
 		a_by1->getTimelineRef().addKeyTime(start+delay, intersection[1]);
 		a_by1->getTimelineRef().addKeyTime(end, junction[1]);
 
-		/*
 		SVG::Animation * a_bx2 = lines_ptr[bro_i]->getAnimation("x2");
 		a_bx2->getTimelineRef().addKeyTime(start, myTree.myPoints[bro_rit->myDistalIndex][0]);
 
 		SVG::Animation * a_by2 = lines_ptr[bro_i]->getAnimation("y2");
-		a_bx2->getTimelineRef().addKeyTime(start, myTree.myPoints[bro_rit->myDistalIndex][1]);
-		*/
+		a_by2->getTimelineRef().addKeyTime(start, myTree.myPoints[bro_rit->myDistalIndex][1]);
 
 		SVG::Animation * a_bopacity = lines_ptr[bro_i]->getAnimation("opacity");
 		a_bopacity->getTimelineRef().addKeyTime(start, 0.0);
