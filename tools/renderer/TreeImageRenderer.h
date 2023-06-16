@@ -178,3 +178,9 @@ bool initializeSVGLine(const TreeImageRenderer<2>::TPointD & proxital,
 					   const SVG::Color & color,
 					   int duration,
 					   std::shared_ptr<SVG::AnimatedElement> & line_ptr);
+
+
+template<class TDim>
+void drawBresenhamLine(const TreeImageRenderer<TDim>::TImage & image,
+					   const TreeImageRenderer<TDim>::TPointD & p0,
+					   const TreeImageRenderer<TDim>::TPointD & p1);

@@ -6,6 +6,7 @@
 #include "DGtal/io/writers/PGMWriter.h"
 #include "DGtal/io/writers/STBWriter.h"
 #include "DGtal/io/writers/VolWriter.h"
+#include "DGtal/io/writers/ITKWriter.h"
 
 #include "GeomHelpers.h"
 
@@ -340,12 +341,21 @@ void TreeImageRenderer<3>::saveRender(const std::string & filename)
 
 	DGtal::VolWriter< TImage, DGtal::functors::Cast<unsigned char> >
 		::exportVol(filename + ".vol", myTreeImage, true, cast_functor);
+
+	// test nifti
+	DGtal::ITKWriter<TImage>::exportITK("render.nii", myTreeImage);
 }
 
 
 template<>
 void TreeImageRenderer<2>::treeConstructionAnimation(const std::string & filename, int duration)
 {
+	// Right now the following code heavily utilizes the fact that the segment vector is sorted in a specific way.
+	// If the logic of the CCO algorithm that produces the data used change the order of the segment for a reason or another
+	// the following code might not output an animatoin that reproduces the logic of the CCO algorithm.
+	//
+	// Working on a way to preprocess the segment vector so that a good animation is guaranteed.	
+
 	// copy segment data, they are modified by the animation process
 	std::vector<Segment> segments = myTree.mySegments;
 
@@ -611,6 +621,34 @@ bool initializeSVGLine(const TreeImageRenderer<2>::TPointD & proxital,
 	return false;
 }
 
+
+
+template<class TDim>
+void drawBresenhamLine(const TreeImageRenderer<TDim>::TImage & image,
+					   const TreeImageRenderer<TDim>::TPointD & p0,
+					   const TreeImageRenderer<TDim>::TPointD & p1)
+{
+	// draw line with gentle slope (absolute value <= 1)
+	auto drawGentleSlope = [&image] (const TreeImageRenderer<TDim>::TPointD & p0, const TreeImageRenderer<TDim>::TPointD & p1)
+	{
+		// contains dx, dy ...
+		std::vector<double> deltas;
+		for(std::size_t i = 0; i < TDim; i++)
+		{
+			deltas.emplace_back(p1[i] - p0[i]);
+		}
+
+		// increments for the non-x coordinates
+		std::vector<int> increments;
+		for(std::size_t i = 1; i < TDim; i++)
+		{
+			increments.emplace_back( (deltas[i] >= 0) ? 1 : -1 );		// increment is 1 for positive slope, -1 otherwise
+		}
+		double D = 0;		// pen&paper to see how a 3D generalisation would work out
+	}
+
+	// draw line with steep slope ( absolute value > 1 )
+}
 
 
 // explicit instantion (the application, at the moment, only supports 2D and 3D)
