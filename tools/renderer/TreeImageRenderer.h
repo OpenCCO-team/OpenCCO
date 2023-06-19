@@ -181,12 +181,80 @@ bool initializeSVGLine(const TreeImageRenderer<2>::TPointD & proxital,
 
 
 /**
- * @brief Draws a 1-pixel width line between 2 points, using Bresenham algorithm
- * @param image The image where the line will be drawn
- * @param p0 The first point of the line
- * @param p1 The second point of the line
+ * @brief Draws a 1-pixel width line between 2 points, using Bresenham algorithm.
+ * @param image The image where the line will be drawn (modified by the function).
+ * @param p0 The first point of the line.
+ * @param p1 The second point of the line.
  **/
 template<int TDim>
 void drawBresenhamLine(typename TreeImageRenderer<TDim>::TImage & image,
 					   typename TreeImageRenderer<TDim>::TPoint p0,
-					   const typename TreeImageRenderer<TDim>::TPoint & p1);
+					   const typename TreeImageRenderer<TDim>::TPoint & p1)
+{
+	// check if line is within the image 
+	if( !image.domain().isInside(p0) || !image.domain().isInside(p1) )
+	{
+		std::cout << "Points defining the line are not all in the image domain." << std::endl;
+		return;
+	}
+
+	// Bresenham algorithm, adapted for n dimensions
+
+	std::vector<int> deltas;				// contains dx, dy ...
+	std::vector<int> increments;
+	std::size_t driving_axis = 0;
+
+	for(std::size_t i = 0; i < TDim; i++)
+	{
+		deltas.emplace_back(p1[i] - p0[i]);
+
+		if(deltas[i] < 0)					// increment is 1 for positive slope, -1 otherwise
+		{
+			increments.emplace_back(-1);
+			deltas[i] *= -1;				// from this point on, deltas values are positive
+		}
+		else
+		{
+			increments.emplace_back(1);
+		}
+
+		if(deltas[i] > deltas[driving_axis])
+		{
+			driving_axis = i;
+		}
+	}
+
+	std::vector<int> diffs;					// errors compared to exact line
+	for(std::size_t i = 0; i < TDim; i++)
+	{
+		diffs.emplace_back(2*deltas[i] - deltas[driving_axis]);
+	}
+
+	while(p0[driving_axis] - increments[driving_axis] != p1[driving_axis])
+	{
+		// draw point
+		image.setValue(p0, 255);
+		
+		// update current point and diffs
+		for(std::size_t i = 0; i < TDim; i++)
+		{
+			// if i is the driving axis, we increment the coordinate no matter what
+			if (i == driving_axis)
+			{
+				p0[i] += increments[i];
+				continue;
+			}
+
+			// for the coordinates that are not the driving axis
+			if(diffs[i] > 0)
+			{
+				p0[i] += increments[i];
+				diffs[i] += 2 * (deltas[i] - deltas[driving_axis]);
+			}
+			else
+			{
+				diffs[i] += 2 * deltas[i];	
+			}
+		}
+	}
+}
