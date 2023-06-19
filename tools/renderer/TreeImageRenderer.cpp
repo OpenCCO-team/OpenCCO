@@ -622,35 +622,104 @@ bool initializeSVGLine(const TreeImageRenderer<2>::TPointD & proxital,
 }
 
 
-
-template<class TDim>
-void drawBresenhamLine(const TreeImageRenderer<TDim>::TImage & image,
-					   const TreeImageRenderer<TDim>::TPointD & p0,
-					   const TreeImageRenderer<TDim>::TPointD & p1)
+template<int TDim>
+void drawBresenhamLine(typename TreeImageRenderer<TDim>::TImage & image,
+					   typename TreeImageRenderer<TDim>::TPoint p0,
+					   const typename TreeImageRenderer<TDim>::TPoint & p1)
 {
-	// draw line with gentle slope (absolute value <= 1)
-	auto drawGentleSlope = [&image] (const TreeImageRenderer<TDim>::TPointD & p0, const TreeImageRenderer<TDim>::TPointD & p1)
+	// check if line is within the image 
+	if( !image.domain().isInside(p0) || !image.domain().isInside(p1) )
 	{
-		// contains dx, dy ...
-		std::vector<double> deltas;
-		for(std::size_t i = 0; i < TDim; i++)
-		{
-			deltas.emplace_back(p1[i] - p0[i]);
-		}
-
-		// increments for the non-x coordinates
-		std::vector<int> increments;
-		for(std::size_t i = 1; i < TDim; i++)
-		{
-			increments.emplace_back( (deltas[i] >= 0) ? 1 : -1 );		// increment is 1 for positive slope, -1 otherwise
-		}
-		double D = 0;		// pen&paper to see how a 3D generalisation would work out
+		std::cout << "Points defining the line are not all in the image domain." << std::endl;
+		return;
 	}
 
-	// draw line with steep slope ( absolute value > 1 )
+	// Bresenham algorithm, adapted for 3D
+
+	std::vector<int> deltas;				// contains dx, dy ...
+	for(std::size_t i = 0; i < TDim; i++)
+	{
+		deltas.emplace_back(p1[i] - p0[i]);
+	}
+
+	std::vector<int> increments;			// increments
+	for(std::size_t i = 0; i < TDim; i++)
+	{
+		if(deltas[i] < 0)					// increment is 1 for positive slope, -1 otherwise
+		{
+			increments.emplace_back(-1);
+			deltas[i] *= -1;				// from this point on, deltas values are positive
+		}
+		else
+		{
+			increments.emplace_back(1);
+		}
+	}
+
+	std::size_t driving_axis = 0;				// we compute the driving axis
+	for(std::size_t i  = 1; i < TDim; i++)
+	{
+		if(deltas[i] > deltas[driving_axis])
+		{
+			driving_axis = i;
+		}
+	}
+
+	std::vector<int> diffs;
+	for(std::size_t i = 0; i < TDim; i++)
+	{
+		diffs.emplace_back(2*deltas[i] - deltas[driving_axis]);
+	}
+
+	while(p0[driving_axis] - increments[driving_axis] != p1[driving_axis])
+	{
+		// draw point
+		image.setValue(p0, 255);
+
+		//for(std::size_t i = 0; < TDim; i++)
+
+		// update current point and diffs
+		for(std::size_t i = 0; i < TDim; i++)
+		{
+			// if i is the driving axis, we increment the coordinate no matter what
+			if (i == driving_axis)
+			{
+				p0[i] += increments[i];
+				continue;
+			}
+
+			// for the coordinates that are not the driving axis
+			if(diffs[i] > 0)
+			{
+				p0[i] += increments[i];
+				diffs[i] += 2 * (deltas[i] - deltas[driving_axis]);
+			}
+			else
+			{
+				diffs[i] += 2 * deltas[i];	
+			}
+		}
+	}
+
+	auto min_val = std::min_element(image.constRange().begin(), image.constRange().end());
+	auto max_val = std::max_element(image.constRange().begin(), image.constRange().end());
+
+	std::cout << "min: " << *min_val << "\t max: " << *max_val << std::endl;
+
+	DGtal::GradientColorMap<double> gradient_cmap(*min_val, *max_val);
+
+	gradient_cmap.addColor(DGtal::Color::Black);
+	gradient_cmap.addColor(DGtal::Color::White);
+
+	DGtal::STBWriter< TreeImageRenderer<2>::TImage, DGtal::GradientColorMap<double> > 
+		::exportPNG("filename.png", image, gradient_cmap);
 }
 
 
 // explicit instantion (the application, at the moment, only supports 2D and 3D)
 template class TreeImageRenderer<2>;
 template class TreeImageRenderer<3>;
+
+template void drawBresenhamLine<2>(typename TreeImageRenderer<2>::TImage & image,
+					   typename TreeImageRenderer<2>::TPoint p0,
+					   const typename TreeImageRenderer<2>::TPoint & p1);

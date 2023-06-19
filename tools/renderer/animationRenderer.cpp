@@ -1,6 +1,32 @@
 #include "CLI11.hpp"
 #include "TreeImageRenderer.h"
 
+#include "DGtal/io/colormaps/GradientColorMap.h"
+
+
+void animation(const std::string & radii_filename, const std::string & vertices_filename, const std::string & edges_filename, int duration)
+{
+	// renderer initialized from files
+	TreeImageRenderer<2> renderer(radii_filename, vertices_filename, edges_filename);
+
+	renderer.treeConstructionAnimation("anim.svg", duration * 1000);
+}
+
+void test()
+{
+	TreeImageRenderer<2>::TPoint p1(0, 0);
+	TreeImageRenderer<2>::TPoint p2(10, 10);
+	TreeImageRenderer<2>::TDomain d(p1, p2);
+	TreeImageRenderer<2>::TImage image(d);
+
+	TreeImageRenderer<2>::TPointD line_start(7.8, 1.7);
+	TreeImageRenderer<2>::TPointD line_end(2.99, 5.67);
+
+	TreeImageRenderer<2>::TPoint line_start_r(7, 1);
+	TreeImageRenderer<2>::TPoint line_end_r(7, 1);	
+
+	drawBresenhamLine<2>(image, line_start_r, line_end_r);
+}
 
 int main(int argc, char *const *argv)
 {
@@ -26,10 +52,9 @@ int main(int argc, char *const *argv)
 	CLI11_PARSE(app, argc, argv);
 	// END parse command line using CLI ----------------------------------------------
 
-	// renderer initialized from files
-	TreeImageRenderer<2> renderer(radii_filename, vertices_filename, edges_filename);
+	//animation(radii_filename, vertices_filename, edges_filename, duration);
 
-	renderer.treeConstructionAnimation(output_filename, duration * 1000);
+	test();
 
 	return 0;
 }

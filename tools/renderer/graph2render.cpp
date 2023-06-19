@@ -50,7 +50,7 @@ int main(int argc, char *const *argv)
 	std::string radii_filename = "radius.dat";
 	std::string vertices_filename = "vertex.dat";
 	std::string edges_filename = "edges.dat";
-	std::string output_filename = "render.svg";
+	std::string output_filename = "";
 
 	app.add_option("-w,--width", output_width, "Width of the output image, in pixels. Aspect ratio is constrained by the position of the points.", true)
 		->check(CLI::Range(100,10000));			// nobody would create images outside this range, right ?

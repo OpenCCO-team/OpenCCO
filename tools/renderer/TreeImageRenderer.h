@@ -180,7 +180,13 @@ bool initializeSVGLine(const TreeImageRenderer<2>::TPointD & proxital,
 					   std::shared_ptr<SVG::AnimatedElement> & line_ptr);
 
 
-template<class TDim>
-void drawBresenhamLine(const TreeImageRenderer<TDim>::TImage & image,
-					   const TreeImageRenderer<TDim>::TPointD & p0,
-					   const TreeImageRenderer<TDim>::TPointD & p1);
+/**
+ * @brief Draws a 1-pixel width line between 2 points, using Bresenham algorithm
+ * @param image The image where the line will be drawn
+ * @param p0 The first point of the line
+ * @param p1 The second point of the line
+ **/
+template<int TDim>
+void drawBresenhamLine(typename TreeImageRenderer<TDim>::TImage & image,
+					   typename TreeImageRenderer<TDim>::TPoint p0,
+					   const typename TreeImageRenderer<TDim>::TPoint & p1);
