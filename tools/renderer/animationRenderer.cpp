@@ -14,7 +14,7 @@ int main(int argc, char *const *argv)
 	std::string vertices_filename = "vertex.dat";
 	std::string edges_filename = "edges.dat";
 	double duration = 10.0;		// base duration of 10s
-	std::string output_filename = "CCOanimation.svg";
+	std::string output_filename = "CCO_animation.svg";
 
 	app.add_option("-r,--radii", radii_filename, "File containing the radii of the vertices.");
 	app.add_option("-v,--vertices", vertices_filename, "File containing the coordinates of the vertices.");

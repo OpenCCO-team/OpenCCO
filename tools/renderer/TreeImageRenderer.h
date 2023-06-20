@@ -115,6 +115,15 @@ public:
      **/
 	void animationRender(const std::string & filename, int duration);
 
+
+	/**
+     * @brief Computes the skeleton of the ArteryTree.
+     * @param width The width in pixels of the output TImage<TDim>.
+     * @returns a TImage<TDim> object.
+     **/
+	TImage<TDim> skeletonRender(unsigned int width);
+
+
 private:
 	/**
      * @brief Computes the image size given its desired width and the margins thickness.

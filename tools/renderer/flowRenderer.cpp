@@ -50,7 +50,7 @@ int main(int argc, char *const *argv)
 	std::string radii_filename = "radius.dat";
 	std::string vertices_filename = "vertex.dat";
 	std::string edges_filename = "edges.dat";
-	std::string output_filename = "flowRender";
+	std::string output_filename = "flow_render";
 	bool log_scale = false;
 
 	app.add_option("-w,--width", output_width, "Width of the output image, in pixels. Aspect ratio is constrained by the position of the points.", true)
@@ -90,6 +90,14 @@ int main(int argc, char *const *argv)
 		TreeImageRenderer<3> renderer(radii_filename, vertices_filename, edges_filename);
 
 		TImage<3> img = renderer.flowRender(output_width);
+
+		if(log_scale)
+		{
+			for(auto it = img.begin(); it != img.end(); it++)
+			{
+				*it = std::log1p(*it);
+			}
+		}
 
 		saveRender<3>(img, output_filename);
 	}

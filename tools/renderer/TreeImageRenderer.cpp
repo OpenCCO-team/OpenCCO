@@ -438,6 +438,25 @@ void TreeImageRenderer<2>::animationRender(const std::string & filename, int dur
 
 
 template<int TDim>
+TImage<TDim> TreeImageRenderer<TDim>::skeletonRender(unsigned int width)
+{
+	// initialize a TImage<TDim> with the desired width and margin of 5%
+	TImage<TDim> skeleton_render(createImage(width, width/20));
+
+	// loop over segments, draw them with drawBresenhamLine
+	for(const Segment & s : myTree.mySegments)
+	{
+		drawBresenhamLine<TDim>(skeleton_render,
+			TPoint<TDim>(myTree.myPoints[s.myProxitalIndex]),
+			TPoint<TDim>(myTree.myPoints[s.myDistalIndex]) );
+	}
+
+	return skeleton_render;
+}
+
+
+
+template<int TDim>
 TImage<TDim> TreeImageRenderer<TDim>::createImage(unsigned int width, unsigned int margin_thickness)
 {
 	// Compute the coordinates of the bounding box containing all the points
