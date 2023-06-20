@@ -22,7 +22,6 @@ template<int TDim>
 TreeImageRenderer<TDim>::TreeImageRenderer(const std::string & radii_filename,
 									 const std::string & vertices_filename,
 									 const std::string & edges_filename)
-	: myBackground( TDomain() ), myTreeImage( TDomain() ), myDistanceMap( TDomain() )
 {
 	importTreeData(radii_filename, vertices_filename, edges_filename);
 }
@@ -46,11 +45,11 @@ void TreeImageRenderer<TDim>::importTreeData(const std::string & radii_filename,
 		std::string line;
 		while(getline(file,line))
 		{
-			TPointD p;
+			TPointD<TDim> p;
 
 			std::istringstream iss(line);
 
-			for(unsigned int i = 0; i < TPointD::dimension; i++)
+			for(unsigned int i = 0; i < TDim; i++)
 			{
 				iss >> p[i];
 			}
@@ -124,81 +123,9 @@ void TreeImageRenderer<TDim>::importTreeData(const std::string & radii_filename,
 
 
 template<int TDim>
-void TreeImageRenderer<TDim>::setImageSize(unsigned int width, unsigned int margin_thickness)
-{
-	// Compute the coordinates of the bounding box containing all the points
-	TPointD tree_lowerbound(myTree.myPoints[0]);
-	TPointD tree_upperbound(myTree.myPoints[0]);
-
-	compBB<TDim>(myTree.myPoints, tree_upperbound, tree_lowerbound);
-
-	TPointD tree_size = tree_upperbound - tree_lowerbound;
-
-	// factor between tree size and image size (without margins)
-	double k = ((double) (width- 2*margin_thickness)) / tree_size[0];
-	
-	TPoint image_size;
-	image_size[0] = width;
-	for(unsigned int i = 1; i < TPoint::dimension; i++)		// start at 1 because 0 is already done
-	{
-		image_size[i] = tree_size[i] * k + 2 * margin_thickness; 
-	}
-
-	myDomain = TDomain(TPoint(), image_size - TPoint::diagonal(1)); // offset by one so that the size is valid
-
-	// set the size of the images
-	myBackground = TImage(myDomain);
-	myTreeImage = TImage(myDomain);
-	myDistanceMap = TImage(myDomain);
-
-	// scale and move the points of the tree so their position reflect their position in the image
-	// their position are still TPointD (real points)
-	TPointD offset = TPointD::diagonal(margin_thickness) - k*tree_lowerbound; // + myDomain.lowerBound() but it's (0, 0)
-
-	for(TPointD &p : myTree.myPoints)
-	{
-		p *= k;
-		p += offset;
-	}
-
-	// scale the radii
-	for(double &r : myTree.myRadii)
-	{
-		r *= k;
-	}
-
-	// verbose debugging :)
-
-	std::cout << "Image size : ";
-	for(int &a : image_size)
-	{
-		std::cout << a << " ";
-	}
-	std::cout << std::endl;
-
-	tree_lowerbound = myTree.myPoints[0];
-	tree_upperbound = myTree.myPoints[0];
-
-	compBB<TDim>(myTree.myPoints, tree_upperbound, tree_lowerbound);
-
-	std::cout << "Tree bounds : " << std::endl;
-	for (unsigned int i = 0; i < TPointD::dimension; i++)
-	{
-		std::cout << tree_lowerbound[i] << " ";
-	}
-	std::cout << std::endl;
-	for (unsigned int i = 0; i < TPointD::dimension; i++)
-	{
-		std::cout << tree_upperbound[i] << " ";
-	}
-	std::cout << std::endl;
-}
-
-
-
-template<int TDim>
 void TreeImageRenderer<TDim>::createDistanceMap()
 {
+	/*
 	for(const TPoint &p : myDomain)
 	{
 		// base value is 0, since we're searching for minimal distances it would stop the algorithm instantly
@@ -212,8 +139,8 @@ void TreeImageRenderer<TDim>::createDistanceMap()
 		std::size_t ind_point = std::min(it->myDistalIndex, it->myProxitalIndex);	// leftmost point
 		double sweeping_line_x = myTree.myPoints[ind_point][0] - myTree.myRadii[ind_point];
 
-		while (it != myTree.mySegments.end()
-			/*&& myDistanceMap(p) > sweeping_line_x - p[0]*/)		// check if the sweeping line is too far compared to the already register min distance 
+		while (it != myTree.mySegments.end())
+			// && myDistanceMap(p) > sweeping_line_x - p[0] // check if the sweeping line is too far compared to the already register min distance 
 		{
 			// project p onto the segment
 			TPointD proj;
@@ -259,23 +186,27 @@ void TreeImageRenderer<TDim>::createDistanceMap()
 			}		
 		}
 	}
+	*/
+	return;
 }
 
 
 
 
 template<int TDim>
-void TreeImageRenderer<TDim>::createTreeImage()
+TImage<TDim> TreeImageRenderer<TDim>::flowRender(unsigned int width)
 {
-	for(const TPoint &p : myDomain)
+	TImage<TDim> flow_render(createImage(width, width/20));
+
+	for(const TPoint<TDim> &p : flow_render.domain())
 	{
-		myTreeImage.setValue(p, 255);
+		flow_render.setValue(p, 255);
 
 		auto it = myTree.mySegments.begin();
 		while (it != myTree.mySegments.end())
 		{
 			// project p onto the segment
-			TPointD proj;
+			TPointD<TDim> proj;
 			bool isproj = projectOnStraightLine<TDim>(myTree.myPoints[it->myDistalIndex],
 												myTree.myPoints[it->myProxitalIndex],
 												p,
@@ -292,7 +223,7 @@ void TreeImageRenderer<TDim>::createTreeImage()
 
 				if(dist_pproj < interpolated_radius)	
 				{
-					myTreeImage.setValue(p, 1.0);
+					flow_render.setValue(p, 1.0);
 				}
 			}
 			else		// the projection doesn't belong to the segment
@@ -305,7 +236,7 @@ void TreeImageRenderer<TDim>::createTreeImage()
 
 				if(min_dist < 0)
 				{
-					myTreeImage.setValue(p, 0);
+					flow_render.setValue(p, 0);
 				}
 			}
 
@@ -313,42 +244,14 @@ void TreeImageRenderer<TDim>::createTreeImage()
 			it++;
 		}
 	}
-}
 
-
-template<>
-void TreeImageRenderer<2>::saveRender(const std::string & filename)
-{
-	auto min_val = std::min_element(myTreeImage.constRange().begin(), myTreeImage.constRange().end());
-	auto max_val = std::max_element(myTreeImage.constRange().begin(), myTreeImage.constRange().end());
-
-	DGtal::GradientColorMap<double> gradient_cmap(*min_val, *max_val);
-
-	gradient_cmap.addColor(DGtal::Color::Black);
-	gradient_cmap.addColor(DGtal::Color::White);
-
-	DGtal::STBWriter< TImage, DGtal::GradientColorMap<double> > 
-		::exportPNG(filename + ".png", myTreeImage, gradient_cmap);
+	return flow_render;
 }
 
 
 
 template<>
-void TreeImageRenderer<3>::saveRender(const std::string & filename)
-{
-	
-	DGtal::functors::Cast<unsigned char> cast_functor;
-
-	DGtal::VolWriter< TImage, DGtal::functors::Cast<unsigned char> >
-		::exportVol(filename + ".vol", myTreeImage, true, cast_functor);
-
-	// test nifti
-	DGtal::ITKWriter<TImage>::exportITK("render.nii", myTreeImage);
-}
-
-
-template<>
-void TreeImageRenderer<2>::treeConstructionAnimation(const std::string & filename, int duration)
+void TreeImageRenderer<2>::animationRender(const std::string & filename, int duration)
 {
 	// Right now the following code heavily utilizes the fact that the segment vector is sorted in a specific way.
 	// If the logic of the CCO algorithm that produces the data used change the order of the segment for a reason or another
@@ -410,8 +313,8 @@ void TreeImageRenderer<2>::treeConstructionAnimation(const std::string & filenam
 		// handy points for what follows
 		// the junction is the point where the brother, the parent and the current segment meet
 		// the intersection is an arbitrary point for the sake of the animation; I think of it as the junction before the segment is born
-		TPointD junction = myTree.myPoints[rit->myProxitalIndex];
-		TPointD intersection;
+		TPointD<2> junction = myTree.myPoints[rit->myProxitalIndex];
+		TPointD<2> intersection;
 		
 		bool res = GeomHelpers::lineIntersection(myTree.myPoints[parent_rit->myProxitalIndex], myTree.myPoints[bro_rit->myDistalIndex],
 									myTree.myPoints[rit->myProxitalIndex], myTree.myPoints[rit->myDistalIndex],
@@ -503,7 +406,7 @@ void TreeImageRenderer<2>::treeConstructionAnimation(const std::string & filenam
 	a_opacity_root->getTimelineRef().addKeyTime(0.0, 1.0);
 
 	// compute svg viewbox
-	TPointD ub, lb;						// upper and lower bounds
+	TPointD<2> ub, lb;						// upper and lower bounds
 	compBB<2>(myTree.myPoints, ub, lb);
 
 	SVG::Svg svg(lb[0], lb[1],		// top left coordinates
@@ -533,20 +436,130 @@ void TreeImageRenderer<2>::treeConstructionAnimation(const std::string & filenam
 }
 
 
+
+template<int TDim>
+TImage<TDim> TreeImageRenderer<TDim>::createImage(unsigned int width, unsigned int margin_thickness)
+{
+	// Compute the coordinates of the bounding box containing all the points
+	TPointD<TDim> tree_lowerbound(myTree.myPoints[0]);
+	TPointD<TDim> tree_upperbound(myTree.myPoints[0]);
+
+	compBB<TDim>(myTree.myPoints, tree_upperbound, tree_lowerbound);
+
+	TPointD<TDim> tree_size = tree_upperbound - tree_lowerbound;
+
+	// factor between tree size and image size (without margins)
+	double k = ((double) (width- 2*margin_thickness)) / tree_size[0];
+	
+	TPoint<TDim> image_size;
+	image_size[0] = width;
+	for(unsigned int i = 1; i < TDim; i++)		// start at 1 because 0 is already done
+	{
+		image_size[i] = tree_size[i] * k + 2 * margin_thickness; 
+	}
+
+	// scale and move the points of the tree so their position reflect their position in the image
+	// their position are still TPointD<TDim> (real points)
+	TPointD<TDim> offset = TPointD<TDim>::diagonal(margin_thickness) - k*tree_lowerbound; // + myDomain.lowerBound() but it's (0, 0)
+
+	for(TPointD<TDim> &p : myTree.myPoints)
+	{
+		p *= k;
+		p += offset;
+	}
+
+	// scale the radii
+	for(double &r : myTree.myRadii)
+	{
+		r *= k;
+	}
+
+	// verbose debugging :)
+
+	std::cout << "Image size : ";
+	for(int &a : image_size)
+	{
+		std::cout << a << " ";
+	}
+	std::cout << std::endl;
+
+	tree_lowerbound = myTree.myPoints[0];
+	tree_upperbound = myTree.myPoints[0];
+
+	compBB<TDim>(myTree.myPoints, tree_upperbound, tree_lowerbound);
+
+	std::cout << "Tree bounds : " << std::endl;
+	for (unsigned int i = 0; i < TDim; i++)
+	{
+		std::cout << tree_lowerbound[i] << " ";
+	}
+	std::cout << std::endl;
+	for (unsigned int i = 0; i < TDim; i++)
+	{
+		std::cout << tree_upperbound[i] << " ";
+	}
+	std::cout << std::endl;
+
+	// return the TImage<TDim> object
+	// offset by one so that the size is valid)
+	return TImage<TDim>( TDomain<TDim>(TPoint<TDim>(), image_size - TPoint<TDim>::diagonal(1)) ); 
+}
+
+
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////               Other functions                 ////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
 
+template<>
+void saveRender<2>(const TImage<2> & image,
+				const std::string & filename)
+{
+	auto min_val = std::min_element(image.constRange().begin(), image.constRange().end());
+	auto max_val = std::max_element(image.constRange().begin(), image.constRange().end());
+
+	if(*min_val == *max_val)
+	{		// important because DGtal::GradientColorMap causes a segfault when min = max
+		std::cout << "The image has only one value, no point displaying it.";
+		return;
+	}
+
+	DGtal::GradientColorMap<double> gradient_cmap(*min_val, *max_val);
+
+	gradient_cmap.addColor(DGtal::Color::Black);
+	gradient_cmap.addColor(DGtal::Color::White);
+
+	DGtal::STBWriter< TImage<2>, DGtal::GradientColorMap<double> > 
+		::exportPNG(filename + ".png", image, gradient_cmap);
+}
+
+
+
+template<>
+void saveRender<3>(const TImage<3> & image,
+				const std::string & filename)
+{
+	
+	DGtal::functors::Cast<unsigned char> cast_functor;
+
+	DGtal::VolWriter< TImage<3>, DGtal::functors::Cast<unsigned char> >
+		::exportVol(filename + ".vol", image, true, cast_functor);
+
+	// test nifti
+	DGtal::ITKWriter< TImage<3> >::exportITK(filename + ".nii", image);
+}
+
+
 
 template<int TDim>
-void compBB(const std::vector< typename TreeImageRenderer<TDim>::TPointD > &points,
-			typename TreeImageRenderer<TDim>::TPointD &upperbound, 
-			typename TreeImageRenderer<TDim>::TPointD &lowerbound)
+void compBB(const std::vector< TPointD<TDim> > &points,
+			TPointD<TDim> &upperbound, 
+			TPointD<TDim> &lowerbound)
 {
 	for(auto &p : points)
 	{
-		for(unsigned int i = 0; i < TreeImageRenderer<TDim>::myDim; i++)
+		for(unsigned int i = 0; i < TDim; i++)
 		{
 			if(p[i] < lowerbound[i])
 			{
@@ -563,10 +576,10 @@ void compBB(const std::vector< typename TreeImageRenderer<TDim>::TPointD > &poin
 
 
 template<int TDim>
-bool projectOnStraightLine(const typename TreeImageRenderer<TDim>::TPointD & ptA,
-						   const typename TreeImageRenderer<TDim>::TPointD & ptB,
-						   const typename TreeImageRenderer<TDim>::TPointD & ptC,
-						   typename TreeImageRenderer<TDim>::TPointD & ptP)
+bool projectOnStraightLine(const TPointD<TDim>& ptA,
+						   const TPointD<TDim> & ptB,
+						   const TPointD<TDim> & ptC,
+						   TPointD<TDim> & ptP)
 {
 	if(ptA == ptB)
 	{
@@ -580,24 +593,24 @@ bool projectOnStraightLine(const typename TreeImageRenderer<TDim>::TPointD & ptA
         return true;
     }
 
-    auto vAB = ptB - ptA;
-    auto vABn = vAB / vAB.norm();		// norm can't be 0
+    TPointD<TDim> vAB = ptB - ptA;
+    TPointD<TDim> vABn = vAB / vAB.norm();		// norm can't be 0
 
-    auto vAC = ptC-ptA;
+    TPointD<TDim> vAC = ptC-ptA;
     double distPtA_Proj = vAC.dot(vABn);
 
     ptP = ptA + vABn * distPtA_Proj;
 
-    auto vPA = ptA - ptP;
-    auto vPB = ptB - ptP;
+    TPointD<TDim> vPA = ptA - ptP;
+    TPointD<TDim> vPB = ptB - ptP;
     
     return vPB.dot(vPA) <= 0 ;
 }
 
 
 
-bool initializeSVGLine(const TreeImageRenderer<2>::TPointD & proxital,
-					   const TreeImageRenderer<2>::TPointD & distal, 
+bool initializeSVGLine(const TPointD<2> & proxital,
+					   const TPointD<2> & distal, 
 					   double radius,
 					   const SVG::Color & color,
 					   int duration,

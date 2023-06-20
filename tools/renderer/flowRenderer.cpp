@@ -70,26 +70,18 @@ int main(int argc, char *const *argv)
 		// renderer initialized from files
 		TreeImageRenderer<2> renderer(radii_filename, vertices_filename, edges_filename);
 
-		// for rasterized renders, we need to set the image size and its margins
-		renderer.setImageSize(output_width, output_width/20);
+		TImage<2> img = renderer.flowRender(output_width);
 
-		renderer.createTreeImage();
-
-		//renderer.createDistanceMap();
-
-		renderer.saveRender("render");
+		saveRender<2>(img, "render");
 	}
 	else if (dimension == 3)
 	{
 		// renderer initialized from files
 		TreeImageRenderer<3> renderer(radii_filename, vertices_filename, edges_filename);
 
-		// for rasterized renders, we need to set the image size and its margins
-		renderer.setImageSize(output_width, output_width/20);
+		TImage<3> img = renderer.flowRender(output_width);
 
-		renderer.createTreeImage();
-
-		renderer.saveRender("render");
+		saveRender<3>(img, "render");
 	}
 
 

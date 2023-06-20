@@ -18,6 +18,23 @@
 
 #include "svg_elements.h"
 
+// Aliases
+
+template <int TDim>
+using SpaceCT = DGtal::SpaceND<TDim, int>;
+
+template <int TDim>
+using TPoint =  DGtal::PointVector<TDim, int>;
+
+template <int TDim>
+using TPointD = DGtal::PointVector<TDim, double>;
+
+template <int TDim>
+using TDomain = DGtal::HyperRectDomain< SpaceCT<TDim> >;
+
+template <int TDim>
+using TImage = DGtal::ImageContainerBySTLVector<TDomain<TDim>, double>;
+
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////            TreeImageRenderer                  ////////////////////////////
@@ -28,12 +45,6 @@ template <int TDim>
 class TreeImageRenderer
 {
 public:
-	typedef DGtal::SpaceND<TDim, int>   SpaceCT;
-	typedef DGtal::PointVector<TDim, int> TPoint;
-	typedef DGtal::PointVector<TDim, double> TPointD;
-	typedef DGtal::HyperRectDomain<SpaceCT> TDomain;
-	typedef DGtal::ImageContainerBySTLVector<TDomain, double> TImage;
-
 	// Nested classes
 
 	struct Segment
@@ -52,15 +63,14 @@ public:
 	struct ArteryTree
 	{
 		std::vector<Segment> mySegments;
-		std::vector<TPointD> myPoints;
+		std::vector< TPointD<TDim> > myPoints;
 		std::vector<double> myRadii;			// Radii associated with the vertices
 	};
 
 	// Constructor
 
 	/**
-	 * @brief Constructor, initializes the size of the image and the artery tree data vectors.
-	 * @param width The desired width of the image.
+	 * @brief Constructor, the ArteryTree data vectors.
 	 * @param radii_filename The name of the file containing radii data.
 	 * @param vertices_filename The name of the file containing radii data.
 	 * @param edges_filename The name of the file containing radii data.
@@ -83,14 +93,6 @@ public:
 
 
 	/**
-     * @brief Computes the image size given its desired width and the margins thickness.
-     * @param width the total desired width in pixels, including margins, of the image.
-     * @param margin_thickness the margin thickness in pixels.
-     **/
-	void setImageSize(unsigned int width, unsigned int margin_thickness);
-
-
-	/**
      * @brief Computes the distance tranform of the artery tree.
      * @brief The result is stored in myDistanceMap.
      **/
@@ -98,34 +100,33 @@ public:
 	
 
 	/**
-     * @brief Computes the image of the artery tree.
-     * @brief The result is stored in myTreeImage.
+     * @brief Computes a render of the ArteryTree
+     * @brief The values of the pixels inside the segments depend on the flow value.
+     * @param width The width in pixels of the output TImage<TDim>.
+     * @returns a TImage<TDim> object.
      **/
-	void createTreeImage();
+	TImage<TDim> flowRender(unsigned int width);
 
-
-	/**
-     * @brief Exports the 2D/3D image to the specified file.
-     * @param filename The file in which the image will be written.
-     **/
-	void saveRender(const std::string & filename);
 
 	/**
      * @brief Exports a 2D SVG animation of the construction of the ArteryTree.
      * @param filename The file in which the animation will be written.
      * @param duration The total duration of the animation
      **/
-	void treeConstructionAnimation(const std::string & filename, int duration);
-
-	static const int myDim = TDim;
+	void animationRender(const std::string & filename, int duration);
 
 private:
+	/**
+     * @brief Computes the image size given its desired width and the margins thickness.
+     * @brief Will scale the data of myTree to fit the width, the height is controlled by the bounding box of myTree's points
+     * @param width the total desired width in pixels, including margins, of the image.
+     * @param margin_thickness the margin thickness in pixels.
+     * @returns a TImage<TDim> object of the desired width
+     **/
+	TImage<TDim> createImage(unsigned int width, unsigned int margin_thickness);
+
 	// Member variables
-	TImage myBackground;
-	TImage myTreeImage;
-	TImage myDistanceMap;
 	ArteryTree myTree;
-	TDomain myDomain;
 };
 
 
@@ -136,15 +137,25 @@ private:
 
 
 /**
+ * @brief Exports the 2D/3D image to the specified file.
+ * @param image The image to export.
+ * @param filename The file in which the image will be written.
+ **/
+template<int TDim>
+void saveRender(const TImage<TDim> & image,
+				const std::string & filename);
+
+
+/**
  * @brief Computes the upper and lower bounds of a vector of points.
  * @param[in] points The vector of points.
  * @param[out] upperbound The upperbound of the points.
  * @param[out] lowerbound The lowerbound of the points.
  **/
 template<int TDim>
-void compBB(const std::vector< typename TreeImageRenderer<TDim>::TPointD > &points,
-			typename TreeImageRenderer<TDim>::TPointD &upperbound, 
-			typename TreeImageRenderer<TDim>::TPointD &lowerbound);
+void compBB(const std::vector< TPointD<TDim> > &points,
+			TPointD<TDim> &upperbound, 
+			TPointD<TDim> &lowerbound);
 
 
 
@@ -156,10 +167,10 @@ void compBB(const std::vector< typename TreeImageRenderer<TDim>::TPointD > &poin
  * @returns Whether the projection ptP belongs to the segment or not.
  **/
 template<int TDim>
-bool projectOnStraightLine(const typename TreeImageRenderer<TDim>::TPointD & ptA,
-						   const typename TreeImageRenderer<TDim>::TPointD & ptB,
-						   const typename TreeImageRenderer<TDim>::TPointD & ptC,
-						   typename TreeImageRenderer<TDim>::TPointD & ptP);
+bool projectOnStraightLine(const TPointD<TDim>& ptA,
+						   const TPointD<TDim> & ptB,
+						   const TPointD<TDim> & ptC,
+						   TPointD<TDim> & ptP);
 
 
 /**
@@ -172,8 +183,8 @@ bool projectOnStraightLine(const typename TreeImageRenderer<TDim>::TPointD & ptA
  * @param[out] line_ptr The line to initialize
  * @returns true if a SVG::Line was initialized.
  **/
-bool initializeSVGLine(const TreeImageRenderer<2>::TPointD & proxital,
-					   const TreeImageRenderer<2>::TPointD & distal, 
+bool initializeSVGLine(const TPointD<2> & proxital,
+					   const TPointD<2> & distal, 
 					   double radius,
 					   const SVG::Color & color,
 					   int duration,
@@ -182,14 +193,15 @@ bool initializeSVGLine(const TreeImageRenderer<2>::TPointD & proxital,
 
 /**
  * @brief Draws a 1-pixel width line between 2 points, using Bresenham algorithm.
+ * @brief It should always draw at least one pixel, even when p0 == p1
  * @param image The image where the line will be drawn (modified by the function).
  * @param p0 The first point of the line.
  * @param p1 The second point of the line.
  **/
 template<int TDim>
-void drawBresenhamLine(typename TreeImageRenderer<TDim>::TImage & image,
-					   typename TreeImageRenderer<TDim>::TPoint p0,
-					   const typename TreeImageRenderer<TDim>::TPoint & p1)
+void drawBresenhamLine(TImage<TDim> & image,
+					   TPoint<TDim> p0,
+					   const TPoint<TDim> & p1)
 {
 	// check if line is within the image 
 	if( !image.domain().isInside(p0) || !image.domain().isInside(p1) )

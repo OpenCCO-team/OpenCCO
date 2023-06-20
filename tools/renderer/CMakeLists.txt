@@ -1,6 +1,7 @@
 SET(TOOLS_RENDERER_SRC
-	graph2render
+	flowRenderer
 	animationRenderer
+    skeletonRenderer
 )
 
 SET(TOOLS_RENDERER_HEADERS
