@@ -200,7 +200,7 @@ TImage<TDim> TreeImageRenderer<TDim>::flowRender(unsigned int width)
 
 	for(const TPoint<TDim> &p : flow_render.domain())
 	{
-		flow_render.setValue(p, 255);
+		flow_render.setValue(p, 0);		// default flow value is zero
 
 		auto it = myTree.mySegments.begin();
 		while (it != myTree.mySegments.end())
@@ -221,9 +221,9 @@ TImage<TDim> TreeImageRenderer<TDim>::flowRender(unsigned int width)
 				double interpolated_radius = (myTree.myRadii[it->myDistalIndex] - myTree.myRadii[it->myProxitalIndex]) * dist_proxitalproj/dist_proxitaldistal
 											+ myTree.myRadii[it->myProxitalIndex];
 
-				if(dist_pproj < interpolated_radius)	
+				if(dist_pproj < interpolated_radius && it->myFlow > flow_render(p))	// inside the segment and bigger flow	
 				{
-					flow_render.setValue(p, 1.0);
+					flow_render.setValue(p, it->myFlow);
 				}
 			}
 			else		// the projection doesn't belong to the segment
@@ -234,13 +234,13 @@ TImage<TDim> TreeImageRenderer<TDim>::flowRender(unsigned int width)
 
 				double min_dist = std::min(dist_pproxital, dist_pdistal);
 
-				if(min_dist < 0)
+				if(min_dist < 0 && it->myFlow > flow_render(p))		// inside the segment and bigger flow
 				{
-					flow_render.setValue(p, 0);
+					flow_render.setValue(p, it->myFlow);
 				}
 			}
 
-			// update 
+			// next segment 
 			it++;
 		}
 	}

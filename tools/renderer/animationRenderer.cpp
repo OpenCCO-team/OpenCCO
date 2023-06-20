@@ -3,15 +3,6 @@
 
 #include "DGtal/io/colormaps/GradientColorMap.h"
 
-
-void animation(const std::string & radii_filename, const std::string & vertices_filename, const std::string & edges_filename, int duration)
-{
-	// renderer initialized from files
-	TreeImageRenderer<2> renderer(radii_filename, vertices_filename, edges_filename);
-
-	renderer.animationRender("anim.svg", duration * 1000);
-}
-
 int main(int argc, char *const *argv)
 {
 	// fixed dimension, for now we only animate in 2D
@@ -36,7 +27,10 @@ int main(int argc, char *const *argv)
 	CLI11_PARSE(app, argc, argv);
 	// END parse command line using CLI ----------------------------------------------
 
-	animation(radii_filename, vertices_filename, edges_filename, duration);
+	// renderer initialized from files
+	TreeImageRenderer<2> renderer(radii_filename, vertices_filename, edges_filename);
+
+	renderer.animationRender(output_filename, duration * 1000);
 
 	return 0;
 }

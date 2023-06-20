@@ -100,7 +100,7 @@ public:
 	
 
 	/**
-     * @brief Computes a render of the ArteryTree
+     * @brief Computes a render of the ArteryTree.
      * @brief The values of the pixels inside the segments depend on the flow value.
      * @param width The width in pixels of the output TImage<TDim>.
      * @returns a TImage<TDim> object.
