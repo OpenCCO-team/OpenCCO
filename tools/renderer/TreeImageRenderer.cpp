@@ -10,6 +10,8 @@
 
 #include "GeomHelpers.h"
 
+#include <random>
+
 #include "svg_elements.h"
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
@@ -452,6 +454,33 @@ TImage<TDim> TreeImageRenderer<TDim>::skeletonRender(unsigned int width)
 	}
 
 	return skeleton_render;
+}
+
+
+
+template<int TDim>
+TImage<TDim> TreeImageRenderer<TDim>::realisticRender(unsigned int width, double SNR)
+{
+	// initialize a TImage<TDim> with a render of the flow of the artery tree
+	TImage<TDim> realistic_render(flowRender(width));
+
+	// random
+	std::random_device rd;
+	std::mt19937 generator {rd()};
+
+	for(auto it = realistic_render.begin(); it != realistic_render.end(); it++)
+	{
+		// rician distribution parameters
+		double v = *it;
+		double sd = v / SNR;
+
+		std::normal_distribution<> nd_x(v, sd);
+		std::normal_distribution<> nd_y(0, sd);
+
+		*it = TPointD<TDim>(nd_x(generator), nd_y(generator)).norm();
+	}
+
+	return realistic_render;
 }
 
 

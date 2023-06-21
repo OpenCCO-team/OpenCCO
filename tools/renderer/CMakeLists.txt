@@ -2,6 +2,7 @@ SET(TOOLS_RENDERER_SRC
 	flowRenderer
 	animationRenderer
     skeletonRenderer
+    realisticRenderer
 )
 
 SET(TOOLS_RENDERER_HEADERS

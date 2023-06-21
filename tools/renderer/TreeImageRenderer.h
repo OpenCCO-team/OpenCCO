@@ -100,7 +100,7 @@ public:
 	
 
 	/**
-     * @brief Computes a render of the ArteryTree.
+     * @brief Computes a render of myTree.
      * @brief The values of the pixels inside the segments depend on the flow value.
      * @param width The width in pixels of the output TImage<TDim>.
      * @returns a TImage<TDim> object.
@@ -109,7 +109,7 @@ public:
 
 
 	/**
-     * @brief Exports a 2D SVG animation of the construction of the ArteryTree.
+     * @brief Exports a 2D SVG animation of the construction of myTree.
      * @param filename The file in which the animation will be written.
      * @param duration The total duration of the animation
      **/
@@ -117,11 +117,19 @@ public:
 
 
 	/**
-     * @brief Computes the skeleton of the ArteryTree.
+     * @brief Computes the skeleton of myTree.
      * @param width The width in pixels of the output TImage<TDim>.
      * @returns a TImage<TDim> object.
      **/
 	TImage<TDim> skeletonRender(unsigned int width);
+
+
+	/**
+     * @brief Computes the realistic render of myTree.
+     * @param width The width in pixels of the output TImage<TDim>.
+     * @returns a TImage<TDim> object.
+     **/
+	TImage<TDim> realisticRender(unsigned int width, double SNR);
 
 
 private:
