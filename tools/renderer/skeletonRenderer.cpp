@@ -54,7 +54,7 @@ int main(int argc, char *const *argv)
 	app.add_option("-r,--radii", radii_filename, "File containing the radii of the vertices.");
 	app.add_option("-v,--vertices", vertices_filename, "File containing the coordinates of the vertices.");
 	app.add_option("-e,--edges", edges_filename, "File containing the edges data.");
-	app.add_option("-o,--output", output_filename, "File to write the animation to (format is relevant).");
+	app.add_option("-o,--output", output_filename, "File to write the animation to (without file extension).");
 
 	app.get_formatter()->column_width(40);
 	CLI11_PARSE(app, argc, argv);

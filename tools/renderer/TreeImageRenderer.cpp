@@ -421,7 +421,7 @@ void TreeImageRenderer<2>::animationRender(const std::string & filename, int dur
 
 	// write svg to file
 	std::ofstream file;
-	file.open(filename);
+	file.open(filename + ".svg");
 
 	if(file.is_open())
 	{
@@ -431,7 +431,7 @@ void TreeImageRenderer<2>::animationRender(const std::string & filename, int dur
 	}
 	else
 	{
-		std::cout << "Couldn't open " << filename << std::endl;
+		std::cout << "Couldn't open " << filename  + ".svg" << std::endl;
 	}
 }
 
@@ -543,6 +543,8 @@ void saveRender<2>(const TImage<2> & image,
 		std::cout << "The image has only one value, no point displaying it.";
 		return;
 	}
+
+	std::cout << "min val : " << *min_val << "\t max val : " << *max_val << std::endl;
 
 	DGtal::GradientColorMap<double> gradient_cmap(*min_val, *max_val);
 

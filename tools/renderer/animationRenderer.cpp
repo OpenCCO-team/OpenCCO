@@ -14,14 +14,14 @@ int main(int argc, char *const *argv)
 	std::string vertices_filename = "vertex.dat";
 	std::string edges_filename = "edges.dat";
 	double duration = 10.0;		// base duration of 10s
-	std::string output_filename = "CCO_animation.svg";
+	std::string output_filename = "CCO_animation";
 
 	app.add_option("-r,--radii", radii_filename, "File containing the radii of the vertices.");
 	app.add_option("-v,--vertices", vertices_filename, "File containing the coordinates of the vertices.");
 	app.add_option("-e,--edges", edges_filename, "File containing the edges data.");
 	app.add_option("-d,--duration", duration, "Duration of the animation, in milliseconds.")
 		->check(CLI::PositiveNumber);	// duration needs to be positive
-	app.add_option("-o,--output", output_filename, "File to write the animation to.");
+	app.add_option("-o,--output", output_filename, "File to write the animation to (without file extension).");
 
 	app.get_formatter()->column_width(40);
 	CLI11_PARSE(app, argc, argv);
