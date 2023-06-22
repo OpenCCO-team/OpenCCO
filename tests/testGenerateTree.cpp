@@ -44,7 +44,7 @@ int main(int argc, char *const *argv)
   TTreeMaskDom tree  (aPerf, nbTerm, aDomCtr);
 
   // 5. Tree construction
-  ExpandTreeHelpers::initFirtElemTree(tree, true);
+  ExpandTreeHelpers::initFirstElemTree(tree, true);
   ExpandTreeHelpers::expandTree(tree, true);
   
   // 5. exporting the result
@@ -68,7 +68,7 @@ int main(int argc, char *const *argv)
   TTreeCircDom treeImpl (aPerf, nbTerm, aDomCtrImp);
 
   // 4. Tree expansion
-  ExpandTreeHelpers::initFirtElemTree(treeImpl, true);
+  ExpandTreeHelpers::initFirstElemTree(treeImpl, true);
   ExpandTreeHelpers::expandTree(treeImpl, true);
 
   // 5. Tree export

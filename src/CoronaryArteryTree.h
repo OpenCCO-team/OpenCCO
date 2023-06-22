@@ -88,7 +88,7 @@ public:
         double myRadius = 1.0;
         // number of terminal segments in its children segment
         unsigned int myKTerm = 1;
-        // hydrodynamc registance (R star)
+        // hydrodynamc resistance (R star)
         double myResistance = 0.00;
         // flow (Qi)
         double myFlow = 0.00;
@@ -98,7 +98,7 @@ public:
     
     // to recover the Children left (first) and right (second) on an indexed segment.
     std::vector< SegmentChildren >  myVectChildren;
-    // to recover the parent of an indexed segement
+    // to recover the parent of an indexed segment
     std::vector<unsigned int >  myVectParent;
     // represents all the vertices of the graph
     std::vector< Segment > myVectSegments;
@@ -231,7 +231,7 @@ public:
         
         myVectSegments.push_back(s1);
         myVectTerminals.push_back(1);
-        myVectParent.push_back(0); //if parent index is the root
+        myVectParent.push_back(0); // parent index is the root
         myVectChildren.push_back(std::pair<unsigned int, unsigned int>(0,0)); // if children index is itself, it is an end segment.
         updateRootRadius();
         
@@ -261,11 +261,11 @@ public:
     
   
     /**
-     * Tries to add a new segment from a given point and a nearest segement given by index.
+     * Tries to add a new segment from a given point and a nearest segment given by index.
      * @param p the extremity of the new segment to be created
-     * @param segIndex the index of the near segement to p.
+     * @param segIndex the index of the near segment to p.
      * @param nbIter maximal number of iteration
-     * @param tolerance convegence boundary for tree volume gradient
+     * @param tolerance convergence boundary for tree volume gradient
      * @param nbNeibour number of neighbours to be considered for intersecting test
      * @param verbose used to display process algorithm  informations.
      * @return true if the new segment is created, false in the other case.
@@ -345,14 +345,14 @@ public:
     /**
      * Computes the nearest segment of the given point
      * @param pt: a point
-     * @return the index of the nearest segement
+     * @return the index of the nearest segment
      */
     unsigned int getNearestSegment(const TPointD &pt);
     
     /**
      * Computes the barycenter of the given point and the two points of the segment
      * @param p: a point
-     * @param segIndex : the index of the segement used for the computation
+     * @param segIndex : the index of the segment used for the computation
      */
     TPointD findBarycenter(const TPointD &p, unsigned int index);
     
@@ -379,13 +379,13 @@ public:
     
     /**
      * Computes the length of a segment represented with the index and mutiliplies by the length factor.
-     * @param segIndex : the index of the segement used for the comparison
+     * @param segIndex : the index of the segment used for the comparison
      */
     double getLengthSegment(unsigned int segIndex);
     
     /**
      * Computes the projected distance from a segment represented with the index  and the point given as argument.
-     * @param index : the index of the segement used for the comparison
+     * @param index : the index of the segment used for the comparison
      * @param p : a point
      */
     double getProjDistance(unsigned int index, const TPointD &p) const;

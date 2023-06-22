@@ -49,7 +49,7 @@
  Usefull to ensure is a whole segment is inside the domain.
  *  - maxDistantPointFromBorder() const:
  *    usefull to determine a starting point and help to construct the tree.
- *  - TPoint firtCandidatePoint() const :
+ *  - TPoint firstCandidatePoint() const :
  *    use to initiate the reconstruction of the tree.
  **/
 
@@ -121,7 +121,7 @@ public:
     }
     
     TPoint
-    firtCandidatePoint() const {
+    firstCandidatePoint() const {
         TPoint res;
         if (TDim == 2){
             res[0] = 0.0;
@@ -328,7 +328,7 @@ public:
         return pM;
     }
     TPoint
-    firtCandidatePoint() const {
+    firstCandidatePoint() const {
         TPointI res;
         bool find = searchRootFarthest(std::max(myDistanceImage(myCenter)/2.0, minDistInitSegment), res);
         assert(find);

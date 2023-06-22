@@ -44,7 +44,7 @@ constructTreeMaskDomain(TTree &aTree, bool verbose)
 {
     clock_t start, end;
     start = clock();
-    ExpandTreeHelpers::initFirtElemTree(aTree);
+    ExpandTreeHelpers::initFirstElemTree(aTree);
     ExpandTreeHelpers::expandTree(aTree, verbose);
     end = clock();
     printf ("Execution time: %0.8f sec\n", ((double) end - start)/CLOCKS_PER_SEC);
@@ -57,7 +57,7 @@ constructTreeImplicitDomain(TTree &aTree,std::string exportXMLName, bool verbose
 {
     clock_t start, end;
     start = clock();
-    ExpandTreeHelpers::initFirtElemTree(aTree, verbose);
+    ExpandTreeHelpers::initFirstElemTree(aTree, verbose);
     ExpandTreeHelpers::expandTree(aTree);
     end = clock();
     printf ("Execution time: %0.8f sec\n", ((double) end - start)/CLOCKS_PER_SEC);

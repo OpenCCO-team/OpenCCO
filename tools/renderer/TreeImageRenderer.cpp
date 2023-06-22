@@ -468,16 +468,16 @@ TImage<TDim> TreeImageRenderer<TDim>::realisticRender(unsigned int width, double
 	std::random_device rd;
 	std::mt19937 generator {rd()};
 
+	// rician distribution parameters
+	double v = *std::max_element(realistic_render.constRange().begin(), realistic_render.constRange().end());
+	double sd = v / SNR;
+
+	std::normal_distribution<> nd_x(v, sd);
+	std::normal_distribution<> nd_y(0, sd);
+
 	for(auto it = realistic_render.begin(); it != realistic_render.end(); it++)
 	{
-		// rician distribution parameters
-		double v = *it;
-		double sd = v / SNR;
-
-		std::normal_distribution<> nd_x(v, sd);
-		std::normal_distribution<> nd_y(0, sd);
-
-		*it = TPointD<TDim>(nd_x(generator), nd_y(generator)).norm();
+		*it += TPointD<TDim>(nd_x(generator), nd_y(generator)).norm();
 	}
 
 	return realistic_render;

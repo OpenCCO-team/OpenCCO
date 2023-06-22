@@ -8,6 +8,7 @@
 /*.pgm3d
 /*.vol
 /*.nii
+/*.sh
 
 # folders ignored
 /build/

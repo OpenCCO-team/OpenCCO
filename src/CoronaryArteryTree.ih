@@ -307,7 +307,7 @@ CoronaryArteryTree<DomCtr, TDim>::isAddable(const TPointD &p, unsigned int segIn
     
     // update parameters
     cTree1.myKTerm++;
-    // Update physilogique paramaters
+    // Update physiological paramaters
     cTree1.updateFlow(cTree1.myVectParent[segIndex]);
     cTree1.updateResistanceFromRoot();
     cTree1.updateRootRadius();
