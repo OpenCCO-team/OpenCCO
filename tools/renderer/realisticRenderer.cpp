@@ -53,7 +53,7 @@ int main(int argc, char *const *argv)
 	std::string vertices_filename = "vertex.dat";
 	std::string edges_filename = "edges.dat";
 	std::string output_filename = "realistic_render";
-	double SNR = 1.0;
+	double sigma = 1.0;
 
 	app.add_option("-w,--width", output_width, "Width of the output image, in pixels. Aspect ratio is constrained by the position of the points.", true)
 		->check(CLI::Range(100,10000));			// nobody would create an image with a width outside this range, right ?
@@ -61,7 +61,7 @@ int main(int argc, char *const *argv)
 	app.add_option("-v,--vertices", vertices_filename, "File containing the coordinates of the vertices.");
 	app.add_option("-e,--edges", edges_filename, "File containing the edges data.");
 	app.add_option("-o,--output", output_filename, "File to write the animation to (without file extension).");
-	app.add_option("-s,--snr", SNR, "The desired SNR (Signal to Noise Ratio) of the realistic render.")
+	app.add_option("-s,--sigma", sigma, "The standard deviation of the noise for the realistic render.")
 		->check(CLI::PositiveNumber);			// SNR is strictly positive
 
 	app.get_formatter()->column_width(40);
@@ -75,7 +75,7 @@ int main(int argc, char *const *argv)
 		// renderer initialized from files
 		TreeImageRenderer<2> renderer(radii_filename, vertices_filename, edges_filename);
 
-		TImage<2> img = renderer.realisticRender(output_width, SNR);
+		TImage<2> img = renderer.realisticRender(output_width, sigma);
 
 		saveRender<2>(img, output_filename);
 	}
@@ -84,7 +84,7 @@ int main(int argc, char *const *argv)
 		// renderer initialized from files
 		TreeImageRenderer<3> renderer(radii_filename, vertices_filename, edges_filename);
 
-		TImage<3> img = renderer.realisticRender(output_width, SNR);
+		TImage<3> img = renderer.realisticRender(output_width, sigma);
 
 		saveRender<3>(img, output_filename);
 	}

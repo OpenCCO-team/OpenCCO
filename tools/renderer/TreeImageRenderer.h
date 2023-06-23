@@ -129,7 +129,7 @@ public:
      * @param width The width in pixels of the output TImage<TDim>.
      * @returns a TImage<TDim> object.
      **/
-	TImage<TDim> realisticRender(unsigned int width, double SNR);
+	TImage<TDim> realisticRender(unsigned int width, double sigma);
 
 
 private:

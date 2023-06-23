@@ -459,7 +459,7 @@ TImage<TDim> TreeImageRenderer<TDim>::skeletonRender(unsigned int width)
 
 
 template<int TDim>
-TImage<TDim> TreeImageRenderer<TDim>::realisticRender(unsigned int width, double SNR)
+TImage<TDim> TreeImageRenderer<TDim>::realisticRender(unsigned int width, double sigma)
 {
 	// initialize a TImage<TDim> with a render of the flow of the artery tree
 	TImage<TDim> realistic_render(flowRender(width));
@@ -468,16 +468,19 @@ TImage<TDim> TreeImageRenderer<TDim>::realisticRender(unsigned int width, double
 	std::random_device rd;
 	std::mt19937 generator {rd()};
 
-	// rician distribution parameters
-	double v = *std::max_element(realistic_render.constRange().begin(), realistic_render.constRange().end());
-	double sd = v / SNR;
-
-	std::normal_distribution<> nd_x(v, sd);
-	std::normal_distribution<> nd_y(0, sd);
+	// standard deviation multiplier when A == 0
+	double c = std::sqrt(2 - M_PI/2);
 
 	for(auto it = realistic_render.begin(); it != realistic_render.end(); it++)
 	{
-		*it += TPointD<TDim>(nd_x(generator), nd_y(generator)).norm();
+		// rician distribution parameters
+		double A = *it;
+		double s = (fabs(A) <= 0.001 ? sigma * c : sigma);
+
+		std::normal_distribution<> nd_x(A, s);
+		std::normal_distribution<> nd_y(0, s);
+
+		*it = TPointD<TDim>(nd_x(generator), nd_y(generator)).norm();
 	}
 
 	return realistic_render;
