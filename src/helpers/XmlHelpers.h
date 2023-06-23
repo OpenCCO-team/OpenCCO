@@ -61,7 +61,7 @@ void subPrint_node(int nodeType, TPoint pos,
     } else if(nodeType == NodeTable::TERM){
         os<<"      <string> terminal node </string>"<<endl;
     } else if(nodeType == NodeTable::BIF){
-        os<<"      <string> bifurication </string>"<<endl;
+        os<<"      <string> bifurcation </string>"<<endl;
     } else {
         os<<"      <string> unknown type </string>"<<endl;
     }
@@ -111,12 +111,12 @@ void writeTreeToXml(const TTree &tree, const char * filePath) {
     ofstream output;
     //writing the tree structure as GXL to the filePath specified
     output.open(filePath);
-    output<<"<gxl><graph id=\""<<filePath<<"\" edgeids=\" true\" edgemode=\" directed\" hypergraph=\" false\">"<<endl;
+    output<<"<gxl><graph id=\""<<filePath<<"\" edgeids=\"true\" edgemode=\"directed\" hypergraph=\"false\">"<<endl;
     output<<"<info_graph>"<< endl;
     output<<"    <attr name=\"pPerf\">"<<endl;
     output<<"      <float>"<<tree.my_pPerf<<"</float>"<<endl;
     output<<"    </attr>"<<endl;
-    output<<"    <attr name=\"pTerm\">"<<endl;
+    output<<"    <attr name=\"Term\">"<<endl;
     output<<"      <float>"<<tree.my_pTerm<<"</float>"<<endl;
     output<<"    </attr>"<<endl;
     output<<"</info_graph>"<< endl;

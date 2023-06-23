@@ -261,7 +261,7 @@ CoronaryArteryTree<DomCtr, TDim>::isAddable(const TPointD &p, unsigned int segIn
     }
    
     
-    //resulting segments intersect the domaine
+    //resulting segments intersect the domain
     if( !myDomainController().checkNoIntersectDomain(pParentDom, pOptDom)) //Center segment
       return false;
     if(!myDomainController().checkNoIntersectDomain(sNewLeftDom, pOptDom)) //Left segment
