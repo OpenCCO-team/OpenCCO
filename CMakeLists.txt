@@ -21,8 +21,8 @@ INCLUDE_DIRECTORIES(
 	${PROJECT_SOURCE_DIR}/src/helpers/
 	${PROJECT_SOURCE_DIR}/src/
 	${PROJECT_SOURCE_DIR}/tools/
-	${PROJECT_SOURCE_DIR}/tools/renderer/
-	${PROJECT_SOURCE_DIR}/tools/renderer/src_svg_export
+	${PROJECT_SOURCE_DIR}/tools/renderers/
+	${PROJECT_SOURCE_DIR}/tools/renderers/src_svg_export
 )
 
 FIND_PACKAGE(Ceres REQUIRED)

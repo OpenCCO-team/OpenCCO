@@ -8,4 +8,4 @@ FOREACH(FILE ${TOOLS_SRC})
   target_link_libraries (${FILE}  ${DGTAL_LIBRARIES} )
 ENDFOREACH(FILE)
 
-ADD_SUBDIRECTORY(renderer)
+ADD_SUBDIRECTORY(renderers)

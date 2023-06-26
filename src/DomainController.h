@@ -95,6 +95,7 @@ public:
         }
         return p + myCenter;
     }
+
     /**
      * Get the supported domain of the tree. By default it is defined from the circle center.
      * If the domain if defined from a mask image, the center if computed from the imate center.
@@ -156,6 +157,8 @@ public:
     }
     
 };
+
+
 template<int TDim>
 class SquareDomainCtrl: public CircularDomainCtrl<TDim>{
     
@@ -169,6 +172,7 @@ public:
         CircularDomainCtrl<TDim>::myRadius = radius;
         CircularDomainCtrl<TDim>::myCenter = center;
     };
+
     bool isInside(const typename SquareDomainCtrl<TDim>::TPoint &p)
     {
         bool res = true;
@@ -177,8 +181,8 @@ public:
         }
         return res;
     }
-    
 };
+
 
 /**
  *  Domain controller based on a Image Mask
@@ -188,17 +192,15 @@ class ImageMaskDomainCtrl {
 public:
     
     typedef DGtal::PointVector<TDim, double> TPoint;
-    typedef  DGtal::PointVector<TDim, int> TPointI;
+    typedef DGtal::PointVector<TDim, int> TPointI;
     typedef DGtal::SpaceND< TDim, int >   SpaceCT;
     typedef DGtal::HyperRectDomain<SpaceCT> DomCT;
     typedef DGtal::ImageContainerBySTLVector< DomCT, unsigned char> Image;
     typedef DGtal::ImageContainerBySTLVector< DomCT, double> ImageD;
-    typedef typename DGtal::DigitalSetSelector<DomCT,
-    DGtal::BIG_DS+
-    DGtal::HIGH_BEL_DS>::Type TDGset;
+    typedef typename DGtal::DigitalSetSelector<DomCT, DGtal::BIG_DS + DGtal::HIGH_BEL_DS>::Type TDGset;
     typedef enum {NO_UPDATE, UPDATED} UPDATE_RAD_TYPE ;
+    
     UPDATE_RAD_TYPE myUpdateType = NO_UPDATE;
-
     
     TPoint myDomPtLow, myDomPtUpper;
     TPointI myCenter;
@@ -212,10 +214,13 @@ public:
 
 public:
     Image myImage {Image(DomCT())} ;
+
     ImageD myDistanceImage {ImageD(DomCT())};
+
     ImageMaskDomainCtrl(const ImageMaskDomainCtrl&) {
         std::cout << "copy domain!!" << std::endl;
     }
+
     ImageMaskDomainCtrl(){};
     
     // Constructor
@@ -233,8 +238,8 @@ public:
         }else{
             myCenter = ptRoot;
         }
-
     }
+
     
     // Constructor
     ImageMaskDomainCtrl(const std::string &fileImgDomain,
@@ -242,16 +247,12 @@ public:
                                                     myNbTry{nbTry}
     {
         myImage = DGtal::GenericReader<Image>::import(fileImgDomain,myMaskThreshold);
-        myDistanceImage = GeomHelpers::getImageDistance<Image,ImageD>(myImage,
-                                                                      myMaskThreshold );
+        myDistanceImage = GeomHelpers::getImageDistance<Image,ImageD>(myImage, myMaskThreshold );
         myCenter = maxDistantPointFromBorder();
         checkImageDomain();
     };
-    
-    
-    
-    
-    
+
+
     TPointI
     randomPoint()
     {
@@ -261,32 +262,37 @@ public:
         TPointI dp = pMax - pMin;
         TPointI pCand;
         unsigned int n = 0;
+
         while(!found && n < myNbTry){
             for (unsigned int i = 0; i< TDim; i++){
                 pCand[i] = pMin[i]+(rand()%dp[i]);
             }
-            found = myImage(pCand)>=myMaskThreshold &&
-            abs(myDistanceImage(pCand)) >= myMinDistanceToBorder;
+
+            found = isInside(pCand) && abs(myDistanceImage(pCand)) >= myMinDistanceToBorder;
             n++;
         }
+
         if (found){
             return pCand;
         }
+
         if (n >= myNbTry){
             for(auto p : myImage.domain()){
-                if (myImage(p) >= myMaskThreshold &&
-                    abs(myDistanceImage(p)) >= myMinDistanceToBorder )
+                if (isInside(p) && abs(myDistanceImage(p)) >= myMinDistanceToBorder )
                 {
                     return p;
                 }
-                
             }
         }
         return TPointI();
     }
+
+
     bool isInside(const TPointI &p){
         return myImage(p) > myMaskThreshold;
     }
+
+
     /**
      * Check if the segment defined by two points intersect the domain.
      *
@@ -300,10 +306,13 @@ public:
             !myImage.domain().isInside(pt2)){
             return false;
         }
+
         DGtal::PointVector<TPoint::dimension, double> dir = pt2 - pt1;
         dir /= dir.norm();
         DGtal::PointVector<TPoint::dimension, double>  p;
-        for(unsigned int i=0; i<TPoint::dimension; i++ ){p[i]=pt1[i];}
+
+        for(unsigned int i=0; i<TPoint::dimension; i++ ) { p[i]=pt1[i]; }
+
         for (unsigned int i = 0; i<(pt2 - pt1).norm(); i++){
             DGtal::PointVector<TPoint::dimension, double>  p = pt1+dir*i;
             TPointI pI;
@@ -311,9 +320,11 @@ public:
             if (myImage(pI) < myMaskThreshold)
                 return false;
         }
+
         return true;
     }
     
+
     TPointI
     maxDistantPointFromBorder() const {
         double m = 0.0;
@@ -327,6 +338,8 @@ public:
         }
         return pM;
     }
+
+
     TPoint
     firstCandidatePoint() const {
         TPointI res;
@@ -335,18 +348,23 @@ public:
         return res;
     }
     
-    std::vector<std::vector< TPointI > >
+
+    std::vector< std::vector<TPointI> >
     contours()
     {
         std::vector<std::vector< TPointI > > res;
         return res;
     }
+
+
     TPointI
     lowerBound()
     {
         
         return myImage.domain().lowerBound();
     }
+
+
     TPointI
     upperBound()
     {
@@ -372,6 +390,7 @@ private:
         return false;
     }
     
+
     void checkImageDomain(){
         bool isOk = false;
         // Check if at least one pixel of with foreground value exist:
@@ -385,7 +404,6 @@ private:
             std::cout << "ImageMaskDomainCtrl: domain non valid since no point are inside the mask image." <<  std::endl;
         }
     }
-    
 };
 
 template<>
@@ -419,8 +437,3 @@ ImageMaskDomainCtrl<2>::contours()
 
 #undef DOMAIN_CONTROLLER_RECURSE
 #endif // else defined(DOMAIN_CONTROLLER_RECURSE)
-
-
-
-
-
