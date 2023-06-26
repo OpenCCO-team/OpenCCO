@@ -229,8 +229,8 @@ public:
                         unsigned int nbTry=100): myNbTry{nbTry}
     {
         myImage = DGtal::GenericReader<Image>::import(fileImgDomain,myMaskThreshold);
-        myDistanceImage = GeomHelpers::getImageDistance<Image,ImageD>(myImage,
-                                                                      myMaskThreshold );
+        myDistanceImage = GeomHelpers::getImageDistance<Image,ImageD>(myImage, myMaskThreshold);
+
         if ( !isInside(ptRoot) ){
             DGtal::trace.warning() << "ImageMaskDomainCtrl: Initial point given as input is not in domain." << std::endl;
             DGtal::trace.warning() << "ImageMaskDomainCtrl: Using default value from the maximal distant point." << std::endl;

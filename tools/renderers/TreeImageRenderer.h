@@ -92,12 +92,7 @@ public:
 						const std::string & edges_filename);
 
 
-	/**
-     * @brief Computes the distance tranform of the artery tree.
-     * @brief The result is stored in myDistanceMap.
-     **/
-	void createDistanceMap();
-	
+	void setOrganDomain(const std::string & domain_filename);
 
 	/**
      * @brief Computes a render of myTree.
@@ -144,6 +139,7 @@ private:
 
 	// Member variables
 	ArteryTree myTree;
+	TImage<TDim> myOrganDomain;
 };
 
 
