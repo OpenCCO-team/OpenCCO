@@ -15,6 +15,7 @@
 
 #include "DGtal/images/ImageContainerBySTLVector.h"
 #include "DGtal/helpers/StdDefs.h"
+#include "DGtal/io/readers/ITKReader.h"
 
 #include "svg_elements.h"
 
@@ -67,6 +68,23 @@ public:
 		std::vector<double> myRadii;			// Radii associated with the vertices
 	};
 
+	struct OrganDomain
+	{
+		OrganDomain() : myDomainMask(TDomain<TDim>()), isDefined(false)
+		{
+		}
+
+		OrganDomain(const std::string & domain_filename) : myDomainMask(TDomain<TDim>()), isDefined(true)
+		{
+			// if 2D image file when TDim = 3 : the image is in the first 2 dims, anything along z > 0 is zero
+			// if 3D image file when TDim = 2 : the image is a slice of the 3D vol
+			myDomainMask = DGtal::ITKReader< TImage<TDim> >::importITK(domain_filename);
+		}
+
+		TImage<TDim> myDomainMask;
+		bool isDefined;
+	};
+
 	// Constructor
 
 	/**
@@ -78,6 +96,19 @@ public:
 	TreeImageRenderer(const std::string & radii_filename,
 					  const std::string & vertices_filename,
 					  const std::string & edges_filename);
+
+
+	/**
+	 * @brief Constructor, the ArteryTree data vectors.
+	 * @param radii_filename The name of the file containing radii data.
+	 * @param vertices_filename The name of the file containing radii data.
+	 * @param edges_filename The name of the file containing radii data.
+	 * @param organ_dom_filename The image file of the organ domain.
+	 **/
+	TreeImageRenderer(const std::string & radii_filename,
+					  const std::string & vertices_filename,
+					  const std::string & edges_filename,
+					  const std::string & organ_dom_filename);
 
 	// Methods
 
@@ -91,8 +122,6 @@ public:
 						const std::string & vertices_filename,
 						const std::string & edges_filename);
 
-
-	void setOrganDomain(const std::string & domain_filename);
 
 	/**
      * @brief Computes a render of myTree.
@@ -124,7 +153,7 @@ public:
      * @param width The width in pixels of the output TImage<TDim>.
      * @returns a TImage<TDim> object.
      **/
-	TImage<TDim> realisticRender(unsigned int width, double sigma);
+	TImage<TDim> realisticRender(double sigma, unsigned int width = 0);
 
 
 private:
@@ -139,7 +168,7 @@ private:
 
 	// Member variables
 	ArteryTree myTree;
-	TImage<TDim> myOrganDomain;
+	OrganDomain myOrganDomain;
 };
 
 
@@ -282,4 +311,37 @@ void drawBresenhamLine(TImage<TDim> & image,
 			}
 		}
 	}
+}
+
+
+/**
+ * @brief Brings all values of the TImage into a range (default range is [0.0, 1.0].
+ * @param image The image to normalize.
+ * @param lb The lower bound of the range.
+ * @param ub The upper bound of the range.
+ **/
+template <int TDim>
+void normalizeImageValues(TImage<TDim> & image, double lb = 0.0, double ub = 1.0)
+{
+	auto min_val = std::min_element(image.constRange().begin(), image.constRange().end());
+	auto max_val = std::max_element(image.constRange().begin(), image.constRange().end());
+
+	if(*min_val == *max_val || lb == ub)
+	{
+		for(auto it = image.begin(); it != image.end(); it++)
+		{
+			*it = lb;
+		}
+	}
+	else
+	{
+		double k = (ub - lb) / (*max_val - *min_val); 		// != 0 and != inf
+
+		for(auto it = image.begin(); it != image.end(); it++)
+		{
+			*it = lb + (*it - *min_val) * k;
+		}
+	}
+	
+	return;
 }

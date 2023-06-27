@@ -7,7 +7,6 @@
 #include "DGtal/io/writers/STBWriter.h"
 #include "DGtal/io/writers/VolWriter.h"
 #include "DGtal/io/writers/ITKWriter.h"
-#include "DGtal/io/readers/ITKReader.h"
 
 #include "GeomHelpers.h"
 
@@ -24,8 +23,20 @@
 template<int TDim>
 TreeImageRenderer<TDim>::TreeImageRenderer(const std::string & radii_filename,
 									 const std::string & vertices_filename,
+									 const std::string & edges_filename,
+									 const std::string & organ_dom_filename)
+	: myOrganDomain(organ_dom_filename)
+{
+	importTreeData(radii_filename, vertices_filename, edges_filename);
+}
+
+
+
+template<int TDim>
+TreeImageRenderer<TDim>::TreeImageRenderer(const std::string & radii_filename,
+									 const std::string & vertices_filename,
 									 const std::string & edges_filename)
-	: myOrganDomain(TDomain<TDim>())
+	: myOrganDomain()
 {
 	importTreeData(radii_filename, vertices_filename, edges_filename);
 }
@@ -122,18 +133,6 @@ void TreeImageRenderer<TDim>::importTreeData(const std::string & radii_filename,
 	std::cout << "Imported " << myTree.myPoints.size() << " vertices." << std::endl;
 	std::cout << "Imported " << myTree.mySegments.size() << " edges." << std::endl;
 	std::cout << "Imported " << myTree.myRadii.size() << " radii." << std::endl;
-}
-
-
-
-template<int TDim>
-void TreeImageRenderer<TDim>::setOrganDomain(const std::string & domain_filename)
-{
-	// if 2D image file when TDim = 3 : the image is in the first 2 dims, anything along z > 0 is zero
-	// if 3D image file when TDim = 2 : the image is a slice of the 3D vol
-	TImage<TDim> organ_dom = DGtal::ITKReader< TImage<TDim> >::importITK(domain_filename);
-
-	myOrganDomain = std::move(organ_dom);
 }
 
 
@@ -402,7 +401,7 @@ TImage<TDim> TreeImageRenderer<TDim>::skeletonRender(unsigned int width)
 
 
 template<int TDim>
-TImage<TDim> TreeImageRenderer<TDim>::realisticRender(unsigned int width, double sigma)
+TImage<TDim> TreeImageRenderer<TDim>::realisticRender(double sigma, unsigned int width)
 {
 	// initialize a TImage<TDim> with a render of the flow of the artery tree
 	TImage<TDim> realistic_render(flowRender(width));
@@ -434,9 +433,19 @@ TImage<TDim> TreeImageRenderer<TDim>::realisticRender(unsigned int width, double
 template<int TDim>
 TImage<TDim> TreeImageRenderer<TDim>::createImage(unsigned int width, unsigned int margin_thickness)
 {
+	// if the organ domain is defined, no need to rescale the points
+	if(myOrganDomain.isDefined)
+	{
+		TImage<TDim> organ(myOrganDomain.myDomainMask);
+
+		normalizeImageValues<TDim>(organ, 0.0, 0.5);		// organ domain has value 0.5
+
+		return organ;
+	}
+
 	// Compute the coordinates of the bounding box containing all the points
-	TPointD<TDim> tree_lowerbound(myTree.myPoints[0]);
-	TPointD<TDim> tree_upperbound(myTree.myPoints[0]);
+	TPointD<TDim> tree_lowerbound;
+	TPointD<TDim> tree_upperbound;
 
 	compBB<TDim>(myTree.myPoints, tree_upperbound, tree_lowerbound);
 
@@ -476,9 +485,6 @@ TImage<TDim> TreeImageRenderer<TDim>::createImage(unsigned int width, unsigned i
 		std::cout << a << " ";
 	}
 	std::cout << std::endl;
-
-	tree_lowerbound = myTree.myPoints[0];
-	tree_upperbound = myTree.myPoints[0];
 
 	compBB<TDim>(myTree.myPoints, tree_upperbound, tree_lowerbound);
 
@@ -552,6 +558,9 @@ void compBB(const std::vector< TPointD<TDim> > &points,
 			TPointD<TDim> &upperbound, 
 			TPointD<TDim> &lowerbound)
 {
+	upperbound = points[0];
+	lowerbound = points[0];
+
 	for(auto &p : points)
 	{
 		for(unsigned int i = 0; i < TDim; i++)
