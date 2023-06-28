@@ -44,6 +44,38 @@ int checkDimension(const std::string & vertices_filename)
 	return dim;
 }
 
+void test()
+{
+	int scale_factor = 60;
+
+	// tore radii
+	double r = 1.0 * scale_factor;
+	double R = 2 * r;
+
+	TPoint<3> p1(-4 * r, -4 * r, -2 * r);
+	TPoint<3> p2(-1 * p1);
+
+	TImage<3> torvol(TDomain<3>(p1, p2));
+
+	for(const TPoint<3> & p : torvol.domain())
+	{
+		double var = sqrt(p[0] * p[0] + p[1] * p[1]) - R;
+		double eq_tore_p = var * var + p[2] * p[2] - r * r;
+
+		if (eq_tore_p <= 0.0)
+		{
+			// p belongs to the tore volume
+			torvol.setValue(p, 255);
+		}
+		else
+		{
+			torvol.setValue(p, 0.0);
+		}
+	}
+
+	saveRender<3>(torvol, "tore");
+}
+
 int main(int argc, char *const *argv)
 {
 	// parse command line using CLI ----------------------------------------------
@@ -73,7 +105,9 @@ int main(int argc, char *const *argv)
 	CLI11_PARSE(app, argc, argv);
 	// END parse command line using CLI ----------------------------------------------
 
+	
 	int dimension = checkDimension(vertices_filename);
+
 
 	if (dimension == 2)
 	{
@@ -117,8 +151,10 @@ int main(int argc, char *const *argv)
 			img = renderer.realisticRender(sigma, output_width);
 		}
 
-		saveRender<3>(img, output_filename);
+		//saveRender<3>(img, output_filename);
 	}
+
+	//test();
 
 	return 0;
 }

@@ -16,6 +16,7 @@
 #include "DGtal/images/ImageContainerBySTLVector.h"
 #include "DGtal/helpers/StdDefs.h"
 #include "DGtal/io/readers/ITKReader.h"
+#include "DGtal/io/readers/VolReader.h"
 
 #include "svg_elements.h"
 
@@ -74,12 +75,7 @@ public:
 		{
 		}
 
-		OrganDomain(const std::string & domain_filename) : myDomainMask(TDomain<TDim>()), isDefined(true)
-		{
-			// if 2D image file when TDim = 3 : the image is in the first 2 dims, anything along z > 0 is zero
-			// if 3D image file when TDim = 2 : the image is a slice of the 3D vol
-			myDomainMask = DGtal::ITKReader< TImage<TDim> >::importITK(domain_filename);
-		}
+		OrganDomain(const std::string & domain_filename);
 
 		TImage<TDim> myDomainMask;
 		bool isDefined;
@@ -353,7 +349,7 @@ void normalizeImageValues(TImage<TDim> & image, double lb = 0.0, double ub = 1.0
  * @brief All three images (input and output) MUST have the same domain.
  * @param[in] img1 The first image.
  * @param[in] img2 The second image.
- * @param[in] blendmode The blending logic for each resulting pixel. 
+ * @param[in] blendmode The blending logic for each resulting pixel. MUST have signature (double)(double, double).
  * @param[out] imgres The resulting image.
  **/
 template <int TDim>
@@ -366,7 +362,7 @@ void imageBlend(const TImage<TDim> & img1,
 	if(img1.domain().lowerBound() != img2.domain().lowerBound()
 	   || img1.domain().lowerBound() != imgres.domain().lowerBound()
 	   || img1.domain().upperBound() != img2.domain().upperBound()
-	   || img1.domain().upperBound() != imgres.domain().upperBound());
+	   || img1.domain().upperBound() != imgres.domain().upperBound())
 	{
 		return;
 	}

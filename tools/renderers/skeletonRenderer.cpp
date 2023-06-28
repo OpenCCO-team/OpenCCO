@@ -43,14 +43,19 @@ int main(int argc, char *const *argv)
 {
 	// parse command line using CLI ----------------------------------------------
 	CLI::App app;
-	unsigned int output_width = 1000;
+	unsigned int output_width = 0;
+	std::string domain_filename = "";
 	std::string radii_filename = "radius.dat";
 	std::string vertices_filename = "vertex.dat";
 	std::string edges_filename = "edges.dat";
 	std::string output_filename = "skeleton_render";
 
-	app.add_option("-w,--width", output_width, "Width of the output image, in pixels. Aspect ratio is constrained by the position of the points.", true)
-		->check(CLI::Range(100,10000));			// nobody would create an image with a width outside this range, right ?
+	auto dom_group = app.add_option_group("Render domain");
+	dom_group->add_option("-w,--width", output_width, "Width of the output image, in pixels. Aspect ratio is constrained by the position of the points.", true)
+		->check(CLI::Range(50, 10000));			// nobody would create an image with a width outside this range, right ?
+	dom_group->add_option("-d,--domain", domain_filename, "Image file defining the organ domain (organ >= 128).");
+	dom_group->require_option(1); 				// mandatory to use one (not less, not more) of these two options
+
 	app.add_option("-r,--radii", radii_filename, "File containing the radii of the vertices.");
 	app.add_option("-v,--vertices", vertices_filename, "File containing the coordinates of the vertices.");
 	app.add_option("-e,--edges", edges_filename, "File containing the edges data.");
@@ -64,19 +69,45 @@ int main(int argc, char *const *argv)
 
 	if (dimension == 2)
 	{
-		// renderer initialized from files
-		TreeImageRenderer<2> renderer(radii_filename, vertices_filename, edges_filename);
+		TImage<2> img{ TDomain<2>() };
 
-		TImage<2> img = renderer.skeletonRender(output_width);
+		// renderer initialized from files
+		if(domain_filename == "")
+		{
+			TreeImageRenderer<2> renderer(radii_filename, vertices_filename, edges_filename);
+
+			// output_width is ignored if domain_filename was defined
+			img = renderer.skeletonRender(output_width);
+		}
+		else
+		{
+			TreeImageRenderer<2> renderer(radii_filename, vertices_filename, edges_filename, domain_filename);
+
+			// output_width is ignored if domain_filename was defined
+			img = renderer.skeletonRender(output_width);
+		}
 
 		saveRender<2>(img, output_filename);
 	}
 	else if (dimension == 3)
 	{
-		// renderer initialized from files
-		TreeImageRenderer<3> renderer(radii_filename, vertices_filename, edges_filename);
+		TImage<3> img{ TDomain<3>() };
 
-		TImage<3> img = renderer.skeletonRender(output_width);
+		// renderer initialized from files
+		if(domain_filename == "")
+		{
+			TreeImageRenderer<3> renderer(radii_filename, vertices_filename, edges_filename);
+
+			// output_width is ignored if domain_filename was defined
+			img = renderer.skeletonRender(output_width);
+		}
+		else
+		{
+			TreeImageRenderer<3> renderer(radii_filename, vertices_filename, edges_filename, domain_filename);
+
+			// output_width is ignored if domain_filename was defined
+			img = renderer.skeletonRender(output_width);
+		}
 
 		saveRender<3>(img, output_filename);
 	}

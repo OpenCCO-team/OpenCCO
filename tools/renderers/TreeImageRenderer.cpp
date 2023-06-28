@@ -14,6 +14,47 @@
 
 #include "svg_elements.h"
 
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////               OrganDomain<TDim>               ////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+template<>
+TreeImageRenderer<2>::OrganDomain::OrganDomain(const std::string & domain_filename)
+ : myDomainMask(TDomain<2>()), isDefined(true)
+{
+	// if 2D image file when TDim = 3 : the image is in the first 2 dims, anything along z > 0 is zero
+	// if 3D image file when TDim = 2 : the image is a slice of the 3D vol
+	myDomainMask = DGtal::ITKReader< TImage<2> >::importITK(domain_filename);
+}
+
+
+template<>
+TreeImageRenderer<3>::OrganDomain::OrganDomain(const std::string & domain_filename)
+ : myDomainMask(TDomain<3>()), isDefined(true)
+{
+	// if 2D image file when TDim = 3 : the image is in the first 2 dims, anything along z > 0 is zero
+	// if 3D image file when TDim = 2 : the image is a slice of the 3D vol
+	std::size_t pos = domain_filename.find_last_of('.');
+
+	if(pos != std::string::npos)
+	{
+		const std::string ext = domain_filename.substr(pos+1);
+
+		// vol is not supported by ITK, we handle it separately
+		if(ext == "vol")
+		{
+			TImage<3> myDomainMask = DGtal::VolReader< TImage<3> >::importVol(domain_filename);
+			return;
+		}
+	}
+
+	myDomainMask = DGtal::ITKReader< TImage<3> >::importITK(domain_filename);
+}
+
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////          TreeImageRenderer<TDim>              ////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////
@@ -141,9 +182,10 @@ template<int TDim>
 TImage<TDim> TreeImageRenderer<TDim>::flowRender(unsigned int width)
 {
 	// domain
-	TImage<TDim> organ_dom(createDomainImage(width, width/20));
-	TImage<TDim> flow_render(organ_dom.domain());		// image of the same size
+	TImage<TDim> organ_img(createDomainImage(width, width/20));
+	TImage<TDim> flow_render(organ_img.domain());		// image of the same size
 
+	// compute flow for each pixel
 	for(const TPoint<TDim> &p : flow_render.domain())
 	{
 		flow_render.setValue(p, 0);		// default flow value is zero
@@ -189,6 +231,15 @@ TImage<TDim> TreeImageRenderer<TDim>::flowRender(unsigned int width)
 			// next segment 
 			it++;
 		}
+	}
+
+	normalizeImageValues<TDim>(flow_render);
+
+	if(myOrganDomain.isDefined)
+	{
+		// blend the organ and the flow
+		auto customblend = [](double a, double b) { return std::max(0.0, (a - b)); };
+		imageBlend<TDim>(organ_img, flow_render, customblend, flow_render);
 	}
 
 	return flow_render;
@@ -387,7 +438,8 @@ template<int TDim>
 TImage<TDim> TreeImageRenderer<TDim>::skeletonRender(unsigned int width)
 {
 	// initialize a TImage<TDim> with the desired width and margin of 5%
-	TImage<TDim> skeleton_render(createDomainImage(width, width/20));
+	TImage<TDim> organ_img(createDomainImage(width, width/20));
+	TImage<TDim> skeleton_render(organ_img.domain());		// image with the same dimensions
 
 	// loop over segments, draw them with drawBresenhamLine
 	for(const Segment & s : myTree.mySegments)
@@ -395,6 +447,15 @@ TImage<TDim> TreeImageRenderer<TDim>::skeletonRender(unsigned int width)
 		drawBresenhamLine<TDim>(skeleton_render,
 			TPoint<TDim>(myTree.myPoints[s.myProxitalIndex]),
 			TPoint<TDim>(myTree.myPoints[s.myDistalIndex]) );
+	}
+
+	normalizeImageValues<TDim>(skeleton_render);
+
+	if(myOrganDomain.isDefined)
+	{
+		// blend the organ and the flow
+		auto customblend = [](double a, double b) { return std::max(0.0, (a - b)); };
+		imageBlend<TDim>(organ_img, skeleton_render, customblend, skeleton_render);
 	}
 
 	return skeleton_render;
