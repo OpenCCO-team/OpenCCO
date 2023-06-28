@@ -164,7 +164,7 @@ private:
      * @param margin_thickness the margin thickness in pixels.
      * @returns a TImage<TDim> object of the desired width
      **/
-	TImage<TDim> createImage(unsigned int width, unsigned int margin_thickness);
+	TImage<TDim> createDomainImage(unsigned int width, unsigned int margin_thickness);
 
 	// Member variables
 	ArteryTree myTree;
@@ -344,4 +344,35 @@ void normalizeImageValues(TImage<TDim> & image, double lb = 0.0, double ub = 1.0
 	}
 	
 	return;
+}
+
+
+/**
+ * @brief Blends two images together.
+ * @brief Depending on the implementation, the order of the two input images may matter.
+ * @brief All three images (input and output) MUST have the same domain.
+ * @param[in] img1 The first image.
+ * @param[in] img2 The second image.
+ * @param[in] blendmode The blending logic for each resulting pixel. 
+ * @param[out] imgres The resulting image.
+ **/
+template <int TDim>
+void imageBlend(const TImage<TDim> & img1,
+				const TImage<TDim> & img2,
+				double (*blendmode)(double, double),
+				TImage<TDim> & imgres)
+{
+	// check if all images have the same dimensions
+	if(img1.domain().lowerBound() != img2.domain().lowerBound()
+	   || img1.domain().lowerBound() != imgres.domain().lowerBound()
+	   || img1.domain().upperBound() != img2.domain().upperBound()
+	   || img1.domain().upperBound() != imgres.domain().upperBound());
+	{
+		return;
+	}
+
+	for(const TPoint<TDim> & p : img1.domain())
+	{
+		imgres.setValue(p, blendmode(img1(p), img2(p)));
+	}
 }

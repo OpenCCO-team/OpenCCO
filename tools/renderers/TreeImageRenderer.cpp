@@ -140,7 +140,9 @@ void TreeImageRenderer<TDim>::importTreeData(const std::string & radii_filename,
 template<int TDim>
 TImage<TDim> TreeImageRenderer<TDim>::flowRender(unsigned int width)
 {
-	TImage<TDim> flow_render(createImage(width, width/20));
+	// domain
+	TImage<TDim> organ_dom(createDomainImage(width, width/20));
+	TImage<TDim> flow_render(organ_dom.domain());		// image of the same size
 
 	for(const TPoint<TDim> &p : flow_render.domain())
 	{
@@ -254,7 +256,7 @@ void TreeImageRenderer<2>::animationRender(const std::string & filename, int dur
 		std::size_t bro_i = segments.size() - 1 - (bro_rit - segments.rbegin());
 		std::size_t parent_i = segments.size() - 1 - (parent_rit - segments.rbegin());		 
 
-		// handy points for what follows
+		// handy points for the next computations
 		// the junction is the point where the brother, the parent and the current segment meet
 		// the intersection is an arbitrary point for the sake of the animation; I think of it as the junction before the segment is born
 		TPointD<2> junction = myTree.myPoints[rit->myProxitalIndex];
@@ -385,7 +387,7 @@ template<int TDim>
 TImage<TDim> TreeImageRenderer<TDim>::skeletonRender(unsigned int width)
 {
 	// initialize a TImage<TDim> with the desired width and margin of 5%
-	TImage<TDim> skeleton_render(createImage(width, width/20));
+	TImage<TDim> skeleton_render(createDomainImage(width, width/20));
 
 	// loop over segments, draw them with drawBresenhamLine
 	for(const Segment & s : myTree.mySegments)
@@ -431,7 +433,7 @@ TImage<TDim> TreeImageRenderer<TDim>::realisticRender(double sigma, unsigned int
 
 
 template<int TDim>
-TImage<TDim> TreeImageRenderer<TDim>::createImage(unsigned int width, unsigned int margin_thickness)
+TImage<TDim> TreeImageRenderer<TDim>::createDomainImage(unsigned int width, unsigned int margin_thickness)
 {
 	// if the organ domain is defined, no need to rescale the points
 	if(myOrganDomain.isDefined)
@@ -502,7 +504,10 @@ TImage<TDim> TreeImageRenderer<TDim>::createImage(unsigned int width, unsigned i
 
 	// return the TImage<TDim> object
 	// offset by one so that the size is valid)
-	return TImage<TDim>( TDomain<TDim>(TPoint<TDim>(), image_size - TPoint<TDim>::diagonal(1)) ); 
+	TImage<TDim> res( TDomain<TDim>(TPoint<TDim>(), image_size - TPoint<TDim>::diagonal(1)) );
+	normalizeImageValues<TDim>(res); 		// should be a black image after this
+
+	return res; 
 }
 
 
