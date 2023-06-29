@@ -9,6 +9,8 @@
 /*.vol
 /*.nii
 /*.sh
+/*.obj
+/*.mtl
 
 # folders ignored
 /build/

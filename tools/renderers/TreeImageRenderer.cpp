@@ -30,29 +30,8 @@ TreeImageRenderer<2>::OrganDomain::OrganDomain(const std::string & domain_filena
 	myDomainMask = DGtal::ITKReader< TImage<2> >::importITK(domain_filename);
 }
 
-/*
-	// Compute the coordinates of the bounding box containing all the points
-	TPointD<TDim> tree_lowerbound;
-	TPointD<TDim> tree_upperbound;
 
-	compBB<TDim>(myTree.myPoints, tree_upperbound, tree_lowerbound);
 
-	std::cout << "Tree BB : " << std::endl;
-
-	for (int i = 0; i < TDim; ++i)
-	{
-		std::cout << tree_lowerbound[i] << " | " << tree_upperbound[i] << std::endl;
-	}
-	std::cout << std::endl;
-
-	std::cout << "Image BB : " << std::endl;
-
-	for (int i = 0; i < TDim; ++i)
-	{
-		std::cout << organ_img.domain().lowerBound()[i] << " | " << organ_img.domain().upperBound()[i] << std::endl;
-	}
-	std::cout << std::endl;
-*/
 template<>
 TreeImageRenderer<3>::OrganDomain::OrganDomain(const std::string & domain_filename)
  : myDomainMask(TDomain<3>()), isDefined(true)
@@ -64,6 +43,8 @@ TreeImageRenderer<3>::OrganDomain::OrganDomain(const std::string & domain_filena
 	if(pos != std::string::npos)
 	{
 		const std::string ext = domain_filename.substr(pos+1);
+
+		std::cout << "EXTENSION " << ext << " " << (ext == "vol") << std::endl;
 
 		// vol is not supported by ITK, we handle it separately
 		if(ext == "vol")
@@ -193,10 +174,6 @@ void TreeImageRenderer<TDim>::importTreeData(const std::string & radii_filename,
 	{
 		std::cout << "Couldn't open " << radii_filename << "." << std::endl;;
 	}
-
-	std::cout << "Imported " << myTree.myPoints.size() << " vertices." << std::endl;
-	std::cout << "Imported " << myTree.mySegments.size() << " edges." << std::endl;
-	std::cout << "Imported " << myTree.myRadii.size() << " radii." << std::endl;
 }
 
 
@@ -256,12 +233,12 @@ TImage<TDim> TreeImageRenderer<TDim>::flowRender(unsigned int width)
 		}
 	}
 
-	normalizeImageValues<TDim>(flow_render);
+	normalizeImageValues<TDim>(flow_render, 0.0, 255.0);
 
 	if(myOrganDomain.isDefined)
 	{
 		// blend the organ and the flow
-		auto customblend = [](double a, double b) { return std::max(0.0, (a - b)); };
+		auto customblend = [](double a, double b) { return (b <= 0.001 ? a : b); };
 		imageBlend<TDim>(organ_img, flow_render, customblend, flow_render);
 	}
 
@@ -470,13 +447,13 @@ TImage<TDim> TreeImageRenderer<TDim>::skeletonRender(unsigned int width)
 		drawBresenhamLine<TDim>(skeleton_render,
 			TPoint<TDim>(myTree.myPoints[s.myProxitalIndex]),
 			TPoint<TDim>(myTree.myPoints[s.myDistalIndex]),
-			1.0);
+			255.0);
 	}
 
 	if(myOrganDomain.isDefined)
 	{
 		// blend the organ and the flow
-		auto customblend = [](double a, double b) { return std::max(0.0, (a - b)); };
+		auto customblend = [](double a, double b) { return (b <= 0.001 ? a : b); };
 		imageBlend<TDim>(organ_img, skeleton_render, customblend, skeleton_render);
 	}
 
@@ -524,7 +501,7 @@ TImage<TDim> TreeImageRenderer<TDim>::createDomainImage(unsigned int width, unsi
 
 		TImage<TDim> organ(myOrganDomain.myDomainMask);
 
-		normalizeImageValues<TDim>(organ, 0.0, 0.5);		// organ domain has value 0.5
+		normalizeImageValues<TDim>(organ, 0.0, 128.0);		// organ domain has value 128.0
 
 		return organ;
 	}
@@ -563,33 +540,10 @@ TImage<TDim> TreeImageRenderer<TDim>::createDomainImage(unsigned int width, unsi
 		r *= k;
 	}
 
-	// verbose debugging :)
-
-	std::cout << "Image size : ";
-	for(int &a : image_size)
-	{
-		std::cout << a << " ";
-	}
-	std::cout << std::endl;
-
-	compBB<TDim>(myTree.myPoints, tree_upperbound, tree_lowerbound);
-
-	std::cout << "Tree bounds : " << std::endl;
-	for (unsigned int i = 0; i < TDim; i++)
-	{
-		std::cout << tree_lowerbound[i] << " ";
-	}
-	std::cout << std::endl;
-	for (unsigned int i = 0; i < TDim; i++)
-	{
-		std::cout << tree_upperbound[i] << " ";
-	}
-	std::cout << std::endl;
-
 	// return the TImage<TDim> object
 	// offset by one so that the size is valid)
 	TImage<TDim> res( TDomain<TDim>(TPoint<TDim>(), image_size - TPoint<TDim>::diagonal(1)) );
-	normalizeImageValues<TDim>(res); 		// should be a black image after this
+	normalizeImageValues<TDim>(res, 0.0, 0.0); 		// should be a black image after this
 
 	return res; 
 }
