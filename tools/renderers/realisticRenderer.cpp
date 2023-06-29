@@ -145,13 +145,14 @@ int main(int argc, char *const *argv)
 		}
 		else
 		{
+			std::cout << "here" << std::endl;
 			TreeImageRenderer<3> renderer(radii_filename, vertices_filename, edges_filename, domain_filename);
 
 			// output_width is ignored if domain_filename was defined
 			img = renderer.realisticRender(sigma, output_width);
 		}
 
-		//saveRender<3>(img, output_filename);
+		saveRender<3>(img, output_filename);
 	}
 
 	//test();

@@ -40,8 +40,6 @@ int checkDimension(const std::string & vertices_filename)
 }
 
 
-
-
 int main(int argc, char *const *argv)
 {
 	// parse command line using CLI ----------------------------------------------
@@ -107,6 +105,7 @@ int main(int argc, char *const *argv)
 		}
 		else
 		{
+
 			TreeImageRenderer<3> renderer(radii_filename, vertices_filename, edges_filename, domain_filename);
 
 			// output_width is ignored if domain_filename was defined

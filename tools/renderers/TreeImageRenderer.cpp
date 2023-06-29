@@ -30,7 +30,29 @@ TreeImageRenderer<2>::OrganDomain::OrganDomain(const std::string & domain_filena
 	myDomainMask = DGtal::ITKReader< TImage<2> >::importITK(domain_filename);
 }
 
+/*
+	// Compute the coordinates of the bounding box containing all the points
+	TPointD<TDim> tree_lowerbound;
+	TPointD<TDim> tree_upperbound;
 
+	compBB<TDim>(myTree.myPoints, tree_upperbound, tree_lowerbound);
+
+	std::cout << "Tree BB : " << std::endl;
+
+	for (int i = 0; i < TDim; ++i)
+	{
+		std::cout << tree_lowerbound[i] << " | " << tree_upperbound[i] << std::endl;
+	}
+	std::cout << std::endl;
+
+	std::cout << "Image BB : " << std::endl;
+
+	for (int i = 0; i < TDim; ++i)
+	{
+		std::cout << organ_img.domain().lowerBound()[i] << " | " << organ_img.domain().upperBound()[i] << std::endl;
+	}
+	std::cout << std::endl;
+*/
 template<>
 TreeImageRenderer<3>::OrganDomain::OrganDomain(const std::string & domain_filename)
  : myDomainMask(TDomain<3>()), isDefined(true)
@@ -46,7 +68,10 @@ TreeImageRenderer<3>::OrganDomain::OrganDomain(const std::string & domain_filena
 		// vol is not supported by ITK, we handle it separately
 		if(ext == "vol")
 		{
-			TImage<3> myDomainMask = DGtal::VolReader< TImage<3> >::importVol(domain_filename);
+			myDomainMask = DGtal::VolReader< TImage<3> >::importVol(domain_filename);
+
+			std::cout << myDomainMask.size() << std::endl;
+
 			return;
 		}
 	}
@@ -68,6 +93,8 @@ TreeImageRenderer<TDim>::TreeImageRenderer(const std::string & radii_filename,
 									 const std::string & organ_dom_filename)
 	: myOrganDomain(organ_dom_filename)
 {
+	std::cout << myOrganDomain.myDomainMask.size() << std::endl;
+
 	importTreeData(radii_filename, vertices_filename, edges_filename);
 }
 
@@ -499,6 +526,7 @@ TImage<TDim> TreeImageRenderer<TDim>::createDomainImage(unsigned int width, unsi
 	// if the organ domain is defined, no need to rescale the points
 	if(myOrganDomain.isDefined)
 	{
+
 		TImage<TDim> organ(myOrganDomain.myDomainMask);
 
 		normalizeImageValues<TDim>(organ, 0.0, 0.5);		// organ domain has value 0.5
@@ -600,6 +628,8 @@ void saveRender<2>(const TImage<2> & image,
 
 	DGtal::STBWriter< TImage<2>, DGtal::GradientColorMap<double> > 
 		::exportPNG(filename + ".png", image, gradient_cmap);
+
+	std::cout << "Render exported to " << filename << ".png" << std::endl;
 }
 
 
@@ -615,6 +645,9 @@ void saveRender<3>(const TImage<3> & image,
 
 	// test nifti
 	DGtal::ITKWriter< TImage<3> >::exportITK(filename + ".nii", image);
+
+
+	std::cout << "Render exported to " << filename << ".nii and " << filename << ".vol" << std::endl;
 }
 
 
