@@ -70,8 +70,6 @@ TreeImageRenderer<3>::OrganDomain::OrganDomain(const std::string & domain_filena
 		{
 			myDomainMask = DGtal::VolReader< TImage<3> >::importVol(domain_filename);
 
-			std::cout << myDomainMask.size() << std::endl;
-
 			return;
 		}
 	}
@@ -93,8 +91,6 @@ TreeImageRenderer<TDim>::TreeImageRenderer(const std::string & radii_filename,
 									 const std::string & organ_dom_filename)
 	: myOrganDomain(organ_dom_filename)
 {
-	std::cout << myOrganDomain.myDomainMask.size() << std::endl;
-
 	importTreeData(radii_filename, vertices_filename, edges_filename);
 }
 
@@ -473,10 +469,9 @@ TImage<TDim> TreeImageRenderer<TDim>::skeletonRender(unsigned int width)
 	{
 		drawBresenhamLine<TDim>(skeleton_render,
 			TPoint<TDim>(myTree.myPoints[s.myProxitalIndex]),
-			TPoint<TDim>(myTree.myPoints[s.myDistalIndex]) );
+			TPoint<TDim>(myTree.myPoints[s.myDistalIndex]),
+			1.0);
 	}
-
-	normalizeImageValues<TDim>(skeleton_render);
 
 	if(myOrganDomain.isDefined)
 	{
@@ -638,13 +633,16 @@ template<>
 void saveRender<3>(const TImage<3> & image,
 				const std::string & filename)
 {
+	TImage<3> norm_image(image);
+	normalizeImageValues<3>(norm_image, 0.0, 255.0);
+
 	DGtal::functors::Cast<unsigned char> cast_functor;
 
 	DGtal::VolWriter< TImage<3>, DGtal::functors::Cast<unsigned char> >
-		::exportVol(filename + ".vol", image, true, cast_functor);
+		::exportVol(filename + ".vol", norm_image, true, cast_functor);
 
 	// test nifti
-	DGtal::ITKWriter< TImage<3> >::exportITK(filename + ".nii", image);
+	DGtal::ITKWriter< TImage<3> >::exportITK(filename + ".nii", norm_image);
 
 
 	std::cout << "Render exported to " << filename << ".nii and " << filename << ".vol" << std::endl;

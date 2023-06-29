@@ -235,11 +235,13 @@ bool initializeSVGLine(const TPointD<2> & proxital,
  * @param image The image where the line will be drawn (modified by the function).
  * @param p0 The first point of the line.
  * @param p1 The second point of the line.
+ * @param value The value (understand color) of the line.
  **/
 template<int TDim>
 void drawBresenhamLine(TImage<TDim> & image,
 					   TPoint<TDim> p0,
-					   const TPoint<TDim> & p1)
+					   const TPoint<TDim> & p1,
+					   const double value)
 {
 	// check if line is within the image 
 	if( !image.domain().isInside(p0) || !image.domain().isInside(p1) )
@@ -283,7 +285,7 @@ void drawBresenhamLine(TImage<TDim> & image,
 	while(p0[driving_axis] - increments[driving_axis] != p1[driving_axis])
 	{
 		// draw point
-		image.setValue(p0, 255);
+		image.setValue(p0, value);
 		
 		// update current point and diffs
 		for(std::size_t i = 0; i < TDim; i++)
