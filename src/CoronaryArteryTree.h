@@ -242,8 +242,8 @@ public:
         }
         if(aDomCtr.randomPoint() == TPoint::diagonal(0) )
         {
-            DGtal::trace.error() << "Domain too restraint not possible to find random"
-            << " candidate in domain (probably reduce the minimal distance to border"
+            DGtal::trace.error() << "Domain too restrained, not possible to find random"
+            << " candidate in domain (probably reduce the minimal distance to border)"
             << std::endl;
             exit(1);
         }
