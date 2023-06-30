@@ -120,7 +120,7 @@ public:
         // my_pPerf perfusion pressure
         double my_pPerf = 1.33e4; //13300.0;
         
-        // my_pTerm pressure et distal ends of terminal segment
+        // my_pTerm pressure at distal ends of terminal segment
         double my_pTerm = 8.40e3;
         
         // my_qTerm flow in one terminal segment

@@ -86,7 +86,7 @@ int main(int argc, char *const *argv)
 	std::string vertices_filename = "vertex.dat";
 	std::string edges_filename = "edges.dat";
 	std::string output_filename = "realistic_render";
-	double sigma = 50.0;
+	double sigma = 3.0;
 
 	auto dom_group = app.add_option_group("Render domain");
 	dom_group->add_option("-w,--width", output_width, "Width of the output image, in pixels. Aspect ratio is constrained by the position of the points.", true)

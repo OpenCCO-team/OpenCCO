@@ -11,6 +11,7 @@
 #include "GeomHelpers.h"
 
 #include <random>
+#include <limits>
 
 #include "svg_elements.h"
 
@@ -190,6 +191,7 @@ TImage<TDim> TreeImageRenderer<TDim>::flowRender(unsigned int width)
 	{
 		// variables useful for computation in subloop
 		double dist_proxitaldistal = (myTree.myPoints[s.myDistalIndex] - myTree.myPoints[s.myProxitalIndex]).norm();
+		double value = 7 + std::log1p(s.myFlow);
 
 		// points bounding the segment
 		std::vector< TPointD<TDim> > v;
@@ -223,7 +225,7 @@ TImage<TDim> TreeImageRenderer<TDim>::flowRender(unsigned int width)
 
 				if(dist_pproj < interpolated_radius && s.myFlow > flow_render(p))	// inside the segment and bigger flow	
 				{
-					flow_render.setValue(p, s.myFlow);
+					flow_render.setValue(p, value);
 				}
 			}
 			else		// the projection doesn't belong to the segment
@@ -236,12 +238,11 @@ TImage<TDim> TreeImageRenderer<TDim>::flowRender(unsigned int width)
 
 				if(min_dist < 0 && s.myFlow > flow_render(p))		// inside the segment and bigger flow
 				{
-					flow_render.setValue(p, s.myFlow);
+					flow_render.setValue(p, value);
 				}
 			}
 		}
 	}
-
 
 	normalizeImageValues<TDim>(flow_render, 0.0, 255.0);
 
@@ -577,8 +578,6 @@ void saveRender<2>(const TImage<2> & image,
 		std::cout << "The image has only one value, no point displaying it.";
 		return;
 	}
-
-	std::cout << "min val : " << *min_val << "\t max val : " << *max_val << std::endl;
 
 	DGtal::GradientColorMap<double> gradient_cmap(*min_val, *max_val);
 
