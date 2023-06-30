@@ -196,7 +196,6 @@ void compBB(const std::vector< TPointD<TDim> > &points,
 			TPointD<TDim> &lowerbound);
 
 
-
 /**
  * @brief Projects ptC onto the line defined by ptA and ptB.
  * @param[in] ptA, ptB The points defining the segment.

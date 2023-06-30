@@ -186,17 +186,30 @@ TImage<TDim> TreeImageRenderer<TDim>::flowRender(unsigned int width)
 	TImage<TDim> flow_render(organ_img.domain());		// image of the same size
 
 	// compute flow for each pixel
-	for(const TPoint<TDim> &p : flow_render.domain())
+	for(const Segment & s : myTree.mySegments)
 	{
-		flow_render.setValue(p, 0);		// default flow value is zero
+		// variables useful for computation in subloop
+		double dist_proxitaldistal = (myTree.myPoints[s.myDistalIndex] - myTree.myPoints[s.myProxitalIndex]).norm();
 
-		auto it = myTree.mySegments.begin();
-		while (it != myTree.mySegments.end())
+		// points bounding the segment
+		std::vector< TPointD<TDim> > v;
+		for(int i = -1; i <= 1; i+=2)
 		{
-			// project p onto the segment
+			v.emplace_back(myTree.myPoints[s.myProxitalIndex] 
+							+ i * TPoint<TDim>::diagonal(myTree.myRadii[s.myProxitalIndex]));
+			v.emplace_back(myTree.myPoints[s.myDistalIndex]
+							+ i * TPoint<TDim>::diagonal(myTree.myRadii[s.myDistalIndex]));
+		}
+
+		// segment bounding box
+		TPointD<TDim> ub, lb;
+		compBB<TDim>(v, ub, lb);
+
+		for(const TPoint<TDim> & p : TDomain<TDim>(lb, ub))
+		{
 			TPointD<TDim> proj;
-			bool isproj = projectOnStraightLine<TDim>(myTree.myPoints[it->myDistalIndex],
-												myTree.myPoints[it->myProxitalIndex],
+			bool isproj = projectOnStraightLine<TDim>(myTree.myPoints[s.myDistalIndex],
+												myTree.myPoints[s.myProxitalIndex],
 												p,
 												proj);
 
@@ -204,34 +217,31 @@ TImage<TDim> TreeImageRenderer<TDim>::flowRender(unsigned int width)
 			{
 				double dist_pproj = (proj - p).norm();
 
-				double dist_proxitalproj = (proj - myTree.myPoints[it->myProxitalIndex]).norm();
-				double dist_proxitaldistal = (myTree.myPoints[it->myDistalIndex] - myTree.myPoints[it->myProxitalIndex]).norm();
-				double interpolated_radius = (myTree.myRadii[it->myDistalIndex] - myTree.myRadii[it->myProxitalIndex]) * dist_proxitalproj/dist_proxitaldistal
-											+ myTree.myRadii[it->myProxitalIndex];
+				double dist_proxitalproj = (proj - myTree.myPoints[s.myProxitalIndex]).norm();
+				double interpolated_radius = (myTree.myRadii[s.myDistalIndex] - myTree.myRadii[s.myProxitalIndex]) * dist_proxitalproj/dist_proxitaldistal
+											+ myTree.myRadii[s.myProxitalIndex];
 
-				if(dist_pproj < interpolated_radius && it->myFlow > flow_render(p))	// inside the segment and bigger flow	
+				if(dist_pproj < interpolated_radius && s.myFlow > flow_render(p))	// inside the segment and bigger flow	
 				{
-					flow_render.setValue(p, it->myFlow);
+					flow_render.setValue(p, s.myFlow);
 				}
 			}
 			else		// the projection doesn't belong to the segment
 			{			// the distance from p to the segment is either the distance to the distal or the distance to the proxital
 						// offset by their respective radius
-				double dist_pproxital = (myTree.myPoints[it->myProxitalIndex] - p).norm() - myTree.myRadii[it->myProxitalIndex];
-				double dist_pdistal = (myTree.myPoints[it->myDistalIndex] - p).norm() - myTree.myRadii[it->myDistalIndex];
+				double dist_pproxital = (myTree.myPoints[s.myProxitalIndex] - p).norm() - myTree.myRadii[s.myProxitalIndex];
+				double dist_pdistal = (myTree.myPoints[s.myDistalIndex] - p).norm() - myTree.myRadii[s.myDistalIndex];
 
 				double min_dist = std::min(dist_pproxital, dist_pdistal);
 
-				if(min_dist < 0 && it->myFlow > flow_render(p))		// inside the segment and bigger flow
+				if(min_dist < 0 && s.myFlow > flow_render(p))		// inside the segment and bigger flow
 				{
-					flow_render.setValue(p, it->myFlow);
+					flow_render.setValue(p, s.myFlow);
 				}
 			}
-
-			// next segment 
-			it++;
 		}
 	}
+
 
 	normalizeImageValues<TDim>(flow_render, 0.0, 255.0);
 
@@ -605,9 +615,9 @@ void saveRender<3>(const TImage<3> & image,
 
 
 template<int TDim>
-void compBB(const std::vector< TPointD<TDim> > &points,
-			TPointD<TDim> &upperbound, 
-			TPointD<TDim> &lowerbound)
+void compBB(const std::vector< TPointD<TDim> > & points,
+			TPointD<TDim> & upperbound, 
+			TPointD<TDim> & lowerbound)
 {
 	upperbound = points[0];
 	lowerbound = points[0];
