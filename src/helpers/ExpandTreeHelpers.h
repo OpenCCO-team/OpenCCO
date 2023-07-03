@@ -60,60 +60,6 @@ initFirstElemTree(CoronaryArteryTree< DomCtr, TDim > &aTree,
 template<typename DomCtr, int TDim>
 inline
 void
-initSecondRoot(CoronaryArteryTree< DomCtr, TDim > &aTree)
-{
-	/*
-    for(unsigned int i = 0; i < TDim; i++)
-    {
-        aTree.myTreeCenter[i] = static_cast<int>(aTree.myDomainController().myCenter[i]);
-    }
-    
-    aTree.myVectSegments[0].myCoordinate[0] = 0;
-    aTree.myVectSegments[0].myCoordinate[1] = aTree.myDomainController().myRadius;
-
-    aTree.myVectParent[1] = 1;		// 2nd root
-    aTree.myVectSegments[1].myCoordinate[0] = 0;
-    aTree.myVectSegments[1].myCoordinate[1] = -aTree.myDomainController().myRadius;
-
-    // segment with 1st root
-    CoronaryArteryTree::Segment s1;
-    s1.myRadius = aTree.myVectSegments[0].myRadius;
-    s1.myCoordinate = myTreeCenter + CoronaryArteryTree::TPointD(0, aTree.myDomainController().myRadius/2);
-    double myLength = (aTree.myVectSegments[0].myCoordinate - s1.myCoordinate).norm() * aTree.myLengthFactor;
-    s1.myIndex = 2;
-    s1.myKTerm = 1;
-    s1.myResistance = 8.0 * aTree.my_mu * myLength / M_PI;
-    s1.myFlow = aTree.my_qTerm;
-    s1.myBeta = 1.0;
-
-    // segment with 2nd root
-    CoronaryArteryTree::Segment s2;
-    s2.myRadius = aTree.myVectSegments[1].myRadius;
-    s2.myCoordinate = myTreeCenter - CoronaryArteryTree::TPointD(0, aTree.myDomainController().myRadius/2);
-    double myLength = (aTree.myVectSegments[1].myCoordinate - s2.myCoordinate).norm() * aTree.myLengthFactor;
-    s2.myIndex = 3;
-    s2.myKTerm = 1;
-    s2.myResistance = 8.0 * aTree.my_mu * myLength / M_PI;
-    s2.myFlow = aTree.my_qTerm;
-    s2.myBeta = 1.0;
-
-    //
-    aTree.myVectSegments.push_back(s1);
-    aTree.myVectSegments.push_back(s2);
-    aTree.myVectTerminals.clear();
-    aTree.myVectTerminals.push_back(2);
-    aTree.myVectTerminals.push_back(3);
-    aTree.myVectParent.push_back(0);
-    aTree.myVectParent.push_back(1);
-    aTree.myVectChildren.push_back(std::pair<unsigned int, unsigned int>(0,0));
-    */
-}
-
-
-
-template<typename DomCtr, int TDim>
-inline
-void
 expandTree(CoronaryArteryTree< DomCtr, TDim > &aTree,
            bool verbose = false, unsigned int nbMaxSearch = 100,
            unsigned int nbTryCandite = 100)

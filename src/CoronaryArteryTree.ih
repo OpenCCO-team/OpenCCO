@@ -597,13 +597,17 @@ CoronaryArteryTree<DomCtr, TDim>::generateALocation(double myDThresold) {
     bool isComp2 = true;
     unsigned int id = 1;
     
+    // generated point must be a certain distance away to all terminal points
     while ( isComp && id < myVectTerminals.size() ) {
       isComp = (myVectSegments[myVectTerminals[id]].myCoordinate - res).norm() > myDThresold;
      //isComp = getProjDistance(myVectTerminals[id], res) > myDThresold;
       id++;
     }
+
+    // reset id
+    id = 1;
     
-    //generated point must have a certain distance to ALL tree segments
+    //generated point must be a certain distance away to ALL tree segments
     while ( isComp2 && id < myVectSegments.size() ) {
       isComp2 = getProjDistance(myVectSegments[id].myIndex, res) > myVectSegments[id].myRadius;
       id++;

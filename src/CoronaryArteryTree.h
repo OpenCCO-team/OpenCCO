@@ -65,7 +65,7 @@ using ceres::Solver;
 template <class DomCtr, int TDim>
 class CoronaryArteryTree{
     /**
-     * Class to handle the reprensetation of the coronary tree.
+     * Class to handle the representation of the coronary tree.
      */
 public:
     // Domain
@@ -366,7 +366,6 @@ public:
      * @param nbTrials : number of trials before reducing the distance constaint value
      *
      */
-    
     DGtal::PointVector<TDim, double>
     generateNewLocation(unsigned int nbTrials = 1000);
     

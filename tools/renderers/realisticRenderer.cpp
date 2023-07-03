@@ -46,6 +46,8 @@ int checkDimension(const std::string & vertices_filename)
 
 void test()
 {
+	// donut renderer :)
+	
 	int scale_factor = 60;
 
 	// tore radii
