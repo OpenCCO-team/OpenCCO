@@ -57,7 +57,7 @@ using ceres::Solver;
 /**
  * Description of class 'CoronaryArteryTree' <p>
  *
- * @brief Class to represent and construct a Coronary Artery Tree using throught the CCO algorithm.
+ * @brief Class to represent and construct a Coronary Artery Tree used through the CCO algorithm.
  *
  *
  */

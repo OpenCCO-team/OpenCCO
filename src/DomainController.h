@@ -137,25 +137,27 @@ public:
         return res;
         
     }
+
     std::vector<std::vector< TPoint > >
     contours()
     {
         std::vector<std::vector< TPoint > > res;
         return res;
     }
+
     TPoint
     lowerBound()
     {
         TPoint p = TPoint::diagonal(myRadius*0.01);
         return myCenter - p;
     }
+
     TPoint
     upperBound()
     {
         TPoint p = TPoint::diagonal(myRadius*0.01);
         return myCenter + p;
-    }
-    
+    } 
 };
 
 
@@ -360,7 +362,6 @@ public:
     TPointI
     lowerBound()
     {
-        
         return myImage.domain().lowerBound();
     }
 

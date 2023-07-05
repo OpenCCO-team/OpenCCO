@@ -1,7 +1,7 @@
 SET(BIN_SRC
 	generateTree2D
 	generateTree3D
-	treeFromInit
+    generateMultipleTrees2D
 )
 
 FOREACH(FILE ${BIN_SRC})
