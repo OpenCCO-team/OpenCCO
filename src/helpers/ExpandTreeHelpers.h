@@ -176,26 +176,14 @@ expandMultipleTrees(std::vector<TTree> & trees,
 					if(isOK)
 					{
 						vol = cTree1.computeTotalVolume(1);
-						// don't know why this code exists, removing it next build if everything works
-						// if(volOpt<0.0)
-						// {
-						// 	volOpt = vol;
-						// 	cTreeOpt = cTree1;
-						// 	itOpt = it;
-						// }
-						// else
-						// {
-						// 	if(volOpt>vol)
-						// 	{
-						// 		volOpt = vol;
-						// 		cTreeOpt = cTree1;
-						// 		itOpt = it;
-						// 	}
-						// }
+						
+						if(volOpt<0.0 || volOpt > vol)
+						{
+							volOpt = vol;
+							cTreeOpt = cTree1;
+							itOpt = it;
+						}
 
-						volOpt = vol;
-						cTreeOpt = cTree1;
-						itOpt = it;
 						nbSol++;
 					}
 				}
