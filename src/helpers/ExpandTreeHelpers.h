@@ -34,7 +34,7 @@
 #include "DGtal/topology/helpers/Surfaces.h"
 #include "DGtal/kernel/BasicPointPredicates.h"
 #include "DGtal/io/readers/GenericReader.h"
-#include "CoronaryArteryTree.h"
+#include "CohabitingTrees.h"
 
 
 
@@ -134,81 +134,16 @@ expandTree(CoronaryArteryTree< DomCtr, TDim > &aTree,
 }
 
 
-/*
-template<typename TTree>
-inline
+template<class TCohabTrees>
 void
-expandMultipleTrees(std::vector<TTree> & trees,
-					bool verbose = false, unsigned int nbMaxSearch = 100,
-					unsigned int nbTryCandidate = 100)
+expandCohabitingTrees(TCohabTrees & aCTree,
+		   bool verbose = false, unsigned int nbMaxSearch = 100,
+		   unsigned int nbTryCandidate = 100)
 {
-	srand ((unsigned int) time(NULL));
-	
-	std::vector<unsigned int> nbSeedFound(trees.size(), 1);
-	std::vector<unsigned int> nbSeedAttempt(trees.size(), 1);
-
-	std::vector<unsigned int> nbSeeds;
-	for(auto it = trees.begin(); it != trees.end(); it++)
-		nbSeeds.push_back(it->my_NTerm);
-
-	for (unsigned int i = 1; i < nbSeed; i++)
+	while(!aCTree.expansionFinished())
 	{
-		DGtal::trace.progressBar(i, nbSeed);
-		size_t nbSol = 0, itOpt = 0;
-		TTree cTreeOpt = aTree;
-		double volOpt = -1.0, vol = 0.0;
-		unsigned int nbT = 0;
-
-		while (nbSol==0 && nbT < nbMaxSearch)
-		{
-			auto pt = aTree.generateNewLocation(nbTryCandidate);
-			nbT++;
-			std::vector<unsigned int> vecN = aTree.getN_NearestSegments(pt,aTree.myNumNeighbor);
-			for(size_t it=0; it<vecN.size(); it++)
-			{
-				auto ptBifurcation = aTree.findBarycenter(pt, vecN.at(it));
-				if(!aTree.isIntersectingTree(pt, ptBifurcation,
-											aTree.myVectSegments[vecN.at(it)].myRadius,
-											vecN.at(it)))
-				{
-					TTree cTree1 = aTree;
-					bool isOK = cTree1.isAddable(pt,vecN.at(it), 100, 0.01, cTree1.myNumNeighbor, verbose);
-					if(isOK)
-					{
-						vol = cTree1.computeTotalVolume(1);
-						
-						if(volOpt<0.0 || volOpt > vol)
-						{
-							volOpt = vol;
-							cTreeOpt = cTree1;
-							itOpt = it;
-						}
-
-						nbSol++;
-					}
-				}
-			}
-		}
-
-		if(nbT < nbMaxSearch)
-		{
-		nbSeedFound++;
-		}
-
-		aTree = cTreeOpt;
-		aTree.updateLengthFactor();
-		aTree.updateResistanceFromRoot();
-		aTree.updateRootRadius();
-	}
-
-	if (nbSeed != nbSeedFound)
-	{
-		DGtal::trace.warning() << "All seeds not found due to too large domain constraints ("
-		<< nbSeedFound << " over " << nbSeed << ")";
-	}
-
-	if (verbose){
-		std::cout<<"====> Aperf="<<aTree.myRsupp*aTree.myRsupp*aTree.my_NTerm*M_PI<<" == "<<aTree.my_aPerf<<std::endl;
+		// pour demain mdr
+		return;
 	}
 }
 
@@ -246,8 +181,6 @@ std::vector< std::vector< DGtal::Z2i::Point >  >  vectContoursBdryPointels;
 DGtal::Surfaces<DGtal::Z2i::KSpace>::extractAllPointContours4C( vectContoursBdryPointels, ks, predicate, sAdj );
 return vectContoursBdryPointels;
 }
-*/
-
 
 
 /**
