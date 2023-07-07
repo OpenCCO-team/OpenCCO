@@ -158,7 +158,11 @@ CoronaryArteryTree<DomCtr, TDim>::isAddable(const TPointD &p, unsigned int segIn
   typedef typename DomCtr::TPoint::Component TCompPt;
   TPointD pOpt, newCenter = findBarycenter(p, segIndex);
   TPoint newCenterDom;
-  for (auto i=0; i < TDim; i++){newCenterDom[i] = static_cast<TCompPt>(newCenter[i]);}
+  for (int i=0; i < TDim; i++)
+  {
+  	newCenterDom[i] = static_cast<TCompPt>(newCenter[i]);
+  }
+
   TPoint pDom; for (auto i=0; i < TDim; i++){pDom[i] = static_cast<TCompPt>(p[i]);}
 
   TPoint pSegIndDom; for (auto i=0; i < TDim; i++){pSegIndDom[i] = static_cast<TCompPt>(myVectSegments[segIndex].myCoordinate[i]);}
@@ -607,7 +611,7 @@ CoronaryArteryTree<DomCtr, TDim>::generateALocation(double myDThresold) {
     // reset id
     id = 1;
     
-    //generated point must be a certain distance away to ALL tree segments
+    // generated point must be a certain distance away to ALL tree segments
     while ( isComp2 && id < myVectSegments.size() ) {
       isComp2 = getProjDistance(myVectSegments[id].myIndex, res) > myVectSegments[id].myRadius;
       id++;
@@ -651,23 +655,32 @@ CoronaryArteryTree<DomCtr, TDim>::getProjDistance(unsigned int index, const TPoi
 
 template< typename DomCtr, int TDim >
 std::vector<unsigned int>
-CoronaryArteryTree<DomCtr, TDim>::getN_NearestSegments(const TPointD &p, unsigned int n) const {
-  std::vector<unsigned int> res;
-  res.push_back(1);
-  for (unsigned int i=2; i < myVectSegments.size(); i++){
-    double d = getProjDistance(i, p);
-    std::vector<unsigned int>::iterator it = res.end();
-    int k = (int)(res.size())-1;
-    while ( k >= 0 && getProjDistance(res[k], p)>=d ){
-      k--;
-      it--;
-    }
-    res.insert(it, i);
-    if (res.size() > n){
-      res.pop_back();
-    }
-  }
-  return res;
+CoronaryArteryTree<DomCtr, TDim>::getN_NearestSegments(const TPointD &p, unsigned int n) const
+{
+	std::vector<unsigned int> res;
+	res.push_back(1);
+
+	for (unsigned int i=2; i < myVectSegments.size(); i++)
+	{
+		double d = getProjDistance(i, p);
+		std::vector<unsigned int>::iterator it = res.end();
+
+		int k = (int)(res.size())-1;
+		while ( k >= 0 && getProjDistance(res[k], p)>=d )
+		{
+			k--;
+			it--;
+		}
+
+		res.insert(it, i);
+		
+		if (res.size() > n)
+		{
+			res.pop_back();
+		}
+	}
+
+	return res;
 }
 
 template< typename DomCtr, int TDim >

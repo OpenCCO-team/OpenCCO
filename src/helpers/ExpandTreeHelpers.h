@@ -96,7 +96,7 @@ expandTree(CoronaryArteryTree< DomCtr, TDim > &aTree,
 					{
 						vol = cTree1.computeTotalVolume(1);
 						
-						if(volOpt<0.0 || volOpt > vol)
+						if(volOpt < 0.0 || volOpt > vol)
 						{
 							volOpt = vol;
 							cTreeOpt = cTree1;
@@ -137,14 +137,58 @@ expandTree(CoronaryArteryTree< DomCtr, TDim > &aTree,
 template<class TCohabTrees>
 void
 expandCohabitingTrees(TCohabTrees & aCTree,
-		   bool verbose = false, unsigned int nbMaxSearch = 100,
-		   unsigned int nbTryCandidate = 100)
+		   bool verbose = false, unsigned int nb_max_search = 100,
+		   unsigned int nb_try_candidate = 100)
 {
+	srand ((unsigned int) time(NULL));
+
 	while(!aCTree.expansionFinished())
 	{
-		// pour demain mdr
-		return;
+		DGtal::trace.progressBar(aCTree.attemptsSum(), aCTree.NTermsSum());
+		double vol_opt = -1.0;
+
+		auto tree_copy = aCTree.getCurrentTreeCopy();
+
+		bool seed_found = false;
+		unsigned int i = 0;
+		while(i++ < nb_max_search && !seed_found)
+		{
+			auto p = aCTree.generateNewLocation(nb_try_candidate);
+			std::vector<unsigned int> vecN = tree_copy.getN_NearestSegments(p, tree_copy.myNumNeighbor);
+
+			for(unsigned int neighbor_index : vecN)
+			{
+				auto p_bifurcation = tree_copy.findBarycenter(p, neighbor_index);
+				
+				if(!aCTree.isIntersectingTrees(p, p_bifurcation, 
+									tree_copy.myVectSegments[neighbor_index].myRadius, neighbor_index) )
+				{
+					seed_found = tree_copy.isAddable(p, neighbor_index, 100, 0.01, tree_copy.myNumNeighbor, verbose);
+				}
+			}
+		}
+
+		if(seed_found)
+		{
+			double vol = tree_copy.computeTotalVolume(1);
+
+			if(vol_opt < 0.0 || vol_opt > vol)
+			{
+				vol_opt = vol;
+
+				tree_copy.updateLengthFactor();
+				tree_copy.updateResistanceFromRoot();
+				tree_copy.updateRootRadius();
+
+				aCTree.replaceCurrentTree(tree_copy);
+			}
+		}
+
+		aCTree.incrementAttempt();
+		aCTree.nextTree();
 	}
+
+	aCTree.expansionSummary(verbose);
 }
 
 
