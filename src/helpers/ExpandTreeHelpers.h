@@ -36,6 +36,7 @@
 #include "DGtal/io/readers/GenericReader.h"
 #include "CohabitingTrees.h"
 
+#include <limits>
 
 
 namespace ExpandTreeHelpers {
@@ -73,43 +74,43 @@ expandTree(CoronaryArteryTree< DomCtr, TDim > &aTree,
 	for (unsigned int i = 1; i < nbSeed; i++)
 	{
 		DGtal::trace.progressBar(i, nbSeed);
-		size_t nbSol = 0, itOpt = 0;
+		bool seed_found = false;
 		CoronaryArteryTree< DomCtr, TDim > cTreeOpt = aTree;
-		double volOpt = -1.0, vol = 0.0;
+		double volOpt = std::numeric_limits<double>::infinity();
 		unsigned int nbT = 0;
 
-		while (nbSol==0 && nbT < nbMaxSearch)
+		while (!seed_found && nbT++ < nbMaxSearch)
 		{
 			auto pt = aTree.generateNewLocation(nbTryCandidate);
-			nbT++;
 			std::vector<unsigned int> vecN = aTree.getN_NearestSegments(pt,aTree.myNumNeighbor);
-			for(size_t it=0; it<vecN.size(); it++)
+
+			for(unsigned int neighbor_index : vecN)
 			{
-				auto ptBifurcation = aTree.findBarycenter(pt, vecN.at(it));
+				auto ptBifurcation = aTree.findBarycenter(pt, neighbor_index);
 				if(!aTree.isIntersectingTree(pt, ptBifurcation,
-											aTree.myVectSegments[vecN.at(it)].myRadius,
-											vecN.at(it)))
+											aTree.myVectSegments[neighbor_index].myRadius,
+											neighbor_index) )
 				{
 					CoronaryArteryTree< DomCtr, TDim  > cTree1 = aTree;
-					isOK = cTree1.isAddable(pt,vecN.at(it), 100, 0.01, cTree1.myNumNeighbor, verbose);
+					isOK = cTree1.isAddable(pt,neighbor_index, 100, 0.01, cTree1.myNumNeighbor, verbose);
+					
+					// find the neighboring segment that minimizes the total volume of the tree
 					if(isOK)
 					{
-						vol = cTree1.computeTotalVolume(1);
+						double vol = cTree1.computeTotalVolume(1);
 						
-						if(volOpt < 0.0 || volOpt > vol)
+						if(volOpt > vol)
 						{
 							volOpt = vol;
 							cTreeOpt = cTree1;
-							itOpt = it;
+							seed_found = true;
 						}
-
-						nbSol++;
 					}
 				}
 			}
 		}
 
-		if(nbT < nbMaxSearch)
+		if(seed_found)
 		{
 			nbSeedFound++;
 		}
@@ -145,48 +146,52 @@ expandCohabitingTrees(TCohabTrees & aCTree,
 	while(!aCTree.expansionFinished())
 	{
 		DGtal::trace.progressBar(aCTree.attemptsSum(), aCTree.NTermsSum());
-		double vol_opt = -1.0;
+		double vol_opt = std::numeric_limits<double>::infinity();
 
-		auto tree_copy = aCTree.getCurrentTreeCopy();
+		auto tree_opti = aCTree.getCurrentTreeCopy();
 
 		bool seed_found = false;
 		unsigned int i = 0;
 		while(i++ < nb_max_search && !seed_found)
 		{
 			auto p = aCTree.generateNewLocation(nb_try_candidate);
-			std::vector<unsigned int> vecN = tree_copy.getN_NearestSegments(p, tree_copy.myNumNeighbor);
+			std::vector<unsigned int> vecN = aCTree.getNeighbors(p);
 
 			for(unsigned int neighbor_index : vecN)
 			{
-				auto p_bifurcation = tree_copy.findBarycenter(p, neighbor_index);
+				auto p_bifurcation = tree_opti.findBarycenter(p, neighbor_index);
 				
 				if(!aCTree.isIntersectingTrees(p, p_bifurcation, 
-									tree_copy.myVectSegments[neighbor_index].myRadius, neighbor_index) )
+									aCTree.getSegmentRadius(neighbor_index), neighbor_index) )
 				{
+					auto tree_copy = aCTree.getCurrentTreeCopy();
 					seed_found = tree_copy.isAddable(p, neighbor_index, 100, 0.01, tree_copy.myNumNeighbor, verbose);
+					
+					if(seed_found)
+					{
+						double vol = tree_copy.computeTotalVolume(1);
+
+						if(vol_opt > vol)
+						{
+							vol_opt = vol;
+							tree_opti = tree_copy;
+							seed_found = true;
+						}
+					}
 				}
-			}
-		}
-
-		if(seed_found)
-		{
-			double vol = tree_copy.computeTotalVolume(1);
-
-			if(vol_opt < 0.0 || vol_opt > vol)
-			{
-				vol_opt = vol;
-
-				tree_copy.updateLengthFactor();
-				tree_copy.updateResistanceFromRoot();
-				tree_copy.updateRootRadius();
-
-				aCTree.replaceCurrentTree(tree_copy);
 			}
 		}
 
 		aCTree.incrementAttempt();
 		aCTree.nextTree();
+
+		tree_opti.updateLengthFactor();
+		tree_opti.updateResistanceFromRoot();
+		tree_opti.updateRootRadius();
+		aCTree.replaceCurrentTree(tree_opti);
 	}
+
+	
 
 	aCTree.expansionSummary(verbose);
 }

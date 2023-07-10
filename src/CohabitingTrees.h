@@ -63,6 +63,16 @@ public:
 		return *myIterator;
 	}
 
+	double getSegmentRadius(unsigned int seg_index)
+	{
+		return myIterator->myVectSegments[seg_index].myRadius;
+	}
+
+	std::vector<unsigned int> getNeighbors(const typename TTree<DomCtr, TDim>::TPointD & p)
+	{
+		return myIterator->getN_NearestSegments(p, myIterator->myNumNeighbor);
+	}
+
 	void incrementAttempt()
 	{
 		std::size_t i = myIterator - myTrees.begin();
