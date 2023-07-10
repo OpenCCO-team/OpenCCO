@@ -67,7 +67,6 @@ expandTree(CoronaryArteryTree< DomCtr, TDim > &aTree,
 		   unsigned int nbTryCandidate = 100)
 {
 	srand ((unsigned int) time(NULL));
-	bool isOK = false;
 	unsigned int nbSeedFound = 1;
 	unsigned int nbSeed = aTree.my_NTerm;
 
@@ -75,8 +74,8 @@ expandTree(CoronaryArteryTree< DomCtr, TDim > &aTree,
 	{
 		DGtal::trace.progressBar(i, nbSeed);
 		bool seed_found = false;
-		CoronaryArteryTree< DomCtr, TDim > cTreeOpt = aTree;
-		double volOpt = std::numeric_limits<double>::infinity();
+		CoronaryArteryTree< DomCtr, TDim > tree_opti = aTree;
+		double vol_opt = std::numeric_limits<double>::infinity();
 		unsigned int nbT = 0;
 
 		while (!seed_found && nbT++ < nbMaxSearch)
@@ -91,18 +90,17 @@ expandTree(CoronaryArteryTree< DomCtr, TDim > &aTree,
 											aTree.myVectSegments[neighbor_index].myRadius,
 											neighbor_index) )
 				{
-					CoronaryArteryTree< DomCtr, TDim  > cTree1 = aTree;
-					isOK = cTree1.isAddable(pt,neighbor_index, 100, 0.01, cTree1.myNumNeighbor, verbose);
-					
+					CoronaryArteryTree< DomCtr, TDim  > tree_copy = aTree;
+										
 					// find the neighboring segment that minimizes the total volume of the tree
-					if(isOK)
+					if(tree_copy.isAddable(pt,neighbor_index, 100, 0.01, tree_copy.myNumNeighbor, verbose))
 					{
-						double vol = cTree1.computeTotalVolume(1);
+						double vol = tree_copy.computeTotalVolume(1);
 						
-						if(volOpt > vol)
+						if(vol_opt > vol)
 						{
-							volOpt = vol;
-							cTreeOpt = cTree1;
+							vol_opt = vol;
+							tree_opti = tree_copy;
 							seed_found = true;
 						}
 					}
@@ -115,7 +113,7 @@ expandTree(CoronaryArteryTree< DomCtr, TDim > &aTree,
 			nbSeedFound++;
 		}
 
-		aTree = cTreeOpt;
+		aTree = tree_opti;
 		aTree.updateLengthFactor();
 		aTree.updateResistanceFromRoot();
 		aTree.updateRootRadius();
@@ -135,9 +133,9 @@ expandTree(CoronaryArteryTree< DomCtr, TDim > &aTree,
 }
 
 
-template<class TCohabTrees>
+template<class DomCtr, int TDim>
 void
-expandCohabitingTrees(TCohabTrees & aCTree,
+expandCohabitingTrees(CohabitingTrees<DomCtr, TDim> & aCTree,
 		   bool verbose = false, unsigned int nb_max_search = 100,
 		   unsigned int nb_try_candidate = 100)
 {
@@ -148,7 +146,7 @@ expandCohabitingTrees(TCohabTrees & aCTree,
 		DGtal::trace.progressBar(aCTree.attemptsSum(), aCTree.NTermsSum());
 		double vol_opt = std::numeric_limits<double>::infinity();
 
-		auto tree_opti = aCTree.getCurrentTreeCopy();
+		CoronaryArteryTree<DomCtr, TDim> tree_opti = aCTree.getCurrentTreeCopy();
 
 		bool seed_found = false;
 		unsigned int i = 0;
@@ -164,7 +162,7 @@ expandCohabitingTrees(TCohabTrees & aCTree,
 				if(!aCTree.isIntersectingTrees(p, p_bifurcation, 
 									aCTree.getSegmentRadius(neighbor_index), neighbor_index) )
 				{
-					auto tree_copy = aCTree.getCurrentTreeCopy();
+					CoronaryArteryTree<DomCtr, TDim> tree_copy = aCTree.getCurrentTreeCopy();
 					seed_found = tree_copy.isAddable(p, neighbor_index, 100, 0.01, tree_copy.myNumNeighbor, verbose);
 					
 					if(seed_found)
@@ -182,16 +180,14 @@ expandCohabitingTrees(TCohabTrees & aCTree,
 			}
 		}
 
-		aCTree.incrementAttempt();
-		aCTree.nextTree();
-
 		tree_opti.updateLengthFactor();
 		tree_opti.updateResistanceFromRoot();
 		tree_opti.updateRootRadius();
 		aCTree.replaceCurrentTree(tree_opti);
-	}
 
-	
+		aCTree.incrementAttempt();
+		aCTree.nextTree();
+	}
 
 	aCTree.expansionSummary(verbose);
 }
