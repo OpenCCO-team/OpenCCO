@@ -374,6 +374,12 @@ public:
 		assert(find);
 		return res;
 	}
+
+	TPoint
+	evenlySpreadCandidates() const
+	{
+		
+	}
 	
 
 	std::vector< std::vector<TPointI> >
