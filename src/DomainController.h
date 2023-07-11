@@ -78,7 +78,7 @@ public:
 		myCenter = center;
 	};
 	
-	virtual bool isInside(const TPoint &p)
+	virtual bool isInside(const TPoint &p) const
 	{
 		return (myCenter-p).norm() < myRadius;
 	}
@@ -181,7 +181,7 @@ public:
 		CircularDomainCtrl<TDim>::myCenter = center;
 	};
 
-	bool isInside(const typename SquareDomainCtrl<TDim>::TPoint &p)
+	bool isInside(const typename SquareDomainCtrl<TDim>::TPoint &p) const
 	{
 		bool res = true;
 		for (unsigned int i=0; i<TDim; i++)
@@ -307,7 +307,7 @@ public:
 	}
 
 
-	bool isInside(const TPointI &p)
+	bool isInside(const TPointI &p) const
 	{
 		return myImage(p) > myMaskThreshold;
 	}

@@ -302,13 +302,68 @@ private:
 template<class DomCtr, int TDim>
 std::vector< TPoint<TDim> > evenlySpreadPoints(const DomCtr & domain, unsigned int n)
 {
-	std::vector< TPoint<TDim> > res;
-	double epsilon = 0.36;			// offset for the indices, proven best for most n values : https://extremelearning.com.au/how-to-evenly-distribute-points-on-a-sphere-more-effectively-than-the-canonical-fibonacci-lattice/#more-3069
-	
+	std::vector< TPointD<TDim> > base_points;
+	double epsilon = 0.36;				// offset for the indices, proven best for most n values : https://extremelearning.com.au/how-to-evenly-distribute-points-on-a-sphere-more-effectively-than-the-canonical-fibonacci-lattice/#more-3069
+	double double_GR = (1 + sqrt(5));	// golden ratio times 2 (to save a multiplication by 2 later)
+
 	for(std::size_t i = 0; i < n; i++)
 	{
-		std::cout << i + epsilon << std::endl;
+		// angles
+		double phi = acos(1 - 2 * (i + epsilon) / n);
+		double theta = M_PI * double_GR * i;
+
+		base_points.emplace_back(cos(theta) * sin(phi),
+						 sin(theta) * sin(phi),
+						 cos(phi) );
 	}
 
-	return res;
+	// find the largest radius for which every point is within the domain
+	// using a dichotomy
+	double r1 = domain.myRadius;
+	double r2 = 2 * r1;
+	double precision = 0.5;
+
+	// first we find r1 and r2 such that r2 = 2*r1 and all points with r1 are within the domain, and at least one point with r2 is not
+	bool r_bounds_set = false;
+	int DEBUG_I = 0;
+	while(!r_bounds_set)
+	{
+		DEBUG_I++;
+		bool within_r1 = true;			// whether all points with r1 are inside the domain
+		bool within_r2 = true;			// whether all points with r2 are inside the domain
+		for(const TPointD<TDim> & p : base_points)
+		{
+			within_r1 = within_r1 && domain.isInside(domain.myCenter + r1 * p);
+			within_r2 = within_r2 && domain.isInside(domain.myCenter + r2 * p);
+		}
+
+		r_bounds_set = within_r1 && !within_r2;
+
+		// adjust bounds if they don't satisfy criteria
+		if(within_r1)
+		{	
+			if(within_r2)
+			{
+				r1 = r2;
+				r2 *= 2;
+			}
+		}
+		else
+		{
+			if(within_r2)
+			{
+				// r1 > r2 shouldn't ever happen, but managing it just in case
+				std::swap(r1, r2);
+			}
+			else
+			{
+				r2 = r1;
+				r1 /= 2;
+			}
+		}
+	}
+
+	std::cout << r1 << " " << r2 << " found in " << DEBUG_I << " loops." << std::endl;
+
+	return std::vector<TPoint<TDim>>(1 /* PLCE HILDER FOR HTEUJD*/);
 }

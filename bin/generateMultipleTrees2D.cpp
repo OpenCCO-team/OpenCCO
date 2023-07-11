@@ -5,8 +5,8 @@
 
 int main()
 {
-	CircularDomainCtrl<2>::TPoint p_center(0, 0);
-	CircularDomainCtrl<2> circ_dom(1.0, p_center);
+	ImageMaskDomainCtrl<3>::TPoint p_center(0, 0);
+	ImageMaskDomainCtrl dom_ctr_mask("~/OpenCCO/Samples/tore.vol", 128, p_center, 100);
 
 	// data vectors
 	std::vector<double> perfs {20000, 10000};
@@ -16,7 +16,7 @@ int main()
 
 	// ExpandTreeHelpers::expandCohabitingTrees(ctree);
 
-	evenlySpreadPoints<CircularDomainCtrl<2>, 2>(circ_dom, 10);
+	std::vector< TPoint<3> > pts = evenlySpreadPoints<CircularDomainCtrl<3>, 3>(circ_dom,1000);
 
 	return 0;
 }
