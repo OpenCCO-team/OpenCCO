@@ -291,18 +291,24 @@ private:
 	}
 };
 
+
+
 /*
- * @brief returns a list of points of a n-D sphere.
+ * @brief returns a list of points of a 3D sphere.
  * @brief The points are placed with the golden spiral method to ensure they're evenly spread reliably.
  * @brief the sphere is centered on the DomainController center, and as big as possible.
  * @param domain The domain to fit the sphere.
  * @param n The amount of points to spread.
  * @returns a std::vector of points.
  */
-template<class DomCtr, int TDim>
-std::vector< TPoint<TDim> > evenlySpreadPoints(const DomCtr & domain, unsigned int n)
+template<class DomCtr>
+std::vector< TPoint<3> > evenlySpreadPoints3D(const DomCtr & domain, unsigned int n)
 {
-	std::vector< TPointD<TDim> > base_points;
+	std::cout << domain.lowerBound()[0] << " " << domain.lowerBound()[1] << " " << domain.lowerBound()[2] << std::endl;
+	std::cout << domain.upperBound()[0] << " " << domain.upperBound()[1] << " " << domain.upperBound()[2] << std::endl;
+	std::cout << domain.myCenter[0] << " " << domain.myCenter[1] << " " << domain.myCenter[2] << std::endl << std::endl;
+
+	std::vector< TPointD<3> > base_points;
 	double epsilon = 0.36;				// offset for the indices, proven best for most n values : https://extremelearning.com.au/how-to-evenly-distribute-points-on-a-sphere-more-effectively-than-the-canonical-fibonacci-lattice/#more-3069
 	double double_GR = (1 + sqrt(5));	// golden ratio times 2 (to save a multiplication by 2 later)
 
@@ -331,10 +337,10 @@ std::vector< TPoint<TDim> > evenlySpreadPoints(const DomCtr & domain, unsigned i
 		DEBUG_I++;
 		bool within_r1 = true;			// whether all points with r1 are inside the domain
 		bool within_r2 = true;			// whether all points with r2 are inside the domain
-		for(const TPointD<TDim> & p : base_points)
+		for(const TPointD<3> & p : base_points)
 		{
-			within_r1 = within_r1 && domain.isInside(domain.myCenter + r1 * p);
-			within_r2 = within_r2 && domain.isInside(domain.myCenter + r2 * p);
+			within_r1 = within_r1 && domain.isInside(TPoint<3>(domain.myCenter + r1 * p));
+			within_r2 = within_r2 && domain.isInside(TPoint<3>(domain.myCenter + r2 * p));
 		}
 
 		r_bounds_set = within_r1 && !within_r2;
@@ -352,7 +358,7 @@ std::vector< TPoint<TDim> > evenlySpreadPoints(const DomCtr & domain, unsigned i
 		{
 			if(within_r2)
 			{
-				// r1 > r2 shouldn't ever happen, but managing it just in case
+				// r1 > r2 shouldn't ever happen, but managing this case anyway
 				std::swap(r1, r2);
 			}
 			else
@@ -363,7 +369,66 @@ std::vector< TPoint<TDim> > evenlySpreadPoints(const DomCtr & domain, unsigned i
 		}
 	}
 
+	std::cout << r1 << " " << r2 << " found in " << DEBUG_I << " loops." << std::endl << std::endl;
+
+	// dichotomy main loop
+	DEBUG_I = 0;
+	while(fabs(r1 - r2) > precision)
+	{
+		DEBUG_I++;
+		double r_mean = (r1 + r2) / 2.0;
+
+		double within_r_mean = true;
+		for(const TPointD<3> & p : base_points)
+		{
+			within_r_mean = within_r_mean && domain.isInside(TPoint<3>(domain.myCenter + r_mean * p));
+		}
+
+		// modify r1 or r2, while keeping their property
+		if(within_r_mean)
+		{
+			r1 = r_mean;
+		}
+		else
+		{
+			r2 = r_mean;
+		}
+	}
+
 	std::cout << r1 << " " << r2 << " found in " << DEBUG_I << " loops." << std::endl;
 
-	return std::vector<TPoint<TDim>>(1 /* PLCE HILDER FOR HTEUJD*/);
+	std::vector< TPoint<3> > res;
+
+	for(const TPointD<3> & p : base_points)
+	{
+		res.emplace_back(p);
+	}
+
+	return res;
+}
+
+
+
+/*
+ * @brief returns a list of points of a 2D sphere (i.e a circle).
+ * @brief The points are uniformly spread around the edge of the circle.
+ * @brief The circle is centered on the DomainController center, and as big as possible.
+ * @param domain The domain to fit the sphere.
+ * @param n The amount of points to spread.
+ * @returns a std::vector of points.
+ */
+template<class DomCtr>
+std::vector< TPoint<2> > evenlySpreadPoints2D(const DomCtr & domain, unsigned int n)
+{
+	std::vector< TPointD<2> > base_points;
+	const double delta_theta = 2 * M_PI / n;	// var to avoid doing operation each loop
+
+	for(std::size_t i = 0; i < n; i++)
+	{
+		// angle
+		double theta = i * delta_theta;
+		base_points.emplace_back(cos(theta), sin(theta));
+	}
+
+	return std::vector<TPoint<2>>();
 }

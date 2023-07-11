@@ -463,6 +463,52 @@ getImageDistance(const TImage &image, unsigned int threshold=128){
 }
 
 
+/*
+ * @brief returns a list of points of a n-D sphere.
+ * @brief The n-D sphere is of radius 1, centered at the origin (0,0[,0]).
+ * @param n The amount of points to spread.
+ * @returns a std::vector of n-D points.
+ */
+template <int TDim>
+std::vector< TPointD<TDim> > evenlySpreadPoints(unsigned int n)
+{
+	if(TDim == 2)
+	{
+		std::vector< TPointD<2> > points;
+		const double delta_theta = 2 * M_PI / n;
+
+		for(std::size_t i = 0; i < n; i++)
+		{
+			// angle
+			double theta = i * delta_theta;
+			points.emplace_back(cos(theta), sin(theta));
+		}
+
+		return points;
+	}
+	else if(TDim == 3)
+	{
+		std::vector< TPointD<3> > points;
+		const double epsilon = 0.36;				// offset for the indices, proven best for most n values : https://extremelearning.com.au/how-to-evenly-distribute-points-on-a-sphere-more-effectively-than-the-canonical-fibonacci-lattice/#more-3069
+		const double double_GR = (1 + sqrt(5));	// golden ratio times 2 (to save a multiplication by 2 later)
+
+		for(std::size_t i = 0; i < n; i++)
+		{
+			// angles
+			double phi = acos(1 - 2 * (i + epsilon) / n);
+			double theta = M_PI * double_GR * i;
+
+			points.emplace_back(cos(theta) * sin(phi),
+							 sin(theta) * sin(phi),
+							 cos(phi) );
+		}
+
+		return points;
+	}
+}
+
+
+
 }
 
 

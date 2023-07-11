@@ -385,14 +385,14 @@ public:
 
 
 	TPointI
-	lowerBound()
+	lowerBound() const
 	{
 		return myImage.domain().lowerBound();
 	}
 
 
 	TPointI
-	upperBound()
+	upperBound() const
 	{
 		return myImage.domain().upperBound();
 	}
