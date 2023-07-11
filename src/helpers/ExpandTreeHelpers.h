@@ -34,12 +34,16 @@
 #include "DGtal/topology/helpers/Surfaces.h"
 #include "DGtal/kernel/BasicPointPredicates.h"
 #include "DGtal/io/readers/GenericReader.h"
+
 #include "CohabitingTrees.h"
 
 #include <limits>
 
 
+
 namespace ExpandTreeHelpers {
+
+
 
 
 template<typename DomCtr, int TDim>
@@ -136,8 +140,9 @@ expandTree(CoronaryArteryTree< DomCtr, TDim > &aTree,
 template<class DomCtr, int TDim>
 void
 expandCohabitingTrees(CohabitingTrees<DomCtr, TDim> & aCTree,
-		   bool verbose = false, unsigned int nb_max_search = 100,
-		   unsigned int nb_try_candidate = 100)
+		   unsigned int nb_max_search = 100,
+		   unsigned int nb_try_candidate = 100,
+		   bool verbose = false)
 {
 	srand ((unsigned int) time(NULL));
 

@@ -7,6 +7,11 @@
 template <class DomCtr, int TDim>
 using TTree = CoronaryArteryTree<DomCtr, TDim>;
 
+template <int TDim>
+using TPoint = DGtal::PointVector<TDim, int>;
+
+template <int TDim>
+using TPointD = DGtal::PointVector<TDim, double>;
 
 /**
  * The goal of CohabitingTrees template class is to manage multiple trees in the same domain.
@@ -68,7 +73,7 @@ public:
 		return myIterator->myVectSegments[seg_index].myRadius;
 	}
 
-	std::vector<unsigned int> getNeighbors(const typename TTree<DomCtr, TDim>::TPointD & p)
+	std::vector<unsigned int> getNeighbors(const TPointD<TDim> & p)
 	{
 		return myIterator->getN_NearestSegments(p, myIterator->myNumNeighbor);
 	}
@@ -91,36 +96,33 @@ public:
 		return res;
 	}
 
-	typename TTree<DomCtr, TDim>::TPointD generateNewLocation(unsigned int nb_trials)
+	TPointD<TDim> generateNewLocation(unsigned int nb_trials)
 	{
-		typename TTree<DomCtr, TDim>::TPointD res;
+		TPointD<TDim> res;
 		double dist_threshold = myIterator->getDistanceThreshold();
 		
-		bool location_found = false;
 		unsigned int i = 0;
-		while(i < nb_trials && !location_found)
+		while(i < nb_trials)
 		{
 			res = myIterator->myDomainController().randomPoint();
 
 			if(validNewLocation(res, dist_threshold))
 			{
-				location_found = true;
+				return res;
 			}
 
 			// if we reach end of the loop before finding the new location,
 			// loop again with less restrictive distance threshold
 			i++;			
-			if(!location_found && i == nb_trials)
+			if(i == nb_trials)
 			{
 				i = 0;
 				dist_threshold *= 0.9;
 			}
 		}
-
-		return res;
 	}
 
-	bool validNewLocation(const typename TTree<DomCtr, TDim>::TPointD & location, double distance_threshold)
+	bool validNewLocation(const TPointD<TDim> & location, double distance_threshold)
 	{
 		// generated point must be a certain distance away to all terminal points of the same tree
 		for(unsigned int term_index : myIterator->myVectTerminals)
@@ -154,8 +156,8 @@ public:
 		*myIterator = tree;
 	}
 
-	bool isIntersectingTrees(const typename TTree<DomCtr, TDim>::TPointD & ptA,
-							 const typename TTree<DomCtr, TDim>::TPointD & ptB,
+	bool isIntersectingTrees(const TPointD<TDim> & ptA,
+							 const TPointD<TDim> & ptB,
 							 double r, unsigned int seg_index)
 	{
 		//Get useful points
@@ -212,7 +214,7 @@ public:
 		return false;
 	}
 
-	void expansionSummary(bool verbose)
+	void expansionSummary(bool verbose) const
 	{
 		bool fully_expanded = true;
 		for(std::size_t i = 0; i < myTrees.size(); i++)
@@ -242,7 +244,7 @@ public:
 		}
 	}
 
-	unsigned int attemptsSum()
+	unsigned int attemptsSum() const
 	{
 		unsigned int res = 0;
 		for(unsigned int attempts : myExpansionAttempts)
@@ -253,7 +255,7 @@ public:
 		return res;
 	}
 
-	unsigned int NTermsSum()
+	unsigned int NTermsSum() const
 	{
 		unsigned int res = 0;
 		for(const TTree<DomCtr, TDim> & tree : myTrees)
@@ -269,8 +271,44 @@ private:
 	tree_vector_iterator myIterator;
 	std::vector<unsigned int> myExpansionAttempts;	// an attempt can be succesful or not; counts every try
 
-	void initializeFirstSegments()
+	bool initializeFirstSegments(const std::vector< TPointD<TDim> > & starting_points)
 	{
-		//
+		// error if number of points != number of trees
+		if(starting_points.size() != myTrees.size())
+		{
+			std::cout << "Amount of starting points is incorrect : " 
+				<< starting_points.size() << " but should be " << myTrees.size() << std::endl;
+			return false;
+		}
+
+		for(std::size_t i = 0; i < myTrees.size(); i++)
+		{
+			myTrees[i].myTreeCenter = myTrees[i].myDomainController().myCenter;
+			myTrees[i].myVectSegments[0].myCoordinate = starting_points[i];
+		}
+
+		return true;
 	}
 };
+
+/*
+ * @brief returns a list of points of a n-D sphere.
+ * @brief The points are placed with the golden spiral method to ensure they're evenly spread reliably.
+ * @brief the sphere is centered on the DomainController center, and as big as possible.
+ * @param domain The domain to fit the sphere.
+ * @param n The amount of points to spread.
+ * @returns a std::vector of points.
+ */
+template<class DomCtr, int TDim>
+std::vector< TPoint<TDim> > evenlySpreadPoints(const DomCtr & domain, unsigned int n)
+{
+	std::vector< TPoint<TDim> > res;
+	double epsilon = 0.36;			// offset for the indices, proven best for most n values : https://extremelearning.com.au/how-to-evenly-distribute-points-on-a-sphere-more-effectively-than-the-canonical-fibonacci-lattice/#more-3069
+	
+	for(std::size_t i = 0; i < n; i++)
+	{
+		std::cout << i + epsilon << std::endl;
+	}
+
+	return res;
+}

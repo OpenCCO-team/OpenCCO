@@ -1,6 +1,6 @@
 #include <iostream>
 #include "CohabitingTrees.h"
-#include "ExpandTreeHelpers.h"
+//#include "ExpandTreeHelpers.h"
 
 
 int main()
@@ -12,9 +12,11 @@ int main()
 	std::vector<double> perfs {20000, 10000};
 	std::vector<unsigned int> terms {100, 100};
 
-	CohabitingTrees<CircularDomainCtrl<2>, 2> ctree(perfs, terms, circ_dom);
+	// CohabitingTrees<CircularDomainCtrl<2>, 2> ctree(perfs, terms, circ_dom);
 
-	ExpandTreeHelpers::expandCohabitingTrees(ctree);
+	// ExpandTreeHelpers::expandCohabitingTrees(ctree);
+
+	evenlySpreadPoints<CircularDomainCtrl<2>, 2>(circ_dom, 10);
 
 	return 0;
 }

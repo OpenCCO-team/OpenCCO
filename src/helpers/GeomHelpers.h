@@ -54,7 +54,6 @@ namespace GeomHelpers {
 
 
 
-
 /**
  * Computes the projection of a Point \a ptC on the real line defined by the two points (\a ptA, \a ptB), and
  * return true if the projected point is inside the segment closed interval [A,B].
@@ -70,9 +69,9 @@ template<typename TPoint, typename TPointD>
 inline
 bool
 projectOnStraightLine(const TPoint & ptA,
-                      const TPoint & ptB,
-                      const TPoint & ptC,
-                      TPointD & ptProjected)
+					  const TPoint & ptB,
+					  const TPoint & ptC,
+					  TPointD & ptProjected)
 {
 	if (ptA==ptC)
 	{
@@ -124,7 +123,7 @@ template<int TDim>
 inline
 double
 segment2segmentDistance(const DGtal::PointVector<TDim, double> &segA, const DGtal::PointVector<TDim, double> &segB,
-                const DGtal::PointVector<TDim, double> &segC, const DGtal::PointVector<TDim, double> &segD)
+				const DGtal::PointVector<TDim, double> &segC, const DGtal::PointVector<TDim, double> &segD)
 {
 	DGtal::PointVector<TDim, double> A, B, C, D;
 	DGtal::PointVector<TDim, double> d1, d2, d12;
@@ -253,7 +252,7 @@ template<int TDim>
 inline
 bool
 isIntersecting(const DGtal::PointVector<TDim, double> &segA, const DGtal::PointVector<TDim, double> &segB, double rAB,
-                      const DGtal::PointVector<TDim, double> &segC, const DGtal::PointVector<TDim, double> &segD, double rCD)
+					  const DGtal::PointVector<TDim, double> &segC, const DGtal::PointVector<TDim, double> &segD, double rCD)
 {
 	DGtal::PointVector<TDim, double> cAB = (segA + segB)/2.0;
 	DGtal::PointVector<TDim, double> cCD = (segC + segD)/2.0;
