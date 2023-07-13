@@ -4,15 +4,6 @@
 #include "CoronaryArteryTree.h"
 
 
-template <class DomCtr, int TDim>
-using TTree = CoronaryArteryTree<DomCtr, TDim>;
-
-template <int TDim>
-using TPoint = DGtal::PointVector<TDim, int>;
-
-template <int TDim>
-using TPointD = DGtal::PointVector<TDim, double>;
-
 /**
  * The goal of CohabitingTrees template class is to manage multiple trees in the same domain.
  * It can check the state of each tree, export them, etc
@@ -22,8 +13,8 @@ using TPointD = DGtal::PointVector<TDim, double>;
 template<class DomCtr, int TDim>
 class CohabitingTrees
 {
-	typedef std::vector< TTree<DomCtr, TDim> > tree_vector;
-	typedef typename std::vector< TTree<DomCtr, TDim> >::iterator tree_vector_iterator;
+	typedef std::vector< CoronaryArteryTree<DomCtr, TDim> > tree_vector;
+	typedef typename std::vector< CoronaryArteryTree<DomCtr, TDim> >::iterator tree_vector_iterator;
 
 public:
 	CohabitingTrees(const std::vector<double> & aPerf_vec, const std::vector<unsigned int> & nTerm_vec,
@@ -63,7 +54,7 @@ public:
 		}
 	}
 
-	TTree<DomCtr, TDim> getCurrentTreeCopy()
+	CoronaryArteryTree<DomCtr, TDim> getCurrentTreeCopy()
 	{
 		return *myIterator;
 	}
@@ -73,7 +64,7 @@ public:
 		return myIterator->myVectSegments[seg_index].myRadius;
 	}
 
-	std::vector<unsigned int> getNeighbors(const TPointD<TDim> & p)
+	std::vector<unsigned int> getNeighbors(const PointD<TDim> & p)
 	{
 		return myIterator->getN_NearestSegments(p, myIterator->myNumNeighbor);
 	}
@@ -96,9 +87,9 @@ public:
 		return res;
 	}
 
-	TPointD<TDim> generateNewLocation(unsigned int nb_trials)
+	PointD<TDim> generateNewLocation(unsigned int nb_trials)
 	{
-		TPointD<TDim> res;
+		PointD<TDim> res;
 		double dist_threshold = myIterator->getDistanceThreshold();
 		
 		unsigned int i = 0;
@@ -122,7 +113,7 @@ public:
 		}
 	}
 
-	bool validNewLocation(const TPointD<TDim> & location, double distance_threshold)
+	bool validNewLocation(const PointD<TDim> & location, double distance_threshold)
 	{
 		// generated point must be a certain distance away to all terminal points of the same tree
 		for(unsigned int term_index : myIterator->myVectTerminals)
@@ -151,13 +142,13 @@ public:
 		return true;	// if we reach this, conditions are met
 	}
 
-	void replaceCurrentTree(const TTree<DomCtr, TDim> & tree)
+	void replaceCurrentTree(const CoronaryArteryTree<DomCtr, TDim> & tree)
 	{
 		*myIterator = tree;
 	}
 
-	bool isIntersectingTrees(const TPointD<TDim> & ptA,
-							 const TPointD<TDim> & ptB,
+	bool isIntersectingTrees(const PointD<TDim> & ptA,
+							 const PointD<TDim> & ptB,
 							 double r, unsigned int seg_index)
 	{
 		//Get useful points
@@ -258,7 +249,7 @@ public:
 	unsigned int NTermsSum() const
 	{
 		unsigned int res = 0;
-		for(const TTree<DomCtr, TDim> & tree : myTrees)
+		for(const CoronaryArteryTree<DomCtr, TDim> & tree : myTrees)
 		{
 			res += tree.my_NTerm;
 		}
@@ -271,7 +262,7 @@ private:
 	tree_vector_iterator myIterator;
 	std::vector<unsigned int> myExpansionAttempts;	// an attempt can be succesful or not; counts every try
 
-	bool initializeFirstSegments(const std::vector< TPointD<TDim> > & starting_points)
+	bool initializeFirstSegments(const std::vector< PointD<TDim> > & starting_points)
 	{
 		// error if number of points != number of trees
 		if(starting_points.size() != myTrees.size())
@@ -302,13 +293,13 @@ private:
  * @returns a std::vector of points.
  */
 template<class DomCtr>
-std::vector< TPoint<3> > evenlySpreadPoints3D(const DomCtr & domain, unsigned int n)
+std::vector< PointI<3> > evenlySpreadPoints3D(const DomCtr & domain, unsigned int n)
 {
 	std::cout << domain.lowerBound()[0] << " " << domain.lowerBound()[1] << " " << domain.lowerBound()[2] << std::endl;
 	std::cout << domain.upperBound()[0] << " " << domain.upperBound()[1] << " " << domain.upperBound()[2] << std::endl;
 	std::cout << domain.myCenter[0] << " " << domain.myCenter[1] << " " << domain.myCenter[2] << std::endl << std::endl;
 
-	std::vector< TPointD<3> > base_points;
+	std::vector< PointD<3> > base_points;
 	double epsilon = 0.36;				// offset for the indices, proven best for most n values : https://extremelearning.com.au/how-to-evenly-distribute-points-on-a-sphere-more-effectively-than-the-canonical-fibonacci-lattice/#more-3069
 	double double_GR = (1 + sqrt(5));	// golden ratio times 2 (to save a multiplication by 2 later)
 
@@ -337,10 +328,10 @@ std::vector< TPoint<3> > evenlySpreadPoints3D(const DomCtr & domain, unsigned in
 		DEBUG_I++;
 		bool within_r1 = true;			// whether all points with r1 are inside the domain
 		bool within_r2 = true;			// whether all points with r2 are inside the domain
-		for(const TPointD<3> & p : base_points)
+		for(const PointD<3> & p : base_points)
 		{
-			within_r1 = within_r1 && domain.isInside(TPoint<3>(domain.myCenter + r1 * p));
-			within_r2 = within_r2 && domain.isInside(TPoint<3>(domain.myCenter + r2 * p));
+			within_r1 = within_r1 && domain.isInside(PointI<3>(domain.myCenter + r1 * p));
+			within_r2 = within_r2 && domain.isInside(PointI<3>(domain.myCenter + r2 * p));
 		}
 
 		r_bounds_set = within_r1 && !within_r2;
@@ -379,9 +370,9 @@ std::vector< TPoint<3> > evenlySpreadPoints3D(const DomCtr & domain, unsigned in
 		double r_mean = (r1 + r2) / 2.0;
 
 		double within_r_mean = true;
-		for(const TPointD<3> & p : base_points)
+		for(const PointD<3> & p : base_points)
 		{
-			within_r_mean = within_r_mean && domain.isInside(TPoint<3>(domain.myCenter + r_mean * p));
+			within_r_mean = within_r_mean && domain.isInside(PointI<3>(domain.myCenter + r_mean * p));
 		}
 
 		// modify r1 or r2, while keeping their property
@@ -397,9 +388,9 @@ std::vector< TPoint<3> > evenlySpreadPoints3D(const DomCtr & domain, unsigned in
 
 	std::cout << r1 << " " << r2 << " found in " << DEBUG_I << " loops." << std::endl;
 
-	std::vector< TPoint<3> > res;
+	std::vector< PointI<3> > res;
 
-	for(const TPointD<3> & p : base_points)
+	for(const PointD<3> & p : base_points)
 	{
 		res.emplace_back(p);
 	}
@@ -418,9 +409,9 @@ std::vector< TPoint<3> > evenlySpreadPoints3D(const DomCtr & domain, unsigned in
  * @returns a std::vector of points.
  */
 template<class DomCtr>
-std::vector< TPoint<2> > evenlySpreadPoints2D(const DomCtr & domain, unsigned int n)
+std::vector< PointI<2> > evenlySpreadPoints2D(const DomCtr & domain, unsigned int n)
 {
-	std::vector< TPointD<2> > base_points;
+	std::vector< PointD<2> > base_points;
 	const double delta_theta = 2 * M_PI / n;	// var to avoid doing operation each loop
 
 	for(std::size_t i = 0; i < n; i++)
@@ -430,5 +421,5 @@ std::vector< TPoint<2> > evenlySpreadPoints2D(const DomCtr & domain, unsigned in
 		base_points.emplace_back(cos(theta), sin(theta));
 	}
 
-	return std::vector<TPoint<2>>();
+	return std::vector<PointI<2>>();
 }

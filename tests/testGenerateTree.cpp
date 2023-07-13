@@ -35,7 +35,7 @@ int main(int argc, char *const *argv)
   start = clock();
   // 1. Type definition, of domain controller and tree.
   typedef ImageMaskDomainCtrl<2> TImgContrl;
-  typedef  CoronaryArteryTree<TImgContrl, 2> TTreeMaskDom;
+  typedef CoronaryArteryTree<TImgContrl, 2> TTreeMaskDom;
   
   // 2. Domain controller construction
   TImgContrl aDomCtr = TImgContrl(nameImgDom, 128, 100);
@@ -62,7 +62,7 @@ int main(int argc, char *const *argv)
   typedef CoronaryArteryTree<ImplicitContrl, 2> TTreeCircDom;
 
   // 2. Domain controller construction
-  ImplicitContrl aDomCtrImp(1.0, TImgContrl::TPoint(0,0));
+  ImplicitContrl aDomCtrImp(1.0, PointD<2>(0,0));
 
   // 3. Tree construction using center
   TTreeCircDom treeImpl (aPerf, nbTerm, aDomCtrImp);

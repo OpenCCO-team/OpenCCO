@@ -69,7 +69,7 @@ int main(int argc, char *const *argv)
 
 	if (dimension == 2)
 	{
-		TImage<2> img{ TDomain<2>() };
+		Image<2> img{ Domain< Space< PointI<2> > >() };
 
 		// renderer initialized from files
 		if(domain_filename == "")
@@ -91,7 +91,7 @@ int main(int argc, char *const *argv)
 	}
 	else if (dimension == 3)
 	{
-		TImage<3> img{ TDomain<3>() };
+		Image<3> img{ Domain< Space< PointI<3> > >() };
 
 		// renderer initialized from files
 		if(domain_filename == "")

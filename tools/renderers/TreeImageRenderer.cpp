@@ -24,18 +24,18 @@
 
 template<>
 TreeImageRenderer<2>::OrganDomain::OrganDomain(const std::string & domain_filename)
- : myDomainMask(TDomain<2>()), isDefined(true)
+ : myDomainMask(Domain<TSpace>()), isDefined(true)
 {
 	// if 2D image file when TDim = 3 : the image is in the first 2 dims, anything along z > 0 is zero
 	// if 3D image file when TDim = 2 : the image is a slice of the 3D vol
-	myDomainMask = DGtal::ITKReader< TImage<2> >::importITK(domain_filename);
+	myDomainMask = DGtal::ITKReader< Image<2> >::importITK(domain_filename);
 }
 
 
 
 template<>
 TreeImageRenderer<3>::OrganDomain::OrganDomain(const std::string & domain_filename)
- : myDomainMask(TDomain<3>()), isDefined(true)
+ : myDomainMask(Domain<TSpace>()), isDefined(true)
 {
 	// if 2D image file when TDim = 3 : the image is in the first 2 dims, anything along z > 0 is zero
 	// if 3D image file when TDim = 2 : the image is a slice of the 3D vol
@@ -50,13 +50,13 @@ TreeImageRenderer<3>::OrganDomain::OrganDomain(const std::string & domain_filena
 		// vol is not supported by ITK, we handle it separately
 		if(ext == "vol")
 		{
-			myDomainMask = DGtal::VolReader< TImage<3> >::importVol(domain_filename);
+			myDomainMask = DGtal::VolReader< Image<3> >::importVol(domain_filename);
 
 			return;
 		}
 	}
 
-	myDomainMask = DGtal::ITKReader< TImage<3> >::importITK(domain_filename);
+	myDomainMask = DGtal::ITKReader< Image<3> >::importITK(domain_filename);
 }
 
 
@@ -106,7 +106,7 @@ void TreeImageRenderer<TDim>::importTreeData(const std::string & radii_filename,
 		std::string line;
 		while(getline(file,line))
 		{
-			TPointD<TDim> p;
+			PointD<TDim> p;
 
 			std::istringstream iss(line);
 
@@ -180,11 +180,11 @@ void TreeImageRenderer<TDim>::importTreeData(const std::string & radii_filename,
 
 
 template<int TDim>
-TImage<TDim> TreeImageRenderer<TDim>::flowRender(unsigned int width)
+Image<TDim> TreeImageRenderer<TDim>::flowRender(unsigned int width)
 {
 	// domain
-	TImage<TDim> organ_img(createDomainImage(width, width/20));
-	TImage<TDim> flow_render(organ_img.domain());		// image of the same size
+	Image<TDim> organ_img(createDomainImage(width, width/20));
+	Image<TDim> flow_render(organ_img.domain());		// image of the same size
 
 	// compute flow for each pixel
 	for(const Segment & s : myTree.mySegments)
@@ -194,22 +194,22 @@ TImage<TDim> TreeImageRenderer<TDim>::flowRender(unsigned int width)
 		double value = 7 + std::log1p(s.myFlow);
 
 		// points bounding the segment
-		std::vector< TPointD<TDim> > v;
+		std::vector< PointD<TDim> > v;
 		for(int i = -1; i <= 1; i+=2)
 		{
 			v.emplace_back(myTree.myPoints[s.myProxitalIndex] 
-							+ i * TPoint<TDim>::diagonal(myTree.myRadii[s.myProxitalIndex]));
+							+ i * PointI<TDim>::diagonal(myTree.myRadii[s.myProxitalIndex]));
 			v.emplace_back(myTree.myPoints[s.myDistalIndex]
-							+ i * TPoint<TDim>::diagonal(myTree.myRadii[s.myDistalIndex]));
+							+ i * PointI<TDim>::diagonal(myTree.myRadii[s.myDistalIndex]));
 		}
 
 		// segment bounding box
-		TPointD<TDim> ub, lb;
+		PointD<TDim> ub, lb;
 		compBB<TDim>(v, ub, lb);
 
-		for(const TPoint<TDim> & p : TDomain<TDim>(lb, ub))
+		for(const PointI<TDim> & p : Domain<TSpace>(lb, ub))
 		{
-			TPointD<TDim> proj;
+			PointD<TDim> proj;
 			bool isproj = projectOnStraightLine<TDim>(myTree.myPoints[s.myDistalIndex],
 												myTree.myPoints[s.myProxitalIndex],
 												p,
@@ -321,8 +321,8 @@ void TreeImageRenderer<2>::animationRender(const std::string & filename, int dur
 		// handy points for the next computations
 		// the junction is the point where the brother, the parent and the current segment meet
 		// the intersection is an arbitrary point for the sake of the animation; I think of it as the junction before the segment is born
-		TPointD<2> junction = myTree.myPoints[rit->myProxitalIndex];
-		TPointD<2> intersection;
+		PointD<2> junction = myTree.myPoints[rit->myProxitalIndex];
+		PointD<2> intersection;
 		
 		bool res = GeomHelpers::lineIntersection(myTree.myPoints[parent_rit->myProxitalIndex], myTree.myPoints[bro_rit->myDistalIndex],
 									myTree.myPoints[rit->myProxitalIndex], myTree.myPoints[rit->myDistalIndex],
@@ -414,7 +414,7 @@ void TreeImageRenderer<2>::animationRender(const std::string & filename, int dur
 	a_opacity_root->getTimelineRef().addKeyTime(0.0, 1.0);
 
 	// compute svg viewbox
-	TPointD<2> ub, lb;						// upper and lower bounds
+	PointD<2> ub, lb;						// upper and lower bounds
 	compBB<2>(myTree.myPoints, ub, lb);
 
 	SVG::Svg svg(lb[0], lb[1],		// top left coordinates
@@ -446,18 +446,18 @@ void TreeImageRenderer<2>::animationRender(const std::string & filename, int dur
 
 
 template<int TDim>
-TImage<TDim> TreeImageRenderer<TDim>::skeletonRender(unsigned int width)
+Image<TDim> TreeImageRenderer<TDim>::skeletonRender(unsigned int width)
 {
-	// initialize a TImage<TDim> with the desired width and margin of 5%
-	TImage<TDim> organ_img(createDomainImage(width, width/20));
-	TImage<TDim> skeleton_render(organ_img.domain());		// image with the same dimensions
+	// initialize a Image<TDim> with the desired width and margin of 5%
+	Image<TDim> organ_img(createDomainImage(width, width/20));
+	Image<TDim> skeleton_render(organ_img.domain());		// image with the same dimensions
 
 	// loop over segments, draw them with drawBresenhamLine
 	for(const Segment & s : myTree.mySegments)
 	{
 		drawBresenhamLine<TDim>(skeleton_render,
-			TPoint<TDim>(myTree.myPoints[s.myProxitalIndex]),
-			TPoint<TDim>(myTree.myPoints[s.myDistalIndex]),
+			PointI<TDim>(myTree.myPoints[s.myProxitalIndex]),
+			PointI<TDim>(myTree.myPoints[s.myDistalIndex]),
 			255.0);
 	}
 
@@ -474,10 +474,10 @@ TImage<TDim> TreeImageRenderer<TDim>::skeletonRender(unsigned int width)
 
 
 template<int TDim>
-TImage<TDim> TreeImageRenderer<TDim>::realisticRender(double sigma, unsigned int width)
+Image<TDim> TreeImageRenderer<TDim>::realisticRender(double sigma, unsigned int width)
 {
-	// initialize a TImage<TDim> with a render of the flow of the artery tree
-	TImage<TDim> realistic_render(flowRender(width));
+	// initialize a Image<TDim> with a render of the flow of the artery tree
+	Image<TDim> realistic_render(flowRender(width));
 
 	// random
 	std::random_device rd;
@@ -495,7 +495,7 @@ TImage<TDim> TreeImageRenderer<TDim>::realisticRender(double sigma, unsigned int
 		std::normal_distribution<> nd_x(A, s);
 		std::normal_distribution<> nd_y(0, s);
 
-		*it = TPointD<TDim>(nd_x(generator), nd_y(generator)).norm();
+		*it = PointD<TDim>(nd_x(generator), nd_y(generator)).norm();
 	}
 
 	return realistic_render;
@@ -504,13 +504,13 @@ TImage<TDim> TreeImageRenderer<TDim>::realisticRender(double sigma, unsigned int
 
 
 template<int TDim>
-TImage<TDim> TreeImageRenderer<TDim>::createDomainImage(unsigned int width, unsigned int margin_thickness)
+Image<TDim> TreeImageRenderer<TDim>::createDomainImage(unsigned int width, unsigned int margin_thickness)
 {
 	// if the organ domain is defined, no need to rescale the points
 	if(myOrganDomain.isDefined)
 	{
 
-		TImage<TDim> organ(myOrganDomain.myDomainMask);
+		Image<TDim> organ(myOrganDomain.myDomainMask);
 
 		normalizeImageValues<TDim>(organ, 0.0, 128.0);		// organ domain has value 128.0
 
@@ -518,17 +518,17 @@ TImage<TDim> TreeImageRenderer<TDim>::createDomainImage(unsigned int width, unsi
 	}
 
 	// Compute the coordinates of the bounding box containing all the points
-	TPointD<TDim> tree_lowerbound;
-	TPointD<TDim> tree_upperbound;
+	PointD<TDim> tree_lowerbound;
+	PointD<TDim> tree_upperbound;
 
 	compBB<TDim>(myTree.myPoints, tree_upperbound, tree_lowerbound);
 
-	TPointD<TDim> tree_size = tree_upperbound - tree_lowerbound;
+	PointD<TDim> tree_size = tree_upperbound - tree_lowerbound;
 
 	// factor between tree size and image size (without margins)
 	double k = ((double) (width- 2*margin_thickness)) / tree_size[0];
 	
-	TPoint<TDim> image_size;
+	PointI<TDim> image_size;
 	image_size[0] = width;
 	for(unsigned int i = 1; i < TDim; i++)		// start at 1 because 0 is already done
 	{
@@ -536,10 +536,10 @@ TImage<TDim> TreeImageRenderer<TDim>::createDomainImage(unsigned int width, unsi
 	}
 
 	// scale and move the points of the tree so their position reflect their position in the image
-	// their position are still TPointD<TDim> (real points)
-	TPointD<TDim> offset = TPointD<TDim>::diagonal(margin_thickness) - k*tree_lowerbound; // + myDomain.lowerBound() but it's (0, 0)
+	// their position are still PointD<TDim> (real points)
+	PointD<TDim> offset = PointD<TDim>::diagonal(margin_thickness) - k*tree_lowerbound; // + myDomain.lowerBound() but it's (0, 0)
 
-	for(TPointD<TDim> &p : myTree.myPoints)
+	for(PointD<TDim> &p : myTree.myPoints)
 	{
 		p *= k;
 		p += offset;
@@ -551,9 +551,9 @@ TImage<TDim> TreeImageRenderer<TDim>::createDomainImage(unsigned int width, unsi
 		r *= k;
 	}
 
-	// return the TImage<TDim> object
+	// return the Image<TDim> object
 	// offset by one so that the size is valid)
-	TImage<TDim> res( TDomain<TDim>(TPoint<TDim>(), image_size - TPoint<TDim>::diagonal(1)) );
+	Image<TDim> res( Domain<TSpace>(PointI<TDim>(), image_size - PointI<TDim>::diagonal(1)) );
 	normalizeImageValues<TDim>(res, 0.0, 0.0); 		// should be a black image after this
 
 	return res; 
@@ -567,7 +567,7 @@ TImage<TDim> TreeImageRenderer<TDim>::createDomainImage(unsigned int width, unsi
 
 
 template<>
-void saveRender<2>(const TImage<2> & image,
+void saveRender<2>(const Image<2> & image,
 				const std::string & filename)
 {
 	auto min_val = std::min_element(image.constRange().begin(), image.constRange().end());
@@ -584,7 +584,7 @@ void saveRender<2>(const TImage<2> & image,
 	gradient_cmap.addColor(DGtal::Color::Black);
 	gradient_cmap.addColor(DGtal::Color::White);
 
-	DGtal::STBWriter< TImage<2>, DGtal::GradientColorMap<double> > 
+	DGtal::STBWriter< Image<2>, DGtal::GradientColorMap<double> > 
 		::exportPNG(filename + ".png", image, gradient_cmap);
 
 	std::cout << "Render exported to " << filename << ".png" << std::endl;
@@ -593,19 +593,19 @@ void saveRender<2>(const TImage<2> & image,
 
 
 template<>
-void saveRender<3>(const TImage<3> & image,
+void saveRender<3>(const Image<3> & image,
 				const std::string & filename)
 {
-	TImage<3> norm_image(image);
+	Image<3> norm_image(image);
 	normalizeImageValues<3>(norm_image, 0.0, 255.0);
 
 	DGtal::functors::Cast<unsigned char> cast_functor;
 
-	DGtal::VolWriter< TImage<3>, DGtal::functors::Cast<unsigned char> >
+	DGtal::VolWriter< Image<3>, DGtal::functors::Cast<unsigned char> >
 		::exportVol(filename + ".vol", norm_image, true, cast_functor);
 
 	// test nifti
-	DGtal::ITKWriter< TImage<3> >::exportITK(filename + ".nii", norm_image);
+	DGtal::ITKWriter< Image<3> >::exportITK(filename + ".nii", norm_image);
 
 
 	std::cout << "Render exported to " << filename << ".nii and " << filename << ".vol" << std::endl;
@@ -614,9 +614,9 @@ void saveRender<3>(const TImage<3> & image,
 
 
 template<int TDim>
-void compBB(const std::vector< TPointD<TDim> > & points,
-			TPointD<TDim> & upperbound, 
-			TPointD<TDim> & lowerbound)
+void compBB(const std::vector< PointD<TDim> > & points,
+			PointD<TDim> & upperbound, 
+			PointD<TDim> & lowerbound)
 {
 	upperbound = points[0];
 	lowerbound = points[0];
@@ -640,10 +640,10 @@ void compBB(const std::vector< TPointD<TDim> > & points,
 
 
 template<int TDim>
-bool projectOnStraightLine(const TPointD<TDim>& ptA,
-						   const TPointD<TDim> & ptB,
-						   const TPointD<TDim> & ptC,
-						   TPointD<TDim> & ptP)
+bool projectOnStraightLine(const PointD<TDim>& ptA,
+						   const PointD<TDim> & ptB,
+						   const PointD<TDim> & ptC,
+						   PointD<TDim> & ptP)
 {
 	if(ptA == ptB)
 	{
@@ -657,24 +657,24 @@ bool projectOnStraightLine(const TPointD<TDim>& ptA,
         return true;
     }
 
-    TPointD<TDim> vAB = ptB - ptA;
-    TPointD<TDim> vABn = vAB / vAB.norm();		// norm can't be 0
+    PointD<TDim> vAB = ptB - ptA;
+    PointD<TDim> vABn = vAB / vAB.norm();		// norm can't be 0
 
-    TPointD<TDim> vAC = ptC-ptA;
+    PointD<TDim> vAC = ptC-ptA;
     double distPtA_Proj = vAC.dot(vABn);
 
     ptP = ptA + vABn * distPtA_Proj;
 
-    TPointD<TDim> vPA = ptA - ptP;
-    TPointD<TDim> vPB = ptB - ptP;
+    PointD<TDim> vPA = ptA - ptP;
+    PointD<TDim> vPB = ptB - ptP;
     
     return vPB.dot(vPA) <= 0 ;
 }
 
 
 
-bool initializeSVGLine(const TPointD<2> & proxital,
-					   const TPointD<2> & distal, 
+bool initializeSVGLine(const PointD<2> & proxital,
+					   const PointD<2> & distal, 
 					   double radius,
 					   const SVG::Color & color,
 					   int duration,

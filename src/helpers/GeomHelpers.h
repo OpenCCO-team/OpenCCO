@@ -48,6 +48,20 @@ using ceres::Problem;
 using ceres::Solve;
 using ceres::Solver;
 
+// types used through the algorithm
+
+template <int TDim>
+using PointI = DGtal::PointVector<TDim, int>;
+
+template <int TDim>
+using PointD = DGtal::PointVector<TDim, double>;
+
+template <class TPoint>
+using Space = DGtal::SpaceND<TPoint::dimension, typename TPoint::Component>;
+
+template <class Space>
+using Domain = DGtal::HyperRectDomain<Space>;
+
 
 namespace GeomHelpers {
 
@@ -65,39 +79,39 @@ namespace GeomHelpers {
  * @return true if ptProjected is inside the segment [A,B].
  **/
 
-template<typename TPoint, typename TPointD>
+template<int TDim>
 inline
 bool
-projectOnStraightLine(const TPoint & ptA,
-					  const TPoint & ptB,
-					  const TPoint & ptC,
-					  TPointD & ptProjected)
+projectOnStraightLine(const PointD<TDim> & ptA,
+					  const PointD<TDim> & ptB,
+					  const PointD<TDim> & ptC,
+					  PointD<TDim> & ptProjected)
 {
 	if (ptA==ptC)
 	{
-		for(auto i=0; i<TPoint::dimension; i++){ ptProjected[i]=ptA[i];}
+		for(auto i=0; i<TDim; i++){ ptProjected[i]=ptA[i];}
 		return true;
 	}
 	if (ptB==ptC)
 	{
-		for(auto i=0; i<TPoint::dimension; i++){ ptProjected[i]=ptB[i];}
+		for(auto i=0; i<TDim; i++){ ptProjected[i]=ptB[i];}
 		return true ;
 	}
 
-	TPointD vAB = ptB - ptA;//(ptB[0]- ptA[0], ptB[1]- ptA[1]);
-	TPointD vABn = vAB / vAB.norm();//((double)vAB[0], (double)vAB[1]);
+	PointD<TDim> vAB = ptB - ptA;//(ptB[0]- ptA[0], ptB[1]- ptA[1]);
+	PointD<TDim> vABn = vAB / vAB.norm();//((double)vAB[0], (double)vAB[1]);
 	//double norm = vABn.norm();
 	//vABn[0] /= norm;
 	//vABn[1] /= norm;
 
-	TPointD vAC = ptC-ptA;// (ptC[0]-ptA[0], ptC[1]-ptA[1]);
+	PointD<TDim> vAC = ptC-ptA;// (ptC[0]-ptA[0], ptC[1]-ptA[1]);
 	double distPtA_Proj = vAC.dot(vABn);
 
-	for(auto i=0; i<TPoint::dimension; i++){ ptProjected[i]= ptA[i]+vABn[i]*(distPtA_Proj);}
+	for(std::size_t i=0; i<TDim; i++){ ptProjected[i]= ptA[i]+vABn[i]*(distPtA_Proj);}
 	//ptProjected[0] = ptA[0]+vABn[0]*(distPtA_Proj);
 	//ptProjected[1] = ptA[1]+vABn[1]*(distPtA_Proj);
 	bool res = false;
-	for(auto i=0; i<TPoint::dimension; i++) { res = res || (ptA[i]<ptB[i] && ptProjected[i]<=ptB[i]); }
+	for(std::size_t i=0; i<TDim; i++) { res = res || (ptA[i]<ptB[i] && ptProjected[i]<=ptB[i]); }
 	return distPtA_Proj>=0 && res;
 	/*
 	return  distPtA_Proj>=0 && ((ptA[0]<ptB[0] && ptProjected[0]<=ptB[0] ) ||
@@ -122,11 +136,11 @@ projectOnStraightLine(const TPoint & ptA,
 template<int TDim>
 inline
 double
-segment2segmentDistance(const DGtal::PointVector<TDim, double> &segA, const DGtal::PointVector<TDim, double> &segB,
-				const DGtal::PointVector<TDim, double> &segC, const DGtal::PointVector<TDim, double> &segD)
+segment2segmentDistance(const PointD<TDim> &segA, const PointD<TDim> &segB,
+				const PointD<TDim> &segC, const PointD<TDim> &segD)
 {
-	DGtal::PointVector<TDim, double> A, B, C, D;
-	DGtal::PointVector<TDim, double> d1, d2, d12;
+	PointD<TDim> A, B, C, D;
+	PointD<TDim> d1, d2, d12;
 	bool sameAB = true;
 	for (int i = 0; i<TDim; i++) {
 		A[i] = segA[i];
@@ -231,8 +245,8 @@ segment2segmentDistance(const DGtal::PointVector<TDim, double> &segA, const DGta
 template<int TDim>
 inline
 double
-point2segmentDistance(const DGtal::PointVector<TDim, double> &segA, const DGtal::PointVector<TDim, double> &segB,
-					  const DGtal::PointVector<TDim, double> &ptP)
+point2segmentDistance(const PointD<TDim> &segA, const PointD<TDim> &segB,
+					  const PointD<TDim> &ptP)
 {
 	return segment2segmentDistance<TDim>(segA, segB, ptP, ptP);
 }
@@ -251,11 +265,11 @@ point2segmentDistance(const DGtal::PointVector<TDim, double> &segA, const DGtal:
 template<int TDim>
 inline
 bool
-isIntersecting(const DGtal::PointVector<TDim, double> &segA, const DGtal::PointVector<TDim, double> &segB, double rAB,
-					  const DGtal::PointVector<TDim, double> &segC, const DGtal::PointVector<TDim, double> &segD, double rCD)
+isIntersecting(const PointD<TDim> &segA, const PointD<TDim> &segB, double rAB,
+					  const PointD<TDim> &segC, const PointD<TDim> &segD, double rCD)
 {
-	DGtal::PointVector<TDim, double> cAB = (segA + segB)/2.0;
-	DGtal::PointVector<TDim, double> cCD = (segC + segD)/2.0;
+	PointD<TDim> cAB = (segA + segB)/2.0;
+	PointD<TDim> cCD = (segC + segD)/2.0;
 	double lAB = (segA - segB).norm();
 	double lCD = (segC - segD).norm();
 	double dC = (cAB - cCD).norm();
@@ -286,11 +300,11 @@ isIntersecting(const DGtal::PointVector<TDim, double> &segA, const DGtal::PointV
  **/
 inline
 bool
-lineIntersection(const DGtal::PointVector<2, double> &segA,
-				 const DGtal::PointVector<2, double> &segB,
-				 const DGtal::PointVector<2, double> &segC,
-				 const DGtal::PointVector<2, double> &segD,
-				 DGtal::PointVector<2, double> &intersection)
+lineIntersection(const PointD<2> &segA,
+				 const PointD<2> &segB,
+				 const PointD<2> &segC,
+				 const PointD<2> &segD,
+				 PointD<2> &intersection)
 {
 	double denominator = (segA[0] - segB[0]) * (segC[1] - segD[1]) - (segA[1] - segB[1]) * (segC[0] - segD[0]);
 
@@ -319,11 +333,10 @@ TDSet
 pointsOnSphere(const TPoint & ptCenter,
 			   double radius)
 {
-	typedef DGtal::SpaceND<TPoint::dimension, typename TPoint::Component> Space;
-	typedef DGtal::HyperRectDomain<Space> Dom;
-	typedef DGtal::ImplicitBall< Space > MyBall;
+
+	typedef DGtal::ImplicitBall< Space<TPoint> > MyBall;
 	typedef DGtal::EuclideanShapesCSG< MyBall, MyBall > Minus;
-	typedef DGtal::GaussDigitizer< Space, Minus > MyGaussDigitizer;
+	typedef DGtal::GaussDigitizer< Space<TPoint>, Minus > MyGaussDigitizer;
 
 	MyBall disk( ptCenter, radius-0.5 );
 	MyBall diskDilate( ptCenter, radius+0.5 );
@@ -332,9 +345,9 @@ pointsOnSphere(const TPoint & ptCenter,
 	MyGaussDigitizer digShape;
 	digShape.attach( border );
 	digShape.init( border.getLowerBound(), border.getUpperBound(), 1 );
-	Dom domainShape = digShape.getDomain();
+	Domain< Space<TPoint> > domainShape = digShape.getDomain();
 	TDSet  aSet(domainShape);
-	DGtal::Shapes<Dom>::digitalShaper( aSet, digShape );
+	DGtal::Shapes<Domain< Space<TPoint> >>::digitalShaper( aSet, digShape );
 
 	return aSet;
 }
@@ -365,6 +378,7 @@ hasIntersection(const TPoint &seg1ptA, const TPoint &seg1ptB,
 		((seg2ptB[1] - seg2ptA[1])*(seg1ptA[0] - seg2ptA[0]));
 	double b = ((seg1ptB[0] - seg1ptA[0])*(seg1ptA[1] - seg2ptA[1])) -
 		((seg1ptB[1] - seg1ptA[1])*(seg1ptA[0] - seg2ptA[0]));
+
 	if ( d==0.0 ) {
 		// test coincident
 		if (a==0.0 && b == 0.0 ) {
@@ -373,6 +387,7 @@ hasIntersection(const TPoint &seg1ptA, const TPoint &seg1ptB,
 		else
 		return false;
 	}
+
 	double ua = a / d;
 	double ub = b / d;
 	return ua > 0.0f && ua < 1.0f && ub > 0.0f && ub < 1.0f;
@@ -446,13 +461,14 @@ static bool kamyiaOpt(double gamma, double deltaP1, double deltaP2, double f0, d
 template< typename TImage, typename TImageDistance>
 inline
 TImageDistance
-getImageDistance(const TImage &image, unsigned int threshold=128){
-	typedef typename TImage::Domain::Space Space;
-	typedef DGtal::ExactPredicateLpSeparableMetric<Space, TImage::Domain::dimension> L2Metric;
+getImageDistance(const TImage &image, unsigned int threshold=128)
+{
+	typedef typename TImage::Domain::Space ImageSpace;
+	typedef DGtal::ExactPredicateLpSeparableMetric<ImageSpace, TImage::Domain::dimension> L2Metric;
 
 	TImageDistance res (image.domain());
 	typedef DGtal::functors::IntervalForegroundPredicate<TImage> Binarizer;
-	typedef DGtal::DistanceTransformation<Space, Binarizer, L2Metric> DTL;
+	typedef DGtal::DistanceTransformation<ImageSpace, Binarizer, L2Metric> DTL;
 	L2Metric l2metric;
 	Binarizer b(image, threshold, 255);
 	DTL dt(&image.domain(),&b, &l2metric);
@@ -465,15 +481,15 @@ getImageDistance(const TImage &image, unsigned int threshold=128){
 
 /*
  * @brief returns a list of points of a n-D sphere.
- * @brief The n-D sphere is of radius 1, centered at the origin (0,0[,0]).
+ * @brief The n-D sphere is of radius 1, centered at the origin.
  * @param n The amount of points to spread.
  * @returns a std::vector of n-D points.
  */
-template <class TPointD>
-std::vector<TPointD> evenlySpreadPoints(unsigned int n)
+template <int TDim>
+std::vector< PointD<TDim> > evenlySpreadPoints(unsigned int n)
 {
-	std::vector<TPointD> points;
-	if(TPointD::dimension == 2)
+	std::vector< PointD<TDim> > points;
+	if(TDim == 2)
 	{
 		const double delta_theta = 2 * M_PI / n;
 
@@ -484,10 +500,10 @@ std::vector<TPointD> evenlySpreadPoints(unsigned int n)
 			points.emplace_back(cos(theta), sin(theta));
 		}
 	}
-	else if(TPointD::dimension == 3)
+	else if(TDim == 3)
 	{
 		const double epsilon = 0.36;				// offset for the indices, proven best for most n values : https://extremelearning.com.au/how-to-evenly-distribute-points-on-a-sphere-more-effectively-than-the-canonical-fibonacci-lattice/#more-3069
-		const double double_GR = (1 + sqrt(5));	// golden ratio times 2 (to save a multiplication by 2 later)
+		const double double_GR = (1 + sqrt(5));		// golden ratio times 2 (to save a multiplication by 2 later)
 
 		for(std::size_t i = 0; i < n; i++)
 		{

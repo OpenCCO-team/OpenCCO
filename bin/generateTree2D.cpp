@@ -122,7 +122,7 @@ int main(int argc, char *const *argv)
 		typedef ImageMaskDomainCtrl<2> TImgContrl;
 		typedef  CoronaryArteryTree<TImgContrl, 2> TTree;
 		TImgContrl aDomCtr;
-		TImgContrl::TPointI pM;
+		PointI<2> pM;
 		if (!pInit->empty())
 		{
 			pM[0] = postInitV[0];
@@ -155,7 +155,7 @@ int main(int argc, char *const *argv)
 		start = clock();
 		typedef SquareDomainCtrl<2> SqDomCtrl;
 		typedef  CoronaryArteryTree<SqDomCtrl, 2> TTree;
-		SqDomCtrl::TPoint pCenter (0,0);
+		PointD<2> pCenter (0,0);
 		SqDomCtrl aCtr(1.0,pCenter);
 		TTree tree  (aPerf, nbTerm, aCtr, 1.0);
 		tree.my_gamma = gamma;
@@ -166,7 +166,7 @@ int main(int argc, char *const *argv)
 		start = clock();
 		typedef CircularDomainCtrl<2> DiskDomCtrl;
 		typedef  CoronaryArteryTree<DiskDomCtrl, 2> TTree;
-		DiskDomCtrl::TPoint pCenter (0,0);
+		PointD<2> pCenter (0,0);
 		DiskDomCtrl aCtr(1.0,pCenter);
 		TTree tree  (aPerf, nbTerm, aCtr, 1.0);
 		tree.my_gamma = gamma;

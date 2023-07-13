@@ -19,23 +19,11 @@
 #include "DGtal/io/readers/VolReader.h"
 
 #include "svg_elements.h"
+#include "GeomHelpers.h"
 
 // Aliases
-
 template <int TDim>
-using SpaceCT = DGtal::SpaceND<TDim, int>;
-
-template <int TDim>
-using TPoint =  DGtal::PointVector<TDim, int>;
-
-template <int TDim>
-using TPointD = DGtal::PointVector<TDim, double>;
-
-template <int TDim>
-using TDomain = DGtal::HyperRectDomain< SpaceCT<TDim> >;
-
-template <int TDim>
-using TImage = DGtal::ImageContainerBySTLVector<TDomain<TDim>, double>;
+using Image = DGtal::ImageContainerBySTLVector< Domain< Space< PointI<TDim> > >, double>;
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
@@ -46,6 +34,9 @@ using TImage = DGtal::ImageContainerBySTLVector<TDomain<TDim>, double>;
 template <int TDim>
 class TreeImageRenderer
 {
+private:
+	typedef Space< PointI<TDim> > TSpace;
+
 public:
 	// Nested classes
 
@@ -65,19 +56,19 @@ public:
 	struct ArteryTree
 	{
 		std::vector<Segment> mySegments;
-		std::vector< TPointD<TDim> > myPoints;
+		std::vector< PointD<TDim> > myPoints;
 		std::vector<double> myRadii;			// Radii associated with the vertices
 	};
 
 	struct OrganDomain
 	{
-		OrganDomain() : myDomainMask(TDomain<TDim>()), isDefined(false)
+		OrganDomain() : myDomainMask(Domain<TSpace>()), isDefined(false)
 		{
 		}
 
 		OrganDomain(const std::string & domain_filename);
 
-		TImage<TDim> myDomainMask;
+		Image<TDim> myDomainMask;
 		bool isDefined;
 	};
 
@@ -122,10 +113,10 @@ public:
 	/**
      * @brief Computes a render of myTree.
      * @brief The values of the pixels inside the segments depend on the flow value.
-     * @param width The width in pixels of the output TImage<TDim>.
-     * @returns a TImage<TDim> object.
+     * @param width The width in pixels of the output Image<TDim>.
+     * @returns a Image<TDim> object.
      **/
-	TImage<TDim> flowRender(unsigned int width);
+	Image<TDim> flowRender(unsigned int width);
 
 
 	/**
@@ -138,18 +129,18 @@ public:
 
 	/**
      * @brief Computes the skeleton of myTree.
-     * @param width The width in pixels of the output TImage<TDim>.
-     * @returns a TImage<TDim> object.
+     * @param width The width in pixels of the output Image<TDim>.
+     * @returns a Image<TDim> object.
      **/
-	TImage<TDim> skeletonRender(unsigned int width);
+	Image<TDim> skeletonRender(unsigned int width);
 
 
 	/**
      * @brief Computes the realistic render of myTree.
-     * @param width The width in pixels of the output TImage<TDim>.
-     * @returns a TImage<TDim> object.
+     * @param width The width in pixels of the output Image<TDim>.
+     * @returns a Image<TDim> object.
      **/
-	TImage<TDim> realisticRender(double sigma, unsigned int width = 0);
+	Image<TDim> realisticRender(double sigma, unsigned int width = 0);
 
 
 private:
@@ -158,9 +149,9 @@ private:
      * @brief Will scale the data of myTree to fit the width, the height is controlled by the bounding box of myTree's points
      * @param width the total desired width in pixels, including margins, of the image.
      * @param margin_thickness the margin thickness in pixels.
-     * @returns a TImage<TDim> object of the desired width
+     * @returns a Image<TDim> object of the desired width
      **/
-	TImage<TDim> createDomainImage(unsigned int width, unsigned int margin_thickness);
+	Image<TDim> createDomainImage(unsigned int width, unsigned int margin_thickness);
 
 	// Member variables
 	ArteryTree myTree;
@@ -180,7 +171,7 @@ private:
  * @param filename The file in which the image will be written.
  **/
 template<int TDim>
-void saveRender(const TImage<TDim> & image,
+void saveRender(const Image<TDim> & image,
 				const std::string & filename);
 
 
@@ -191,9 +182,9 @@ void saveRender(const TImage<TDim> & image,
  * @param[out] lowerbound The lowerbound of the points.
  **/
 template<int TDim>
-void compBB(const std::vector< TPointD<TDim> > &points,
-			TPointD<TDim> &upperbound, 
-			TPointD<TDim> &lowerbound);
+void compBB(const std::vector< PointD<TDim> > &points,
+			PointD<TDim> &upperbound, 
+			PointD<TDim> &lowerbound);
 
 
 /**
@@ -204,10 +195,10 @@ void compBB(const std::vector< TPointD<TDim> > &points,
  * @returns Whether the projection ptP belongs to the segment or not.
  **/
 template<int TDim>
-bool projectOnStraightLine(const TPointD<TDim>& ptA,
-						   const TPointD<TDim> & ptB,
-						   const TPointD<TDim> & ptC,
-						   TPointD<TDim> & ptP);
+bool projectOnStraightLine(const PointD<TDim>& ptA,
+						   const PointD<TDim> & ptB,
+						   const PointD<TDim> & ptC,
+						   PointD<TDim> & ptP);
 
 
 /**
@@ -220,8 +211,8 @@ bool projectOnStraightLine(const TPointD<TDim>& ptA,
  * @param[out] line_ptr The line to initialize
  * @returns true if a SVG::Line was initialized.
  **/
-bool initializeSVGLine(const TPointD<2> & proxital,
-					   const TPointD<2> & distal, 
+bool initializeSVGLine(const PointD<2> & proxital,
+					   const PointD<2> & distal, 
 					   double radius,
 					   const SVG::Color & color,
 					   int duration,
@@ -237,9 +228,9 @@ bool initializeSVGLine(const TPointD<2> & proxital,
  * @param value The value (understand color) of the line.
  **/
 template<int TDim>
-void drawBresenhamLine(TImage<TDim> & image,
-					   TPoint<TDim> p0,
-					   const TPoint<TDim> & p1,
+void drawBresenhamLine(Image<TDim> & image,
+					   PointI<TDim> p0,
+					   const PointI<TDim> & p1,
 					   const double value)
 {
 	// check if line is within the image 
@@ -312,13 +303,13 @@ void drawBresenhamLine(TImage<TDim> & image,
 
 
 /**
- * @brief Brings all values of the TImage into a range (default range is [0.0, 1.0].
+ * @brief Brings all values of the Image into a range (default range is [0.0, 1.0].
  * @param image The image to normalize.
  * @param lb The lower bound of the range.
  * @param ub The upper bound of the range.
  **/
 template <int TDim>
-void normalizeImageValues(TImage<TDim> & image, double lb = 0.0, double ub = 1.0)
+void normalizeImageValues(Image<TDim> & image, double lb = 0.0, double ub = 1.0)
 {
 	auto min_val = std::min_element(image.constRange().begin(), image.constRange().end());
 	auto max_val = std::max_element(image.constRange().begin(), image.constRange().end());
@@ -354,10 +345,10 @@ void normalizeImageValues(TImage<TDim> & image, double lb = 0.0, double ub = 1.0
  * @param[out] imgres The resulting image.
  **/
 template <int TDim>
-void imageBlend(const TImage<TDim> & img1,
-				const TImage<TDim> & img2,
+void imageBlend(const Image<TDim> & img1,
+				const Image<TDim> & img2,
 				double (*blendmode)(double, double),
-				TImage<TDim> & imgres)
+				Image<TDim> & imgres)
 {
 	// check if all images have the same dimensions
 	if(img1.domain().lowerBound() != img2.domain().lowerBound()
@@ -368,7 +359,7 @@ void imageBlend(const TImage<TDim> & img1,
 		return;
 	}
 
-	for(const TPoint<TDim> & p : img1.domain())
+	for(const PointI<TDim> & p : img1.domain())
 	{
 		imgres.setValue(p, blendmode(img1(p), img2(p)));
 	}

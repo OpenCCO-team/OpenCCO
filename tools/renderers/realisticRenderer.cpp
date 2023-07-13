@@ -54,12 +54,12 @@ void test()
 	double r = 1.0 * scale_factor;
 	double R = 2 * r;
 
-	TPoint<3> p1(-4 * r, -4 * r, -2 * r);
-	TPoint<3> p2(-1 * p1);
+	PointI<3> p1(-4 * r, -4 * r, -2 * r);
+	PointI<3> p2(-1 * p1);
 
-	TImage<3> torvol(TDomain<3>(p1, p2));
+	Image<3> torvol(Domain< Space< PointI<3> > >(p1, p2));
 
-	for(const TPoint<3> & p : torvol.domain())
+	for(const PointI<3> & p : torvol.domain())
 	{
 		double var = sqrt(p[0] * p[0] + p[1] * p[1]) - R;
 		double eq_tore_p = var * var + p[2] * p[2] - r * r;
@@ -113,7 +113,7 @@ int main(int argc, char *const *argv)
 
 	if (dimension == 2)
 	{
-		TImage<2> img{ TDomain<2>() };
+		Image<2> img{ Domain< Space< PointI<2> > >() };
 
 		// renderer initialized from files
 		if(domain_filename == "")
@@ -135,7 +135,7 @@ int main(int argc, char *const *argv)
 	}
 	else if (dimension == 3)
 	{
-		TImage<3> img{ TDomain<3>() };
+		Image<3> img{ Domain< Space< PointI<3> > >() };
 
 		// renderer initialized from files
 		if(domain_filename == "")

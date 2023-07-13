@@ -15,7 +15,7 @@ void templa()
 
 	// ExpandTreeHelpers::expandCohabitingTrees(ctree);
 
-	std::vector< TPoint<TDim> > pts = evenlySpreadPoints2D(dom_ctr_mask,10);
+	std::vector< PointD<TDim> > pts = GeomHelpers::evenlySpreadPoints<TDim>(10);
 }
 
 int main()
