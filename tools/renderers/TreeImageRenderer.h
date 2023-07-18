@@ -44,8 +44,8 @@ public:
 	{
 		// Distal point of the segment.
 		unsigned int myDistalIndex;
-		// Proxital point of the segment.
-		unsigned int myProxitalIndex;
+		// Proximal point of the segment.
+		unsigned int myProximalIndex;
 		// hydrodynamc registance (R star)
 		double myResistance = 0.00;
 		// flow (Qi)
@@ -203,7 +203,7 @@ bool projectOnStraightLine(const PointD<TDim>& ptA,
 
 /**
  * @brief Initializes a SVG::Line and its animations, if the pointer is nullptr (considered not already initialized)
- * @param proxital The starting point of the line
+ * @param proximal The starting point of the line
  * @param distal The ending point of the line
  * @param radius The line radius
  * @param color The color of the line
@@ -211,7 +211,7 @@ bool projectOnStraightLine(const PointD<TDim>& ptA,
  * @param[out] line_ptr The line to initialize
  * @returns true if a SVG::Line was initialized.
  **/
-bool initializeSVGLine(const PointD<2> & proxital,
+bool initializeSVGLine(const PointD<2> & proximal,
 					   const PointD<2> & distal, 
 					   double radius,
 					   const SVG::Color & color,

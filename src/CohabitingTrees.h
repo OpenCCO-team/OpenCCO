@@ -17,26 +17,34 @@ class CohabitingTrees
 	typedef typename std::vector< CoronaryArteryTree<DomCtr, TDim> >::iterator tree_vector_iterator;
 
 public:
-	CohabitingTrees(const std::vector<double> & aPerf_vec, const std::vector<unsigned int> & nTerm_vec,
+	CohabitingTrees(double aPerf, const std::vector<unsigned int> & nTerm_vec,
 					DomCtr & dom_ctr, double radius = 1.0)
 	{
-		if(aPerf_vec.size() != nTerm_vec.size()
-			|| aPerf_vec.empty())
-		{
-			std::cout << "Data vectors to construct the trees don't have the same size, or are empty : " << std::endl
-				<< "\taPerf_vec.size() = " << aPerf_vec.size() << std::endl
-				<< "\tnTerm_vec.size() = " << nTerm_vec.size() << std::endl;
+		int n = nTerm_vec.size();
 
-			return;
+		for(std::size_t i = 0; i < n; i++)
+		{
+			myTrees.emplace_back(aPerf, nTerm_vec[i], dom_ctr, radius);
+			myExpansionAttempts.push_back(1);	// inital value is one because the first segment counts as a succesful attempt
 		}
 
-		for(std::size_t i = 0; i < aPerf_vec.size(); i++)
-		{
-			myTrees.emplace_back(aPerf_vec[i], nTerm_vec[i], dom_ctr, radius);
-			myExpansionAttempts.push_back(0);
+		std::vector< PointI<TDim> > starting_points = firstN_CandidatePoints<CircularDomainCtrl<TDim>, TDim>(dom_ctr, 2);
 
-			// initialize first segment of trees so that they're not overlapping
-			//initializeFirstSegments
+		// initialize first segment of trees so that they're not overlapping
+		for(std::size_t i = 0; i < n; i++)
+		{
+			myTrees[i].myVectSegments[0].myCoordinate = starting_points[i];
+			myTrees[i].myVectSegments[1].myCoordinate = starting_points[i] - 0.25 * starting_points[i];
+		}
+
+		std::cout << "Trees first segments coordinates, for domain centered in (" 
+			<< dom_ctr.myCenter[0] << ", " << dom_ctr.myCenter[1] << ") :" << std::endl;
+		for(std::size_t i = 0; i < myTrees.size(); i++)
+		{
+			PointD<TDim> p_parent = myTrees[i].myVectSegments[myTrees[i].myVectParent[1]].myCoordinate;
+			PointD<TDim> p_seg = myTrees[i].myVectSegments[1].myCoordinate;
+			std::cout << "Tree " << i << " : (" << p_parent[0] << ", " << p_parent[1] << ") to ("
+				<< p_seg[0] << ", " << p_seg[1] << ")." << std::endl;
 		}
 
 		myIterator = myTrees.begin();
@@ -81,7 +89,7 @@ public:
 
 		for(std::size_t i = 0; i < myTrees.size(); i++)
 		{
-			res = res && (myExpansionAttempts[i] == myTrees[i].my_NTerm);
+			res = res && (myExpansionAttempts[i] >= myTrees[i].my_NTerm);
 		}
 
 		return res;
@@ -93,14 +101,12 @@ public:
 		double dist_threshold = myIterator->getDistanceThreshold();
 		
 		unsigned int i = 0;
-		while(i < nb_trials)
+		bool valid = false;
+		while(!valid)
 		{
 			res = myIterator->myDomainController().randomPoint();
 
-			if(validNewLocation(res, dist_threshold))
-			{
-				return res;
-			}
+			valid = validNewLocation(res, dist_threshold);
 
 			// if we reach end of the loop before finding the new location,
 			// loop again with less restrictive distance threshold
@@ -111,6 +117,8 @@ public:
 				dist_threshold *= 0.9;
 			}
 		}
+
+		return res;
 	}
 
 	bool validNewLocation(const PointD<TDim> & location, double distance_threshold)
@@ -147,8 +155,8 @@ public:
 		*myIterator = tree;
 	}
 
-	bool isIntersectingTrees(const PointD<TDim> & ptA,
-							 const PointD<TDim> & ptB,
+	bool isIntersectingTrees(const PointD<TDim> & p_added,
+							 const PointD<TDim> & p_bifurcation,
 							 double r, unsigned int seg_index)
 	{
 		//Get useful points
@@ -167,7 +175,7 @@ public:
 				// middle segment
 				LC_ind = it->myVectChildren[parent_ind].first;
 				RC_ind = it->myVectChildren[parent_ind].second;
-				if(it->isIntersectingTree(ptB, seg_start, r, std::make_tuple(LC_ind, RC_ind, parent_ind)))
+				if(it->isIntersectingTree(p_bifurcation, seg_start, r, std::make_tuple(LC_ind, RC_ind, parent_ind)))
 				{
 					return true;
 				}
@@ -175,7 +183,7 @@ public:
 				// sibling segment (first child of middle segment)
 				LC_ind = it->myVectChildren[seg_index].first;
 				RC_ind = it->myVectChildren[seg_index].second;
-				if(it->isIntersectingTree(ptB, seg_end, r, std::make_tuple(LC_ind, RC_ind, seg_index)))
+				if(it->isIntersectingTree(p_bifurcation, seg_end, r, std::make_tuple(LC_ind, RC_ind, seg_index)))
 				{
 					return true;
 				}
@@ -184,7 +192,7 @@ public:
 				// since it's the added segment, it has no children
 				LC_ind = -1;
 				RC_ind = -1;
-				if(it->isIntersectingTree(ptB, ptA, r, std::make_tuple(LC_ind, RC_ind, seg_index)))
+				if(it->isIntersectingTree(p_bifurcation, p_added, r, std::make_tuple(LC_ind, RC_ind, seg_index)))
 				{
 					return true;
 				}
@@ -192,10 +200,10 @@ public:
 			else
 			{
 				// other tree cases
-				// no intersection is allower with any segment
-				if(it->isIntersectingTree(ptB, seg_start, r, std::make_tuple(-1,-1,-1))
-					|| it->isIntersectingTree(ptB, seg_end, r, std::make_tuple(-1,-1,-1))
-				    || it->isIntersectingTree(ptB, ptA, r, std::make_tuple(-1,-1,-1)) )
+				// no intersection is allowed with any segment
+				if(it->isIntersectingTree(p_bifurcation, seg_start, r, std::make_tuple(-1,-1,-1))
+					|| it->isIntersectingTree(p_bifurcation, seg_end, r, std::make_tuple(-1,-1,-1))
+					|| it->isIntersectingTree(p_bifurcation, p_added, r, std::make_tuple(-1,-1,-1)) )
 				{
 					return true;
 				}
@@ -257,29 +265,53 @@ public:
 		return res;
 	}
 
-private:
-	tree_vector myTrees;
-	tree_vector_iterator myIterator;
-	std::vector<unsigned int> myExpansionAttempts;	// an attempt can be succesful or not; counts every try
-
-	bool initializeFirstSegments(const std::vector< PointD<TDim> > & starting_points)
+	void exportTreesDisplays()
 	{
-		// error if number of points != number of trees
-		if(starting_points.size() != myTrees.size())
+		DGtal::Board2D board;
+		board.setLineCap(LibBoard::Shape::LineCap::RoundCap);
+		board.setUnit(0.1, LibBoard::Board::UCentimeter);
+
+		std::vector< DGtal::GradientColorMap<float> > colormaps;
+		for(std::size_t i = 0; i < myTrees.size(); i++)
 		{
-			std::cout << "Amount of starting points is incorrect : " 
-				<< starting_points.size() << " but should be " << myTrees.size() << std::endl;
-			return false;
+			colormaps.emplace_back(std::log(myTrees[i].my_qTerm), std::log(myTrees[i].my_qPerf));
+
+			// each tree has a different color
+			double h = i * 360.0 / myTrees.size();
+			DGtal::Color c_low;
+			DGtal::Color c_high;
+			c_low.setFromHSV(h, 0.10, 0.90);		// desaturated and lighter
+			c_high.setFromHSV(h, 0.95, 0.784);		// saturated and a bit darker
+
+			colormaps[i].addColor(c_low);
+			colormaps[i].addColor(c_high);
 		}
 
 		for(std::size_t i = 0; i < myTrees.size(); i++)
 		{
-			myTrees[i].myTreeCenter = myTrees[i].myDomainController().myCenter;
-			myTrees[i].myVectSegments[0].myCoordinate = starting_points[i];
+			for(const typename CoronaryArteryTree<DomCtr, TDim>::Segment & s : myTrees[i].myVectSegments)
+			{
+				if(s.myIndex == 0)
+					continue;
+
+				board.setPenColor(colormaps[i](std::log(s.myFlow)));
+
+				PointD<TDim> proximal = myTrees[i].myVectSegments[myTrees[i].myVectParent[s.myIndex]].myCoordinate;
+				PointD<TDim> distal = s.myCoordinate;
+
+				board.setLineWidth(s.myRadius);
+				board.drawLine(distal[0], distal[1], proximal[0], proximal[1]);
+			}
 		}
 
-		return true;
+		board.saveSVG("cohabiting_trees.svg");
 	}
+
+
+private:
+	tree_vector myTrees;
+	tree_vector_iterator myIterator;
+	std::vector<unsigned int> myExpansionAttempts;	// an attempt can be succesful or not; counts every try
 };
 
 

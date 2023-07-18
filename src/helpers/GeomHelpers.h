@@ -266,14 +266,14 @@ template<int TDim>
 inline
 bool
 isIntersecting(const PointD<TDim> &segA, const PointD<TDim> &segB, double rAB,
-					  const PointD<TDim> &segC, const PointD<TDim> &segD, double rCD)
+			   const PointD<TDim> &segC, const PointD<TDim> &segD, double rCD)
 {
-	PointD<TDim> cAB = (segA + segB)/2.0;
-	PointD<TDim> cCD = (segC + segD)/2.0;
+	PointD<TDim> cAB = (segA + segB) / 2.0;
+	PointD<TDim> cCD = (segC + segD) / 2.0;
 	double lAB = (segA - segB).norm();
 	double lCD = (segC - segD).norm();
 	double dC = (cAB - cCD).norm();
-	bool res = dC > ((lAB + lCD)/2.0 + rAB + rCD);
+	bool res = dC > ((lAB + lCD) / 2.0 + rAB + rCD);
 
 	if(res==true)
 		return false;
@@ -426,7 +426,8 @@ struct CostOptPos {
 /**
  * @return true if a solution exists
  */
-static bool kamyiaOpt(double gamma, double deltaP1, double deltaP2, double f0, double f1, double f2, double l0, double l1, double l2, double &xx1, double &xx2) {
+static bool kamyiaOpt(double gamma, double deltaP1, double deltaP2, double f0, double f1, double f2, double l0, double l1, double l2, double &xx1, double &xx2) 
+{
 	CostOptPos *f = new CostOptPos();
 	f->deltap1 = deltaP1;
 	f->deltap2 = deltaP2;
@@ -443,8 +444,7 @@ static bool kamyiaOpt(double gamma, double deltaP1, double deltaP2, double f0, d
 	Problem problem;
 	// Set up the only cost function (also known as residual). This uses
 	// auto-differentiation to obtain the derivative (jacobian).
-	CostFunction* cost_function =
-	new AutoDiffCostFunction<CostOptPos, 2, 1, 1>(f);
+	CostFunction* cost_function = new AutoDiffCostFunction<CostOptPos, 2, 1, 1>(f);
 	problem.AddResidualBlock(cost_function, nullptr, &xx1, &xx2);
 	// Run the solver!
 	Solver::Options options;

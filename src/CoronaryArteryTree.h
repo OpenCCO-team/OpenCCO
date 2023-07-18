@@ -185,15 +185,19 @@ public:
                        double aRadius = 1.0): myDomainController_(aDomCtr) {
         assert(nTerm>=1);
         
-        for (auto i=0; i < TDim; i++){myTreeCenter[i]=aDomCtr.myCenter[i];}
-        if(TDim==2) {
+        for (std::size_t i=0; i < TDim; i++) { myTreeCenter[i]=aDomCtr.myCenter[i]; }
+        
+        if(TDim==2)
+        {
             myRsupp = sqrt(aPerf/(nTerm*M_PI));
             my_rPerf = sqrt(aPerf/M_PI);
         }
-        else {//TDim==3
+        else //TDim==3
+        {
             myRsupp = pow(3.0*aPerf/(4.0*M_PI*nTerm),1.0/3.0);
             my_rPerf = pow(3.0*aPerf/(4.0*M_PI),1.0/3.0);
         }
+
         my_aPerf = aPerf;
         my_NTerm = nTerm;
         my_qTerm = my_qPerf / my_NTerm;
@@ -237,6 +241,7 @@ public:
         {
             aDomCtr.myRadius = my_rPerf;
         }
+        
         if(aDomCtr.randomPoint() == PointI<TDim>::diagonal(0) )
         {
             DGtal::trace.error() << "Domain too restrained, not possible to find random"
@@ -272,7 +277,6 @@ public:
                    unsigned int segIndex,
                    unsigned int nbIter,
                    double tolerance,
-                   unsigned int nbNeibour = 10,
                    bool verbose = true);
     
     /**

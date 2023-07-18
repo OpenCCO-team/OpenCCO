@@ -473,10 +473,8 @@ firstN_CandidatePoints(const DomCtr & domain_controller, unsigned int n)
 
 	// first we find r1 and r2 such that r2 = 2*r1 and all points with r1 are within the domain, and at least one point with r2 is not
 	bool r_bounds_set = false;
-	int DEBUG_I = 0;
 	while(!r_bounds_set)
 	{
-		DEBUG_I++;
 		bool r1_points_in_dom = true;			// whether all points with r1 are inside the domain
 		bool r2_points_in_dom = true;			// whether all points with r2 are inside the domain
 		for(const PointD<TDim> p : base_points)
@@ -513,13 +511,9 @@ firstN_CandidatePoints(const DomCtr & domain_controller, unsigned int n)
 		}
 	}
 
-	std::cout << r1 << " " << r2 << " found in " << DEBUG_I << " loops." << std::endl << std::endl;
-
 	// dichotomy main loop
-	DEBUG_I = 0;
 	while(fabs(r1 - r2) > precision)
 	{
-		DEBUG_I++;
 		double r_mean = (r1 + r2) / 2.0;
 
 		double r_mean_within_dom = true;
@@ -540,13 +534,11 @@ firstN_CandidatePoints(const DomCtr & domain_controller, unsigned int n)
 		}
 	}
 
-	std::cout << r1 << " " << r2 << " found in " << DEBUG_I << " loops." << std::endl;
-
 	std::vector< PointI<TDim> > res;
 
 	for(const PointD<TDim> & p : base_points)
 	{
-		res.emplace_back(p);
+		res.emplace_back(r1 * p);
 	}
 
 	return res;

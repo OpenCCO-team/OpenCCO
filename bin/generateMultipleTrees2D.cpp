@@ -5,17 +5,17 @@
 template<int TDim>
 void templa()
 {
-	ImageMaskDomainCtrl<TDim> dom_ctr_mask("Samples/shape.png", 128, 100);
+	CircularDomainCtrl<TDim> circ_domctr(50, PointD<2>(0,0));
 
 	// data vectors
-	std::vector<double> perfs {20000, 10000};
-	std::vector<unsigned int> terms {100, 100};
+	double perfs = 10000;
+	std::vector<unsigned int> terms {20, 20};
 
-	// CohabitingTrees<CircularDomainCtrl<TDim>, TDim> ctree(perfs, terms, circ_dom);
+	CohabitingTrees<CircularDomainCtrl<TDim>, TDim> ctree(perfs, terms, circ_domctr);
 
-	// ExpandTreeHelpers::expandCohabitingTrees(ctree);
+	ExpandTreeHelpers::expandCohabitingTrees(ctree, 200);
 
-	std::vector< PointD<TDim> > pts = GeomHelpers::evenlySpreadPoints<TDim>(10);
+	ctree.exportTreesDisplays();
 }
 
 int main()

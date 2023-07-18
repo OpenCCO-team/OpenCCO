@@ -142,7 +142,7 @@ void TreeImageRenderer<TDim>::importTreeData(const std::string & radii_filename,
 			Segment s;
 
 			std::istringstream iss(line);
-			iss >> s.myProxitalIndex >> s.myDistalIndex >> s.myFlow >> s.myResistance;
+			iss >> s.myProximalIndex >> s.myDistalIndex >> s.myFlow >> s.myResistance;
 
 			myTree.mySegments.push_back(s);
 		}
@@ -190,15 +190,15 @@ Image<TDim> TreeImageRenderer<TDim>::flowRender(unsigned int width)
 	for(const Segment & s : myTree.mySegments)
 	{
 		// variables useful for computation in subloop
-		double dist_proxitaldistal = (myTree.myPoints[s.myDistalIndex] - myTree.myPoints[s.myProxitalIndex]).norm();
+		double dist_proximaldistal = (myTree.myPoints[s.myDistalIndex] - myTree.myPoints[s.myProximalIndex]).norm();
 		double value = 7 + std::log1p(s.myFlow);
 
 		// points bounding the segment
 		std::vector< PointD<TDim> > v;
 		for(int i = -1; i <= 1; i+=2)
 		{
-			v.emplace_back(myTree.myPoints[s.myProxitalIndex] 
-							+ i * PointI<TDim>::diagonal(myTree.myRadii[s.myProxitalIndex]));
+			v.emplace_back(myTree.myPoints[s.myProximalIndex] 
+							+ i * PointI<TDim>::diagonal(myTree.myRadii[s.myProximalIndex]));
 			v.emplace_back(myTree.myPoints[s.myDistalIndex]
 							+ i * PointI<TDim>::diagonal(myTree.myRadii[s.myDistalIndex]));
 		}
@@ -211,7 +211,7 @@ Image<TDim> TreeImageRenderer<TDim>::flowRender(unsigned int width)
 		{
 			PointD<TDim> proj;
 			bool isproj = projectOnStraightLine<TDim>(myTree.myPoints[s.myDistalIndex],
-												myTree.myPoints[s.myProxitalIndex],
+												myTree.myPoints[s.myProximalIndex],
 												p,
 												proj);
 
@@ -219,9 +219,9 @@ Image<TDim> TreeImageRenderer<TDim>::flowRender(unsigned int width)
 			{
 				double dist_pproj = (proj - p).norm();
 
-				double dist_proxitalproj = (proj - myTree.myPoints[s.myProxitalIndex]).norm();
-				double interpolated_radius = (myTree.myRadii[s.myDistalIndex] - myTree.myRadii[s.myProxitalIndex]) * dist_proxitalproj/dist_proxitaldistal
-											+ myTree.myRadii[s.myProxitalIndex];
+				double dist_proximalproj = (proj - myTree.myPoints[s.myProximalIndex]).norm();
+				double interpolated_radius = (myTree.myRadii[s.myDistalIndex] - myTree.myRadii[s.myProximalIndex]) * dist_proximalproj/dist_proximaldistal
+											+ myTree.myRadii[s.myProximalIndex];
 
 				if(dist_pproj < interpolated_radius && s.myFlow > flow_render(p))	// inside the segment and bigger flow	
 				{
@@ -229,12 +229,12 @@ Image<TDim> TreeImageRenderer<TDim>::flowRender(unsigned int width)
 				}
 			}
 			else		// the projection doesn't belong to the segment
-			{			// the distance from p to the segment is either the distance to the distal or the distance to the proxital
+			{			// the distance from p to the segment is either the distance to the distal or the distance to the proximal
 						// offset by their respective radius
-				double dist_pproxital = (myTree.myPoints[s.myProxitalIndex] - p).norm() - myTree.myRadii[s.myProxitalIndex];
+				double dist_pproximal = (myTree.myPoints[s.myProximalIndex] - p).norm() - myTree.myRadii[s.myProximalIndex];
 				double dist_pdistal = (myTree.myPoints[s.myDistalIndex] - p).norm() - myTree.myRadii[s.myDistalIndex];
 
-				double min_dist = std::min(dist_pproxital, dist_pdistal);
+				double min_dist = std::min(dist_pproximal, dist_pdistal);
 
 				if(min_dist < 0 && s.myFlow > flow_render(p))		// inside the segment and bigger flow
 				{
@@ -309,8 +309,8 @@ void TreeImageRenderer<2>::animationRender(const std::string & filename, int dur
 		auto bro_rit = rit + 1;				// brother reverse iterator
 
 		// parent reverse iterator
-		unsigned int proxital_i = rit->myProxitalIndex;
-		auto is_parent = [&proxital_i] (const Segment & s) { return s.myDistalIndex == proxital_i; };
+		unsigned int proximal_i = rit->myProximalIndex;
+		auto is_parent = [&proximal_i] (const Segment & s) { return s.myDistalIndex == proximal_i; };
 		auto parent_rit = std::find_if(rit, segments.rend(), is_parent);
 
 		// indexes 
@@ -321,11 +321,11 @@ void TreeImageRenderer<2>::animationRender(const std::string & filename, int dur
 		// handy points for the next computations
 		// the junction is the point where the brother, the parent and the current segment meet
 		// the intersection is an arbitrary point for the sake of the animation; I think of it as the junction before the segment is born
-		PointD<2> junction = myTree.myPoints[rit->myProxitalIndex];
+		PointD<2> junction = myTree.myPoints[rit->myProximalIndex];
 		PointD<2> intersection;
 		
-		bool res = GeomHelpers::lineIntersection(myTree.myPoints[parent_rit->myProxitalIndex], myTree.myPoints[bro_rit->myDistalIndex],
-									myTree.myPoints[rit->myProxitalIndex], myTree.myPoints[rit->myDistalIndex],
+		bool res = GeomHelpers::lineIntersection(myTree.myPoints[parent_rit->myProximalIndex], myTree.myPoints[bro_rit->myDistalIndex],
+									myTree.myPoints[rit->myProximalIndex], myTree.myPoints[rit->myDistalIndex],
 									intersection);
 		if(!res)	// the lines are almost parallel or coincident (very unelikely)
 		{
@@ -339,15 +339,15 @@ void TreeImageRenderer<2>::animationRender(const std::string & filename, int dur
 		int end = start + segment_growth_dur;
 
 		// initialize the lines with their color and thickness if they don't exist yet
-		initializeSVGLine(myTree.myPoints[rit->myProxitalIndex],myTree.myPoints[rit->myDistalIndex], 
+		initializeSVGLine(myTree.myPoints[rit->myProximalIndex],myTree.myPoints[rit->myDistalIndex], 
 		   myTree.myRadii[rit->myDistalIndex], DGtalColor2SVGColor(cmap_grad(std::log(rit->myFlow))), duration,
 		   lines_ptr[i]);
 
-		initializeSVGLine(myTree.myPoints[bro_rit->myProxitalIndex],myTree.myPoints[bro_rit->myDistalIndex], 
+		initializeSVGLine(myTree.myPoints[bro_rit->myProximalIndex],myTree.myPoints[bro_rit->myDistalIndex], 
 		   myTree.myRadii[bro_rit->myDistalIndex], DGtalColor2SVGColor(cmap_grad(std::log(bro_rit->myFlow))), duration,
 		   lines_ptr[bro_i]);
 
-		initializeSVGLine(myTree.myPoints[parent_rit->myProxitalIndex],myTree.myPoints[parent_rit->myDistalIndex], 
+		initializeSVGLine(myTree.myPoints[parent_rit->myProximalIndex],myTree.myPoints[parent_rit->myDistalIndex], 
 		   myTree.myRadii[parent_rit->myDistalIndex], DGtalColor2SVGColor(cmap_grad(std::log(parent_rit->myFlow))), duration,
 		   lines_ptr[parent_i]);
 
@@ -456,7 +456,7 @@ Image<TDim> TreeImageRenderer<TDim>::skeletonRender(unsigned int width)
 	for(const Segment & s : myTree.mySegments)
 	{
 		drawBresenhamLine<TDim>(skeleton_render,
-			PointI<TDim>(myTree.myPoints[s.myProxitalIndex]),
+			PointI<TDim>(myTree.myPoints[s.myProximalIndex]),
 			PointI<TDim>(myTree.myPoints[s.myDistalIndex]),
 			255.0);
 	}
@@ -673,7 +673,7 @@ bool projectOnStraightLine(const PointD<TDim>& ptA,
 
 
 
-bool initializeSVGLine(const PointD<2> & proxital,
+bool initializeSVGLine(const PointD<2> & proximal,
 					   const PointD<2> & distal, 
 					   double radius,
 					   const SVG::Color & color,
@@ -683,11 +683,11 @@ bool initializeSVGLine(const PointD<2> & proxital,
 	if(!line_ptr)	// nullptr check
 	{
 		// make a shared pointer
-		line_ptr = std::make_shared<SVG::Line>(proxital[0], proxital[1], distal[0], distal[1],radius * 3, color);
+		line_ptr = std::make_shared<SVG::Line>(proximal[0], proximal[1], distal[0], distal[1],radius * 3, color);
 
 		// init the 5 attributes animation
-		line_ptr->initializeAnimation("x1", proxital[0], proxital[0], duration, true, 1);
-		line_ptr->initializeAnimation("y1", proxital[1], proxital[1], duration, true, 1);
+		line_ptr->initializeAnimation("x1", proximal[0], proximal[0], duration, true, 1);
+		line_ptr->initializeAnimation("y1", proximal[1], proximal[1], duration, true, 1);
 		line_ptr->initializeAnimation("x2", distal[0], distal[0], duration, true, 1);
 		line_ptr->initializeAnimation("y2", distal[1], distal[1], duration, true, 1);
 		line_ptr->initializeAnimation("opacity", 0.0, 1.0, duration, false, 1);
