@@ -148,10 +148,6 @@ expandCohabitingTrees(CohabitingTrees<DomCtr, TDim> & aCTree,
 {
 	srand ((unsigned int) time(NULL));
 
-	// debugging XD
-	std::size_t inter_fails = 0;
-	std::size_t add_fails = 0;
-
 	while(!aCTree.expansionFinished())
 	{
 		DGtal::trace.progressBar(aCTree.attemptsSum(), aCTree.NTermsSum());
@@ -187,14 +183,6 @@ expandCohabitingTrees(CohabitingTrees<DomCtr, TDim> & aCTree,
 							seed_found = true;
 						}
 					}
-					else
-					{
-						add_fails++;
-					}
-				}
-				else
-				{
-					inter_fails++;
 				}
 			}
 		}
@@ -211,44 +199,43 @@ expandCohabitingTrees(CohabitingTrees<DomCtr, TDim> & aCTree,
 	std::cout << std::endl;
 
 	aCTree.expansionSummary(verbose);
-
-	std::cout << "Intersection fails : " << inter_fails << std::endl
-			  << "Addable fails : " << add_fails << std::endl;
 }
 
 
 
 template<typename TImage >
 std::vector<std::vector<typename TImage::Domain::Point > >
-getImageContours(const TImage &image,
-unsigned int threshold=128){
-std::vector<std::vector<typename TImage::Domain::Point > > v;
-DGtal::trace.error() << "Use CCO is only implemented in 2D and 3D and use ImageContainerBySTLVector with unsigned char"
-<< "to export domain."
-<< "You use such an image : " << image <<  std::endl;
-throw 1;
-return v;
+getImageContours(const TImage &image, unsigned int threshold=128)
+{
+	std::vector<std::vector<typename TImage::Domain::Point > > v;
+	DGtal::trace.error() << "Use CCO is only implemented in 2D and 3D and use ImageContainerBySTLVector with unsigned char"
+	<< "to export domain."
+	<< "You use such an image : " << image <<  std::endl;
+	throw 1;
+	return v;
 }
 
 
 std::vector<std::vector<DGtal::Z2i::Point > >
 getImageContours(const DGtal::ImageContainerBySTLVector<DGtal::Z2i::Domain, unsigned char> &image,
-unsigned int threshold){
-typedef  DGtal::ImageContainerBySTLVector<DGtal::Z2i::Domain, unsigned char> TImage;
-typedef DGtal::functors::IntervalThresholder<typename TImage::Value> Binarizer;
-DGtal::Z2i::KSpace ks;
-if(! ks.init( image.domain().lowerBound(),
-image.domain().upperBound(), true )){
-DGtal::trace.error() << "Problem in KSpace initialisation"<< std::endl;
-}
+				 unsigned int threshold)
+{
+	typedef  DGtal::ImageContainerBySTLVector<DGtal::Z2i::Domain, unsigned char> TImage;
+	typedef DGtal::functors::IntervalThresholder<typename TImage::Value> Binarizer;
+	DGtal::Z2i::KSpace ks;
+	if(! ks.init( image.domain().lowerBound(),
+		image.domain().upperBound(), true ))
+	{
+		DGtal::trace.error() << "Problem in KSpace initialisation"<< std::endl;
+	}
 
-Binarizer b(threshold, 255);
-DGtal::functors::PointFunctorPredicate<TImage,Binarizer> predicate(image, b);
-DGtal::trace.info() << "DGtal contour extraction from thresholds ["<<  threshold << "," << 255 << "]" ;
-DGtal::SurfelAdjacency<2> sAdj( true );
-std::vector< std::vector< DGtal::Z2i::Point >  >  vectContoursBdryPointels;
-DGtal::Surfaces<DGtal::Z2i::KSpace>::extractAllPointContours4C( vectContoursBdryPointels, ks, predicate, sAdj );
-return vectContoursBdryPointels;
+	Binarizer b(threshold, 255);
+	DGtal::functors::PointFunctorPredicate<TImage,Binarizer> predicate(image, b);
+	DGtal::trace.info() << "DGtal contour extraction from thresholds ["<<  threshold << "," << 255 << "]" ;
+	DGtal::SurfelAdjacency<2> sAdj( true );
+	std::vector< std::vector< DGtal::Z2i::Point >  >  vectContoursBdryPointels;
+	DGtal::Surfaces<DGtal::Z2i::KSpace>::extractAllPointContours4C( vectContoursBdryPointels, ks, predicate, sAdj );
+	return vectContoursBdryPointels;
 }
 
 
@@ -258,10 +245,11 @@ Template Specialisation in 3D  to export surfel image  border of the restricted 
 */
 std::vector<std::vector<DGtal::Z3i::Point > >
 getImageContours(const DGtal::ImageContainerBySTLVector<DGtal::Z3i::Domain, unsigned char> &image,
-unsigned int threshold){
-std::vector<std::vector<DGtal::Z3i::Point > > v;
+				 unsigned int threshold)
+{
+	std::vector<std::vector<DGtal::Z3i::Point > > v;
 
-return v;
+	return v;
 }
 
 

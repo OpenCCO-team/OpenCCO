@@ -1,6 +1,8 @@
 #pragma once
 
 #include <iostream>
+
+#include "XmlHelpers.h"
 #include "CoronaryArteryTree.h"
 
 
@@ -28,23 +30,13 @@ public:
 			myExpansionAttempts.push_back(1);	// inital value is one because the first segment counts as a succesful attempt
 		}
 
-		std::vector< PointI<TDim> > starting_points = firstN_CandidatePoints<CircularDomainCtrl<TDim>, TDim>(dom_ctr, 2);
+		std::vector< PointI<TDim> > starting_points = firstN_CandidatePoints<DomCtr, TDim>(dom_ctr, 2);
 
 		// initialize first segment of trees so that they're not overlapping
 		for(std::size_t i = 0; i < n; i++)
 		{
 			myTrees[i].myVectSegments[0].myCoordinate = starting_points[i];
 			myTrees[i].myVectSegments[1].myCoordinate = starting_points[i] - 0.25 * starting_points[i];
-		}
-
-		std::cout << "Trees first segments coordinates, for domain centered in (" 
-			<< dom_ctr.myCenter[0] << ", " << dom_ctr.myCenter[1] << ") :" << std::endl;
-		for(std::size_t i = 0; i < myTrees.size(); i++)
-		{
-			PointD<TDim> p_parent = myTrees[i].myVectSegments[myTrees[i].myVectParent[1]].myCoordinate;
-			PointD<TDim> p_seg = myTrees[i].myVectSegments[1].myCoordinate;
-			std::cout << "Tree " << i << " : (" << p_parent[0] << ", " << p_parent[1] << ") to ("
-				<< p_seg[0] << ", " << p_seg[1] << ")." << std::endl;
 		}
 
 		myIterator = myTrees.begin();
@@ -201,9 +193,9 @@ public:
 			{
 				// other tree cases
 				// no intersection is allowed with any segment
-				if(it->isIntersectingTree(p_bifurcation, seg_start, r, std::make_tuple(-1,-1,-1))
-					|| it->isIntersectingTree(p_bifurcation, seg_end, r, std::make_tuple(-1,-1,-1))
-					|| it->isIntersectingTree(p_bifurcation, p_added, r, std::make_tuple(-1,-1,-1)) )
+				if(it->isIntersectingTree(p_bifurcation, seg_start, 8*r, std::make_tuple(-1,-1,-1))
+					|| it->isIntersectingTree(p_bifurcation, seg_end, 8*r, std::make_tuple(-1,-1,-1))
+					|| it->isIntersectingTree(p_bifurcation, p_added, 8*r, std::make_tuple(-1,-1,-1)) )
 				{
 					return true;
 				}
@@ -267,44 +259,66 @@ public:
 
 	void exportTreesDisplays()
 	{
-		DGtal::Board2D board;
-		board.setLineCap(LibBoard::Shape::LineCap::RoundCap);
-		board.setUnit(0.1, LibBoard::Board::UCentimeter);
-
-		std::vector< DGtal::GradientColorMap<float> > colormaps;
-		for(std::size_t i = 0; i < myTrees.size(); i++)
+		if(TDim == 2)
 		{
-			colormaps.emplace_back(std::log(myTrees[i].my_qTerm), std::log(myTrees[i].my_qPerf));
+			DGtal::Board2D board;
+			board.setLineCap(LibBoard::Shape::LineCap::RoundCap);
+			board.setUnit(0.1, LibBoard::Board::UCentimeter);
 
-			// each tree has a different color
-			double h = i * 360.0 / myTrees.size();
-			DGtal::Color c_low;
-			DGtal::Color c_high;
-			c_low.setFromHSV(h, 0.10, 0.90);		// desaturated and lighter
-			c_high.setFromHSV(h, 0.95, 0.784);		// saturated and a bit darker
-
-			colormaps[i].addColor(c_low);
-			colormaps[i].addColor(c_high);
-		}
-
-		for(std::size_t i = 0; i < myTrees.size(); i++)
-		{
-			for(const typename CoronaryArteryTree<DomCtr, TDim>::Segment & s : myTrees[i].myVectSegments)
+			std::vector< DGtal::GradientColorMap<float> > colormaps;
+			for(std::size_t i = 0; i < myTrees.size(); i++)
 			{
-				if(s.myIndex == 0)
-					continue;
+				colormaps.emplace_back(std::log(myTrees[i].my_qTerm), std::log(myTrees[i].my_qPerf));
 
-				board.setPenColor(colormaps[i](std::log(s.myFlow)));
+				// each tree has a different color
+				double h = i * 360.0 / myTrees.size();
+				DGtal::Color c_low;
+				DGtal::Color c_high;
+				c_low.setFromHSV(h, 0.10, 0.90);		// desaturated and lighter
+				c_high.setFromHSV(h, 0.95, 0.784);		// saturated and a bit darker
 
-				PointD<TDim> proximal = myTrees[i].myVectSegments[myTrees[i].myVectParent[s.myIndex]].myCoordinate;
-				PointD<TDim> distal = s.myCoordinate;
-
-				board.setLineWidth(s.myRadius);
-				board.drawLine(distal[0], distal[1], proximal[0], proximal[1]);
+				colormaps[i].addColor(c_low);
+				colormaps[i].addColor(c_high);
 			}
+
+			for(std::size_t i = 0; i < myTrees.size(); i++)
+			{
+				for(const typename CoronaryArteryTree<DomCtr, TDim>::Segment & s : myTrees[i].myVectSegments)
+				{
+					if(s.myIndex == 0)
+						continue;
+
+					board.setPenColor(colormaps[i](std::log(s.myFlow)));
+
+					PointD<TDim> proximal = myTrees[i].myVectSegments[myTrees[i].myVectParent[s.myIndex]].myCoordinate;
+					PointD<TDim> distal = s.myCoordinate;
+
+					board.setLineWidth(s.myRadius);
+					board.drawLine(distal[0], distal[1], proximal[0], proximal[1]);
+				}
+			}
+
+			board.saveSVG("cohabiting_trees.svg");
+		}
+	}
+
+	void writeTreesToXML()
+	{
+		std::string dim;
+		if(TDim == 2)
+		{
+			dim = "2D";
+		}
+		else	//TDim == 3
+		{
+			dim = "3D";
 		}
 
-		board.saveSVG("cohabiting_trees.svg");
+		for(std::size_t i = 0; i < myTrees.size(); i++)
+		{
+			std::string xml_filename = "tree_" + dim + "_" + std::to_string(i) + ".xml";
+			XMLHelpers::writeTreeToXml(myTrees[i], xml_filename.c_str());
+		}
 	}
 
 

@@ -86,14 +86,18 @@ public:
 	{
 		bool found = false;
 		PointD<TDim> p;
-		while(!found){
+		while(!found)
+		{
 			double ss = 0.0;
-			for(unsigned int i = 0;i<TDim; i++ ){
+			for(unsigned int i = 0;i<TDim; i++ )
+			{
 				p[i] = ((double)rand() / RAND_MAX)*2.0*myRadius - myRadius;
 			}
+
+			p += myCenter;
 			found = isInside(p);
 		}
-		return p + myCenter;
+		return p;
 	}
 
 	/**
