@@ -10,7 +10,7 @@
  * The goal of CohabitingTrees template class is to manage multiple trees in the same domain.
  * It can check the state of each tree, export them, etc
  * 
- * 
+ * Will manage which tree needs to be expanded next.
  */
 template<class DomCtr, int TDim>
 class CohabitingTrees
@@ -19,6 +19,16 @@ class CohabitingTrees
 	typedef typename std::vector< CoronaryArteryTree<DomCtr, TDim> >::iterator tree_vector_iterator;
 
 public:
+
+	/**
+     * @brief Constructor.
+     * @brief It initializes the desired number of trees and their first segments.
+     * @param aPerf Surface of the perfusion (common to all trees).
+     * @param nTerm_vec Number of terminal segments, governs the number of trees
+     * 		(each tree has a specified number of terminal segments).
+     * @param dom_ctr The domain controller, common for each tree.
+     * @param radius The radius of the root segment.
+     **/
 	CohabitingTrees(double aPerf, const std::vector<unsigned int> & nTerm_vec,
 					DomCtr & dom_ctr, double radius = 1.0)
 	{
@@ -42,7 +52,13 @@ public:
 		myIterator = myTrees.begin();
 	}
 
-	// Method
+	// Methods
+
+	/**
+	 * @brief Method to set myIterator to the next tree.
+	 * @brief Right now it increments myIterator, and if it reaches the end makes it loop back.
+	 * @brief An upgrade could be to use a template policy to have maximum flexibility.
+	 **/
 	void nextTree()
 	{
 		myIterator++;
@@ -54,27 +70,53 @@ public:
 		}
 	}
 
+
+	/**
+	 * Creates a copy of the tree currently pointed to by myIterator.
+	 * @returns a CoronaryArteryTree<DomCtr, TDim>.
+	 **/
 	CoronaryArteryTree<DomCtr, TDim> getCurrentTreeCopy()
 	{
 		return *myIterator;
 	}
 
+
+	/**
+	 * @brief Shortcut method to get the radius from the segment index of the current tree.
+	 * @returns The radius of the segment.
+	 */
 	double getSegmentRadius(unsigned int seg_index)
 	{
 		return myIterator->myVectSegments[seg_index].myRadius;
 	}
 
+
+	/**
+	 * @brief Finds the n nearest segment from the current tree closest to a point in the domain.
+	 * @param p The coordinates of the point.
+	 * @returns A vector containing the indices of the closest segments.
+	 * 
+	 */
 	std::vector<unsigned int> getNeighbors(const PointD<TDim> & p)
 	{
 		return myIterator->getN_NearestSegments(p, myIterator->myNumNeighbor);
 	}
 
+
+	/**
+	 * @brief Increments the tally of attemps made to expand the current tree.
+	 */
 	void incrementAttempt()
 	{
 		std::size_t i = myIterator - myTrees.begin();
 		myExpansionAttempts[i]++;
 	}
 
+
+	/**
+	 * @brief Evaluates if the trees have been expanded as much as possible given constraints.
+	 * @returns whether or not the expansion is finished 
+	 **/
 	bool expansionFinished()
 	{
 		bool res = true;
@@ -87,6 +129,13 @@ public:
 		return res;
 	}
 
+
+	/**
+	 * @brief Randomly generates a random point within the domain controller.
+	 * @brief The point respects a distance constraint.
+	 * @param nb_trials The number of point to be generated before relaxing the distance constraint.
+	 * @returns a point.
+	 **/
 	PointD<TDim> generateNewLocation(unsigned int nb_trials)
 	{
 		PointD<TDim> res;
@@ -113,6 +162,13 @@ public:
 		return res;
 	}
 
+
+	/**
+	 * @brief Method that verifies that a point is valid considering a distance constraint.
+	 * @param location The point to evaluate.
+	 * @param distance_threshold The distance constraint.
+	 * @returns Whether or not the point is valid
+	 **/
 	bool validNewLocation(const PointD<TDim> & location, double distance_threshold)
 	{
 		// generated point must be a certain distance away to all terminal points of the same tree
@@ -142,11 +198,24 @@ public:
 		return true;	// if we reach this, conditions are met
 	}
 
+
+	/**
+	 * @brief replaces the current tree (pointed to by myIterator) with another.
+	 * @param tree The new tree.
+	 **/
 	void replaceCurrentTree(const CoronaryArteryTree<DomCtr, TDim> & tree)
 	{
 		*myIterator = tree;
 	}
 
+	/**
+	 * @brief Evaluates if a segment is intersecting with other segments of any trees.
+	 * @param p_added The end point of the segment.
+	 * @param p_bifurcation The starting point of the segment (common with it's parent and sibling).
+	 * @param r The radius of the segment.
+	 * @param seg_index The index of the parent segment.
+	 * @returns Whether the segment is intersecting with any other segment.
+	 **/
 	bool isIntersectingTrees(const PointD<TDim> & p_added,
 							 const PointD<TDim> & p_bifurcation,
 							 double r, unsigned int seg_index)
@@ -205,6 +274,13 @@ public:
 		return false;
 	}
 
+
+	/**
+	 * @brief Displays in the console a summary of the expansion.
+	 * @brief If the expansion was not complete (in the sense of every tree having the desired amount of terminal segments),
+	 * @brief displays the details of each tree.
+	 * @param verbose To display or not more data.
+	 **/
 	void expansionSummary(bool verbose) const
 	{
 		bool fully_expanded = true;
@@ -235,6 +311,11 @@ public:
 		}
 	}
 
+
+	/**
+	 * @brief Sums the attempts of expansion made for each tree.
+	 * @returns the sum of the attempts.
+	 **/
 	unsigned int attemptsSum() const
 	{
 		unsigned int res = 0;
@@ -246,6 +327,11 @@ public:
 		return res;
 	}
 
+
+	/**
+	 * @brief Sums the desired number of terminal segments for each tree.
+	 * @returns the total.
+	 **/
 	unsigned int NTermsSum() const
 	{
 		unsigned int res = 0;
@@ -257,20 +343,26 @@ public:
 		return res;
 	}
 
+
+	/**
+	 * @brief If the dimension is 2, creates an svg file representing the trees in the domain.
+	 **/
 	void exportTreesDisplays()
 	{
-		if(TDim == 2)
+		if(TDim == 2)	// Can only create a 2D display for 2D generated trees.
 		{
+			// DGtal board to draw the different elements
 			DGtal::Board2D board;
 			board.setLineCap(LibBoard::Shape::LineCap::RoundCap);
 			board.setUnit(0.1, LibBoard::Board::UCentimeter);
 
+			// Colormaps, one for each of the tree so that they're easy to recognize of the svg
 			std::vector< DGtal::GradientColorMap<float> > colormaps;
 			for(std::size_t i = 0; i < myTrees.size(); i++)
 			{
 				colormaps.emplace_back(std::log(myTrees[i].my_qTerm), std::log(myTrees[i].my_qPerf));
 
-				// each tree has a different color
+				// each tree has a different color, we use the hue
 				double h = i * 360.0 / myTrees.size();
 				DGtal::Color c_low;
 				DGtal::Color c_high;
@@ -281,6 +373,7 @@ public:
 				colormaps[i].addColor(c_high);
 			}
 
+			// Draw the trees
 			for(std::size_t i = 0; i < myTrees.size(); i++)
 			{
 				for(const typename CoronaryArteryTree<DomCtr, TDim>::Segment & s : myTrees[i].myVectSegments)
@@ -302,6 +395,11 @@ public:
 		}
 	}
 
+
+	/**
+	 * @brief Creates an xml file for each tree, like the classic generation would.
+	 * @brief The names of the files are like "tree_<TDim>_<n>.xml" where n is the index of the tree.
+	 **/
 	void writeTreesToXML()
 	{
 		std::string dim;
@@ -323,9 +421,10 @@ public:
 
 
 private:
-	tree_vector myTrees;
-	tree_vector_iterator myIterator;
-	std::vector<unsigned int> myExpansionAttempts;	// an attempt can be succesful or not; counts every try
+	// Member variables
+	tree_vector myTrees;							// Tree list
+	tree_vector_iterator myIterator;				// current tree
+	std::vector<unsigned int> myExpansionAttempts;	// An attempt can be succesful or not; counts every try
 };
 
 

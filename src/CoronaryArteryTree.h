@@ -174,13 +174,13 @@ public:
     
     // Constructor do nothing mainly used for specific test
     CoronaryArteryTree(DomCtr &aDomCtr): myDomainController_(aDomCtr){}
+
     /**
      * @brief Default constructor.
      * @brief It generates the first root segment with tree center as the first terminal point.
      * @param aPerf: surface of the perfusion.
      * @param nTerm: number of terminal segments.
      **/
-    
     CoronaryArteryTree(double aPerf, unsigned int nTerm,  DomCtr &aDomCtr,
                        double aRadius = 1.0): myDomainController_(aDomCtr) {
         assert(nTerm>=1);

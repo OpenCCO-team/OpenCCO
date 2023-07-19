@@ -139,38 +139,51 @@ expandTree(CoronaryArteryTree< DomCtr, TDim > &aTree,
 }
 
 
+/**
+ * @brief A function to expand trees cohabiting within the same domain, ruled by a CohabitingTrees object.
+ * @param aCTrees The cohabiting trees and the rules of their expansion relative to each others.
+ * @param nb_max_search The number of attempts for each terminal segments before giving up.
+ * @param nb_try_candidate The number of attempts per loop for the random point generation.
+ * @param verbose Whether or not go into details during the algorithm.
+ **/
 template<class DomCtr, int TDim>
 void
-expandCohabitingTrees(CohabitingTrees<DomCtr, TDim> & aCTree,
+expandCohabitingTrees(CohabitingTrees<DomCtr, TDim> & aCTrees,
 		   unsigned int nb_max_search = 100,
 		   unsigned int nb_try_candidate = 100,
 		   bool verbose = false)
 {
 	srand ((unsigned int) time(NULL));
 
-	while(!aCTree.expansionFinished())
+	// main loop, not necessarily on the same tree
+	while(!aCTrees.expansionFinished())
 	{
-		DGtal::trace.progressBar(aCTree.attemptsSum(), aCTree.NTermsSum());
+		DGtal::trace.progressBar(aCTrees.attemptsSum(), aCTrees.NTermsSum());
+		
+		// volume to minimise with the different neighbors options
 		double vol_opt = std::numeric_limits<double>::infinity();
 
-		CoronaryArteryTree<DomCtr, TDim> tree_opti = aCTree.getCurrentTreeCopy();
+		CoronaryArteryTree<DomCtr, TDim> tree_opti = aCTrees.getCurrentTreeCopy();
 
+		// loop every attempts until it's found or counter goes over
 		bool seed_found = false;
 		unsigned int i = 0;
 		while(!seed_found && i++ < nb_max_search)
 		{
-			PointD<TDim> p = aCTree.generateNewLocation(nb_try_candidate);
-			std::vector<unsigned int> vecN = aCTree.getNeighbors(p);
+			PointD<TDim> p = aCTrees.generateNewLocation(nb_try_candidate);
+			std::vector<unsigned int> vecN = aCTrees.getNeighbors(p);
 
+			// loop over neighbors segments to find the best one (minimizing the volume of the tree)
 			for(unsigned int neighbor_index : vecN)
 			{
 				PointD<TDim> p_bifurcation = tree_opti.findBarycenter(p, neighbor_index);
 				
-				if(!aCTree.isIntersectingTrees(p, p_bifurcation, 
-											   aCTree.getSegmentRadius(neighbor_index),
+				if(!aCTrees.isIntersectingTrees(p, p_bifurcation, 
+											   aCTrees.getSegmentRadius(neighbor_index),
 											   neighbor_index) )
 				{
-					CoronaryArteryTree<DomCtr, TDim> tree_copy = aCTree.getCurrentTreeCopy();
+					// create a copy of the tree to compute the volume.
+					CoronaryArteryTree<DomCtr, TDim> tree_copy = aCTrees.getCurrentTreeCopy();
 					
 					if(tree_copy.isAddable(p, neighbor_index, 100, 0.01, verbose))
 					{
@@ -190,15 +203,17 @@ expandCohabitingTrees(CohabitingTrees<DomCtr, TDim> & aCTree,
 		tree_opti.updateLengthFactor();
 		tree_opti.updateResistanceFromRoot();
 		tree_opti.updateRootRadius();
-		aCTree.replaceCurrentTree(tree_opti);
+		aCTrees.replaceCurrentTree(tree_opti);
 
-		aCTree.incrementAttempt();
-		aCTree.nextTree();
+		// update internal iterator of the CohabitingTrees object
+		aCTrees.incrementAttempt();
+		aCTrees.nextTree();
 	}
 
 	std::cout << std::endl;
 
-	aCTree.expansionSummary(verbose);
+	// expansion finished, outputing a summary
+	aCTrees.expansionSummary(verbose);
 }
 
 
