@@ -479,12 +479,12 @@ getImageDistance(const TImage &image, unsigned int threshold=128)
 }
 
 
-/*
+/**
  * @brief returns a list of points of a n-D sphere.
  * @brief The n-D sphere is of radius 1, centered at the origin.
  * @param n The amount of points to spread.
  * @returns a std::vector of n-D points.
- */
+ **/
 template <int TDim>
 std::vector< PointD<TDim> > evenlySpreadPoints(unsigned int n)
 {
@@ -520,6 +520,112 @@ std::vector< PointD<TDim> > evenlySpreadPoints(unsigned int n)
 	return points;
 }
 
+/**
+ * @brief Computes a normalized orthogonal vector by solving the dot product being zero.
+ * @brief In dimensions >= 2, there's more than one solution, this function arbitrarily chooses one with
+ * @brief as much coordinates being zero as possible.
+ * @param vec The vector which we want an orthogonal vector of.
+ * @returns a PointD<2> vector with at least one non-zero coordinate (unless the input vector is full of zeros).
+ **/
+template<int TDim>
+PointD<TDim> orthogonalVector(const PointD<TDim> & vec);
+
+template <>
+inline
+PointD<2> orthogonalVector<2>(const PointD<2> & vec)
+{
+	double epsilon = 0.00001;
+	PointD<2> vec_ortho(0.0, 0.0);
+
+	if(fabs(vec[0]) < epsilon)	// too close to zero
+	{
+		if(fabs(vec[1]) < epsilon)
+		{
+			return vec_ortho;	// (0.0, 0.0)
+		}
+		else
+		{
+			vec_ortho[0] = 1.0;
+			vec_ortho[1] = 0.0;
+
+			return vec_ortho;	// (1.0, 0.0)
+		}
+	}
+	else
+	{
+		if(fabs(vec[1]) < epsilon)
+		{
+			vec_ortho[0] = 0.0;
+			vec_ortho[1] = 1.0;
+
+			return vec_ortho;	// (0.0, 1.0)
+		}
+		else 	// most common case
+		{
+			vec_ortho[0] = 1.0;
+			vec_ortho[1] = -vec[0]/vec[1];
+
+			return vec_ortho;
+		}	
+	}
+}
+
+template <>
+inline
+PointD<3> orthogonalVector<3>(const PointD<3> & vec)
+{
+	double epsilon = 0.00001;
+	PointD<3> vec_ortho(PointD<3>::diagonal(0.0));
+
+	unsigned int zero_coord_count = 0;
+	for(std::size_t i = 0; i < 3; i++)
+	{
+		if(vec[i] < epsilon)
+		{
+			zero_coord_count++;
+		}
+	}
+
+	// depending on the number of coordinates equal to zero, there can be trial cases
+	switch(zero_coord_count)
+	{
+		case 3 :	// zero filled vector, keep vec_ortho as is
+			break;
+		case 2 :
+		{
+			vec[0] < epsilon ? vec_ortho[0] = 1.0 : vec_ortho[2] = 1.0;
+			break;
+		}	
+		case 1 :
+		{
+			// find the zero coordinate
+			std::size_t zero_coord_index = 0;
+			for(std::size_t i = 0; i < 3; i++)
+			{
+				if(vec[i] < epsilon)
+				{
+					zero_coord_index = i;
+				}
+			}
+			vec_ortho[zero_coord_index] = 1.0;
+			break;
+		}
+		case 0 :
+		{
+			vec_ortho[0] = 0.0;
+			vec_ortho[1] = 1.0;
+			vec_ortho[2] = -vec[1] / vec[2];
+			break;
+		}
+		default:
+		{
+			std::cout << "GeomHelpers::orthogonalVector() : DEFAULT SWITCH CASE NOT SUPPOSED TO HAPPEN" << std::endl;
+			break;
+		}
+	}
+
+	return vec_ortho / vec_ortho.norm();
+}
 
 
 }

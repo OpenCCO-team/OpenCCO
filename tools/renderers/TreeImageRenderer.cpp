@@ -207,7 +207,7 @@ Image<TDim> TreeImageRenderer<TDim>::flowRender(unsigned int width)
 		PointD<TDim> ub, lb;
 		compBB<TDim>(v, ub, lb);
 
-		for(const PointI<TDim> & p : Domain<TSpace>(lb, ub))
+		for(const PointI<TDim> & p : Domain<TSpace>(lb, ub))	// only go through the points that are in the segment bounding box
 		{
 			PointD<TDim> proj;
 			bool isproj = projectOnStraightLine<TDim>(myTree.myPoints[s.myDistalIndex],
@@ -242,6 +242,34 @@ Image<TDim> TreeImageRenderer<TDim>::flowRender(unsigned int width)
 				}
 			}
 		}
+	}
+
+	normalizeImageValues<TDim>(flow_render, 0.0, 255.0);
+
+	if(myOrganDomain.isDefined)
+	{
+		// blend the organ and the flow
+		auto customblend = [](double a, double b) { return (b <= 0.001 ? a : b); };
+		imageBlend<TDim>(organ_img, flow_render, customblend, flow_render);
+	}
+
+	return flow_render;
+}
+
+
+
+
+template<int TDim>
+Image<TDim> TreeImageRenderer<TDim>::flowRender2(unsigned int width)
+{
+	// domain
+	Image<TDim> organ_img(createDomainImage(width, width/20));
+	Image<TDim> flow_render(organ_img.domain());		// image of the same size
+
+	// compute flow for each pixel
+	for(const Segment & s : myTree.mySegments)
+	{
+		 PointD<TDim> vec_seg(myTree.myPoints[s.myDistalIndex] - myTree.myPoints[s.myProximalIndex]);
 	}
 
 	normalizeImageValues<TDim>(flow_render, 0.0, 255.0);
