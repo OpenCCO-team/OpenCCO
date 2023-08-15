@@ -4,7 +4,7 @@
 
 
 
-This is the Implementation of the CCO algorithm based on [Schreiner and Buxbaum 1993](https://ieeexplore.ieee.org/document/243413/) algorithm and note of [Jaquet etal. 2012](https://ieeexplore.ieee.org/document/8437140) and submitted to the IPOL journal: 
+This is the Implementation of the CCO algorithm based on [Schreiner and Buxbaum 1993](https://ieeexplore.ieee.org/document/243413/) algorithm and note of [Jaquet and Huges 2021], the work is submitted to the IPOL journal: 
 "OpenCCO: An Implementation of Constrained Constructive Optimization for Generating 2D and 3D Vascular Trees" 
 
 The online demonstration is available [here](https://ipolcore.ipol.im/demo/clientApp/demo.html?id=5555531082026) 
