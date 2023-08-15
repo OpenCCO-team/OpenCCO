@@ -4,7 +4,7 @@
 
 
 
-This is the Implementation of the CCO algorithm based on [Schreiner etal. 93] algorithm and note of [Clara Jaquet and Hugues Talbot  Feb 2021] and submitted to the IPOL journal: 
+This is the Implementation of the CCO algorithm based on [Schreiner and Buxbaum 1993](https://ieeexplore.ieee.org/document/243413/) algorithm and note of [Jaquet etal. 2012](https://ieeexplore.ieee.org/document/8437140) and submitted to the IPOL journal: 
 "OpenCCO: An Implementation of Constrained Constructive Optimization for Generating 2D and 3D Vascular Trees" 
 
 The online demonstration is available [here](https://ipolcore.ipol.im/demo/clientApp/demo.html?id=5555531082026) 
@@ -85,17 +85,10 @@ meshViewer result.off
 You will obtain such type of visualisation:
 <img width="912" alt="Capture d’écran 2023-04-03 à 02 58 25" src="https://user-images.githubusercontent.com/772865/229389571-ccac9ca2-a560-4b1b-acce-7ce9d825efa5.png">
 
-
-
 For more details see IPOL Journal article available here: 
  http://dx.doi.org/10.5201/ipol.xxx
 # Acknowledgements
 This work was supported by the French Agence Nationale de la Recherche (grants ANR-18-CE45- 0018, ANR-18-CE45-0014, ANR-20-CE45-0011).
-
-
-
-
-
 
 # Changelog
 
