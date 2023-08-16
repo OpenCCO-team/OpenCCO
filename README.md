@@ -47,7 +47,7 @@ Then the binary file "generateTree2D" and "generateTree3D" will be available in 
 ## Program parameters 
 ### Options for both 2D and 3D cases
 * number of terminal segments/ending points (-n or --nbTerm, default=1000)
-* perfusion area (-a or --aPerf, default=20000)
+* perfusion area / volumn (-a or --aPerf, default=20000)
 * value of the gamma parameter (-g or -gamma, default=3)
 * minimal distance to border (-m,--minDistanceToBorder, default=5) *Works only with option --organDomain
 * organ domain using a mask image (-d,--organDomain)
