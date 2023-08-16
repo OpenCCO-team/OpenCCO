@@ -196,7 +196,7 @@ int main(int argc, char **argv)
   app.add_option("-a,--aPerf,2", aPerf, "The value of perfusion volumn.", true);
   app.add_option("-g,--gamma", gamma, "The value of the gamma parameter.", true);
   app.add_option("--organDomain,-d", nameImgDom, "Define the organ domain using a mask image (organ=255).");
-  app.add_option("-m,--minDistanceToBorder", minDistanceToBorder, "Set the minimal distance to border. Works only  with option organDomain else it has not effect", true);
+  app.add_option("-m,--minDistanceToBorder", minDistanceToBorder, "Set the minimal distance to border. Works only  with option --organDomain else it has not effect", true);
   app.add_option("-o,--outputName", outputMeshName, "Output the 3D mesh into OFF format", true);
   app.add_option("-e,--export", exportDatName, "Output the 3D mesh into text file", true);
   app.add_option("-x,--exportXML", exportXMLName, "Output the resulting graph as xml file", true);
