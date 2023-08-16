@@ -47,7 +47,7 @@ Then the binary file "generateTree2D" and "generateTree3D" will be available in 
 ## Program parameters 
 ### Options for both 2D and 3D cases
 * number of terminal segments/ending points (-n | --nbTerm INT, default=1000)
-* perfusion area / volumn (-a | --aPerf FLOAT, default=20000)
+* perfusion area / volume (-a | --aPerf FLOAT, default=20000)
 * value of the gamma parameter (-g | -gamma FLOAT, default=3)
 * minimal distance to border (-m | --minDistanceToBorder FLOAT, default=5) *Works only with option --organDomain
 * organ domain using a mask image (-d | --organDomain TEXT)
@@ -91,7 +91,7 @@ You will obtain such a display:
 
 ### Generate vascalar tree on the domain defined from the boudary of the bunny.obj:
 The following commands permits to generate a vascular tree starting with a specific 3D point: 
-(for example, 3000 ending points (-n) and a perfusion volumn of 20000 (-a) in pre-defined domain (-d) from the file Samples/bunnyThickBdr.vol and with the initial position of root (-p) at (143, -107, 7)):
+(for example, 3000 ending points (-n) and a perfusion volume of 20000 (-a) in pre-defined domain (-d) from the file Samples/bunnyThickBdr.vol and with the initial position of root (-p) at (143, -107, 7)):
 ```
  ./build/bin/generateTree3D -n 3000 -a 20000  -d Samples/bunnyThickBdr.vol --view -m 1 -p 143 -107 7
  ```
