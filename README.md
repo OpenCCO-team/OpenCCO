@@ -44,7 +44,7 @@ sudo apt-get install cmake libboost-dev libceres-dev libceres1
 
 Then the binary file "generateTree2D" and "generateTree3D" will be available in the "/build/bin" directory.
 
-## Programme parameters 
+## Program parameters 
 ### For both 2D and 3D cases
 * number of terminal segments/ending points (-n or --nbTerm, default=1000)
 * perfusion area (-a or --aPerf, default=20000)
