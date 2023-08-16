@@ -46,20 +46,21 @@ Then the binary file "generateTree2D" and "generateTree3D" will be available in 
 
 ## Program parameters 
 ### Options for both 2D and 3D cases
-* number of terminal segments/ending points (-n or --nbTerm, default=1000)
-* perfusion area / volumn (-a or --aPerf, default=20000)
-* value of the gamma parameter (-g or -gamma, default=3)
-* minimal distance to border (-m,--minDistanceToBorder, default=5) *Works only with option --organDomain
-* organ domain using a mask image (-d,--organDomain)
-* output the resulting geaph as xml file (-x,--exportXML)
-* use a squared implicit domain instead a sphere (-s,--squaredDom) *Works only without option --organDomain)
-* initial position of root (-p,--posInit, default=image center)
+* number of terminal segments/ending points (-n | --nbTerm INT, default=1000)
+* perfusion area / volumn (-a | --aPerf FLOAT, default=20000)
+* value of the gamma parameter (-g | -gamma FLOAT, default=3)
+* minimal distance to border (-m | --minDistanceToBorder FLOAT, default=5) *Works only with option --organDomain
+* organ domain using a mask image (-d | --organDomain TEXT)
+* output the resulting geaph as xml file (-x | --exportXML TEXT)
+* use a squared implicit domain instead a sphere (-s | --squaredDom) *Works only without option --organDomain)
 
-### Options for 2D output
+### Specific options in 2D
+* initial position of root (-p,--posInit INT INT, default=image center)
 * output the result into EPS format (-o,--outputEPS, default=result.eps) 
 * output the result into SVG format (-e,--exportSVG, default=result.svg) 
 
-### Options for 3D output
+### Specific options in 3D
+* initial position of root (-p,--posInit INT INT INT, default=image center)
 * output the 3D mesh into OFF file (-o,--outputName, default=result.off)
 * output the 3D mesh into text file ( -e,--export)
 * display 3D view using QGLViewer (--view)
