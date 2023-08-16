@@ -44,11 +44,31 @@ sudo apt-get install cmake libboost-dev libceres-dev libceres1
 
 Then the binary file "generateTree2D" and "generateTree3D" will be available in the "/build/bin" directory.
 
+## Programme parameters 
+### For both 2D and 3D cases
+* number of terminal segments/ending points (-n or --nbTerm, default=1000)
+* perfusion area (-a or --aPerf, default=20000)
+* value of the gamma parameter (-g or -gamma, default=3)
+* minimal distance to border (-m,--minDistanceToBorder, default=5) *Works only with option --organDomain
+* organ domain using a mask image (-d,--organDomain)
+* output the resulting geaph as xml file (-x,--exportXML)
+* use a squared implicit domain instead a sphere (-s,--squaredDom) *Works only without option --organDomain)
+* initial position of root (-p,--posInit, default=image center)
+
+### For 2D case output
+* output the result into EPS format (-o,--outputEPS, default=result.eps) 
+* output the result into SVG format (-e,--exportSVG, default=result.svg) 
+
+### For 3D case output
+* output the 3D mesh into OFF file (-o,--outputName, default=result.off)
+* output the 3D mesh into text file ( -e,--export)
+* display 3D view using QGLViewer (--view)
 
 
 ## Typical 2D tree generation
 
-### Generate vascalar tree on an implicit square domain :
+### Generate vascalar tree on an implicit square domain 
+(for example, 3000 ending points (-n) and a perfusion area of 20000 (-a) in a square domain (-s)):
 ```
 ./build/bin/generateTree2D -n 3000 -a 20000  -s
 ```
@@ -58,6 +78,7 @@ You will obtain such a display:
 
 
 ### Generate vascalar tree on the domain defined from the boudary of a binary shape:
+(for example, 3000 ending points (-n) and a perfusion area of 20000 (-a) in pre-defined domain (-d) from the image Samples/shape3.pgm):
 ```
 ./build/bin/generateTree2D -n 3000 -a 20000  -d Samples/shape3.pgm 
 ```
@@ -68,15 +89,17 @@ You will obtain such a display:
 ## Typical 3D tree generation
 
 ### Generate vascalar tree on the domain defined from the boudary of the bunny.obj:
-The following commands permits to generate a vascular with 3000 terminal and starting with a specific 3D point (-p option): 
+The following commands permits to generate a vascular tree starting with a specific 3D point: 
+(for example, 3000 ending points (-n) and a perfusion volumn of 20000 (-a) in pre-defined domain (-d) from the file Samples/bunnyThickBdr.vol and with the initial position of root (-p) at (143, -107, 7)):
 ```
- ./build/bin/generateTree3D -n 3000 -a 20000  -d Samples/bunnyThickBdr.vol   --view -m 1 -p 143 -107 7
+ ./build/bin/generateTree3D -n 3000 -a 20000  -d Samples/bunnyThickBdr.vol --view -m 1 -p 143 -107 7
  ```
  
 <img width="616" alt="Capture d’écran 2023-04-03 à 02 46 55" src="https://user-images.githubusercontent.com/772865/229388906-2035b721-f4f6-4f9c-bb2b-1490b5a86187.png">
 
 
 ### Generate vascalar tree on an implicit square domain :
+(for example, 3000 ending points (-n) and a perfusion area of 20000 (-a) in a square domain (-s)):
 ```
 ./build/bin/generateTree3D -n 3000 -a 20000  -s
 meshViewer result.off
@@ -87,11 +110,11 @@ You will obtain such type of visualisation:
 
 For more details see IPOL Journal article available here: 
  http://dx.doi.org/10.5201/ipol.xxx
+
 # Acknowledgements
 This work was supported by the French Agence Nationale de la Recherche (grants ANR-18-CE45- 0018, ANR-18-CE45-0014, ANR-20-CE45-0011).
 
 # Changelog
-
 Version 1.0 (03/04/2023):  initial online version
 
 
