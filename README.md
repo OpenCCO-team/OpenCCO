@@ -102,8 +102,7 @@ The following commands permits to generate a vascular tree starting with a speci
 ### Generate vascalar tree on an implicit square domain :
 (for example, 3000 ending points (-n) and a perfusion area of 20000 (-a) in a square domain (-s)):
 ```
-./build/bin/generateTree3D -n 3000 -a 20000  -s
-meshViewer result.off
+./build/bin/generateTree3D -n 3000 -a 20000  -s meshViewer result.off
 ```
 (or used directly the --view option)
 You will obtain such type of visualisation:
