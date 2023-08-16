@@ -55,14 +55,14 @@ Then the binary file "generateTree2D" and "generateTree3D" will be available in 
 * use a squared implicit domain instead a sphere (-s | --squaredDom) *Works only without option --organDomain
 
 ### Specific options in 2D
-* initial position of root (-p,--posInit INT INT, default=image center)
-* output the result into EPS format (-o,--outputEPS, default=result.eps) 
-* output the result into SVG format (-e,--exportSVG, default=result.svg) 
+* initial position of root (-p | --posInit INT INT, default=image center)
+* output the result into EPS format (-o | --outputEPS TEXT, default=result.eps) 
+* output the result into SVG format (-e | --exportSVG TEXT, default=result.svg) 
 
 ### Specific options in 3D
-* initial position of root (-p,--posInit INT INT INT, default=image center)
-* output the 3D mesh into OFF file (-o,--outputName, default=result.off)
-* output the 3D mesh into text file ( -e,--export)
+* initial position of root (-p | --posInit INT INT INT, default=image center)
+* output the 3D mesh into OFF file (-o | --outputName TEXT, default=result.off)
+* output the 3D mesh into text file ( -e | --export TEXT)
 * display 3D view using QGLViewer (--view)
 
 
