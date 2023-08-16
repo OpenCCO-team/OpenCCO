@@ -97,7 +97,7 @@ int main(int argc, char *const *argv)
     std::string outputNameSVG {"result.svg"};
     
     app.add_option("-n,--nbTerm,1", nbTerm, "Set the number of terminal segments.", true);
-    app.add_option("-a,--aPerf,2", aPerf, "The value of the input parameter A perfusion.", true);
+    app.add_option("-a,--aPerf,2", aPerf, "The value of perfusion area.", true);
     app.add_option("-g,--gamma", gamma, "The value of the gamma parameter.", true);
     app.add_option("-m,--minDistanceToBorder", minDistanceToBorder, "Set the minimal distance to border. Works only  with option organDomain else it has not effect", true);
     app.add_option("-o,--outputEPS", outputNameEPS, "Output the result into EPS format", true);

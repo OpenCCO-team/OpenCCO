@@ -114,10 +114,11 @@ expandTree(CoronaryArteryTree< DomCtr, TDim > &aTree,
         DGtal::trace.warning() << "All seeds not found due to too large domain constraints ("
         << nbSeedFound << " over " << nbSeed << ")";
     }
-
+    /*
     if (verbose){
         std::cout<<"====> Aperf="<<aTree.myRsupp*aTree.myRsupp*aTree.my_NTerm*M_PI<<" == "<<aTree.my_aPerf<<std::endl;
     }
+    */
 }
 
 

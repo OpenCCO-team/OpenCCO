@@ -193,7 +193,7 @@ int main(int argc, char **argv)
   bool squaredImplDomain {false};
 
   app.add_option("-n,--nbTerm,1", nbTerm, "Set the number of terminal segments.", true);
-  app.add_option("-a,--aPerf,2", aPerf, "The value of the input parameter A perfusion.", true);
+  app.add_option("-a,--aPerf,2", aPerf, "The value of perfusion volumn.", true);
   app.add_option("-g,--gamma", gamma, "The value of the gamma parameter.", true);
   app.add_option("--organDomain,-d", nameImgDom, "Define the organ domain using a mask image (organ=255).");
   app.add_option("-m,--minDistanceToBorder", minDistanceToBorder, "Set the minimal distance to border. Works only  with option organDomain else it has not effect", true);
