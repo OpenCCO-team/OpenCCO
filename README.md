@@ -52,7 +52,7 @@ Then the binary file "generateTree2D" and "generateTree3D" will be available in 
 * minimal distance to border (-m | --minDistanceToBorder FLOAT, default=5) *Works only with option --organDomain
 * organ domain using a mask image (-d | --organDomain TEXT)
 * output the resulting geaph as xml file (-x | --exportXML TEXT)
-* use a squared implicit domain instead a sphere (-s | --squaredDom) *Works only without option --organDomain
+* use a squared implicit domain instead a sphere (-s | --squaredDom, default=sphere) *Works only without option --organDomain
 
 ### Specific options in 2D
 * initial position of root (-p | --posInit INT INT, default=image center)
