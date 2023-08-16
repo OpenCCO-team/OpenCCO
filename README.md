@@ -45,7 +45,7 @@ sudo apt-get install cmake libboost-dev libceres-dev libceres1
 Then the binary file "generateTree2D" and "generateTree3D" will be available in the "/build/bin" directory.
 
 ## Program parameters 
-### For both 2D and 3D cases
+### Options for both 2D and 3D cases
 * number of terminal segments/ending points (-n or --nbTerm, default=1000)
 * perfusion area (-a or --aPerf, default=20000)
 * value of the gamma parameter (-g or -gamma, default=3)
@@ -55,11 +55,11 @@ Then the binary file "generateTree2D" and "generateTree3D" will be available in 
 * use a squared implicit domain instead a sphere (-s,--squaredDom) *Works only without option --organDomain)
 * initial position of root (-p,--posInit, default=image center)
 
-### For 2D case output
+### Options for 2D output
 * output the result into EPS format (-o,--outputEPS, default=result.eps) 
 * output the result into SVG format (-e,--exportSVG, default=result.svg) 
 
-### For 3D case output
+### Options for 3D output
 * output the 3D mesh into OFF file (-o,--outputName, default=result.off)
 * output the 3D mesh into text file ( -e,--export)
 * display 3D view using QGLViewer (--view)
