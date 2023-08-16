@@ -42,7 +42,16 @@ sudo apt-get install cmake libboost-dev libceres-dev libceres1
 2. cmake .. 
 3. make
 
-Then the binary file "generateTree2D" and "generateTree3D" will be available in the "/build/bin" directory.
+Then the binary file `generateTree2D` and `generateTree3D` will be available in the `/build/bin` directory.
+
+## Source code 
+
+The code of OpenCCO is written in C++. It is composed of the following classes in the `src` directory:
+* `CoronaryArteryTree` contains the structure of a vascular tree and functions to create a bifurcation
+* `DomainController` contains the construction of the domain of a vascular tree
+* `helpers/GeomHelpers` contains functions to generate randomly terminal points, check intersections, Kamyia optimisation, ...
+* `helpers/ExpandTreeHelpers` contains functions to  generate a vascular tree
+* `helpers/XMLHelpers` contains functions to export a vascular tree into XLM file.
 
 ## Program parameters 
 ### Options for both 2D and 3D cases
