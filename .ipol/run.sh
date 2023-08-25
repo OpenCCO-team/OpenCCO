@@ -18,7 +18,10 @@ Z0=${10}
 MINDISTBORDER=${11}
 IMPLICITETYPE=${12}
 IMPLICITEDIM=${13}
-
+INPUTNAME=${14}
+echo "------"
+echo "${INPUTNAME}"
+echo "------"
 function applyCommand
 {
   for c in $*
