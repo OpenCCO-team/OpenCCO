@@ -21,7 +21,7 @@ IMPLICITEDIM=${13}
 INPUTNAME=${14}
 echo "------"
 echo "name : ${INPUTNAME}"
-echo "name : ${orig_input_1}"
+echo "name : ${orig_input_0}"
 echo "------"
 function applyCommand
 {
