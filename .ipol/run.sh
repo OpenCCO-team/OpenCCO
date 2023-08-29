@@ -22,7 +22,7 @@ INPUTNAME=${orig_input_0}
 echo "------"
 echo "name : ${INPUTNAME}"
 echo "------"
-printenv
+
 function applyCommand
 {
   for c in $*
@@ -105,6 +105,10 @@ case $INPUTNAME in
 
 esac
 
+
+echo "Input dim = ${INPUTDIM}"
+echo "Implicit type  = ${IMPLICITETYPE}"
+
 echo "INPUT3DDom = $INPUT3DDom"
 if [ $INPUTDIM -eq 2 ] -a  [ $IMPLICITETYPE -neq 0 ]
 then
@@ -147,7 +151,7 @@ then
   echo "-----Generating 3D IMPLICIT ---------------------"
   echo "----------------------------------------"
   COMMANDGem3D1="${EXEC3D} -n ${NBTERM} -a ${APERF}  -o result.obj -x graphExport.xml"
-  if [ $IMPLICITETYPE -eq 0 ]
+  if [ $IMPLICITETYPE -eq 2 ]
   then
       COMMANDGem3D1="$COMMANDGem3D1 -s"
   fi
