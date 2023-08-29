@@ -18,11 +18,11 @@ Z0=${10}
 MINDISTBORDER=${11}
 IMPLICITETYPE=${12}
 IMPLICITEDIM=${13}
-INPUTNAME=${14}
+INPUTNAME=${orig_input_0}
 echo "------"
 echo "name : ${INPUTNAME}"
-echo "name : ${orig_input_0}"
 echo "------"
+printenv
 function applyCommand
 {
   for c in $*
@@ -38,6 +38,29 @@ function applyCommand
   done
 }
 
+case $INPUTNAME in
+    
+  "05704513be217481f51ba5f7ac5d8b6022c90b52.png")
+      IMPLICITETYPE=0
+      IMPLICITEDIM=2      
+    ;;
+  "babc4e2475a64382cb224402660e5a2ae2221739.png")
+      IMPLICITETYPE=1
+      IMPLICITEDIM=2      
+    ;;
+ "c891c555440275930d1c831acff5260a76e10d06.png")
+      IMPLICITETYPE=0
+      IMPLICITEDIM=3      
+    ;;
+  "7c636f1832132a7bc6b737934cee8b0d0a547cc5.png")
+      IMPLICITETYPE=1
+      IMPLICITEDIM=3     
+      ;;
+ 
+
+esac
+
+    
 
 echo "INPUT3DDom = $INPUT3DDom"
 if [ $IMPLICITEDIM -eq 2 ]
