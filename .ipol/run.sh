@@ -16,8 +16,8 @@ X0=$8
 Y0=$9
 Z0=${10}
 MINDISTBORDER=${11}
-IMPLICITETYPE=${12}
-IMPLICITEDIM=${13}
+IMPLICITETYPE=0
+IMPLICITEDIM=0
 INPUTNAME=${orig_input_0}
 echo "------"
 echo "name : ${INPUTNAME}"
@@ -80,7 +80,7 @@ then
   COMMANDGem2D3="convert -density 800 -resize ${width}x${height}  -crop ${width}x${height} result.svg result.png"
   applyCommand COMMANDGem2D1 COMMANDGem2D2 COMMANDGem2D3
   echo "algoDim=2" >> algo_info.txt 
-elif test -f "$INPUT"
+elif test -f "$INPUT" -a [ $IMPLICITEDIM -eq 0 ]
 then
   echo "----------------------------------------"
   echo "-----Generating 2D ---------------------"
