@@ -110,7 +110,7 @@ echo "Input dim = ${INPUTDIM}"
 echo "Implicit type  = ${IMPLICITETYPE}"
 
 echo "INPUT3DDom = $INPUT3DDom"
-if [ $INPUTDIM -eq 2 ] -a  [ $IMPLICITETYPE -neq 0 ]
+if [ $INPUTDIM -eq 2 ] && [ $IMPLICITETYPE -neq 0 ]
 then
   echo "----------------------------------------"
   echo "-----Generating IMPLICIT 2D ------------"
@@ -126,7 +126,7 @@ then
   COMMANDGem2D3="convert -density 800 -resize ${width}x${height}  -crop ${width}x${height} result.svg result.png"
   applyCommand COMMANDGem2D1 COMMANDGem2D2 COMMANDGem2D3
   echo "algoDim=2" >> algo_info.txt 
-elif test -f "$INPUT" -a [ $INPUTDIM -eq 2 ]
+elif test -f "$INPUT" && [ $INPUTDIM -eq 2 ]
 then
   echo "----------------------------------------"
   echo "-----Generating 2D ---------------------"
@@ -145,7 +145,7 @@ then
   COMMANDGem2D3="convert -density 400 -resize ${width}x${height}  -crop ${width}x${height} result.svg result.png"
   applyCommand COMMANDGem2D1 COMMANDGem2D2 COMMANDGem2D3
   echo "algoDim=2" >> algo_info.txt 
-elif [ $INPUTDIM -eq 3 ] -a  [ $IMPLICITETYPE -neq 0 ]
+elif [ $INPUTDIM -eq 3 ] &&  [ $IMPLICITETYPE -neq 0 ]
 then 
   echo "----------------------------------------"
   echo "-----Generating 3D IMPLICIT ---------------------"
