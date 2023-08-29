@@ -113,7 +113,7 @@ then
   echo "----------------------------------------"
   
   COMMANDGem2D2="${EXEC} -n ${NBTERM} -a ${APERF}  -x graphExport.xml -m ${MINDISTBORDER} >> algo_info.txt"
-  if [ $IMPLICITETYPE -eq 0 ]
+  if [ $IMPLICITETYPE -eq 2 ]
   then
       COMMANDGem2D2="$COMMANDGem2D2 -s"
   fi
