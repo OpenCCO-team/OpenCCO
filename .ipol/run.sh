@@ -126,7 +126,7 @@ then
   COMMANDGem2D3="convert -density 800 -resize ${width}x${height}  -crop ${width}x${height} result.svg result.png"
   applyCommand COMMANDGem2D1 COMMANDGem2D2 COMMANDGem2D3
   echo "algoDim=2" >> algo_info.txt 
-elif test -f "$INPUT" 
+elif test -f "$INPUT" && [ ${INPUTDIM} -eq 2 ]
 then
   echo "----------------------------------------"
   echo "-----Generating 2D ---------------------"
