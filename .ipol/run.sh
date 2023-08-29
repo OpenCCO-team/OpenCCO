@@ -38,37 +38,79 @@ function applyCommand
   done
 }
 
+if test ! -s "$INPUT3DDom"
+then
+    INPUTDIM=3
+    IMPLICITETYPE=0
+fi
+
+if test -f "$INPUT"
+then
+    INPUTDIM=2
+   IMPLICITETYPE=0
+fi
+
 case $INPUTNAME in
-    
-  "05704513be217481f51ba5f7ac5d8b6022c90b52.png")
+    ##  2D shape 1 
+    "e97fcd97f2d3a0c0e450e2f3c5b5eab401410d3c.png")
       IMPLICITETYPE=0
-      IMPLICITEDIM=2      
+      INPUTDIM=2      
     ;;
-  "babc4e2475a64382cb224402660e5a2ae2221739.png")
-      IMPLICITETYPE=1
-      IMPLICITEDIM=2      
-    ;;
- "c891c555440275930d1c831acff5260a76e10d06.png")
+
+    ##  2D shape 2
+    "cd256103ba8192575e1b207045aaff03ad426e3c.png")
       IMPLICITETYPE=0
-      IMPLICITEDIM=3      
+      INPUTDIM=2      
     ;;
-  "7c636f1832132a7bc6b737934cee8b0d0a547cc5.png")
-      IMPLICITETYPE=1
-      IMPLICITEDIM=3     
+
+    ## 3D liver domain    
+    "3cdd37cb14ff74bb854e78ca6b9332da82a54089.png")
+      IMPLICITETYPE=0
+      INPUTDIM=3      
       ;;
- 
+
+    ## 3D toy domain    
+    "ada61fd93c4a156cac2e121072c89632571d5296.png")
+      IMPLICITETYPE=0
+      INPUTDIM=3      
+      ;;
+    
+    ##  3D 2 balls domain
+    "31d51c4f87273fe8c0f81d938cfbe608c8a87e46.png")
+      IMPLICITETYPE=0
+      INPUTDIM=3      
+      ;;
+
+    ## square (implicit)
+    "05704513be217481f51ba5f7ac5d8b6022c90b52.png")
+      IMPLICITETYPE=2
+      INPUTDIM=2      
+      ;;
+    ## disk (implicit)
+    "babc4e2475a64382cb224402660e5a2ae2221739.png")
+      IMPLICITETYPE=1
+      INPUTDIM=2      
+      ;;
+    ## ball (implicit)
+    "7c636f1832132a7bc6b737934cee8b0d0a547cc5.png")
+      IMPLICITETYPE=1
+      INPUTDIM=3    
+      ;;
+    ## box (implicit)
+    "c891c555440275930d1c831acff5260a76e10d06.png")
+     IMPLICITETYPE=2
+     INPUTDIM=3  
+     ;;
+    
 
 esac
 
-    
-
 echo "INPUT3DDom = $INPUT3DDom"
-if [ $IMPLICITEDIM -eq 2 ]
+if [ $INPUTDIM -eq 2 ] -a  [ $IMPLICITETYPE -neq 0 ]
 then
   echo "----------------------------------------"
   echo "-----Generating IMPLICIT 2D ------------"
   echo "----------------------------------------"
-
   
   COMMANDGem2D2="${EXEC} -n ${NBTERM} -a ${APERF}  -x graphExport.xml -m ${MINDISTBORDER} >> algo_info.txt"
   if [ $IMPLICITETYPE -eq 0 ]
@@ -80,7 +122,7 @@ then
   COMMANDGem2D3="convert -density 800 -resize ${width}x${height}  -crop ${width}x${height} result.svg result.png"
   applyCommand COMMANDGem2D1 COMMANDGem2D2 COMMANDGem2D3
   echo "algoDim=2" >> algo_info.txt 
-elif test -f "$INPUT" -a [ $IMPLICITEDIM -eq 0 ]
+elif test -f "$INPUT" -a [ $INPUTDIM -eq 2 ]
 then
   echo "----------------------------------------"
   echo "-----Generating 2D ---------------------"
@@ -99,10 +141,10 @@ then
   COMMANDGem2D3="convert -density 400 -resize ${width}x${height}  -crop ${width}x${height} result.svg result.png"
   applyCommand COMMANDGem2D1 COMMANDGem2D2 COMMANDGem2D3
   echo "algoDim=2" >> algo_info.txt 
-elif test ! -s "$INPUT3DDom"
+elif [ $INPUTDIM -eq 3 ] -a  [ $IMPLICITETYPE -neq 0 ]
 then 
   echo "----------------------------------------"
-  echo "-----Generating 3D ---------------------"
+  echo "-----Generating 3D IMPLICIT ---------------------"
   echo "----------------------------------------"
   COMMANDGem3D1="${EXEC3D} -n ${NBTERM} -a ${APERF}  -o result.obj -x graphExport.xml"
   if [ $IMPLICITETYPE -eq 0 ]
