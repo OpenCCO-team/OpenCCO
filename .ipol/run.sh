@@ -17,7 +17,7 @@ IMPLICITETYPE=0
 IMPLICITEDIM=0
 INPUTNAME2D=${orig_input_0}
 INPUTNAME3D=${orig_input_1}
-
+echo "" > algo_log.txt
 function applyCommand
 {
   for c in $*
