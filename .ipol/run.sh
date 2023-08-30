@@ -28,7 +28,6 @@ function applyCommand
       if [ $? -ne 0 ] 
       then
           echo "algoProblem=1" >> algo_info.txt 
-          exit 1
       else
           if test -s "algo_log.txt"
           then
