@@ -12,13 +12,11 @@ EXEC=generateTree2D
 EXEC3D=generateTree3D
 IPOLDIR=$6
 FIRSTSEG=$7
-X0=$8
-Y0=$9
-Z0=${10}
-MINDISTBORDER=${11}
+MINDISTBORDER=${8}
 IMPLICITETYPE=0
 IMPLICITEDIM=0
-INPUTNAME=${orig_input_0}
+INPUTNAME2D=${orig_input_0}
+INPUTNAME3D=${orig_input_1}
 
 function applyCommand
 {
@@ -38,16 +36,14 @@ function applyCommand
 if test ! -s "$INPUT3DDom"
 then
     INPUTDIM=3
-    IMPLICITETYPE=0
 fi
 
 if test -f "$INPUT"
 then
     INPUTDIM=2
-   IMPLICITETYPE=0
 fi
 
-case $INPUTNAME in
+case $INPUTNAME2D in
     ##  2D shape 1 
     "e97fcd97f2d3a0c0e450e2f3c5b5eab401410d3c.png")
       IMPLICITETYPE=0
@@ -60,24 +56,6 @@ case $INPUTNAME in
       INPUTDIM=2      
     ;;
 
-    ## 3D liver domain    
-    "3cdd37cb14ff74bb854e78ca6b9332da82a54089.png")
-      IMPLICITETYPE=0
-      INPUTDIM=3      
-      ;;
-
-    ## 3D toy domain    
-    "ada61fd93c4a156cac2e121072c89632571d5296.png")
-      IMPLICITETYPE=0
-      INPUTDIM=3      
-      ;;
-    
-    ##  3D 2 balls domain
-    "31d51c4f87273fe8c0f81d938cfbe608c8a87e46.png")
-      IMPLICITETYPE=0
-      INPUTDIM=3      
-      ;;
-
     ## square (implicit)
     "05704513be217481f51ba5f7ac5d8b6022c90b52.png")
       IMPLICITETYPE=2
@@ -88,20 +66,44 @@ case $INPUTNAME in
       IMPLICITETYPE=1
       INPUTDIM=2      
       ;;
-    ## ball (implicit)
-    "7c636f1832132a7bc6b737934cee8b0d0a547cc5.png")
+   
+esac
+
+
+case $INPUTNAME3D in
+    ## 3D liver domain    
+    "3cdd37cb14ff74bb854e78ca6b9332da82a54089.bin")
+      IMPLICITETYPE=0
+      INPUTDIM=3      
+      ;;
+
+    ## 3D toy domain    
+    "ada61fd93c4a156cac2e121072c89632571d5296.bin")
+        echo "Toy domain"
+        IMPLICITETYPE=0
+        INPUTDIM=3
+        echo "INPUTDIM --${INPUTDIM}--"
+      ;;
+    
+    ##  3D 2 balls domain
+    "31d51c4f87273fe8c0f81d938cfbe608c8a87e46.bin")
+      IMPLICITETYPE=0
+      INPUTDIM=3      
+      ;;
+       ## ball (implicit)
+    "7c636f1832132a7bc6b737934cee8b0d0a547cc5.bin")
       IMPLICITETYPE=1
       INPUTDIM=3    
       ;;
     ## box (implicit)
-    "c891c555440275930d1c831acff5260a76e10d06.png")
+    "c891c555440275930d1c831acff5260a76e10d06.bin")
      IMPLICITETYPE=2
      INPUTDIM=3  
      ;;
-    
-
+ 
 esac
 
+echo "------input dim =  ${INPUTDIM}------------------------------"
 
 if [ ${INPUTDIM} -eq 2 ] && [ $IMPLICITETYPE -ne 0 ]
 then
@@ -131,7 +133,7 @@ then
      then 
   COMMANDGem2D2="${EXEC} -n ${NBTERM} -a ${APERF}  -d input.pgm -x graphExport.xml -m ${MINDISTBORDER} >> algo_info.txt"
   else
-  COMMANDGem2D2="${EXEC} -n ${NBTERM} -p $X0 $Y0 -a ${APERF}  -d input.pgm -x graphExport.xml -m ${MINDISTBORDER} >> algo_info.txt" 
+  COMMANDGem2D2="${EXEC} -n ${NBTERM} -p ${X0} ${Y0} -a ${APERF}  -d input.pgm -x graphExport.xml -m ${MINDISTBORDER} >> algo_info.txt" 
   fi
   set $(identify -format '%w %h' ${INPUT})
   width=$1; height=$2
@@ -171,7 +173,7 @@ if [ $FIRSTSEG -eq 1 ]
 then   
     COMMANDGem3Ddom_1="${EXEC3D} -n ${NBTERM} -a ${APERF} -m ${MINDISTBORDER} -d $INPUT3DDom -o resultVessel.obj -x graphExport.xml"
 else
-    COMMANDGem3Ddom_1="${EXEC3D} -n ${NBTERM} -p $X0 $Y0 $Z0 -a ${APERF} -m ${MINDISTBORDER} -d $INPUT3DDom -o resultVessel.obj -x graphExport.xml"
+    COMMANDGem3Ddom_1="${EXEC3D} -n ${NBTERM} -p ${x0} ${y0} ${z0} -a ${APERF} -m ${MINDISTBORDER} -d $INPUT3DDom -o resultVessel.obj -x graphExport.xml"
 fi
 
   COMMANDGem3Ddom_2="volBoundary2obj $INPUT3DDom liver05Domain.obj"
