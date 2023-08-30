@@ -98,6 +98,7 @@ case $INPUTNAME in
 esac
 
 printenv
+echo "------input dim =  ${INPUTDIM}------------------------------"
 
 if [ ${INPUTDIM} -eq 2 ] && [ $IMPLICITETYPE -ne 0 ]
 then
