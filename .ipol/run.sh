@@ -133,7 +133,7 @@ then
      then 
   COMMANDGem2D2="${EXEC} -n ${NBTERM} -a ${APERF}  -d input.pgm -x graphExport.xml -m ${MINDISTBORDER} >> algo_info.txt"
   else
-  COMMANDGem2D2="${EXEC} -n ${NBTERM} -p ${X0} ${Y0} -a ${APERF}  -d input.pgm -x graphExport.xml -m ${MINDISTBORDER} >> algo_info.txt" 
+  COMMANDGem2D2="${EXEC} -n ${NBTERM} -p ${x0} ${y0} -a ${APERF}  -d input.pgm -x graphExport.xml -m ${MINDISTBORDER} >> algo_info.txt" 
   fi
   set $(identify -format '%w %h' ${INPUT})
   width=$1; height=$2
