@@ -29,12 +29,19 @@ function applyCommand
           echo "algoProblem=1" >> algo_info.txt 
           exit 1
       else
-          a=$(cat algo_log.txt | grep 'ImageMaskDomainCtrl: Initial point given as input is not in domain.' | wc -w | xargs)
-          if [ $a -ge 1 ]
+          if test ! -s "algo_log.txt"
           then
-             echo "algoInitManu=1" >> algo_info.txt 
+              a=$(cat algo_log.txt | grep 'ImageMaskDomainCtrl: Initial point given as input is not in domain.' | wc -w | xargs)
+              if [ $a -ge 1 ]
+              then
+                  echo "algoInitManu=1" >> algo_info.txt 
+              fi
+              a=$(cat algo_log.txt | grep 'Domain too restraint not possible to find random candidate in domain' | wc -w | xargs)
+              if [ $a -ge 1 ]
+              then
+                  echo "algoProblem=1" >> algo_info.txt 
+              fi
           fi
-          
           echo "[done]"
       fi
   done
