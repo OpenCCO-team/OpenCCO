@@ -60,13 +60,13 @@ fi
 
 case $INPUTNAME2D in
     ##  2D shape 1 
-    "e97fcd97f2d3a0c0e450e2f3c5b5eab401410d3c.png")
+    "e97fcd97f2d3a0c0e450e2f3c5b5eab401410d3c.jpg")
       IMPLICITETYPE=0
       INPUTDIM=2      
     ;;
 
     ##  2D shape 2
-    "cd256103ba8192575e1b207045aaff03ad426e3c.png")
+    "cd256103ba8192575e1b207045aaff03ad426e3c.jpg")
       IMPLICITETYPE=0
       INPUTDIM=2      
     ;;
@@ -81,7 +81,17 @@ case $INPUTNAME2D in
       IMPLICITETYPE=1
       INPUTDIM=2      
       ;;
-   
+     ## ball (implicit)
+    "7c636f1832132a7bc6b737934cee8b0d0a547cc5.png")
+      IMPLICITETYPE=1
+      INPUTDIM=3    
+      ;;
+    ## box (implicit)
+    "c891c555440275930d1c831acff5260a76e10d06.png")
+     IMPLICITETYPE=2
+     INPUTDIM=3  
+     ;;
+
 esac
 
 
@@ -105,16 +115,6 @@ case $INPUTNAME3D in
       IMPLICITETYPE=0
       INPUTDIM=3      
       ;;
-       ## ball (implicit)
-    "7c636f1832132a7bc6b737934cee8b0d0a547cc5.bin")
-      IMPLICITETYPE=1
-      INPUTDIM=3    
-      ;;
-    ## box (implicit)
-    "c891c555440275930d1c831acff5260a76e10d06.bin")
-     IMPLICITETYPE=2
-     INPUTDIM=3  
-     ;;
  
 esac
 
