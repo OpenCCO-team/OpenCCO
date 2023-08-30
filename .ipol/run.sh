@@ -19,9 +19,6 @@ MINDISTBORDER=${11}
 IMPLICITETYPE=0
 IMPLICITEDIM=0
 INPUTNAME=${orig_input_0}
-echo "------"
-echo "name : ${INPUTNAME}"
-echo "------"
 
 function applyCommand
 {
@@ -106,10 +103,6 @@ case $INPUTNAME in
 esac
 
 
-echo "Input dim = ${INPUTDIM}"
-echo "Implicit type  = ${IMPLICITETYPE}"
-
-echo "INPUT3DDom = $INPUT3DDom"
 if [ ${INPUTDIM} -eq 2 ] && [ $IMPLICITETYPE -ne 0 ]
 then
   echo "----------------------------------------"
@@ -148,7 +141,7 @@ then
 elif [ $INPUTDIM -eq 3 ] &&  [ $IMPLICITETYPE -ne 0 ]
 then 
   echo "----------------------------------------"
-  echo "-----Generating 3D IMPLICIT ---------------------"
+  echo "-----Generating 3D IMPLICIT ------------"
   echo "----------------------------------------"
   COMMANDGem3D1="${EXEC3D} -n ${NBTERM} -a ${APERF}  -o result.obj -x graphExport.xml"
   if [ $IMPLICITETYPE -eq 2 ]
