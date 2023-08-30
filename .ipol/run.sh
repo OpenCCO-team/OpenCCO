@@ -66,7 +66,7 @@ case $INPUTNAME in
         echo "Toy domain"
         IMPLICITETYPE=0
         INPUTDIM=3
-        echo "INPUTDIM=3"
+        echo "INPUTDIM --${INPUTDIM}--"
       ;;
     
     ##  3D 2 balls domain
