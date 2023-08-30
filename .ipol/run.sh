@@ -12,10 +12,7 @@ EXEC=generateTree2D
 EXEC3D=generateTree3D
 IPOLDIR=$6
 FIRSTSEG=$7
-X0=$8
-Y0=$9
-Z0=${10}
-MINDISTBORDER=${11}
+MINDISTBORDER=${8}
 IMPLICITETYPE=0
 IMPLICITEDIM=0
 INPUTNAME=${orig_input_0}
@@ -38,13 +35,11 @@ function applyCommand
 if test ! -s "$INPUT3DDom"
 then
     INPUTDIM=3
-    IMPLICITETYPE=0
 fi
 
 if test -f "$INPUT"
 then
     INPUTDIM=2
-   IMPLICITETYPE=0
 fi
 
 case $INPUTNAME in
