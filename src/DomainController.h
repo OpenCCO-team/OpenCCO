@@ -285,7 +285,7 @@ public:
         return TPointI();
     }
     bool isInside(const TPointI &p){
-        return myImage(p) > myMaskThreshold;
+      return myImage.domain().isInside(p) && myImage(p) > myMaskThreshold;
     }
     /**
      * Check if the segment defined by two points intersect the domain.

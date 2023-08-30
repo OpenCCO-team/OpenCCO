@@ -26,8 +26,15 @@ function applyCommand
       eval ${!c}
       if [ $? -ne 0 ] 
       then
+          echo "algoProblem=1" >> algo_info.txt 
           exit 1
       else
+          a=$(cat algo_log.txt | grep 'ImageMaskDomainCtrl: Initial point given as input is not in domain.' | wc -w | xargs)
+          if [ $a -ge 1 ]
+          then
+             echo "algoInitManu=1" >> algo_info.txt 
+          fi
+          
           echo "[done]"
       fi
   done
@@ -111,7 +118,7 @@ then
   echo "-----Generating IMPLICIT 2D ------------"
   echo "----------------------------------------"
   
-  COMMANDGem2D2="${EXEC} -n ${NBTERM} -a ${APERF}  -x graphExport.xml -m ${MINDISTBORDER} >> algo_info.txt"
+  COMMANDGem2D2="${EXEC} -n ${NBTERM} -a ${APERF}  -x graphExport.xml -m ${MINDISTBORDER} >> algo_info.txt 2> algo_log.txt"
   if [ $IMPLICITETYPE -eq 2 ]
   then
       COMMANDGem2D2="$COMMANDGem2D2 -s"
@@ -133,7 +140,7 @@ then
      then 
   COMMANDGem2D2="${EXEC} -n ${NBTERM} -a ${APERF}  -d input.pgm -x graphExport.xml -m ${MINDISTBORDER} >> algo_info.txt"
   else
-  COMMANDGem2D2="${EXEC} -n ${NBTERM} -p ${x0} ${y0} -a ${APERF}  -d input.pgm -x graphExport.xml -m ${MINDISTBORDER} >> algo_info.txt" 
+  COMMANDGem2D2="${EXEC} -n ${NBTERM} -p ${x0} ${y0} -a ${APERF}  -d input.pgm -x graphExport.xml -m ${MINDISTBORDER} >> algo_info.txt 2> algo_log.txt" 
   fi
   set $(identify -format '%w %h' ${INPUT})
   width=$1; height=$2
