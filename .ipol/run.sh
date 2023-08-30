@@ -66,8 +66,7 @@ case $INPUTNAME2D in
       IMPLICITETYPE=1
       INPUTDIM=2      
       ;;
-    
-
+   
 esac
 
 
@@ -102,7 +101,7 @@ case $INPUTNAME3D in
      INPUTDIM=3  
      ;;
  
-
+esac
 
 echo "------input dim =  ${INPUTDIM}------------------------------"
 
