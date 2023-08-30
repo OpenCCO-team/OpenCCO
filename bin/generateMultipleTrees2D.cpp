@@ -10,7 +10,7 @@ void templa()
 
 	// data vectors
 	double perfs = 10000;
-	std::vector<unsigned int> terms {10, 10};
+	std::vector<unsigned int> terms {50, 50};
 
 	CohabitingTrees<CircularDomainCtrl<TDim>, TDim> ctree(perfs, terms, circ_domctr);
 
@@ -22,13 +22,13 @@ void templa()
 void templamaks()
 {
 	std::string domain_file = "Samples/shape.png";
-	ImageMaskDomainCtrl<2> mask_domctr(domain_file, 128,  PointI<2>(0,0));
+	CircularDomainCtrl<2> circ_domctr(1.0, PointD<2>::diagonal(0.0));
 
 	// data vectors
 	double perfs = 100;
-	std::vector<unsigned int> terms {200, 200};
+	std::vector<unsigned int> terms {4, 4};
 
-	CohabitingTrees<ImageMaskDomainCtrl<2>, 2> ctree(perfs, terms, mask_domctr);
+	CohabitingTrees<CircularDomainCtrl<2>, 2> ctree(perfs, terms, circ_domctr);
 
 	ExpandTreeHelpers::expandCohabitingTrees(ctree, 200);
 

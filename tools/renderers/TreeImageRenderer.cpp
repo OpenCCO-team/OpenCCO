@@ -249,7 +249,7 @@ Image<TDim> TreeImageRenderer<TDim>::flowRender(unsigned int width)
 	if(myOrganDomain.isDefined)
 	{
 		// blend the organ and the flow
-		auto customblend = [](double a, double b) { return (b <= 0.001 ? a : b); };
+		auto customblend = [](double a, double b) { return (b <= 0.001 ? a : b); };	// this blend simply paste the tree over the organ
 		imageBlend<TDim>(organ_img, flow_render, customblend, flow_render);
 	}
 
@@ -516,7 +516,7 @@ Image<TDim> TreeImageRenderer<TDim>::realisticRender(double sigma, unsigned int 
 
 	for(auto it = realistic_render.begin(); it != realistic_render.end(); it++)
 	{
-		// rician distribution parameters
+		// rician distribution parameters (A is the mean, s the standard deviation)
 		double A = *it;
 		double s = (fabs(A) <= 0.001 ? sigma * c : sigma);
 

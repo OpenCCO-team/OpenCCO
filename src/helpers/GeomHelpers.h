@@ -524,7 +524,7 @@ std::vector< PointD<TDim> > evenlySpreadPoints(unsigned int n)
  * @brief Computes a normalized orthogonal vector by solving the dot product being zero.
  * @brief In dimensions >= 2, there's more than one solution, this function arbitrarily chooses one with
  * @brief as much coordinates being zero as possible.
- * @param vec The vector which we want an orthogonal vector of.
+ * @param vec The vector for which we want an orthogonal vector.
  * @returns a PointD<2> vector with at least one non-zero coordinate (unless the input vector is full of zeros).
  **/
 template<int TDim>
@@ -541,33 +541,31 @@ PointD<2> orthogonalVector<2>(const PointD<2> & vec)
 	{
 		if(fabs(vec[1]) < epsilon)
 		{
-			return vec_ortho;	// (0.0, 0.0)
+			// (0.0, 0.0)
 		}
 		else
 		{
+			// (1.0, 0.0)
 			vec_ortho[0] = 1.0;
 			vec_ortho[1] = 0.0;
-
-			return vec_ortho;	// (1.0, 0.0)
 		}
 	}
 	else
 	{
 		if(fabs(vec[1]) < epsilon)
 		{
+			// (0.0, 1.0)
 			vec_ortho[0] = 0.0;
 			vec_ortho[1] = 1.0;
-
-			return vec_ortho;	// (0.0, 1.0)
 		}
 		else 	// most common case
 		{
 			vec_ortho[0] = 1.0;
 			vec_ortho[1] = -vec[0]/vec[1];
-
-			return vec_ortho;
 		}	
 	}
+
+	return vec_ortho;
 }
 
 template <>
@@ -586,7 +584,7 @@ PointD<3> orthogonalVector<3>(const PointD<3> & vec)
 		}
 	}
 
-	// depending on the number of coordinates equal to zero, there can be trial cases
+	// depending on the number of coordinates equal to zero, there can be trivial cases
 	switch(zero_coord_count)
 	{
 		case 3 :	// zero filled vector, keep vec_ortho as is
@@ -629,8 +627,6 @@ PointD<3> orthogonalVector<3>(const PointD<3> & vec)
 
 
 }
-
-
 
 #endif // !defined GEOMHELPERS_h
 
