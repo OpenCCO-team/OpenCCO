@@ -93,13 +93,17 @@ int main(int argc, char *const *argv)
     std::string nameImgDom {""};
     std::vector<int> postInitV {-1,-1};
     std::string exportXMLName {""};
+    std::string outputNameEPS {"result.eps"};
+    std::string outputNameSVG {"result.svg"};
     
     app.add_option("-n,--nbTerm,1", nbTerm, "Set the number of terminal segments.", true);
-    app.add_option("-a,--aPerf,2", aPerf, "The value of the input parameter A perfusion.", true);
+    app.add_option("-a,--aPerf,2", aPerf, "The value of perfusion area.", true);
     app.add_option("-g,--gamma", gamma, "The value of the gamma parameter.", true);
     app.add_option("-m,--minDistanceToBorder", minDistanceToBorder, "Set the minimal distance to border. Works only  with option organDomain else it has not effect", true);
+    app.add_option("-o,--outputEPS", outputNameEPS, "Output the result into EPS format", true);
+    app.add_option("-e,--exportSVG", outputNameSVG, "Export the result into SVG format", true);
     app.add_option("--organDomain,-d", nameImgDom, "Define the organ domain using a mask image (organ=255).");
-    app.add_option("-x,--exportXML", exportXMLName, "Output the resulting gaph as xml file", true);
+    app.add_option("-x,--exportXML", exportXMLName, "Output the resulting graph as xml file", true);
     app.add_flag("-s,--squaredDom",squaredImplDomain , "Use a squared implicit domain instead a sphere (is used only without --organDomain)");
     auto pInit = app.add_option("-p,--posInit", postInitV, "Initial position of root, if not given the position of point is determined from the image center")
     ->expected(2);
@@ -135,8 +139,8 @@ int main(int argc, char *const *argv)
         
         std::string filename = "testCCO_"+std::to_string(nbTerm)+".eps";
         tree.exportBoardDisplay(filename.c_str(), 1.0);
-        tree.exportBoardDisplay("result.eps", 1.0);
-        tree.exportBoardDisplay("result.svg", 1.0);
+        tree.exportBoardDisplay(outputNameEPS.c_str(), 1.0);
+        tree.exportBoardDisplay(outputNameSVG.c_str(), 1.0);
         tree.myBoard.clear();
         end = clock();
         printf ("Execution time: %0.8f sec\n", ((double) end - start)/CLOCKS_PER_SEC);
