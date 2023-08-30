@@ -18,6 +18,7 @@ IMPLICITEDIM=0
 INPUTNAME2D=${orig_input_0}
 INPUTNAME3D=${orig_input_1}
 echo "" > algo_log.txt
+
 function applyCommand
 {
   for c in $*
@@ -29,7 +30,7 @@ function applyCommand
           echo "algoProblem=1" >> algo_info.txt 
           exit 1
       else
-          if test ! -s "algo_log.txt"
+          if test -s "algo_log.txt"
           then
               a=$(cat algo_log.txt | grep 'ImageMaskDomainCtrl: Initial point given as input is not in domain.' | wc -w | xargs)
               if [ $a -ge 1 ]
