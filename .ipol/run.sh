@@ -119,6 +119,8 @@ case $INPUTNAME3D in
 esac
 
 echo "------input dim =  ${INPUTDIM}------------------------------"
+echo "------input name0 =  ${INPUTNAME2D}------------------------------"
+echo "------input name1 =  ${INPUTNAME3D}------------------------------"
 
 if [ ${INPUTDIM} -eq 2 ] && [ $IMPLICITETYPE -ne 0 ]
 then
