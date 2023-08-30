@@ -56,13 +56,13 @@ case $INPUTNAME in
     ;;
 
     ## 3D liver domain    
-    "3cdd37cb14ff74bb854e78ca6b9332da82a54089.png")
+    "3cdd37cb14ff74bb854e78ca6b9332da82a54089.bin")
       IMPLICITETYPE=0
       INPUTDIM=3      
       ;;
 
     ## 3D toy domain    
-    "ada61fd93c4a156cac2e121072c89632571d5296.png")
+    "ada61fd93c4a156cac2e121072c89632571d5296.bin")
         echo "Toy domain"
         IMPLICITETYPE=0
         INPUTDIM=3
@@ -70,7 +70,7 @@ case $INPUTNAME in
       ;;
     
     ##  3D 2 balls domain
-    "31d51c4f87273fe8c0f81d938cfbe608c8a87e46.png")
+    "31d51c4f87273fe8c0f81d938cfbe608c8a87e46.bin")
       IMPLICITETYPE=0
       INPUTDIM=3      
       ;;
@@ -86,12 +86,12 @@ case $INPUTNAME in
       INPUTDIM=2      
       ;;
     ## ball (implicit)
-    "7c636f1832132a7bc6b737934cee8b0d0a547cc5.png")
+    "7c636f1832132a7bc6b737934cee8b0d0a547cc5.bin")
       IMPLICITETYPE=1
       INPUTDIM=3    
       ;;
     ## box (implicit)
-    "c891c555440275930d1c831acff5260a76e10d06.png")
+    "c891c555440275930d1c831acff5260a76e10d06.bin")
      IMPLICITETYPE=2
      INPUTDIM=3  
      ;;
