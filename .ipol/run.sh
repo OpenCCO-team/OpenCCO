@@ -18,6 +18,7 @@ IMPLICITEDIM=0
 INPUTNAME2D=${orig_input_0}
 INPUTNAME3D=${orig_input_1}
 echo "" > algo_log.txt
+echo "algoProblem=1" >> algo_info.txt 
 
 function applyCommand
 {
