@@ -63,8 +63,10 @@ case $INPUTNAME in
 
     ## 3D toy domain    
     "ada61fd93c4a156cac2e121072c89632571d5296.png")
-      IMPLICITETYPE=0
-      INPUTDIM=3      
+        echo "Toy domain"
+        IMPLICITETYPE=0
+        INPUTDIM=3
+        echo "INPUTDIM=3"
       ;;
     
     ##  3D 2 balls domain
