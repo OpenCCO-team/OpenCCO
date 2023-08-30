@@ -15,7 +15,8 @@ FIRSTSEG=$7
 MINDISTBORDER=${8}
 IMPLICITETYPE=0
 IMPLICITEDIM=0
-INPUTNAME=${orig_input_0}
+INPUTNAME2D=${orig_input_0}
+INPUTNAME3D=${orig_input_1}
 
 function applyCommand
 {
@@ -42,7 +43,7 @@ then
     INPUTDIM=2
 fi
 
-case $INPUTNAME in
+case $INPUTNAME2D in
     ##  2D shape 1 
     "e97fcd97f2d3a0c0e450e2f3c5b5eab401410d3c.png")
       IMPLICITETYPE=0
@@ -55,6 +56,22 @@ case $INPUTNAME in
       INPUTDIM=2      
     ;;
 
+    ## square (implicit)
+    "05704513be217481f51ba5f7ac5d8b6022c90b52.png")
+      IMPLICITETYPE=2
+      INPUTDIM=2      
+      ;;
+    ## disk (implicit)
+    "babc4e2475a64382cb224402660e5a2ae2221739.png")
+      IMPLICITETYPE=1
+      INPUTDIM=2      
+      ;;
+    
+
+esac
+
+
+case $INPUTNAME3D in
     ## 3D liver domain    
     "3cdd37cb14ff74bb854e78ca6b9332da82a54089.bin")
       IMPLICITETYPE=0
@@ -74,18 +91,7 @@ case $INPUTNAME in
       IMPLICITETYPE=0
       INPUTDIM=3      
       ;;
-
-    ## square (implicit)
-    "05704513be217481f51ba5f7ac5d8b6022c90b52.png")
-      IMPLICITETYPE=2
-      INPUTDIM=2      
-      ;;
-    ## disk (implicit)
-    "babc4e2475a64382cb224402660e5a2ae2221739.png")
-      IMPLICITETYPE=1
-      INPUTDIM=2      
-      ;;
-    ## ball (implicit)
+       ## ball (implicit)
     "7c636f1832132a7bc6b737934cee8b0d0a547cc5.bin")
       IMPLICITETYPE=1
       INPUTDIM=3    
@@ -95,11 +101,9 @@ case $INPUTNAME in
      IMPLICITETYPE=2
      INPUTDIM=3  
      ;;
-    
+ 
 
-esac
 
-printenv
 echo "------input dim =  ${INPUTDIM}------------------------------"
 
 if [ ${INPUTDIM} -eq 2 ] && [ $IMPLICITETYPE -ne 0 ]
