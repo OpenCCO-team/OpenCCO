@@ -173,7 +173,7 @@ if [ $FIRSTSEG -eq 1 ]
 then   
     COMMANDGem3Ddom_1="${EXEC3D} -n ${NBTERM} -a ${APERF} -m ${MINDISTBORDER} -d $INPUT3DDom -o resultVessel.obj -x graphExport.xml"
 else
-    COMMANDGem3Ddom_1="${EXEC3D} -n ${NBTERM} -p ${X0} ${Y0} ${Z0} -a ${APERF} -m ${MINDISTBORDER} -d $INPUT3DDom -o resultVessel.obj -x graphExport.xml"
+    COMMANDGem3Ddom_1="${EXEC3D} -n ${NBTERM} -p ${x0} ${y0} ${z0} -a ${APERF} -m ${MINDISTBORDER} -d $INPUT3DDom -o resultVessel.obj -x graphExport.xml"
 fi
 
   COMMANDGem3Ddom_2="volBoundary2obj $INPUT3DDom liver05Domain.obj"
