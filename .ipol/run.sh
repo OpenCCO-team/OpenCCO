@@ -148,7 +148,7 @@ then
   COMMANDGem2D1="convert ${INPUT} input.pgm"
   if [ $FIRSTSEG -eq 1 ]
      then 
-  COMMANDGem2D2="${EXEC} -n ${NBTERM} -a ${APERF}  -d input.pgm -x graphExport.xml -m ${MINDISTBORDER} >> algo_info.txt"
+  COMMANDGem2D2="${EXEC} -n ${NBTERM} -a ${APERF}  -d input.pgm -x graphExport.xml -m ${MINDISTBORDER} >> algo_info.txt 2> algo_log.txt"
   else
   COMMANDGem2D2="${EXEC} -n ${NBTERM} -p ${x0} ${y0} -a ${APERF}  -d input.pgm -x graphExport.xml -m ${MINDISTBORDER} >> algo_info.txt 2> algo_log.txt" 
   fi
@@ -162,7 +162,7 @@ then
   echo "----------------------------------------"
   echo "-----Generating 3D IMPLICIT ------------"
   echo "----------------------------------------"
-  COMMANDGem3D1="${EXEC3D} -n ${NBTERM} -a ${APERF}  -o result.obj -x graphExport.xml"
+  COMMANDGem3D1="${EXEC3D} -n ${NBTERM} -a ${APERF}  -o result.obj -x graphExport.xml 2> algo_log.txt"
   if [ $IMPLICITETYPE -eq 2 ]
   then
       COMMANDGem3D1="$COMMANDGem3D1 -s"
@@ -188,9 +188,9 @@ else
   echo "----------------------------------------"
 if [ $FIRSTSEG -eq 1 ]
 then   
-    COMMANDGem3Ddom_1="${EXEC3D} -n ${NBTERM} -a ${APERF} -m ${MINDISTBORDER} -d $INPUT3DDom -o resultVessel.obj -x graphExport.xml"
+    COMMANDGem3Ddom_1="${EXEC3D} -n ${NBTERM} -a ${APERF} -m ${MINDISTBORDER} -d $INPUT3DDom -o resultVessel.obj -x graphExport.xml 2> algo_log.txt"
 else
-    COMMANDGem3Ddom_1="${EXEC3D} -n ${NBTERM} -p ${x0} ${y0} ${z0} -a ${APERF} -m ${MINDISTBORDER} -d $INPUT3DDom -o resultVessel.obj -x graphExport.xml"
+    COMMANDGem3Ddom_1="${EXEC3D} -n ${NBTERM} -p ${x0} ${y0} ${z0} -a ${APERF} -m ${MINDISTBORDER} -d $INPUT3DDom -o resultVessel.obj -x graphExport.xml 2> algo_log.txt"
 fi
 
   COMMANDGem3Ddom_2="volBoundary2obj $INPUT3DDom liver05Domain.obj"
