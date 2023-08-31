@@ -172,7 +172,7 @@ then
   key=$(basename $(pwd))
   demo_id=$(basename $(dirname $(pwd)))
   viewer_url="https://3dviewer.net#https://ipolcore.ipol.im/api/core/shared_folder/run/${demo_id}/${key}/result.obj,https://ipolcore.ipol.im/api/core/shared_folder/run/${demo_id}/${key}/result.mtl"
-  iframe="<iframe id='3dviewerplayer' type='text/html' width='620' height='460' src='$viewer_url' "
+  iframe="<iframe id='3dviewerplayer' type='text/html' width='480' height='480' src='$viewer_url' "
   iframe="$iframe frameborder='5' scrolling='no' allowfullscreen webkitallowfullscreen mozallowfullscreen></iframe>"
   echo "url=$iframe" >> algo_info.txt
   echo "algoDim=3" >> algo_info.txt
@@ -199,7 +199,7 @@ fi
   key=$(basename $(pwd))
   demo_id=$(basename $(dirname $(pwd)))
   viewer_url="https://3dviewer.net#https://ipolcore.ipol.im/api/core/shared_folder/run/${demo_id}/${key}/result.obj,https://ipolcore.ipol.im/api/core/shared_folder/run/${demo_id}/${key}/result.mtl"
-  iframe="<iframe id='3dviewerplayer' type='text/html' width='620' height='460' src='$viewer_url' "
+  iframe="<iframe id='3dviewerplayer' type='text/html' width='480' height='480' src='$viewer_url' "
   iframe="$iframe frameborder='5' scrolling='no' allowfullscreen webkitallowfullscreen mozallowfullscreen></iframe>"
   echo "url=$iframe" >> algo_info.txt
   echo "algoDim=3" >> algo_info.txt
