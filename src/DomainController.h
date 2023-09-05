@@ -467,7 +467,7 @@ template<class DomCtr, int TDim>
 std::vector< PointI<TDim> >
 firstN_CandidatePoints(const DomCtr & domain_controller, unsigned int n)
 {
-	// create a distrubution of points at origin (points are placed around a n-D sphere)
+	// create a distrubution of points at origin (points are placed around a sphere)
 	std::vector< PointD<TDim> > base_points(GeomHelpers::evenlySpreadPoints<TDim>(n));
 
 	// use dichotomy to find the biggest sphere radius where all points fit inside the domain

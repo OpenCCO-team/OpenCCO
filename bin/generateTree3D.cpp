@@ -207,19 +207,19 @@ int main(int argc, char **argv)
 	std::string outputMeshName {"result.off"};
 	std::string exportDatName {""};
 	std::string exportXMLName {""};
-	std::vector<int> postInitV {-1,-1,-1};
+	std::vector<int> posInitV {-1,-1,-1};
 	bool squaredImplDomain {false};
 
 	app.add_option("-n,--nbTerm,1", nbTerm, "Set the number of terminal segments.", true);
 	app.add_option("-a,--aPerf,2", aPerf, "The value of perfusion volume.", true);
 	app.add_option("-g,--gamma", gamma, "The value of the gamma parameter.", true);
-	app.add_option("--organDomain,-d", nameImgDom, "Define the organ domain using a mask image (organ=255).");
+	app.add_option("-d,--organDomain", nameImgDom, "Define the organ domain using a mask image (organ=255).");
 	app.add_option("-m,--minDistanceToBorder", minDistanceToBorder, "Set the minimal distance to border. Works only  with option --organDomain else it has not effect", true);
 	app.add_option("-o,--outputName", outputMeshName, "Output the 3D mesh into OFF format", true);
 	app.add_option("-e,--export", exportDatName, "Output the 3D mesh into text file", true);
 	app.add_option("-x,--exportXML", exportXMLName, "Output the resulting graph as xml file", true);
 	app.add_flag("-s,--squaredDom",squaredImplDomain , "Use a squared implicit domain instead a sphere (is used only without --organDomain)");
-	auto pInit = app.add_option("-p,--posInit", postInitV, "Initial position of root, if not given the position of point is determined from the image center")
+	auto pInit = app.add_option("-p,--posInit", posInitV, "Initial position of root, if not given the position of point is determined from the image center")
     	->expected(3);
 
 	#ifdef WITH_VISU3D_QGLVIEWER
@@ -230,7 +230,7 @@ int main(int argc, char **argv)
 	CLI11_PARSE(app, argc, argv);
 	// END parse command line using CLI ----------------------------------------------
 
-	DGtal::Z3i::Point ptRoot(postInitV[0], postInitV[1], postInitV[2]);
+	PointI<3> ptRoot(posInitV[0], posInitV[1], posInitV[2]);
 
 	if(nameImgDom != "" )
 	{
@@ -241,9 +241,9 @@ int main(int argc, char **argv)
 
 		if (!pInit->empty())
 		{
-			pM[0] = postInitV[0];
-			pM[1] = postInitV[1];
-			pM[2] = postInitV[2];
+			pM[0] = posInitV[0];
+			pM[1] = posInitV[1];
+			pM[2] = posInitV[2];
 			aDomCtr = TImgContrl(nameImgDom, 128, pM, 100);
 		}
 		else

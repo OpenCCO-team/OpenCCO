@@ -29,7 +29,8 @@ public:
      * @param dom_ctr The domain controller, common for each tree.
      * @param radius The radius of the root segment.
      **/
-	CohabitingTrees(double aPerf, const std::vector<unsigned int> & nTerm_vec,
+	CohabitingTrees(double aPerf, const std::vector<unsigned int> & nTerm_vec, double gamma,
+					std::vector< PointI<TDim> > starting_points,
 					DomCtr & dom_ctr, double radius = 1.0)
 	{
 		int n = nTerm_vec.size();
@@ -40,7 +41,10 @@ public:
 			myExpansionAttempts.push_back(1);	// inital value is one because the first segment counts as a succesful attempt
 		}
 
-		std::vector< PointI<TDim> > starting_points = firstN_CandidatePoints<DomCtr, TDim>(dom_ctr, 2);
+		if(starting_points.empty())
+		{
+			starting_points = firstN_CandidatePoints<DomCtr, TDim>(dom_ctr, n);
+		} 
 
 		// initialize first segment of trees so that they're not overlapping
 		for(std::size_t i = 0; i < n; i++)
@@ -398,23 +402,14 @@ public:
 
 	/**
 	 * @brief Creates an xml file for each tree, like the classic generation would.
-	 * @brief The names of the files are like "tree_<TDim>_<n>.xml" where n is the index of the tree.
+	 * @brief Default exports are like "tree_<TDim>_<n>.xml" where n is the index of the tree.
+	 * @brief @param filename the prefix of the xml files : <filename>_<n>.xml
 	 **/
-	void writeTreesToXML()
+	void writeTreesToXML(std::string filename)
 	{
-		std::string dim;
-		if(TDim == 2)
-		{
-			dim = "2D";
-		}
-		else	//TDim == 3
-		{
-			dim = "3D";
-		}
-
 		for(std::size_t i = 0; i < myTrees.size(); i++)
 		{
-			std::string xml_filename = "tree_" + dim + "_" + std::to_string(i) + ".xml";
+			std::string xml_filename = filename + "_" + std::to_string(i) + ".xml";
 			XMLHelpers::writeTreeToXml(myTrees[i], xml_filename.c_str());
 		}
 	}
