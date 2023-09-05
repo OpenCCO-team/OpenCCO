@@ -4,7 +4,7 @@
 
 
 
-This is the Implementation of the CCO algorithm based on [[Schreiner etal. 93] algorithm and note of [[Clara Jaquet and Hugues Talbot  Feb 2021] and submitted to the IPOL journal: 
+This is the Implementation of the CCO algorithm based on [Schreiner and Buxbaum 1993](https://ieeexplore.ieee.org/document/243413/) algorithm and note of [Jaquet and Huges 2021], the work is submitted to the IPOL journal: 
 "OpenCCO: An Implementation of Constrained Constructive Optimization for Generating 2D and 3D Vascular Trees" 
 
 The online demonstration is available [here](https://ipolcore.ipol.im/demo/clientApp/demo.html?id=5555531082026) 
@@ -42,13 +42,43 @@ sudo apt-get install cmake libboost-dev libceres-dev libceres1
 2. cmake .. 
 3. make
 
-Then the binary file "generateTree2D" and "generateTree3D" will be available in the "/build/bin" directory.
+Then the binary file `generateTree2D` and `generateTree3D` will be available in the `/build/bin` directory.
 
+## Source code 
+
+The code of OpenCCO is written in C++. It is composed of the following classes in the `src` directory:
+* `CoronaryArteryTree` contains the structure of a vascular tree and functions to create a bifurcation
+* `DomainController` contains the construction of the domain of a vascular tree
+* `helpers/GeomHelpers` contains functions to generate randomly terminal points, check intersections, Kamyia optimisation, ...
+* `helpers/ExpandTreeHelpers` contains functions to  generate a vascular tree
+* `helpers/XMLHelpers` contains functions to export a vascular tree into XLM file.
+
+## Program parameters 
+### Options for both 2D and 3D cases
+* number of terminal segments/ending points (-n | --nbTerm INT, default=1000)
+* perfusion area / volume (-a | --aPerf FLOAT, default=20000)
+* value of the gamma parameter (-g | -gamma FLOAT, default=3)
+* minimal distance to border (-m | --minDistanceToBorder FLOAT, default=5) *Works only with option --organDomain
+* organ domain using a mask image (-d | --organDomain TEXT)
+* output the resulting geaph as xml file (-x | --exportXML TEXT)
+* use a squared implicit domain instead a sphere (-s | --squaredDom, default=sphere) *Works only without option --organDomain
+
+### Specific options in 2D
+* initial position of root (-p | --posInit INT INT, default=image center)
+* output the result into EPS format (-o | --outputEPS TEXT, default=result.eps) 
+* output the result into SVG format (-e | --exportSVG TEXT, default=result.svg) 
+
+### Specific options in 3D
+* initial position of root (-p | --posInit INT INT INT, default=image center)
+* output the 3D mesh into OFF file (-o | --outputName TEXT, default=result.off)
+* output the 3D mesh into text file ( -e | --export TEXT)
+* display 3D view using QGLViewer (--view)
 
 
 ## Typical 2D tree generation
 
-### Generate vascalar tree on an implicit square domain :
+### Generate vascalar tree on an implicit square domain 
+(for example, 3000 ending points (-n) and a perfusion area of 20000 (-a) in a square domain (-s)):
 ```
 ./build/bin/generateTree2D -n 3000 -a 20000  -s
 ```
@@ -58,6 +88,7 @@ You will obtain such a display:
 
 
 ### Generate vascalar tree on the domain defined from the boudary of a binary shape:
+(for example, 3000 ending points (-n) and a perfusion area of 20000 (-a) in pre-defined domain (-d) from the image Samples/shape3.pgm):
 ```
 ./build/bin/generateTree2D -n 3000 -a 20000  -d Samples/shape3.pgm 
 ```
@@ -68,64 +99,30 @@ You will obtain such a display:
 ## Typical 3D tree generation
 
 ### Generate vascalar tree on the domain defined from the boudary of the bunny.obj:
-The following commands permits to generate a vascular with 3000 terminal and starting with a specific 3D point (-p option): 
+The following commands permits to generate a vascular tree starting with a specific 3D point: 
+(for example, 3000 ending points (-n) and a perfusion volume of 20000 (-a) in pre-defined domain (-d) from the file Samples/bunnyThickBdr.vol and with the initial position of root (-p) at (143, -107, 7)):
 ```
- ./build/bin/generateTree3D -n 3000 -a 20000  -d Samples/bunnyThickBdr.vol   --view -m 1 -p 143 -107 7
+ ./build/bin/generateTree3D -n 3000 -a 20000  -d Samples/bunnyThickBdr.vol --view -m 1 -p 143 -107 7
  ```
  
 <img width="616" alt="Capture d’écran 2023-04-03 à 02 46 55" src="https://user-images.githubusercontent.com/772865/229388906-2035b721-f4f6-4f9c-bb2b-1490b5a86187.png">
 
 
 ### Generate vascalar tree on an implicit square domain :
+(for example, 3000 ending points (-n) and a perfusion area of 20000 (-a) in a square domain (-s)):
 ```
-./build/bin/generateTree3D -n 3000 -a 20000  -s
-meshViewer result.off
+./build/bin/generateTree3D -n 3000 -a 20000  -s meshViewer result.off
 ```
 (or used directly the --view option)
 You will obtain such type of visualisation:
 <img width="912" alt="Capture d’écran 2023-04-03 à 02 58 25" src="https://user-images.githubusercontent.com/772865/229389571-ccac9ca2-a560-4b1b-acce-7ce9d825efa5.png">
 
-
-
 For more details see IPOL Journal article available here: 
  http://dx.doi.org/10.5201/ipol.xxx
-
-## Tools
-
-Along with the tree generation, there are small tools to process the data output.
-
-### XML to graph conversion
-
-```
-./build/tools/xml2graph tree_2D.xml
-```
-The xml2graph tools creates 3 files from the XML file generated by the algorithm.
-
-The files are :
-   * `vertex.dat`, with each line containing the coordinates of a vertex, separated by spaces.
-   * `radius.dat`, with each line containing the radius associated with the vertex.
-   * `edges.dat`, with each line containing the index of the first vertex, the index of the second vertex, and then the flow and resistance of the artery segment.
-
-### Rendering tools
-
-Using the 3 files created by the `xml2graph` tool, you can obtain different visualizations of the generated artery tree.
-
-#### Artery tree flow map
-```
-./build/tools/renderer/flowRenderer -w 250 -r radius.dat -e edges.dat -v vertex.dat
-```
-Creates a file (PNG for 2D, VOL/NIFTI for 3D) containing for each pixel/voxel the value of the flow at that location.
- 
 # Acknowledgements
 This work was supported by the French Agence Nationale de la Recherche (grants ANR-18-CE45- 0018, ANR-18-CE45-0014, ANR-20-CE45-0011).
 
-
-
-
-
-
 # Changelog
-
 Version 1.0 (03/04/2023):  initial online version
 
 

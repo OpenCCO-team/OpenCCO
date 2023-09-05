@@ -55,27 +55,20 @@ template<typename TTree>
 void
 constructTreeImplicitDomain(TTree &aTree,std::string exportXMLName, bool verbose)
 {
-	clock_t start, end;
-	start = clock();
-	ExpandTreeHelpers::initFirstElemTree(aTree, verbose);
-	ExpandTreeHelpers::expandTree(aTree);
-	end = clock();
-	printf ("Execution time: %0.8f sec\n", ((double) end - start)/CLOCKS_PER_SEC);
-	
-	if(exportXMLName != "")
-	{
-		XMLHelpers::writeTreeToXml(aTree, exportXMLName.c_str());
-	}
-	else
-	{
-		XMLHelpers::writeTreeToXml(aTree, "tree_2D.xml");
-	}
-	
-	//std::string filename = "testCCO_"+std::to_string(aTree.my_NTerm)+".eps";
-	//aTree.exportBoardDisplay(filename.c_str(), 1.0);
-	//aTree.exportBoardDisplay("result.eps", 1.0);
-	aTree.exportBoardDisplay("result.svg", 1.0);
-	aTree.myBoard.clear();
+    clock_t start, end;
+    start = clock();
+    ExpandTreeHelpers::initFirtElemTree(aTree, verbose);
+    ExpandTreeHelpers::expandTree(aTree);
+    end = clock();
+    printf ("Execution time: %0.8f sec\n", ((double) end - start)/CLOCKS_PER_SEC);
+    XMLHelpers::writeTreeToXml(aTree, "tree_2D.xml");
+    if (exportXMLName != "") XMLHelpers::writeTreeToXml(aTree,
+                                                        exportXMLName.c_str());
+    std::string filename = "testCCO_"+std::to_string(aTree.my_NTerm)+".eps";
+    aTree.exportBoardDisplay(filename.c_str(), 1.0);
+    aTree.exportBoardDisplay("result.eps", 1.0);
+    aTree.exportBoardDisplay("result.svg", 1.0);
+    aTree.myBoard.clear();
 }
 
 
@@ -89,6 +82,7 @@ int main(int argc, char *const *argv)
 	clock_t start, end;
 	srand ((int) time(NULL));
 
+<<<<<<< HEAD
 	// parse command line using CLI ----------------------------------------------
 	CLI::App app;
 	int nbTerm {1000};
@@ -133,6 +127,95 @@ int main(int argc, char *const *argv)
 		{
 			aDomCtr = TImgContrl(nameImgDom, 128, 100);
 		}
+=======
+    // parse command line using CLI ----------------------------------------------
+    CLI::App app;
+    int nbTerm {1000};
+    double aPerf {20000};
+    bool verbose {false};
+    bool squaredImplDomain {false};
+    double gamma {3.0};
+    double minDistanceToBorder {5.0};
+    std::string nameImgDom {""};
+    std::vector<int> postInitV {-1,-1};
+    std::string exportXMLName {""};
+    std::string outputNameEPS {"result.eps"};
+    std::string outputNameSVG {"result.svg"};
+    
+    app.add_option("-n,--nbTerm,1", nbTerm, "Set the number of terminal segments.", true);
+    app.add_option("-a,--aPerf,2", aPerf, "The value of perfusion area.", true);
+    app.add_option("-g,--gamma", gamma, "The value of the gamma parameter.", true);
+    app.add_option("-m,--minDistanceToBorder", minDistanceToBorder, "Set the minimal distance to border. Works only  with option organDomain else it has not effect", true);
+    app.add_option("-o,--outputEPS", outputNameEPS, "Output the result into EPS format", true);
+    app.add_option("-e,--exportSVG", outputNameSVG, "Export the result into SVG format", true);
+    app.add_option("--organDomain,-d", nameImgDom, "Define the organ domain using a mask image (organ=255).");
+    app.add_option("-x,--exportXML", exportXMLName, "Output the resulting graph as xml file", true);
+    app.add_flag("-s,--squaredDom",squaredImplDomain , "Use a squared implicit domain instead a sphere (is used only without --organDomain)");
+    auto pInit = app.add_option("-p,--posInit", postInitV, "Initial position of root, if not given the position of point is determined from the image center")
+    ->expected(2);
+    app.add_flag("-v,--verbose", verbose);
+    app.get_formatter()->column_width(40);
+    CLI11_PARSE(app, argc, argv);
+    // END parse command line using CLI ----------------------------------------------
+    
+    DGtal::Z2i::Point ptRoot(postInitV[0], postInitV[1]);
+  
+    if(nameImgDom != ""){
+        start = clock();
+        typedef ImageMaskDomainCtrl<2> TImgContrl;
+        typedef  CoronaryArteryTree<TImgContrl, 2> TTree;
+        TImgContrl aDomCtr;
+        TImgContrl::TPointI pM;
+        if (!pInit->empty())
+        {
+            pM[0] = postInitV[0];
+            pM[1] = postInitV[1];
+            aDomCtr = TImgContrl(nameImgDom, 128, pM, 100);
+        }
+        else
+        {
+            aDomCtr = TImgContrl(nameImgDom, 128, 100);
+        }
+        aDomCtr.myMinDistanceToBorder = minDistanceToBorder;
+        TTree tree  (aPerf, nbTerm, aDomCtr,  1.0);
+        tree.my_gamma = gamma;
+        constructTreeMaskDomain(tree, verbose);
+        XMLHelpers::writeTreeToXml(tree, "tree_2D.xml");
+        if (exportXMLName != "") XMLHelpers::writeTreeToXml(tree, exportXMLName.c_str());
+        
+        std::string filename = "testCCO_"+std::to_string(nbTerm)+".eps";
+        tree.exportBoardDisplay(filename.c_str(), 1.0);
+        tree.exportBoardDisplay(outputNameEPS.c_str(), 1.0);
+        tree.exportBoardDisplay(outputNameSVG.c_str(), 1.0);
+        tree.myBoard.clear();
+        end = clock();
+        printf ("Execution time: %0.8f sec\n", ((double) end - start)/CLOCKS_PER_SEC);
+        
+    }
+    else if (squaredImplDomain)
+    {
+        start = clock();
+        typedef SquareDomainCtrl<2> SqDomCtrl;
+        typedef  CoronaryArteryTree<SqDomCtrl, 2> TTree;
+        SqDomCtrl::TPoint pCenter (0,0);
+        SqDomCtrl aCtr(1.0,pCenter);
+        TTree tree  (aPerf, nbTerm, aCtr, 1.0);
+        tree.my_gamma = gamma;
+        constructTreeImplicitDomain(tree, exportXMLName, verbose);
+        end = clock();
+        printf ("Execution time: %0.8f sec\n", ((double) end - start)/CLOCKS_PER_SEC);
+    }else {
+        start = clock();
+        typedef CircularDomainCtrl<2> DiskDomCtrl;
+        typedef  CoronaryArteryTree<DiskDomCtrl, 2> TTree;
+        DiskDomCtrl::TPoint pCenter (0,0);
+        DiskDomCtrl aCtr(1.0,pCenter);
+        TTree tree  (aPerf, nbTerm, aCtr, 1.0);
+        tree.my_gamma = gamma;
+        constructTreeImplicitDomain(tree, exportXMLName, verbose);
+        end = clock();
+        printf ("Execution time: %0.8f sec\n", ((double) end - start)/CLOCKS_PER_SEC);
+>>>>>>> 4c3d98da512654af7a4186e60cc0e603b048a07f
 
 		aDomCtr.myMinDistanceToBorder = minDistanceToBorder;
 		TTree tree  (aPerf, nbTerm, aDomCtr,  1.0);
