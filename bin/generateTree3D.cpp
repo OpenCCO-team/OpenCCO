@@ -1,5 +1,5 @@
 /**
- *  generateTree3D: main program to generate 2D tree from OpenCCO implementation
+ *  generateTree3D: main program to generate 3D tree from OpenCCO implementation
  *  Copyright (C) 2023 B. Kerautret;  Phuc Ngo, N. Passat H. Talbot and C. Jaquet
  *
  *  This program is free software: you can redistribute it and/or modify
@@ -191,8 +191,6 @@ int main(int argc, char **argv)
 	double minDistanceToBorder {5.0};
 	bool verbose {false};
 	bool display3D {false};
-
-<<<<<<< HEAD
 	std::string nameImgDom {""};
 	std::string outputMeshName {"result.off"};
 	std::string exportDatName {""};
@@ -210,7 +208,6 @@ int main(int argc, char **argv)
 	app.add_option("-e,--export", exportDatName, "Output the 3D mesh", true);
 	app.add_option("-x,--exportXML", exportXMLName, "Output the resulting gaph as xml file", true);
 	app.add_flag("-s,--squaredDom",squaredImplDomain , "Use a squared implicit domain instead a sphere (is used only without --organDomain)");
-=======
   app.add_option("-n,--nbTerm,1", nbTerm, "Set the number of terminal segments.", true);
   app.add_option("-a,--aPerf,2", aPerf, "The value of perfusion volume.", true);
   app.add_option("-g,--gamma", gamma, "The value of the gamma parameter.", true);
@@ -222,7 +219,6 @@ int main(int argc, char **argv)
   app.add_flag("-s,--squaredDom",squaredImplDomain , "Use a squared implicit domain instead a sphere (is used only without --organDomain)");
   auto pInit = app.add_option("-p,--posInit", postInitV, "Initial position of root, if not given the position of point is determined from the image center")
     ->expected(3);
->>>>>>> 4c3d98da512654af7a4186e60cc0e603b048a07f
 
 	auto pInit = app.add_option("-p,--posInit", postInitV, "Initial position of root, if not given the position of point is determined from the image center")
 	->expected(3);

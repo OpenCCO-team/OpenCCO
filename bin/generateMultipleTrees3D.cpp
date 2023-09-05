@@ -1,4 +1,7 @@
 #include <iostream>
+
+#include "CLI11.hpp"
+
 #include "CohabitingTrees.h"
 #include "ExpandTreeHelpers.h"
 

@@ -82,7 +82,6 @@ int main(int argc, char *const *argv)
 	clock_t start, end;
 	srand ((int) time(NULL));
 
-<<<<<<< HEAD
 	// parse command line using CLI ----------------------------------------------
 	CLI::App app;
 	int nbTerm {1000};
@@ -127,7 +126,6 @@ int main(int argc, char *const *argv)
 		{
 			aDomCtr = TImgContrl(nameImgDom, 128, 100);
 		}
-=======
     // parse command line using CLI ----------------------------------------------
     CLI::App app;
     int nbTerm {1000};
@@ -215,7 +213,6 @@ int main(int argc, char *const *argv)
         constructTreeImplicitDomain(tree, exportXMLName, verbose);
         end = clock();
         printf ("Execution time: %0.8f sec\n", ((double) end - start)/CLOCKS_PER_SEC);
->>>>>>> 4c3d98da512654af7a4186e60cc0e603b048a07f
 
 		aDomCtr.myMinDistanceToBorder = minDistanceToBorder;
 		TTree tree  (aPerf, nbTerm, aDomCtr,  1.0);
