@@ -9,10 +9,10 @@
 
 
 template<typename CohabTrees>
-void constructTrees(CohabTrees & trees, std::string outname)
+void constructTrees(CohabTrees & trees, std::string outname, bool verbose)
 {
 	const auto start = std::chrono::steady_clock::now();
-	ExpandTreeHelpers::expandCohabitingTrees(trees);
+	ExpandTreeHelpers::expandCohabitingTrees(trees, 200, 100, verbose);
 	const auto end = std::chrono::steady_clock::now();
 
 	const std::chrono::duration<double> expansion_time = end - start;
@@ -87,7 +87,7 @@ int main(int argc, char **argv)
 
 			CohabitingTrees<SquareDomainCtrl<3>, 3> ctree(aPerf, terms, gamma, starting_points, square_domain);
 
-			constructTrees(ctree, exportXMLName);
+			constructTrees(ctree, exportXMLName, verbose);
 		}
 		else					// circular implicit domain
 		{
@@ -96,7 +96,7 @@ int main(int argc, char **argv)
 
 			CohabitingTrees<CircularDomainCtrl<3>, 3> ctree(aPerf, terms, gamma, starting_points, circle_domain);
 
-			constructTrees(ctree, exportXMLName);
+			constructTrees(ctree, exportXMLName, verbose);
 		}
 	}
 	else						// image mask domain
@@ -107,7 +107,7 @@ int main(int argc, char **argv)
 
 		CohabitingTrees<ImageMaskDomainCtrl<3>, 3> ctree(aPerf, terms, gamma, starting_points, mask_domain);
 	
-		constructTrees(ctree, exportXMLName);
+		constructTrees(ctree, exportXMLName, verbose);
 	}
 
 	return EXIT_SUCCESS;

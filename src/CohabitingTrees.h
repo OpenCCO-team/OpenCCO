@@ -46,6 +46,7 @@ public:
 			starting_points = firstN_CandidatePoints<DomCtr, TDim>(dom_ctr, n);
 		} 
 
+
 		// initialize first segment of trees so that they're not overlapping
 		for(std::size_t i = 0; i < n; i++)
 		{

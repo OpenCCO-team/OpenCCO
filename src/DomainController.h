@@ -462,7 +462,12 @@ ImageMaskDomainCtrl<2>::contours()
 	return vectContoursBdryPointels;
 }
 
-
+/**
+ * @brief A function that computes well-suited starter points for roots in a domain.
+ * @brief The points are evenly spread, around a sphere, whose radius is then adjusted to fit the domain.
+ * @param domain_controller The domain to fit the points in.
+ * @param n The desired number of points
+ **/
 template<class DomCtr, int TDim>
 std::vector< PointI<TDim> >
 firstN_CandidatePoints(const DomCtr & domain_controller, unsigned int n)
