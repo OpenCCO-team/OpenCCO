@@ -117,6 +117,29 @@ The following commands permits to generate a vascular tree starting with a speci
 You will obtain such type of visualisation:
 <img width="912" alt="Capture d’écran 2023-04-03 à 02 58 25" src="https://user-images.githubusercontent.com/772865/229389571-ccac9ca2-a560-4b1b-acce-7ce9d825efa5.png">
 
+## Rendering tools usage
+
+There are some tools to produce renders of the generated vascular trees, located in `tools/renderers/`.
+They are : 
+* flowRenderer
+* realisticRenderer
+* skeletonRenderer
+* animationRenderer
+
+### Usage of rendering tools
+
+To use the rendering tools, you need the data (`*.xml` file) produced by `generateTree2D`, `generateTree3D` or `generateMultipleTrees3D` (the last is an addition from the internship). 
+1. Extract the data from the `*.xml` file into three graph files (you may need to compile the swift tool `tools/graphAnalysis/SrcXml2graph/xml2graph.swift`) :
+```
+./build/tools/xml2graph tree_2D.xml 2D
+```
+2. Use the rendering tool :
+```
+./build/tools/renderers/flowRenderer -v 2D_vertex.dat -e 2D_edges.dat -r 2D_radius.dat
+```
+
+The tools have a variety of options, you can check them with `./flowRenderer --help`.
+
 For more details see IPOL Journal article available here: 
  http://dx.doi.org/10.5201/ipol.xxx
 # Acknowledgements
