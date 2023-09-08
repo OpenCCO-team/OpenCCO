@@ -40,12 +40,12 @@ class TreeTest: public CoronaryArteryTree<ImageMaskDomainCtrl<2>, 2>
 {
 public:
     bool hasNearestIntersections(unsigned int indexPFather,
-                                                 unsigned int indexPChild,
-                                                 const TPointD &pAdded,
-                                                 const TPointD &pBifurcation, unsigned int n) const{
+                                 unsigned int indexPChild,
+                                 const PointD<2> &pAdded,
+                                 const PointD<2> &pBifurcation, unsigned int n) const{
        std::vector<unsigned int> near = getN_NearestSegments(pAdded, n);
-       TPointD p0  = myVectSegments[indexPFather].myCoordinate;
-       TPointD p1  = myVectSegments[indexPChild].myCoordinate;
+       PointD<2> p0  = myVectSegments[indexPFather].myCoordinate;
+       PointD<2> p1  = myVectSegments[indexPChild].myCoordinate;
 
        for (const auto &s : near){
          // ignoring self initial segment.
@@ -67,9 +67,9 @@ public:
      }
 
     bool
-    hasNearestIntersections(const TPointD &p0,
-                                                const TPointD &p1, unsigned int n) const {
-      TPointD b = (p1+p0)/2;
+    hasNearestIntersections(const PointD<2> &p0,
+                                                const PointD<2> &p1, unsigned int n) const {
+      PointD<2> b = (p1+p0)/2;
       std::vector<unsigned int> near = getN_NearestSegments(b, n);
       for (const auto &s : near){
         if (GeomHelpers::hasIntersection(p0, p1, myVectSegments[s].myCoordinate,
@@ -83,14 +83,14 @@ public:
 
     // Constructor do nothing mainly used for specific test
     TreeTest(ImageMaskDomainCtrl<2> &ctr, double r=1.0 ): CoronaryArteryTree(ctr){
-        myTreeCenter = TPointD::diagonal(0);
+        myTreeCenter = PointD<2>::diagonal(0);
         myRsupp = r;
         my_aPerf = 1.0;
         my_NTerm = 1;
         // Construction of the special root segment
         Segment s;
         s.myRadius = 1.0;
-        s.myCoordinate = TPointD(0,r);//ptRoot;
+        s.myCoordinate = PointD<2>(0,r);//ptRoot;
         s.myIndex = 0;
         myVectSegments.push_back(s);
         myVectParent.push_back(0); //if parent index is itsef it is the root (special segment of length 0).
@@ -100,7 +100,7 @@ public:
         // Construction of the first segment after the root
         Segment s1;
         s1.myRadius = 1.0;
-        s1.myCoordinate = TPointD::diagonal(0);
+        s1.myCoordinate = PointD<2>::diagonal(0);
         s1.myIndex = 1;
         myVectSegments.push_back(s1);
         myVectTerminals.push_back(1);
@@ -112,7 +112,7 @@ public:
      * Constructor used mainly in testCompCCO
      */
     
-    TreeTest(const TPointD &ptCenter, const TPointD &ptRoot, const TPointD &ptTerm, unsigned int nTerm,  ImageMaskDomainCtrl<2> &ctr , double aRadius = 1.0 ): CoronaryArteryTree(ctr){
+    TreeTest(const PointD<2> &ptCenter, const PointD<2> &ptRoot, const PointD<2> &ptTerm, unsigned int nTerm,  ImageMaskDomainCtrl<2> &ctr , double aRadius = 1.0 ): CoronaryArteryTree(ctr){
         assert(nTerm>=1);
         myTreeCenter = ptCenter;
         my_rPerf = (ptCenter - ptRoot).norm();
@@ -168,10 +168,10 @@ public:
    * @param nTerm: number of terminal segments.
    **/
   
-  TreeTest(const TPointD &ptRoot, double aPerf, unsigned int nTerm,
+  TreeTest(const PointD<2> &ptRoot, double aPerf, unsigned int nTerm,
            ImageMaskDomainCtrl<2> &ctr,double aRadius = 1.0 ): CoronaryArteryTree(ctr){
     assert(nTerm>=1);
-    myTreeCenter = TPointD::diagonal(0.0);
+    myTreeCenter = PointD<2>::diagonal(0.0);
     myRsupp = sqrt(aPerf/(nTerm*M_PI));
     my_rPerf = sqrt(aPerf/M_PI);
     
@@ -216,10 +216,10 @@ public:
   };
   
     bool
-    addSegmentFromPoint(const TPointD &p,
+    addSegmentFromPoint(const PointD<2> &p,
                         unsigned int nearIndex)
     {
-      TPointD newCenter = findBarycenter(p, nearIndex);
+      PointD<2> newCenter = findBarycenter(p, nearIndex);
       bool inter = hasNearestIntersections(myVectParent[nearIndex], nearIndex, p, newCenter,  10);
       double minDistance = 5.0;
       if (inter){
@@ -320,11 +320,11 @@ public:
     bool
     hasNearestIntersections(unsigned int indexPFather,
                                                  unsigned int indexPChild,
-                                                 const TPointD &pAdded,
-                                                 const TPointD &pBifurcation, unsigned int n) const{
+                                                 const PointD<2> &pAdded,
+                                                 const PointD<2> &pBifurcation, unsigned int n) const{
        std::vector<unsigned int> near = getN_NearestSegments(pAdded, n);
-       TPointD p0  = myVectSegments[indexPFather].myCoordinate;
-       TPointD p1  = myVectSegments[indexPChild].myCoordinate;
+       PointD<2> p0  = myVectSegments[indexPFather].myCoordinate;
+       PointD<2> p1  = myVectSegments[indexPChild].myCoordinate;
 
        for (const auto &s : near){
          // ignoring self initial segment.
@@ -345,9 +345,9 @@ public:
 
      }
 
-   bool  hasNearestIntersections(const TPointD &p0,
-                                                const TPointD &p1, unsigned int n) const {
-      TPointD b = (p1+p0)/2;
+   bool  hasNearestIntersections(const PointD<2> &p0,
+                                 const PointD<2> &p1, unsigned int n) const {
+      PointD<2> b = (p1+p0)/2;
       std::vector<unsigned int> near = getN_NearestSegments(b, n);
       for (const auto &s : near){
         if (GeomHelpers::hasIntersection(p0, p1, myVectSegments[s].myCoordinate,
@@ -360,14 +360,14 @@ public:
     }
     // Constructor do nothing mainly used for specific test
     TreeTestCirc(CircularDomainCtrl<2> &ctr, double r=1.0): CoronaryArteryTree(ctr){
-        myTreeCenter = TPointD::diagonal(0);
+        myTreeCenter = PointD<2>::diagonal(0);
         myRsupp = r;
         my_aPerf = 1.0;
         my_NTerm = 1;
         // Construction of the special root segment
         Segment s;
         s.myRadius = 1.0;
-        s.myCoordinate = TPointD(0,r);//ptRoot;
+        s.myCoordinate = PointD<2>(0,r);//ptRoot;
         s.myIndex = 0;
         myVectSegments.push_back(s);
         myVectParent.push_back(0); //if parent index is itsef it is the root (special segment of length 0).
@@ -377,7 +377,7 @@ public:
         // Construction of the first segment after the root
         Segment s1;
         s1.myRadius = 1.0;
-        s1.myCoordinate = TPointD::diagonal(0);
+        s1.myCoordinate = PointD<2>::diagonal(0);
         s1.myIndex = 1;
         myVectSegments.push_back(s1);
         myVectTerminals.push_back(1);
@@ -389,7 +389,7 @@ public:
      * Constructor used mainly in testCompCCO
      */
     
-    TreeTestCirc(const TPointD &ptCenter, const TPointD &ptRoot, const TPointD &ptTerm, unsigned int nTerm,  CircularDomainCtrl<2> &ctr, double aRadius = 1.0 ): CoronaryArteryTree(ctr){
+    TreeTestCirc(const PointD<2> &ptCenter, const PointD<2> &ptRoot, const PointD<2> &ptTerm, unsigned int nTerm,  CircularDomainCtrl<2> &ctr, double aRadius = 1.0 ): CoronaryArteryTree(ctr){
         assert(nTerm>=1);
         myTreeCenter = ptCenter;
         my_rPerf = (ptCenter - ptRoot).norm();
@@ -436,10 +436,10 @@ public:
         DGtal::trace.info() << "Construction initialized..." << std::endl;
       };
     
-    TreeTestCirc(const TPointD &ptRoot, double aPerf, unsigned int nTerm,
+    TreeTestCirc(const PointD<2> &ptRoot, double aPerf, unsigned int nTerm,
                  CircularDomainCtrl<2> &ctr, double aRadius = 1.0 ): CoronaryArteryTree(ctr){
       assert(nTerm>=1);
-      myTreeCenter = TPointD::diagonal(0.0);
+      myTreeCenter = PointD<2>::diagonal(0.0);
       myRsupp = sqrt(aPerf/(nTerm*M_PI));
       my_rPerf = sqrt(aPerf/M_PI);
       
@@ -483,10 +483,10 @@ public:
       DGtal::trace.info() << "Construction initialized..." << std::endl;
     };
     bool
-    addSegmentFromPoint(const TPointD &p,
+    addSegmentFromPoint(const PointD<2> &p,
                         unsigned int nearIndex)
     {
-      TPointD newCenter = findBarycenter(p, nearIndex);
+      PointD<2> newCenter = findBarycenter(p, nearIndex);
       bool inter = hasNearestIntersections(myVectParent[nearIndex], nearIndex, p, newCenter,  10);
       double minDistance = 5.0;
       if (inter){

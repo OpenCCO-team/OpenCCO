@@ -1,10 +1,11 @@
 SET(BIN_SRC
-  generateTree2D
-  generateTree3D
+	generateTree2D
+	generateTree3D
+  generateMultipleTrees3D
 )
 
 FOREACH(FILE ${BIN_SRC})
-  add_executable(${FILE} ${FILE}.cpp ${SOURCE_BASE_FILES} ${SOURCE_BASE_HEADER_FILES} )
-  target_link_libraries (${FILE} ${CERES_LIBRARIES} ${DGTAL_LIBRARIES} )
+  add_executable(${FILE} ${FILE}.cpp ${SOURCE_BASE_FILES} ${SOURCE_BASE_HEADER_FILES})
+  target_link_libraries (${FILE} ${CERES_LIBRARIES} ${DGTAL_LIBRARIES})
 ENDFOREACH(FILE)
 #target_compile_definitions(testGeom PUBLIC SAMPLE_DIR="${PROJECT_SOURCE_DIR}/samples/")

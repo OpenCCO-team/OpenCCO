@@ -35,7 +35,7 @@ int main(int argc, char *const *argv)
   start = clock();
   // 1. Type definition, of domain controller and tree.
   typedef ImageMaskDomainCtrl<2> TImgContrl;
-  typedef  CoronaryArteryTree<TImgContrl, 2> TTreeMaskDom;
+  typedef CoronaryArteryTree<TImgContrl, 2> TTreeMaskDom;
   
   // 2. Domain controller construction
   TImgContrl aDomCtr = TImgContrl(nameImgDom, 128, 100);
@@ -44,7 +44,7 @@ int main(int argc, char *const *argv)
   TTreeMaskDom tree  (aPerf, nbTerm, aDomCtr);
 
   // 5. Tree construction
-  ExpandTreeHelpers::initFirtElemTree(tree, true);
+  ExpandTreeHelpers::initFirstElemTree(tree, true);
   ExpandTreeHelpers::expandTree(tree, true);
   
   // 5. exporting the result
@@ -62,13 +62,13 @@ int main(int argc, char *const *argv)
   typedef CoronaryArteryTree<ImplicitContrl, 2> TTreeCircDom;
 
   // 2. Domain controller construction
-  ImplicitContrl aDomCtrImp(1.0, TImgContrl::TPoint(0,0));
+  ImplicitContrl aDomCtrImp(1.0, PointD<2>(0,0));
 
   // 3. Tree construction using center
   TTreeCircDom treeImpl (aPerf, nbTerm, aDomCtrImp);
 
   // 4. Tree expansion
-  ExpandTreeHelpers::initFirtElemTree(treeImpl, true);
+  ExpandTreeHelpers::initFirstElemTree(treeImpl, true);
   ExpandTreeHelpers::expandTree(treeImpl, true);
 
   // 5. Tree export

@@ -89,7 +89,7 @@ testCompareResult(int NTerm, int seed)
                                                        cTree.myVectSegments[vecN.at(it)].myRadius,
                                                        vecN.at(it))) {
                              TTreeCircDom cTree1 = cTree;
-                 isOK = cTree1.isAddable(pt,vecN.at(it), 100, 0.01, cTree1.myNumNeighbor, true);
+                 isOK = cTree1.isAddable(pt,vecN.at(it), 100, 0.01, true);
                  if(isOK) {
                    vol = cTree1.computeTotalVolume(1);
                    if(volOpt<0.0) {

@@ -86,21 +86,21 @@ class XMLGraphParse : NSObject, XMLParserDelegate {
     }
     
     func parser(_ parser: XMLParser, didStartElement elementName: String, namespaceURI: String?, qualifiedName qName: String?, attributes attributeDict: [String : String] = [:]) {
-        if elementName == "attr" && attributeDict["name"] == " pPerf"{
+        if elementName == "attr" && attributeDict["name"] == "pPerf"{
             readPPerf = true
         }
-        if elementName == "attr" && attributeDict["name"] == " pTerm"{
+        if elementName == "attr" && attributeDict["name"] == "pTerm"{
             readPTerm = true
         }
         if myCurrentEdge != nil {
-            if elementName == "attr" && attributeDict["name"] == " radius"{
+            if elementName == "attr" && attributeDict["name"] == "radius"{
                 readRadius = true
             }
            
-            if elementName == "attr" && attributeDict["name"] == " flow"{
+            if elementName == "attr" && attributeDict["name"] == "flow"{
                 readFlow = true
             }
-            if elementName == "attr" && attributeDict["name"] == " resistance"{
+            if elementName == "attr" && attributeDict["name"] == "resistance"{
                 readResist = true
             }
         }

@@ -15,10 +15,10 @@
  */
 int main(int argc, char *const *argv)
 {
-    typedef CircularDomainCtrl<2> ImplicitContrl;
-    typedef ImageMaskDomainCtrl<2> MaskContrl;
+  typedef CircularDomainCtrl<2> ImplicitContrl;
+  typedef ImageMaskDomainCtrl<2> MaskContrl;
 
-    typedef  CoronaryArteryTree<ImplicitContrl, 2> TTree;
+  typedef  CoronaryArteryTree<ImplicitContrl, 2> TTree;
 
   DGtal::trace.beginBlock("esting base constructor with initial segment (should give a first random segment).");
   double aPerf = 2000;
@@ -94,8 +94,9 @@ int main(int argc, char *const *argv)
   aPerf = 2000;
     TreeTestCirc cRand(DGtal::Z2i::RealPoint(0, sqrt(aPerf/M_PI)), aPerf, 1000, ic);
   
-  for (unsigned int i = 0; i < 1000; i++){
-      TreeTestCirc::TPointD pt = cRand.myDomainController().randomPoint();
+  for (unsigned int i = 0; i < 1000; i++)
+  {
+    PointD<2> pt = cRand.myDomainController().randomPoint();
     
     nearest = cRand.getNearestSegment(pt);
     cRand.addSegmentFromPoint(pt, nearest);
@@ -132,7 +133,7 @@ int main(int argc, char *const *argv)
   
   for (unsigned int i = 0; i < 50; i++){
     DGtal::trace.progressBar(i, 50);
-      TreeTest::TPointD pt = cRand2.generateNewLocation(100);
+    PointD<2> pt = cRand2.generateNewLocation(100);
     //std::cout <<"myCurrAPerf: " <<  cRand2.myCurrAPerf << std::endl;
     //std::cout <<"myDThresold: " <<  cRand2.myDThresold << std::endl;
 
@@ -145,25 +146,29 @@ int main(int argc, char *const *argv)
   cRand2.exportBoardDisplay("testRandomAdd2.eps", 1.0, true);
   
   DGtal::trace.endBlock();
-  TreeTest::TPointD pC = cRand2.myVectSegments.back().myCoordinate;
+  PointD<2> pC = cRand2.myVectSegments.back().myCoordinate;
   DGtal::trace.beginBlock("Testing class CoronaryArteryTree: test get nearest neighbordhood");
   std::vector<unsigned int > nNearest = cRand2.getN_NearestSegments(pC, 15);
   DGtal::trace.info() << "Nearest size() :" << nNearest.size() << std::endl;
-  for (unsigned int i = 0; i < nNearest.size(); i++) {
+
+  for (unsigned int i = 0; i < nNearest.size(); i++)
+  {
     DGtal::trace.info() << "Nearest elem :" << nNearest[i] << " "
-                 << cRand2.myVectSegments[nNearest[i]].myCoordinate << " "
-                 <<"distance: " << (cRand2.myVectSegments[nNearest[i]].myCoordinate - TreeTest::TPointD(0,0)).norm()<<   std::endl;
+       << cRand2.myVectSegments[nNearest[i]].myCoordinate << " "
+       <<"distance: " << (cRand2.myVectSegments[nNearest[i]].myCoordinate - PointD<2>(0,0)).norm() << std::endl;
   }
+
   cRand2.myBoard.setFillColor(DGtal::Color::Cyan);
   cRand2.myBoard.drawCircle(pC[0], pC[1], 1, 0);
   cRand2.myBoard.setLineWidth(50);
 
-  
-  for (auto i : nNearest){
+  for (auto i : nNearest)
+  {
     cRand2.myBoard.drawLine(cRand2.myVectSegments[i].myCoordinate[0],
                             cRand2.myVectSegments[i].myCoordinate[1],
                             pC[0], pC[1]);
   }
+
   cRand2.exportBoardDisplay("testRandomAdd3.svg", 1.0, false);
   cRand2.exportBoardDisplay("testRandomAdd3.eps", 1.0, false);
   DGtal::trace.endBlock();
@@ -172,26 +177,30 @@ int main(int argc, char *const *argv)
   DGtal::trace.beginBlock("Testing class CoronaryArteryTree: test last leaf to root display path");
   //CoronaryArteryTree cRand3 (DGtal::Z2i::RealPoint(0, 250), 20000000, 100);
   aPerf = 20000000;
-    TreeTestCirc cRand3(DGtal::Z2i::RealPoint(0, sqrt(aPerf/M_PI)), aPerf, 1000, ic);
+  TreeTestCirc cRand3(DGtal::Z2i::RealPoint(0, sqrt(aPerf/M_PI)), aPerf, 1000, ic);
   
-  for (unsigned int i = 0; i < 1000; i++){
+  for (unsigned int i = 0; i < 1000; i++)
+  {
     DGtal::trace.progressBar(i, 1000);
-    TreeTest::TPointD pt = cRand3.generateNewLocation(100);
+    PointD<2> pt = cRand3.generateNewLocation(100);
     nearest = cRand3.getNearestSegment(pt);
     cRand3.addSegmentFromPoint(pt, nearest);
   }
+
   cRand3.boardDisplay();
   v = cRand3.getPathToRoot(cRand3.myVectSegments[cRand3.myVectSegments.size()-1]);
   cRand3.myBoard.setLineWidth(20.0);
   cRand3.myBoard.setPenColor(DGtal::Color::Yellow);
   cRand3.myBoard.setFillColor(DGtal::Color::Yellow);
 
-  for (unsigned int u : v){
+  for (unsigned int u : v)
+  {
     auto seg = cRand3.myVectSegments[u];
     auto seg2 = cRand3.myVectSegments[cRand3.myVectParent[seg.myIndex]];
     cRand3.myBoard.drawLine(seg.myCoordinate[0], seg.myCoordinate[1],
                        seg2.myCoordinate[0], seg2.myCoordinate[1], 0);
   }
+  
   cRand3.exportBoardDisplay("testRandomAdd3.svg", 1.0, false);
   cRand3.exportBoardDisplay("testRandomAdd3.eps", 1.0, false);
   

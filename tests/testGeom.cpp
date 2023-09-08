@@ -85,7 +85,7 @@ int main(int argc, char *const *argv)
                    DGtal::Z2i::RealPoint (0,  0), 100, ic);
   for (unsigned int i = 0; i < 100; i++){
     DGtal::trace.progressBar(i, 100);
-    TreeTestCirc::TPointD pt = cIntersec.generateNewLocation(100);
+    PointD<2> pt = cIntersec.generateNewLocation(100);
     auto nearest = cIntersec.getNearestSegment(pt);
     cIntersec.addSegmentFromPoint(pt, nearest);
   }
@@ -105,21 +105,21 @@ int main(int argc, char *const *argv)
   DGtal::Z2i::RealPoint p1 (10, 0);
   DGtal::Z2i::RealPoint p2 (5.3, 15.3);
   DGtal::Z2i::RealPoint pProj (0, 0);
-  bool in = GeomHelpers::projectOnStraightLine(p0, p1, p2, pProj);
+  bool in = GeomHelpers::projectOnStraightLine<2>(p0, p1, p2, pProj);
   DGtal::trace.info() << "Test intersecting segments pProj " << pProj
   << " should be (5.3, 0) " << (pProj ==  DGtal::Z2i::RealPoint(5.3, 0) && in ? "OK": "KO")  << std::endl;
   DGtal::Z2i::RealPoint pp0 (0,  0);
   DGtal::Z2i::RealPoint pp1 (3, 3);
   DGtal::Z2i::RealPoint pp2 (0, 2);
   DGtal::Z2i::RealPoint ppProj (0, 0);
-  in = GeomHelpers::projectOnStraightLine(pp0, pp1, pp2, ppProj);
+  in = GeomHelpers::projectOnStraightLine<2>(pp0, pp1, pp2, ppProj);
   DGtal::trace.info() << "Test intersecting segments ppProj " << ppProj
   << " should be (1, 1) " << (((ppProj - DGtal::Z2i::RealPoint(1.0, 1.0)).norm() < 0.000001) && in ? "OK": "KO")  << std::endl;
   DGtal::Z2i::RealPoint ppp0 (0,  0);
   DGtal::Z2i::RealPoint ppp1 (3, 3);
   DGtal::Z2i::RealPoint ppp2 (4, 4);
   DGtal::Z2i::RealPoint pppProj (0, 0);
-  in = GeomHelpers::projectOnStraightLine(ppp0, ppp1, ppp2, pppProj);
+  in = GeomHelpers::projectOnStraightLine<2>(ppp0, ppp1, ppp2, pppProj);
   DGtal::trace.info() << "Test intersecting segments pppProj no inside " << pppProj
   << " should be in pppProj " << (((pppProj - DGtal::Z2i::RealPoint(4.0, 4.0)).norm() < 0.000001) && !in ? "OK": "KO")  << std::endl;
   DGtal::trace.endBlock();
@@ -146,7 +146,7 @@ int main(int argc, char *const *argv)
   std::cout << "ressource:"  << resource_dir << std::endl;
   std::stringstream ss;
   ss << resource_dir <<"shape.pgm";
-  MaskContrl mContr (ss.str(), 128,MaskContrl::TPointI(0,0));
+  MaskContrl mContr (ss.str(), 128, PointI<2>(0,0));
   TTree::Image img = DGtal::GenericReader<TTree::Image>::import(ss.str());
   bool checkDomInter = mContr.checkNoIntersectDomain( DGtal::Z2i::Point(264,196),
                                                      DGtal::Z2i::Point(438,225));

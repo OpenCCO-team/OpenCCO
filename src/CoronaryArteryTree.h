@@ -57,7 +57,7 @@ using ceres::Solver;
 /**
  * Description of class 'CoronaryArteryTree' <p>
  *
- * @brief Class to represent and construct a Coronary Artery Tree using throught the CCO algorithm.
+ * @brief Class to represent and construct a Coronary Artery Tree used through the CCO algorithm.
  *
  *
  */
@@ -65,30 +65,27 @@ using ceres::Solver;
 template <class DomCtr, int TDim>
 class CoronaryArteryTree{
     /**
-     * Class to handle the reprensetation of the coronary tree.
+     * Class to handle the representation of the coronary tree.
      */
 public:
     // Domain
-    typedef DGtal::SpaceND< TDim, int >   SpaceCT;
-    typedef DGtal::HyperRectDomain<SpaceCT> DomCT;
-    typedef DGtal::PointVector<TDim, int> TPoint;
-    typedef DGtal::PointVector<TDim, double> TPointD;
+    typedef DGtal::HyperRectDomain< Space< PointI<TDim> > > DomCT;
     
     // Represent the left and right
-    typedef std::pair<unsigned int, unsigned int> SegmentChildren;
+    typedef std::pair<std::size_t, std::size_t> SegmentChildren;
     typedef typename DGtal::ImageSelector < DomCT, unsigned char>::Type Image;
     typedef DGtal::ImageContainerBySTLVector< DomCT, int> ImageDist;
     
     struct Segment{
         // Distal point of the segment.
-        TPointD myCoordinate;
+        PointD<TDim> myCoordinate;
         // index in the vectSegments.
         unsigned int myIndex = 0;
         // radius of the tubular section.
         double myRadius = 1.0;
         // number of terminal segments in its children segment
         unsigned int myKTerm = 1;
-        // hydrodynamc registance (R star)
+        // hydrodynamc resistance (R star)
         double myResistance = 0.00;
         // flow (Qi)
         double myFlow = 0.00;
@@ -98,7 +95,7 @@ public:
     
     // to recover the Children left (first) and right (second) on an indexed segment.
     std::vector< SegmentChildren >  myVectChildren;
-    // to recover the parent of an indexed segement
+    // to recover the parent of an indexed segment
     std::vector<unsigned int >  myVectParent;
     // represents all the vertices of the graph
     std::vector< Segment > myVectSegments;
@@ -120,7 +117,7 @@ public:
         // my_pPerf perfusion pressure
         double my_pPerf = 1.33e4; //13300.0;
         
-        // my_pTerm pressure et distal ends of terminal segment
+        // my_pTerm pressure at distal ends of terminal segment
         double my_pTerm = 8.40e3;
         
         // my_qTerm flow in one terminal segment
@@ -149,7 +146,7 @@ public:
         double myRsupp = 0.0;
         
         // myTreeCenter: coordinate of the tree center used to define the main domain.
-        TPointD myTreeCenter;
+        PointD<TDim> myTreeCenter;
         
         // myNumNeighbor : represents the number of nearest neighbours to be tested
         unsigned int myNumNeighbor = 20;
@@ -177,26 +174,30 @@ public:
     
     // Constructor do nothing mainly used for specific test
     CoronaryArteryTree(DomCtr &aDomCtr): myDomainController_(aDomCtr){}
+
     /**
      * @brief Default constructor.
      * @brief It generates the first root segment with tree center as the first terminal point.
      * @param aPerf: surface of the perfusion.
      * @param nTerm: number of terminal segments.
      **/
-    
     CoronaryArteryTree(double aPerf, unsigned int nTerm,  DomCtr &aDomCtr,
                        double aRadius = 1.0): myDomainController_(aDomCtr) {
         assert(nTerm>=1);
         
-        for (auto i=0; i < TDim; i++){myTreeCenter[i]=aDomCtr.myCenter[i];}
-        if(TDim==2) {
+        for (std::size_t i=0; i < TDim; i++) { myTreeCenter[i]=aDomCtr.myCenter[i]; }
+        
+        if(TDim==2)
+        {
             myRsupp = sqrt(aPerf/(nTerm*M_PI));
             my_rPerf = sqrt(aPerf/M_PI);
         }
-        else {//TDim==3
+        else //TDim==3
+        {
             myRsupp = pow(3.0*aPerf/(4.0*M_PI*nTerm),1.0/3.0);
             my_rPerf = pow(3.0*aPerf/(4.0*M_PI),1.0/3.0);
         }
+
         my_aPerf = aPerf;
         my_NTerm = nTerm;
         my_qTerm = my_qPerf / my_NTerm;
@@ -206,7 +207,7 @@ public:
         //myDThresold = sqrt(M_PI*myRsupp*myRsupp/myKTerm);
         
         // Construction of the special root segment
-        TPointD ptRoot = myTreeCenter;
+        PointD<TDim> ptRoot = myTreeCenter;
         ptRoot[1] += my_rPerf;// Point2D(0,my_rPerf);
         Segment s;
         s.myRadius = aRadius;
@@ -231,7 +232,7 @@ public:
         
         myVectSegments.push_back(s1);
         myVectTerminals.push_back(1);
-        myVectParent.push_back(0); //if parent index is the root
+        myVectParent.push_back(0); // parent index is the root
         myVectChildren.push_back(std::pair<unsigned int, unsigned int>(0,0)); // if children index is itself, it is an end segment.
         updateRootRadius();
         
@@ -240,15 +241,18 @@ public:
         {
             aDomCtr.myRadius = my_rPerf;
         }
-        if(aDomCtr.randomPoint() == TPoint::diagonal(0) )
+        
+        if(aDomCtr.randomPoint() == PointI<TDim>::diagonal(0) )
         {
-            DGtal::trace.error() << "Domain too restraint not possible to find random"
-            << " candidate in domain (probably reduce the minimal distance to border"
+            DGtal::trace.error() << "Domain too restrained, not possible to find random"
+            << " candidate in domain (probably reduce the minimal distance to border)"
             << std::endl;
             exit(1);
         }
 
         DGtal::trace.info() << "Construction initialized..." << std::endl;
+
+        myBoard.setLineCap(LibBoard::Shape::LineCap::RoundCap);
     };
     
     
@@ -259,21 +263,20 @@ public:
     
   
     /**
-     * Tries to add a new segment from a given point and a nearest segement given by index.
+     * Tries to add a new segment from a given point and a nearest segment given by index.
      * @param p the extremity of the new segment to be created
-     * @param segIndex the index of the near segement to p.
+     * @param segIndex the index of the near segment to p.
      * @param nbIter maximal number of iteration
-     * @param tolerance convegence boundary for tree volume gradient
+     * @param tolerance convergence boundary for tree volume gradient
      * @param nbNeibour number of neighbours to be considered for intersecting test
      * @param verbose used to display process algorithm  informations.
-     * @return true of the new segment is created, false in the other case.
+     * @return true if the new segment is created, false in the other case.
      * (for instance if an intersection to previous point was present)
      **/
-    bool isAddable(const TPointD &p,
+    bool isAddable(const PointD<TDim> &p,
                    unsigned int segIndex,
                    unsigned int nbIter,
                    double tolerance,
-                   unsigned int nbNeibour = 10,
                    bool verbose = true);
     
     /**
@@ -283,10 +286,10 @@ public:
        * @param ptA the second point
        * @param r : radius of the thick segment
        */
-      bool isIntersectingTree(const TPointD &ptA,
-                              const TPointD &ptB,
-                              double r,
-                              unsigned int idSeg) const;
+    bool isIntersectingTree(const PointD<TDim> &ptA,
+                            const PointD<TDim> &ptB,
+                            double r,
+                            unsigned int idSeg) const;
     /**
      * Verifies if there is an intersection between a thick segment defined by two points
      * and all other segments of the tree, except the segments given in idExcept
@@ -295,8 +298,8 @@ public:
      * @param r : radius of the thick segment
      * @param idExcept: indices of three segments to ignore
      */
-    bool isIntersectingTree(const TPointD &ptA,
-                            const TPointD &ptB,
+    bool isIntersectingTree(const PointD<TDim> &ptA,
+                            const PointD<TDim> &ptB,
                             double r,
                             std::tuple<int, int, int> idExcept) const;
     
@@ -343,16 +346,16 @@ public:
     /**
      * Computes the nearest segment of the given point
      * @param pt: a point
-     * @return the index of the nearest segement
+     * @return the index of the nearest segment
      */
-    unsigned int getNearestSegment(const TPointD &pt);
+    unsigned int getNearestSegment(const PointD<TDim> &pt);
     
     /**
      * Computes the barycenter of the given point and the two points of the segment
      * @param p: a point
-     * @param segIndex : the index of the segement used for the computation
+     * @param segIndex : the index of the segment used for the computation
      */
-    TPointD findBarycenter(const TPointD &p, unsigned int index);
+    PointD<TDim> findBarycenter(const PointD<TDim> &p, unsigned int index);
     
     /**
      * From a segment returns a vector of segment index representing the path to the root.
@@ -364,8 +367,7 @@ public:
      * @param nbTrials : number of trials before reducing the distance constaint value
      *
      */
-    
-    DGtal::PointVector<TDim, double>
+    PointD<TDim>
     generateNewLocation(unsigned int nbTrials = 1000);
     
     /**
@@ -373,27 +375,27 @@ public:
      * @param myDThresold : the distance constaint value
      * @return the generated point and a bool true if sucess and false othewise
      */
-    std::pair<DGtal::PointVector<TDim, double>, bool> generateALocation(double myDThresold);
+    std::pair<PointD<TDim>, bool> generateALocation(double myDThresold);
     
     /**
      * Computes the length of a segment represented with the index and mutiliplies by the length factor.
-     * @param segIndex : the index of the segement used for the comparison
+     * @param segIndex : the index of the segment used for the comparison
      */
     double getLengthSegment(unsigned int segIndex);
     
     /**
      * Computes the projected distance from a segment represented with the index  and the point given as argument.
-     * @param index : the index of the segement used for the comparison
+     * @param index : the index of the segment used for the comparison
      * @param p : a point
      */
-    double getProjDistance(unsigned int index, const TPointD &p) const;
+    double getProjDistance(unsigned int index, const PointD<TDim> &p) const;
     /**
      * Computes the projected distance from a segment represented with the index  and the point given as argument.
      * @param p0 : a point representing one extremity
      * @param p1 : a point representing another extremity
      * @param p : a point to be projected
      */
-    double getProjDistance(const TPointD &p0, const TPointD &p1, const TPointD &p) const;
+    double getProjDistance(const PointD<TDim> &p0, const PointD<TDim> &p1, const PointD<TDim> &p) const;
     
     /**
      * Check if a new added point is too close the nearest segment.
@@ -401,14 +403,14 @@ public:
      * @param minDist: min distance
      * @return true is a point is too close
      */
-    bool isToCloseFromNearest(const TPointD &p, double minDist) const;
+    bool isToCloseFromNearest(const PointD<TDim> &p, double minDist) const;
     
     /**
      * Computes the n nearest index of neighborhood segments  of a given point
      * @param p : the point considered to get the nearest point
      * @param n : the number of nearest point to be recovered
      */
-    std::vector<unsigned int> getN_NearestSegments(const TPointD &p,
+    std::vector<unsigned int> getN_NearestSegments(const PointD<TDim> &p,
                                                    unsigned int n) const;
     
     
@@ -432,13 +434,13 @@ public:
      * @param r1: output radius of the left segment
      * @param r2: output radius of the right segment
      */
-    bool kamyiaOptimization(const TPointD& pCurrent,
-                            const TPointD& pParent,
+    bool kamyiaOptimization(const PointD<TDim>& pCurrent,
+                            const PointD<TDim>& pParent,
                             double rCurrent,
                             const Segment &sL,
                             const Segment &sR,
                             unsigned int nbIter,
-                            TPointD& pOpt,
+                            PointD<TDim>& pOpt,
                             double& r0,
                             double& r1,
                             double& r2);
@@ -453,7 +455,7 @@ public:
      * Get the supported domain of the tree. By default it is defined from the circle center.
      * If the domain if defined from a mask image, the center if computed from the imate center.
      */
-    TPoint getDomainCenter() const;
+    PointI<TDim> getDomainCenter() const;
     
     
     /**
@@ -462,6 +464,10 @@ public:
     
     void boardDisplay(double thickness = 1,
                       bool clearDisplay = true);
+
+
+    void createPointInDomain(int nbpoints);
+
     void exportBoardDisplay(const std::string &fileName = "result.eps",
                             double thickness = 1,
                             bool updateDisplay = true,
@@ -477,11 +483,11 @@ public:
      *  @param[out] ptRoot the root point is updated if found.
      * @return true of the root point was found.
      */
-    //   bool searchRootFarthest(const double & d, TPointD &ptRoot );
+    //   bool searchRootFarthest(const double & d, PointD<TDim> &ptRoot );
     //   // 3d specialisation
-    //   bool searchRootFarthest3d(const double & d, TPointD &ptRoot );
+    //   bool searchRootFarthest3d(const double & d, PointD<TDim> &ptRoot );
     //   // 2d specialisation
-    //   bool searchRootFarthest2d(const double & d, TPointD &ptRoot );
+    //   bool searchRootFarthest2d(const double & d, PointD<TDim> &ptRoot );
     
     
 private:
