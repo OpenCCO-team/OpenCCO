@@ -12,12 +12,13 @@ EXEC=generateTree2D
 EXEC3D=generateTree3D
 IPOLDIR=$6
 FIRSTSEG=$7
-X0=$8
-Y0=$9
-Z0=${10}
-MINDISTBORDER=${11}
-IMPLICITETYPE=${12}
-IMPLICITEDIM=${13}
+MINDISTBORDER=${8}
+IMPLICITETYPE=0
+IMPLICITEDIM=0
+INPUTNAME2D=${orig_input_0}
+INPUTNAME3D=${orig_input_1}
+echo "" > algo_log.txt
+echo "algoProblem=0" >> algo_info.txt 
 
 function applyCommand
 {
@@ -27,24 +28,108 @@ function applyCommand
       eval ${!c}
       if [ $? -ne 0 ] 
       then
-          exit 1
+          echo "algoProblem=1" >> algo_info.txt 
       else
+          if test -s "algo_log.txt"
+          then
+              a=$(cat algo_log.txt | grep 'ImageMaskDomainCtrl: Initial point given as input is not in domain.' | wc -w | xargs)
+              if [ $a -ge 1 ]
+              then
+                  echo "algoInitManu=1" >> algo_info.txt 
+              fi
+              a=$(cat algo_log.txt | grep 'Domain too restraint not possible to find random candidate in domain' | wc -w | xargs)
+              if [ $a -ge 1 ]
+              then
+                  echo "algoProblem=1" >> algo_info.txt 
+              fi
+          fi
           echo "[done]"
       fi
   done
 }
 
+if test ! -s "$INPUT3DDom"
+then
+    INPUTDIM=3
+fi
 
-echo "INPUT3DDom = $INPUT3DDom"
-if [ $IMPLICITEDIM -eq 2 ]
+if test -f "$INPUT"
+then
+    INPUTDIM=2
+fi
+
+case $INPUTNAME2D in
+    ##  2D shape 1 
+    "e97fcd97f2d3a0c0e450e2f3c5b5eab401410d3c.jpg")
+      IMPLICITETYPE=0
+      INPUTDIM=2      
+    ;;
+
+    ##  2D shape 2
+    "cd256103ba8192575e1b207045aaff03ad426e3c.jpg")
+      IMPLICITETYPE=0
+      INPUTDIM=2      
+    ;;
+
+    ## square (implicit)
+    "05704513be217481f51ba5f7ac5d8b6022c90b52.png")
+      IMPLICITETYPE=2
+      INPUTDIM=2      
+      ;;
+    ## disk (implicit)
+    "babc4e2475a64382cb224402660e5a2ae2221739.png")
+      IMPLICITETYPE=1
+      INPUTDIM=2      
+      ;;
+     ## ball (implicit)
+    "7c636f1832132a7bc6b737934cee8b0d0a547cc5.png")
+      IMPLICITETYPE=1
+      INPUTDIM=3    
+      ;;
+    ## box (implicit)
+    "c891c555440275930d1c831acff5260a76e10d06.png")
+     IMPLICITETYPE=2
+     INPUTDIM=3  
+     ;;
+
+esac
+
+
+case $INPUTNAME3D in
+    ## 3D liver domain    
+    "3cdd37cb14ff74bb854e78ca6b9332da82a54089.bin")
+      IMPLICITETYPE=0
+      INPUTDIM=3      
+      ;;
+
+    ## 3D toy domain    
+    "ada61fd93c4a156cac2e121072c89632571d5296.bin")
+        echo "Toy domain"
+        IMPLICITETYPE=0
+        INPUTDIM=3
+        echo "INPUTDIM --${INPUTDIM}--"
+      ;;
+    
+    ##  3D 2 balls domain
+    "31d51c4f87273fe8c0f81d938cfbe608c8a87e46.bin")
+      IMPLICITETYPE=0
+      INPUTDIM=3      
+      ;;
+ 
+esac
+
+echo "------input dim =  ${INPUTDIM}------------------------------"
+echo "------input name0 =  ${INPUTNAME2D}------------------------------"
+echo "------input name1 =  ${INPUTNAME3D}------------------------------"
+
+if [ ${INPUTDIM} -eq 2 ] && [ $IMPLICITETYPE -ne 0 ]
 then
   echo "----------------------------------------"
   echo "-----Generating IMPLICIT 2D ------------"
   echo "----------------------------------------"
-
   
-  COMMANDGem2D2="${EXEC} -n ${NBTERM} -a ${APERF}  -x graphExport.xml -m ${MINDISTBORDER} >> algo_info.txt"
-  if [ $IMPLICITETYPE -eq 0 ]
+  COMMANDGem2D2="${EXEC} -n ${NBTERM} -a ${APERF}  -x graphExport.xml -m ${MINDISTBORDER} >> algo_info.txt 2> algo_log.txt"
+  if [ $IMPLICITETYPE -eq 2 ]
   then
       COMMANDGem2D2="$COMMANDGem2D2 -s"
   fi
@@ -53,7 +138,7 @@ then
   COMMANDGem2D3="convert -density 800 -resize ${width}x${height}  -crop ${width}x${height} result.svg result.png"
   applyCommand COMMANDGem2D1 COMMANDGem2D2 COMMANDGem2D3
   echo "algoDim=2" >> algo_info.txt 
-elif test -f "$INPUT"
+elif test -f "$INPUT" && [ ${INPUTDIM} -eq 2 ]
 then
   echo "----------------------------------------"
   echo "-----Generating 2D ---------------------"
@@ -63,22 +148,22 @@ then
   COMMANDGem2D1="convert ${INPUT} input.pgm"
   if [ $FIRSTSEG -eq 1 ]
      then 
-  COMMANDGem2D2="${EXEC} -n ${NBTERM} -a ${APERF}  -d input.pgm -x graphExport.xml -m ${MINDISTBORDER} >> algo_info.txt"
+  COMMANDGem2D2="${EXEC} -n ${NBTERM} -a ${APERF}  -d input.pgm -x graphExport.xml -m ${MINDISTBORDER} >> algo_info.txt 2> algo_log.txt"
   else
-  COMMANDGem2D2="${EXEC} -n ${NBTERM} -p $X0 $Y0 -a ${APERF}  -d input.pgm -x graphExport.xml -m ${MINDISTBORDER} >> algo_info.txt" 
+  COMMANDGem2D2="${EXEC} -n ${NBTERM} -p ${x0} ${y0} -a ${APERF}  -d input.pgm -x graphExport.xml -m ${MINDISTBORDER} >> algo_info.txt 2> algo_log.txt" 
   fi
   set $(identify -format '%w %h' ${INPUT})
   width=$1; height=$2
   COMMANDGem2D3="convert -density 400 -resize ${width}x${height}  -crop ${width}x${height} result.svg result.png"
   applyCommand COMMANDGem2D1 COMMANDGem2D2 COMMANDGem2D3
   echo "algoDim=2" >> algo_info.txt 
-elif test ! -s "$INPUT3DDom"
+elif [ $INPUTDIM -eq 3 ] &&  [ $IMPLICITETYPE -ne 0 ]
 then 
   echo "----------------------------------------"
-  echo "-----Generating 3D ---------------------"
+  echo "-----Generating 3D IMPLICIT ------------"
   echo "----------------------------------------"
-  COMMANDGem3D1="${EXEC3D} -n ${NBTERM} -a ${APERF}  -o result.obj -x graphExport.xml"
-  if [ $IMPLICITETYPE -eq 0 ]
+  COMMANDGem3D1="${EXEC3D} -n ${NBTERM} -a ${APERF}  -o result.obj -x graphExport.xml 2> algo_log.txt"
+  if [ $IMPLICITETYPE -eq 2 ]
   then
       COMMANDGem3D1="$COMMANDGem3D1 -s"
   fi
@@ -87,7 +172,7 @@ then
   key=$(basename $(pwd))
   demo_id=$(basename $(dirname $(pwd)))
   viewer_url="https://3dviewer.net#https://ipolcore.ipol.im/api/core/shared_folder/run/${demo_id}/${key}/result.obj,https://ipolcore.ipol.im/api/core/shared_folder/run/${demo_id}/${key}/result.mtl"
-  iframe="<iframe id='3dviewerplayer' type='text/html' width='620' height='460' src='$viewer_url' "
+  iframe="<iframe id='3dviewerplayer' type='text/html' height='800' src='$viewer_url' "
   iframe="$iframe frameborder='5' scrolling='no' allowfullscreen webkitallowfullscreen mozallowfullscreen></iframe>"
   echo "url=$iframe" >> algo_info.txt
   echo "algoDim=3" >> algo_info.txt
@@ -103,9 +188,9 @@ else
   echo "----------------------------------------"
 if [ $FIRSTSEG -eq 1 ]
 then   
-    COMMANDGem3Ddom_1="${EXEC3D} -n ${NBTERM} -a ${APERF} -m ${MINDISTBORDER} -d $INPUT3DDom -o resultVessel.obj -x graphExport.xml"
+    COMMANDGem3Ddom_1="${EXEC3D} -n ${NBTERM} -a ${APERF} -m ${MINDISTBORDER} -d $INPUT3DDom -o resultVessel.obj -x graphExport.xml 2> algo_log.txt"
 else
-    COMMANDGem3Ddom_1="${EXEC3D} -n ${NBTERM} -p $X0 $Y0 $Z0 -a ${APERF} -m ${MINDISTBORDER} -d $INPUT3DDom -o resultVessel.obj -x graphExport.xml"
+    COMMANDGem3Ddom_1="${EXEC3D} -n ${NBTERM} -p ${x0} ${y0} ${z0} -a ${APERF} -m ${MINDISTBORDER} -d $INPUT3DDom -o resultVessel.obj -x graphExport.xml 2> algo_log.txt"
 fi
 
   COMMANDGem3Ddom_2="volBoundary2obj $INPUT3DDom liver05Domain.obj"
@@ -114,7 +199,7 @@ fi
   key=$(basename $(pwd))
   demo_id=$(basename $(dirname $(pwd)))
   viewer_url="https://3dviewer.net#https://ipolcore.ipol.im/api/core/shared_folder/run/${demo_id}/${key}/result.obj,https://ipolcore.ipol.im/api/core/shared_folder/run/${demo_id}/${key}/result.mtl"
-  iframe="<iframe id='3dviewerplayer' type='text/html' width='620' height='460' src='$viewer_url' "
+  iframe="<iframe id='3dviewerplayer' type='text/html'  height='800' src='$viewer_url' "
   iframe="$iframe frameborder='5' scrolling='no' allowfullscreen webkitallowfullscreen mozallowfullscreen></iframe>"
   echo "url=$iframe" >> algo_info.txt
   echo "algoDim=3" >> algo_info.txt

@@ -193,16 +193,14 @@ int main(int argc, char **argv)
   bool squaredImplDomain {false};
 
   app.add_option("-n,--nbTerm,1", nbTerm, "Set the number of terminal segments.", true);
-  app.add_option("-a,--aPerf,2", aPerf, "The value of the input parameter A perfusion.", true);
+  app.add_option("-a,--aPerf,2", aPerf, "The value of perfusion volume.", true);
   app.add_option("-g,--gamma", gamma, "The value of the gamma parameter.", true);
   app.add_option("--organDomain,-d", nameImgDom, "Define the organ domain using a mask image (organ=255).");
-  app.add_option("-m,--minDistanceToBorder", minDistanceToBorder, "Set the minimal distance to border. Works only  with option organDomain else it has not effect", true);
-
-  app.add_option("-o,--outputName", outputMeshName, "Output the 3D mesh", true);
-  app.add_option("-e,--export", exportDatName, "Output the 3D mesh", true);
-  app.add_option("-x,--exportXML", exportXMLName, "Output the resulting gaph as xml file", true);
+  app.add_option("-m,--minDistanceToBorder", minDistanceToBorder, "Set the minimal distance to border. Works only  with option --organDomain else it has not effect", true);
+  app.add_option("-o,--outputName", outputMeshName, "Output the 3D mesh into OFF format", true);
+  app.add_option("-e,--export", exportDatName, "Output the 3D mesh into text file", true);
+  app.add_option("-x,--exportXML", exportXMLName, "Output the resulting graph as xml file", true);
   app.add_flag("-s,--squaredDom",squaredImplDomain , "Use a squared implicit domain instead a sphere (is used only without --organDomain)");
-
   auto pInit = app.add_option("-p,--posInit", postInitV, "Initial position of root, if not given the position of point is determined from the image center")
     ->expected(3);
 
